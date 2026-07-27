@@ -5,6 +5,10 @@ export default `# 实践课 · callSubserver
 > 真源：\`docs/subserver-api.md\` · \`docs/subserver-commonconfig.md\` · \`docs/runtime-surface.md\`。
 
 ## 本课你要带走什么
+\`\`\`flip
+{"title":"子服实验翻卡","cards":[{"front":"子服终端","back":"命令在子服> 输入，不经主服 stdin 转发"},{"front":"配置","back":"常见主服编辑、子服只读 yaml"}]}
+\`\`\`
+
 
 1. \`callSubserver(path, options?)\` 的调用位置与 \`runtime\` 参数直觉  
 2. 如何启动 pyserver、看 \`子服>\` 终端（命令不经主服 stdin 转发）  
@@ -14,6 +18,10 @@ export default `# 实践课 · callSubserver
 ---
 
 ## 1. 通关清单
+\`\`\`match
+{"title":"子服实验配对","pairs":[{"id":"apis","left":"apis/<group>/","right":"子服插件组"},{"id":"core","left":"组内 core/","right":"与主仓 Core 同构约定"},{"id":"cli","left":"子服>","right":"运维命令在子服终端输入"}]}
+\`\`\`
+
 
 | # | 步骤 | 完成标准 |
 |---|------|----------|

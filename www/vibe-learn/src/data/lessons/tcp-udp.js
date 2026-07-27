@@ -13,6 +13,15 @@ export default `# TCP 与 UDP
 
 记忆钩：**IP 找主机，端口找进程；TCP 挂号信，UDP 明信片。**
 
+\`\`\`match
+{"title":"TCP 与 UDP 对照配对","pairs":[{"id":"tcp","left":"TCP","right":"可靠、有序、面向连接（挂号信）"},{"id":"udp","left":"UDP","right":"尽力而为、无连接（明信片）"},{"id":"http","left":"多数 HTTP","right":"跑在 TCP 上"},{"id":"dns","left":"DNS 查询（常见）","right":"常用 UDP"}]}
+\`\`\`
+
+\`\`\`sort
+{"title":"排出三次握手顺序","caption":"从上到下应为第 1→3 步","items":[{"id":"a","text":"客户端 → 服务器：SYN","order":0},{"id":"b","text":"服务器 → 客户端：SYN-ACK","order":1},{"id":"c","text":"客户端 → 服务器：ACK","order":2}]}
+\`\`\`
+
+
 ## TCP（传输控制协议）
 
 特点可以记四条：

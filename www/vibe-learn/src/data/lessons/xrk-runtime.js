@@ -14,6 +14,14 @@ export default `# AgentRuntime
 ---
 
 ## 1. 概念对应
+\`\`\`quiz
+{"title":"Runtime 边界","questions":[{"q":"Core 开发者对 src/infrastructure 的正确态度？","choices":[{"t":"业务逻辑优先改进去图省事","ok":false,"why":"业务必须待在 core/。"},{"t":"只消费暴露能力；缺能力再提框架扩","ok":true,"why":"边界清晰才能多 Core 共存。"},{"t":"可以 fork 一份 Runtime 私改","ok":false,"why":"维护成本爆炸。"}]}]}
+\`\`\`
+
+
+\`\`\`match
+{"title":"Runtime 裸名配对","pairs":[{"id":"ar","left":"AgentRuntime","right":"全局运行时对象（裸名）"},{"id":"hr","left":"HttpResponse","right":"统一 HTTP 成功/错误形状"},{"id":"pl","left":"PluginBase","right":"插件基类"},{"id":"no","left":"禁止","right":"业务里 new AgentRuntime() / import 运行时单例乱法"}]}
+\`\`\`
 
 | 已有概念 | 本课落点 |
 |----------|----------|

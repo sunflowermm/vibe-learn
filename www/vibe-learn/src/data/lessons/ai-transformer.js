@@ -6,6 +6,10 @@ export default `# Transformer
 
 ## 为什么诞生
 
+\`\`\`steps
+{"title":"Transformer 步骤直觉","steps":[{"title":"分词","body":"文本 → token。"},{"title":"表示","body":"嵌入与位置信息。"},{"title":"注意力","body":"决定「此刻该看哪些上下文」。"},{"title":"生成","body":"逐步预测下一个 token。"}]}
+\`\`\`
+
 | 痛点（相对 RNN 时代） | 说明 |
 |------|------|
 | **难并行** | RNN 一步依赖上一步，GPU 吃不饱 |

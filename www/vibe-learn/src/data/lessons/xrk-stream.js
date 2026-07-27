@@ -6,6 +6,10 @@ export default `# Stream 业务层 · AiWorkflow
 > 真源：\`docs/ai-workflow.md\`；基类契约：\`docs/base-classes.md\`。
 
 ## 本课你要带走什么
+\`\`\`quiz
+{"title":"Stream 自测","questions":[{"q":"Stream 课主要帮你建立什么？","choices":[{"t":"流式输出/推送在本仓的位置与心智","ok":true,"why":"对接实时与长响应。"},{"t":"替换 TCP","ok":false,"why":"仍在应用层。"},{"t":"只与 Redis 有关","ok":false,"why":"不限于此。"}]}]}
+\`\`\`
+
 
 1. workflow / stream / AiWorkflow 三个词怎么对应本仓  
 2. 一次对话链路：Factory 供客户端、MCP 供工具、工作流做编排  
@@ -15,6 +19,10 @@ export default `# Stream 业务层 · AiWorkflow
 ---
 
 ## 1. 概念对应
+\`\`\`match
+{"title":"流式课配对","pairs":[{"id":"sse","left":"流式响应","right":"边生成边推，降低首字等待"},{"id":"http","left":"HttpResponse.stream","right":"统一流式出口"},{"id":"ui","left":"前端","right":"按 chunk 渲染，注意中止"}]}
+\`\`\`
+
 
 | 已学 | 本课 |
 |------|------|

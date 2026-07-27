@@ -1,11 +1,13 @@
 <script setup>
 import { computed, nextTick, ref, watch } from 'vue';
 import NetworkLab from './NetworkLab.vue';
+import LessonShell from './LessonShell.vue';
 import LessonBody from './LessonBody.vue';
 import PanelNotes from './PanelNotes.vue';
 import TermsBlock from './TermsBlock.vue';
 import { useUserLibrary } from '../composables/useUserLibrary.js';
 import { resolveNodes } from '../data/nodes.js';
+import { SHELL_PRESETS } from '../labs/shell-presets.js';
 
 const props = defineProps({
   node: {
@@ -21,6 +23,17 @@ const scrollEl = ref(null);
 const titleEl = ref(null);
 
 const showLab = computed(() => props.node?.lab === 'osi');
+const shellLabConfig = computed(() => {
+  const lab = props.node?.lab;
+  if (lab === 'linux-shell') return SHELL_PRESETS['linux-cli'];
+  if (lab === 'env-proxy-shell') return SHELL_PRESETS['env-proxy'];
+  if (lab === 'path-shell') return SHELL_PRESETS['path-check'];
+  if (lab === 'pnpm-shell') return SHELL_PRESETS['pnpm-demo'];
+  if (lab === 'docker-shell') return SHELL_PRESETS['docker-basics'];
+  if (lab === 'redis-shell') return SHELL_PRESETS['redis-ping'];
+  if (lab === 'dotfiles-shell') return SHELL_PRESETS['dotfiles'];
+  return null;
+});
 const prereqNodes = computed(() => resolveNodes(props.node?.prereqs));
 const nextNodes = computed(() => resolveNodes(props.node?.next));
 const extendNodes = computed(() =>
@@ -146,6 +159,10 @@ function onToggleBookmark() {
 
       <LessonBody v-if="node.markdown" :markdown="node.markdown" />
       <NetworkLab v-if="showLab" />
+      <div v-else-if="shellLabConfig" class="panel__shell-lab">
+        <p class="panel__shell-lab-label">动手沙箱</p>
+        <LessonShell :config="shellLabConfig" />
+      </div>
     </div>
 
     <PanelNotes :node-id="node.id" />
@@ -353,5 +370,19 @@ function onToggleBookmark() {
 .panel__chip.extend:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.panel__shell-lab {
+  margin: 0.5rem 0 1rem;
+  padding: 0 0.15rem;
+}
+
+.panel__shell-lab-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--mist-dim);
 }
 </style>

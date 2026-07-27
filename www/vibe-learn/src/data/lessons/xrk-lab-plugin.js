@@ -5,6 +5,10 @@ export default `# 实践课 · 最小 Core 插件
 > 不改 \`src/\`；不把娱乐插件加进 system-Core 白名单（见项目规则）。
 
 ## 本课你要带走什么
+\`\`\`steps
+{"title":"最小插件步骤","steps":[{"title":"放对目录","body":"core/<core>/plugin/"},{"title":"继承基类","body":"填事件与处理逻辑"},{"title":"热加载验证","body":"按文档触发与观察日志"}]}
+\`\`\`
+
 
 1. 最小可加载插件的目录与导出形状  
 2. 如何用启动 / 热加载日志确认挂上  
@@ -14,6 +18,10 @@ export default `# 实践课 · 最小 Core 插件
 ---
 
 ## 1. 通关清单（按序勾）
+\`\`\`match
+{"title":"插件实验配对","pairs":[{"id":"base","left":"PluginBase","right":"继承基类填契约"},{"id":"dir","left":"plugin/","right":"被 PluginLoader 扫描"},{"id":"lab","left":"实验课","right":"动手最小插件，验证加载"}]}
+\`\`\`
+
 
 | # | 步骤 | 完成标准 |
 |---|------|----------|

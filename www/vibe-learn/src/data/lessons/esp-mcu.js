@@ -5,6 +5,10 @@ export default `# MCU 是什么
 > 对比你天天用的 **PC / 服务器**：MCU 通常更小、更省电、实时性要求不同，**不跑完整桌面 OS**（或只跑很薄的 RTOS）。
 
 ## 本课分块
+\`\`\`match
+{"title":"MCU 配对","pairs":[{"id":"mcu","left":"MCU","right":"微控制器：算+外设一体"},{"id":"gpio","left":"GPIO","right":"通用输入输出脚"},{"id":"fw","left":"固件","right":"跑在片上的程序"}]}
+\`\`\`
+
 
 | 块 | 目标 |
 |----|------|

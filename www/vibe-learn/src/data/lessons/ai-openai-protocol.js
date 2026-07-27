@@ -14,6 +14,10 @@ export default `# Chat Completions 事实标准
 
 ## 为什么诞生
 
+\`\`\`match
+{"title":"OpenAI 兼容协议","pairs":[{"id":"chat","left":"Chat Completions","right":"消息数组进，补全出"},{"id":"tools","left":"tools / function call","right":"结构化工具调用"},{"id":"compat","left":"兼容网关","right":"许多本地/云模型提供相似 API 形状"}]}
+\`\`\`
+
 | 痛点 | 说明 |
 |------|------|
 | **旧 Completions 太「散文」** | 单段 prompt 难表达多轮角色（系统/用户/助手） |

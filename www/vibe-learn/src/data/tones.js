@@ -128,6 +128,9 @@ export const NODE_TONE = {
   'ops-others': 'slate',
   'net-nginx': 'orange',
 
+  'fs-layout': 'teal',
+  'fs-dotfiles': 'slate',
+
   'esp-mcu': 'violet',
   'esp-esp32': 'orange',
   'esp-toolchain': 'sky',

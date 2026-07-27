@@ -18,6 +18,10 @@ export default `# HTTPS 与 DNS
 
 ## 1. HTTPS：加密的 HTTP
 
+\`\`\`match
+{"title":"DNS / HTTPS 配对","caption":"点左再点右","pairs":[{"id":"dns","left":"DNS","right":"域名 → IP（电话簿）"},{"id":"https","left":"HTTPS","right":"TLS 之上的 HTTP（加密信道）"},{"id":"cert","left":"证书","right":"帮浏览器确认「对面是谁」"},{"id":"sni","left":"SNI（常见考点）","right":"同 IP 多站点时告诉服务器要哪个主机名"}]}
+\`\`\`
+
 | | HTTP | HTTPS |
 |--|------|-------|
 | 传输 | 常为明文 | 经 **TLS**（旧称 SSL）加密 |
@@ -109,6 +113,10 @@ sequenceDiagram
 ---
 
 ## 3. 打开 https://example.com 时实际顺序
+
+\`\`\`quiz
+{"title":"打开网页顺序 · 自测","questions":[{"q":"浏览器地址栏输入 https://example.com 后，通常最先需要的是？","choices":[{"t":"先下载整站 HTML 再解析域名","ok":false,"why":"一般要先解析域名才能连上主机。"},{"t":"DNS 解析拿到 IP，再 TLS/HTTP","ok":true,"why":"先找到主机，再建立安全信道与请求。"},{"t":"必须先 SSH 登录服务器","ok":false,"why":"浏览网页不需要 SSH。"}]}]}
+\`\`\`
 
 **DNS 得到 IP → TCP 连接 → TLS 握手 → 再发 HTTP 请求**。
 

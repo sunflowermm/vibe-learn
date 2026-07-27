@@ -44,6 +44,12 @@ flowchart LR
 
 本仓常见场景：用容器跑 **Redis**，宿主机跑 **Node 主服**——两边经 \`localhost:6379\` 连。
 
+> 模拟窗**不起真实容器**；自动演示 \`docker ps\` / \`images\`。
+
+\`\`\`shell
+{"preset":"docker-basics"}
+\`\`\`
+
 ---
 
 ## 3. 何时用 Docker，何时本机装

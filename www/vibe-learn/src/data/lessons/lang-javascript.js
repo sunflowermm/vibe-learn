@@ -14,6 +14,10 @@ export default `# JavaScript（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"JavaScript · 身份翻卡","cards":[{"front":"JavaScript","back":"事件驱动、一等函数；浏览器 + Node 都能跑"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
+\`\`\`
+
 ### 1.1 适合用 JavaScript 的场景
 
 | 场景 | 为什么选 JS |

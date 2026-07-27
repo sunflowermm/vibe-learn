@@ -67,6 +67,14 @@ flowchart LR
 第一章 **包管理器**、**安装器与 PATH** 讲前两种；本框讲第三种。  
 **Nginx / 反代** 不在本框——见第三章。
 
+### 对照卡：三种「装环境」
+
+\`\`\`compare
+{"title":"装到哪？三种手段","caption":"角色不同，别互相替代。","items":[{"role":"系统包管理","win":"winget / scoop","linux":"apt / dnf","mac":"Homebrew","note":"装进宿主机 PATH"},{"role":"语言包管理","win":"pnpm（本仓）","linux":"pnpm / uv…","mac":"同左","note":"项目依赖，不换 OS"},{"role":"容器镜像","win":"Docker Desktop","linux":"Docker / Podman","mac":"Docker Desktop","note":"依赖进镜像，少污染宿主机"}]}
+\`\`\`
+
+下一课 **Docker** 有可输入假终端（\`docker ps\` 等）。
+
 ## 八股 × 业务串联
 
 | 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |

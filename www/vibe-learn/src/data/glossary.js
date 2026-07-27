@@ -57,7 +57,7 @@ export const GLOSSARY = {
   file_system: {
     term: '文件系统（File system）',
     brief: 'File system（文件系统）：在块设备上组织字节为文件与目录的命名空间、元数据结构与访问语义；常见实现包括 NTFS、ext4、APFS。',
-    also: ['os-essence', 'linux-cli'],
+    also: ['os-essence', 'linux-cli', 'fs-layout'],
   },
   socket: {
     term: '套接字（Socket）',
@@ -199,7 +199,57 @@ export const GLOSSARY = {
   path_env: {
     term: 'PATH（环境变量）',
     brief: 'PATH（环境变量）：操作系统维护的可执行文件搜索目录列表，Shell 按序查找外部命令；修改后须新开终端窗口才生效于已有会话。',
-    also: ['installers-path', 'runtime-nodejs', 'terminal-worlds', 'xrk-deploy-env'],
+    also: ['installers-path', 'runtime-nodejs', 'terminal-worlds', 'xrk-deploy-env', 'fs-layout'],
+  },
+  env_var: {
+    term: '环境变量（Environment Variable）',
+    brief: 'Environment Variable（环境变量）：进程启动时可见的「名字→字符串」配置，常由子进程继承；PATH、HOME、HTTP_PROXY 等均属此类，与具体应用程序私有配置文件格式不同。',
+    also: ['installers-path', 'fs-dotfiles', 'clash-port', 'xrk-deploy-env'],
+  },
+  home_dir: {
+    term: '家目录（Home）',
+    brief: 'Home directory（家目录）：当前登录用户的主文件夹，Shell 中常以 ~ 或 HOME（Windows 上为 USERPROFILE）引用；个人配置与多数用户级工具数据优先存放于此。Windows Users、Linux /home、macOS /Users 是同一角色的不同路径写法。',
+    also: ['fs-layout', 'fs-dotfiles', 'terminal-worlds', 'linux-cli', 'os-essence'],
+  },
+  dir_role: {
+    term: '目录角色（跨系统）',
+    brief: '目录角色：跨 Operating System 对照目录时先识别职责（家目录、程序安装、用户配置/缓存、系统配置、临时区、bin），再记忆具体路径；路径字符串不同不等于概念不同。',
+    also: ['fs-layout', 'fs-dotfiles', 'os-essence', 'installers-path'],
+  },
+  path_sep: {
+    term: '路径分隔符',
+    brief: 'Path separator（路径分隔符）：目录层级在路径字符串中的分隔字符；Windows 传统为反斜杠 \\，Unix/macOS 与多数跨平台工具文档为斜杠 /。Git Bash 等环境常把 C:\\Users 写作 /c/Users，指同一位置。',
+    also: ['fs-layout', 'terminal-worlds', 'linux-cli'],
+  },
+  userprofile: {
+    term: 'USERPROFILE',
+    brief: 'USERPROFILE：Windows 环境变量，指向当前用户配置目录（通常为 C:\\Users\\<用户名>），与 Unix 系 HOME 同角色。',
+    also: ['fs-layout', 'installers-path', 'terminal-worlds'],
+  },
+  appdata: {
+    term: 'AppData',
+    brief: 'AppData：Windows 用户目录下的应用数据区，含 Roaming（可漫游配置）、Local（本机缓存与大体量数据）、LocalLow；资源管理器默认常隐藏。',
+    also: ['fs-layout', 'fs-dotfiles'],
+  },
+  fhs: {
+    term: 'FHS（文件系统层次标准）',
+    brief: 'Filesystem Hierarchy Standard（文件系统层次标准，FHS）：约定 Linux 根目录下 /bin、/etc、/home、/var 等目录职责的规范；发行版大体遵循，细节可有差异。',
+    also: ['fs-layout', 'linux-distros', 'linux-cli'],
+  },
+  bin_dir: {
+    term: 'bin 目录',
+    brief: 'bin（binaries）：存放可执行命令的目录，如 /bin、/usr/bin、/usr/local/bin 或 Windows 安装树下的 …\\bin；PATH 通常包含若干 bin 路径。',
+    also: ['fs-layout', 'installers-path', 'path_env'],
+  },
+  dotfile: {
+    term: '点文件（Dotfile）',
+    brief: 'Dotfile（点文件）：Unix 风格下文件名以「.」开头的文件或目录，ls 默认不列出；常用于用户级配置（如 .bashrc、.env、.git），其内容格式因文件而异。',
+    also: ['fs-dotfiles', 'fs-layout', 'linux-cli', 'git-workspace'],
+  },
+  hidden_file: {
+    term: '隐藏文件',
+    brief: 'Hidden file（隐藏文件）：对默认文件列表不可见的文件。Unix 系多以点前缀约定；Windows 另有 Hidden 等文件属性与资源管理器选项，二者机制不同。',
+    also: ['fs-dotfiles', 'fs-layout', 'appdata'],
   },
   runtime: {
     term: '运行时（Runtime）',
@@ -428,8 +478,8 @@ export const GLOSSARY = {
   },
   clone: {
     term: '克隆（git clone）',
-    brief: 'git clone：将远程 Repository（仓库）完整或浅层复制到本地磁盘，包含 .git 元数据与工作区文件。',
-    also: ['git-workspace'],
+    brief: 'git clone：将远程 Repository（仓库）完整或浅层复制到本地磁盘，包含 .git 元数据与工作区文件。国内直连 GitHub 常超时；可先设 HTTP(S)_PROXY，或临时用 ghproxy 前缀 URL。',
+    also: ['git-workspace', 'git-forges', 'xrk-deploy-env', 'gh_proxy', 'http_proxy_env'],
   },
   commit: {
     term: '提交（Commit）',
@@ -470,6 +520,11 @@ export const GLOSSARY = {
     term: 'Fork',
     brief: 'Fork：在托管平台复制他人 Repository（仓库）至自己账号，在副本上修改后可通过 Pull Request 贡献回原项目。',
     also: ['git-forges'],
+  },
+  gh_proxy: {
+    term: 'ghproxy / gh-proxy',
+    brief: 'ghproxy.com（及同类如 gh-proxy.com）：第三方 GitHub 资源前缀/中转：把 https://github.com/... 写成 https://ghproxy.com/https://github.com/... 再给 git clone 等工具访问。非官方、可用性会变；优先本机 HTTP(S)_PROXY。',
+    also: ['git-forges', 'git-workspace', 'xrk-deploy-env', 'clash-port', 'clone', 'http_proxy_env'],
   },
 
   /* —— 第二章 · 语言 —— */
@@ -1011,20 +1066,25 @@ export const GLOSSARY = {
     brief: 'Listen（监听）：进程在指定 IP 与 Port（端口）上绑定并等待入站连接；代理引擎须先 listen 其他程序才能将其设为上游。',
     also: ['clash-port', 'tcp-udp'],
   },
-  system_proxy: {
-    term: '系统代理',
-    brief: 'System proxy（系统代理）：操作系统登记的 HTTP/HTTPS 代理地址，浏览器等常自动读取；终端与 Coding Agent 往往不读取，需单独配置环境变量。',
-    also: ['clash-port', 'clash-setup', 'forward_proxy'],
-  },
   http_proxy_env: {
     term: 'HTTP(S)_PROXY 环境变量',
-    brief: 'HTTP_PROXY / HTTPS_PROXY（环境变量）：告知进程出网经哪个代理地址的跨平台约定；CI、CLI 与 Agent 常用。',
-    also: ['clash-port', 'forward_proxy'],
+    brief: 'HTTP_PROXY / HTTPS_PROXY：跨工具约定的环境变量，值为代理服务 URL（如 http://127.0.0.1:7890）；支持该约定的进程在发 HTTP/HTTPS 请求前先连接该代理。不等于操作系统「系统代理」开关，也不等于代理引擎本身。',
+    also: ['clash-port', 'forward_proxy', 'installers-path', 'xrk-deploy-env', 'env_var'],
+  },
+  all_proxy: {
+    term: 'ALL_PROXY',
+    brief: 'ALL_PROXY：部分工具读取的兜底代理环境变量，用于非纯 HTTP 场景或统一指定代理 URL；常与 HTTP_PROXY / HTTPS_PROXY 设为同一本机入口，不能指望单靠它覆盖一切客户端。',
+    also: ['clash-port', 'http_proxy_env'],
   },
   no_proxy: {
     term: 'NO_PROXY',
-    brief: 'NO_PROXY：列出不经代理的主机名、域名或 CIDR（如 localhost、内网段），与强制代理配套使用。',
-    also: ['clash-port', 'routing-nat'],
+    brief: 'NO_PROXY：列出不经代理、应直连的主机名、域名或地址（如 localhost、127.0.0.1、内网段）；与强制代理配套，漏配时本机服务请求也可能被错误送入代理。',
+    also: ['clash-port', 'http_proxy_env', 'routing-nat', 'xrk-deploy-env'],
+  },
+  system_proxy: {
+    term: '系统代理',
+    brief: 'System proxy（系统代理）：操作系统登记的默认 HTTP/HTTPS 代理地址，浏览器等 GUI 常自动读取；终端、Git、多数 CLI 与 Coding Agent 往往不读取，需单独配置 HTTP_PROXY 等环境变量或各自代理项。',
+    also: ['clash-port', 'clash-setup', 'forward_proxy', 'http_proxy_env'],
   },
   tun_mode: {
     term: 'TUN 模式',

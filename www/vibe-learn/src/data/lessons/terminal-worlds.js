@@ -47,6 +47,15 @@ flowchart TB
 
 ## 2. Shell 不是只有一个「壳」
 
+\`\`\`env
+{"title":"列目录 · 四种方言","caption":"同一意图，写法不同。先认壳，再抄命令。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","note":"Unix 风格工具链；右键 Git Bash Here 时 cwd 已是该文件夹。","lines":["pwd","ls -la","cd ~","echo $HOME"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","note":"管道传的是对象；Get-ChildItem 才是原生动词。","lines":["Get-Location","Get-ChildItem -Force","Set-Location $env:USERPROFILE","echo $env:USERPROFILE"]},{"id":"cmd","label":"CMD","os":"Windows","shell":"cmd.exe","warn":"能力最窄；新文档请优先 Git Bash / PowerShell。","lines":["cd","dir","cd %USERPROFILE%","echo %USERPROFILE%"]},{"id":"linux","label":"Linux / macOS","os":"Unix","shell":"bash / zsh","lines":["pwd","ls -la","cd ~","echo $HOME"]}]}
+\`\`\`
+
+\`\`\`quiz
+{"title":"终端三件套 · 自测","questions":[{"q":"Windows Terminal 是什么？","choices":[{"t":"一种 Shell 方言，和 bash 平级","ok":false,"why":"它是终端仿真器（窗框），里面再挂 PowerShell / Git Bash 等壳。"},{"t":"终端仿真器：负责显示与输入，不解释命令","ok":true,"why":"真正解析命令的是窗口里的 Shell。"},{"t":"操作系统内核","ok":false,"why":"内核在更底层；Terminal 只是用户态窗口。"}]}]}
+\`\`\`
+
+
 「Shell」= 壳层：人在外，内核在内。历史上有很多实现，**彼此语法不通用**。
 
 | Shell | 常见环境 | 方言特点（直觉） |
@@ -79,6 +88,12 @@ flowchart LR
   F --> G[程序跑完 · 退出码回 Shell]
 \`\`\`
 
+滚动进入下方终端，看一次「敲命令 → 出结果」的节奏（可点重播）：
+
+\`\`\`term
+{"title":"外部命令经 PATH 找到","prompt":"$ ","steps":[{"type":"in","text":"git --version"},{"type":"out","text":"git version 2.45.2"},{"type":"in","text":"which git"},{"type":"out","text":"/usr/bin/git"},{"type":"in","text":"echo $?"},{"type":"out","text":"0"}]}
+\`\`\`
+
 | 步骤 | 含义 |
 |------|------|
 | **1. 解析** | Shell 拆词、展开变量、处理管道 \`|\`、逻辑 \`&&\`（各 Shell 规则不同） |
@@ -91,7 +106,8 @@ flowchart LR
 
 - 「命令不是内部命令」→ 多半是 **PATH 里没有**，或装了却在**旧终端**里（环境变量未刷新）。  
 - 「换个终端就好了」→ 常因 **另一个窗口用了另一份 PATH / 另一个 Shell**。  
-- 详解装完如何进 PATH：下一课附近的 **安装器与 PATH**。
+- 详解装完如何进 PATH：下一课附近的 **安装器与 PATH**。  
+- 家目录 / \`bin\` 在各系统怎么写：番外 **本机目录**（**先角色，后路径**）。
 
 ---
 
@@ -107,6 +123,16 @@ flowchart LR
 | **和 Git** | 与 Git 安装捆绑；clone / 脚本友好 | 若 Git 在 PATH 也能 \`git\`，但缺 bash 生态 | 同上；脚本写法是另一套 |
 
 **Windows Terminal** 只是「窗框」：同一个 Terminal 里可以开多个标签，分别挂 PowerShell、CMD、Git Bash、WSL——**标签里的 Shell 才决定方言**。
+
+\`\`\`compare
+{"title":"同一目标：列目录","caption":"方言不同，角色相同。","items":[{"role":"列当前目录","win":"dir  /  Get-ChildItem","linux":"ls  /  ls -la","mac":"ls","note":"Git Bash 用 ls；PowerShell 用 Get-ChildItem（有 ls 别名但对象语义不同）"},{"role":"家目录","win":"%USERPROFILE%  /  $env:USERPROFILE","linux":"$HOME  /  ~","mac":"$HOME  /  ~","note":"先角色后路径：见番外「本机目录」"},{"role":"设代理变量","win":"$env:HTTPS_PROXY='…'","linux":"export HTTPS_PROXY=…","mac":"export HTTPS_PROXY=…","note":"终端常不吃系统代理"}]}
+\`\`\`
+
+可输入沙箱（假数据 · 自动演示 PATH / which）：
+
+\`\`\`shell
+{"preset":"path-check"}
+\`\`\`
 
 \`\`\`text
 资源管理器文件夹
@@ -203,8 +229,9 @@ flowchart LR
 
 ## 下一步
 
-- **安装器与 PATH** — 命令如何进 PATH、为何要新开终端  
+- **安装器与 PATH** — 命令如何进 PATH、为何要新开终端；环境变量地基  
 - **Linux 发行版 / 基础指令** — 在 bash 方言里建立空间感  
+- 番外 **本机目录** — Users / AppData / \`/bin\` / \`/home\` / \`.xxx\`  
 - **Git 与工作区** — clone 与三区  
 - **部署环境** — 把终端选择落到 XRK-AGT 安装手顺  
 `;

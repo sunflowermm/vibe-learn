@@ -14,6 +14,10 @@ export default `# Agent CLI
 
 ## 为什么诞生
 
+\`\`\`flip
+{"title":"AI CLI 翻卡","cards":[{"front":"AI CLI","back":"在终端里驱动模型与工具的产品形态"},{"front":"与 IDE Agent","back":"场景不同，常共享规则/技能思想"},{"front":"权限","back":"能跑命令=高风险，需边界"}]}
+\`\`\`
+
 | 痛点 | 说明 |
 |------|------|
 | **SSH / 无 GUI** | 服务器上没法开完整 IDE，仍要改代码、跑检查 |

@@ -15,6 +15,10 @@ export default `# Spring / Spring Boot（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"Spring · 翻卡","cards":[{"front":"Spring","back":"Java 企业级生态"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`
+
 ### 1.1 Spring —— 什么时候用
 
 | 场景 | 为什么合适 |

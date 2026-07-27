@@ -15,6 +15,11 @@ export default `# Node.js（运行时 · 语言章分类）
 
 ## 1. 分类钉死
 
+\`\`\`flip
+{"title":"Node 身份翻卡","cards":[{"front":"Node.js","back":"服务器端 / 本机 JS 运行时（V8 + 系统 API）"},{"front":"npm","back":"官方默认包管理入口；本仓不用它装依赖"},{"front":"本仓约定","back":"只用 pnpm；见 packageManager 与锁文件"}]}
+\`\`\`
+
+
 | 说法 | 对不对 | 理由 |
 |------|--------|------|
 | 「我学 Node 语言」 | **不对** | 没有独立的 Node 语法；写的仍是 JS（或编译成 JS 的 TS） |

@@ -9,10 +9,68 @@ export default `# 安装器与 PATH
 
 | 块 | 目标 |
 |----|------|
+| **环境变量是什么** | 键值配置；会话与继承；PATH 只是其中一种 |
 | **安装器做什么** | 落盘 + 登记 PATH |
 | **系统级包管理器** | brew / apt / winget / scoop… |
 | **装完能敲哪些命令** | \`node\` / \`npm\` / \`npx\` |
 | **「不是内部命令」** | PATH 与会话未刷新 |
+
+---
+
+## 0. 环境变量（Environment Variable）是什么？
+
+**环境变量** = 操作系统 / Shell 维护的一组 \`名字 → 字符串值\`，在**进程启动时**交给该进程（及其子进程常可继承）。
+
+| 点 | 说明 |
+|----|------|
+| **谁在用** | Shell、安装器、\`node\`、\`git\`、CI、Coding Agent… 都可能读 |
+| **生命周期** | 在终端里 \`export\` / \`$env:…=\` → 多半只活在**当前窗口**；写入「用户/系统环境变量」或 shell 配置文件 → 新开终端也有 |
+| **继承** | 父进程设好后，再启动的子进程通常能看见同一组变量 |
+
+\`\`\`mermaid
+flowchart LR
+  OS[OS / Shell 环境块] --> P1[当前终端进程]
+  P1 --> P2[子进程 git / node / Agent]
+  OS -.->|用户级持久化| New[新开的终端]
+\`\`\`
+
+### 两种最常见用途（先分清）
+
+| 变量族 | 回答的问题 | 本图谱深挖 |
+|--------|------------|------------|
+| **\`PATH\`** | 敲命令时，到哪些目录找可执行文件？ | **本课后半** |
+| **\`HTTP_PROXY\` / \`HTTPS_PROXY\` / \`NO_PROXY\`…** | 出网请求走哪台代理？哪些主机直连？ | 番外 **端口与 Coding Agent** |
+
+同一机制，不同业务含义——部署时「GitHub 要代理」卡的是第二族，不是 PATH。
+
+**跨系统同构：** \`PATH\` / \`HTTP_PROXY\` 在 Windows、Linux、macOS 上**角色相同**；写法是 \`export\` 还是 \`$env:…=\`、家目录叫 \`HOME\` 还是 \`USERPROFILE\`——见番外 **本机目录**（先角色后路径）。
+
+可输入练习（假终端 · 自动打字）：
+
+**PATH / which**
+
+\`\`\`shell
+{"preset":"path-check"}
+\`\`\`
+
+**代理变量族（与 PATH 对照）**
+
+\`\`\`env
+{"title":"查看 PATH · 按壳","caption":"「不是内部命令」时，先在对应壳里打印 PATH / 用 which / Get-Command。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["echo $PATH","which node","which git","node -v"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["echo $env:Path","Get-Command node","Get-Command git","node -v"]},{"id":"linux","label":"Linux / macOS","os":"Unix","shell":"bash / zsh","lines":["echo $PATH","which node","which git","node -v"]}]}
+\`\`\`
+
+
+\`\`\`shell
+{"preset":"env-proxy"}
+\`\`\`
+
+\`\`\`term
+{"title":"会话里查看环境变量（bash）","prompt":"$ ","steps":[{"type":"in","text":"echo $HOME"},{"type":"out","text":"/home/alice"},{"type":"in","text":"echo $PATH"},{"type":"out","text":"/usr/local/bin:/usr/bin:/bin"},{"type":"in","text":"echo $HTTP_PROXY"},{"type":"out","text":""}]}
+\`\`\`
+
+\`\`\`term
+{"title":"同一角色 · PowerShell 写法","prompt":"PS> ","steps":[{"type":"in","text":"echo $env:USERPROFILE","prompt":"PS> "},{"type":"out","text":"C:\\\\Users\\\\alice"},{"type":"in","text":"echo $env:HTTP_PROXY","prompt":"PS> "},{"type":"out","text":""}]}
+\`\`\`
 
 ---
 
@@ -102,14 +160,22 @@ which node npm npx
 
 ---
 
-## 5. 实践建议
+## 八股 × 业务串联
 
-- 优先官方或文档推荐渠道，少混用互抢 PATH 的安装源  
-- 版本达标、PATH 通畅后，再启用 **pnpm**（可用 Corepack）  
-- 企业若禁用 MSI，再考虑版本管理器或 **Docker**（番外 **容器**）  
+> 面试/自学常考名词。**缩写一律展开**。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **Environment Variable（环境变量）** | 进程可见的 \`名=值\` 配置，常被子进程继承 | PATH、\`HTTP_PROXY\`、\`JAVA_HOME\` | 不是某个 App 的私有配置文件格式 |
+| **PATH** | 查找外部命令的目录列表 | \`git\`/\`node\` 能敲出来 | 改完要**新开终端**；与代理变量无关 |
+| **会话级 vs 持久化** | 当前窗口有效 vs 写入用户/系统后长期有效 | 临时 \`export\`；或系统设置里改 PATH | 持久化 PATH ≠ 自动带上 \`HTTP_PROXY\` |
+| **Homebrew / apt / winget** | 系统级包管理器 | 往电脑里装 CLI | 不是 pnpm |
+| **MSI** | Windows 安装包格式 | 常顺带改 PATH | 解压 zip（如部分 Redis）常不改 PATH |
 
 ## 下一步
 
 **包管理器** — 系统包 vs 语言包；本仓为何钉 pnpm。  
 **Linux 基础指令** — \`curl\` 等网络命令是什么。  
+番外 **本机目录** — 家目录 / \`bin\` / 点文件，弄清 PATH 里那些路径从哪来。  
+需要给终端配置出网代理时 → 番外 **端口与 Coding Agent**（\`HTTP_PROXY\` 体系）。  
 `;

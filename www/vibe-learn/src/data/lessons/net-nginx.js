@@ -16,6 +16,10 @@ export default `# Nginx
 
 ## 1. 它是什么
 
+\`\`\`match
+{"title":"Nginx 角色配对","pairs":[{"id":"rp","left":"反向代理","right":"对外统一入口，转到后端"},{"id":"static","left":"静态资源","right":"直接吐 HTML/JS/图"},{"id":"tls","left":"TLS 终止","right":"在入口卸证书，后面可明文或再加密"},{"id":"not","left":"不是","right":"编程语言运行时 / 数据库"}]}
+\`\`\`
+
 | 点 | 说明 |
 |----|------|
 | **分类** | Web 服务器 / 反向代理（工程上也常归「网关」） |

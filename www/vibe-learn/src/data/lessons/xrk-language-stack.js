@@ -6,6 +6,10 @@ export default `# 语言栈 · 主服与多语言子服
 > 目录与端口：\`src/utils/subserver-runtimes.js\`；选型依据：\`subserver/LANGUAGES.md\`。
 
 ## 与第二章的对应
+\`\`\`match
+{"title":"本仓语言栈配对","pairs":[{"id":"main","left":"主服","right":"Node.js / JavaScript"},{"id":"py","left":"Python 子服","right":"pyserver 等"},{"id":"else","left":"Go/PHP/Java/.NET/Rust","right":"按需子服"}]}
+\`\`\`
+
 
 | 第二章概念 | 本仓落点 |
 |------------|----------|
@@ -28,6 +32,10 @@ flowchart TB
 ---
 
 ## 架构原则
+\`\`\`quiz
+{"title":"本仓语言栈","questions":[{"q":"主服默认语言/运行时是？","choices":[{"t":"Python + CPython 主服","ok":false,"why":"Python 多在子服场景。"},{"t":"JavaScript + Node（≥26）","ok":true,"why":"主服契约。"},{"t":"只用浏览器、无服务端","ok":false,"why":"AGT 是后端 Runtime。"}]}]}
+\`\`\`
+
 
 子服务选用**与主栈不同**、且能覆盖业务短板的语言（\`subserver/LANGUAGES.md\`）。主服已承担 Node 职责，子服侧不再增设 Node runtime，避免能力重复。
 

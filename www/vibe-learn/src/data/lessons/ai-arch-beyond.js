@@ -5,6 +5,10 @@ export default `# 不止 Transformer
 > 今天口语「大模型 ≈ Transformer」很常见，但 **历史与前沿都不止这一条路**。
 
 ## 为什么要单独讲这一课
+\`\`\`check
+{"title":"架构之外清单","items":[{"text":"评测与回归","hint":"别只靠手感"},{"text":"成本与延迟预算","hint":"token 与工具调用都有价"},{"text":"安全与数据出境","hint":"密钥与日志"}]}
+\`\`\`
+
 
 若只背 Transformer，会误以为：  
 「以前没有别的，以后也不会有别的。」  

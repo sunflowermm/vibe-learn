@@ -6,6 +6,10 @@ export default `# MongoDB
 > **不是**语言、不是框架。本课讲 **模型与服务形态**；本仓 \`mongodb-Core\` / soft-skip → 第四章 **数据与缓存**。
 
 ## 本课你要带走什么
+\`\`\`flip
+{"title":"MongoDB · 翻卡","cards":[{"front":"MongoDB","back":"文档模型，JSON 样文档集合"},{"front":"别混成","back":"编程语言 / Web 框架"}]}
+\`\`\`
+
 
 1. 文档模型 vs 关系表  
 2. 为何仍是「服务 / 中间件」那一层  

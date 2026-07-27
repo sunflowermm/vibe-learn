@@ -6,6 +6,10 @@ export default `# 库 · 框架 · 运行时 · 中间件
 
 ## 本课职责
 
+\`\`\`match
+{"title":"别把这四样说成一种","pairs":[{"id":"lib","left":"库","right":"你调用它；控制权在你"},{"id":"fw","left":"框架","right":"它调用你；控制反转"},{"id":"rt","left":"运行时","right":"代码在哪执行（如 Node）"},{"id":"mw","left":"中间件（服务）","right":"独立进程的共用能力（如 Redis）"}]}
+\`\`\`
+
 | 本课钉 | 别处钉 |
 |--------|--------|
 | 库 / 框架 / 运行时 / 中间件 **定义与对照** | 各框架产品课（Vue / Spring…） |
@@ -163,6 +167,10 @@ DBMS 侧判据与 SQLite 例外 → 番外 **中间件视角**。
 ---
 
 ## 6. 大厂面试常见问法
+
+\`\`\`quiz
+{"title":"面试快测","question":"Node.js 更准确的归类是？","options":[{"id":"a","label":"一门编程语言"},{"id":"b","label":"JavaScript 的运行时"},{"id":"c","label":"和 Express 同类的 Web 框架"},{"id":"d","label":"一种数据库中间件"}],"answer":"b","explain":"语言是 JavaScript；Node 提供 V8 + 系统 API，让 JS 跑在服务端。"}
+\`\`\`
 
 ### 「Node 是框架还是语言？」
 

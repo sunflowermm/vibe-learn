@@ -15,6 +15,10 @@ export default `# Next.js（元框架）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"Next.js · 翻卡","cards":[{"front":"Next.js","back":"React 元框架；路由/SSR 等"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`
+
 ### 1.1 Next.js —— 什么时候用
 
 | 场景 | 为什么合适 |

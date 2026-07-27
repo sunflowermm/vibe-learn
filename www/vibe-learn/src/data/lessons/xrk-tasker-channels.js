@@ -5,6 +5,10 @@ export default `# Tasker 通道层
 > 它不是业务指令本身——业务在 \`plugin/\`。
 
 ## 本课你要带走什么
+\`\`\`match
+{"title":"通道配对","pairs":[{"id":"t","left":"Tasker","right":"协议/通道适配"},{"id":"ob","left":"OneBot 等","right":"具体通道实现"},{"id":"stdin","left":"Stdin","right":"本机调试通道"}]}
+\`\`\`
+
 
 1. \`TaskerBase\` / 注册面（\`AgentRuntime.tasker\` · \`wsf\`）在干什么  
 2. \`msgSegment\` 怎么拼消息段；\`e.bot\` 与裸名 \`AgentRuntime\` 的区别  
@@ -14,6 +18,10 @@ export default `# Tasker 通道层
 ---
 
 ## 1. 定位：通道，不是店铺
+\`\`\`quiz
+{"title":"Tasker 快测","questions":[{"q":"tasker/ 主要解决什么？","choices":[{"t":"数据库 ORM","ok":false,"why":"那是数据层。"},{"t":"把各通道协议适配进统一运行时","ok":true,"why":"QQ/OneBot/Stdin/设备等。"},{"t":"只负责画前端图表","ok":false,"why":"不是 www 的活。"}]}]}
+\`\`\`
+
 
 | | Tasker | Plugin |
 |--|--------|--------|

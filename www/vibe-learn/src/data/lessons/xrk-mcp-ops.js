@@ -5,6 +5,10 @@ export default `# 主服 MCP 运维
 > 真源：\`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\` · \`docs/ai-workflow.md\`。
 
 ## 本课你要带走什么
+\`\`\`check
+{"title":"MCP 运维清单","items":[{"text":"分清 MCP 服务与客户端角色","hint":"谁暴露工具、谁来调"},{"text":"鉴权与网络边界清楚","hint":"别裸奔到公网"},{"text":"与 AiWorkflow 配置对得上","hint":"文档路径为准"}]}
+\`\`\`
+
 
 1. 主服 MCP 与 AiWorkflow 工具注册的关系  
 2. 关键代码路径：\`src/utils/mcp-server.js\`、\`core/system-Core/http/mcp.js\`  
@@ -14,6 +18,10 @@ export default `# 主服 MCP 运维
 ---
 
 ## 1. 在地图上的位置
+\`\`\`match
+{"title":"MCP 运维配对","pairs":[{"id":"mcp","left":"MCP","right":"工具协议，给 Agent 接外部能力"},{"id":"auth","left":"鉴权","right":"工具也有信任边界"},{"id":"ops","left":"运维","right":"日志、超时、限额"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart LR

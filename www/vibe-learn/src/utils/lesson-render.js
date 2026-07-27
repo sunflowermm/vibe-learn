@@ -1,10 +1,13 @@
 /**
- * 课文渲染：Markdown + HTML5/SVG 片段 + Mermaid 围栏
+ * 课文渲染：Markdown + HTML5/SVG 片段 + Mermaid + 交互围栏
+ * （term / compare / shell / env / quiz / reveal / check / decide /
+ *  match / flip / steps / ports / sort）
  * Mermaid 随 Vite/pnpm 打包，不依赖外网 CDN。
  */
 import { marked } from 'marked';
 import purify from 'dompurify';
 import { normalizeMermaidSource } from './normalize-mermaid.js';
+import { WIDGET_LANGS } from './lesson-widgets.js';
 
 const DOMPurify = purify?.sanitize ? purify : purify?.default ?? purify;
 
@@ -39,6 +42,9 @@ renderer.code = function code(token) {
   if (lang === 'mermaid') {
     /* 规范化后整体转义；浏览器 textContent 还原 <br/> 给 Mermaid */
     return `<pre class="mermaid">${escapeHtml(normalizeMermaidSource(text))}</pre>`;
+  }
+  if (WIDGET_LANGS.has(lang)) {
+    return `<div class="vibe-widget" data-vibe="${escapeHtml(lang)}" data-hydrated="0"><pre class="vibe-widget__src">${escapeHtml(text)}</pre></div>`;
   }
   if (RAW_LANGS.has(lang)) {
     return `<div class="lesson-embed" data-embed="${lang}">${text}</div>`;
@@ -75,6 +81,7 @@ const PURIFY = {
     'footer',
     'nav',
     'main',
+    'button',
   ],
   ADD_ATTR: [
     'open',
@@ -99,8 +106,13 @@ const PURIFY = {
     'role',
     'aria-label',
     'aria-hidden',
+    'aria-live',
+    'aria-pressed',
     'data-embed',
+    'data-vibe',
+    'data-hydrated',
     'class',
+    'hidden',
     'viewBox',
     'xmlns',
     'fill',
@@ -138,7 +150,7 @@ const PURIFY = {
 
 /**
  * @param {string} markdown
- * @returns {string} 消毒后的 HTML（含未渲染的 pre.mermaid）
+ * @returns {string} 消毒后的 HTML（含未渲染的 pre.mermaid / vibe-widget）
  */
 export function renderLesson(markdown) {
   if (!markdown) return '';

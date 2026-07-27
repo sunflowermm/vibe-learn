@@ -6,6 +6,10 @@ export default `# 接到运行时 · 本仓库
 > 本仓另有一层：**主服固定 Node.js；子服按语言优势启用独立 runtime**（第四章「语言栈」）。
 
 ## 知识路径
+\`\`\`steps
+{"title":"语言到进程","steps":[{"title":"源码","body":"人写的文本。"},{"title":"工具链","body":"编译器 / 打包器 / 包管理器。"},{"title":"运行时或二进制","body":"Node/JVM/原生可执行文件。"},{"title":"OS 进程","body":"真正占 CPU、内存、端口的是进程。"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart TB

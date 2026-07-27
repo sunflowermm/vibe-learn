@@ -6,6 +6,10 @@ export default `# MySQL
 
 ## 要点
 
+\`\`\`flip
+{"title":"MySQL · 翻卡","cards":[{"front":"MySQL","back":"广泛部署的关系库，生态与托管极多"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`
+
 | 点 | 说明 |
 |----|------|
 | **模型** | 表 + SQL；InnoDB 事务常见默认 |

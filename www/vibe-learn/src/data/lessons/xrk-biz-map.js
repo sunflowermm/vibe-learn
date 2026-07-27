@@ -5,6 +5,10 @@ export default `# 业务层全景 · 扩展点地图
 > 本课把 plugin / http / www / workflow / tasker / events / commonconfig / factory / 数据库 / auth / MCP / renderer·crawl / 子服调用画成一张地图，方便后文按节点深挖。
 
 ## 本课你要带走什么
+\`\`\`steps
+{"title":"业务层全景步骤","steps":[{"title":"先鸟瞰","body":"主服 / Core / 子服。"},{"title":"对扩展点","body":"plugin、http、workflow、events…"},{"title":"对暴露面","body":"HTTP、www、通道。"},{"title":"再实践","body":"最小插件 / 子服实验课。"}]}
+\`\`\`
+
 
 1. 每个扩展点的**作用、目录、谁来用、别和谁搞混**  
 2. 一张分层 mermaid：通道 → Runtime → 业务扩展 → 外部能力  
@@ -13,6 +17,10 @@ export default `# 业务层全景 · 扩展点地图
 ---
 
 ## 1. 分层总览
+\`\`\`match
+{"title":"业务层全景配对","pairs":[{"id":"ext","left":"扩展点","right":"plugin/http/workflow/…"},{"id":"map","left":"全景图","right":"先看地图再钻一课"},{"id":"bound","left":"边界","right":"Core vs Runtime 一眼能指"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart TB

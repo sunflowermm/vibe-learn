@@ -15,6 +15,10 @@ export default `# SQLite
 
 ## 1. 形态对比
 
+\`\`\`flip
+{"title":"SQLite · 翻卡","cards":[{"front":"SQLite","back":"文件型库，常嵌在进程里，少独立服务"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`
+
 | | **SQLite** | **PostgreSQL / MySQL** |
 |--|------------|-------------------------|
 | 进程 | 多在应用内 | 独立服务进程 |

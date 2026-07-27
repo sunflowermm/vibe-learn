@@ -18,6 +18,14 @@ export default `# IP 地址、子网与 MAC / ARP / DHCP
 ---
 
 ## 1. 三号码对照
+\`\`\`flip
+{"title":"IP 课翻卡","cards":[{"front":"私有地址","back":"如 192.168.0.0/16，局域网常用。"},{"front":"DHCP","back":"自动租约 IP/网关/DNS。"},{"front":"ARP","back":"IP → MAC 的链路层问路。"}]}
+\`\`\`
+
+
+\`\`\`match
+{"title":"地址三件套配对","pairs":[{"id":"ip","left":"IP","right":"主机在网络中的地址"},{"id":"mask","left":"子网掩码 / 前缀","right":"哪些位是网络、哪些是主机"},{"id":"gw","left":"默认网关","right":"出本网段时下一跳"},{"id":"mac","left":"MAC","right":"链路层硬件地址（别和 IP 混）"}]}
+\`\`\`
 
 | | IP | 域名 | MAC |
 |--|-----|------|-----|

@@ -5,6 +5,10 @@ export default `# Factory · LLM / ASR / TTS
 > 业务（尤其 \`AiWorkflow\`）**不要**自己 \`new\` 厂商 SDK 散落各处——经工厂 + CommonConfig 取客户端。
 
 ## 本课你要带走什么
+\`\`\`flip
+{"title":"LLM 工厂翻卡","cards":[{"front":"工厂","back":"按配置创建模型客户端"},{"front":"配置归属","back":"运行时模板在 default_config；业务勿乱塞"}]}
+\`\`\`
+
 
 1. \`src/factory/llm|asr|tts\` 的职责边界  
 2. CommonConfig / 默认 yaml 里各 LLM 工厂配置落在哪  
@@ -14,6 +18,10 @@ export default `# Factory · LLM / ASR / TTS
 ---
 
 ## 1. 目录与职责
+\`\`\`match
+{"title":"LLM 工厂配对","pairs":[{"id":"fac","left":"工厂","right":"按配置创建/切换模型客户端"},{"id":"cfg","left":"配置模板","right":"运行时 default_config 体系"},{"id":"core","left":"业务调用","right":"Core 消费工厂，不复制协议细节"},{"id":"key","left":"密钥","right":"本地配置，勿提交"}]}
+\`\`\`
+
 
 | 工厂 | 路径 | 作用 |
 |------|------|------|

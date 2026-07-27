@@ -14,6 +14,10 @@ export default `# HTTP Auth · API Key
 ---
 
 ## 1. 分层表
+\`\`\`match
+{"title":"鉴权配对","pairs":[{"id":"tok","left":"令牌 / Session","right":"证明「你是谁」"},{"id":"rbac","left":"授权","right":"证明「你能做什么」"},{"id":"http","left":"HTTP 层","right":"中间件/守卫统一拦"}]}
+\`\`\`
+
 
 | 层级 | 职责 |
 |------|------|
@@ -84,6 +88,13 @@ WebSocket：\`AgentRuntime.wsf\` 经 \`runtime-ws\`；远程默认要 Key；\`sk
    \`\`\`bash
    curl -s -H "X-API-Key: <key>" http://<主机>:<端口>/api/health
    \`\`\`  
+
+> 模拟窗只演示 curl 形态（**假响应**）；真实 Key 与端口以本机配置为准。
+
+\`\`\`shell
+{"preset":"curl-auth"}
+\`\`\`
+
 4. 读任意 \`system-Core/http\` 路由，确认未手写重复鉴权；找一个 \`systemAuth: false\` 的公开对照（若有）。
 
 ---

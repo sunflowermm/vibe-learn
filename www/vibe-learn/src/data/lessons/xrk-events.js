@@ -5,6 +5,10 @@ export default `# events 监听
 > 基类：\`ListenerBase\`（\`src/infrastructure/listener/base.js\`）。
 
 ## 本课你要带走什么
+\`\`\`flip
+{"title":"事件翻卡","cards":[{"front":"events/","back":"监听运行时事件的扩展点"},{"front":"与 plugin","back":"插件偏命令/消息；事件偏钩子"}]}
+\`\`\`
+
 
 1. events 目录放什么、Loader 何时 \`init\`  
 2. 与 **tasker**、**plugin** 的三角关系  
@@ -14,6 +18,10 @@ export default `# events 监听
 ---
 
 ## 1. 职责表
+\`\`\`match
+{"title":"事件课配对","pairs":[{"id":"listen","left":"events/","right":"监听运行时事件"},{"id":"emit","left":"em()","right":"发出事件给监听方"},{"id":"vs","left":"vs plugin","right":"事件偏横切；插件偏命令/业务入口"}]}
+\`\`\`
+
 
 | 项 | 说明 |
 |----|------|

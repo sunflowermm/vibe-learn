@@ -5,6 +5,10 @@ export default `# 数据与缓存 · 本仓契约
 > 概念 / 产品门派 / 流行度 → 番外 **数据库**；本机安装 Redis → **部署环境**。
 
 ## 模块边界
+\`\`\`quiz
+{"title":"本仓数据自测","questions":[{"q":"本仓启动常 fail-fast 卡在？","choices":[{"t":"Redis 未就绪","ok":true,"why":"热数据依赖。"},{"t":"没装 Photoshop","ok":false,"why":"无关。"},{"t":"必须上 Kubernetes","ok":false,"why":"本机也可。"}]}]}
+\`\`\`
+
 
 | 问题 | 去哪一课 |
 |------|----------|
@@ -14,6 +18,10 @@ export default `# 数据与缓存 · 本仓契约
 | Runtime 必需谁？路径、全局名、health？ | **本课** + \`docs/database.md\` |
 
 ## 本课你要带走什么
+\`\`\`match
+{"title":"数据模块边界","pairs":[{"id":"cfg","left":"连接配置","right":"commonconfig / yaml，勿写死密钥进仓"},{"id":"core","left":"访问代码","right":"业务 Core 内封装，不进 src 乱改"},{"id":"cache","left":"缓存","right":"Redis 等中间件视角"},{"id":"mig","left":"迁移","right":"结构变更要可回放、可审计"}]}
+\`\`\`
+
 
 1. 五种存储在本仓的**归属**（Runtime vs 可选 Core）  
 2. \`src/infrastructure/database\` 与 \`docs/database.md\` 权威约定  

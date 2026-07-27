@@ -14,6 +14,10 @@ export default `# Skills · 技能包
 
 ## 为什么诞生
 
+\`\`\`match
+{"title":"Skills 配对","pairs":[{"id":"sk","left":"Skill","right":"可注入的能力说明与操作规范"},{"id":"rule","left":"Rules","right":"更偏长期约束与仓库约定"},{"id":"prompt","left":"临时提示","right":"单次对话里的指令"}]}
+\`\`\`
+
 | 痛点 | 说明 |
 |------|------|
 | **巨型 always-on 规则** | 把部署手册写进 Rules，每次对话都吃上下文 |

@@ -2,7 +2,8 @@
  * 图谱数据模型
  *
  * 序章 认识计算机 → 第一章 环境与终端 → 第二章 计算机语言
- * → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能 · 番外 Clash / 数据库
+ * → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能
+ * · 番外 Clash / 数据库 / 容器 / 本机目录 / ESP32
  */
 import computerSystem from './lessons/computer-system.js';
 import osEssence from './lessons/os-essence.js';
@@ -123,6 +124,9 @@ import opsDocker from './lessons/ops-docker.js';
 import opsCompose from './lessons/ops-compose.js';
 import opsOthers from './lessons/ops-others.js';
 import netNginx from './lessons/net-nginx.js';
+import chapterFs from './lessons/chapter-fs.js';
+import fsLayout from './lessons/fs-layout.js';
+import fsDotfiles from './lessons/fs-dotfiles.js';
 import chapterEsp from './lessons/chapter-esp.js';
 import espMcu from './lessons/esp-mcu.js';
 import espEsp32 from './lessons/esp-esp32.js';
@@ -147,6 +151,7 @@ const CH_AI = 'chapter-ai';
 const CH_CLASH = 'chapter-clash';
 const CH_DB = 'chapter-database';
 const CH_OPS = 'chapter-ops';
+const CH_FS = 'chapter-fs';
 const CH_ESP = 'chapter-esp';
 
 /** source 手柄 id → target 手柄 id（GraphCard 上 type=target） */
@@ -258,6 +263,17 @@ export const graphFrames = [
     markdown: chapterOps,
   },
   {
+    id: CH_FS,
+    kind: 'chapter',
+    label: '番外 · 本机目录',
+    subtitle: '先角色后路径 · 点文件',
+    tag: 'Side Quest',
+    role: '跨系统目录角色对照；.xxx 与隐藏机制；接到 PATH / 环境变量。',
+    position: { x: LAYOUT.frameFs.x, y: LAYOUT.frameFs.y },
+    size: { width: LAYOUT.frameFs.width, height: LAYOUT.frameFs.height },
+    markdown: chapterFs,
+  },
+  {
     id: CH_ESP,
     kind: 'chapter',
     label: '番外 · ESP32',
@@ -292,7 +308,7 @@ export const knowledgeNodes = [
     label: '系统的本质',
     subtitle: '抽象 · 进程/线程 · 权限 · 内核',
     tag: '00 系统',
-    role: 'OS 管资源与隔离；权限与进程模型从这里建立。',
+    role: 'OS 管资源与隔离；四大抽象跨 Win/Linux/mac 同一；权限与进程模型从这里建立。',
     prereqs: ['computer-system'],
     next: ['chip-units', 'terminal-worlds', 'xrk-runtime'],
     position: LAYOUT.topics['os-essence'],
@@ -336,10 +352,11 @@ export const knowledgeNodes = [
     tag: '01 终端',
     role: '三件套；bash≠PowerShell；PATH 起进程；Git Bash vs CMD；WSL vs 原生；Claude Code 与 Bash。',
     prereqs: ['computer-system', 'os-essence'],
-    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path', 'xrk-deploy-env'],
+    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path', 'fs-layout', 'xrk-deploy-env'],
     position: LAYOUT.topics['terminal-worlds'],
     markdown: terminalWorlds,
     chapterOut: ['xrk-deploy-env'],
+    sideOut: ['fs-layout'],
   },
   {
     id: 'linux-distros',
@@ -350,22 +367,25 @@ export const knowledgeNodes = [
     tag: '01 发行版',
     role: '内核相同，包装与包管理不同——装软件前先认家族。',
     prereqs: ['terminal-worlds'],
-    next: ['linux-cli'],
+    next: ['linux-cli', 'fs-layout'],
     position: LAYOUT.topics['linux-distros'],
     markdown: linuxDistros,
+    sideOut: ['fs-layout'],
   },
   {
     id: 'linux-cli',
     kind: 'topic',
     parentId: CH_ENV,
     label: 'Linux 基础指令',
-    subtitle: '导航 · 文件 · 进程 · 权限',
+    subtitle: '导航 · 沙箱 · 权限',
     tag: '01 指令',
-    role: '建立空间感的最小命令集（bash/zsh）。',
+    role: '最小命令集 + 可输入模拟终端（虚拟结果）。',
     prereqs: ['terminal-worlds', 'linux-distros'],
-    next: ['git-workspace', 'xrk-first-run'],
+    next: ['git-workspace', 'xrk-first-run', 'fs-dotfiles'],
     position: LAYOUT.topics['linux-cli'],
     markdown: linuxCli,
+    sideOut: ['fs-layout', 'fs-dotfiles'],
+    lab: 'linux-shell',
   },
   {
     id: 'runtime-nodejs',
@@ -385,6 +405,7 @@ export const knowledgeNodes = [
       'xrk-deploy-env',
     ],
     position: LAYOUT.topics['runtime-nodejs'],
+    lab: 'path-shell',
     markdown: runtimeNodejs,
     chapterOut: ['lang-compiled-runtime', 'lang-nodejs', 'xrk-language-stack', 'xrk-deploy-env'],
   },
@@ -393,13 +414,15 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_ENV,
     label: '安装器与 PATH',
-    subtitle: 'PATH · 自带 npm/npx',
+    subtitle: '环境变量 · PATH · npm/npx',
     tag: '01 交付',
-    role: '落盘与 PATH；装 Node 常附带官方包管理入口。',
+    role: '环境变量地基；落盘与 PATH；代理变量指向番外。',
     prereqs: ['terminal-worlds', 'runtime-nodejs'],
-    next: ['package-managers', 'git-workspace'],
+    next: ['package-managers', 'git-workspace', 'fs-layout', 'clash-port'],
     position: LAYOUT.topics['installers-path'],
     markdown: installersPath,
+    sideOut: ['fs-layout', 'clash-port'],
+    lab: 'path-shell',
   },
   {
     id: 'package-managers',
@@ -412,6 +435,7 @@ export const knowledgeNodes = [
     prereqs: ['runtime-nodejs', 'installers-path'],
     next: ['git-workspace', 'ops-container'],
     position: LAYOUT.topics['package-managers'],
+    lab: 'pnpm-shell',
     markdown: packageManagers,
   },
   {
@@ -419,9 +443,9 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_ENV,
     label: 'Git 与工作区',
-    subtitle: '三区 · clone · 根目录',
+    subtitle: '三区 · clone · 国内通路',
     tag: '01 源码',
-    role: '远程仓库变成可安装依赖的本地目录。',
+    role: '远程仓库变成可安装依赖的本地目录；含直连失败 / 代理 / ghproxy 模拟。',
     prereqs: ['installers-path', 'package-managers', 'linux-cli'],
     next: ['git-forges', 'xrk-first-run'],
     position: LAYOUT.topics['git-workspace'],
@@ -432,9 +456,9 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_ENV,
     label: '代码托管',
-    subtitle: 'GitHub · Gitee · 协作名词',
+    subtitle: 'GitHub · Gitee · ghproxy',
     tag: '01 托管',
-    role: '远程住在哪：平台差异、克隆 URL、PR/Issue 最小环。',
+    role: '远程住在哪：平台差异、克隆 URL、国内失败演示与协作名词。',
     prereqs: ['git-workspace'],
     next: ['xrk-first-run'],
     position: LAYOUT.topics['git-forges'],
@@ -1065,13 +1089,14 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_XRK,
     label: '部署环境',
-    subtitle: 'Git · Node · Redis · 浏览器（含非 Win）',
+    subtitle: '代理 · Git · Node · Redis · 浏览器',
     tag: '04 环境',
-    role: '装机清单；Redis 概念见番外；契约见数据与缓存；Docker 可选。',
+    role: '装机清单；GitHub 先打通代理；Redis 概念见番外；契约见数据与缓存。',
     prereqs: ['xrk-first-run'],
     next: ['xrk-overview', 'xrk-database'],
     position: LAYOUT.topics['xrk-deploy-env'],
     markdown: xrkDeployEnv,
+    sideOut: ['clash', 'clash-port', 'clash-setup'],
   },
   {
     id: 'xrk-overview',
@@ -1605,11 +1630,12 @@ export const knowledgeNodes = [
     label: '端口与 Coding Agent',
     subtitle: '127.0.0.1:端口',
     tag: '番外',
-    role: '系统代理与手写本地端口。',
+    role: '系统代理、HTTP_PROXY 族与本机端口；终端/Agent 常不吃系统代理。',
     prereqs: ['clash', 'tcp-udp'],
     next: ['clash-setup'],
     position: LAYOUT.topics['clash-port'],
     markdown: clashPortLesson,
+    lab: 'env-proxy-shell',
   },
   {
     id: 'clash-setup',
@@ -1696,6 +1722,7 @@ export const knowledgeNodes = [
     prereqs: ['db-landscape'],
     next: ['xrk-database', 'xrk-deploy-env'],
     position: LAYOUT.topics['db-redis'],
+    lab: 'redis-shell',
     markdown: dbRedis,
     chapterOut: ['xrk-database', 'xrk-deploy-env'],
   },
@@ -1792,6 +1819,7 @@ export const knowledgeNodes = [
     prereqs: ['ops-container'],
     next: ['ops-compose', 'xrk-deploy-env'],
     position: LAYOUT.topics['ops-docker'],
+    lab: 'docker-shell',
     markdown: opsDocker,
     chapterOut: ['xrk-deploy-env'],
   },
@@ -1806,6 +1834,7 @@ export const knowledgeNodes = [
     prereqs: ['ops-docker'],
     next: ['ops-others'],
     position: LAYOUT.topics['ops-compose'],
+    lab: 'docker-shell',
     markdown: opsCompose,
   },
   {
@@ -1820,6 +1849,35 @@ export const knowledgeNodes = [
     next: [],
     position: LAYOUT.topics['ops-others'],
     markdown: opsOthers,
+  },
+
+  /* 番外 · 本机目录 */
+  {
+    id: 'fs-layout',
+    kind: 'topic',
+    parentId: CH_FS,
+    label: '本机目录地图',
+    subtitle: '角色对照 · Users · /bin · /home',
+    tag: '番外',
+    role: '跨系统先角色后路径；Win/Linux/mac 家目录与 bin 对照。',
+    prereqs: ['terminal-worlds', 'os-essence'],
+    next: ['fs-dotfiles', 'installers-path', 'linux-cli'],
+    position: LAYOUT.topics['fs-layout'],
+    markdown: fsLayout,
+  },
+  {
+    id: 'fs-dotfiles',
+    kind: 'topic',
+    parentId: CH_FS,
+    label: '点文件与隐藏项',
+    subtitle: '目的相同 · 机制不同',
+    tag: '番外',
+    role: '点前缀 vs Win 隐藏属性；.env/.git；配置持久化。',
+    prereqs: ['fs-layout'],
+    next: ['installers-path', 'clash-port', 'git-workspace'],
+    position: LAYOUT.topics['fs-dotfiles'],
+    lab: 'dotfiles-shell',
+    markdown: fsDotfiles,
   },
 
   /* 番外 · ESP32 */
@@ -2076,6 +2134,13 @@ export const knowledgeEdges = [
   { id: 'e-tcp-clash-port', source: 'tcp-udp', target: 'clash-port', sourceHandle: 'bottom', targetHandle: 'top', label: '引擎入口=端口', branch: 'side' },
   { id: 'e-clash-port', source: 'clash', target: 'clash-port', sourceHandle: 'right', targetHandle: 'left', label: '入口连上引擎', branch: 'side', animated: true },
   { id: 'e-clash-setup', source: 'clash-port', target: 'clash-setup', sourceHandle: 'right', targetHandle: 'left', label: '订阅喂饱引擎', branch: 'side', animated: true },
+
+  /* 番外 · 本机目录 */
+  { id: 'e-term-fs', source: 'terminal-worlds', target: 'fs-layout', sourceHandle: 'bottom', targetHandle: 'top', label: '站在哪条路径', branch: 'side', animated: true },
+  { id: 'e-cli-fs', source: 'linux-cli', target: 'fs-layout', sourceHandle: 'bottom', targetHandle: 'top', label: 'cd 的地图', branch: 'side' },
+  { id: 'e-fs-dot', source: 'fs-layout', target: 'fs-dotfiles', sourceHandle: 'right', targetHandle: 'left', label: '家目录里的点文件', branch: 'side', animated: true },
+  { id: 'e-fs-path', source: 'fs-layout', target: 'installers-path', sourceHandle: 'right', targetHandle: 'bottom', label: 'bin 进 PATH', branch: 'side' },
+  { id: 'e-dot-proxy', source: 'fs-dotfiles', target: 'clash-port', sourceHandle: 'bottom', targetHandle: 'top', label: '变量可写入点文件', branch: 'side' },
 
   /* 番外 · 数据库 */
   { id: 'e-fw-db', source: 'lang-library-framework', target: 'db-essence', sourceHandle: 'bottom', targetHandle: 'top', label: '中间件深挖', branch: 'side', animated: true },

@@ -111,6 +111,17 @@ flowchart TB
 
 ### 最小命令
 
+\`\`\`check
+{"title":"pnpm 上场前","caption":"本仓只认 pnpm；勾完再到仓库根执行。","items":[{"text":"node -v 满足 engines（本仓 ≥ 26）","hint":"过低先升级运行时"},{"text":"已 corepack enable / 能运行 pnpm -v","hint":"不要用 npm install 装本仓依赖"},{"text":"当前目录能看到根 package.json","hint":"误进子目录会装错树"},{"text":"如需拉 GitHub 依赖：终端代理已就绪","hint":"见部署环境 §0"}]}
+\`\`\`
+
+
+> 下列模拟窗**不上网**；真实 \`pnpm install\` 请在本机仓库根执行。
+
+\`\`\`shell
+{"preset":"pnpm-demo"}
+\`\`\`
+
 \`\`\`bash
 # 已有 Node，且 PATH 通
 corepack enable

@@ -19,6 +19,7 @@
  * | Clash | chain | 贴网络下方 |
  * | 数据库 | laneBlock | 贴 XRK 正下方 |
  * | 容器 | laneBlock | 贴环境下方 |
+ * | 本机目录 | chain | 贴容器右侧（同高） |
  * | ESP32 | laneBlock | 贴序章下方 |
  */
 import {
@@ -292,6 +293,15 @@ const OPS_TOPICS = laneBlockPositions(
 assertNoCardOverlap(OPS_TOPICS, 'frameOps');
 
 /* ═══════════════════════════════════════════
+ * 番外 · 本机目录（Users / FHS / 点文件）
+ * ═══════════════════════════════════════════ */
+const FS_TOPICS = chainRowPositions(
+  ['fs-layout', 'fs-dotfiles'],
+  { x: ORIGIN_X, y: TOP, gap: CARD_COL }
+);
+assertNoCardOverlap(FS_TOPICS, 'frameFs');
+
+/* ═══════════════════════════════════════════
  * 番外 · ESP32
  * ═══════════════════════════════════════════ */
 const ESP_TOPICS = laneBlockPositions(
@@ -322,6 +332,7 @@ const aiB = boundsOf(AI_SNAKE);
 const clashB = boundsOf(CLASH_TOPICS);
 const dbB = boundsOf(DB_TOPICS);
 const opsB = boundsOf(OPS_TOPICS);
+const fsB = boundsOf(FS_TOPICS);
 const espB = boundsOf(ESP_TOPICS);
 
 const PAD_W = CARD_W + 100;
@@ -345,6 +356,7 @@ const S = {
   clash: frameBox(clashB),
   db: frameBox(dbB),
   ops: frameBox(opsB),
+  fs: frameBox(fsB),
   esp: frameBox(espB),
 };
 
@@ -363,7 +375,7 @@ function framesOverlap(a, sa, b, sb, pad = 24) {
  * ```
  *              [······语言······]     ← 压在环境+XRK 上方
  *   [序章] [环境····]        [XRK] [AI]
- *    [ESP] [容器]
+ *    [ESP] [容器][本机目录]
  *          [网络····]        [XRK]
  *          [Clash]        [数据库]
  * ```
@@ -403,6 +415,12 @@ const FRAME_OPS = {
   y: FRAME_ENV.y + S.env.h + FRAME_GAP,
 };
 
+/* 本机目录：容器右侧同高，缩短与环境章的认知距离 */
+const FRAME_FS = {
+  x: FRAME_OPS.x + S.ops.w + FRAME_GAP,
+  y: FRAME_OPS.y,
+};
+
 const FRAME_NET = {
   x: FRAME_XRK.x - S.net.w - FRAME_GAP,
   y: FRAME_OPS.y + S.ops.h + FRAME_GAP,
@@ -431,10 +449,34 @@ if (framesOverlap(FRAME_DB, S.db, FRAME_AI, S.ai)) {
   FRAME_DB.y = Math.max(FRAME_DB.y, FRAME_AI.y + S.ai.h + FRAME_GAP);
 }
 
+if (framesOverlap(FRAME_FS, S.fs, FRAME_XRK, S.xrk)) {
+  FRAME_FS.x = FRAME_OPS.x;
+  FRAME_FS.y = FRAME_OPS.y + S.ops.h + FRAME_GAP;
+}
+if (framesOverlap(FRAME_FS, S.fs, FRAME_NET, S.net)) {
+  FRAME_FS.x = FRAME_NET.x + S.net.w + FRAME_GAP;
+  FRAME_FS.y = FRAME_OPS.y;
+}
+if (framesOverlap(FRAME_FS, S.fs, FRAME_DB, S.db)) {
+  FRAME_FS.y = Math.min(FRAME_FS.y, FRAME_DB.y - S.fs.h - FRAME_GAP);
+  if (FRAME_FS.y < FRAME_OPS.y) {
+    FRAME_FS.y = FRAME_OPS.y;
+    FRAME_FS.x = FRAME_OPS.x + S.ops.w + FRAME_GAP;
+  }
+}
+if (framesOverlap(FRAME_FS, S.fs, FRAME_XRK, S.xrk) || framesOverlap(FRAME_FS, S.fs, FRAME_DB, S.db)) {
+  FRAME_FS.x = FRAME_OPS.x + S.ops.w + FRAME_GAP;
+  FRAME_FS.y = FRAME_OPS.y + Math.max(S.ops.h, S.fs.h) + FRAME_GAP;
+  if (framesOverlap(FRAME_FS, S.fs, FRAME_NET, S.net)) {
+    FRAME_FS.y = FRAME_NET.y + S.net.h + FRAME_GAP;
+  }
+}
+
 if (
   framesOverlap(FRAME_ESP, S.esp, FRAME_ENV, S.env) ||
   framesOverlap(FRAME_ESP, S.esp, FRAME_OPS, S.ops) ||
-  framesOverlap(FRAME_ESP, S.esp, FRAME_NET, S.net)
+  framesOverlap(FRAME_ESP, S.esp, FRAME_NET, S.net) ||
+  framesOverlap(FRAME_ESP, S.esp, FRAME_FS, S.fs)
 ) {
   FRAME_ESP.x = FRAME_MACHINE.x;
   FRAME_ESP.y = FRAME_MACHINE.y + S.machine.h + FRAME_GAP;
@@ -454,6 +496,7 @@ const FRAME_PLACES = [
   ['clash', FRAME_CLASH, S.clash],
   ['db', FRAME_DB, S.db],
   ['ops', FRAME_OPS, S.ops],
+  ['fs', FRAME_FS, S.fs],
   ['esp', FRAME_ESP, S.esp],
 ];
 
@@ -527,6 +570,11 @@ export const LAYOUT = {
     width: Math.ceil(opsB.maxX + PAD_W),
     height: Math.ceil(opsB.maxY + PAD_H),
   },
+  frameFs: {
+    ...FRAME_FS,
+    width: Math.ceil(fsB.maxX + PAD_W),
+    height: Math.ceil(fsB.maxY + PAD_H),
+  },
   frameEsp: {
     ...FRAME_ESP,
     width: Math.ceil(espB.maxX + PAD_W),
@@ -543,6 +591,7 @@ export const LAYOUT = {
     ...CLASH_TOPICS,
     ...DB_TOPICS,
     ...OPS_TOPICS,
+    ...FS_TOPICS,
     ...ESP_TOPICS,
   },
 };
@@ -563,6 +612,7 @@ export const LAYOUT_META = {
     clash: 'chain · under net',
     db: 'laneBlock · under XRK',
     ops: 'laneBlock · under env',
+    fs: 'chain · right of ops',
     esp: 'laneBlock · under machine',
   },
   MACHINE_TOPICS,
@@ -574,5 +624,6 @@ export const LAYOUT_META = {
   CLASH_TOPICS,
   DB_TOPICS,
   OPS_TOPICS,
+  FS_TOPICS,
   ESP_TOPICS,
 };

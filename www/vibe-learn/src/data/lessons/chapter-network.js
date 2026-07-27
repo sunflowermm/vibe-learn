@@ -8,6 +8,10 @@ export default `# 第三章 · 计算机网络
 > **容器 / Docker** 在番外 **容器**（交付隔离），与本框「门面」分层——可组合，但先分清。
 
 ## 与前面章节的咬合
+\`\`\`steps
+{"title":"网络章路径","steps":[{"title":"网是什么","body":"LAN/WAN/性能词。"},{"title":"地址与路由","body":"IP、NAT。"},{"title":"传输与应用","body":"TCP/UDP、HTTP、DNS/HTTPS。"},{"title":"入口层","body":"反代、Nginx、边缘。"}]}
+\`\`\`
+
 
 | 已学 | 本框落点 |
 |------|----------|

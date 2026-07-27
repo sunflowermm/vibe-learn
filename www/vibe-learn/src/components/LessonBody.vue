@@ -1,9 +1,11 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { renderLesson } from '../utils/lesson-render.js';
+import { hydrateLessonWidgets } from '../utils/lesson-widgets.js';
 import { renderMermaidIn } from '../composables/useMermaid.js';
 import { bindMermaidZoomInteractions } from '../utils/mermaid-zoom.js';
 import '../styles/lesson-md.css';
+import '../styles/lesson-widgets.css';
 
 const props = defineProps({
   markdown: {
@@ -14,18 +16,22 @@ const props = defineProps({
 
 const hostEl = ref(null);
 const bodyEl = ref(null);
-/** 主题切换时递增，强制重建 DOM 以便 Mermaid 重绘 */
+/** 主题切换时递增，强制重建 DOM 以便 Mermaid / widgets 重绘 */
 const themeTick = ref(0);
 const html = computed(() => renderLesson(props.markdown));
 const bodyKey = computed(() => `${themeTick.value}:${props.markdown.length}`);
 
 let unbindZoom = () => {};
+let disposeWidgets = () => {};
 /** @type {MutationObserver | null} */
 let themeMo = null;
 
 async function paintDiagrams() {
+  disposeWidgets();
+  disposeWidgets = () => {};
   await nextTick();
   await renderMermaidIn(bodyEl.value);
+  disposeWidgets = hydrateLessonWidgets(bodyEl.value);
 }
 
 watch([() => props.markdown, themeTick], paintDiagrams, { flush: 'post' });
@@ -46,6 +52,7 @@ onMounted(() => {
 onUnmounted(() => {
   themeMo?.disconnect();
   unbindZoom();
+  disposeWidgets();
 });
 </script>
 

@@ -14,6 +14,10 @@ export default `# Rules · 规则
 
 ## 为什么诞生
 
+\`\`\`flip
+{"title":"Rules 翻卡","cards":[{"front":"Rules","back":"给 Agent 的持久约定（怎么改代码、禁区）"},{"front":"AGENTS.md","back":"面向 Agent 的仓库说明书"},{"front":"别写成","back":"给人类看的变更日记或踩坑叙事"}]}
+\`\`\`
+
 | 痛点 | 说明 |
 |------|------|
 | **每次重说一遍** | 「本仓只用 pnpm」「别改 src/」复制粘贴到每个对话 |

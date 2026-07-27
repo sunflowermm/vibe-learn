@@ -14,6 +14,10 @@ export default `# 协议分层与自有协议
 
 ## 为什么诞生
 
+\`\`\`match
+{"title":"协议分叉配对","pairs":[{"id":"openai","left":"OpenAI 形状","right":"事实标准之一，兼容者众"},{"id":"mcp","left":"MCP","right":"工具/资源连接方向"},{"id":"vendor","left":"厂商私有协议","right":"能力新，但绑定风险"}]}
+\`\`\`
+
 兼容层 **便宜**；完整能力与新场景 **贵**。
 
 | 新问题 | 旧 Chat Completions 不够的地方 |

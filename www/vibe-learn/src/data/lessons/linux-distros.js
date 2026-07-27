@@ -36,6 +36,13 @@ flowchart TB
 
 ## 2. 家族速写
 
+### 包管理方言对照
+
+\`\`\`compare
+{"title":"同一意图：装软件","caption":"发行版不同，命令不同；角色都是系统包管理器。","items":[{"role":"装包","win":"winget install …","linux":"apt / dnf / pacman / apk","mac":"brew install …","note":"系统级软件，不是 pnpm 项目依赖"},{"role":"更新索引","win":"winget upgrade","linux":"apt update 等","mac":"brew update","note":"先更新再装，少踩旧包坑"}]}
+\`\`\`
+
+
 | 家族 | 代表 | 包管理直觉 | 常见场合 |
 |------|------|------------|----------|
 | **Debian 系** | Debian、Ubuntu、Mint | \`apt\` / \`.deb\` | 云主机教程最多 |

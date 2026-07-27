@@ -15,6 +15,10 @@ export default `# Redis
 
 ## 1. 它是什么
 
+\`\`\`flip
+{"title":"Redis 再钉 · 翻卡","cards":[{"front":"Redis 再钉","back":"内存数据结构服务器；常作缓存/协调"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`
+
 | 点 | 说明 |
 |----|------|
 | **模型** | 键 → 字符串 / Hash / List / Set / ZSet / Stream… |
@@ -50,6 +54,14 @@ flowchart LR
 | 复杂 SQL / 强事务业务表 | **PostgreSQL / MySQL…** |
 
 流行度分数见 **版图与流行度**（Redis 分数低于巨型关系库，但缓存场景近乎标配）。
+
+### 动手：假 redis-cli
+
+> 不上网、不连真实 Redis；自动演示 \`ping → PONG\`。
+
+\`\`\`shell
+{"preset":"redis-ping"}
+\`\`\`
 
 ## 八股 × 业务串联
 

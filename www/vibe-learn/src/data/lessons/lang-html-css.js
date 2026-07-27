@@ -15,6 +15,10 @@ export default `# HTML / CSS（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"HTML/CSS · 身份翻卡","cards":[{"front":"HTML/CSS","back":"结构与样式；不是通用后端语言"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
+\`\`\`
+
 ### 1.1 适合手写 / 直接写 HTML·CSS 的场景
 
 | 场景 | 为什么 |

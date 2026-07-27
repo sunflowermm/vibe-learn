@@ -37,6 +37,15 @@ Content-Length: 1234
 
 ## HTTP 状态码（五大类）
 
+\`\`\`flip
+{"title":"状态码翻卡","caption":"先想「谁的锅」，再翻面核对。","cards":[{"front":"404","back":"客户端要的资源服务器说没有"},{"front":"401","back":"未认证 / 缺凭证"},{"front":"403","back":"已识别但禁止访问"},{"front":"502","back":"网关/反代后面的上游出问题"},{"front":"304","back":"协商缓存：内容未改，用本地副本"}]}
+\`\`\`
+
+\`\`\`match
+{"title":"HTTP 方法配对","pairs":[{"id":"get","left":"GET","right":"获取资源；常幂等、可缓存"},{"id":"post","left":"POST","right":"提交数据；默认非幂等"},{"id":"put","left":"PUT","right":"整资源替换；常幂等"},{"id":"options","left":"OPTIONS","right":"CORS 预检等探测"}]}
+\`\`\`
+
+
 | 类 | 含义 | 例子 |
 |----|------|------|
 | **1xx** | 信息 | 较少直接关心 |

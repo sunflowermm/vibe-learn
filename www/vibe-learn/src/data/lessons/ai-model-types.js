@@ -5,6 +5,10 @@ export default `# 模型类型
 > 本课只做分类地图；下一课讲架构（Transformer 等）。
 
 ## 为什么需要「分类型」
+\`\`\`match
+{"title":"模型类型配对","pairs":[{"id":"base","left":"基座模型","right":"通用预训练权重"},{"id":"chat","left":"对话/指令模型","right":"对齐后更会听指令"},{"id":"emb","left":"Embedding 模型","right":"文本 → 向量，供检索"}]}
+\`\`\`
+
 
 口头说「上个 AI」什么都没说清。选型、报价、延迟、能不能微调，都取决于类型。
 

@@ -16,6 +16,10 @@ export default `# 首次跑通 · XRK-AGT
 ---
 
 ## 1. 标准路径
+\`\`\`match
+{"title":"首跑配对","pairs":[{"id":"node","left":"Node 版本","right":"PATH 与引擎要先对"},{"id":"pnpm","left":"pnpm","right":"本仓包管理"},{"id":"app","left":"node app","right":"拉起 Runtime 与 Loader"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart TB
@@ -40,7 +44,15 @@ node app
 # 或文档中的 Docker / 其他启动方式
 \`\`\`
 
-Redis、日常浏览器、PATH、clone 手顺等：**完整清单见第四章「部署环境」**（含非 Windows 也要备浏览器）。本课只收最短命令路径。
+模拟窗（假数据 · 自动演示版本检查）：
+
+\`\`\`shell
+{"preset":"first-run"}
+\`\`\`
+
+若还卡在 **clone**：见第四章 **部署环境 §0**（失败报错 / 代理 / **ghproxy.com** 前缀，多窗模拟）。
+
+Redis、日常浏览器、PATH、clone 手顺等：**完整清单见第四章「部署环境」**。本课只收最短命令路径。
 
 ---
 
@@ -52,7 +64,7 @@ Redis、日常浏览器、PATH、clone 手顺等：**完整清单见第四章「
 | 版本过低 | 运行时与 \`engines\` | 运行时 · Node.js · 第二章 Node 分类 |
 | \`pnpm\` 不可用 | Corepack 或 pnpm 安装 | 包管理器 · pnpm |
 | install 失败 | 网络、锁文件、是否在仓库根 | Git 工作区 / pnpm |
-| clone 很慢或失败 | 远程主机与网络 | **代码托管** |
+| clone 很慢或失败 | 远程主机与网络；代理 / ghproxy | **Git 与工作区** · **代码托管** · **部署环境 §0** |
 | 启动死在数据库 | Redis 未起 | **部署环境** · 数据库 |
 | 截图/渲染失败 | 未装 Playwright Chromium | **部署环境**（≠ 系统 Chrome） |
 | 启动后打不开控制台 | 端口、防火墙、日志 | README 端口说明；网络章可对照 |

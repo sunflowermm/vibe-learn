@@ -6,6 +6,10 @@ export default `# 子服务端
 > **配置在主服编辑，子服只读。** LLM 与 AiWorkflow 仅运行于主服 Node。
 
 ## 与前面章节的对应
+\`\`\`match
+{"title":"子服配对","pairs":[{"id":"ss","left":"子服","right":"独立进程，按语言优势干活"},{"id":"call","left":"callSubserver","right":"主服调用子服的桥"},{"id":"cfg","left":"子服配置","right":"常见只读；主服侧编辑"}]}
+\`\`\`
+
 
 | 已学概念 | 落点 |
 |----------|------|
@@ -31,6 +35,10 @@ sequenceDiagram
 ---
 
 ## Runtime 目录对照
+\`\`\`quiz
+{"title":"子服快测","questions":[{"q":"子服插件配置通常在哪编辑？","choices":[{"t":"只在子服终端里手改 yaml 当主源","ok":false,"why":"配置以主服编辑为准。"},{"t":"主服编辑；子服 load 只读","ok":true,"why":"见 subserver-commonconfig 约定。"},{"t":"写进浏览器 cookie","ok":false,"why":"无关。"}]}]}
+\`\`\`
+
 
 权威登记表：\`src/utils/subserver-runtimes.js\`。
 

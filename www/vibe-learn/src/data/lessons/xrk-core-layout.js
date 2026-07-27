@@ -6,6 +6,10 @@ export default `# Core 放码位置
 > 此处 **Core** 指业务能力包（目录约定），而非 CPU 核心。
 
 ## 本课你要带走什么
+\`\`\`match
+{"title":"Core 目录配对","pairs":[{"id":"p","left":"plugin/","right":"消息/命令插件"},{"id":"h","left":"http/","right":"HTTP API"},{"id":"w","left":"www/<应用>/","right":"静态前端（必须子目录）"},{"id":"c","left":"commonconfig/","right":"配置 schema"}]}
+\`\`\`
+
 
 1. \`src/\` vs \`core/\` vs \`data/\` 谁改什么  
 2. 子目录职责表（plugin → www …）  
@@ -15,6 +19,10 @@ export default `# Core 放码位置
 ---
 
 ## 1. 目录角色
+\`\`\`quiz
+{"title":"Core 目录快测","questions":[{"q":"www 静态前端必须放在？","choices":[{"t":"www 根下直接丢 html","ok":false,"why":"必须 www/<应用名>/ 子目录。"},{"t":"www/<应用名>/","ok":true,"why":"挂载为 /应用名。"},{"t":"src/infrastructure/www","ok":false,"why":"业务不进 Runtime。"}]}]}
+\`\`\`
+
 
 | 路径 | 角色 | 修改主体 |
 |------|------|----------|

@@ -49,6 +49,12 @@ flowchart LR
 node -v
 \`\`\`
 
+模拟窗（假数据 · 自动演示）：
+
+\`\`\`shell
+{"preset":"path-check"}
+\`\`\`
+
 若提示「不是内部命令」，先处理 **安装器与 PATH**。
 
 ---

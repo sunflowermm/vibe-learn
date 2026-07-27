@@ -14,6 +14,10 @@ export default `# ESP32
 
 ## 1. 它是什么
 
+\`\`\`flip
+{"title":"ESP32 翻卡","cards":[{"front":"ESP32","back":"带 Wi-Fi/蓝牙的常见 MCU 平台"},{"front":"与学习站","back":"物联网边缘节点直觉；非本仓主服"}]}
+\`\`\`
+
 | 点 | 说明 |
 |----|------|
 | **分类** | Wi-Fi MCU / IoT SoC 家族（ESP32、ESP32-S3、C3…） |

@@ -8,6 +8,10 @@ export default `# 第四章 · XRK-AGT（项目实践）
 > **部署环境 / 数据与缓存** 课末有八股表（PATH、Runtime、fail-fast 等全称展开）；产品概念回番外 **数据库**。
 
 ## 知识结构
+\`\`\`steps
+{"title":"第四章怎么走","steps":[{"title":"部署环境","body":"代理、Git、Node、Redis。"},{"title":"鸟瞰","body":"主服 / Core / 子服。"},{"title":"扩展点","body":"plugin、http、www…"},{"title":"实践","body":"最小插件与子服实验。"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart TB

@@ -6,6 +6,10 @@ export default `# 配置归属
 
 ## 归属判定
 
+\`\`\`quiz
+{"title":"配置归属自测","questions":[{"q":"独立产品 Core 的业务 yaml 默认模板应放？","choices":[{"t":"config/default_config/","ok":false,"why":"那里只放运行时/体系模板。"},{"t":"core/<core>/default/ + commonconfig + data/<产品>/","ok":true,"why":"独立 Core 配置三件套。"},{"t":"随便放在 src/","ok":false,"why":"业务不进 src。"}]}]}
+\`\`\`
+
 | 配置性质 | 位置 |
 |----------|------|
 | 运行时、通用 LLM 工厂、system-Core 体系 | \`config/default_config/\` |
@@ -14,6 +18,10 @@ export default `# 配置归属
 独立产品业务配置不得写入 \`config/default_config/\`。
 
 ## 关键概念
+\`\`\`match
+{"title":"配置归属配对","pairs":[{"id":"rt","left":"default_config/","right":"运行时 / 工厂 / system 体系"},{"id":"prod","left":"core/*/default/","right":"独立产品 Core 模板"},{"id":"data","left":"data/<产品>/","right":"运行时数据"},{"id":"schema","left":"commonconfig/","right":"Schema 与编辑面"}]}
+\`\`\`
+
 
 | 术语 | 含义 |
 |------|------|

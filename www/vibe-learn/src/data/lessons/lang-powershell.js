@@ -53,6 +53,16 @@ flowchart TB
   Biz[业务] --> JS[主服 JS]
 \`\`\`
 
+### 动手：方言对照（只读回放）
+
+\`\`\`term
+{"title":"PowerShell · 列目录与环境变量","prompt":"PS> ","steps":[{"type":"in","text":"Get-ChildItem | Select-Object -First 3 Name","prompt":"PS> "},{"type":"out","text":"Name\\n----\\nDocuments\\nDownloads\\nprojects"},{"type":"in","text":"echo $env:USERPROFILE","prompt":"PS> "},{"type":"out","text":"C:\\\\Users\\\\alice"},{"type":"in","text":"$env:HTTPS_PROXY='http://127.0.0.1:7890'; echo $env:HTTPS_PROXY","prompt":"PS> "},{"type":"out","text":"http://127.0.0.1:7890"}]}
+\`\`\`
+
+\`\`\`compare
+{"title":"同一意图，两套写法","caption":"Windows 本机常用左列；CI / Linux 常用右列。","items":[{"role":"列目录","win":"Get-ChildItem","linux":"ls -la","note":"PS 有 ls 别名，但管道传的是对象"},{"role":"环境变量","win":"$env:NAME='v'","linux":"export NAME=v","note":"会话级；新开窗口可能丢"},{"role":"当前目录","win":"Get-Location / cd","linux":"pwd / cd","note":"角色相同"}]}
+\`\`\`
+
 ---
 
 ## 2. 语言特性（必须讲清楚）
@@ -105,6 +115,10 @@ Get-Process | Where-Object { $_.CPU -gt 100 } | Select-Object Name, Id
 ---
 
 ## 3. 工具链
+\`\`\`quiz
+{"title":"powershell 快测","questions":[{"q":"学一门语言时，最先要分清的是？","choices":[{"t":"只背语法关键字","ok":false,"why":"语法重要，但交付模型更影响工程。"},{"t":"语言 vs 运行时 vs 常用框架","ok":true,"why":"三层混谈会面试翻车、选型也翻车。"},{"t":"必须先会操作系统内核","ok":false,"why":"有帮助，但不是本课第一刀。"}]}]}
+\`\`\`
+
 
 | 工具 | 作用 |
 |------|------|

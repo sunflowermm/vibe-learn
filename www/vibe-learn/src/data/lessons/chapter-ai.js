@@ -5,6 +5,10 @@ export default `# 第五章 · 人工智能
 > **一特性一课**：每课只讲「为何诞生」与「有何作用」，按时间/因果往下走。
 
 ## 和第四章的关系
+\`\`\`steps
+{"title":"AI 章怎么走","steps":[{"title":"先认 LLM","body":"能力与局限（幻觉、窗口）。"},{"title":"再认 RAG / Tool","body":"知识外挂与行动。"},{"title":"再认 Agent / MCP","body":"闭环与协议。"},{"title":"回本仓","body":"AiWorkflow、MCP 运维、规则与技能。"}]}
+\`\`\`
+
 
 第四章 **Stream / AiWorkflow** 是本仓怎么跑一轮 AI。  
 本章回答更底层的问题：外面的 AI 世界怎么长成现在这样，名词从哪来。

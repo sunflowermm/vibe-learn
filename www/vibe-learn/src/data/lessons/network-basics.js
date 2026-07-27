@@ -29,6 +29,11 @@ export default `# 计算机网络是什么
 
 ## 2. LAN / WAN / Internet
 
+\`\`\`match
+{"title":"网络范围配对","caption":"点左再点右；范围搞混会选错部署方案。","pairs":[{"id":"lan","left":"LAN","right":"房间 / 楼 / 校园，延迟通常较低"},{"id":"wan","left":"WAN","right":"跨城专线等，延迟往往更高"},{"id":"inet","left":"Internet","right":"全球互联，路径复杂"},{"id":"rtt","left":"RTT","right":"往返时延，体感「卡」常盯它"}]}
+\`\`\`
+
+
 | | 局域网 LAN | 广域网 WAN | 互联网 Internet |
 |--|------------|------------|-----------------|
 | 范围 | 房间、楼、校园 | 跨城、专线 | 全球互联 |
@@ -38,6 +43,11 @@ export default `# 计算机网络是什么
 ---
 
 ## 3. 性能词
+
+\`\`\`ports
+{"title":"家里常听到的端口（示意）","caption":"端口属于传输层地址；同一主机不同进程用不同端口区分。","ports":[{"port":"80","proto":"TCP","name":"HTTP","note":"明文 Web；生产常被 443 取代或经反代转入。"},{"port":"443","proto":"TCP","name":"HTTPS","note":"TLS 之上的 HTTP；浏览器默认https。"},{"port":"53","proto":"UDP/TCP","name":"DNS","note":"域名→IP；查询常用 UDP。"},{"port":"22","proto":"TCP","name":"SSH","note":"远程登录与隧道；勿对公网裸奔弱口令。"},{"port":"6379","proto":"TCP","name":"Redis","note":"本仓常见缓存端口；需本机或容器在听。"}]}
+\`\`\`
+
 
 | 词 | 含义 |
 |----|------|

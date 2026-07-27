@@ -14,6 +14,10 @@ export default `# 插件式架构
 ---
 
 ## 1. 知识串
+\`\`\`match
+{"title":"Loader 族配对","pairs":[{"id":"p","left":"plugin/","right":"消息/命令类扩展"},{"id":"h","left":"http/","right":"HTTP API 路由"},{"id":"t","left":"tasker/","right":"通道协议适配"},{"id":"e","left":"events/","right":"事件监听"}]}
+\`\`\`
+
 
 | 已学 | 在本课的落点 |
 |------|--------------|
@@ -43,6 +47,10 @@ flowchart TB
 
 ## 2. Loader 族（本仓路径）
 
+\`\`\`steps
+{"title":"Loader 步骤","steps":[{"title":"扫描 core/*","body":"按子目录发现扩展点。"},{"title":"加载","body":"plugin/http/workflow/events/…"},{"title":"注册到 Runtime","body":"路由、处理器、配置 schema。"},{"title":"热更边界","body":"懂哪些能热加载、哪些要重启。"}]}
+\`\`\`
+
 | Loader | 扫描 | 源码直觉 |
 |--------|------|----------|
 | PluginLoader | \`core/*/plugin\` | \`src/infrastructure/plugins/\` |
@@ -57,6 +65,10 @@ flowchart TB
 ---
 
 ## 3. 与 tasker / events 分工
+\`\`\`quiz
+{"title":"热更边界快测","questions":[{"q":"下列哪类扩展通常更常需要重启主服？","choices":[{"t":"纯文案改动的 www 静态页","ok":false,"why":"静态常可热更或刷新即可。"},{"t":"动到 Runtime / 深层依赖绑定的改动","ok":true,"why":"热更有边界，懂边界才能稳。"},{"t":"任何 Markdown 注释","ok":false,"why":"注释不进运行时。"}]}]}
+\`\`\`
+
 
 | 扩展点 | 一句话 | 别越权 |
 |--------|--------|--------|

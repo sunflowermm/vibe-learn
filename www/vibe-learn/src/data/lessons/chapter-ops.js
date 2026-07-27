@@ -36,6 +36,13 @@ flowchart TB
 
 ## 建议读法
 
+### 先尝一口：假 Docker 终端
+
+\`\`\`shell
+{"preset":"docker-basics"}
+\`\`\`
+
+
 1. **容器是什么** → **Docker** → **Compose** → **其它工具**  
 2. 回第四章 **部署环境** / \`docs/docker.md\`  
 3. 需要门面时再去第三章 **反向代理 → Nginx**

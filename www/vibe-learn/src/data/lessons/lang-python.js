@@ -14,6 +14,10 @@ export default `# Python（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"Python · 身份翻卡","cards":[{"front":"Python","back":"胶水、数据、脚本；本仓常见 Python 子服"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
+\`\`\`
+
 ### 1.1 适合用 Python 的场景
 
 | 场景 | 为什么选 Python |

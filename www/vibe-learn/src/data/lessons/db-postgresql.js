@@ -6,6 +6,10 @@ export default `# PostgreSQL
 
 ## 要点
 
+\`\`\`flip
+{"title":"PostgreSQL · 翻卡","cards":[{"front":"PostgreSQL","back":"强大的开源关系库，扩展与 SQL 能力突出"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`
+
 | 点 | 说明 |
 |----|------|
 | **模型** | 表 + SQL；事务与约束成熟 |

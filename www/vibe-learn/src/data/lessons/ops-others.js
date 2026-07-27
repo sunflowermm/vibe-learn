@@ -19,6 +19,10 @@ export default `# 其它容器相关工具
 | **Kubernetes（K8s）** | 集群里调度容器、滚动发布、服务发现 |
 | **systemd** | Linux 管本机服务（\`systemctl\`）——**不是**容器编排 |
 
+\`\`\`compare
+{"title":"编排舞台对照","caption":"别把名字说成同一层。","items":[{"role":"本机多容器","win":"Docker Compose / Desktop","linux":"Compose / Podman compose","mac":"Docker Compose","note":"开发栈一文件起停"},{"role":"集群调度","win":"托管 K8s（云）","linux":"Kubernetes","mac":"托管 K8s","note":"多机、滚动发布；≠ Compose"},{"role":"本机服务进程","win":"服务 / NSSM 等","linux":"systemd / systemctl","mac":"launchd","note":"管宿主机守护进程，不是容器编排"}]}
+\`\`\`
+
 \`\`\`mermaid
 flowchart TB
   Dev[本机开发] --> Compose[Compose 或本机进程]

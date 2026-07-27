@@ -15,6 +15,10 @@ export default `# 项目鸟瞰 · XRK-AGT
 ---
 
 ## 1. 章节概念 → 本仓坐标
+\`\`\`match
+{"title":"总览配对","pairs":[{"id":"agt","left":"XRK-AGT","right":"多端 AgentRuntime"},{"id":"core","left":"Core","right":"业务能力包"},{"id":"path","left":"学习路径","right":"先环境与边界，再扩展点"}]}
+\`\`\`
+
 
 | 章节 | 关键概念 | 本仓落点 |
 |------|----------|----------|
@@ -36,6 +40,15 @@ flowchart TB
 ---
 
 ## 2. 三层分工
+
+\`\`\`steps
+{"title":"本仓改代码时先站哪一层","steps":[{"title":"主服 Runtime（src/）","body":"Loader、HttpResponse、工厂、全局对象——框架能力。Core 开发者一般不改这里。"},{"title":"业务 Core（core/<名>/）","body":"plugin / http / workflow / events / www——产品逻辑放这里。"},{"title":"子服（subserver/）","body":"按语言优势跑专用能力；主服经 callSubserver 调用。"},{"title":"配置与数据","body":"独立 Core：default/ + commonconfig/ + data/<产品>/；勿把业务 yaml 塞进 config/default_config/。"}]}
+\`\`\`
+
+\`\`\`check
+{"title":"鸟瞰后自检","items":[{"text":"说得出主服 / Core / 子服各改哪","hint":"src vs core vs subserver"},{"text":"知道业务扩展点去业务层全景","hint":"biz-map"},{"text":"安装与 clone 卡点回第一章 / 部署环境","hint":"PATH · 代理 · pnpm"}]}
+\`\`\`
+
 
 \`\`\`mermaid
 flowchart TB

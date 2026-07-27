@@ -15,6 +15,10 @@ export default `# Angular（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
+\`\`\`flip
+{"title":"Angular · 翻卡","cards":[{"front":"Angular","back":"完整前端框架，意见较多"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`
+
 ### 1.1 Angular —— 什么时候用
 
 | 场景 | 为什么合适 |

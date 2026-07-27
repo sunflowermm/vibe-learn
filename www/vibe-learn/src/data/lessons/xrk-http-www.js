@@ -6,6 +6,10 @@ export default `# HTTP 与 www
 > **Vue / React / Angular / Next** 等前端框架，都是走 **www** 进项目——不是另起一门「框架语言」，也不是写进主服 \`src/\`。
 
 ## 本课你要带走什么
+\`\`\`flip
+{"title":"HTTP / www 翻卡","cards":[{"front":"HttpResponse.success","back":"对象字段拍平；数组进 data"},{"front":"www 挂载","back":"/<应用名>，根名有保留段"},{"front":"浏览器 ≠ Node 26","back":"www 用 web-compat / 内联兼容"}]}
+\`\`\`
+
 
 1. **什么场景用纯静态、什么场景用 Vite SPA、什么场景必须反代 SSR**  
 2. \`sign.json\` 两种模式怎么选、\`base\` 为什么必须对齐  
@@ -14,6 +18,10 @@ export default `# HTTP 与 www
 ---
 
 ## 1. 使用场景：何时用哪种 www 形态
+\`\`\`match
+{"title":"HTTP / www 配对","pairs":[{"id":"http","left":"http/","right":"服务端 API（HttpResponse）"},{"id":"www","left":"www/<应用>/","right":"静态前端，挂到 /应用名"},{"id":"compat","left":"浏览器兼容","right":"web-compat / 内联，勿当 Node 26"},{"id":"res","left":"保留根名","right":"api|core|media|uploads|File|shared"}]}
+\`\`\`
+
 
 ### 1.1 三种常见形态
 

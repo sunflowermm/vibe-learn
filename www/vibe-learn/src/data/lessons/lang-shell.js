@@ -55,6 +55,16 @@ flowchart TB
   Biz[业务逻辑] --> JS[主服 JavaScript]
 \`\`\`
 
+### 动手：bash 沙箱（假数据）
+
+\`\`\`shell
+{"preset":"linux-cli"}
+\`\`\`
+
+\`\`\`term
+{"title":"管道与退出码（回放）","prompt":"$ ","steps":[{"type":"in","text":"echo hello | cat"},{"type":"out","text":"hello"},{"type":"in","text":"false; echo $?"},{"type":"out","text":"1"},{"type":"in","text":"export DEMO=xrk && echo $DEMO"},{"type":"out","text":"xrk"}]}
+\`\`\`
+
 ---
 
 ## 2. 语言特性（必须讲清楚）
@@ -122,6 +132,10 @@ IFS=$'\\n\\t'
 ---
 
 ## 3. 工具链
+\`\`\`quiz
+{"title":"shell 快测","questions":[{"q":"学一门语言时，最先要分清的是？","choices":[{"t":"只背语法关键字","ok":false,"why":"语法重要，但交付模型更影响工程。"},{"t":"语言 vs 运行时 vs 常用框架","ok":true,"why":"三层混谈会面试翻车、选型也翻车。"},{"t":"必须先会操作系统内核","ok":false,"why":"有帮助，但不是本课第一刀。"}]}]}
+\`\`\`
+
 
 | 工具 | 作用 |
 |------|------|

@@ -6,6 +6,10 @@ export default `# RAG · 检索增强生成
 
 ## 为什么诞生
 
+\`\`\`match
+{"title":"RAG 配对","pairs":[{"id":"r","left":"Retrieve","right":"先从知识库取相关片段"},{"id":"a","left":"Augment","right":"把片段塞进提示词"},{"id":"g","left":"Generate","right":"模型基于材料生成回答"},{"id":"why","left":"目的","right":"降低幻觉、接私有知识"}]}
+\`\`\`
+
 | 痛点 | 说明 |
 |------|------|
 | **模型知识截止** | 训练后世界还在变；私有文档根本没进权重 |
