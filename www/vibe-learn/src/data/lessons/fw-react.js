@@ -183,14 +183,34 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| 虚拟 DOM 一定更快？ | 不一定；批量更新、跨平台抽象的价值 |
-| useEffect 依赖数组 | 漏依赖 bug；空数组只跑一次；乱填无限循环 |
-| key 的作用 | diff 时节点身份；index key 列表重排问题 |
-| 受控 vs 非受控 | 单一数据源 vs DOM 为真相 |
-| Fiber 解决什么 | 可中断渲染、优先级、并发 |
-| XRK 里怎么挂 React | \`www/\` + \`sign.json\` + \`base\`；API 在 \`http/\` |
+### 「React 是库还是框架？」
+
+官方定位：**UI 库（Library）**——你组合组件、管理状态，框架感来自 Router/Redux/Next 等周边。  
+宿主语言：**JavaScript / TypeScript**；运行环境：**浏览器**（JSX 编译为 JS）。  
+与 **Vue**（渐进式 UI 框架，模板 + SFC 更开箱）对照：React 组合自由度大，选型责任在团队。  
+**本仓**：www 可挂 React SPA（同 Vue 的 \`sign.json\` 流程）；vibe-learn 实例用 **Vue**，非 React。
+
+### 「虚拟 DOM 一定更快吗？」
+
+**不一定。** 价值在于跨平台抽象、批量更新、可预测的 diff；简单页面直接操作 DOM 可能更轻。  
+Fiber 让渲染**可中断**，支持优先级与时间切片（React 18 并发特性）。
+
+### 「useEffect 依赖数组怎么答？」
+
+effect 同步外部系统（订阅、定时器、DOM）；**依赖数组**决定何时重跑。  
+漏依赖 → 闭包读到旧 state；空数组 \`[]\` → 仅 mount 跑一次；乱填 → 无限循环。  
+卸载时 return 清理函数，防泄漏。
+
+### 「受控 vs 非受控组件？」
+
+**受控**：\`value\` + \`onChange\`，React state 为唯一真相。  
+**非受控**：ref 读 DOM（文件上传常用）。  
+表单复杂场景优先受控，便于校验与提交。
+
+### 「在本仓怎么挂 React？」
+
+\`core/*/www/<应用>/\` + \`sign.json\` + Vite \`base\` 对齐 mount；Router \`basename\` 同步。  
+API 走 \`core/*/http\`；浏览器用 \`xrk-www-compat\`，**勿当 Node 26**。
 
 ---
 

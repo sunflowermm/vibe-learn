@@ -125,17 +125,19 @@ Access-Control-Max-Age: 3600
 
 ## 八股 × 业务串联
 
-| 常考词 | 一句话 | 业务里长什么样 |
-|--------|--------|----------------|
-| **幂等** | 同一请求做多次，效果一样 | GET/PUT/DELETE 常设计成幂等；支付回调必须防重 |
-| **安全方法** | 不改变资源状态 | GET/HEAD/OPTIONS；爬虫、缓存更敢重试 |
-| **Keep-Alive / 长连接** | 复用 TCP，少握手 | 高 QPS 接口、连接池；反代 \`proxy_http_version 1.1\` |
-| **HTTP/1.1 · 2 · 3** | 队头阻塞改善 → 多路复用 → QUIC/UDP | HTTP/2 多路；HTTP/3 弱网更稳（名常考） |
-| **短轮询 / 长轮询 / WS** | 问、挂起问、双向推 | 消息未读、IM、行情推送选型 |
-| **401 vs 403** | 未认证 vs 已认证无权限 | 登录态失效 vs 角色不够 |
-| **502 / 504** | 网关上游错 / 上游超时 | 反代后后端挂了或太慢 |
-| **JWT vs Session** | 令牌自包含 vs 服务端存会话 | 无状态扩缩容 vs 可主动踢下线 |
-| **CSRF / XSS** | 跨站伪请求 / 脚本偷数据 | Cookie \`SameSite\`、\`HttpOnly\`；勿信前端输入 |
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **幂等（Idempotent）** | 同一个操作执行多次，资源最终状态与执行一次相同，不会产生额外副作用。 | GET 查订单、PUT 全量更新、DELETE 删除应设计成幂等；支付回调必须幂等，防止重复扣款。 | 幂等 ≠ 「可以无限重试无副作用」；POST 创建可能每次多一条记录，通常不幂等。 |
+| **安全方法（Safe HTTP Methods）** | 语义上不应改变服务器资源状态的 HTTP 方法，如 GET、HEAD、OPTIONS。 | 爬虫、CDN、浏览器 prefetch 可能重复 GET，后端不应在 GET 里偷偷改数据库。 | 安全方法 ≠ 需要登录；GET 仍可能返回私密数据，要靠鉴权保护。 |
+| **Keep-Alive / 长连接（Persistent Connection）** | 在一个 TCP 连接上连续发送多个 HTTP 请求/响应，避免反复三次握手。 | 高 QPS API、Nginx 反代要开 \`proxy_http_version 1.1\` 和 \`Connection ""\`；短连接压测会把 TIME_WAIT 打满。 | HTTP 长连接 ≠ WebSocket；前者仍是一问一答为主，后者全双工。 |
+| **HTTP/1.1 · HTTP/2 · HTTP/3** | 三代 HTTP：1.1 队头阻塞、2 多路复用单连接、3 基于 QUIC(UDP) 进一步减延迟。 | 生产站点常见 1.1/2 混用；Chrome 对很多站走 HTTP/3；升级主要收益在弱网与多资源页面。 | HTTP 版本 ≠ TLS 版本；HTTP/2 仍需 TLS（浏览器实践上），但协议层是不同东西。 |
+| **短轮询 / 长轮询 / WebSocket（Polling / Long Polling / WebSocket）** | 短轮询：定时问有没有新消息；长轮询：服务器挂起直到有消息；WebSocket：建立全双工长连接推送。 | 消息未读数可用短轮询；IM 在线状态用 WebSocket；选型看实时性与服务器连接数成本。 | 长轮询 ≠ WebSocket；前者仍是 HTTP 请求/响应循环，后者换协议升级。 |
+| **401 vs 403（Unauthorized vs Forbidden）** | 401 表示未认证或凭证无效；403 表示已认证但权限不够访问该资源。 | Token 过期、Cookie 丢了返回 401，前端跳登录；登录了但不是管理员访问 \`/admin\` 返回 403。 | 401 要「你是谁」；403 是「我知道你是谁，但你不能」。 |
+| **502 / 504（Bad Gateway / Gateway Timeout）** | 502 是网关收到无效/错误的上游响应；504 是网关等上游超时。 | Nginx 反代后 Node 进程挂了常见 502；后端处理超过 \`proxy_read_timeout\` 常见 504。 | 502/504 是网关说的；源站应用自己返回的 500 不会变成 502，除非前面还有一层网关。 |
+| **JWT vs Session（JSON Web Token vs 服务端会话）** | JWT 把声明签在令牌里，服务端可无状态校验；Session 把状态存在服务端，用 session id 关联。 | 微服务横向扩容爱 JWT；要强踢下线、即时失效用 Redis Session 更顺手。 | JWT 不是「加密用户名」；默认只是签名防篡改，payload 可 base64 解码看见。 |
+| **CSRF / XSS（Cross-Site Request Forgery / Cross-Site Scripting）** | CSRF：诱使用户浏览器带上 Cookie 发恶意请求；XSS：把恶意脚本注入页面偷数据或冒充用户操作。 | Cookie 设 \`SameSite\`、\`HttpOnly\`；富文本入库要消毒；CORS 不能替代 CSRF 防护（Cookie 同站仍会带）。 | CSRF 利用「浏览器自动带 Cookie」；XSS 是「你的页面执行了别人的脚本」。 |
 
 业务一条链：浏览器跨域调 API → CORS 或同源反代 → Cookie/JWT 鉴权 → 缓存头影响「改了配置怎么还不生效」。
 

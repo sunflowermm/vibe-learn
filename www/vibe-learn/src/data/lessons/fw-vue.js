@@ -187,14 +187,33 @@ flowchart TB
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Vue 3 响应式原理 | Proxy + track/trigger；对比 Vue 2 defineProperty |
-| diff 与 key | 列表节点身份；用 index 作 key 的坑 |
-| 为何组件 data 要是函数 | 多实例隔离，避免共享引用 |
-| nextTick 干什么 | 等 DOM patch 后再读布局 |
-| Composition API 为何出现 | 逻辑按功能聚合；TS 友好；替代 mixin |
-| 在本仓怎么部署 Vue | \`www/\` + \`sign.json\` + \`base\` 对齐；API 走 \`http/\` |
+### 「Vue 是库还是框架？」
+
+**框架（Framework）。** 它定组件生命周期、路由约定、编译流程，**在适当时机回调你的代码**（控制反转 IoC）。  
+宿主语言：**JavaScript / TypeScript**；运行环境：**浏览器**（经 Vite/Webpack 打包）。  
+与 **React**（官方偏 UI 库，组合更自由）对照：Vue 开箱更完整（SFC、指令、官方 Router/Pinia）。  
+**本仓**：vibe-learn 即 **Vue 3 + Vite**，挂 \`core/vibe-learn-Core/www/vibe-learn/\`，**不是**写进主服 \`src/\`。
+
+### 「Vue 3 响应式原理？」
+
+核心：**Proxy** 代理对象 + **track**（读时收集依赖）+ **trigger**（写时通知更新）。  
+对比 Vue 2 的 \`Object.defineProperty\`：Proxy 可监听新增属性、数组索引，无需 \`Vue.set\`。  
+\`ref\` 包基本类型；\`reactive\` 包对象；模板里自动解包 \`.value\`。
+
+### 「diff 和 key 干什么？」
+
+虚拟 DOM 同层比较时，**key** 标识列表节点身份；错用 \`index\` 作 key，列表重排会导致输入框状态错位。  
+Vue 3 **Block tree** 跳过静态子树，减少 diff 范围。
+
+### 「Composition API 为何出现？」
+
+按**功能**聚合逻辑（\`useXxx\` composable），替代 mixin 命名冲突；TypeScript 类型推导更友好。  
+本仓 vibe-learn 默认 \`<script setup>\`。
+
+### 「在本仓怎么部署 Vue？」
+
+\`core/*/www/<应用>/\` + \`sign.json\`（静态挂 \`dist\` 或 dev 反代）+ \`vite.config.js\` 的 \`base\` 对齐 mount 路径。  
+业务 API 在同 Core 的 \`http/\`，前端 \`fetch\` 按 **HttpResponse 拍平**规则解包。
 
 ---
 

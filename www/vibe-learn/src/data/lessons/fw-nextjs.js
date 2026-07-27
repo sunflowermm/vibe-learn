@@ -172,14 +172,33 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| SSR vs SSG vs CSR | 谁生成 HTML、何时生成、SEO/首屏 |
-| 为何用 Next | SEO、同构、约定、部署、RSC |
-| RSC 直觉 | 服务端组件默认不进客户端 bundle |
-| App vs Pages Router | 布局嵌套、RSC、数据获取方式差异 |
-| \`getServerSideProps\` 还学吗 | Pages 存量；新项目偏 App Router |
-| XRK 怎么挂 Next | 静态 export 挂 dist；SSR 用 sign.json 反代 + basePath |
+### 「Next.js 是库还是框架？」
+
+**元框架（Meta-framework）**——基于 **React**（UI 库），额外提供路由、渲染模式、部署约定，**IoC 程度高于纯 React**。  
+层次：JavaScript/TypeScript（语言）→ React（UI）→ Next.js（全栈约定）。  
+与 **纯 React SPA**（客户端 CSR）对照：Next 内置 **SSR**（Server-Side Rendering，服务端渲染）/ **SSG**（Static Site Generation，静态站点生成）。  
+**本仓**：www 工程；静态 export 挂 \`dist\`，完整 SSR 用 \`sign.json\` 反代 Next 进程；vibe-learn 用 **Vue**，非 Next。
+
+### 「SSR vs SSG vs CSR？」
+
+| 模式 | 全称 | 谁生成 HTML | 典型场景 |
+|------|------|-------------|----------|
+| **CSR** | Client-Side Rendering（客户端渲染） | 浏览器 JS 渲染 | 强交互、SEO 不敏感的内网 SPA |
+| **SSR** | Server-Side Rendering（服务端渲染） | 每请求在服务端生成 | 个性化、实时数据、SEO |
+| **SSG** | Static Site Generation（静态站点生成） | 构建时预生成 HTML | 文档、营销页 |
+
+**SPA**（Single Page Application，单页应用）常配合 CSR；Next 可同时支持多种模式。
+
+### 「RSC 是什么？」
+
+**RSC**（React Server Components，React 服务端组件）：默认在服务端执行，减客户端 JS bundle；App Router 默认方向。  
+与 **SSR** 区别：RSC 组件可不进客户端 bundle，专注数据与静态结构。
+
+### 「在本仓怎么挂 Next？」
+
+方式 A：\`output: 'export'\` + \`sign.json\` 静态挂 \`out/\`（无 SSR）。  
+方式 B：\`enabled: true\` 反代 \`next dev/start\`，\`basePath\` 对齐 mount。  
+XRK 业务 API 仍推荐 \`core/*/http\`，勿用 Next Route Handler 替代 Core 契约。
 
 ---
 

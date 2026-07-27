@@ -41,6 +41,19 @@ flowchart LR
 
 流行度：DB-Engines 上长期居文档库前列（见 **版图与流行度**）。
 
+## 八股 × 业务串联
+
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **文档模型（Document Model）** | 以 JSON 样文档为一条记录 | 用户 profile 嵌套地址数组 | 别和 **关系表行** 混：嵌套 vs 规范化多表 |
+| **BSON（Binary JSON，二进制 JSON）** | MongoDB 磁盘与线上的二进制文档格式 | 比纯 JSON 多类型（Date、ObjectId） | 别和「API 里的 JSON 字符串」混：存储格式不同 |
+| **NoSQL（Not Only SQL）** | 非关系为主的一类数据库统称 | Mongo、Redis、Cassandra | 不是「不能写查询」；很多有丰富 API |
+| **集合（Collection）** | 文档的容器 | \`users\` 集合里许多 \`{...}\` 文档 | 别和 **表（Table）** 一一等同：schema 更灵活 |
+| **mongod（MongoDB Daemon）** | MongoDB 服务端守护进程 | 默认 27017；多 App 共享 | 别和 **mongosh** 混：后者是客户端 shell |
+| **$lookup（聚合关联）** | 类似 JOIN 的聚合阶段 | 跨集合拉关联文档 | 性能与关系库 JOIN 不同；能嵌套优先嵌套 |
+
 ## 下一步
 
 **PostgreSQL / MySQL** — 关系库对照；  

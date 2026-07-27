@@ -174,14 +174,30 @@ flowchart TB
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Angular DI 是什么 | 框架创建并注入依赖，非手写 \`new\` |
-| OnPush 原理 | 引用不变跳过；需 immutable 输入或 async pipe |
-| Zone.js 干什么的 | 补丁异步 API，触发变更检测 |
-| 与 React/Vue 差异 | 全家桶 vs 组合生态；RxJS vs Hooks/Pinia |
-| \`switchMap\` vs \`mergeMap\` | 取消旧 inner 订阅 vs 并行 |
-| XRK 怎么挂 Angular | \`www/\` + \`baseHref\` + \`sign.json\` 静态或反代 |
+### 「Angular 是库还是框架？」
+
+**框架（Framework）**——路由、HTTP、表单、DI（Dependency Injection，依赖注入）全家桶，**IoC 程度高**。  
+宿主语言：**TypeScript**（一等公民）；运行环境：**浏览器**（\`ng build\` 产物）。  
+与 **Vue**（渐进式、可选生态）/ **React**（UI 库 + 自选栈）对照：Angular 规范强、学习曲线陡，适合大型企业前端。  
+**本仓**：可 \`ng build\` + \`sign.json\` 挂 www；vibe-learn 用 **Vue 3**，非 Angular。
+
+### 「Angular DI 是什么？」
+
+**依赖注入**：框架创建 Service 并注入 Component，而非手写 \`new UserService()\`。  
+\`providedIn: 'root'\` 控制作用域；测试时替换 Provider。与 **Spring**、**Nest** 同属 IoC 容器文化。
+
+### 「OnPush 变更检测？」
+
+\`ChangeDetectionStrategy.OnPush\`：输入引用不变则跳过子树检测，需 immutable 数据或 \`async\` pipe 触发。  
+默认策略靠 **Zone.js** 补丁异步 API，可能整树检查——性能热点要懂 OnPush。
+
+### 「Zone.js 干什么？」
+
+补丁 \`setTimeout\`、Promise 等，在异步完成后触发**变更检测**。Signals 新方向是减少 Zone 依赖、更细粒度更新。
+
+### 「在本仓怎么挂 Angular？」
+
+\`core/*/www/\` + \`angular.json\` 的 \`baseHref\` 对齐 \`sign.json\` 的 \`proxy.mount\`；API 用 HttpClient 调主服 \`http/\`。
 
 ---
 

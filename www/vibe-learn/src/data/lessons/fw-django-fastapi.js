@@ -171,14 +171,32 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Django ORM N+1 | \`select_related\` / \`prefetch_related\` |
-| Django vs FastAPI | 全栈 Admin vs API/OpenAPI/async |
-| FastAPI Depends | 依赖注入；可嵌套；适合鉴权与 DB |
-| GIL 与 asyncio | I/O 并发 vs CPU 并行 |
-| WSGI vs ASGI | 同步请求模型 vs 异步事件循环 |
-| XRK 里 Python 放哪 | pyserver 子服；UI 在 www |
+### 「Django / FastAPI 是库还是框架？」
+
+**都是 Web 框架（Framework）**——定路由、请求生命周期、ORM/依赖注入约定，**框架调你的 View/路由函数**。  
+宿主语言：**Python**；运行时：**CPython** 等；部署常用 **Uvicorn/Gunicorn**（ASGI/WSGI 服务器）。  
+**Django**：全栈 + Admin + **ORM**（Object-Relational Mapping，对象关系映射）；**FastAPI**：API 优先 + OpenAPI + \`async\`。  
+**本仓**：Python 走 **pyserver 子服**；UI 在 **www**（Vue）；主服是 Node，**不是 Django/FastAPI**。
+
+### 「Django vs FastAPI 怎么选？」
+
+要 **Admin、CMS、全栈后台** → Django；要 **现代 JSON API、OpenAPI、I/O 密集 async** → FastAPI。  
+与 **Flask**（微框架）对照：Flask 更轻，结构靠自觉。
+
+### 「GIL 和 asyncio？」
+
+**GIL**（Global Interpreter Lock，全局解释器锁）：同一进程内多线程 **CPU 并行**受限。  
+**asyncio** 价值在 **I/O 等待**时不阻塞线程；**CPU 密集**仍要多进程/队列/C 扩展。  
+**别幻想** \`async def\` 能加速纯计算。
+
+### 「WSGI vs ASGI？」
+
+**WSGI**（Web Server Gateway Interface）：同步请求模型，一请求一线程/进程常见。  
+**ASGI**（Asynchronous Server Gateway Interface）：异步事件循环，WebSocket、长连接友好；FastAPI 基于 **Starlette**（ASGI 框架）。
+
+### 「在本仓 Python 放哪？」
+
+\`core/*/http\` 主服门面 → 可选转发 **pyserver**（Django/FastAPI）；浏览器 **www** 用 Vue/React \`fetch\` 调 API。
 
 ---
 

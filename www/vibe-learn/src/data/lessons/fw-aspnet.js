@@ -156,14 +156,32 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| 中间件顺序 | 注册顺序；异常处理、HTTPS 位置 |
-| Scoped vs Singleton | 请求内共享 vs 全局；DbContext 必须 Scoped |
-| Minimal API vs Controller | 轻量 vs 传统分层、过滤器 |
-| async 配置上下文（历史） | \`ConfigureAwait(false)\` 库代码防死锁 |
-| 与 Spring 异同 | 都有 DI + 管道；平台与生态不同 |
-| XRK 里 .NET 放哪 | netserver；UI 在 www |
+### 「ASP.NET Core 是库还是框架？」
+
+**Web 框架（Framework）**——内置 **DI** 容器、中间件管道、MVC/Minimal API，**框架编排请求生命周期**。  
+宿主语言：**C#**；运行平台：**CLR**（Common Language Runtime，公共语言运行时）/ **.NET**。  
+与 **Spring Boot**（Java + JVM）对照：都有 DI + 管道 + 企业鉴权；平台是微软/Azure 生态。  
+**本仓**：.NET 在 **netserver 子服**；主服 Node；SPA 在 **www**，**不替换 AgentRuntime**。
+
+### 「中间件管道怎么工作？」
+
+\`RequestDelegate\`：\`await next()\` 进入下一节，前后可写逻辑；注册顺序决定 HTTPS、鉴权、路由、异常页先后。  
+与 **Express \`next()\` 链**、**Spring Filter** 概念相近。
+
+### 「Scoped vs Singleton？」
+
+**Singleton**：进程内单例；**Scoped**：每 HTTP 请求一个（**EF Core DbContext** 必须 Scoped）；**Transient**：每次解析新建。  
+Scoped 误当 Singleton → 并发请求共享 DbContext → 严重 bug。
+
+### 「Minimal API vs Controller？」
+
+**Minimal API**：\`app.MapGet\` 轻量映射，适合小服务。  
+**Controller + \`[ApiController]\`**：传统分层、过滤器、模型绑定更完整。  
+与 **Gin 单文件路由** vs **Spring 分层** 的取舍类似。
+
+### 「在本仓 .NET 放哪？」
+
+**netserver** 子服 Kestrel 应用；\`sign.json\` 只挂 **www 前端**（Vue/React），不挂 .NET API 进程。
 
 ---
 

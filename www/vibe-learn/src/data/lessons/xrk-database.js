@@ -112,7 +112,23 @@ Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mj
 
 ---
 
-## 6. 文档链接
+## 6. 八股 × 业务串联
+
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **fail-fast（快速失败）** | 必需依赖缺失则启动即报错退出 | 本仓无 Redis → redisInit 失败，主服不起 | 别和 **soft-skip** 混：后者允许跳过继续跑 |
+| **soft-skip（软跳过）** | 可选组件失败不拖垮整个 Runtime | Mongo/PG Core 挂了 → persistence 探活告警 | Redis/SQLite **不** soft-skip——二者必需 |
+| **热数据（Hot Data）** | 高频读写、可过期、宜放内存 | 会话、插件计数、\`AGT:restart:\` → **Redis** | 别全塞 SQLite：并发与过期语义不同 |
+| **落盘（On-Disk Persistence）** | 重启后仍要保留的本地结构化数据 | Runtime **SQLite**；非替代 Redis 缓存 | 别用 SQLite 当跨实例共享缓存 |
+| **裸名全局（Runtime Global）** | 启动后 \`redis\`/\`sqlite\` 挂 globalThis | 业务 \`if (redis?.isOpen)\` 即用 | 别 \`import\` 再造实例；见 dev-requirements |
+| **最终一致（Eventual Consistency）** | 跨引擎无统一事务，各写各的稍后对齐 | Redis 与 SQLite 无跨库 UoW | 别发明「分布式两阶段提交」在本仓 |
+| **health 探活（Health Check）** | \`/api/health\` 报告各服务状态 | \`services.redis\`/\`sqlite\` 必需；\`persistence\` 可选 | 可选 Core 单独挂一般不 overall unhealthy |
+
+---
+
+## 7. 文档链接
 
 - \`docs/database.md\`（本课真源）  
 - \`docs/startup.md\` · \`docs/docker.md\`  
@@ -120,5 +136,5 @@ Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mj
 
 ## 下一步
 
-番外 **Redis / SQLite / MongoDB**（补产品直觉）· **部署环境**（装机）· **Auth** · **Stream / RAG**（向量 Core）· **配置归属**。  
+番外 **Redis / SQLite / MongoDB**（补产品直觉）· **部署环境**（装机）· **Auth** · **Stream / RAG**（向量 Core）· **配置归属**。
 `;

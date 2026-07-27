@@ -58,6 +58,47 @@ flowchart LR
 
 浏览器里的 Chrome / Edge 也用 **V8**，但那是**带 Blink 排版引擎的完整浏览器**；Node **只有 V8 + 系统绑定**，没有网页 DOM。部署时还要另装的 Playwright Chromium，见 **部署环境**。
 
+---
+
+## 4. 大厂面试常见问法
+
+### 「Node 是语言还是框架？」
+
+**都不是。** **Node.js** 是 **JavaScript 的服务端运行时**（V8 引擎 + libuv + 系统 API），不是独立语言，也不是 Web 框架。  
+写的仍是 JavaScript（或编译成 JS 的 TypeScript）；Express、Nest 才是跑在 Node 上的**框架**。  
+**钉死三层**：语言 = JavaScript → 运行时 = Node.js → 框架 = Express/Nest/Vue（视场景）。
+
+### 「会 Node 是不是就会 Express？」
+
+**否。** Node 提供 \`http\`、\`fs\` 等底层能力；Express 是在其上封装路由与中间件链的**可选框架**。  
+会 Node 表示懂事件循环、模块、异步 I/O；Express 还要学中间件顺序、错误四参等。  
+本仓主服用自研 **AgentRuntime + Loader**，**不是 Express/Nest 替换入口**。
+
+### 「Node 和浏览器 JavaScript 一样吗？」
+
+**语言相同，运行时不同。** 都执行 JavaScript，但浏览器有 DOM/BOM；Node 有文件、进程、网络端口。  
+同一段 \`fetch\` 在 Node 26 原生可用；浏览器 Core www 须 \`xrk-www-compat\` 语义，**勿当 Node 26 写前端**。  
+本仓：主服用 Node；页面用 Vue 跑在**浏览器**运行时。
+
+### 「为什么语言版图里要单独挂 Node 卡片？」
+
+语言章收「写什么」；Node 卡片答「主服这段 JS **在哪执行**」。  
+对照：Java ↔ JVM；Python ↔ CPython；JavaScript ↔ Node（服务端）或浏览器（客户端）。  
+本仓主服固定 **Node ≥ 26 + pnpm**；子服另有 Python/Go/Java 等运行时。
+
+## 5. 八股 × 业务串联
+
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **Runtime（运行时）** | 真正执行你代码的宿主环境（引擎 + 系统 API） | 主服进程是 \`node app\`；没有 Node 就跑不起来 | 运行时 ≠ 语言；也 ≠ Express 这类框架 |
+| **V8** | Google 开源的 JavaScript 引擎，负责解析与执行 JS | Chrome/Edge 与 Node 都用 V8 跑 JS | V8 ≠ 浏览器；浏览器还有排版/DOM；Node 没有网页 DOM |
+| **libuv** | Node 用来做跨平台异步 I/O 的底层库 | 文件、网络、定时器很多最终走到事件循环 | 别背成「又一门语言」；是 C 库，支撑 Node 异步模型 |
+| **事件循环（Event Loop）** | 单线程里轮询队列、处理回调/微任务的机制 | 高并发 I/O 服务常见；CPU 死循环会卡住整进程 | 单线程 ≠ 不能用多核；可用 Worker / 多进程 |
+| **npm / pnpm / yarn** | Node 生态的包管理器 | 本仓 **只认 pnpm**；\`packageManager\` 字段约束 | 包管理器 ≠ 运行时；装依赖用 pnpm，执行仍靠 \`node\` |
+| **Express / NestJS** | 跑在 Node 上的 Web 框架（微框架 / 意见性框架） | 外包、对照学习常见；**不是**本仓主服入口 | 会 Node ≠ 会 Express；本仓主服是 AgentRuntime |
+
 ## 下一步
 
 - **JavaScript** — 语言本体与场景  

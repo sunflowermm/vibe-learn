@@ -151,14 +151,30 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Gin 和 net/http 关系 | Engine 是 Handler；路由与中间件封装 |
-| 中间件执行顺序 | 注册顺序；\`Next\` 深入 \`Next\` 返回 |
-| 优雅退出 | \`Shutdown\` + context 超时 |
-| goroutine 泄漏 | Handler 内后台任务要可取消 |
-| Gin vs Echo | 都是 Go 路由框架；API 风格略异 |
-| XRK 里 Go 放哪 | goserver；UI 在 www |
+### 「Gin 是库还是框架？」
+
+**Web 框架（Framework）**——基于 Go **标准库 \`net/http\`**，封装路由树、中间件链、参数绑定。  
+宿主语言：**Go**；编译为本地二进制，无 JVM/Node 式长驻脚本宿主。  
+与 **Echo/Fiber** 同类对照；与 **Spring**（Java 全家桶 + ORM）比，Gin 更轻、偏 API。  
+**本仓**：Go 能力在 **goserver 子服**；主服 Node；UI 在 **www**，**不用 Gin 挂页面**。
+
+### 「Gin 和 net/http 关系？」
+
+\`gin.Engine\` 实现 \`http.Handler\`，可挂标准中间件；Gin 提供 \`:id\` 路由、\`ShouldBindJSON\`、Recovery 等省样板代码。  
+极简一两个端点 → 直接用 \`net/http\` 也够。
+
+### 「中间件执行顺序？」
+
+注册顺序 = 执行顺序；\`c.Next()\` 进入链内下一个，返回后执行后置逻辑；\`c.Abort()\` 短路。  
+**Recovery** 宜靠前，防 panic 拖垮进程。
+
+### 「goroutine 泄漏怎么防？」
+
+Handler 内再开 goroutine 须监听 \`c.Request.Context().Done()\`；优雅退出用 \`http.Server.Shutdown(ctx)\`。
+
+### 「在本仓 Go 放哪？」
+
+**goserver** 子服跑 Gin API；浏览器 → www → 主服 \`http/\` → 可选转发 goserver。
 
 ---
 

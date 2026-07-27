@@ -161,13 +161,33 @@ flowchart LR
 
 ## 5. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Express 中间件原理 | 线性 \`next\` 链；错误四参；顺序敏感 |
-| 为什么上 Nest | 团队规模、DI、可测、统一横切（Guard/Interceptor） |
-| Nest 和 Spring 像不像 | 都有 IoC + 分层；生态与语言不同 |
-| 能不用框架吗 | 能；小脚本用 \`node:http\` 或 Express；中大型要约定（自研或 Nest） |
-| 和本仓关系 | 主服已是框架式 Runtime；业务进 Core，不重复造第二套主入口 |
+### 「Express / Nest 是库还是框架？」
+
+**Express**：偏**微框架**，核心是中间件 + 路由，**你组装**栈，IoC 弱。  
+**NestJS**：**意见性应用框架**，Module/Provider/Controller + **DI**，IoC 强，像 Spring。  
+二者都跑在 **Node.js 运行时**上，语言是 **JavaScript/TypeScript**——**Node 本身不是框架**。  
+**本仓**：主服是 **AgentRuntime + Loader**（框架式运行时），**不是 Express/Nest**；这对照学习、外包交付常见，非主服技术选型。
+
+### 「Express 中间件原理？」
+
+线性 \`(req, res, next) => {}\` 链：调 \`next()\` 进下一个；\`next(err)\` 跳错误中间件（**四参**）；顺序决定鉴权是否在业务前。  
+与 **Koa 洋葱模型**、**ASP.NET Middleware** 概念相近，API 不同。
+
+### 「为什么上 Nest 不上 Express？」
+
+团队规模、要 **DI** 与可测性、统一 **Guard/Pipe/Interceptor** 横切 → Nest。  
+小 API、原型、中间件拼装网关 → Express 更快。  
+**别和 Next.js 混名**：Next 是 React 元框架，Nest 是 Node 后端框架。
+
+### 「Nest 和 Spring 像吗？」
+
+都像：**IoC + 分层 + 装饰器/注解风格**；语言（TS vs Java）与生态（JVM vs Node）不同。  
+从 Java 转 Node 的团队常选 Nest 降低心智切换成本。
+
+### 「在本仓能用 Express 替换主服吗？」
+
+**不能。** 主服契约是 AgentRuntime、Loader、CommonConfig、插件热加载；业务进 \`core/*/http\`，页面进 \`www/\`。  
+Express/Nest 适合**独立 Node 微服务**或对照学习，不是第二套主入口。
 
 ---
 

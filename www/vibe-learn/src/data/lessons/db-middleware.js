@@ -63,6 +63,19 @@ flowchart TB
 | 「所有数据库都是中间件」 | 过粗：SQLite 常**不**单独成服务 |
 | 严谨 | SQLite 是 **嵌入式 DBMS**；架构图可画在数据层，但部署形态不同于 Redis/PG |
 
+## 八股 × 业务串联
+
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **基础设施中间件（Infrastructure Middleware）** | 独立部署、跨业务复用的系统组件 | Redis、PostgreSQL、Kafka、Nginx | 别和 **应用内中间件** 混：Express middleware 在进程里 |
+| **应用内中间件（In-Process Middleware）** | 请求管道里的函数/类链 | Express \`app.use()\`、ASP.NET Middleware | 随应用发版；不是另装的服务 |
+| **DBMS vs 中间件（工程黑话）** | 学术上 DBMS 是完整子系统；架构图常画在数据层 | 简历写「Redis 是缓存中间件」口语可接受 | 别声称「DBMS 绝不是中间件」一刀切——看语境 |
+| **IPC（Inter-Process Communication，进程间通信）** | 不同进程交换数据的方式 | App 经 TCP 连 Redis/PG | 别和「函数调用」混：跨进程有网络/协议 |
+| **消息队列中间件（Message Queue）** | 异步解耦、削峰填谷 | Kafka、RabbitMQ | 别和 **Redis List/Stream** 完全等同：语义与运维不同 |
+| **SQLite 嵌入式例外** | DBMS 但不独立成网服务 | 本机 \`.sqlite\` 文件链进进程 | 架构图仍在数据层，部署形态不同于 Redis |
+
 ## 下一步
 
 **版图与流行度** — 产品地图；  

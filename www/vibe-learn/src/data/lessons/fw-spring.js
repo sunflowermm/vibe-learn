@@ -153,14 +153,31 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| IoC 和 DI 区别 | IoC 思想；DI 是 IoC 的一种实现方式 |
-| \`@Transactional\` 失效 | 自调用、非 public、异常类型、传播行为 |
-| Boot 自动配置原理 | \`@EnableAutoConfiguration\` + 条件装配 + \`META-INF/...\` |
-| Bean 循环依赖三级缓存 | 早期引用曝光；构造器注入无法靠此 |
-| Spring vs Nest | 都有 DI；语言与生态不同 |
-| 与 XRK 关系 | 主服 Node；Spring 在 jserver；UI 在 www |
+### 「Spring 是库还是框架？」
+
+**框架（Framework）**——**IoC**（Inversion of Control，控制反转）容器管理 Bean 生命周期，**AOP**（Aspect-Oriented Programming，面向切面编程）处理横切关注点。  
+宿主语言：**Java**；运行平台：**JVM**（Java Virtual Machine，Java 虚拟机）。  
+与 **NestJS**（TypeScript + Node 上的类似 DI 分层）对照：都有模块与注入，生态与语言不同。  
+**本仓**：主服是 **Node AgentRuntime**；Spring 在 **jserver 子服**，**不进 www**，**不替换**主服入口。
+
+### 「IoC 和 DI 区别？」
+
+**IoC** 是思想：控制权从业务代码交给容器。  
+**DI**（Dependency Injection，依赖注入）是 IoC 的**实现方式**之一：构造器/Setter 注入依赖，而非 \`new\`。  
+Spring 的 \`ApplicationContext\` 就是 IoC 容器。
+
+### 「\`@Transactional\` 什么时候失效？」
+
+同类 **自调用**（\`this.foo()\` 不走代理）、**非 public** 方法、**检查异常**未配置 \`rollbackFor\`、错误 **传播级别** 导致不回滚。  
+AOP 基于 JDK 动态代理或 CGLIB；自调用绕过代理层。
+
+### 「Spring Boot 自动配置原理？」
+
+\`@EnableAutoConfiguration\` + \`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports\` + **条件装配**（\`@ConditionalOnClass\` 等）： classpath 有某类才生效。
+
+### 「在本仓 Spring 放哪？」
+
+浏览器 UI → **www**（Vue/React）；主服门面 → \`core/*/http\` + HttpResponse；Java 能力 → **jserver** 子服 Spring Boot 进程。
 
 ---
 

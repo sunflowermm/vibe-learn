@@ -164,13 +164,42 @@ DBMS 侧判据与 SQLite 例外 → 番外 **中间件视角**。
 
 ## 6. 大厂面试常见问法
 
-| 问法 | 答法骨架 |
-|------|----------|
-| 「Node 是框架还是语言？」 | **都不是**；是 **JS 的运行时** |
-| 「Spring 是语言吗？」 | 否；**Java 上的框架** |
-| 「Redis 是什么？」 | **内存数据中间件 / DBMS 的一种**；独立服务 |
-| 「中间件是什么？」 | 业务进程外的共用能力服务；或说明你指的是管道中间件 |
-| 「React 是框架还是库？」 | 官方偏 **UI 库**；生态常当框架——说清 IoC 程度 |
+### 「Node 是框架还是语言？」
+
+**都不是。** Node.js 是 **JavaScript 的运行时**（Runtime），不是语言也不是 Web 框架。  
+语言 = JavaScript（语法 + 语义）；运行时 = Node.js（V8 + 文件/网络 API）；框架 = Express、Nest、Vue 等。  
+本仓主服：语言 JavaScript，运行时 Node ≥ 26，骨架是 **AgentRuntime**（框架式运行时），**不是 Express/Nest**。
+
+### 「Spring 是语言吗？」
+
+**否。** Spring / Spring Boot 是 **Java 语言上的应用框架**，跑在 **JVM**（Java Virtual Machine，Java 虚拟机）上。  
+正确说法：「语言 Java，运行时 JVM，框架 Spring Boot」。  
+本仓 Spring 若出现，在 **jserver 子服**，不进主服 Node 进程。
+
+### 「Redis 是什么？」
+
+**Redis**（Remote Dictionary Server，远程字典服务）是 **内存键值数据中间件**，以独立守护进程运行，多应用通过 TCP 协议访问。  
+归类：**数据库 / 数据类中间件**（DBMS 的一种），不是编程语言，也不是 Web 框架。  
+本仓 Runtime 侧常用 Redis + SQLite；业务通过驱动/客户端访问，不是把 Redis 源码编进 JS。
+
+### 「中间件是什么？」
+
+先澄清指哪一种：  
+1. **基础设施中间件**：业务进程外的共用服务（Redis、PostgreSQL、Kafka、Nginx）——面试默认这层。  
+2. **应用内中间件**：HTTP 请求管道里的一环（Express \`app.use\`、ASP.NET Middleware）——同名易混，须主动说明。  
+**别和「中台（业务能力层）」混**：中台偏组织复用，中间件偏技术组件。
+
+### 「React 是框架还是库？」
+
+官方定位是 **UI 库**（Library）：你调用 \`React.createElement\` / JSX，组合自由度大。  
+工程上常加 React Router、Redux、Next.js 组成「类框架栈」——此时 **IoC**（Inversion of Control，控制反转）程度仍低于 Angular/Spring。  
+判断口诀：**谁掌握调用时机**——库是你调它；框架是它调你（回调 Controller/生命周期）。
+
+### 「库和框架怎么一句话区分？」
+
+**库（Library）**：你的代码是主角，**你决定何时调用**（axios、lodash）。  
+**框架（Framework）**：它定骨架与生命周期，**在约定时机回调你**（Spring、Vue、Nest）——即 **IoC**。  
+**运行时（Runtime）**：真正执行代码的宿主（Node、JVM、CPython）；**中间件（Middleware）**：独立进程提供的共用能力（Redis、Kafka）。
 
 ## 下一步
 

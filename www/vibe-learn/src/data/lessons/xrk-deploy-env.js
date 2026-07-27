@@ -208,6 +208,21 @@ node app
 | 截图失败但有 Chrome | 未装 Playwright | §3.5 |
 | clone 目录不对 | 没在目标父目录开终端 | §5 |
 
+## 八股 × 业务串联
+
+> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **PATH（环境变量路径列表）** | OS 找可执行文件的目录清单 | \`git\`/\`node\`/\`redis-cli\` 能敲出来 | 改 PATH 后**新开终端**；旧窗口看不见 |
+| **Runtime（运行时）** | 执行代码的环境与内置库 | 本仓 **Node.js ≥ 26** 跑 \`node app\` | 别和 **框架** 混：Express 在 runtime 之上 |
+| **V8（Google 开源 JavaScript 引擎）** | 执行 JS 的核心虚拟机 | Node、Chrome、Edge、Playwright Chromium | **不是**整个浏览器；排版靠 Blink |
+| **Blink（Chromium 排版引擎）** | 把 HTML/CSS 画成页面 | Chrome/Edge 内核 | Node **没有** Blink/DOM |
+| **JavaScriptCore（WebKit JS 引擎）** | Safari 使用的 JS 引擎 | macOS/iOS 默认浏览器 | 别假设「所有浏览器都是 V8」 |
+| **SpiderMonkey（Mozilla JS 引擎）** | Firefox 使用的 JS 引擎 | 排障时 DevTools 行为可能不同 | 与 V8 实现细节不同 |
+| **corepack / pnpm** | Node 包管理器启用器 + 本仓唯一包管理 | \`corepack enable\` 后用 \`pnpm install\` | 别用 npm/yarn 装本仓依赖 |
+| **ensure-redis（启动前 Redis 探测）** | 本仓脚本确认 Redis 可用 | 无 Redis → fail-fast；见数据与缓存课 | 别与「可选 Mongo Core」同等对待 |
+
 ## 下一步
 
 - **不同终端环境**（第一章）— 终端 / Shell / OS 完整概念  

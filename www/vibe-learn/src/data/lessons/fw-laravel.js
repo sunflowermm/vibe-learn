@@ -155,14 +155,35 @@ flowchart LR
 
 ## 4. 和大厂面试怎么答
 
-| 问法 | 答法骨架 |
-|------|----------|
-| Eloquent N+1 | \`with()\`  eager load |
-| 服务容器 | 绑定、单例、解析闭包 |
-| CSRF | \`web\` 中间件组；API 用 token |
-| Laravel vs Django | PHP vs Python；Artisan vs Admin |
-| FPM 与 Node 差异 | 请求级生命周期 vs 长驻事件循环 |
-| XRK 里 PHP 放哪 | phpserver；前端 www |
+### 「Laravel 是库还是框架？」
+
+**Web 应用框架（Framework）**——路由、**Eloquent ORM**、Blade 模板、**服务容器（IoC）**、队列/Event 一体，**框架定 MVC 骨架**。  
+宿主语言：**PHP**；常见运行：**PHP-FPM**（FastCGI Process Manager）+ Nginx，或 **Laravel Octane** 长驻。  
+与 **Django**（Python 全栈 + Admin）对照：都偏快速交付；Laravel 在 PHP 外包/创业圈极流行。  
+**本仓**：PHP 在 **phpserver 子服**；复杂 SPA 用 **www + Vue**；主服 Node，**不是 Laravel**。
+
+### 「Eloquent N+1 怎么答？」
+
+循环里访问关联模型触发多次查询 → **N+1 问题**。  
+用 \`with('posts')\` **预加载（Eager Load）**；对比 Django 的 \`select_related\` / \`prefetch_related\`。
+
+### 「服务容器是什么？」
+
+Laravel **IoC 容器**：绑定接口 → 实现，\`app()->make(Foo::class)\` 解析依赖树。  
+与 **Spring ApplicationContext** 概念相近；PHP 动态类型，绑定方式更灵活。
+
+### 「CSRF 怎么答？」
+
+\`web\` 中间件组启用 **CSRF**（Cross-Site Request Forgery，跨站请求伪造）防护；纯 **API** 路由用 token（Sanctum/Passport）而非 Session CSRF。
+
+### 「FPM 和 Node 差异？」
+
+**PHP-FPM**：请求级生命周期，无默认长驻业务状态（Octane 例外）。  
+**Node**：长驻事件循环，适合 WebSocket、插件热加载——本仓主服选 Node 的原因之一。
+
+### 「在本仓 PHP 放哪？」
+
+**phpserver** 子服；vibe-learn 前端是 **Vue3+Vite** 挂 \`/vibe-learn/\`，不走 Laravel Blade 作主 SPA。
 
 ---
 
