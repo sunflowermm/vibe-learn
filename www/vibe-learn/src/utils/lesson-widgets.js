@@ -245,18 +245,20 @@ function mountTerm(host, model) {
           for (let i = 0; i < text.length; i++) {
             if (g !== gen) return;
             cmd.textContent = text.slice(0, i + 1);
-            screen.scrollTop = screen.scrollHeight;
-            await sleep(22 + (text[i] === ' ' ? 18 : 0), g);
+            if (i === text.length - 1 || i % 3 === 0) {
+              screen.scrollTop = screen.scrollHeight;
+            }
+            await sleep(8 + (text[i] === ' ' ? 4 : 0), g);
           }
           caret.remove();
-          await sleep(280, g);
+          await sleep(60, g);
         }
       } else {
         const line = el('div', 'vibe-term__line vibe-term__line--out');
         line.textContent = step.text;
         screen.append(line);
         screen.scrollTop = screen.scrollHeight;
-        if (!reduced) await sleep(320, g);
+        if (!reduced) await sleep(90, g);
       }
     }
   }
@@ -265,29 +267,12 @@ function mountTerm(host, model) {
     play();
   });
 
-  const io =
-    typeof IntersectionObserver === 'function'
-      ? new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                play();
-                io.disconnect();
-                break;
-              }
-            }
-          },
-          { threshold: 0.35 }
-        )
-      : null;
-
-  if (io) io.observe(root);
-  else play();
+  // 立刻开演：固定窗内滚动，不必等滚进视口再「突然开始」
+  play();
 
   return () => {
     gen += 1;
     clearTimers();
-    io?.disconnect();
   };
 }
 
@@ -407,11 +392,22 @@ export function hydrateLessonWidgets(root) {
   /** @type {Array<() => void>} */
   const disposers = [];
 
-  root.querySelectorAll('.vibe-widget[data-vibe]:not([data-hydrated="1"])').forEach((node) => {
-    if (!(node instanceof HTMLElement)) return;
+  const nodes = [...root.querySelectorAll('.vibe-widget[data-vibe]:not([data-hydrated="1"])')];
+  // 终端优先挂载，减少「正文已出、窗还空着」的体感
+  nodes.sort((a, b) => {
+    const rank = (el) => {
+      const k = (el.getAttribute('data-vibe') || '').toLowerCase();
+      if (k === 'shell' || k === 'vibe-shell' || k === 'term' || k === 'vibe-term') return 0;
+      return 1;
+    };
+    return rank(a) - rank(b);
+  });
+
+  for (const node of nodes) {
+    if (!(node instanceof HTMLElement)) continue;
     const kind = (node.getAttribute('data-vibe') || '').trim().toLowerCase();
     const mount = MOUNTERS[kind];
-    if (!mount) return;
+    if (!mount) continue;
 
     const srcEl = node.querySelector('.vibe-widget__src');
     const src = srcEl?.textContent ?? '';
@@ -423,7 +419,7 @@ export function hydrateLessonWidgets(root) {
       node.textContent = `演示组件加载失败：${kind}`;
       console.warn('[vibe-widget]', kind, err);
     }
-  });
+  }
 
   return () => {
     for (const d of disposers) d();

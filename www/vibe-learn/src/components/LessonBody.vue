@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { renderLesson } from '../utils/lesson-render.js';
 import { hydrateLessonWidgets } from '../utils/lesson-widgets.js';
 import { renderMermaidIn } from '../composables/useMermaid.js';
@@ -29,10 +29,11 @@ let themeMo = null;
 async function paintDiagrams() {
   disposeWidgets();
   disposeWidgets = () => {};
-  await nextTick();
-  // 交互件（终端等）立刻挂载，不堵在 Mermaid 大包之后
+  // flush:'post' 时 DOM 已带 v-html；不再多等一拍 nextTick，减少「MD 先出、终端后出」
+  if (!bodyEl.value) return;
   disposeWidgets = hydrateLessonWidgets(bodyEl.value);
-  await renderMermaidIn(bodyEl.value);
+  // Mermaid 后台画，不挡终端
+  void renderMermaidIn(bodyEl.value);
 }
 
 watch([() => props.markdown, themeTick], paintDiagrams, { flush: 'post' });

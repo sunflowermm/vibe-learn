@@ -44,7 +44,12 @@ renderer.code = function code(token) {
     return `<pre class="mermaid">${escapeHtml(normalizeMermaidSource(text))}</pre>`;
   }
   if (WIDGET_LANGS.has(lang)) {
-    return `<div class="vibe-widget" data-vibe="${escapeHtml(lang)}" data-hydrated="0"><pre class="vibe-widget__src">${escapeHtml(text)}</pre></div>`;
+    const isShell =
+      lang === 'shell' || lang === 'vibe-shell' || lang === 'term' || lang === 'vibe-term';
+    const skel = isShell
+      ? `<div class="vibe-shell-skel" aria-hidden="true"><div class="vibe-shell-skel__head"></div><div class="vibe-shell-skel__hints"></div><div class="vibe-shell-skel__body"></div></div>`
+      : '';
+    return `<div class="vibe-widget" data-vibe="${escapeHtml(lang)}" data-hydrated="0">${skel}<pre class="vibe-widget__src">${escapeHtml(text)}</pre></div>`;
   }
   if (RAW_LANGS.has(lang)) {
     return `<div class="lesson-embed" data-embed="${lang}">${text}</div>`;

@@ -26,6 +26,7 @@ const inputEl = ref(null);
 const busy = ref(false);
 const autoLabel = ref('');
 let gen = 0;
+let scrollRaf = 0;
 
 const prompt = computed(() => session.value.prompt);
 const title = computed(() => session.value.title);
@@ -39,7 +40,7 @@ watch(
     session.value = createShellSession(cfg || {});
     boot();
   },
-  { deep: true }
+  { deep: true },
 );
 
 function prefersReducedMotion() {
@@ -57,9 +58,14 @@ function resetWelcome() {
   autoLabel.value = '';
 }
 
-async function scrollBottom() {
-  await nextTick();
-  if (screenEl.value) screenEl.value.scrollTop = screenEl.value.scrollHeight;
+/** 只滚屏幕内部，不搅动页面布局 */
+function scrollBottom() {
+  if (scrollRaf) cancelAnimationFrame(scrollRaf);
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = 0;
+    const el = screenEl.value;
+    if (el) el.scrollTop = el.scrollHeight;
+  });
 }
 
 function focusInput() {
@@ -105,11 +111,10 @@ function sleep(ms, g) {
   });
 }
 
-/** 自动演示节奏：偏快，仍保留「在打字」的感觉 */
 const TYPE_MS = 7;
 const TYPE_SPACE_EXTRA = 4;
-const TYPE_COMMIT_MS = 70;
-const AUTO_GAP_DEFAULT = 160;
+const TYPE_COMMIT_MS = 50;
+const AUTO_GAP_DEFAULT = 140;
 
 async function typeAndRun(cmd, g) {
   const reduced = prefersReducedMotion();
@@ -117,9 +122,8 @@ async function typeAndRun(cmd, g) {
   autoLabel.value = '自动输入中…';
   if (reduced) {
     input.value = cmd;
-    await sleep(40, g);
+    await sleep(30, g);
   } else {
-    // 打字时不 scroll：内容还没变，逐字 nextTick 会拖慢整窗
     for (let i = 0; i < cmd.length; i++) {
       if (g !== gen) return;
       input.value = cmd.slice(0, i + 1);
@@ -147,6 +151,11 @@ async function playAuto(list) {
     busy.value = false;
     autoLabel.value = '自动演示结束 · 可继续手打';
     focusInput();
+    // 结束提示片刻后清掉，避免长期盖住输出；高度不抖动（绝对定位）
+    await sleep(1800, g);
+    if (g === gen && autoLabel.value.startsWith('自动演示结束')) {
+      autoLabel.value = '';
+    }
   }
 }
 
@@ -154,10 +163,10 @@ async function boot() {
   gen += 1;
   busy.value = false;
   resetWelcome();
-  await scrollBottom();
+  await nextTick();
+  scrollBottom();
   const list = session.value.autoPlay || [];
   if (list.length) {
-    await nextTick();
     playAuto(list);
   } else {
     focusInput();
@@ -215,7 +224,7 @@ function replayAuto() {
 function stopAuto() {
   gen += 1;
   busy.value = false;
-  autoLabel.value = '已停止自动输入';
+  autoLabel.value = '';
   focusInput();
 }
 
@@ -225,6 +234,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   gen += 1;
+  if (scrollRaf) cancelAnimationFrame(scrollRaf);
 });
 </script>
 
@@ -253,9 +263,11 @@ onUnmounted(() => {
       >{{ environment }}</span>
       <span class="lesson-shell__badge" title="不会访问真实网络或磁盘">{{ badge }}</span>
       <button
-        v-if="busy"
         type="button"
         class="lesson-shell__btn"
+        :class="{ 'lesson-shell__btn--ghost': !busy }"
+        :disabled="!busy"
+        :aria-hidden="!busy"
         @click.stop="stopAuto"
       >
         跳过
@@ -265,7 +277,11 @@ onUnmounted(() => {
       </button>
     </header>
 
-    <div v-if="hints.length" class="lesson-shell__hints" @click.stop>
+    <div
+      class="lesson-shell__hints"
+      :class="{ 'lesson-shell__hints--empty': !hints.length }"
+      @click.stop
+    >
       <button
         v-for="h in hints"
         :key="h"
@@ -278,45 +294,51 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <p v-if="autoLabel" class="lesson-shell__status">{{ autoLabel }}</p>
-
-    <div ref="screenEl" class="lesson-shell__screen" aria-live="polite">
-      <div
-        v-for="(line, i) in lines"
-        :key="i"
-        class="lesson-shell__line"
-        :class="`lesson-shell__line--${line.kind}`"
-      >
-        {{ line.text }}
+    <div class="lesson-shell__viewport">
+      <p v-if="autoLabel" class="lesson-shell__status" role="status">{{ autoLabel }}</p>
+      <div ref="screenEl" class="lesson-shell__screen" aria-live="polite">
+        <div
+          v-for="(line, i) in lines"
+          :key="i"
+          class="lesson-shell__line"
+          :class="`lesson-shell__line--${line.kind}`"
+        >
+          {{ line.text }}
+        </div>
+        <form class="lesson-shell__form" @submit="onSubmit">
+          <label class="lesson-shell__prompt" :for="inputId">{{ prompt }}</label>
+          <input
+            :id="inputId"
+            ref="inputEl"
+            v-model="input"
+            class="lesson-shell__input"
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            :readonly="busy"
+            aria-label="输入命令（模拟）"
+            @keydown="onKeydown"
+          />
+          <span v-if="busy" class="lesson-shell__caret" aria-hidden="true" />
+        </form>
       </div>
-      <form class="lesson-shell__form" @submit="onSubmit">
-        <label class="lesson-shell__prompt" :for="inputId">{{ prompt }}</label>
-        <input
-          :id="inputId"
-          ref="inputEl"
-          v-model="input"
-          class="lesson-shell__input"
-          type="text"
-          autocomplete="off"
-          autocorrect="off"
-          spellcheck="false"
-          :readonly="busy"
-          aria-label="输入命令（模拟）"
-          @keydown="onKeydown"
-        />
-        <span v-if="busy" class="lesson-shell__caret" aria-hidden="true" />
-      </form>
     </div>
 
     <p class="lesson-shell__foot">
-      假终端 · 点芯片自动打字执行 · ↑↓ 历史 · Tab 补全 · Ctrl+L 清屏 ·
-      <strong>真实 clone 请用本机终端</strong>
+      假终端 · 点芯片自动打字 · ↑↓ 历史 · Tab 补全 · Ctrl+L 清屏 ·
+      <strong>真实操作请用本机终端</strong>
     </p>
   </section>
 </template>
 
 <style scoped>
 .lesson-shell {
+  /* 固定总高：内容只在视口内滚，页面不再被顶上顶下 */
+  --shell-h: 26rem;
+  --shell-head-h: 2.45rem;
+  --shell-hints-h: 2.55rem;
+  --shell-foot-h: 2.35rem;
   --sh-bg: #071018;
   --sh-fg: #e8eef6;
   --sh-dim: #7f91a8;
@@ -324,10 +346,14 @@ onUnmounted(() => {
   --sh-prompt: #5eead4;
   --sh-err: #fb7185;
   --sh-warn: #fbbf24;
+  box-sizing: border-box;
+  height: var(--shell-h);
+  display: flex;
+  flex-direction: column;
   margin: 1.15rem 0 1.4rem;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #38bdf8) 28%, transparent);
   background:
     radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, #0ea5e9 18%, transparent), transparent 50%),
     radial-gradient(90% 60% at 0% 100%, color-mix(in srgb, #34d399 12%, transparent), transparent 45%),
@@ -335,13 +361,18 @@ onUnmounted(() => {
   color: var(--sh-fg);
   font-family: var(--font-mono);
   box-shadow:
-    var(--shadow-sm),
+    var(--shadow-sm, 0 1px 2px rgb(0 0 0 / 12%)),
     0 0 0 1px color-mix(in srgb, #fff 4%, transparent) inset;
+  contain: layout style;
 }
 
-.lesson-shell--compact .lesson-shell__screen {
-  min-height: 12rem;
-  max-height: 18rem;
+/* 嵌在课文 vibe-widget 里：外层已占位，取消外边距避免双倍空隙抖动 */
+.lesson-shell--compact {
+  --shell-h: 22rem;
+  margin: 0;
+  height: 100%;
+  min-height: 0;
+  border-radius: 14px;
 }
 
 .lesson-shell--busy {
@@ -349,18 +380,23 @@ onUnmounted(() => {
 }
 
 .lesson-shell__head {
+  flex: 0 0 var(--shell-head-h);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.58rem 0.8rem;
+  gap: 0.45rem;
+  padding: 0 0.75rem;
   background: color-mix(in srgb, #000 42%, transparent);
   border-bottom: 1px solid color-mix(in srgb, #fff 8%, transparent);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  min-height: var(--shell-head-h);
+  overflow: hidden;
 }
 
 .lesson-shell__dots {
   display: inline-flex;
   gap: 0.35rem;
+  flex-shrink: 0;
 }
 
 .lesson-shell__dot {
@@ -382,7 +418,7 @@ onUnmounted(() => {
 
 .lesson-shell__title {
   flex: 1;
-  min-width: 6rem;
+  min-width: 0;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -393,10 +429,11 @@ onUnmounted(() => {
 }
 
 .lesson-shell__badge {
-  font-size: 0.66rem;
+  flex-shrink: 0;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.03em;
-  padding: 0.18rem 0.5rem;
+  padding: 0.14rem 0.42rem;
   border-radius: 999px;
   color: var(--sh-warn);
   background: color-mix(in srgb, var(--sh-warn) 16%, transparent);
@@ -405,28 +442,30 @@ onUnmounted(() => {
 }
 
 .lesson-shell__env {
-  font-size: 0.66rem;
+  flex-shrink: 1;
+  font-size: 0.62rem;
   font-weight: 650;
   letter-spacing: 0.02em;
-  padding: 0.18rem 0.5rem;
+  padding: 0.14rem 0.42rem;
   border-radius: 999px;
   color: var(--sh-prompt);
   background: color-mix(in srgb, var(--sh-prompt) 14%, transparent);
   border: 1px solid color-mix(in srgb, var(--sh-prompt) 35%, transparent);
   white-space: nowrap;
-  max-width: 14rem;
+  max-width: 9.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .lesson-shell__btn {
   appearance: none;
+  flex-shrink: 0;
   border: 1px solid color-mix(in srgb, #fff 16%, transparent);
   background: color-mix(in srgb, #fff 6%, transparent);
   color: var(--sh-fg);
   font: inherit;
-  font-size: 0.72rem;
-  padding: 0.22rem 0.55rem;
+  font-size: 0.68rem;
+  padding: 0.16rem 0.48rem;
   border-radius: 999px;
   cursor: pointer;
 }
@@ -435,34 +474,51 @@ onUnmounted(() => {
   background: color-mix(in srgb, var(--sh-accent) 22%, transparent);
 }
 
+.lesson-shell__btn:disabled,
+.lesson-shell__btn--ghost {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 单行横滑，高度固定 — 禁止 wrap 把整窗撑高 */
 .lesson-shell__hints {
+  flex: 0 0 var(--shell-hints-h);
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   gap: 0.35rem;
-  padding: 0.55rem 0.75rem 0.2rem;
+  padding: 0 0.65rem;
   border-bottom: 1px solid color-mix(in srgb, #fff 6%, transparent);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.lesson-shell__hints--empty {
+  /* 占位：与有芯片时同高，避免 hydrate / 不同课之间视口忽大忽小 */
+  pointer-events: none;
 }
 
 .lesson-shell__chip {
   appearance: none;
+  flex: 0 0 auto;
   border: 1px solid color-mix(in srgb, var(--sh-prompt) 35%, transparent);
   background: color-mix(in srgb, var(--sh-prompt) 12%, transparent);
   color: var(--sh-prompt);
   font: inherit;
   font-size: 0.66rem;
-  padding: 0.2rem 0.48rem;
+  padding: 0.18rem 0.48rem;
   border-radius: 7px;
   cursor: pointer;
-  max-width: 100%;
+  max-width: 16rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .lesson-shell__chip:hover:not(:disabled) {
   background: color-mix(in srgb, var(--sh-prompt) 24%, transparent);
-  transform: translateY(-1px);
 }
 
 .lesson-shell__chip:disabled {
@@ -470,20 +526,36 @@ onUnmounted(() => {
   cursor: not-allowed;
 }
 
+.lesson-shell__viewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 盖在视口上，不占用文档流 → 开关状态不抖页面 */
 .lesson-shell__status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
   margin: 0;
-  padding: 0.35rem 0.85rem;
-  font-size: 0.7rem;
+  padding: 0.32rem 0.85rem;
+  font-size: 0.68rem;
   color: var(--sh-accent);
-  background: color-mix(in srgb, var(--sh-accent) 10%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--sh-accent) 22%, transparent);
+  background: color-mix(in srgb, var(--sh-bg) 55%, color-mix(in srgb, var(--sh-accent) 22%, transparent));
+  border-bottom: 1px solid color-mix(in srgb, var(--sh-accent) 28%, transparent);
+  pointer-events: none;
 }
 
 .lesson-shell__screen {
-  min-height: 15rem;
-  max-height: 24rem;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
-  padding: 0.9rem 1rem 0.55rem;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1rem 0.5rem;
   font-size: 0.78rem;
   line-height: 1.55;
   background-image: linear-gradient(
@@ -492,6 +564,7 @@ onUnmounted(() => {
     color-mix(in srgb, #000 11%, transparent) 50%
   );
   background-size: 100% 3px;
+  scrollbar-gutter: stable;
 }
 
 .lesson-shell__line {
@@ -520,7 +593,7 @@ onUnmounted(() => {
   display: flex;
   align-items: baseline;
   gap: 0;
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .lesson-shell__prompt {
@@ -562,18 +635,25 @@ onUnmounted(() => {
 }
 
 .lesson-shell__foot {
+  flex: 0 0 var(--shell-foot-h);
+  box-sizing: border-box;
   margin: 0;
-  padding: 0.5rem 0.9rem 0.6rem;
-  font-size: 0.68rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.66rem;
   color: var(--sh-dim);
   border-top: 1px solid color-mix(in srgb, #fff 6%, transparent);
   background: color-mix(in srgb, #000 28%, transparent);
-  line-height: 1.45;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  min-height: var(--shell-foot-h);
+  overflow: hidden;
 }
 
 .lesson-shell__foot strong {
   color: var(--sh-warn);
   font-weight: 650;
+  margin-left: 0.15em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -582,9 +662,6 @@ onUnmounted(() => {
   }
   .lesson-shell__caret {
     animation: none;
-  }
-  .lesson-shell__chip {
-    transition: none;
   }
 }
 </style>
