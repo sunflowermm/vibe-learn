@@ -192,7 +192,7 @@ function mountTerm(host, model) {
   }
   head.append(replay);
 
-  const screen = el('div', 'vibe-term__screen', { 'aria-live': 'polite' });
+  const screen = el('div', 'vibe-term__screen');
   root.append(head, screen);
 
   host.replaceChildren(root);
@@ -216,11 +216,27 @@ function mountTerm(host, model) {
     });
   }
 
-  async function play() {
+  function paintInstant() {
+    screen.replaceChildren();
+    for (const step of model.steps) {
+      if (step.type === 'in') {
+        const line = el('div', 'vibe-term__line vibe-term__line--in');
+        line.append(
+          el('span', 'vibe-term__prompt', { text: step.prompt ?? model.prompt }),
+          el('span', 'vibe-term__cmd', { text: step.text }),
+        );
+        screen.append(line);
+      } else {
+        screen.append(el('div', 'vibe-term__line vibe-term__line--out', { text: step.text }));
+      }
+    }
+    screen.scrollTop = screen.scrollHeight;
+  }
+
+  async function playTyped() {
     const g = ++gen;
     clearTimers();
     screen.replaceChildren();
-
     const reduced = prefersReducedMotion();
 
     for (const step of model.steps) {
@@ -264,11 +280,11 @@ function mountTerm(host, model) {
   }
 
   replay.addEventListener('click', () => {
-    play();
+    playTyped();
   });
 
-  // 立刻开演：固定窗内滚动，不必等滚进视口再「突然开始」
-  play();
+  // 首屏立刻出结果（对齐 Mermaid）；打字留给「重播」
+  paintInstant();
 
   return () => {
     gen += 1;
@@ -347,12 +363,52 @@ function mountCompare(host, model) {
  */
 function mountShell(host, src) {
   const config = parseShellSource(src, SHELL_PRESETS);
-  const wrap = el('div', 'vibe-shell-mount');
-  host.replaceChildren(wrap);
-  const app = createApp(LessonShell, { config, compact: true });
-  app.mount(wrap);
+  let app = null;
+
+  const mountNow = () => {
+    if (app) return;
+    const wrap = el('div', 'vibe-shell-mount');
+    host.replaceChildren(wrap);
+    app = createApp(LessonShell, { config, compact: true });
+    app.mount(wrap);
+  };
+
+  const near =
+    typeof host.getBoundingClientRect === 'function'
+      ? (() => {
+          const r = host.getBoundingClientRect();
+          const vh = window.innerHeight || 800;
+          return r.top < vh + 280 && r.bottom > -120;
+        })()
+      : true;
+
+  /** @type {IntersectionObserver | null} */
+  let io = null;
+  if (near) {
+    mountNow();
+  } else if (typeof IntersectionObserver === 'function') {
+    // 视口外只留骨架；靠近再 createApp，避免一课多个终端拖垮首屏
+    io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io?.disconnect();
+          io = null;
+          mountNow();
+        }
+      },
+      { rootMargin: '280px 0px', threshold: 0 },
+    );
+    io.observe(host);
+  } else {
+    mountNow();
+  }
+
   return () => {
-    app.unmount();
+    io?.disconnect();
+    if (app) {
+      app.unmount();
+      app = null;
+    }
   };
 }
 

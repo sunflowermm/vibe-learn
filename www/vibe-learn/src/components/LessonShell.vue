@@ -38,7 +38,7 @@ watch(
   () => props.config,
   (cfg) => {
     session.value = createShellSession(cfg || {});
-    boot();
+    boot({ typed: false });
   },
   { deep: true },
 );
@@ -68,8 +68,9 @@ function scrollBottom() {
   });
 }
 
+/** 禁止默认 focus：会把整页滚到输入框，阅读位置被拽走 */
 function focusInput() {
-  if (!busy.value) inputEl.value?.focus();
+  inputEl.value?.focus({ preventScroll: true });
 }
 
 function classifyOut(text) {
@@ -116,6 +117,15 @@ const TYPE_SPACE_EXTRA = 4;
 const TYPE_COMMIT_MS = 50;
 const AUTO_GAP_DEFAULT = 140;
 
+/** 首屏秒出：一次跑完 autoPlay，不打字、不抢焦 */
+function runInstantAuto(cmds) {
+  busy.value = false;
+  autoLabel.value = '';
+  for (const cmd of cmds) {
+    runLine(cmd);
+  }
+}
+
 async function typeAndRun(cmd, g) {
   const reduced = prefersReducedMotion();
   input.value = '';
@@ -136,7 +146,7 @@ async function typeAndRun(cmd, g) {
   autoLabel.value = '';
 }
 
-async function playAuto(list) {
+async function playAutoTyped(list) {
   const cmds = (list || []).map(String).filter(Boolean);
   if (!cmds.length) return;
   const g = ++gen;
@@ -150,27 +160,23 @@ async function playAuto(list) {
   if (g === gen) {
     busy.value = false;
     autoLabel.value = '自动演示结束 · 可继续手打';
-    focusInput();
-    // 结束提示片刻后清掉，避免长期盖住输出；高度不抖动（绝对定位）
-    await sleep(1800, g);
+    await sleep(1600, g);
     if (g === gen && autoLabel.value.startsWith('自动演示结束')) {
       autoLabel.value = '';
     }
   }
 }
 
-async function boot() {
+async function boot({ typed = false } = {}) {
   gen += 1;
   busy.value = false;
   resetWelcome();
   await nextTick();
   scrollBottom();
-  const list = session.value.autoPlay || [];
-  if (list.length) {
-    playAuto(list);
-  } else {
-    focusInput();
-  }
+  const list = (session.value.autoPlay || []).map(String).filter(Boolean);
+  if (!list.length) return;
+  if (typed && !prefersReducedMotion()) playAutoTyped(list);
+  else runInstantAuto(list);
 }
 
 function onSubmit(e) {
@@ -218,18 +224,17 @@ async function useHint(cmd) {
 }
 
 function replayAuto() {
-  boot();
+  boot({ typed: true });
 }
 
 function stopAuto() {
   gen += 1;
   busy.value = false;
   autoLabel.value = '';
-  focusInput();
 }
 
 onMounted(() => {
-  boot();
+  boot({ typed: false });
 });
 
 onUnmounted(() => {
@@ -296,7 +301,7 @@ onUnmounted(() => {
 
     <div class="lesson-shell__viewport">
       <p v-if="autoLabel" class="lesson-shell__status" role="status">{{ autoLabel }}</p>
-      <div ref="screenEl" class="lesson-shell__screen" aria-live="polite">
+      <div ref="screenEl" class="lesson-shell__screen">
         <div
           v-for="(line, i) in lines"
           :key="i"
@@ -326,7 +331,7 @@ onUnmounted(() => {
     </div>
 
     <p class="lesson-shell__foot">
-      假终端 · 点芯片自动打字 · ↑↓ 历史 · Tab 补全 · Ctrl+L 清屏 ·
+      假终端 · 首屏秒出结果 · 「重播」可看打字 · 点芯片练习 · ↑↓ 历史 ·
       <strong>真实操作请用本机终端</strong>
     </p>
   </section>
