@@ -5,17 +5,21 @@
  * 1. 方块迁就边；有边应相邻
  * 2. 按「故事」选模式，禁止一律填格
  * 3. 间距 ≥ CARD_W/H + gutter；assertNoCardOverlap
+ * 4. **章框**：XRK-AGT 居中枢纽；语言在上、AI 在右、环境/网络在左；番外贴亲和章（勿堆同一底栏）
  *
  * 各章模式：
  * | 章 | 模式 | 读法 |
  * |----|------|------|
- * | 序章 | spineForkMerge | 入口 → 双支 → 汇合 |
+ * | 序章 | spineForkMerge | 环境左侧同高 |
  * | 环境 | pipelineColumns | 左→右工具链，上下成对 |
- * | 语言 | 分区泳道 + hub-grid | 概念→版图扇出→框架→落地 |
- * | 网络 | pipelineColumns | 入口→协议→分层→HTTP→边缘 |
- * | XRK  | laneBlock 泳道 | 鸟瞰→结构→暴露→横切→实践→Stream |
- * | AI   | snake | 时间线折返 |
- * | 番外 | chain | 短链 |
+ * | 语言 | 分区泳道 + hub-grid | XRK 正上方 |
+ * | 网络 | pipelineColumns | 左柱贴 XRK |
+ * | XRK  | laneBlock 泳道 | **画布中心枢纽** |
+ * | AI   | snake | 贴 XRK 右侧 |
+ * | Clash | chain | 贴网络下方 |
+ * | 数据库 | laneBlock | 贴 XRK 正下方 |
+ * | 容器 | laneBlock | 贴环境下方 |
+ * | ESP32 | laneBlock | 贴序章下方 |
  */
 import {
   CARD_COL,
@@ -322,33 +326,160 @@ const espB = boundsOf(ESP_TOPICS);
 
 const PAD_W = CARD_W + 100;
 const PAD_H = CARD_H + 140;
+const FRAME_GAP = 100;
 
-/** 章框在画布上的锚点：上→下主线，语言/XRK 靠右，循序不叠框 */
-const FRAME_MACHINE = { x: 40, y: -1180 };
-const FRAME_ENV = { x: 40, y: -540 };
-const FRAME_LANG = { x: 40 + Math.ceil(envB.maxX + PAD_W) + 80, y: -540 };
-const FRAME_NET = { x: 40, y: 280 };
-const FRAME_XRK = {
-  x: FRAME_LANG.x + Math.ceil(langB.maxX + PAD_W) + 80,
-  y: 200,
+function frameBox(b) {
+  return {
+    w: Math.ceil(b.maxX + PAD_W),
+    h: Math.ceil(b.maxY + PAD_H),
+  };
+}
+
+const S = {
+  machine: frameBox(machineB),
+  env: frameBox(envB),
+  lang: frameBox(langB),
+  net: frameBox(netB),
+  xrk: frameBox(xrkB),
+  ai: frameBox(aiB),
+  clash: frameBox(clashB),
+  db: frameBox(dbB),
+  ops: frameBox(opsB),
+  esp: frameBox(espB),
 };
-const FRAME_AI = { x: 40, y: 1160 };
-const FRAME_CLASH = {
-  x: 80,
-  y: FRAME_AI.y + Math.ceil(aiB.maxY + PAD_H) + 60,
+
+function framesOverlap(a, sa, b, sb, pad = 24) {
+  return !(
+    a.x + sa.w + pad <= b.x ||
+    b.x + sb.w + pad <= a.x ||
+    a.y + sa.h + pad <= b.y ||
+    b.y + sb.h + pad <= a.y
+  );
+}
+
+/**
+ * 章框锚点：XRK-AGT 为中心枢纽；正章环绕；番外贴亲和章，缩短跨章边。
+ *
+ * ```
+ *              [······语言······]     ← 压在环境+XRK 上方
+ *   [序章] [环境····]        [XRK] [AI]
+ *    [ESP] [容器]
+ *          [网络····]        [XRK]
+ *          [Clash]        [数据库]
+ * ```
+ */
+const FRAME_XRK = { x: 0, y: 0 };
+
+/* 先定环境，再让语言压在「环境+XRK」上方居中 */
+const FRAME_ENV = {
+  x: FRAME_XRK.x - S.env.w - FRAME_GAP,
+  y: FRAME_XRK.y,
 };
-const FRAME_DB = {
-  x: FRAME_CLASH.x + Math.ceil(clashB.maxX + PAD_W) + 80,
-  y: FRAME_CLASH.y,
+
+const envXrkSpan = S.env.w + FRAME_GAP + S.xrk.w;
+const FRAME_LANG = {
+  x: FRAME_ENV.x + Math.floor((envXrkSpan - S.lang.w) / 2),
+  y: FRAME_XRK.y - S.lang.h - FRAME_GAP,
 };
-const FRAME_OPS = {
-  x: FRAME_DB.x + Math.ceil(dbB.maxX + PAD_W) + 80,
-  y: FRAME_CLASH.y,
+
+const FRAME_AI = {
+  x: FRAME_XRK.x + S.xrk.w + FRAME_GAP,
+  y: FRAME_XRK.y + 80,
 };
+
+/* 序章在环境左侧（同高） */
+const FRAME_MACHINE = {
+  x: FRAME_ENV.x - S.machine.w - FRAME_GAP,
+  y: FRAME_ENV.y,
+};
+
 const FRAME_ESP = {
-  x: FRAME_CLASH.x,
-  y: FRAME_CLASH.y + Math.ceil(Math.max(clashB.maxY, dbB.maxY, opsB.maxY) + PAD_H) + 60,
+  x: FRAME_MACHINE.x + Math.floor((S.machine.w - S.esp.w) / 2),
+  y: FRAME_MACHINE.y + S.machine.h + FRAME_GAP,
 };
+
+const FRAME_OPS = {
+  x: FRAME_ENV.x,
+  y: FRAME_ENV.y + S.env.h + FRAME_GAP,
+};
+
+const FRAME_NET = {
+  x: FRAME_XRK.x - S.net.w - FRAME_GAP,
+  y: FRAME_OPS.y + S.ops.h + FRAME_GAP,
+};
+
+const FRAME_CLASH = {
+  x: FRAME_NET.x,
+  y: FRAME_NET.y + S.net.h + FRAME_GAP,
+};
+
+/* 数据库：XRK 正下方，缩短契约桥 */
+const FRAME_DB = {
+  x: FRAME_XRK.x,
+  y: FRAME_XRK.y + S.xrk.h + FRAME_GAP,
+};
+
+if (framesOverlap(FRAME_DB, S.db, FRAME_NET, S.net)) {
+  FRAME_DB.y = Math.max(FRAME_DB.y, FRAME_NET.y + S.net.h + FRAME_GAP);
+}
+if (framesOverlap(FRAME_DB, S.db, FRAME_CLASH, S.clash)) {
+  FRAME_DB.x = FRAME_CLASH.x + S.clash.w + FRAME_GAP;
+  FRAME_DB.y = Math.max(FRAME_DB.y, FRAME_CLASH.y);
+}
+if (framesOverlap(FRAME_DB, S.db, FRAME_AI, S.ai)) {
+  FRAME_DB.x = FRAME_XRK.x;
+  FRAME_DB.y = Math.max(FRAME_DB.y, FRAME_AI.y + S.ai.h + FRAME_GAP);
+}
+
+if (
+  framesOverlap(FRAME_ESP, S.esp, FRAME_ENV, S.env) ||
+  framesOverlap(FRAME_ESP, S.esp, FRAME_OPS, S.ops) ||
+  framesOverlap(FRAME_ESP, S.esp, FRAME_NET, S.net)
+) {
+  FRAME_ESP.x = FRAME_MACHINE.x;
+  FRAME_ESP.y = FRAME_MACHINE.y + S.machine.h + FRAME_GAP;
+}
+
+if (framesOverlap(FRAME_LANG, S.lang, FRAME_MACHINE, S.machine)) {
+  FRAME_LANG.x = FRAME_MACHINE.x + S.machine.w + FRAME_GAP;
+}
+
+const FRAME_PLACES = [
+  ['machine', FRAME_MACHINE, S.machine],
+  ['env', FRAME_ENV, S.env],
+  ['lang', FRAME_LANG, S.lang],
+  ['net', FRAME_NET, S.net],
+  ['xrk', FRAME_XRK, S.xrk],
+  ['ai', FRAME_AI, S.ai],
+  ['clash', FRAME_CLASH, S.clash],
+  ['db', FRAME_DB, S.db],
+  ['ops', FRAME_OPS, S.ops],
+  ['esp', FRAME_ESP, S.esp],
+];
+
+for (let i = 0; i < FRAME_PLACES.length; i++) {
+  for (let j = i + 1; j < FRAME_PLACES.length; j++) {
+    const [na, pa, sa] = FRAME_PLACES[i];
+    const [nb, pb, sb] = FRAME_PLACES[j];
+    if (framesOverlap(pa, sa, pb, sb)) {
+      throw new Error(
+        `[layout frames] 章框重叠: ${na}@(${pa.x},${pa.y}) × ${nb}@(${pb.x},${pb.y})`
+      );
+    }
+  }
+}
+
+/* 画布原点归一：左上留边 */
+{
+  const minX = Math.min(...FRAME_PLACES.map(([, p]) => p.x));
+  const minY = Math.min(...FRAME_PLACES.map(([, p]) => p.y));
+  const shiftX = 40 - minX;
+  const shiftY = 40 - minY;
+  for (const [, p] of FRAME_PLACES) {
+    p.x += shiftX;
+    p.y += shiftY;
+  }
+}
 
 export const LAYOUT = {
   frameMachine: {
@@ -423,16 +554,16 @@ export const LAYOUT_META = {
   CARD_ROW,
   LANE_GAP,
   strategy: {
-    machine: 'spineForkMerge',
-    env: 'pipelineColumns',
-    lang: 'lanes+hubGrid',
-    net: 'pipelineColumns',
-    xrk: 'laneBlock',
-    ai: 'snake',
-    clash: 'chain',
-    db: 'laneBlock',
-    ops: 'laneBlock',
-    esp: 'laneBlock',
+    machine: 'spineForkMerge · left of env',
+    env: 'pipelineColumns · left of XRK',
+    lang: 'lanes+hubGrid · above env+XRK',
+    net: 'pipelineColumns · left column',
+    xrk: 'laneBlock · canvas hub',
+    ai: 'snake · right of XRK',
+    clash: 'chain · under net',
+    db: 'laneBlock · under XRK',
+    ops: 'laneBlock · under env',
+    esp: 'laneBlock · under machine',
   },
   MACHINE_TOPICS,
   ENV_TOPICS,
