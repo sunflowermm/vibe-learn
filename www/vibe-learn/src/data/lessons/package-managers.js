@@ -21,11 +21,17 @@ export default `# 包管理器
 
 | 类型 | 装的是什么 | 例子 |
 |------|------------|------|
-| **系统包管理器** | OS 级软件 | apt、dnf、Homebrew |
-| **运行时安装器** | 语言引擎本身 | Node MSI → \`node\` |
-| **语言包管理器** | 项目 / 库依赖 | npm、pnpm、pip、uv、cargo |
+| **系统包管理器** | OS 级软件（进 PATH 的命令、库） | **apt**、**dnf**、**Homebrew（brew）**、winget、Scoop |
+| **运行时安装器** | 语言引擎本身 | Node MSI / 官网包 → \`node\` |
+| **语言包管理器** | 项目 / 库依赖 | npm、**pnpm**、pip、uv、cargo |
 
-常见混淆：全局乱装与「在仓库根执行 install」不是同一件事。
+| 常见错话 | 纠正 |
+|----------|------|
+| 「brew 就是 npm」 | brew 装**系统/运行时级**软件；npm/pnpm 装**项目依赖** |
+| 「apt install 了 node 就等于会本仓」 | 还要 **pnpm** + 仓库根 install；版本还要满足 engines |
+| 「Docker 也是包管理器」 | Docker 管**容器镜像**；和 apt/pnpm 都不同（见番外 **容器**）。Nginx 是**网关门面**，在第三章 |
+
+常见混淆：全局乱装与「在仓库根执行 install」不是同一件事。详细 brew/PATH 见 **安装器与 PATH**。
 
 ---
 
@@ -141,5 +147,7 @@ pnpm install
 
 ## 下一步
 
-**Git 与工作区** → **代码托管** → **首次跑通**。
+**Git 与工作区** → **代码托管** → **首次跑通**。  
+**安装器与 PATH** — brew / apt / winget 展开。  
+番外 **容器** — 第三种「装环境」方式。  
 `;

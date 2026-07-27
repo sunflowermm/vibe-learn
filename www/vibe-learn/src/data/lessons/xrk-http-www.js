@@ -62,8 +62,10 @@ flowchart TB
 | HTTP 方法 / 状态码 | Handler 用 \`HttpResponse\`；前端按约定解包 |
 | API · 前端 · 后端 | www = 前端；http = 后端 |
 | TCP 端口 | 主服 listen；多应用同端口按路径分流 |
-| 反向代理 | \`enabled: true\` 时主服反代到 Vite/Next 端口 |
-| HTML/CSS/JS | www **产物的语言形态**；框架只是源码组织方式 |
+| 反向代理 / Nginx | 生产外层门面；开发期 \`sign.json\` \`enabled: true\` 时主服反代 Vite/Next |
+| HTML/CSS/JS · Vue/React… | **产物**挂进 \`www\`；框架课内点回本课，图谱不逐条拉边 |
+
+图谱主桥：第三章 **HTTP** / **Nginx** → 本课；第四章内由 **Runtime / Core 布局 / 插件** 汇入。前端框架挂载细节见下文与各框架课「下一步」。
 
 访问 \`/vibe-learn/\`：主服把 \`core/vibe-learn-Core/www/vibe-learn/\`（或其 \`dist\`）当站点挂出。
 

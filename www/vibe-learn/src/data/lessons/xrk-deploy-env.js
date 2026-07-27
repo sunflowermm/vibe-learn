@@ -228,5 +228,7 @@ node app
 - **不同终端环境**（第一章）— 终端 / Shell / OS 完整概念  
 - **首次跑通** — 最短命令串  
 - **数据库** — Redis / SQLite  
+- 番外 **容器** — Docker / Compose；\`docs/docker.md\`  
+- **第三章 · Nginx** — 生产门面产品  
 - **项目鸟瞰** — 架构  
 `;

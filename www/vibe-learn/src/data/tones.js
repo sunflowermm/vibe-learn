@@ -121,6 +121,17 @@ export const NODE_TONE = {
   'db-others': 'slate',
   'xrk-deploy-env': 'teal',
   'lang-nodejs': 'sky',
+
+  'ops-container': 'indigo',
+  'ops-docker': 'sky',
+  'ops-compose': 'teal',
+  'ops-others': 'slate',
+  'net-nginx': 'orange',
+
+  'esp-mcu': 'violet',
+  'esp-esp32': 'orange',
+  'esp-toolchain': 'sky',
+  'esp-link': 'teal',
 };
 
 export function toneOf(id) {

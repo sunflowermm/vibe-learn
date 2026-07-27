@@ -36,5 +36,6 @@ flowchart LR
 
 ## 下一步
 
-**MySQL** — 另一关系巨头；**MongoDB** — 文档对照；第四章 **数据与缓存** — 可选 Core。  
+**MySQL** — 另一关系巨头；**MongoDB** — 文档对照。  
+可选 \`postgres-Core\` 落点仍在第四章 **数据与缓存**（图谱主桥：Redis / SQLite）。  
 `;

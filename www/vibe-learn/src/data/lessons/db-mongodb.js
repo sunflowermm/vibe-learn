@@ -56,6 +56,6 @@ flowchart LR
 
 ## 下一步
 
-**PostgreSQL / MySQL** — 关系库对照；  
-第四章 **数据与缓存** — 可选 Core 与 soft-skip。  
+**其它常见库** — 索引卡收尾；关系库对照见 **PostgreSQL / MySQL**。  
+本仓若要用文档库：第四章 **数据与缓存** 里的可选 Core / soft-skip（图谱主桥仍是 Redis / SQLite）。  
 `;

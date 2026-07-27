@@ -179,7 +179,8 @@ const NET_TOPICS = pipelineColumnsPositions(
     ['ip-addressing', 'tcp-udp'],
     ['routing-nat', 'dns-https'],
     'http-web',
-    ['reverse-proxy', 'net-edge-practice'],
+    'reverse-proxy',
+    ['net-nginx', 'net-edge-practice'],
   ],
   { originX: ORIGIN_X, originY: 260, colGap: CARD_COL, pairGap: PIPE_PAIR }
 );
@@ -274,6 +275,30 @@ const DB_TOPICS = laneBlockPositions(
 );
 assertNoCardOverlap(DB_TOPICS, 'frameDb');
 
+/* ═══════════════════════════════════════════
+ * 番外 · 容器（交付隔离；网关在第三章）
+ * ═══════════════════════════════════════════ */
+const OPS_TOPICS = laneBlockPositions(
+  [
+    ['ops-container', 'ops-docker', 'ops-compose'],
+    ['ops-others'],
+  ],
+  { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
+);
+assertNoCardOverlap(OPS_TOPICS, 'frameOps');
+
+/* ═══════════════════════════════════════════
+ * 番外 · ESP32
+ * ═══════════════════════════════════════════ */
+const ESP_TOPICS = laneBlockPositions(
+  [
+    ['esp-mcu', 'esp-esp32'],
+    ['esp-toolchain', 'esp-link'],
+  ],
+  { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
+);
+assertNoCardOverlap(ESP_TOPICS, 'frameEsp');
+
 /* —— 包围盒 → 章框尺寸 —— */
 function boundsOf(map) {
   const xs = Object.values(map).map((p) => p.x);
@@ -292,6 +317,8 @@ const xrkB = boundsOf(XRK_TOPICS);
 const aiB = boundsOf(AI_SNAKE);
 const clashB = boundsOf(CLASH_TOPICS);
 const dbB = boundsOf(DB_TOPICS);
+const opsB = boundsOf(OPS_TOPICS);
+const espB = boundsOf(ESP_TOPICS);
 
 const PAD_W = CARD_W + 100;
 const PAD_H = CARD_H + 140;
@@ -313,6 +340,14 @@ const FRAME_CLASH = {
 const FRAME_DB = {
   x: FRAME_CLASH.x + Math.ceil(clashB.maxX + PAD_W) + 80,
   y: FRAME_CLASH.y,
+};
+const FRAME_OPS = {
+  x: FRAME_DB.x + Math.ceil(dbB.maxX + PAD_W) + 80,
+  y: FRAME_CLASH.y,
+};
+const FRAME_ESP = {
+  x: FRAME_CLASH.x,
+  y: FRAME_CLASH.y + Math.ceil(Math.max(clashB.maxY, dbB.maxY, opsB.maxY) + PAD_H) + 60,
 };
 
 export const LAYOUT = {
@@ -356,6 +391,16 @@ export const LAYOUT = {
     width: Math.ceil(dbB.maxX + PAD_W),
     height: Math.ceil(dbB.maxY + PAD_H),
   },
+  frameOps: {
+    ...FRAME_OPS,
+    width: Math.ceil(opsB.maxX + PAD_W),
+    height: Math.ceil(opsB.maxY + PAD_H),
+  },
+  frameEsp: {
+    ...FRAME_ESP,
+    width: Math.ceil(espB.maxX + PAD_W),
+    height: Math.ceil(espB.maxY + PAD_H),
+  },
 
   topics: {
     ...MACHINE_TOPICS,
@@ -366,6 +411,8 @@ export const LAYOUT = {
     ...AI_SNAKE,
     ...CLASH_TOPICS,
     ...DB_TOPICS,
+    ...OPS_TOPICS,
+    ...ESP_TOPICS,
   },
 };
 
@@ -384,6 +431,8 @@ export const LAYOUT_META = {
     ai: 'snake',
     clash: 'chain',
     db: 'laneBlock',
+    ops: 'laneBlock',
+    esp: 'laneBlock',
   },
   MACHINE_TOPICS,
   ENV_TOPICS,
@@ -393,4 +442,6 @@ export const LAYOUT_META = {
   AI_SNAKE,
   CLASH_TOPICS,
   DB_TOPICS,
+  OPS_TOPICS,
+  ESP_TOPICS,
 };
