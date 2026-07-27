@@ -817,7 +817,7 @@ export function createShellSession(config = {}) {
     ],
     /** @type {string[]} 挂载后自动打字并执行 */
     autoPlay: Array.isArray(config.autoPlay) ? config.autoPlay.map(String) : [],
-    autoPlayDelay: Number(config.autoPlayDelay) > 0 ? Number(config.autoPlayDelay) : 420,
+    autoPlayDelay: Number(config.autoPlayDelay) > 0 ? Number(config.autoPlayDelay) : 160,
     exec,
   };
 }

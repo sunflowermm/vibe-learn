@@ -105,21 +105,27 @@ function sleep(ms, g) {
   });
 }
 
+/** 自动演示节奏：偏快，仍保留「在打字」的感觉 */
+const TYPE_MS = 7;
+const TYPE_SPACE_EXTRA = 4;
+const TYPE_COMMIT_MS = 70;
+const AUTO_GAP_DEFAULT = 160;
+
 async function typeAndRun(cmd, g) {
   const reduced = prefersReducedMotion();
   input.value = '';
   autoLabel.value = '自动输入中…';
   if (reduced) {
     input.value = cmd;
-    await sleep(120, g);
+    await sleep(40, g);
   } else {
+    // 打字时不 scroll：内容还没变，逐字 nextTick 会拖慢整窗
     for (let i = 0; i < cmd.length; i++) {
       if (g !== gen) return;
       input.value = cmd.slice(0, i + 1);
-      await scrollBottom();
-      await sleep(18 + (cmd[i] === ' ' ? 12 : 0), g);
+      await sleep(TYPE_MS + (cmd[i] === ' ' ? TYPE_SPACE_EXTRA : 0), g);
     }
-    await sleep(220, g);
+    await sleep(TYPE_COMMIT_MS, g);
   }
   if (g !== gen) return;
   runLine(cmd);
@@ -131,7 +137,7 @@ async function playAuto(list) {
   if (!cmds.length) return;
   const g = ++gen;
   busy.value = true;
-  const gap = session.value.autoPlayDelay || 420;
+  const gap = session.value.autoPlayDelay || AUTO_GAP_DEFAULT;
   for (const cmd of cmds) {
     if (g !== gen) return;
     await typeAndRun(cmd, g);

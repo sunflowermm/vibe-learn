@@ -30,8 +30,9 @@ async function paintDiagrams() {
   disposeWidgets();
   disposeWidgets = () => {};
   await nextTick();
-  await renderMermaidIn(bodyEl.value);
+  // 交互件（终端等）立刻挂载，不堵在 Mermaid 大包之后
   disposeWidgets = hydrateLessonWidgets(bodyEl.value);
+  await renderMermaidIn(bodyEl.value);
 }
 
 watch([() => props.markdown, themeTick], paintDiagrams, { flush: 'post' });

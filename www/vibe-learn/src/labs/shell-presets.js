@@ -19,8 +19,8 @@ export const SHELL_PRESETS = {
     tree: defaultLinuxTree(),
     welcome: [
       FAKE,
-      '路径：/home/alice · 隐藏项：.bashrc .ssh（ls -la）',
-      '点芯片可自动打字执行；也可自己输入',
+      '你现在在家目录 /home/alice（提示符里的 ~ 就是这儿）',
+      '跟一遍：pwd → ls → ls -la，先搞清「站在哪」',
     ],
     hintCommands: [
       'pwd',
@@ -34,7 +34,7 @@ export const SHELL_PRESETS = {
       'curl -I https://example.com',
     ],
     autoPlay: ['pwd', 'ls', 'ls -la'],
-    autoPlayDelay: 380,
+    autoPlayDelay: 140,
   },
 
   'path-check': {
@@ -106,7 +106,7 @@ export const SHELL_PRESETS = {
       `git clone ${REPO_GHPROXY}`,
     ],
     autoPlay: [`git clone ${REPO}`],
-    autoPlayDelay: 500,
+    autoPlayDelay: 180,
   },
 
   /** 自动演示：设代理后 clone「成功」 */

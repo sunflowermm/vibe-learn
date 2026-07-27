@@ -11,6 +11,34 @@
   display: none;
 }
 
+/* 未 hydrate 前占位，避免 MD 先铺满、终端突然「冒出来」把版面顶开 */
+.vibe-widget[data-hydrated='0'][data-vibe='shell'],
+.vibe-widget[data-hydrated='0'][data-vibe='vibe-shell'],
+.vibe-widget[data-hydrated='0'][data-vibe='term'],
+.vibe-widget[data-hydrated='0'][data-vibe='vibe-term'] {
+  min-height: 11.5rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--mist) 18%, transparent);
+  background: color-mix(in srgb, #0b1220 92%, var(--ink-3, #111));
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.vibe-widget[data-hydrated='0'][data-vibe='shell']::after,
+.vibe-widget[data-hydrated='0'][data-vibe='vibe-shell']::after,
+.vibe-widget[data-hydrated='0'][data-vibe='term']::after,
+.vibe-widget[data-hydrated='0'][data-vibe='vibe-term']::after {
+  content: '模拟终端';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, #d7e0ea 55%, transparent);
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
 .vibe-widget--error {
   padding: 0.75rem 1rem;
   border-radius: 10px;
