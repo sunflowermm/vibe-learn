@@ -18,6 +18,17 @@ function escapeHtml(text) {
     .replaceAll('"', '&quot;');
 }
 
+/**
+ * CommonMark：若加粗以标点（如 ）或 )）结尾，且后面紧跟非空白/非标点（如汉字），
+ * 结束的 ** 不算 right-flanking，会原样露出。把「括号注释」挪到加粗外即可。
+ * 例：**DBMS（数据库管理系统）**是 → **DBMS**（数据库管理系统）是
+ */
+export function normalizeEmphasisParens(markdown) {
+  return String(markdown)
+    .replace(/\*\*((?:(?!\*\*)[^*])+?)（([^）]*)）\*\*/g, '**$1**（$2）')
+    .replace(/\*\*((?:(?!\*\*)[^*])+?)\(([^)]*)\)\*\*/g, '**$1**($2)');
+}
+
 const renderer = new marked.Renderer();
 const baseCode = renderer.code.bind(renderer);
 
@@ -131,7 +142,7 @@ const PURIFY = {
  */
 export function renderLesson(markdown) {
   if (!markdown) return '';
-  const raw = marked.parse(markdown, { async: false });
+  const raw = marked.parse(normalizeEmphasisParens(markdown), { async: false });
   const clean = DOMPurify.sanitize(raw, PURIFY);
   return clean.replace(/<table[\s\S]*?<\/table>/gi, (table) => {
     return `<div class="md-table-wrap">${table}</div>`;
