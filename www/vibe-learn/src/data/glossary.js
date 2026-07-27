@@ -86,14 +86,29 @@ export const GLOSSARY = {
 
   /* —— 第一章 · 环境 —— */
   terminal: {
-    term: '终端（Terminal）',
-    brief: '用来打字下命令、看文字输出的窗口程序（如 Windows Terminal、macOS「终端」）。它本身不解释命令。',
-    also: ['terminal-worlds'],
+    term: '终端（仿真器）',
+    brief: '显示文字、收键盘的窗口程序（Windows Terminal、Git Bash 窗、Terminal.app）。它不解释命令；解释命令的是里面的 Shell。',
+    also: ['terminal-worlds', 'shell', 'cli'],
   },
   shell: {
-    term: 'Shell（壳）',
-    brief: '终端窗口里真正解析你输入文字的程序：bash、zsh、PowerShell 都是 Shell。',
-    also: ['terminal-worlds', 'linux-cli'],
+    term: 'Shell',
+    brief: '命令解释器，且不止一种：bash、zsh、PowerShell、cmd… 语法不同。Git Bash 提供的是 bash 方言。',
+    also: ['terminal-worlds', 'cli', 'lang-shell', 'lang-powershell', 'git_bash'],
+  },
+  git_bash: {
+    term: 'Git Bash',
+    brief: 'Git for Windows 自带的 bash 环境。「Git Bash Here」在当前文件夹打开它。Claude Code 在 Win 上推荐它以启用 Bash tool。',
+    also: ['terminal-worlds', 'git', 'shell', 'xrk-deploy-env'],
+  },
+  powershell_shell: {
+    term: 'PowerShell',
+    brief: 'Windows 常见 Shell：对象管道、与 bash/cmd 语法不同。提示符常为 PS>。可跑 node/pnpm，但不是 bash。',
+    also: ['terminal-worlds', 'lang-powershell', 'shell'],
+  },
+  cmd_shell: {
+    term: 'CMD',
+    brief: 'Windows 命令提示符（cmd.exe）。方言最老、能力窄；能调 PATH 上的程序，但缺少 bash 生态。',
+    also: ['terminal-worlds', 'shell'],
   },
   cli: {
     term: '命令行（CLI, Command Line Interface）',
@@ -107,8 +122,8 @@ export const GLOSSARY = {
   },
   wsl: {
     term: 'WSL（Windows Subsystem for Linux）',
-    brief: '在 Windows 里跑一套 Linux 用户环境的技术，方便跟 Linux 教程对齐。',
-    also: ['terminal-worlds', 'linux-distros'],
+    brief: 'Windows 里的 Linux 环境（WSL2 带虚拟化 Linux 内核）。与原生 Linux、与 Windows 本机 PATH 都不是同一套；勿混装工具。',
+    also: ['terminal-worlds', 'linux-distros', 'os'],
   },
   distro: {
     term: '发行版（Distro）',
@@ -127,8 +142,8 @@ export const GLOSSARY = {
   },
   path_env: {
     term: 'PATH（环境变量）',
-    brief: '一串目录列表。你在 Shell 里敲 \`node\` 时，系统按 PATH 顺序找叫 node 的可执行文件。',
-    also: ['installers-path', 'runtime-nodejs'],
+    brief: '一串目录列表。Shell 找外部命令时按 PATH 顺序搜可执行文件。改完 PATH 必须新开终端；旧窗口仍是旧环境。',
+    also: ['installers-path', 'runtime-nodejs', 'terminal-worlds', 'xrk-deploy-env'],
   },
   runtime: {
     term: '运行时（Runtime）',
@@ -137,18 +152,43 @@ export const GLOSSARY = {
   },
   nodejs: {
     term: 'Node.js',
-    brief: '让 JavaScript 在浏览器之外运行的运行时：可读文件、开端口、跑后端服务。',
-    also: ['runtime-nodejs', 'lang-to-runtime'],
+    brief: '让 JavaScript 在浏览器之外运行的运行时（不是一门语言）：可读文件、开端口、跑后端服务。',
+    also: ['runtime-nodejs', 'lang-nodejs', 'lang-to-runtime', 'xrk-deploy-env'],
   },
   v8: {
     term: 'V8',
-    brief: 'Google 开源的 JavaScript 引擎；Chrome 与 Node.js 都用它执行 JS。',
-    also: ['runtime-nodejs'],
+    brief: 'Google 开源的 JS 引擎。Chrome、Chromium 内核的 Edge、Node.js、Playwright Chromium 用它；Firefox（SpiderMonkey）、Safari（JSC）不用。与 Blink 排版是不同层。',
+    also: ['runtime-nodejs', 'lang-nodejs', 'xrk-deploy-env', 'chromium'],
+  },
+  chromium: {
+    term: 'Chromium',
+    brief: '开源浏览器项目（含 Blink 排版 + V8 等）。Chrome、新版 Edge、Playwright 自带浏览器基于它——不等于「世上所有浏览器」。',
+    also: ['xrk-deploy-env', 'v8', 'blink_engine'],
+  },
+  blink_engine: {
+    term: 'Blink',
+    brief: 'Chromium 的排版/渲染引擎（HTML/CSS→画面）。执行 JS 的是 V8，不要说成「浏览器引擎只有 V8」。',
+    also: ['xrk-deploy-env', 'chromium', 'v8'],
+  },
+  playwright_chromium: {
+    term: 'Playwright Chromium',
+    brief: 'Playwright 下载的独立 Chromium 构建，供截图/自动化；不等于系统安装的 Chrome/Edge。',
+    also: ['xrk-deploy-env', 'chromium'],
+  },
+  chrome_browser: {
+    term: 'Chrome',
+    brief: 'Google 基于 Chromium 的浏览器产品。适合人工打开控制台；渲染链路仍要 Playwright 浏览器。',
+    also: ['xrk-deploy-env', 'chromium'],
+  },
+  edge_browser: {
+    term: 'Edge',
+    brief: 'Microsoft 基于 Chromium 的浏览器；Windows 常预装。日常浏览可用，不等于自动化用的 Chromium。',
+    also: ['xrk-deploy-env', 'chromium'],
   },
   engines_field: {
     term: 'engines（package.json）',
     brief: '项目声明「我需要哪个版本的 Node」。版本不够，语法或依赖可能直接跑不起来。',
-    also: ['runtime-nodejs', 'package-managers'],
+    also: ['runtime-nodejs', 'package-managers', 'lang-nodejs'],
   },
   msi: {
     term: 'MSI',
@@ -1104,8 +1144,28 @@ export const GLOSSARY = {
   },
   redis_cache: {
     term: 'Redis',
-    brief: '主服默认依赖的缓存/队列底座；启动日志可见连接。业务状态勿只信进程内存。',
-    also: ['xrk-database', 'xrk-first-run'],
+    brief: '内存数据结构服务器 / 缓存中间件。独立进程；本仓 Runtime 必需。不是语言也不是框架。',
+    also: ['xrk-database', 'xrk-first-run', 'xrk-deploy-env', 'db-redis', 'db-middleware'],
+  },
+  middleware_infra: {
+    term: '中间件（基础设施）',
+    brief: '独立于业务进程、经网络提供共用能力的服务：数据库、缓存、消息队列、网关等。别与 Express 请求管道中间件混名。',
+    also: ['lang-library-framework', 'db-middleware', 'db-redis'],
+  },
+  dbms: {
+    term: 'DBMS',
+    brief: '数据库管理系统：管存储、查询、并发、持久化的软件。MySQL/PG/Mongo/Redis/SQLite 都是 DBMS 产品。',
+    also: ['db-essence', 'db-as-service', 'db-landscape'],
+  },
+  sqlite_db: {
+    term: 'SQLite',
+    brief: '嵌入式关系库：通常链进应用进程、落在文件上，不默认监听端口。本仓 Runtime 用 node:sqlite。',
+    also: ['db-sqlite', 'xrk-database'],
+  },
+  mongodb_db: {
+    term: 'MongoDB',
+    brief: '文档型 DBMS；独立服务。本仓经 mongodb-Core 可选接入。',
+    also: ['db-mongodb', 'xrk-database'],
   },
   x_api_key: {
     term: 'X-API-Key',

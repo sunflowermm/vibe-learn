@@ -106,9 +106,10 @@ const LANG_MODEL = {
   },
 };
 
-/** 本仓优先：JS/TS/前端 → 子服语言 → 系统/脚本 */
+/** 本仓优先：JS + Node 运行时 → TS/前端 → 子服语言 → 系统/脚本 */
 const LANG_IDS = [
   'lang-javascript',
+  'lang-nodejs',
   'lang-typescript',
   'lang-html-css',
   'lang-python',
@@ -190,8 +191,8 @@ assertNoCardOverlap(NET_TOPICS, 'frameNet');
  * ═══════════════════════════════════════════ */
 const XRK_TOPICS = laneBlockPositions(
   [
-    /* L0 入口 */
-    ['xrk-overview', 'xrk-biz-map'],
+    /* L0 入口：环境清单 → 鸟瞰 → 全景 */
+    ['xrk-deploy-env', 'xrk-overview', 'xrk-biz-map'],
     /* L1 结构：Runtime / Core / 插件 / 语言栈 */
     ['xrk-runtime', 'xrk-core-layout', 'xrk-plugin-arch', 'xrk-language-stack'],
     /* L2 暴露与通道 */
@@ -258,6 +259,21 @@ const CLASH_TOPICS = chainRowPositions(
 );
 assertNoCardOverlap(CLASH_TOPICS, 'frameClash');
 
+/* ═══════════════════════════════════════════
+ * 番外 · 数据库
+ * 本质/服务/中间件 → 版图 → 各产品分课
+ * ═══════════════════════════════════════════ */
+const DB_TOPICS = laneBlockPositions(
+  [
+    ['db-essence', 'db-as-service', 'db-middleware'],
+    ['db-landscape'],
+    ['db-redis', 'db-sqlite', 'db-mongodb'],
+    ['db-postgresql', 'db-mysql', 'db-others'],
+  ],
+  { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
+);
+assertNoCardOverlap(DB_TOPICS, 'frameDb');
+
 /* —— 包围盒 → 章框尺寸 —— */
 function boundsOf(map) {
   const xs = Object.values(map).map((p) => p.x);
@@ -275,6 +291,7 @@ const netB = boundsOf(NET_TOPICS);
 const xrkB = boundsOf(XRK_TOPICS);
 const aiB = boundsOf(AI_SNAKE);
 const clashB = boundsOf(CLASH_TOPICS);
+const dbB = boundsOf(DB_TOPICS);
 
 const PAD_W = CARD_W + 100;
 const PAD_H = CARD_H + 140;
@@ -292,6 +309,10 @@ const FRAME_AI = { x: 40, y: 1160 };
 const FRAME_CLASH = {
   x: 80,
   y: FRAME_AI.y + Math.ceil(aiB.maxY + PAD_H) + 60,
+};
+const FRAME_DB = {
+  x: FRAME_CLASH.x + Math.ceil(clashB.maxX + PAD_W) + 80,
+  y: FRAME_CLASH.y,
 };
 
 export const LAYOUT = {
@@ -330,6 +351,11 @@ export const LAYOUT = {
     width: Math.ceil(clashB.maxX + PAD_W),
     height: Math.ceil(clashB.maxY + PAD_H),
   },
+  frameDb: {
+    ...FRAME_DB,
+    width: Math.ceil(dbB.maxX + PAD_W),
+    height: Math.ceil(dbB.maxY + PAD_H),
+  },
 
   topics: {
     ...MACHINE_TOPICS,
@@ -339,6 +365,7 @@ export const LAYOUT = {
     ...XRK_TOPICS,
     ...AI_SNAKE,
     ...CLASH_TOPICS,
+    ...DB_TOPICS,
   },
 };
 
@@ -356,6 +383,7 @@ export const LAYOUT_META = {
     xrk: 'laneBlock',
     ai: 'snake',
     clash: 'chain',
+    db: 'laneBlock',
   },
   MACHINE_TOPICS,
   ENV_TOPICS,
@@ -364,4 +392,5 @@ export const LAYOUT_META = {
   XRK_TOPICS,
   AI_SNAKE,
   CLASH_TOPICS,
+  DB_TOPICS,
 };

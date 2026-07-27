@@ -86,10 +86,12 @@ flowchart TB
 | 主服语言 / 运行时 | JavaScript / **Node ≥ 26** |
 | 包管理 | **pnpm** |
 | 应用骨架 | AgentRuntime + Core（plugin/http/www/…） |
+| **数据 / 中间件** | Runtime：**Redis + SQLite**；可选 Mongo / PG / 向量 Core |
 | 子服 | pyserver / goserver / phpserver / jserver / netserver / rustserver |
 | 对外 | HTTP API + Core \`www\` |
 | 配置 | CommonConfig + yaml |
 
+分层词义见 **库 · 框架 · 运行时 · 中间件**；各库产品见番外 **数据库**；本仓契约见第四章 **数据与缓存**。  
 详情见第四章 **语言栈** 与各语言分课。
 
 ## 八股 × 业务串联
@@ -105,5 +107,6 @@ flowchart TB
 
 **技术选型** — 怎么决定用哪一层的哪一块；  
 **接到本仓运行时** — 把栈落到安装与进程；  
-第四章 **语言栈** — 子服端口与优势表。
+第四章 **语言栈** — 子服端口与优势表；  
+番外 **数据库** — 数据层各产品是什么。
 `;

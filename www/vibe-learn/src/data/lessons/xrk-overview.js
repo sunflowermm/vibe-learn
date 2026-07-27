@@ -96,7 +96,7 @@ flowchart TB
 
 ## 建议阅读顺序
 
-鸟瞰 → **业务层全景** → AgentRuntime → Core / 插件 → Tasker·events（按需）→ **语言栈** → HTTP → Auth → **子服务端** → 配置 → 数据库·Factory·MCP（按需）→ Stream → 实践课 → 第五章。
+**部署环境** → 鸟瞰 → **业务层全景** → AgentRuntime → Core / 插件 → Tasker·events（按需）→ **语言栈** → HTTP → Auth → **子服务端** → 配置 → 数据库·Factory·MCP（按需）→ Stream → 实践课 → 第五章。
 
 ## 文档链接
 

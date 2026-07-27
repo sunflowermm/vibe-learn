@@ -17,6 +17,7 @@ flowchart TB
     NET[端口/HTTP]
   end
   subgraph xrk["本框"]
+    DEP[部署环境]
     OV[鸟瞰]
     MAP[业务层全景]
     RT[Runtime]
@@ -37,9 +38,11 @@ flowchart TB
     LAB2[实践·子服]
   end
   OS --> OV
+  ENV --> DEP
   ENV --> OV
   LANG --> LS
   NET --> HTTP
+  DEP --> OV
   OV --> MAP
   MAP --> RT
   MAP --> CORE
@@ -68,6 +71,7 @@ flowchart TB
 
 | 节点 | 摘要 | 主要回扣 |
 |------|------|----------|
+| **部署环境** | Git/Node/Redis/日常浏览器（非 Win 也要装）· 终端种类 · PATH · clone · 引擎分层 | 第一章工具链 |
 | 项目鸟瞰 | Runtime · Core · 子服族；入口指向全景 | 总览 |
 | **业务层全景** | 扩展点地图（plugin→subserver call） | 索引 |
 | AgentRuntime | 启动链、裸名、\`callSubserver\`、热加载 | 序章·进程 |
@@ -79,7 +83,7 @@ flowchart TB
 | HTTP / www | 接口与静态挂载 | 第三章 |
 | **HTTP Auth** | API Key · runtime-auth · 分层 | 安全 |
 | 子服务端 | 多进程 HTTP 契约；配置只读 | 进程 + 端口 |
-| **数据库** | Redis/SQLite 必需；Mongo/PG/向量可选 | 存储 |
+| **数据库** | 本仓契约（Redis/SQLite 必需；可选 Core） | 番外·数据库（概念）· 部署环境（安装） |
 | **Factory** | LLM/ASR/TTS 工厂与配置 | 模型客户端 |
 | **MCP 运维** | 主服工具挂载；桥接第五章 | 工具通道 |
 | 配置归属 | 框架模板与产品模板；\`subserver.runtimes\` | 契约 |
@@ -89,7 +93,7 @@ flowchart TB
 
 ## 建议读法
 
-1. **鸟瞰** → **业务层全景**（扩展点 + 示例仓库地址）  
+1. **部署环境**（四件套 + 浏览器引擎）→ **鸟瞰** → **业务层全景**  
 2. **Runtime** → **Core 放码** → **插件架构**  
 3. 按需：**Tasker** / **events** / **Auth** / **数据库** / **Factory** / **MCP**  
 4. **语言栈** → **HTTP/www** → **子服务端**（含 jmcomic 等 \`apis/\` 插件仓）→ **配置归属**  
@@ -100,6 +104,8 @@ flowchart TB
 
 | 本框已有课 | 本轮加厚/新增如何接 |
 |------------|---------------------|
+| **部署环境** | 补全 Git/Node/Redis/浏览器；与「首次跑通」分工：清单 vs 最短命令；Redis **是什么**见番外 |
+| **数据库** | 只钉本仓契约；产品/中间件概念见番外 **数据库** |
 | 语言栈 / 子服务端 / 配置归属 | 仍读原课；实践·子服做动手；子服课含独立插件仓示例 |
 | HTTP / www | Auth 课补安全分层；业务层全景 §4 列产品 www 路径 |
 | Stream | 显式链 Factory + MCP |

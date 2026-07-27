@@ -1,19 +1,27 @@
 /** 数据库 · Redis / SQLite / 可选 Core */
-export default `# 数据库 · Redis / SQLite / 可选 Core
+export default `# 数据与缓存 · 本仓契约
 
-> Runtime **必需**：Redis（热数据）+ SQLite（\`node:sqlite\` 嵌入落盘）。  
-> Mongo / Postgres / 向量（Qdrant 等）由可选业务 Core 引入，**soft-skip**，不进 DatabaseManager 的 fail-fast。
+> 本课钉 **XRK-AGT 怎么用库**，不重讲「数据库是什么」。  
+> 概念 / 产品门派 / 流行度 → 番外 **数据库**；本机安装 Redis → **部署环境**。
+
+## 模块边界
+
+| 问题 | 去哪一课 |
+|------|----------|
+| Redis / Mongo / SQLite 各是什么模型？ | 番外对应产品课 |
+| 为何叫中间件？Node 是不是框架？ | 语言章 **库 · 框架 · 运行时 · 中间件** + 番外 **中间件视角** |
+| 怎么装 Redis、进 PATH？ | **部署环境** |
+| Runtime 必需谁？路径、全局名、health？ | **本课** + \`docs/database.md\` |
 
 ## 本课你要带走什么
 
-1. 四种存储各自干什么、归属谁  
-2. \`src/infrastructure/database\` 与 \`docs/database.md\` 的权威约定  
-3. \`mongodb-Core\` / \`postgres-Core\` / \`vector-Core\` 与 Runtime 库的边界  
-4. 实践：启动日志确认 Redis（与 SQLite）OK
+1. 五种存储在本仓的**归属**（Runtime vs 可选 Core）  
+2. \`src/infrastructure/database\` 与 \`docs/database.md\` 权威约定  
+3. 实践：启动日志 / \`/api/health\` 确认 Redis 与 SQLite  
 
 ---
 
-## 1. 用途分工
+## 1. 用途分工（本仓）
 
 | 存储 | 归属 | 典型用途 | 业务访问 |
 |------|------|----------|----------|
@@ -71,7 +79,7 @@ sqlite.prepare('SELECT 1 AS ok').get()
 
 ---
 
-## 4. 与可选 Core 的边界（勿发明 API）
+## 4. 边界 FAQ（勿发明 API）
 
 | 问题 | 答案骨架 |
 |------|----------|
@@ -81,7 +89,7 @@ sqlite.prepare('SELECT 1 AS ok').get()
 | 配置改了？ | 连接多在启动期建立 → **重启** |
 | 跨 Redis+SQLite 事务？ | **无**统一 UoW；仅最终一致 |
 
-Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mjs\` 行为说明（database.md）。
+Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mjs\`（database.md）；手顺也见 **部署环境**。
 
 ### 可选数据 Core 仓库
 
@@ -97,11 +105,10 @@ Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mj
 
 ## 5. 实践清单
 
-1. 用常规方式启动主服，在日志中确认 Redis 探测/连接成功（\`ensure-redis\` / redisInit 相关 OK）。  
-2. 调 \`GET /api/health\`（本机 loopback 通常可免 Key，见 Auth 课），查看 \`services.redis\` 与 \`services.sqlite\`。  
-3. 打开 \`docs/database.md\`「用途分工」表，对照本机是否启用了任一 \`*-Core\` 数据库。  
-4. 口述：为什么「会话热数据」优先 Redis，而不是只写 SQLite。  
-5. （可选）在测试环境设 \`XRK_SQLITE_MEMORY=1\` 理解内存库用途后改回。
+1. 启动主服，日志确认 Redis 探测/连接成功（\`ensure-redis\` / redisInit）。  
+2. \`GET /api/health\`，查看 \`services.redis\` 与 \`services.sqlite\`。  
+3. 打开 \`docs/database.md\`「用途分工」表，对照本机是否启用了任一 \`*-Core\`。  
+4. 口述：会话热数据为何优先 Redis，而不是只写 SQLite。  
 
 ---
 
@@ -109,11 +116,9 @@ Docker / 本机拉起 Redis：见 \`docs/docker.md\`、\`scripts/ensure-redis.mj
 
 - \`docs/database.md\`（本课真源）  
 - \`docs/startup.md\` · \`docs/docker.md\`  
-- \`docs/config-base.md\` · \`docs/app-dev.md\`  
-- 插件内访问提示：\`docs/plugin-base.md\`
+- \`docs/config-base.md\` · \`docs/app-dev.md\` · \`docs/plugin-base.md\`
 
 ## 下一步
 
-**Auth**（保护 API）· **Stream / RAG 相关**（向量 Core 与工作流增强）· **配置归属**（redis/sqlite yaml 三件套）。  
-存储就绪后，再谈 MCP 与子服调用更踏实。
+番外 **Redis / SQLite / MongoDB**（补产品直觉）· **部署环境**（装机）· **Auth** · **Stream / RAG**（向量 Core）· **配置归属**。  
 `;

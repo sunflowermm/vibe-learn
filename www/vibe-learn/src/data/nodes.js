@@ -2,7 +2,7 @@
  * 图谱数据模型
  *
  * 序章 认识计算机 → 第一章 环境与终端 → 第二章 计算机语言
- * → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能 · 番外 Clash
+ * → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能 · 番外 Clash / 数据库
  */
 import computerSystem from './lessons/computer-system.js';
 import osEssence from './lessons/os-essence.js';
@@ -24,6 +24,7 @@ import langTechStack from './lessons/lang-tech-stack.js';
 import langTechSelection from './lessons/lang-tech-selection.js';
 import langLandscape from './lessons/lang-landscape.js';
 import langJavascript from './lessons/lang-javascript.js';
+import langNodejs from './lessons/lang-nodejs.js';
 import langTypescript from './lessons/lang-typescript.js';
 import langPython from './lessons/lang-python.js';
 import langGo from './lessons/lang-go.js';
@@ -57,6 +58,7 @@ import dnsHttps from './lessons/dns-https.js';
 import reverseProxy from './lessons/reverse-proxy.js';
 import netEdgePractice from './lessons/net-edge-practice.js';
 import xrkOverview from './lessons/xrk-overview.js';
+import xrkDeployEnv from './lessons/xrk-deploy-env.js';
 import xrkBizMap from './lessons/xrk-biz-map.js';
 import xrkRuntime from './lessons/xrk-runtime.js';
 import xrkCoreLayout from './lessons/xrk-core-layout.js';
@@ -104,6 +106,17 @@ import chapterNetwork from './lessons/chapter-network.js';
 import chapterXrk from './lessons/chapter-xrk.js';
 import chapterAi from './lessons/chapter-ai.js';
 import chapterClash from './lessons/chapter-clash.js';
+import chapterDatabase from './lessons/chapter-database.js';
+import dbEssence from './lessons/db-essence.js';
+import dbAsService from './lessons/db-as-service.js';
+import dbMiddleware from './lessons/db-middleware.js';
+import dbLandscape from './lessons/db-landscape.js';
+import dbRedis from './lessons/db-redis.js';
+import dbSqlite from './lessons/db-sqlite.js';
+import dbMongodb from './lessons/db-mongodb.js';
+import dbPostgresql from './lessons/db-postgresql.js';
+import dbMysql from './lessons/db-mysql.js';
+import dbOthers from './lessons/db-others.js';
 import { LAYOUT } from './layout.js';
 import { toneOf } from './tones.js';
 import {
@@ -121,6 +134,7 @@ const CH_NET = 'chapter-computer-network';
 const CH_XRK = 'chapter-xrk-agt';
 const CH_AI = 'chapter-ai';
 const CH_CLASH = 'chapter-clash';
+const CH_DB = 'chapter-database';
 
 /** source 手柄 id → target 手柄 id（GraphCard 上 type=target） */
 const TARGET_HANDLE = {
@@ -159,7 +173,7 @@ export const graphFrames = [
     label: '第二章 · 计算机语言',
     subtitle: '语言轨 · 框架轨分清 · 选型 · 接到本仓',
     tag: 'Chapter 02',
-    role: '先分语言/框架；语言版图分课；Vue/React 挂框架轨；主服 Node 与多语言子服。',
+    role: '先分语言/框架；语言版图含 Node 运行时分类；Vue/React 挂框架轨；主服 Node 与多语言子服。',
     position: { x: LAYOUT.frameLang.x, y: LAYOUT.frameLang.y },
     size: { width: LAYOUT.frameLang.width, height: LAYOUT.frameLang.height },
     markdown: chapterLanguages,
@@ -179,9 +193,9 @@ export const graphFrames = [
     id: CH_XRK,
     kind: 'chapter',
     label: '第四章 · XRK-AGT',
-    subtitle: '项目实践：融会进程 · 语言 · 网络',
+    subtitle: '部署环境 · 项目实践：融会进程 · 语言 · 网络',
     tag: 'Chapter 04',
-    role: '知识体系汇合点；插件架构 · 多语言子服族 · Stream。',
+    role: '先齐 Git/Node/Redis/日常浏览器（非 Win 也要）；再汇合插件架构 · 多语言子服 · Stream。',
     position: { x: LAYOUT.frameXrk.x, y: LAYOUT.frameXrk.y },
     size: { width: LAYOUT.frameXrk.width, height: LAYOUT.frameXrk.height },
     markdown: chapterXrk,
@@ -207,6 +221,17 @@ export const graphFrames = [
     position: { x: LAYOUT.frameClash.x, y: LAYOUT.frameClash.y },
     size: { width: LAYOUT.frameClash.width, height: LAYOUT.frameClash.height },
     markdown: chapterClash,
+  },
+  {
+    id: CH_DB,
+    kind: 'chapter',
+    label: '番外 · 数据库',
+    subtitle: '本质 · 服务 · 中间件 · 各库分课',
+    tag: 'Side Quest',
+    role: 'DBMS 是什么；为何叫中间件；Redis/SQLite/Mongo…；接本仓。',
+    position: { x: LAYOUT.frameDb.x, y: LAYOUT.frameDb.y },
+    size: { width: LAYOUT.frameDb.width, height: LAYOUT.frameDb.height },
+    markdown: chapterDatabase,
   },
 ];
 
@@ -272,13 +297,14 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_ENV,
     label: '不同终端环境',
-    subtitle: 'Win / macOS / Linux / SSH / WSL',
+    subtitle: '多种 Shell · 命令本质 · Git Bash / WSL',
     tag: '01 终端',
-    role: '终端、Shell、OS 三件套；各平台默认组合不同。',
+    role: '三件套；bash≠PowerShell；PATH 起进程；Git Bash vs CMD；WSL vs 原生；Claude Code 与 Bash。',
     prereqs: ['computer-system', 'os-essence'],
-    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path'],
+    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path', 'xrk-deploy-env'],
     position: LAYOUT.topics['terminal-worlds'],
     markdown: terminalWorlds,
+    chapterOut: ['xrk-deploy-env'],
   },
   {
     id: 'linux-distros',
@@ -315,10 +341,17 @@ export const knowledgeNodes = [
     tag: '01 运行时',
     role: 'JS 本机引擎；安装常附带官方包管理入口。',
     prereqs: ['terminal-worlds'],
-    next: ['installers-path', 'package-managers', 'lang-compiled-runtime', 'xrk-language-stack'],
+    next: [
+      'installers-path',
+      'package-managers',
+      'lang-compiled-runtime',
+      'lang-nodejs',
+      'xrk-language-stack',
+      'xrk-deploy-env',
+    ],
     position: LAYOUT.topics['runtime-nodejs'],
     markdown: runtimeNodejs,
-    chapterOut: ['lang-compiled-runtime', 'xrk-language-stack'],
+    chapterOut: ['lang-compiled-runtime', 'lang-nodejs', 'xrk-language-stack', 'xrk-deploy-env'],
   },
   {
     id: 'installers-path',
@@ -379,12 +412,12 @@ export const knowledgeNodes = [
     label: '首次跑通',
     subtitle: 'install → node app → 检查点',
     tag: '01 实战',
-    role: '工具链收束；下一棒交给第四章项目实践。',
+    role: '工具链收束；下一棒交给第四章部署环境与项目实践。',
     prereqs: ['git-workspace', 'git-forges'],
-    next: ['xrk-overview'],
+    next: ['xrk-deploy-env', 'xrk-overview'],
     position: LAYOUT.topics['xrk-first-run'],
     markdown: xrkFirstRun,
-    chapterOut: ['xrk-overview'],
+    chapterOut: ['xrk-deploy-env', 'xrk-overview'],
   },
 
   /* 第二章 · 语言 */
@@ -405,14 +438,16 @@ export const knowledgeNodes = [
     id: 'lang-library-framework',
     kind: 'topic',
     parentId: CH_LANG,
-    label: '库与框架',
-    subtitle: '谁调用谁 · IoC',
+    label: '库 · 框架 · 运行时 · 中间件',
+    subtitle: 'Node 不是框架 · 中间件定义',
     tag: '02 概念',
-    role: '库 vs 框架 vs 引擎 vs SDK；由此扇出前后端常见框架课。',
+    role: '库 vs 框架 vs 运行时；中间件；扇出框架课与数据库番外。',
     prereqs: ['lang-what-is-language'],
     next: [
       'lang-tech-stack',
       'lang-compiled-runtime',
+      'lang-nodejs',
+      'db-essence',
       'fw-vue',
       'fw-react',
       'fw-angular',
@@ -426,6 +461,7 @@ export const knowledgeNodes = [
     ],
     position: LAYOUT.topics['lang-library-framework'],
     markdown: langLibraryFramework,
+    chapterOut: ['db-essence'],
   },
   {
     id: 'fw-vue',
@@ -617,6 +653,7 @@ export const knowledgeNodes = [
     prereqs: ['lang-compiled-runtime', 'lang-tech-selection'],
     next: [
       'lang-javascript',
+      'lang-nodejs',
       'lang-html-css',
       'lang-python',
       'lang-shell',
@@ -636,9 +673,30 @@ export const knowledgeNodes = [
     tag: '02 语言',
     role: '浏览器与 Node 双宿主；本仓主服语言；Vue/React 的宿主。',
     prereqs: ['lang-landscape'],
-    next: ['lang-typescript', 'lang-html-css', 'fw-vue', 'fw-react', 'lang-to-runtime'],
+    next: [
+      'lang-nodejs',
+      'lang-typescript',
+      'lang-html-css',
+      'fw-vue',
+      'fw-react',
+      'lang-to-runtime',
+    ],
     position: LAYOUT.topics['lang-javascript'],
     markdown: langJavascript,
+  },
+  {
+    id: 'lang-nodejs',
+    kind: 'topic',
+    parentId: CH_LANG,
+    label: 'Node.js',
+    subtitle: '运行时 · 非语言',
+    tag: '02 运行时',
+    role: '语言章分类：执行 JS 的服务端运行时；装机见第一章。',
+    prereqs: ['lang-landscape', 'lang-javascript'],
+    next: ['lang-to-runtime', 'xrk-deploy-env', 'xrk-language-stack'],
+    position: LAYOUT.topics['lang-nodejs'],
+    markdown: langNodejs,
+    chapterOut: ['xrk-deploy-env', 'xrk-language-stack'],
   },
   {
     id: 'lang-typescript',
@@ -954,6 +1012,20 @@ export const knowledgeNodes = [
 
   /* 第四章 · XRK · 融会枢纽 + 业务层 + 实践 */
   {
+    id: 'xrk-deploy-env',
+    kind: 'topic',
+    parentId: CH_XRK,
+    label: '部署环境',
+    subtitle: 'Git · Node · Redis · 浏览器（含非 Win）',
+    tag: '04 环境',
+    role: '装机清单；Redis「是什么」见番外；契约见数据与缓存。',
+    prereqs: ['xrk-first-run', 'runtime-nodejs', 'git-workspace'],
+    next: ['xrk-overview', 'xrk-database', 'db-redis'],
+    position: LAYOUT.topics['xrk-deploy-env'],
+    markdown: xrkDeployEnv,
+    chapterOut: ['db-redis'],
+  },
+  {
     id: 'xrk-overview',
     kind: 'topic',
     parentId: CH_XRK,
@@ -961,7 +1033,13 @@ export const knowledgeNodes = [
     subtitle: 'Runtime · Core · 多语言子服',
     tag: '04 总览',
     role: '前几章知识在本仓的汇合入口。',
-    prereqs: ['xrk-first-run', 'lang-to-runtime', 'api-frontend', 'os-essence'],
+    prereqs: [
+      'xrk-first-run',
+      'xrk-deploy-env',
+      'lang-to-runtime',
+      'api-frontend',
+      'os-essence',
+    ],
     next: ['xrk-biz-map', 'xrk-runtime', 'xrk-core-layout', 'xrk-language-stack'],
     position: LAYOUT.topics['xrk-overview'],
     markdown: xrkOverview,
@@ -1135,13 +1213,14 @@ export const knowledgeNodes = [
     kind: 'topic',
     parentId: CH_XRK,
     label: '数据与缓存',
-    subtitle: 'Redis · 可选 DB Core',
+    subtitle: 'Redis · SQLite · 可选 Core',
     tag: '04 数据',
-    role: '主服 Redis；Mongo/Postgres/Vector 走专用 Core。',
+    role: '本仓契约；概念见番外·数据库；安装见部署环境。',
     prereqs: ['xrk-biz-map', 'xrk-config'],
-    next: ['xrk-stream', 'xrk-lab-plugin'],
+    next: ['xrk-stream', 'xrk-lab-plugin', 'db-redis'],
     position: LAYOUT.topics['xrk-database'],
     markdown: xrkDatabase,
+    chapterOut: ['db-redis', 'db-sqlite'],
   },
   {
     id: 'xrk-mcp-ops',
@@ -1504,6 +1583,150 @@ export const knowledgeNodes = [
     position: LAYOUT.topics['clash-setup'],
     markdown: clashSetupLesson,
   },
+
+  /* 番外 · 数据库 */
+  {
+    id: 'db-essence',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: '数据库本质',
+    subtitle: '数据 · DBMS · 模型',
+    tag: '番外·库',
+    role: '不是语言/框架；DBMS 解决存查改共享数据。',
+    prereqs: ['lang-library-framework', 'os-essence'],
+    next: ['db-as-service', 'db-middleware'],
+    position: LAYOUT.topics['db-essence'],
+    markdown: dbEssence,
+  },
+  {
+    id: 'db-as-service',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: '数据库服务',
+    subtitle: '进程 · 端口 · 客户端',
+    tag: '番外·库',
+    role: '多数 DBMS 是独立服务；SQLite 是嵌入例外。',
+    prereqs: ['db-essence', 'tcp-udp'],
+    next: ['db-middleware', 'db-landscape'],
+    position: LAYOUT.topics['db-as-service'],
+    markdown: dbAsService,
+  },
+  {
+    id: 'db-middleware',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: '中间件视角',
+    subtitle: '为何 DB/Redis 叫中间件',
+    tag: '番外·库',
+    role: '基础设施中间件 vs 请求管道中间件。',
+    prereqs: ['db-essence', 'lang-library-framework'],
+    next: ['db-landscape'],
+    position: LAYOUT.topics['db-middleware'],
+    markdown: dbMiddleware,
+  },
+  {
+    id: 'db-landscape',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: '版图与流行度',
+    subtitle: 'DB-Engines · 相对占比图',
+    tag: '番外·库',
+    role: '流行度分数≠营收市占；建立产品地图。',
+    prereqs: ['db-essence', 'db-middleware'],
+    next: [
+      'db-redis',
+      'db-sqlite',
+      'db-mongodb',
+      'db-postgresql',
+      'db-mysql',
+      'db-others',
+    ],
+    position: LAYOUT.topics['db-landscape'],
+    markdown: dbLandscape,
+  },
+  {
+    id: 'db-redis',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'Redis',
+    subtitle: '内存结构 · 本仓必需',
+    tag: '番外·库',
+    role: '键值/结构服务器；缓存中间件；XRK Runtime 必需。',
+    prereqs: ['db-landscape', 'db-as-service'],
+    next: ['xrk-database', 'xrk-deploy-env'],
+    position: LAYOUT.topics['db-redis'],
+    markdown: dbRedis,
+    chapterOut: ['xrk-database', 'xrk-deploy-env'],
+  },
+  {
+    id: 'db-sqlite',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'SQLite',
+    subtitle: '嵌入式关系库 · 本仓必需',
+    tag: '番外·库',
+    role: '文件库链进进程；node:sqlite；不替代 Redis。',
+    prereqs: ['db-landscape', 'db-essence'],
+    next: ['xrk-database'],
+    position: LAYOUT.topics['db-sqlite'],
+    markdown: dbSqlite,
+    chapterOut: ['xrk-database'],
+  },
+  {
+    id: 'db-mongodb',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'MongoDB',
+    subtitle: '文档库 · 可选 Core',
+    tag: '番外·库',
+    role: 'BSON 文档服务；mongodb-Core soft-skip。',
+    prereqs: ['db-landscape'],
+    next: ['xrk-database'],
+    position: LAYOUT.topics['db-mongodb'],
+    markdown: dbMongodb,
+    chapterOut: ['xrk-database'],
+  },
+  {
+    id: 'db-postgresql',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'PostgreSQL',
+    subtitle: '开源关系库 · 可选 Core',
+    tag: '番外·库',
+    role: 'SQL 事务主力之一；postgres-Core。',
+    prereqs: ['db-landscape'],
+    next: ['db-mysql', 'xrk-database'],
+    position: LAYOUT.topics['db-postgresql'],
+    markdown: dbPostgresql,
+    chapterOut: ['xrk-database'],
+  },
+  {
+    id: 'db-mysql',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'MySQL',
+    subtitle: '开源关系库 · Web 存量',
+    tag: '番外·库',
+    role: '与 PG 对照的关系库巨头；非 Runtime 必需。',
+    prereqs: ['db-landscape', 'db-postgresql'],
+    next: ['db-others'],
+    position: LAYOUT.topics['db-mysql'],
+    markdown: dbMysql,
+  },
+  {
+    id: 'db-others',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: '其它常见库',
+    subtitle: 'Oracle · SQL Server · ES · 向量…',
+    tag: '番外·库',
+    role: '索引卡：知道门派即可。',
+    prereqs: ['db-landscape'],
+    next: ['xrk-database'],
+    position: LAYOUT.topics['db-others'],
+    markdown: dbOthers,
+    chapterOut: ['xrk-database'],
+  },
 ];
 
 export const knowledgeEdges = [
@@ -1579,6 +1802,9 @@ export const knowledgeEdges = [
   { id: 'e-sel-xrk', source: 'lang-tech-selection', target: 'xrk-language-stack', sourceHandle: 'right', targetHandle: 'left', label: '选型结果复述', branch: 'bridge' },
   { id: 'e-lang-map', source: 'lang-compiled-runtime', target: 'lang-landscape', sourceHandle: 'right', targetHandle: 'left', label: '放到层次图', branch: 'c2' },
   { id: 'e-land-js', source: 'lang-landscape', target: 'lang-javascript', sourceHandle: 'bottom', targetHandle: 'top', label: '主服语言', branch: 'c2', animated: true },
+  { id: 'e-land-node', source: 'lang-landscape', target: 'lang-nodejs', sourceHandle: 'bottom', targetHandle: 'top', label: '主服运行时', branch: 'c2', animated: true },
+  { id: 'e-js-node', source: 'lang-javascript', target: 'lang-nodejs', sourceHandle: 'right', targetHandle: 'left', label: '语言→运行时', branch: 'c2', animated: true },
+  { id: 'e-ch1-node-cls', source: 'runtime-nodejs', target: 'lang-nodejs', sourceHandle: 'right', targetHandle: 'left', label: '装机→分类', branch: 'bridge' },
   { id: 'e-land-ts', source: 'lang-landscape', target: 'lang-typescript', sourceHandle: 'bottom', targetHandle: 'top', label: '类型层', branch: 'c2' },
   { id: 'e-land-html', source: 'lang-landscape', target: 'lang-html-css', sourceHandle: 'bottom', targetHandle: 'top', label: '标记/样式语言', branch: 'c2', animated: true },
   { id: 'e-land-py', source: 'lang-landscape', target: 'lang-python', sourceHandle: 'bottom', targetHandle: 'top', label: '默认子服', branch: 'c2', animated: true },
@@ -1596,11 +1822,16 @@ export const knowledgeEdges = [
   { id: 'e-shell-ps', source: 'lang-shell', target: 'lang-powershell', sourceHandle: 'bottom', targetHandle: 'top', label: '脚本语言对照', branch: 'c2' },
   { id: 'e-term-shell', source: 'terminal-worlds', target: 'lang-shell', sourceHandle: 'right', targetHandle: 'left', label: '壳也是语言', branch: 'bridge' },
   { id: 'e-js-tr', source: 'lang-javascript', target: 'lang-to-runtime', sourceHandle: 'bottom', targetHandle: 'left', label: '主服契约', branch: 'c2', animated: true },
+  { id: 'e-node-tr', source: 'lang-nodejs', target: 'lang-to-runtime', sourceHandle: 'bottom', targetHandle: 'top', label: '运行时契约', branch: 'c2' },
   { id: 'e-py-tr', source: 'lang-python', target: 'lang-to-runtime', sourceHandle: 'bottom', targetHandle: 'top', label: '子服入口', branch: 'c2' },
   { id: 'e-lang-land', source: 'lang-landscape', target: 'lang-to-runtime', sourceHandle: 'bottom', targetHandle: 'top', label: '汇总落地', branch: 'c2' },
 
   /* → 第四章（融会桥） */
-  { id: 'e-run-xrk', source: 'xrk-first-run', target: 'xrk-overview', sourceHandle: 'right', targetHandle: 'left', label: '进入项目实践', branch: 'c4', animated: true },
+  { id: 'e-run-deploy', source: 'xrk-first-run', target: 'xrk-deploy-env', sourceHandle: 'right', targetHandle: 'left', label: '补全环境清单', branch: 'c4', animated: true },
+  { id: 'e-deploy-ov', source: 'xrk-deploy-env', target: 'xrk-overview', sourceHandle: 'right', targetHandle: 'left', label: '环境齐再鸟瞰', branch: 'c4', animated: true },
+  { id: 'e-run-xrk', source: 'xrk-first-run', target: 'xrk-overview', sourceHandle: 'right', targetHandle: 'left', label: '进入项目实践', branch: 'c4' },
+  { id: 'e-node-deploy', source: 'lang-nodejs', target: 'xrk-deploy-env', sourceHandle: 'right', targetHandle: 'top', label: '运行时进清单', branch: 'bridge' },
+  { id: 'e-deploy-db', source: 'xrk-deploy-env', target: 'xrk-database', sourceHandle: 'bottom', targetHandle: 'top', label: 'Redis 深挖', branch: 'c4' },
   { id: 'e-lang-xrk', source: 'lang-to-runtime', target: 'xrk-overview', sourceHandle: 'right', targetHandle: 'left', label: '语言契约对齐', branch: 'bridge', animated: true },
   { id: 'e-lang-stack', source: 'lang-to-runtime', target: 'xrk-language-stack', sourceHandle: 'bottom', targetHandle: 'left', label: '主服+子服落地', branch: 'bridge' },
   { id: 'e-node-stack', source: 'runtime-nodejs', target: 'xrk-language-stack', sourceHandle: 'right', targetHandle: 'top', label: 'Node 引擎', branch: 'bridge' },
@@ -1702,6 +1933,26 @@ export const knowledgeEdges = [
   { id: 'e-tcp-clash-port', source: 'tcp-udp', target: 'clash-port', sourceHandle: 'bottom', targetHandle: 'top', label: '引擎入口=端口', branch: 'side' },
   { id: 'e-clash-port', source: 'clash', target: 'clash-port', sourceHandle: 'right', targetHandle: 'left', label: '入口连上引擎', branch: 'side', animated: true },
   { id: 'e-clash-setup', source: 'clash-port', target: 'clash-setup', sourceHandle: 'right', targetHandle: 'left', label: '订阅喂饱引擎', branch: 'side', animated: true },
+
+  /* 番外 · 数据库 */
+  { id: 'e-fw-db', source: 'lang-library-framework', target: 'db-essence', sourceHandle: 'bottom', targetHandle: 'top', label: '中间件深挖', branch: 'side', animated: true },
+  { id: 'e-db-ess-svc', source: 'db-essence', target: 'db-as-service', sourceHandle: 'right', targetHandle: 'left', label: '常以服务存在', branch: 'side', animated: true },
+  { id: 'e-db-ess-mw', source: 'db-essence', target: 'db-middleware', sourceHandle: 'bottom', targetHandle: 'top', label: '为何叫中间件', branch: 'side' },
+  { id: 'e-db-svc-land', source: 'db-as-service', target: 'db-landscape', sourceHandle: 'right', targetHandle: 'left', label: '产品地图', branch: 'side' },
+  { id: 'e-db-mw-land', source: 'db-middleware', target: 'db-landscape', sourceHandle: 'right', targetHandle: 'left', label: '对照流行度', branch: 'side', animated: true },
+  { id: 'e-db-land-redis', source: 'db-landscape', target: 'db-redis', sourceHandle: 'bottom', targetHandle: 'top', label: '本仓必需', branch: 'side', animated: true },
+  { id: 'e-db-land-sqlite', source: 'db-landscape', target: 'db-sqlite', sourceHandle: 'bottom', targetHandle: 'top', label: '嵌入必需', branch: 'side', animated: true },
+  { id: 'e-db-land-mongo', source: 'db-landscape', target: 'db-mongodb', sourceHandle: 'bottom', targetHandle: 'top', label: '文档库', branch: 'side' },
+  { id: 'e-db-land-pg', source: 'db-landscape', target: 'db-postgresql', sourceHandle: 'bottom', targetHandle: 'top', label: '关系开源', branch: 'side' },
+  { id: 'e-db-land-mysql', source: 'db-landscape', target: 'db-mysql', sourceHandle: 'bottom', targetHandle: 'top', label: '关系存量', branch: 'side' },
+  { id: 'e-db-land-oth', source: 'db-landscape', target: 'db-others', sourceHandle: 'right', targetHandle: 'left', label: '其它门派', branch: 'side' },
+  { id: 'e-db-pg-mysql', source: 'db-postgresql', target: 'db-mysql', sourceHandle: 'right', targetHandle: 'left', label: '关系对照', branch: 'side' },
+  { id: 'e-redis-xrkdb', source: 'db-redis', target: 'xrk-database', sourceHandle: 'right', targetHandle: 'left', label: '本仓契约', branch: 'bridge', animated: true },
+  { id: 'e-sqlite-xrkdb', source: 'db-sqlite', target: 'xrk-database', sourceHandle: 'right', targetHandle: 'left', label: '本仓契约', branch: 'bridge' },
+  { id: 'e-mongo-xrkdb', source: 'db-mongodb', target: 'xrk-database', sourceHandle: 'right', targetHandle: 'left', label: '可选 Core', branch: 'bridge' },
+  { id: 'e-pg-xrkdb', source: 'db-postgresql', target: 'xrk-database', sourceHandle: 'right', targetHandle: 'left', label: '可选 Core', branch: 'bridge' },
+  { id: 'e-redis-deploy', source: 'db-redis', target: 'xrk-deploy-env', sourceHandle: 'bottom', targetHandle: 'top', label: '怎么安装', branch: 'bridge' },
+  { id: 'e-deploy-xrkdb', source: 'xrk-deploy-env', target: 'xrk-database', sourceHandle: 'bottom', targetHandle: 'top', label: '装好后看契约', branch: 'c4', animated: true },
 ];
 
 export const allEntries = [...graphFrames, ...knowledgeNodes];

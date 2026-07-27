@@ -108,6 +108,19 @@ export const NODE_TONE = {
   clash: 'orange',
   'clash-port': 'sky',
   'clash-setup': 'violet',
+
+  'db-essence': 'indigo',
+  'db-as-service': 'sky',
+  'db-middleware': 'violet',
+  'db-landscape': 'pink',
+  'db-redis': 'rose',
+  'db-sqlite': 'teal',
+  'db-mongodb': 'orange',
+  'db-postgresql': 'sky',
+  'db-mysql': 'orange',
+  'db-others': 'slate',
+  'xrk-deploy-env': 'teal',
+  'lang-nodejs': 'sky',
 };
 
 export function toneOf(id) {

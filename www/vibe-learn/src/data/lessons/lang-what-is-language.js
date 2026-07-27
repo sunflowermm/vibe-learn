@@ -65,6 +65,8 @@ CPU 只认指令与数据。
 | 「我会 Vue 语言」 | 「我会 **JavaScript**，用 **Vue 框架** 做前端」 |
 | 「React 和 Python 两门语言」 | 「**Python** 是语言；**React** 是 JS 上的 UI 库」 |
 | 「我们栈是 Spring」 | 「语言 **Java**，框架 **Spring**，跑在 **JVM**」 |
+| 「Node 是框架 / Node 语言」 | 「**JavaScript** 是语言；**Node.js** 是**运行时**；Express/Nest 才是框架」 |
+| 「Redis / MySQL 是语言」 | 「那是 **数据库 / 中间件服务**；见番外数据库」 |
 
 面试金句：**「我写的是 JavaScript 语言，跑在 Node 运行时上，用 pnpm 管依赖；页面用 Vue 框架。」** 语言/运行时/工具/框架四层说清。
 

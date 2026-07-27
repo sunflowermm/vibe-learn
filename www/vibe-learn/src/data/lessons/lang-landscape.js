@@ -4,7 +4,7 @@ export default `# 语言版图
 > 按**层次**理解**语言**：靠近硬件还是靠近业务应用。  
 > **本课只索引语言。** Vue / React / Spring 等是**框架或库**，挂在 **库与框架** 轨，不进本图。  
 > 先建立概念：**什么是语言** → **库与框架** → **技术栈** → **技术选型**。  
-> 本仓坐标：主服 **Node.js（JavaScript 语言）**；子服 **Python、Go、PHP、Java、.NET、Rust**。
+> 本仓坐标：主服语言 **JavaScript**，运行时 **Node.js**（版图上两者分课）；子服 **Python、Go、PHP、Java、.NET、Rust**。
 
 ## 与上一课的关系
 
@@ -13,9 +13,10 @@ export default `# 语言版图
 
 ## 语言 vs 框架（再钉一次）
 
-| 进本图（语言） | 不进本图（框架/库） |
-|----------------|---------------------|
-| JavaScript、TypeScript、Python、Go… | Vue、React、Spring、Django、Express… |
+| 进本图 | 不进本图（框架/库） |
+|--------|---------------------|
+| **语言**：JavaScript、TypeScript、Python、Go… | Vue、React、Spring、Django、Express… |
+| **运行时（挂语言轨）**：**Node.js**（执行 JS，本身不是语言） | — |
 | HTML / CSS（标记/样式语言） | Element Plus、Ant Design（组件库） |
 | Shell、PowerShell（脚本语言） | 某公司内部脚手架 |
 
@@ -25,7 +26,7 @@ export default `# 语言版图
 |------|----------|----------|----------|
 | **系统 / 近金属** | **C**、**Rust**、**Go** | 系统组件、高并发、工具链 | 多编译为可执行文件 |
 | **托管运行时** | **Java**、**C#** | 大型后端与企业中间件 | 字节码/IL + VM |
-| **脚本与胶水** | **JavaScript**、**TypeScript**、**Python**、**PHP**、**Shell**、**PowerShell** | Web、自动化、数据分析、运维脚本 | 依赖已安装的运行时/壳 |
+| **脚本与胶水** | **JavaScript**（+ 运行时课 **Node.js**）、**TypeScript**、**Python**、**PHP**、**Shell**、**PowerShell** | Web、自动化、数据分析、运维脚本 | 依赖已安装的运行时/壳 |
 | **Web 标记与样式** | **HTML / CSS** | 页面结构与外观 | 浏览器解析 |
 
 \`\`\`mermaid
@@ -41,9 +42,10 @@ flowchart TB
 
 ## 分课导航（一门语言一块）
 
-| 语言 | 本仓角色 | 先看什么 |
-|------|----------|----------|
+| 语言 / 运行时 | 本仓角色 | 先看什么 |
+|----------------|----------|----------|
 | **JavaScript** | **主服语言** | 事件循环、双宿主 |
+| **Node.js** | **主服运行时**（非语言） | 与 JS/V8/浏览器边界；装机见第一章 |
 | **TypeScript** | 可选类型层 | 与 JS 超集关系 |
 | **HTML / CSS** | www 与前端地基 | 语义化、盒模型、布局 |
 | **Python** | 默认子服 pyserver | GIL、AI/数据生态 |
@@ -79,10 +81,11 @@ flowchart TB
 |--|--------|-----------------|------------|
 | 能力域 | DOM、页面 | 文件、进程、HTTP | 该语言生态专长 |
 | 进程 | 标签页 | \`node app\` | \`subserver/<runtime>/\` |
+| 引擎 | 常为 V8 + Blink | V8 + 系统 API（无 DOM） | 各语言 VM/二进制 |
 
-完整端口与选型表：第四章 **语言栈**（\`subserver/LANGUAGES.md\`）。
+完整端口与选型表：第四章 **语言栈**（\`subserver/LANGUAGES.md\`）。部署四件套见 **部署环境**。
 
 ## 下一步
 
-任选一门**语言**课深挖 →（前端再补）**Vue / React** 框架课 → **接到本仓运行时** → 第四章 **语言栈**。
+**JavaScript** → **Node.js（运行时分类）** → 其它语言课 →（前端）**Vue / React** → **接到本仓运行时** → 第四章 **部署环境** / **语言栈**。
 `;
