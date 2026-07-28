@@ -43,11 +43,13 @@ export default `# Core 放码位置
 | \`plugin/\` | 指令与插件 | 机器人 / 指令 | 插件架构 · 实践·插件 |
 | \`http/\` | HTTP API | 接口 | HTTP/www · Auth |
 | \`www/<应用>/\` | 静态 / SPA 前端 | 控制台 / 学习站 | HTTP/www |
-| \`workflow/\` | AI 工作流 | Agent 对话 | Stream · Factory · MCP |
+| \`workflow/\` | AI 工作流 | Agent 对话编排 | 工作流 · Factory · MCP |
 | \`tasker/\` | 协议适配 | QQ / 其它通道 | Tasker 通道 |
 | \`events/\` | 事件监听 | 生命周期钩子 | events |
 | \`commonconfig/\` | 配置 Schema | 控制台表单 | 配置归属 |
 | \`default/\` | 产品默认 yaml（独立 Core） | 引导复制到 \`data/\` | 配置归属 |
+| \`skills/\`（可选） | 产品 Agent 技能 | 注入产品助手 prompt | 办事助手 · 第五章 Skills |
+| \`AGENTS.md\`（可选） | 产品 Agent 说明书 | 人格与工具边界 | 根 AGENTS · 办事助手 |
 
 www **必须**子目录；根名勿用保留段：\`api\` \`core\` \`media\` \`uploads\` \`File\` \`shared\`。
 
@@ -61,6 +63,8 @@ flowchart TB
   Core --> E[events]
   Core --> C[commonconfig]
   Core --> D[default]
+  Core --> SK[skills]
+  Core --> AG[AGENTS.md]
 \`\`\`
 
 完整「别搞混」对照见 **业务层全景**。

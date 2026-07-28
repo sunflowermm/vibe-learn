@@ -42,6 +42,27 @@ const lit = computed(() => Boolean(props.data?.lit) || props.selected);
 .chapter.selected {
   border-color: var(--accent);
   border-style: solid;
+  animation: chapter-lit-pulse 1.4s ease-out 1;
+}
+
+@keyframes chapter-lit-pulse {
+  0% {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  40% {
+    border-color: var(--accent);
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 35%, transparent));
+  }
+  100% {
+    border-color: var(--accent);
+    filter: none;
+  }
+}
+
+.chapter.selected .chapter__head {
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.28),
+    var(--shadow-node);
 }
 
 .chapter__head {

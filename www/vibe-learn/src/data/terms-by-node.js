@@ -549,6 +549,15 @@ export const NODE_TERMS = {
     'mcp',
     'agent_runtime',
     'llm_factory',
+    'agent_workspace_cfg',
+  ],
+  'xrk-agent-workspace': [
+    'office_agent',
+    'agent_workspace',
+    'agent_workspace_cfg',
+    'agents_md',
+    'ai_workflow',
+    'mcp',
   ],
   'xrk-lab-plugin': ['plugin', 'core_pkg', 'loader', 'plugin_arch', 'agent_runtime'],
   'xrk-lab-subserver': [
@@ -577,7 +586,7 @@ export const NODE_TERMS = {
   'ai-skills': ['agent_skills', 'agent_rules'],
   'ai-subagent': ['subagent', 'agent_skills', 'agent_rules'],
   'ai-cli': ['cli', 'agent_concept', 'agent_skills'],
-  'ai-agents-md': ['agents_md', 'agent_rules', 'agent_skills'],
+  'ai-agents-md': ['agents_md', 'agent_rules', 'agent_skills', 'office_agent', 'agent_workspace'],
 
   clash: [
     'proxy_engine',

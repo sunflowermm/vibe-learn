@@ -214,7 +214,7 @@ const XRK_TOPICS = laneBlockPositions(
     /* L4 动手 */
     ['xrk-lab-plugin', 'xrk-lab-subserver'],
     /* L5 汇合 → 第五章 */
-    ['xrk-stream'],
+    ['xrk-stream', 'xrk-agent-workspace'],
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
 );

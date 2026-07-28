@@ -868,16 +868,31 @@ export const GLOSSARY = {
     also: ['xrk-subserver', 'xrk-runtime', 'xrk-language-stack'],
   },
 
-  /* —— 第四章 · Stream / AI —— */
+  /* —— 第四章 · 工作流 / Agent —— */
   ai_workflow: {
     term: 'AiWorkflow',
-    brief: 'AiWorkflow：XRK 对话工作流基类，组装上下文、调用 Large Language Model（大语言模型，LLM）并通过 Tool Calling 执行 MCP 工具。',
-    also: ['xrk-stream', 'ai-mcp'],
+    brief: 'AiWorkflow：XRK 对话工作流基类，组装上下文（含 agentWorkspace 注入）、调用 Large Language Model（大语言模型，LLM）并通过 Tool Calling 执行 MCP 工具。',
+    also: ['xrk-stream', 'xrk-agent-workspace', 'ai-mcp'],
   },
   stream_wf: {
-    term: 'stream / streams',
-    brief: 'stream / streams：对话请求中选定的工作流名白名单，用于限制本轮可调用的工具集合。',
+    term: '工作流名白名单',
+    brief: '对话请求中选定的工作流名称列表，用于限制本轮可调用的工具集合（配置与请求字段常写作 streams）。',
     also: ['xrk-stream'],
+  },
+  agent_workspace: {
+    term: 'Agent 工作区（ai-workspace）',
+    brief: '办事助手的运行时目录 data/ai-workspace/{id}/：含 AGENTS.md、SOUL、USER、TOOLS、ENV、memory、skills；首次从 agents/ 种子复制。',
+    also: ['xrk-agent-workspace', 'xrk-stream', 'agents_md'],
+  },
+  agent_workspace_cfg: {
+    term: 'agentWorkspace',
+    brief: 'ai-workflow.yaml 中的工作区注入配置段：开关、字符预算、include* 门控；由 src/utils/agent-workspace.js 注入 system prompt。',
+    also: ['xrk-agent-workspace', 'xrk-stream', 'ai_workflow'],
+  },
+  office_agent: {
+    term: '办事助手',
+    brief: '群聊 / 控制台对话 Agent：办公、检索、工作区文件与通道工具；技能在 agents/skills/standard/，说明见 docs/agents.md。',
+    also: ['xrk-agent-workspace', 'ai-agents-md'],
   },
   ai: {
     term: '人工智能（AI）',
@@ -1041,8 +1056,8 @@ export const GLOSSARY = {
   },
   agents_md: {
     term: 'AGENTS.md',
-    brief: 'AGENTS.md：面向编程 Agent 的项目说明文档（技术栈、命令、边界）；多种 AI 工具均可读取。',
-    also: ['ai-agents-md', 'xrk-overview'],
+    brief: '面向 Agent 的说明书：本仓分根目录（开发）、docs/agents.md（办事说明）、工作区 AGENTS（注入模型）、产品 Core AGENTS（若有）。',
+    also: ['ai-agents-md', 'xrk-agent-workspace', 'xrk-overview'],
   },
 
   /* —— 番外 · Clash —— */

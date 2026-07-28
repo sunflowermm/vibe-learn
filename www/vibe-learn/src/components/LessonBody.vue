@@ -23,17 +23,47 @@ const bodyKey = computed(() => `${themeTick.value}:${props.markdown.length}`);
 
 let unbindZoom = () => {};
 let disposeWidgets = () => {};
+let disposeReveal = () => {};
 /** @type {MutationObserver | null} */
 let themeMo = null;
+
+function revealLessonBlocks() {
+  const root = bodyEl.value;
+  if (!root) return () => {};
+  const reduced =
+    typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targets = [...root.querySelectorAll('h2, h3, table, .vibe-widget, pre.mermaid, .mermaid')];
+  if (!targets.length) return () => {};
+  if (reduced) {
+    for (const t of targets) t.classList.add('lesson-reveal');
+    return () => {};
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('lesson-reveal');
+        io.unobserve(e.target);
+      }
+    },
+    { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+  );
+  for (const t of targets) {
+    t.classList.add('lesson-reveal-wait');
+    io.observe(t);
+  }
+  return () => io.disconnect();
+}
 
 async function paintDiagrams() {
   disposeWidgets();
   disposeWidgets = () => {};
-  // flush:'post' 时 DOM 已带 v-html；不再多等一拍 nextTick，减少「MD 先出、终端后出」
+  disposeReveal();
+  disposeReveal = () => {};
   if (!bodyEl.value) return;
   disposeWidgets = hydrateLessonWidgets(bodyEl.value);
-  // Mermaid 后台画，不挡终端
-  void renderMermaidIn(bodyEl.value);
+  await renderMermaidIn(bodyEl.value);
+  disposeReveal = revealLessonBlocks();
 }
 
 watch([() => props.markdown, themeTick], paintDiagrams, { flush: 'post' });
@@ -55,6 +85,7 @@ onUnmounted(() => {
   themeMo?.disconnect();
   unbindZoom();
   disposeWidgets();
+  disposeReveal();
 });
 </script>
 

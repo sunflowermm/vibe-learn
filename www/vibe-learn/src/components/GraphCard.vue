@@ -107,10 +107,34 @@ const toneStyle = computed(() => ({
 }
 
 .card.selected {
-  filter: brightness(1.04);
+  filter: brightness(1.06);
   box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.45),
+    0 0 0 2px rgba(255, 255, 255, 0.55),
+    0 0 28px color-mix(in srgb, #fff 28%, transparent),
     var(--shadow-node);
+  animation: card-select-pulse 1.1s ease-out 1;
+}
+
+@keyframes card-select-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(255, 255, 255, 0.55),
+      var(--shadow-node);
+  }
+  45% {
+    transform: scale(1.035) translateY(-2px);
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 0.35),
+      0 18px 44px rgba(0, 0, 0, 0.38);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.55),
+      0 0 28px color-mix(in srgb, #fff 28%, transparent),
+      var(--shadow-node);
+  }
 }
 
 .card__tag {

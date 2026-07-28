@@ -326,13 +326,14 @@ export function mountQuiz(host, model) {
         const ok = c.ok;
         if (ok) score += 1;
         btn.classList.add(ok ? 'is-ok' : 'is-bad');
+        btn.classList.add(ok ? 'is-pop' : 'is-shake');
         for (const other of list.querySelectorAll('button')) {
           other.disabled = true;
           const ci = [...list.children].indexOf(other);
           if (q.choices[ci]?.ok) other.classList.add('is-ok');
         }
         feedback.textContent = c.why || (ok ? '正确。' : '再对照解析。');
-        feedback.className = `vibe-quiz__feedback ${ok ? 'is-ok' : 'is-bad'}`;
+        feedback.className = `vibe-quiz__feedback is-in ${ok ? 'is-ok' : 'is-bad'}`;
         const next = el('button', 'vibe-quiz__btn', {
           type: 'button',
           text: idx + 1 >= model.questions.length ? '查看成绩' : '下一题',
@@ -796,8 +797,15 @@ export function mountSteps(host, model) {
     body.replaceChildren();
     const cur = model.steps[idx];
     if (cur) {
-      body.append(el('h4', 'vibe-steps__h', { text: cur.title }));
-      body.append(el('p', 'vibe-steps__p', { text: cur.body }));
+      const wrap = el('div', 'vibe-steps__pane');
+      wrap.append(el('h4', 'vibe-steps__h', { text: cur.title }));
+      wrap.append(el('p', 'vibe-steps__p', { text: cur.body }));
+      body.append(wrap);
+      if (!prefersReducedMotion()) {
+        requestAnimationFrame(() => wrap.classList.add('is-in'));
+      } else {
+        wrap.classList.add('is-in');
+      }
     }
     nav.replaceChildren();
     const prev = el('button', 'vibe-steps__btn', {

@@ -91,6 +91,27 @@ function related(entry) {
 .terms__item {
   padding-top: 0.55rem;
   border-top: 1px dashed color-mix(in srgb, var(--line) 85%, transparent);
+  animation: terms-item-in 0.4s ease both;
+}
+
+.terms__item:nth-child(1) { animation-delay: 0.03s; }
+.terms__item:nth-child(2) { animation-delay: 0.07s; }
+.terms__item:nth-child(3) { animation-delay: 0.11s; }
+.terms__item:nth-child(4) { animation-delay: 0.15s; }
+.terms__item:nth-child(5) { animation-delay: 0.19s; }
+.terms__item:nth-child(6) { animation-delay: 0.23s; }
+.terms__item:nth-child(7) { animation-delay: 0.27s; }
+.terms__item:nth-child(8) { animation-delay: 0.31s; }
+
+@keyframes terms-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .terms__item:first-child {

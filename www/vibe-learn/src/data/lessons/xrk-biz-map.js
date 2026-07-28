@@ -82,15 +82,16 @@ flowchart TB
 | **plugin** | 指令 / 消息业务逻辑 | \`core/*/plugin/*.js\` | 产品开发者 | ≠ tasker（通道适配） |
 | **http** | 对外 HTTP API | \`core/*/http/*.js\` | 产品 / 控制台 | ≠ www（页面） |
 | **www** | 静态 / SPA 前端 | \`core/*/www/<应用>/\` | 前端 / 产品 | ≠ \`src/\`；根名勿用保留段 |
-| **workflow** | AI 对话编排（常称 stream） | \`core/*/workflow/*.js\` | AI 能力作者 | ≠ plugin 指令；LLM 只在主服 |
-| **tasker** | 协议适配 → 事件 | \`core/*/tasker/*.js\` | 通道接入 | ≠ plugin；\`e.bot\` ≠ \`AgentRuntime\` |
-| **events** | 生命周期 / 总线监听 | \`core/*/events/*.js\` | 系统钩子 | ≠ tasker 生成事件本身 |
-| **commonconfig** | 配置 Schema + 控制台表单 | \`core/*/commonconfig/*.js\` | 配置作者 | 框架模板 ≠ 产品 \`default/\` |
-| **factory** | LLM / ASR / TTS 客户端 | \`src/factory/{llm,asr,tts}/\` | 框架；业务经工厂取客户端 | ≠ workflow；工厂是客户端，工作流是编排 |
-| **database** | Redis+SQLite 必需；Mongo/PG/向量可选 | \`src/infrastructure/database/\`；\`*-Core\` | Runtime / 可选 Core | 可选 Core **不**进 DatabaseManager fail-fast |
-| **auth** | API Key / WS 鉴权 | \`runtime-auth.js\` + \`docs/AUTH.md\` | 所有 \`/api/*\` | Server 层不做统一拦截，HttpApi 默认校验 |
-| **MCP** | 工具对外 / 对 LLM | \`mcp-server\` + \`system-Core/http/mcp\` | 外部 AI / 工作流 | 概念见第五章；本仓挂载见本框 MCP 课 |
-| **renderer / crawl** | 渲染与抓取基建 | \`src/infrastructure/renderer\` · \`crawl\` | 需要出图 / 抓页的能力 | 业务实现仍落 Core 或渲染器目录 |
+| **workflow** | AI 对话编排 | \`core/*/workflow/*.js\` | AI 能力作者 | LLM 只在主服；见工作流课 |
+| **办事助手** | 工作区注入 · 办公技能 | \`agents/\` → \`data/ai-workspace/{id}/\` | 运维 / 用户定制 | 见办事助手课 · \`docs/agents.md\` |
+| **tasker** | 协议适配 → 事件 | \`core/*/tasker/*.js\` | 通道接入 | \`e.bot\` 为通道账号；编排用 \`AgentRuntime\` |
+| **events** | 生命周期 / 总线监听 | \`core/*/events/*.js\` | 系统钩子 | 含 \`ai-workspace\` 等系统监听 |
+| **commonconfig** | 配置 Schema + 控制台表单 | \`core/*/commonconfig/*.js\` | 配置作者 | 产品模板在 \`default/\` |
+| **factory** | LLM / ASR / TTS 客户端 | \`src/factory/{llm,asr,tts}/\` | 框架；业务经工厂取客户端 | 工厂供客户端，工作流做编排 |
+| **database** | Redis+SQLite 必需；Mongo/PG/向量可选 | \`src/infrastructure/database/\`；\`*-Core\` | Runtime / 可选 Core | 可选 Core 不参与 fail-fast |
+| **auth** | API Key / WS 鉴权 | \`runtime-auth.js\` + \`docs/AUTH.md\` | 所有 \`/api/*\` | HttpApi 默认校验 |
+| **MCP** | 工具对外 / 对 LLM | \`mcp-server\` + \`system-Core/http/mcp\` | 外部 AI / 工作流 | 概念见第五章；挂载见 MCP 课 |
+| **renderer / crawl** | 渲染与抓取基建 | \`src/infrastructure/renderer\` · \`crawl\` | 出图 / 抓页 | 业务仍落 Core 或渲染器目录 |
 | **subserver call** | 主服调多语言子进程 | \`AgentRuntime.callSubserver\` | 主服业务 | 子服配置只读；命令在子服终端 |
 
 ---

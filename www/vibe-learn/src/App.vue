@@ -289,16 +289,19 @@ onUnmounted(() => {
           @pointerdown="startResize"
           @keydown="onSplitKey"
         />
-        <NodePanel
-          v-if="activeNode"
-          :node="activeNode"
-          @close="clearSelection"
-          @navigate="navigateNode"
-        />
-        <div v-else class="empty-hint">
-          <h2>选择一个节点</h2>
-          <p>点选卡片会点亮所属整章；悬停可预览相邻关系说明；点连线跳到另一端。Esc 取消选中。</p>
-        </div>
+        <Transition name="panel-swap" mode="out-in">
+          <NodePanel
+            v-if="activeNode"
+            :key="activeNode.id"
+            :node="activeNode"
+            @close="clearSelection"
+            @navigate="navigateNode"
+          />
+          <div v-else key="empty" class="empty-hint">
+            <h2>选择一个节点</h2>
+            <p>点选卡片会点亮所属整章；悬停可预览相邻关系说明；点连线跳到另一端。Esc 取消选中。</p>
+          </div>
+        </Transition>
       </aside>
     </div>
 

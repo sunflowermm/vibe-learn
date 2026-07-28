@@ -5,14 +5,18 @@ export default `# Factory · LLM / ASR / TTS
 > 业务（尤其 \`AiWorkflow\`）**不要**自己 \`new\` 厂商 SDK 散落各处——经工厂 + CommonConfig 取客户端。
 
 ## 本课你要带走什么
+\`\`\`steps
+{"title":"工厂在链路哪一环","steps":[{"title":"读配置","body":"CommonConfig / ai-workflow · *_llm 决定 Provider。"},{"title":"工厂取客户端","body":"LLMFactory（或 ASR/TTS）按配置创建 *Client。"},{"title":"工作流调用","body":"AiWorkflow.process 经工厂发请求，不散落 new SDK。"},{"title":"工具另挂","body":"MCP 供工具；工厂只管模型客户端。"}]}
+\`\`\`
+
 \`\`\`flip
-{"title":"LLM 工厂翻卡","cards":[{"front":"工厂","back":"按配置创建模型客户端"},{"front":"配置归属","back":"运行时模板在 default_config；业务勿乱塞"}]}
+{"title":"LLM 工厂翻卡","cards":[{"front":"工厂","back":"按配置创建模型客户端"},{"front":"配置归属","back":"运行时模板在 default_config；业务勿乱塞"},{"front":"与工作流","back":"工厂供客户端；AiWorkflow 做编排"}]}
 \`\`\`
 
 
 1. \`src/factory/llm|asr|tts\` 的职责边界  
 2. CommonConfig / 默认 yaml 里各 LLM 工厂配置落在哪  
-3. 与 **Stream（AiWorkflow）**、**MCP** 的关系：工厂供客户端，工作流做编排，MCP 挂工具  
+3. 与 **工作流（AiWorkflow）**、**MCP** 的关系：工厂供客户端，工作流做编排，MCP 挂工具  
 4. 实践：在配置页确认已加载工厂 / Provider
 
 ---

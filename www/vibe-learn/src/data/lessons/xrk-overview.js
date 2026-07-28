@@ -9,8 +9,8 @@ export default `# 项目鸟瞰 · XRK-AGT
 
 1. 前几章概念分别落在本仓哪一层  
 2. 主服 / Core / 子服三层分工（改哪里）  
-3. 本框节点怎么走：先鸟瞰 → Runtime / Core → 扩展点 → 暴露面 → Stream → 第五章  
-4. 知道 **业务层全景（biz-map）** 是扩展点索引页
+3. 本框节点怎么走：鸟瞰 → Runtime / Core → 扩展点 → 暴露面 → **工作流** → **办事助手** → 第五章  
+4. 知道 **业务层全景** 是扩展点索引；**办事助手** 是对话 Agent 工作区
 
 ---
 
@@ -26,7 +26,11 @@ export default `# 项目鸟瞰 · XRK-AGT
 | **第一章** | 终端、PATH、pnpm、Git | 仓库根安装与启动；子服各有启动命令 |
 | **第二章** | 运行时、语言版图 | 主服 Node；子服 Python / Go / PHP / Java / .NET / Rust |
 | **第三章** | 端口、HTTP、反代 | 主服对外端口；子服 8000–8005；\`callSubserver\` |
-| **第五章** | LLM、MCP、Agent | 仅在主服 AiWorkflow / MCP 中运行 |
+| **第五章** | LLM、MCP、Agent | 主服 AiWorkflow / MCP / \`agentWorkspace\`；概念课见本章后半 |
+
+\`\`\`steps
+{"title":"Agent 能力在本仓怎么串","steps":[{"title":"工作流 AiWorkflow","body":"core/*/workflow：组上下文、调 LLMFactory、跑 MCP 工具循环。"},{"title":"Factory + MCP","body":"模型客户端在 src/factory；工具挂载见 MCP 运维课。"},{"title":"办事助手工作区","body":"agents/ 种子 → data/ai-workspace/{id}/；agentWorkspace 注入 prompt。"},{"title":"四层 AGENTS","body":"根 AGENTS（写代码）· docs/agents.md（说明）· 工作区 AGENTS（注入）· 产品 Core AGENTS（若有）。"}]}
+\`\`\`
 
 \`\`\`mermaid
 flowchart TB

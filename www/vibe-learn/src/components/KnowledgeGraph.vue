@@ -212,6 +212,8 @@ function syncHighlight(activeId, hoveredId) {
     if (e.data?.preview !== preview || e.data?.chapterLit !== chapterLit) {
       e.data = { ...(e.data || {}), preview, chapterLit };
     }
+    const wantAnimated = onActive || preview;
+    if (e.animated !== wantAnimated) e.animated = wantAnimated;
     let nextClass = '';
     if (preview) nextClass = 'is-preview';
     else if (chapterLit) nextClass = 'is-chapter';

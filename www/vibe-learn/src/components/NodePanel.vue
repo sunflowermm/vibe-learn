@@ -310,6 +310,18 @@ function onToggleBookmark() {
   color: var(--mist);
   background: var(--accent-soft);
   border: 1px solid color-mix(in srgb, var(--mist) 14%, transparent);
+  animation: panel-role-in 0.4s ease both;
+}
+
+@keyframes panel-role-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .panel__nav {
@@ -343,12 +355,37 @@ function onToggleBookmark() {
   color: var(--mist);
   background: var(--ink-3);
   border: 1px solid var(--line);
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: panel-chip-in 0.35s ease both;
+}
+
+.panel__nav-row .panel__chip:nth-child(2) { animation-delay: 0.04s; }
+.panel__nav-row .panel__chip:nth-child(3) { animation-delay: 0.08s; }
+.panel__nav-row .panel__chip:nth-child(4) { animation-delay: 0.12s; }
+.panel__nav-row .panel__chip:nth-child(5) { animation-delay: 0.16s; }
+.panel__nav-row .panel__chip:nth-child(6) { animation-delay: 0.2s; }
+
+@keyframes panel-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .panel__chip:hover {
   border-color: var(--accent);
   color: var(--node-title);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .panel__chip.next {

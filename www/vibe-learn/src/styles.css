@@ -392,6 +392,26 @@ body.is-resizing-row * {
   text-wrap: pretty;
 }
 
+/* 讲解面板切换 */
+.panel-swap-enter-active,
+.panel-swap-leave-active {
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.panel-swap-enter-from,
+.panel-swap-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.panel-swap-enter-to,
+.panel-swap-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

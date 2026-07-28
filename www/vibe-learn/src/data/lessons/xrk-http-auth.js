@@ -6,6 +6,14 @@ export default `# HTTP Auth · API Key
 
 ## 本课你要带走什么
 
+\`\`\`steps
+{"title":"鉴权怎么过","steps":[{"title":"请求进站","body":"先过静态资源与限流；静态扩展名直接放行。"},{"title":"是否 /api","body":"HttpApi 且路径以 /api/ 开头时默认走系统鉴权。"},{"title":"比对 Key","body":"runtime-auth 校验 X-API-Key（或约定头）；失败 401。"},{"title":"进 handler","body":"业务 handler 一般不必重复鉴权；例外见 AUTH.md。"}]}
+\`\`\`
+
+\`\`\`quiz
+{"title":"鉴权快测","questions":[{"q":"多数 /api/* 业务路由的鉴权默认在哪一层？","choices":[{"t":"Server 对全部路径统一拦截","ok":false,"why":"Server 不做全盘 /api 拒答。"},{"t":"HttpApi 注册且 /api/ 时默认校验","ok":true,"why":"ensureSystemCoreAuth → checkApiAuthorization。"},{"t":"每个 Core handler 必须手写","ok":false,"why":"一般不必在 handler 里重复。"}]}]}
+\`\`\`
+
 1. Server 层 vs HttpApi 层 vs 业务 handler 的职责划分  
 2. 请求如何携带 Key（\`X-API-Key\` 等）  
 3. loopback 免鉴权与 \`tools.file.runEnabled\` 强制鉴权的例外  

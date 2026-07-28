@@ -6,6 +6,27 @@
   min-width: 0;
 }
 
+.md .lesson-reveal-wait {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.md .lesson-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.md .mermaid.lesson-reveal-wait {
+  transform: translateY(16px) scale(0.985);
+}
+
+.md .mermaid.lesson-reveal {
+  transform: translateY(0) scale(1);
+}
+
 .md {
   font-size: 0.95rem;
   line-height: 1.75;

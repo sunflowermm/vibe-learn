@@ -5,8 +5,12 @@ export default `# events 监听
 > 基类：\`ListenerBase\`（\`src/infrastructure/listener/base.js\`）。
 
 ## 本课你要带走什么
+\`\`\`steps
+{"title":"事件三角怎么分","steps":[{"title":"Tasker","body":"协议适配：把平台消息变成统一事件 e。"},{"title":"events","body":"Listener 挂钩子：连接就绪、常驻 on、系统副作用。"},{"title":"plugin","body":"规则匹配业务：指令、回复、产品逻辑。"},{"title":"改完重启","body":"events 常绑长生命周期；改 Listener 后重启主服再验。"}]}
+\`\`\`
+
 \`\`\`flip
-{"title":"事件翻卡","cards":[{"front":"events/","back":"监听运行时事件的扩展点"},{"front":"与 plugin","back":"插件偏命令/消息；事件偏钩子"}]}
+{"title":"事件翻卡","cards":[{"front":"events/","back":"监听运行时事件的扩展点"},{"front":"与 plugin","back":"插件偏命令/消息；事件偏钩子"},{"front":"ai-workspace.js","back":"system-Core 里与工作区外围相关的示例监听"}]}
 \`\`\`
 
 
@@ -119,5 +123,5 @@ Listener 里需要回消息时，仍走事件对象上的通道能力（\`e\` / 
 ## 下一步
 
 **插件架构**（Loader 族总览）· **Tasker 通道**（事件从哪来）· **实践·最小插件**（业务落点）。  
-需要 AI 对话时转到 **Stream / Factory / MCP**。
+需要 AI 对话时转到 **工作流 / Factory / MCP / 办事助手**。
 `;
