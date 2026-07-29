@@ -926,8 +926,33 @@ export const GLOSSARY = {
   },
   attention: {
     term: '自注意力（Self-Attention）',
-    brief: 'Self-Attention（自注意力）：序列中各位置按可学习权重聚合全局信息的机制，是 Transformer 的核心计算单元。',
-    also: ['ai-transformer'],
+    brief: 'Self-Attention（自注意力）：序列中各位置按可学习权重聚合全局信息的机制；Query/Key/Value 加权混合。见课「注意力」。',
+    also: ['ai-attention', 'ai-transformer'],
+  },
+  multi_head_attention: {
+    term: '多头注意力（MHA）',
+    brief: 'Multi-Head Attention（多头注意力）：多组 QKV 并行再拼接，使不同头可捕获不同关系模式。',
+    also: ['ai-attention', 'ai-transformer'],
+  },
+  token_context: {
+    term: 'Token / 上下文窗口',
+    brief: 'Token：模型读写的最小文本片；Context Window（上下文窗口）：单次请求可同时处理的 token 上限。注入与截断策略的根因。',
+    also: ['ai-token-context', 'xrk-chat-pipeline', 'long_context'],
+  },
+  adaptation: {
+    term: '自适应（Adaptation）',
+    brief: 'Adaptation（自适应）：在不换骨干或少改骨干的前提下适配任务——含 ICL（提示）、微调改参、RAG/工具外挂、Agent 运行时策略。',
+    also: ['ai-adaptation', 'ai-finetune', 'xrk-chat-pipeline'],
+  },
+  icl: {
+    term: '上下文内学习（ICL）',
+    brief: 'In-Context Learning（上下文内学习）：不更新权重，仅靠提示中的说明与示例临时适配任务格式。',
+    also: ['ai-adaptation', 'ai-token-context'],
+  },
+  chat_pipeline: {
+    term: '对话管线 / 上下文组成',
+    brief: '本仓 assembleChatLlmMessages 三层（system / 历史 / 易变）+ mergeWorkflows + Workspace 注入；真源 docs/agent-context.md。',
+    also: ['xrk-chat-pipeline', 'xrk-stream', 'agent_workspace_cfg'],
   },
   cnn: {
     term: 'CNN（卷积神经网络）',
@@ -987,7 +1012,47 @@ export const GLOSSARY = {
   agent_concept: {
     term: 'Agent（智能体）',
     brief: 'Agent（智能体）：具备目标、可调用 Tool 并根据环境反馈持续规划的 AI 程序形态，超越单轮问答。',
-    also: ['ai-what', 'ai-tool-calling', 'ai-subagent'],
+    also: ['ai-what', 'ai-tool-calling', 'ai-agent-birth', 'ai-subagent'],
+  },
+  agent_loop: {
+    term: '智能体循环（Agent Loop）',
+    brief: 'Agent loop（智能体循环）：模型选行动 → 运行时执行 → 观察回写 → 再决定；含 ReAct、Plan-and-Execute、Reflection 等模式。本仓对应工厂多轮 tool_calls 与 maxToolRounds。',
+    also: ['ai-agent-birth', 'tool_calling'],
+  },
+  react_pattern: {
+    term: 'ReAct（推理与行动交替）',
+    brief: 'ReAct（Yao 等）：Reason + Act 交替——想一步、做一步、看一步；现代实现多用 tool calling，而非解析文本假函数。',
+    also: ['ai-agent-birth', 'tool_calling'],
+  },
+  plan_and_execute: {
+    term: 'Plan-and-Execute',
+    brief: 'Plan-and-Execute / Plan-and-Solve：先产出多步计划再逐步执行（可再规划）；适合结构清晰的长任务，相对纯 ReAct 更省探索步。',
+    also: ['ai-agent-birth', 'agent_graph'],
+  },
+  reflection_pattern: {
+    term: 'Reflection / Reflexion',
+    brief: 'Reflection（含 Reflexion 等）：执行后显式自评或反思再改下一步；用于降错、纠偏，代价是额外轮次与令牌。',
+    also: ['ai-agent-birth'],
+  },
+  agent_graph: {
+    term: '智能体图编排（Agent Graph）',
+    brief: 'Agent graph（智能体图编排）：用节点与边描述步骤/角色依赖与条件转移；常含有向无环图（DAG）。是控制流图，不是知识图谱。本仓主路径是固定消息三层 + 工具环，非通用 LangGraph 编辑器。',
+    also: ['ai-agent-graph', 'dag', 'ai-agent-birth'],
+  },
+  dag: {
+    term: '有向无环图（DAG）',
+    brief: 'Directed Acyclic Graph（有向无环图，DAG）：边有方向且无环；编排里表达步骤依赖与可并行关系。',
+    also: ['ai-agent-graph', 'agent_graph'],
+  },
+  pi_agent: {
+    term: 'Pi（智能体脚手架）',
+    brief: 'Pi / pi-agent-core（pi.dev）：最小编码智能体脚手架；旁支案例非主干先修。默认不内置 MCP/子代理。对照本仓：同为工具环，本仓以 MCP + mergeWorkflows 为一等公民。',
+    also: ['ai-pi-agent', 'agent_loop', 'agent_harness'],
+  },
+  agent_harness: {
+    term: '智能体脚手架（Agent Harness）',
+    brief: 'Agent harness（智能体脚手架）：承载模型调用、工具执行、会话状态与扩展点的运行底座；产品功能可内置也可外挂。',
+    also: ['ai-pi-agent', 'ai-agent-birth'],
   },
   openai_compat: {
     term: 'OpenAI 兼容协议',

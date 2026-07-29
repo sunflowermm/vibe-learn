@@ -76,10 +76,13 @@ flowchart LR
 
 | 能力 | 落点 |
 |------|------|
-| 对话编排 | \`core/*/workflow/*.js\`（\`AiWorkflow\`，见 **工作流** 课） |
-| 模型客户端 | \`LLMFactory\`（Factory 课） |
-| 读改工作区、搜网、桌面等 | MCP 工具（\`tools.*\` / \`web.*\` …，见 MCP 运维课） |
-| Prompt 注入顺序 | assistant → contextFiles → rules → Skills → Agents（见 \`agent-workspace.js\`） |
+| 对话编排 | \`core/*/workflow/*.js\`（**工作流** · **对话管线**） |
+| 模型客户端 | \`LLMFactory\` |
+| 读改工作区、搜网等 | MCP（\`tools.*\` / \`web.*\` …） |
+| Prompt 注入顺序 | assistant → contextFiles → rules → Skills → Agents |
+
+**Rules** = \`agents/rules\` 全文护栏；**Skills** = 目录卡 + \`tools.read\` 渐进展开（概念见第五章）。  
+真源：\`docs/agent-context.md\` §4 · \`docs/agents.md\`。
 
 办事助手工作范围是**当前工作区**与通道工具；框架源码仍由 Cursor + 根 \`AGENTS.md\` 维护。
 

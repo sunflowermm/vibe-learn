@@ -214,14 +214,15 @@ const XRK_TOPICS = laneBlockPositions(
     /* L4 动手 */
     ['xrk-lab-plugin', 'xrk-lab-subserver'],
     /* L5 汇合 → 第五章 */
-    ['xrk-stream', 'xrk-agent-workspace'],
+    ['xrk-stream', 'xrk-chat-pipeline', 'xrk-agent-workspace'],
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
 );
 assertNoCardOverlap(XRK_TOPICS, 'frameXrk');
 
 /* ═══════════════════════════════════════════
- * 第五章 · 蛇形时间线（已最优，略增行距）
+ * 第五章 · 循序渐进蛇形
+ * 导读 → 计算基础 → 产品与行动 → 知识 → 协议与驯服
  * ═══════════════════════════════════════════ */
 const AI_SNAKE = snakeRowPositions(
   [
@@ -229,22 +230,26 @@ const AI_SNAKE = snakeRowPositions(
       'ai-what',
       'ai-llm-era',
       'ai-model-types',
-      'ai-arch-beyond',
+      'ai-token-context',
+      'ai-attention',
       'ai-transformer',
+      'ai-arch-beyond',
+      'ai-adaptation',
+    ],
+    [
       'ai-finetune',
       'ai-chat-era',
+      'ai-openai-protocol',
+      'ai-rag',
+      'ai-tool-calling',
+      'ai-mcp',
+      'ai-protocol-forks',
     ],
     [
-      'ai-openai-protocol',
-      'ai-tool-calling',
       'ai-agent-birth',
-      'ai-rag',
+      'ai-agent-graph',
       'ai-agentic-rag',
       'ai-rag-shift',
-      'ai-mcp',
-    ],
-    [
-      'ai-protocol-forks',
       'ai-rules',
       'ai-skills',
       'ai-subagent',
@@ -254,8 +259,12 @@ const AI_SNAKE = snakeRowPositions(
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, rowGap: LANE_GAP + 40 }
 );
+/* 旁支：Pi 脚手架（非主干先修）——挂在 CLI 下方 */
+AI_SNAKE['ai-pi-agent'] = {
+  x: AI_SNAKE['ai-cli'].x,
+  y: AI_SNAKE['ai-cli'].y + CARD_ROW + 48,
+};
 assertNoCardOverlap(AI_SNAKE, 'frameAi');
-
 /* ═══════════════════════════════════════════
  * 番外 Clash · 短链
  * ═══════════════════════════════════════════ */

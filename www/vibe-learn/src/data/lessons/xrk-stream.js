@@ -3,8 +3,8 @@ export default `# 工作流 · AiWorkflow
 
 > 对话型 AI 能力落在 **\`core/*/workflow/\`**：  
 > 收消息 → 组上下文 → 经 **LLMFactory** 调模型 →（可选）**MCP 工具**循环 → 返回结果。  
-> 真源：\`docs/ai-workflow.md\`；基类契约：\`docs/base-classes.md\`。  
-> 办事助手工作区注入见 **办事助手** 课 · \`docs/agents.md\`。
+> 真源：\`docs/ai-workflow.md\` · \`docs/agent-context.md\`；基类：\`docs/base-classes.md\`。  
+> **上下文三层 / mergeWorkflows** 见 **对话管线** 课；工作区注入见 **办事助手** · \`docs/agents.md\`。
 
 ## 本课你要带走什么
 \`\`\`steps
@@ -69,51 +69,42 @@ flowchart LR
 
 ## 3. 一次对话在底层走什么
 
-对齐 \`docs/ai-workflow.md\`：
+对齐 \`docs/ai-workflow.md\` · \`docs/agent-context.md\`：
 
-1. **构建上下文**：\`buildChatContext\` / \`buildSystemPrompt\`（可含工作区注入）  
-2. **可选增强**：短期记忆、知识检索（按 embedding / 已加载能力）  
-3. **调用 LLM**：经工厂  
-4. **工具**：\`tool_calls\` → 执行 MCP/工作流工具 → 回灌  
-5. **流式**：推 \`delta.content\`，边生成边可能穿插工具  
+1. **\`process({ mergeWorkflows })\`**：合并副流工具  
+2. **\`assembleChatLlmMessages\`**：system → 易变 → 历史 → 当前（细节见 **对话管线**）  
+3. **\`callAI\`**：经 LLMFactory；\`tool_calls\` → MCP → 回灌  
+4. **出站**：reply / 正文；写回笔录  
 
-配置（运行时 \`data/server_bots/.../ai-workflow.yaml\`，模板 \`config/default_config/ai-workflow.yaml\`）：\`llm.*\`、\`embedding.*\`、\`mcp.*\`、\`agentWorkspace.*\`、\`tools.*\`。
-
-业务扩展：子类 \`patchLLMConfig\`；\`init\` 里 \`registerMCPTool\`。
+配置：\`ai-workflow.yaml\`（\`llm\` / \`embedding\` / \`mcp\` / \`agentWorkspace\`）；助手 merge 列表在 \`ai_config\`。
 
 ---
 
-## 4. 和外面 AI 概念的对照
+## 4. 概念对照（第五章）
 
-| 外面常听到的 | 在本仓落地 |
-|--------------|------------|
-| Chat Completions / messages | LLM 客户端组的请求形状 |
-| Function / Tool Calling | \`tool_calls\` + 客户端执行 |
-| MCP | 工具发现与调用通道（**MCP 运维**课 + 第五章） |
-| System prompt / 人设 | \`buildSystemPrompt\`、办事助手工作区文件 |
-| Agent 工作区 | \`agents/\` → \`data/ai-workspace/{id}/\`（**办事助手**课） |
-| 多工具编排 | \`mergeWorkflows\`、工具名前缀 |
-
-本课能指着图说：**业务在 workflow，模型在 Factory，工具在 MCP，人设与技能在工作区注入。**
+| 概念 | 本仓落点 |
+|------|----------|
+| Token / 窗口 | 历史条数、\`max*Chars\`、Skills compact |
+| 注意力 | 模型内部；我们管「谁进窗」 |
+| 自适应 · ICL | Workspace + Rules + Skills 目录 |
+| Tool Calling / MCP | 工厂客户端 + 工作流 \`registerMCPTool\` |
+| merge 多工具 | \`mergeWorkflows\`、工具名前缀 |
 
 ---
 
 ## 5. 实践清单
 
-1. 打开 \`docs/ai-workflow.md\`，对照本机 \`ai-workflow.yaml\`。  
-2. 找一个 \`core/*/workflow/*.js\`，标出 \`registerMCPTool\` / \`buildSystemPrompt\`。  
-3. 读 **办事助手** 课，对照 \`agentWorkspace\` 字段。  
-4. 启动日志确认工作流加载；需要时看 **MCP 运维**。  
-5. 进入第五章前，先能口述本仓链路。
+1. 读 \`docs/agent-context.md\` 全文结构。  
+2. 打开 **对话管线** 课，对照三层消息。  
+3. 找 \`core/*/workflow/*.js\` 的 \`registerMCPTool\`。  
+4. 再读 **办事助手**（注入五段）。
 
 ## 文档链接
 
-- \`docs/ai-workflow.md\` · \`docs/agents.md\`  
-- \`docs/base-classes.md\` · \`docs/mcp-guide.md\` · \`docs/runtime-surface.md\`  
-- Factory 课 · MCP 运维课 · 办事助手课
+- \`docs/agent-context.md\` · \`docs/ai-workflow.md\` · \`docs/agents.md\`  
+- \`docs/base-classes.md\` · \`docs/mcp-guide.md\`
 
 ## 下一步
 
-本框：**办事助手** · **Factory** · **MCP 运维** · **实践课**；  
-然后进入 **第五章 · 人工智能**（概念时间线与 AGENTS.md 课）。
+**对话管线** → **办事助手** → 第五章概念柱（Token · 注意力 · 自适应）。
 `;

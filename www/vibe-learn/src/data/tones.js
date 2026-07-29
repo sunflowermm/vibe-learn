@@ -94,6 +94,8 @@ export const NODE_TONE = {
   'ai-openai-protocol': 'sky',
   'ai-tool-calling': 'orange',
   'ai-agent-birth': 'violet',
+  'ai-agent-graph': 'sky',
+  'ai-pi-agent': 'orange',
   'ai-rag': 'teal',
   'ai-agentic-rag': 'indigo',
   'ai-rag-shift': 'slate',
