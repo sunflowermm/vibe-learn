@@ -1,6 +1,6 @@
 <script setup>
 /**
- * 连线：正交折线为主；标签仅在选中 / 悬停预览 / 悬停线段时显示
+ * 连线：正交折线为主；标签仅在选中边 / 悬停预览 / 悬停线段时显示
  * 避障靠「方块迁就连线」的布局（layout.js / layout-from-edges），不在此绕线。
  */
 import { computed, ref } from 'vue';
@@ -38,13 +38,12 @@ const text = computed(() => props.label || props.data?.label || '');
 const stroke = computed(() => props.data?.color || 'var(--edge-stroke)');
 const isSide = computed(() => props.data?.branch === 'side');
 const isPreview = computed(() => Boolean(props.data?.preview));
-const isChapterLit = computed(() => Boolean(props.data?.chapterLit));
 const routeOffset = computed(() => Number(props.data?.routeOffset) || 0);
 const pathKind = computed(() => props.data?.pathKind || 'smoothstep');
 const showLabel = computed(
   () =>
     Boolean(text.value) &&
-    (props.selected || isPreview.value || isChapterLit.value || hovered.value)
+    (props.selected || isPreview.value || hovered.value)
 );
 
 const pathStyle = computed(() => ({
@@ -53,19 +52,15 @@ const pathStyle = computed(() => ({
     ? 2.75
     : isPreview.value || hovered.value
       ? 2.25
-      : isChapterLit.value
-        ? 2.1
-        : 'var(--edge-width)',
+      : 'var(--edge-width)',
   strokeDasharray: isSide.value ? '4 6' : '7 5',
   strokeOpacity: props.selected
     ? 1
     : isPreview.value || hovered.value
       ? 0.92
-      : isChapterLit.value
-        ? 0.85
-        : isSide.value
-          ? 'calc(var(--edge-opacity) * 0.65)'
-          : 'var(--edge-opacity)',
+      : isSide.value
+        ? 'calc(var(--edge-opacity) * 0.65)'
+        : 'var(--edge-opacity)',
   ...(props.style || {}),
 }));
 

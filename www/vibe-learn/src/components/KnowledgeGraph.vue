@@ -197,34 +197,18 @@ function chapterMemberIds(chapterId) {
 }
 
 /**
- * 点选 / 悬停 → 点亮所属整章 + 与该章有连线的外部节点，以及相关连线；
- * 关系文字仍只在「当前卡片相邻边」上显示，避免标签爆炸。
+ * 点选 / 悬停：
+ * - 边与关系字：只亮触达当前卡片的边（避免整章标签爆炸）
+ * - 节点：同章 peer 可微亮，章外压暗；所属章框点亮
  */
 function syncHighlight(activeId, hoveredId) {
   const focusId = activeId || hoveredId;
   const chapterId = chapterIdOf(focusId);
-  const chapterMembers = chapterId
-    ? chapterMemberIds(chapterId)
-    : neighborIds(focusId);
-
-  /** 整章 + 任意一跳跨章邻居 */
-  const spotlight = new Set(chapterMembers);
-  if (chapterMembers.size) {
-    for (const e of edges.value) {
-      const srcIn = chapterMembers.has(e.source);
-      const tgtIn = chapterMembers.has(e.target);
-      if (srcIn || tgtIn) {
-        spotlight.add(e.source);
-        spotlight.add(e.target);
-      }
-    }
-  }
-
+  const chapterMembers = chapterId ? chapterMemberIds(chapterId) : new Set();
+  const adjacent = neighborIds(focusId);
   const hasFocus = Boolean(focusId);
 
   for (const e of edges.value) {
-    const touchesLit =
-      hasFocus && (spotlight.has(e.source) || spotlight.has(e.target));
     const onActive = Boolean(
       activeId && (e.source === activeId || e.target === activeId)
     );
@@ -233,15 +217,12 @@ function syncHighlight(activeId, hoveredId) {
     );
     if (e.selected !== onActive) e.selected = onActive;
     const preview = onHover && !onActive;
-    const chapterLit = touchesLit && !onActive && !preview;
-    if (e.data?.preview !== preview || e.data?.chapterLit !== chapterLit) {
-      e.data = { ...(e.data || {}), preview, chapterLit };
+    if (e.data?.preview !== preview || e.data?.chapterLit) {
+      e.data = { ...(e.data || {}), preview, chapterLit: false };
     }
     const wantAnimated = onActive || preview;
     if (e.animated !== wantAnimated) e.animated = wantAnimated;
-    let nextClass = '';
-    if (preview) nextClass = 'is-preview';
-    else if (chapterLit) nextClass = 'is-chapter';
+    const nextClass = preview ? 'is-preview' : '';
     if (e.class !== nextClass) e.class = nextClass;
   }
 
@@ -261,11 +242,15 @@ function syncHighlight(activeId, hoveredId) {
     const on = n.id === activeId;
     if (n.selected !== on) n.selected = on;
     let nextClass = '';
-    if (hasFocus && !spotlight.has(n.id)) nextClass = 'is-dimmed';
-    else if (hasFocus && spotlight.has(n.id) && n.id !== activeId) {
-      nextClass = chapterMembers.has(n.id)
-        ? 'is-chapter-peer'
-        : 'is-bridge-peer';
+    if (hasFocus) {
+      if (n.id === focusId) nextClass = '';
+      else if (adjacent.has(n.id)) {
+        nextClass = chapterMembers.has(n.id) ? 'is-chapter-peer' : 'is-bridge-peer';
+      } else if (chapterMembers.has(n.id)) {
+        nextClass = 'is-chapter-peer';
+      } else {
+        nextClass = 'is-dimmed';
+      }
     }
     if (n.class !== nextClass) n.class = nextClass;
   }
@@ -678,21 +663,13 @@ function fitNeighborhood() {
 }
 
 .graph-wrap.has-focus
-  :deep(
-    .vue-flow__edge:not(.selected):not(.is-preview):not(.is-chapter)
-      .vue-flow__edge-path
-  ) {
-  stroke-opacity: 0.18 !important;
+  :deep(.vue-flow__edge:not(.selected):not(.is-preview) .vue-flow__edge-path) {
+  stroke-opacity: 0.14 !important;
 }
 
 .graph-wrap :deep(.vue-flow__edge.selected .vue-flow__edge-path),
 .graph-wrap :deep(.vue-flow__edge.is-preview .vue-flow__edge-path) {
   stroke-opacity: 1 !important;
-}
-
-.graph-wrap :deep(.vue-flow__edge.is-chapter .vue-flow__edge-path) {
-  stroke-opacity: 0.88 !important;
-  stroke-width: 2.15;
 }
 
 .graph-wrap :deep(.vue-flow__edge-path) {
