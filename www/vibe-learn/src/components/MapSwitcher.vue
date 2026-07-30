@@ -108,6 +108,7 @@ onUnmounted(() => {
 .map-switch {
   position: relative;
   z-index: 5;
+  flex: 0 1 auto;
   min-width: 0;
 }
 
@@ -119,7 +120,7 @@ onUnmounted(() => {
   padding: 0.15rem 0.35rem 0.15rem 0;
   border-radius: 10px;
   text-align: left;
-  max-width: min(16rem, 48vw);
+  max-width: 100%;
 }
 
 .map-switch__trigger:hover .map-switch__current,
@@ -134,6 +135,7 @@ onUnmounted(() => {
   letter-spacing: -0.03em;
   color: var(--node-title);
   line-height: 1.15;
+  white-space: nowrap;
 }
 
 .map-switch__brand em {
@@ -145,16 +147,31 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  max-width: 100%;
   font-size: 0.72rem;
   color: var(--mist-dim);
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .map-switch__label {
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-switch__badge {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--signal);
 }
 
 .map-switch__caret {
+  flex-shrink: 0;
   opacity: 0.75;
   transition: transform 0.18s ease;
 }
@@ -227,14 +244,5 @@ onUnmounted(() => {
   font-size: 0.72rem;
   color: var(--mist-dim);
   line-height: 1.35;
-}
-
-.map-switch__badge {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  padding: 0.05rem 0.35rem;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--signal);
 }
 </style>
