@@ -50,18 +50,16 @@ const learned = computed(() =>
   props.node?.id ? library.isLearned(props.node.id) : false
 );
 const primaryNext = computed(() => nextNodes.value[0] || null);
-const relatedQuizCount = computed(() =>
-  props.node?.id ? questionsForNode(props.node.id).length : 0
+const relatedQs = computed(() =>
+  props.node?.id ? questionsForNode(props.node.id) : []
 );
+const relatedQuizCount = computed(() => relatedQs.value.length);
+/** 词典落盘题（g:…），一词可有 term/def 多道，≠ 专有名词条数 */
 const relatedGlossaryCount = computed(() =>
-  props.node?.id
-    ? questionsForNode(props.node.id).filter((q) => isGlossaryQuestion(q)).length
-    : 0
+  relatedQs.value.filter((q) => isGlossaryQuestion(q)).length
 );
 const relatedAdaptedCount = computed(() =>
-  props.node?.id
-    ? questionsForNode(props.node.id).filter((q) => q.origin === 'adapted').length
-    : 0
+  relatedQs.value.filter((q) => q.origin === 'adapted').length
 );
 
 function chipLearned(id) {
@@ -221,9 +219,9 @@ function openRelatedQuiz() {
           <span class="panel__quiz-count">{{ relatedQuizCount }}</span>
         </button>
         <p class="panel__quiz-hint">
-          本课绑定 {{ relatedQuizCount }} 题
+          相关 {{ relatedQuizCount }} 题
           <template v-if="relatedGlossaryCount">
-            · 名词 {{ relatedGlossaryCount }}
+            · 其中词典题 {{ relatedGlossaryCount }}（一词可多道）
           </template>
           <template v-if="relatedAdaptedCount">
             · 改编 {{ relatedAdaptedCount }}
