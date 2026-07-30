@@ -113,23 +113,6 @@ function openRelatedQuiz() {
         <button
           type="button"
           class="panel__icon-btn"
-          aria-label="打开词典"
-          title="词典随查"
-          @click="emit('open-glossary', '')"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M3.5 2.5h6.2c.7 0 1.3.6 1.3 1.3v8.4c0 .5-.4.9-.9.9H3.5V2.5z"
-              stroke="currentColor"
-              stroke-width="1.25"
-            />
-            <path d="M5 5h4.2M5 7.5h3.2M5 10h2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-            <path d="M12.2 3.2v9.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="panel__icon-btn"
           :class="{ active: learned }"
           :aria-pressed="learned"
           :aria-label="learned ? '取消已学标记' : '标记为已学'"
@@ -264,7 +247,7 @@ function openRelatedQuiz() {
         :aria-pressed="learned"
         @click="onToggleLearned"
       >
-        {{ learned ? '已学 · 点击取消' : '标记已学' }}
+        {{ learned ? '已学' : '标记已学' }}
       </button>
       <button
         v-if="primaryNext"

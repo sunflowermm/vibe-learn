@@ -18,19 +18,13 @@ const entries = computed(() => resolveGlossary(NODE_TERMS[props.nodeId] || []));
 function related(entry) {
   return resolveNodes(entry.also || []).filter((n) => n.id !== props.nodeId);
 }
-
-function openTerm(id) {
-  if (id) emit('open-glossary', id);
-}
 </script>
 
 <template>
   <section v-if="entries.length" class="terms" aria-label="本课专有名词">
     <header class="terms__head">
       <h3 class="terms__title">本课专有名词</h3>
-      <p class="terms__hint">
-        点词条打开右侧词典悬浮窗，随查随用；也可顶栏「词典」全局搜索。
-      </p>
+      <p class="terms__hint">点词条打开词典浮层；再点同一词可收起。</p>
     </header>
     <dl class="terms__list">
       <div v-for="e in entries" :key="e.id" class="terms__item">
@@ -38,30 +32,25 @@ function openTerm(id) {
           <button
             type="button"
             class="terms__term-btn"
-            :title="`在词典中查看：${e.term}`"
-            @click="openTerm(e.id)"
+            :title="`词典：${e.term}`"
+            @click="emit('open-glossary', e.id)"
           >
             {{ e.term }}
           </button>
         </dt>
         <dd class="terms__brief">
           {{ e.brief }}
-          <span class="terms__actions">
-            <button type="button" class="terms__lookup" @click="openTerm(e.id)">
-              词典
+          <span v-if="related(e).length" class="terms__actions">
+            <span class="terms__also-label">相关</span>
+            <button
+              v-for="n in related(e)"
+              :key="n.id"
+              type="button"
+              class="terms__link"
+              @click="emit('navigate', n.id)"
+            >
+              {{ n.label }}
             </button>
-            <template v-if="related(e).length">
-              <span class="terms__also-label">相关</span>
-              <button
-                v-for="n in related(e)"
-                :key="n.id"
-                type="button"
-                class="terms__link"
-                @click="emit('navigate', n.id)"
-              >
-                {{ n.label }}
-              </button>
-            </template>
           </span>
         </dd>
       </div>
@@ -183,7 +172,6 @@ function openTerm(id) {
   margin-left: 0.15rem;
 }
 
-.terms__lookup,
 .terms__link {
   padding: 0.12rem 0.45rem;
   border-radius: 999px;
@@ -196,7 +184,6 @@ function openTerm(id) {
     background 0.15s ease;
 }
 
-.terms__lookup:hover,
 .terms__link:hover {
   border-style: solid;
   border-color: var(--accent);

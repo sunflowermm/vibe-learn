@@ -234,7 +234,7 @@ function openQuizForNode(nodeId) {
 function onKey(e) {
   if (e.key !== 'Escape') return;
   if (glossaryOpen.value) {
-    glossaryOpen.value = false;
+    closeGlossary();
     return;
   }
   if (libraryOpen.value) {
@@ -255,24 +255,39 @@ function onKey(e) {
   clearSelection();
 }
 
-function openLibrary() {
+function closeGlossary() {
   glossaryOpen.value = false;
+  glossaryFocusId.value = '';
+}
+
+function openLibrary() {
+  closeGlossary();
   libraryOpen.value = true;
 }
 
+function toggleLibrary() {
+  if (libraryOpen.value) {
+    libraryOpen.value = false;
+    return;
+  }
+  openLibrary();
+}
+
+/** 打开词典；已开且同词条 / 无指定词条时再点则收起 */
 function openGlossary(termId = '') {
+  const id = String(termId || '').trim();
   libraryOpen.value = false;
-  glossaryFocusId.value = String(termId || '').trim();
+  if (glossaryOpen.value && (!id || id === glossaryFocusId.value)) {
+    closeGlossary();
+    return;
+  }
+  glossaryFocusId.value = id;
   glossaryOpen.value = true;
 }
 
 function toggleGlossary() {
-  if (glossaryOpen.value) {
-    glossaryOpen.value = false;
-    glossaryFocusId.value = '';
-    return;
-  }
-  openGlossary();
+  if (glossaryOpen.value) closeGlossary();
+  else openGlossary();
 }
 
 function syncLayoutMode() {
@@ -380,9 +395,9 @@ onUnmounted(() => {
           class="theme-toggle shelf-launch"
           data-blobity
           :aria-pressed="glossaryOpen"
-          aria-label="打开词典"
-          title="搜索术语与缩写"
-          @click="openGlossary"
+          :aria-label="glossaryOpen ? '收起词典' : '打开词典'"
+          :title="glossaryOpen ? '再点收起' : '搜索术语与缩写'"
+          @click="toggleGlossary"
         >
           词典
           <span class="topbar-badge">{{ termCount }}</span>
@@ -392,9 +407,9 @@ onUnmounted(() => {
           class="theme-toggle shelf-launch"
           data-blobity
           :aria-pressed="libraryOpen"
-          aria-label="打开我的书架"
-          title="书签、笔记与备份"
-          @click="openLibrary"
+          :aria-label="libraryOpen ? '收起书架' : '打开我的书架'"
+          :title="libraryOpen ? '再点收起' : '书签、笔记与备份'"
+          @click="toggleLibrary"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
@@ -489,7 +504,7 @@ onUnmounted(() => {
             @goto-learn="gotoLearnFromQuiz"
             @close-focus="quizFocusNodeId = null"
           />
-            <NodePanel
+          <NodePanel
             v-else-if="activeNode"
             :key="activeNode.id"
             :node="activeNode"
@@ -501,8 +516,7 @@ onUnmounted(() => {
           <div v-else key="empty" class="empty-hint">
             <h2>选择一个节点</h2>
             <p>
-              左上角可切换思维导图（知识 / 题库）。点选卡片点亮整章；右下角词典悬浮球可随时浮层查词（不挡刷题）。Esc
-              取消选中。
+              切换知识 / 题库导图，点卡片看讲解。词典用顶栏或悬浮球；Esc 收起。
             </p>
           </div>
         </Transition>
@@ -517,7 +531,7 @@ onUnmounted(() => {
     <GlossaryDrawer
       :open="glossaryOpen"
       :focus-id="glossaryFocusId"
-      @close="glossaryOpen = false; glossaryFocusId = ''"
+      @close="closeGlossary"
       @navigate="navigateNode"
     />
     <GlossaryFab

@@ -165,7 +165,7 @@ function onDrawerKey(e) {
     :blocking="false"
     :panel-style="panelStyle"
     title="词典"
-    eyebrow="Glossary · 浮层"
+    eyebrow="浮层词典"
     title-id="glossary-drawer-title"
     close-label="关闭词典"
     :lede="lede"
