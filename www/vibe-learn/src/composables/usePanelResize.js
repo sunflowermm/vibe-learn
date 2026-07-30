@@ -18,8 +18,8 @@ export function defaultPanelWidth() {
 }
 
 export function defaultGraphHeight() {
-  if (typeof window === 'undefined') return 320;
-  return Math.round(window.innerHeight * 0.48);
+  if (typeof window === 'undefined') return 280;
+  return Math.round(window.innerHeight * 0.38);
 }
 
 export function readPanelWidth() {

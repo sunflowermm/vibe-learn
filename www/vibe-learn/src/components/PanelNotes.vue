@@ -108,7 +108,7 @@ onUnmounted(() => {
       <textarea
         v-model="draft"
         class="note-dock__input"
-        rows="6"
+        rows="4"
         placeholder="边读边记：要点、疑问、面试答法、对照自己项目的例子…"
         @input="onInput"
         @blur="onBlur"
@@ -143,16 +143,16 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.55rem 1.15rem 0.45rem;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem 0.3rem;
 }
 
 .note-dock__toggle {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.35rem;
   min-width: 0;
-  padding: 0.2rem 0;
+  padding: 0.1rem 0;
   border: 0;
   background: transparent;
   color: var(--node-title);
@@ -163,9 +163,9 @@ onUnmounted(() => {
 .note-dock__glyph {
   display: grid;
   place-items: center;
-  width: 1.7rem;
-  height: 1.7rem;
-  border-radius: 8px;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 7px;
   color: var(--signal);
   background: var(--accent-soft);
   flex-shrink: 0;
@@ -177,14 +177,14 @@ onUnmounted(() => {
 }
 
 .note-dock__title {
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 650;
   letter-spacing: -0.01em;
 }
 
 .note-dock__hint {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.56rem;
   color: var(--mist-dim);
   white-space: nowrap;
   overflow: hidden;
@@ -235,7 +235,7 @@ onUnmounted(() => {
 }
 
 .note-dock__body {
-  padding: 0 1.05rem 0.9rem;
+  padding: 0 0.85rem 0.65rem;
   animation: note-open 0.2s ease;
 }
 
@@ -253,10 +253,10 @@ onUnmounted(() => {
 .note-dock__input {
   width: 100%;
   resize: vertical;
-  min-height: 7.5rem;
-  max-height: 40vh;
-  padding: 0.85rem 1rem;
-  border-radius: 12px;
+  min-height: 5.5rem;
+  max-height: 32vh;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
   background:
     repeating-linear-gradient(

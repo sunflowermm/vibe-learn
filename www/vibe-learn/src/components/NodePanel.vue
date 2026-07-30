@@ -275,8 +275,8 @@ function openRelatedQuiz() {
 .panel__head {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1.15rem 1.25rem 0.95rem;
+  gap: 0.65rem;
+  padding: 0.7rem 0.85rem 0.6rem;
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel-bg) 88%, transparent);
 }
@@ -288,23 +288,23 @@ function openRelatedQuiz() {
 .panel__meta-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   flex-wrap: wrap;
 }
 
 .panel__tag {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--signal);
 }
 
 .panel__chip-soft {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  padding: 0.12rem 0.45rem;
+  font-size: 0.56rem;
+  padding: 0.08rem 0.38rem;
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--signal);
@@ -316,14 +316,15 @@ function openRelatedQuiz() {
 }
 
 .panel__title {
-  margin: 0.3rem 0 0;
+  margin: 0.15rem 0 0;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  font-size: clamp(1.05rem, 1.6vw, 1.28rem);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.25;
   color: var(--node-title);
   text-wrap: balance;
-  scroll-margin-top: 1rem;
+  scroll-margin-top: 0.5rem;
 }
 
 .panel__title:focus {
@@ -331,25 +332,26 @@ function openRelatedQuiz() {
 }
 
 .panel__sub {
-  margin: 0.35rem 0 0;
+  margin: 0.2rem 0 0;
   color: var(--mist-dim);
-  font-size: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .panel__head-actions {
   display: flex;
   align-items: flex-start;
-  gap: 0.35rem;
+  gap: 0.28rem;
   flex-shrink: 0;
 }
 
 .panel__icon-btn {
   display: inline-grid;
   place-items: center;
-  min-width: 2.15rem;
-  height: 2.15rem;
-  padding: 0 0.45rem;
-  border-radius: 11px;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  padding: 0 0.35rem;
+  border-radius: 9px;
   border: 1px solid var(--line);
   background: var(--ink-3);
   color: var(--mist-dim);
@@ -395,18 +397,18 @@ function openRelatedQuiz() {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding: 1.25rem 1.5rem 1.5rem;
+  padding: 0.75rem 0.9rem 1rem;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-soft) transparent;
   overscroll-behavior: contain;
 }
 
 .panel__role {
-  margin: 0 0 1rem;
-  padding: 0.85rem 1.05rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  line-height: 1.55;
+  margin: 0 0 0.7rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
   color: var(--mist);
   background: var(--accent-soft);
   border: 1px solid color-mix(in srgb, var(--mist) 14%, transparent);
@@ -427,9 +429,9 @@ function openRelatedQuiz() {
 .panel__nav {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1.1rem;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid color-mix(in srgb, var(--mist) 12%, transparent);
 }
 
@@ -449,18 +451,18 @@ function openRelatedQuiz() {
 }
 
 .panel__quiz-launch {
-  padding: 0 1.25rem 0.75rem;
+  padding: 0 0 0.55rem;
 }
 
 .panel__quiz-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.35rem;
   font: inherit;
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.45rem 0.85rem;
-  border-radius: 10px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 9px;
   border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line));
   background: color-mix(in srgb, var(--amber) 12%, transparent);
   color: var(--amber);
@@ -485,8 +487,8 @@ function openRelatedQuiz() {
 }
 
 .panel__chip {
-  font-size: 0.78rem;
-  padding: 0.28rem 0.65rem;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 999px;
   color: var(--mist);
   background: var(--ink-3);
@@ -555,25 +557,29 @@ function openRelatedQuiz() {
 .panel__foot {
   flex-shrink: 0;
   display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding: 0.65rem 1.15rem 0.75rem;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
   border-top: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
 }
 
 .panel__learn-cta {
-  width: 100%;
-  padding: 0.55rem 0.85rem;
-  border-radius: 10px;
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 5.5rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 9px;
   border: 1px solid color-mix(in srgb, #34d399 40%, var(--line));
   background: color-mix(in srgb, #34d399 10%, transparent);
   color: color-mix(in srgb, #059669 75%, var(--mist));
   font: inherit;
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 650;
   cursor: pointer;
   text-align: center;
+  white-space: nowrap;
 }
 
 .panel__learn-cta:hover {
@@ -585,14 +591,22 @@ function openRelatedQuiz() {
   border-color: #34d399;
 }
 
+.panel__learn-cta:only-child {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
 .panel__next-cta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  width: 100%;
-  padding: 0.7rem 0.95rem;
-  border-radius: 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  padding: 0.4rem 0.7rem;
+  border-radius: 9px;
   border: 1px solid color-mix(in srgb, var(--amber) 45%, var(--line));
   background: color-mix(in srgb, var(--amber) 12%, var(--ink-3));
   color: var(--node-title);
@@ -600,30 +614,33 @@ function openRelatedQuiz() {
   text-align: left;
   transition:
     border-color 0.18s ease,
-    background 0.18s ease,
-    transform 0.18s ease;
+    background 0.18s ease;
 }
 
 .panel__next-cta:hover {
   border-color: var(--amber);
   background: color-mix(in srgb, var(--amber) 18%, var(--ink-3));
-  transform: translateY(-1px);
 }
 
 .panel__next-cta:active {
-  transform: scale(0.99);
+  opacity: 0.92;
 }
 
 .panel__next-cta-kicker {
+  flex-shrink: 0;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--amber);
 }
 
 .panel__next-cta-label {
-  font-size: 0.92rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.82rem;
   font-weight: 650;
 }
 

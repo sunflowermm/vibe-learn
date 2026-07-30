@@ -136,9 +136,9 @@ button:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.75rem max(1.25rem, env(safe-area-inset-right)) 0.75rem
-    max(1.25rem, env(safe-area-inset-left));
-  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding: 0.55rem max(1rem, env(safe-area-inset-right)) 0.55rem
+    max(1rem, env(safe-area-inset-left));
+  padding-top: max(0.55rem, env(safe-area-inset-top));
   border-bottom: 1px solid var(--line);
   background: var(--topbar-bg);
   backdrop-filter: blur(12px);
@@ -318,7 +318,7 @@ body.is-resizing-row * {
 @media (max-width: 960px) {
   .workspace {
     grid-template-columns: 1fr;
-    grid-template-rows: 48vh minmax(0, 1fr);
+    grid-template-rows: 38vh minmax(0, 1fr);
   }
   .brand-sub {
     display: none;

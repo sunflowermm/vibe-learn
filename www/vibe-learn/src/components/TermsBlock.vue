@@ -60,9 +60,9 @@ function related(entry) {
 
 <style scoped>
 .terms {
-  margin: 0 0 1.35rem;
-  padding: 1rem 1.1rem 1.1rem;
-  border-radius: 12px;
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0.8rem 0.75rem;
+  border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--accent) 28%, color-mix(in srgb, var(--mist) 16%, transparent));
   background: linear-gradient(
     160deg,
@@ -72,33 +72,33 @@ function related(entry) {
 }
 
 .terms__head {
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.45rem;
 }
 
 .terms__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.84rem;
   font-weight: 650;
   color: var(--node-title);
 }
 
 .terms__hint {
-  margin: 0.25rem 0 0;
-  font-size: 0.78rem;
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
   color: var(--mist-dim);
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
 .terms__list {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.45rem;
 }
 
 .terms__item {
-  padding-top: 0.55rem;
+  padding-top: 0.4rem;
   border-top: 1px dashed color-mix(in srgb, var(--line) 85%, transparent);
   animation: terms-item-in 0.4s ease both;
 }
@@ -136,7 +136,7 @@ function related(entry) {
   padding: 0;
   border: none;
   background: none;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   font-weight: 650;
   color: var(--accent);
   text-decoration: underline;
@@ -152,8 +152,8 @@ function related(entry) {
 
 .terms__brief {
   margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.55;
+  font-size: 0.76rem;
+  line-height: 1.45;
   color: var(--mist);
 }
 
