@@ -290,6 +290,95 @@ export const SHELL_PRESETS = {
     ],
     autoPlay: ['curl -I https://example.com'],
   },
+
+  'git-workflow': {
+    environment: '仓库根 · bash（模拟 Git）',
+    title: 'Git · status / 分支 / 提交',
+    badge: '模拟 · 不上网',
+    promptPrefix: 'alice@git',
+    home: '/home/alice',
+    cwd: '/home/alice/projects/XRK-AGT',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '跟一遍：git status → git switch -c feat/lab → git add → git commit',
+      '缩写：PR = Pull Request = 请求把你的分支合进主线',
+    ],
+    hintCommands: [
+      'git status',
+      'git switch -c feat/lab',
+      'git status',
+      'git add README.md',
+      'git commit -m "docs: clarify lab note"',
+      'git branch',
+      'help',
+    ],
+    autoPlay: ['git status', 'git switch -c feat/lab', 'git status'],
+    autoPlayDelay: 160,
+  },
+
+  'troubleshoot': {
+    environment: '排障分层 · bash（模拟）',
+    title: '排障 · 先查命令在不在',
+    badge: '模拟 · 不上网',
+    promptPrefix: 'alice@fix',
+    home: '/home/alice',
+    cwd: '/home/alice/projects/XRK-AGT',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '口诀：命令 → 目录 → 依赖 → 配置 → 代码',
+      '先试：node -v · pnpm -v · git --version · pwd',
+    ],
+    hintCommands: [
+      'pwd',
+      'node -v',
+      'pnpm -v',
+      'git --version',
+      'which node',
+      'ls',
+      'cat package.json',
+    ],
+    autoPlay: ['pwd', 'node -v', 'pnpm -v', 'git --version'],
+  },
+
+  'node-hello': {
+    environment: '练习目录 · bash（模拟 node）',
+    title: '第一个程序 · node 沙箱',
+    badge: '模拟 · 假执行',
+    promptPrefix: 'alice@code',
+    home: '/home/alice',
+    cwd: '/home/alice/Documents',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '这里已有 hello.js；试：cat hello.js → node hello.js',
+      'REPL 真机敲 node 进入；本窗用文件更接近项目习惯',
+    ],
+    hintCommands: ['ls', 'cat hello.js', 'node hello.js', 'node -v', 'pwd'],
+    autoPlay: ['ls', 'cat hello.js', 'node hello.js'],
+  },
+
+  'curl-get': {
+    environment: 'curl · bash（模拟 JSON）',
+    title: 'HTTP 动手 · curl 沙箱',
+    badge: '模拟 · 假 JSON',
+    promptPrefix: 'alice@http',
+    home: '/home/alice',
+    cwd: '/home/alice',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '先 curl -I 看状态码，再 curl -sS …/get 看 JSON 体',
+      '词：HTTP=网页/接口协议 · JSON=键值文字 · 状态码如 200=成功一类',
+    ],
+    hintCommands: [
+      'curl -I https://httpbin.org/get',
+      'curl -sS https://httpbin.org/get',
+      'help',
+    ],
+    autoPlay: ['curl -I https://httpbin.org/get', 'curl -sS https://httpbin.org/get'],
+  },
 };
 
 export function resolveShellConfig(raw) {

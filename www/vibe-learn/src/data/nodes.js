@@ -1,9 +1,9 @@
 /**
  * 图谱数据模型
  *
- * 序章 认识计算机 → 第一章 环境与终端 → 第二章 计算机语言
- * → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能
- * · 番外 Clash / 数据库 / 容器 / 本机目录 / ESP32
+ * 序章 认识计算机 → 第一章 环境与终端 → 第一章半 编程基础
+ * → 第二章 计算机语言 → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能
+ * · 番外 Clash / 数据库 / 容器 / 本机目录 / ESP32 / 工程素养 / DSA / 主机面板 / 主机运维 / AI 编程工具
  */
 import computerSystem from './lessons/computer-system.js';
 import osEssence from './lessons/os-essence.js';
@@ -139,6 +139,63 @@ import espMcu from './lessons/esp-mcu.js';
 import espEsp32 from './lessons/esp-esp32.js';
 import espToolchain from './lessons/esp-toolchain.js';
 import espLink from './lessons/esp-link.js';
+import gitAdvanced from './lessons/git-advanced.js';
+import codeRegex from './lessons/code-regex.js';
+import codeTypescriptHands from './lessons/code-typescript-hands.js';
+import craftObservability from './lessons/craft-observability.js';
+import craftCi from './lessons/craft-ci.js';
+import aiEmbedding from './lessons/ai-embedding.js';
+import xrkLabHttp from './lessons/xrk-lab-http.js';
+import xrkLabConfig from './lessons/xrk-lab-config.js';
+import chapterPanel from './lessons/chapter-panel.js';
+import panelEssence from './lessons/panel-essence.js';
+import panelBaota from './lessons/panel-baota.js';
+import panel1panel from './lessons/panel-1panel.js';
+import panelCompare from './lessons/panel-compare.js';
+import panelRunNode from './lessons/panel-run-node.js';
+import chapterHost from './lessons/chapter-host.js';
+import hostSystemd from './lessons/host-systemd.js';
+import hostTls from './lessons/host-tls.js';
+import hostBackup from './lessons/host-backup.js';
+import chapterAdev from './lessons/chapter-adev.js';
+import adevCompare from './lessons/adev-compare.js';
+import adevProjectMemory from './lessons/adev-project-memory.js';
+import adevVibeCoding from './lessons/adev-vibe-coding.js';
+
+
+import chapterCode from './lessons/chapter-code.js';
+import codeFirstProgram from './lessons/code-first-program.js';
+import codeValuesTypes from './lessons/code-values-types.js';
+import codeControlFlow from './lessons/code-control-flow.js';
+import codeFunctions from './lessons/code-functions.js';
+import codeObjectsArrays from './lessons/code-objects-arrays.js';
+import codeModules from './lessons/code-modules.js';
+import codeAsync from './lessons/code-async.js';
+import codeReadErrors from './lessons/code-read-errors.js';
+import dataJson from './lessons/data-json.js';
+import dataYaml from './lessons/data-yaml.js';
+import dataMarkdown from './lessons/data-markdown.js';
+import dataEnv from './lessons/data-env.js';
+import codeCheckpoint from './lessons/code-checkpoint.js';
+import workbenchEditor from './lessons/workbench-editor.js';
+import workbenchTroubleshoot from './lessons/workbench-troubleshoot.js';
+import httpHandsOn from './lessons/http-hands-on.js';
+import dbSqlHandsOn from './lessons/db-sql-hands-on.js';
+import xrkMinPath from './lessons/xrk-min-path.js';
+import chapterCraft from './lessons/chapter-craft.js';
+import craftDebug from './lessons/craft-debug.js';
+import craftSecurity from './lessons/craft-security.js';
+import craftTesting from './lessons/craft-testing.js';
+import chapterDsa from './lessons/chapter-dsa.js';
+import dsaComplexity from './lessons/dsa-complexity.js';
+import dsaLinear from './lessons/dsa-linear.js';
+import dsaHash from './lessons/dsa-hash.js';
+import dsaTree from './lessons/dsa-tree.js';
+import dsaGraph from './lessons/dsa-graph.js';
+import dsaSort from './lessons/dsa-sort.js';
+import dsaDp from './lessons/dsa-dp.js';
+import dsaHot from './lessons/dsa-hot.js';
+
 import { LAYOUT } from './layout.js';
 import { toneOf } from './tones.js';
 import {
@@ -151,6 +208,7 @@ import {
 
 const CH_MACHINE = 'chapter-machine';
 const CH_ENV = 'chapter-env';
+const CH_CODE = 'chapter-code';
 const CH_LANG = 'chapter-languages';
 const CH_NET = 'chapter-computer-network';
 const CH_XRK = 'chapter-xrk-agt';
@@ -160,6 +218,11 @@ const CH_DB = 'chapter-database';
 const CH_OPS = 'chapter-ops';
 const CH_FS = 'chapter-fs';
 const CH_ESP = 'chapter-esp';
+const CH_CRAFT = 'chapter-craft';
+const CH_DSA = 'chapter-dsa';
+const CH_PANEL = 'chapter-panel';
+const CH_HOST = 'chapter-host';
+const CH_ADEV = 'chapter-adev';
 
 /** source 手柄 id → target 手柄 id（GraphCard 上 type=target） */
 const TARGET_HANDLE = {
@@ -191,6 +254,17 @@ export const graphFrames = [
     position: { x: LAYOUT.frameEnv.x, y: LAYOUT.frameEnv.y },
     size: { width: LAYOUT.frameEnv.width, height: LAYOUT.frameEnv.height },
     markdown: chapterEnv,
+  },
+  {
+    id: CH_CODE,
+    kind: 'chapter',
+    label: '第一章半 · 编程基础',
+    subtitle: 'JS 动手 · 模块异步 · JSON/YAML/MD/env · 过关',
+    tag: 'Chapter 01.5',
+    role: '零基础主修：会写程序再看语言版图；数据文字对接本仓配置与 API。',
+    position: { x: LAYOUT.frameCode.x, y: LAYOUT.frameCode.y },
+    size: { width: LAYOUT.frameCode.width, height: LAYOUT.frameCode.height },
+    markdown: chapterCode,
   },
   {
     id: CH_LANG,
@@ -291,6 +365,61 @@ export const graphFrames = [
     size: { width: LAYOUT.frameEsp.width, height: LAYOUT.frameEsp.height },
     markdown: chapterEsp,
   },
+  {
+    id: CH_CRAFT,
+    kind: 'chapter',
+    label: '番外 · 工程素养',
+    subtitle: '调试 · 安全 · 测试',
+    tag: 'Side Quest',
+    role: '写功能之外的职业卫生；可与第四章并行。',
+    position: { x: LAYOUT.frameCraft.x, y: LAYOUT.frameCraft.y },
+    size: { width: LAYOUT.frameCraft.width, height: LAYOUT.frameCraft.height },
+    markdown: chapterCraft,
+  },
+  {
+    id: CH_DSA,
+    kind: 'chapter',
+    label: '番外 · 数据结构与算法',
+    subtitle: '复杂度 · 结构 · 高频题型',
+    tag: 'Side Quest',
+    role: '面试轨；不占主脊编号。先完成编程基础再进。',
+    position: { x: LAYOUT.frameDsa.x, y: LAYOUT.frameDsa.y },
+    size: { width: LAYOUT.frameDsa.width, height: LAYOUT.frameDsa.height },
+    markdown: chapterDsa,
+  },
+  {
+    id: CH_PANEL,
+    kind: 'chapter',
+    label: '番外 · 主机面板',
+    subtitle: '宝塔 · 1Panel · 选型 · 跑 Node',
+    tag: 'Side Quest',
+    role: '国内 VPS 图形运维；与 Nginx/容器分层。',
+    position: { x: LAYOUT.framePanel.x, y: LAYOUT.framePanel.y },
+    size: { width: LAYOUT.framePanel.width, height: LAYOUT.framePanel.height },
+    markdown: chapterPanel,
+  },
+  {
+    id: CH_HOST,
+    kind: 'chapter',
+    label: '番外 · 主机运维',
+    subtitle: 'systemd · TLS · 备份',
+    tag: 'Side Quest',
+    role: '面板之外的主机底线技能。',
+    position: { x: LAYOUT.frameHost.x, y: LAYOUT.frameHost.y },
+    size: { width: LAYOUT.frameHost.width, height: LAYOUT.frameHost.height },
+    markdown: chapterHost,
+  },
+  {
+    id: CH_ADEV,
+    kind: 'chapter',
+    label: '番外 · AI 编程工具',
+    subtitle: 'Vibe 心智 · 形态黄页 · 项目记忆',
+    tag: 'Side Quest',
+    role: '路径 A：三张卡够用；产品展柜已收进黄页。路径 B 见第五章。',
+    position: { x: LAYOUT.frameAdev.x, y: LAYOUT.frameAdev.y },
+    size: { width: LAYOUT.frameAdev.width, height: LAYOUT.frameAdev.height },
+    markdown: chapterAdev,
+  },
 ];
 
 export const knowledgeNodes = [
@@ -304,7 +433,7 @@ export const knowledgeNodes = [
     tag: '00 总览',
     role: '起源入口：后面系统本质、联动、处理单元都从这里展开。',
     prereqs: [],
-    next: ['os-essence', 'hw-sw-link', 'terminal-worlds', 'network-basics', 'api-frontend'],
+    next: ['os-essence', 'hw-sw-link', 'terminal-worlds', 'network-basics', 'api-frontend', 'adev-vibe-coding'],
     position: LAYOUT.topics['computer-system'],
     markdown: computerSystem,
   },
@@ -359,7 +488,7 @@ export const knowledgeNodes = [
     tag: '01 终端',
     role: '三件套；bash≠PowerShell；PATH 起进程；Git Bash vs CMD；WSL vs 原生；Claude Code 与 Bash。',
     prereqs: ['computer-system', 'os-essence'],
-    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path', 'fs-layout', 'xrk-deploy-env'],
+    next: ['linux-distros', 'linux-cli', 'runtime-nodejs', 'installers-path', 'fs-layout', 'workbench-editor', 'xrk-deploy-env'],
     position: LAYOUT.topics['terminal-worlds'],
     markdown: terminalWorlds,
     chapterOut: ['xrk-deploy-env'],
@@ -467,7 +596,7 @@ export const knowledgeNodes = [
     tag: '01 托管',
     role: '远程住在哪：平台差异、克隆 URL、国内失败演示与协作名词。',
     prereqs: ['git-workspace'],
-    next: ['xrk-first-run'],
+    next: ['xrk-first-run', 'git-advanced'],
     position: LAYOUT.topics['git-forges'],
     markdown: gitForges,
   },
@@ -480,10 +609,10 @@ export const knowledgeNodes = [
     tag: '01 实战',
     role: '工具链收束；下一棒交给第四章部署环境与项目实践。',
     prereqs: ['git-workspace', 'git-forges'],
-    next: ['xrk-deploy-env', 'xrk-overview'],
+    next: ['xrk-deploy-env', 'xrk-overview', 'xrk-min-path', 'code-checkpoint'],
     position: LAYOUT.topics['xrk-first-run'],
     markdown: xrkFirstRun,
-    chapterOut: ['xrk-deploy-env', 'xrk-overview'],
+    chapterOut: ['xrk-deploy-env', 'xrk-overview', 'xrk-min-path', 'code-checkpoint'],
   },
 
   /* 第二章 · 语言 */
@@ -1040,7 +1169,7 @@ export const knowledgeNodes = [
     tag: '03 Web',
     role: '应用层对话协议。',
     prereqs: ['tcp-udp', 'api-frontend'],
-    next: ['reverse-proxy', 'xrk-http-www'],
+    next: ['reverse-proxy', 'http-hands-on', 'xrk-http-www'],
     position: LAYOUT.topics['http-web'],
     markdown: httpWeb,
     chapterOut: ['xrk-http-www'],
@@ -1364,7 +1493,7 @@ export const knowledgeNodes = [
     tag: '04 实践',
     role: '动手：目录、热加载、日志验收。',
     prereqs: ['xrk-core-layout', 'xrk-plugin-arch', 'xrk-runtime'],
-    next: ['xrk-lab-subserver', 'xrk-http-www', 'xrk-events'],
+    next: ['xrk-lab-subserver', 'xrk-lab-http', 'xrk-http-www', 'xrk-events'],
     position: LAYOUT.topics['xrk-lab-plugin'],
     markdown: xrkLabPlugin,
   },
@@ -1521,7 +1650,7 @@ export const knowledgeNodes = [
     tag: '05 · 接口',
     role: 'messages 角色协议；OpenAI 兼容插头。',
     prereqs: ['ai-chat-era'],
-    next: ['ai-rag'],
+    next: ['ai-embedding', 'ai-rag'],
     position: LAYOUT.topics['ai-openai-protocol'],
     markdown: aiOpenaiProtocol,
   },
@@ -1533,7 +1662,7 @@ export const knowledgeNodes = [
     subtitle: '先检索再生成',
     tag: '05 · 知识',
     role: '经典流水线；不依赖智能体；片段占窗口。',
-    prereqs: ['ai-openai-protocol'],
+    prereqs: ['ai-openai-protocol', 'ai-embedding'],
     next: ['ai-tool-calling'],
     position: LAYOUT.topics['ai-rag'],
     markdown: aiRag,
@@ -1708,6 +1837,7 @@ export const knowledgeNodes = [
     markdown: aiAgentsMd,
   },
 
+
   /* 番外 */
   {
     id: 'clash',
@@ -1800,6 +1930,7 @@ export const knowledgeNodes = [
     role: '流行度分数≠营收市占；建立产品地图。',
     prereqs: ['db-as-service', 'db-middleware'],
     next: [
+      'db-sql-hands-on',
       'db-redis',
       'db-sqlite',
       'db-mongodb',
@@ -1980,6 +2111,663 @@ export const knowledgeNodes = [
   },
 
   /* 番外 · ESP32 */
+
+  {
+    id: 'workbench-editor',
+    kind: 'topic',
+    parentId: CH_ENV,
+    label: '工作台 · 编辑器',
+    subtitle: '打开仓库根 · 终端一体',
+    tag: '01 工作台',
+    role: '用编辑器打开正确工作区；保存后再跑命令。',
+    prereqs: ['terminal-worlds'],
+    next: ['workbench-troubleshoot', 'xrk-first-run', 'code-first-program', 'adev-vibe-coding'],
+    position: LAYOUT.topics['workbench-editor'],
+    markdown: workbenchEditor,
+    chapterOut: ['code-first-program'],
+  },
+  {
+    id: 'workbench-troubleshoot',
+    kind: 'topic',
+    parentId: CH_ENV,
+    label: '工作台 · 分层排障',
+    subtitle: '环境 → 依赖 → 配置 → 代码',
+    tag: '01 排障',
+    role: '跑不通时先分层，忌一上来改业务。',
+    prereqs: ['workbench-editor', 'installers-path'],
+    next: ['xrk-first-run', 'code-read-errors', 'craft-debug'],
+    position: LAYOUT.topics['workbench-troubleshoot'],
+    markdown: workbenchTroubleshoot,
+    sideOut: ['craft-debug'],
+  },
+
+  /* 第一章半 · 编程基础 */
+  {
+    id: 'code-first-program',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '第一个程序',
+    subtitle: '文件 · node · 输出',
+    tag: '01.5 入门',
+    role: '写意图 → 存文件 → 运行时执行。',
+    prereqs: ['runtime-nodejs', 'workbench-editor'],
+    next: ['code-values-types'],
+    position: LAYOUT.topics['code-first-program'],
+    markdown: codeFirstProgram,
+  },
+  {
+    id: 'code-values-types',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '值与类型',
+    subtitle: 'number · string · let/const',
+    tag: '01.5 语法',
+    role: '程序操作的是值；优先 const。',
+    prereqs: ['code-first-program'],
+    next: ['code-control-flow'],
+    position: LAYOUT.topics['code-values-types'],
+    markdown: codeValuesTypes,
+  },
+  {
+    id: 'code-control-flow',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '控制流',
+    subtitle: '分支 · 循环',
+    tag: '01.5 语法',
+    role: '按条件换路或重复。',
+    prereqs: ['code-values-types'],
+    next: ['code-functions'],
+    position: LAYOUT.topics['code-control-flow'],
+    markdown: codeControlFlow,
+  },
+  {
+    id: 'code-functions',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '函数',
+    subtitle: '参数 · 返回 · 作用域',
+    tag: '01.5 语法',
+    role: '可复用计算块；对齐插件 handler 心智。',
+    prereqs: ['code-control-flow'],
+    next: ['code-objects-arrays'],
+    position: LAYOUT.topics['code-functions'],
+    markdown: codeFunctions,
+  },
+  {
+    id: 'code-objects-arrays',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '对象与数组',
+    subtitle: '列表 · 键值 · 解构',
+    tag: '01.5 语法',
+    role: 'JSON/API 载荷底座。',
+    prereqs: ['code-functions'],
+    next: ['code-modules', 'data-json'],
+    position: LAYOUT.topics['code-objects-arrays'],
+    markdown: codeObjectsArrays,
+  },
+  {
+    id: 'code-modules',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '模块（ESM）',
+    subtitle: 'import · export',
+    tag: '01.5 工程',
+    role: '本仓主服 ESM 边界。',
+    prereqs: ['code-objects-arrays'],
+    next: ['code-async'],
+    position: LAYOUT.topics['code-modules'],
+    markdown: codeModules,
+  },
+  {
+    id: 'code-async',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '异步',
+    subtitle: 'Promise · async/await',
+    tag: '01.5 工程',
+    role: 'I/O 等待与事件循环直觉。',
+    prereqs: ['code-modules'],
+    next: ['code-read-errors', 'http-hands-on'],
+    position: LAYOUT.topics['code-async'],
+    markdown: codeAsync,
+    chapterOut: ['http-hands-on'],
+  },
+  {
+    id: 'code-read-errors',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '读懂报错',
+    subtitle: '类型 · 信息 · 堆栈',
+    tag: '01.5 工程',
+    role: '把报错当定位器。',
+    prereqs: ['code-async'],
+    next: ['data-json', 'craft-debug'],
+    position: LAYOUT.topics['code-read-errors'],
+    markdown: codeReadErrors,
+    sideOut: ['craft-debug'],
+  },
+  {
+    id: 'data-json',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: 'JSON',
+    subtitle: '跨语言数据文字',
+    tag: '01.5 数据',
+    role: 'HTTP / LLM message 常见载荷。',
+    prereqs: ['code-objects-arrays'],
+    next: ['data-yaml', 'http-hands-on'],
+    position: LAYOUT.topics['data-json'],
+    markdown: dataJson,
+  },
+  {
+    id: 'data-yaml',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: 'YAML',
+    subtitle: '配置缩进文字',
+    tag: '01.5 数据',
+    role: '本仓 yaml 模板与 commonconfig。',
+    prereqs: ['data-json'],
+    next: ['data-markdown', 'xrk-config'],
+    position: LAYOUT.topics['data-yaml'],
+    markdown: dataYaml,
+    chapterOut: ['xrk-config'],
+  },
+  {
+    id: 'data-markdown',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: 'Markdown',
+    subtitle: '文档与 Agent 文稿',
+    tag: '01.5 数据',
+    role: 'AGENTS.md / skills / 办事助手。',
+    prereqs: ['data-yaml'],
+    next: ['data-env', 'ai-agents-md'],
+    position: LAYOUT.topics['data-markdown'],
+    markdown: dataMarkdown,
+  },
+  {
+    id: 'data-env',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '环境变量与 .env',
+    subtitle: '密钥 · 代理 · 勿提交',
+    tag: '01.5 数据',
+    role: '进程键值配置；对接 Clash 代理。',
+    prereqs: ['data-markdown', 'installers-path'],
+    next: ['code-checkpoint', 'craft-security', 'clash-port'],
+    position: LAYOUT.topics['data-env'],
+    markdown: dataEnv,
+    sideOut: ['craft-security', 'clash-port'],
+  },
+  {
+    id: 'code-checkpoint',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '过关练习',
+    subtitle: '自检清单',
+    tag: '01.5 过关',
+    role: '动手通关后再进语言版图 / 最小路径。',
+    prereqs: ['data-env', 'code-read-errors'],
+    next: ['lang-what-is-language', 'xrk-min-path', 'dsa-complexity'],
+    position: LAYOUT.topics['code-checkpoint'],
+    markdown: codeCheckpoint,
+    chapterOut: ['lang-what-is-language', 'xrk-min-path'],
+    sideOut: ['dsa-complexity'],
+  },
+
+  {
+    id: 'http-hands-on',
+    kind: 'topic',
+    parentId: CH_NET,
+    label: 'HTTP 动手',
+    subtitle: '请求 · 状态码 · JSON 体',
+    tag: '03 实验',
+    role: '一次真实请求串起第三章；对照 HttpResponse。',
+    prereqs: ['http-web', 'data-json'],
+    next: ['reverse-proxy', 'xrk-http-www'],
+    position: LAYOUT.topics['http-hands-on'],
+    markdown: httpHandsOn,
+    chapterOut: ['xrk-http-www'],
+  },
+
+  {
+    id: 'db-sql-hands-on',
+    kind: 'topic',
+    parentId: CH_DB,
+    label: 'SQL 最小动手',
+    subtitle: 'CRUD 四句',
+    tag: '番外·数据库',
+    role: '先会四句再进各库产品课。',
+    prereqs: ['db-landscape'],
+    next: ['db-sqlite', 'db-postgresql', 'db-mysql'],
+    position: LAYOUT.topics['db-sql-hands-on'],
+    markdown: dbSqlHandsOn,
+  },
+
+  {
+    id: 'xrk-min-path',
+    kind: 'topic',
+    parentId: CH_XRK,
+    label: '最小贡献路径',
+    subtitle: '两周能写最小插件',
+    tag: '04 导读',
+    role: '锁定必学节点；其余标选读。',
+    prereqs: ['code-checkpoint', 'xrk-first-run'],
+    next: ['xrk-deploy-env', 'xrk-overview', 'xrk-lab-plugin'],
+    position: LAYOUT.topics['xrk-min-path'],
+    markdown: xrkMinPath,
+  },
+
+  {
+    id: 'craft-debug',
+    kind: 'topic',
+    parentId: CH_CRAFT,
+    label: '调试与日志',
+    subtitle: '可见性 · 复现 · 单点修改',
+    tag: '番外·素养',
+    role: '制造可见性，忌瞎改。',
+    prereqs: ['code-read-errors'],
+    next: ['craft-security'],
+    position: LAYOUT.topics['craft-debug'],
+    markdown: craftDebug,
+  },
+  {
+    id: 'craft-security',
+    kind: 'topic',
+    parentId: CH_CRAFT,
+    label: '安全常识',
+    subtitle: '密钥 · 校验 · 鉴权',
+    tag: '番外·素养',
+    role: '别把脚打穿的底线。',
+    prereqs: ['data-env'],
+    next: ['craft-testing', 'xrk-http-auth'],
+    position: LAYOUT.topics['craft-security'],
+    markdown: craftSecurity,
+    chapterOut: ['xrk-http-auth'],
+  },
+  {
+    id: 'craft-testing',
+    kind: 'topic',
+    parentId: CH_CRAFT,
+    label: '测试入门',
+    subtitle: '断言 · 回归',
+    tag: '番外·素养',
+    role: '用代码锁定行为。',
+    prereqs: ['craft-debug', 'code-functions'],
+    next: ['xrk-lab-plugin', 'craft-ci', 'craft-observability'],
+    position: LAYOUT.topics['craft-testing'],
+    markdown: craftTesting,
+    chapterOut: ['xrk-lab-plugin'],
+  },
+
+  {
+    id: 'dsa-complexity',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '复杂度',
+    subtitle: '大 O · 时间/空间',
+    tag: '番外·DSA',
+    role: '面试开口第一句。',
+    prereqs: ['code-checkpoint'],
+    next: ['dsa-linear'],
+    position: LAYOUT.topics['dsa-complexity'],
+    markdown: dsaComplexity,
+  },
+  {
+    id: 'dsa-linear',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '线性结构',
+    subtitle: '数组 · 链表 · 栈 · 队列',
+    tag: '番外·DSA',
+    role: '一切复杂结构的底座。',
+    prereqs: ['dsa-complexity'],
+    next: ['dsa-hash'],
+    position: LAYOUT.topics['dsa-linear'],
+    markdown: dsaLinear,
+  },
+  {
+    id: 'dsa-hash',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '哈希表',
+    subtitle: '平均 O(1) 键值',
+    tag: '番外·DSA',
+    role: '计数、两数之和、LRU 组件。',
+    prereqs: ['dsa-linear'],
+    next: ['dsa-tree'],
+    position: LAYOUT.topics['dsa-hash'],
+    markdown: dsaHash,
+  },
+  {
+    id: 'dsa-tree',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '树与堆',
+    subtitle: '遍历 · TopK',
+    tag: '番外·DSA',
+    role: '二叉树高频；堆作优先队列。',
+    prereqs: ['dsa-hash'],
+    next: ['dsa-graph'],
+    position: LAYOUT.topics['dsa-tree'],
+    markdown: dsaTree,
+  },
+  {
+    id: 'dsa-graph',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '图',
+    subtitle: 'BFS · DFS',
+    tag: '番外·DSA',
+    role: '结点+边；网格与依赖。',
+    prereqs: ['dsa-tree'],
+    next: ['dsa-sort'],
+    position: LAYOUT.topics['dsa-graph'],
+    markdown: dsaGraph,
+  },
+  {
+    id: 'dsa-sort',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '排序与查找',
+    subtitle: '快排 · 二分',
+    tag: '番外·DSA',
+    role: '有序前提与模板边界。',
+    prereqs: ['dsa-graph'],
+    next: ['dsa-dp'],
+    position: LAYOUT.topics['dsa-sort'],
+    markdown: dsaSort,
+  },
+  {
+    id: 'dsa-dp',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: 'DP 与贪心',
+    subtitle: '状态转移 · 局部最优',
+    tag: '番外·DSA',
+    role: '中高级题开口三步。',
+    prereqs: ['dsa-sort'],
+    next: ['dsa-hot'],
+    position: LAYOUT.topics['dsa-dp'],
+    markdown: dsaDp,
+  },
+
+  {
+    id: 'git-advanced',
+    kind: 'topic',
+    parentId: CH_ENV,
+    label: 'Git 进阶',
+    subtitle: '分支 · 提交 · PR · 冲突',
+    tag: '01 Git',
+    role: '协作闭环：分支上改、PR 合并、处理冲突。',
+    prereqs: ['git-workspace', 'git-forges'],
+    next: ['xrk-first-run', 'workbench-editor', 'craft-ci'],
+    position: LAYOUT.topics['git-advanced'],
+    markdown: gitAdvanced,
+    sideOut: ['craft-ci'],
+  },
+  {
+    id: 'code-regex',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: '正则入门',
+    subtitle: '模式匹配 · 插件 rule',
+    tag: '01.5 工具',
+    role: '本仓插件 reg 与字符串校验底座。',
+    prereqs: ['code-objects-arrays'],
+    next: ['code-checkpoint', 'xrk-lab-plugin'],
+    position: LAYOUT.topics['code-regex'],
+    markdown: codeRegex,
+    chapterOut: ['xrk-lab-plugin'],
+  },
+  {
+    id: 'code-typescript-hands',
+    kind: 'topic',
+    parentId: CH_CODE,
+    label: 'TypeScript 动手',
+    subtitle: '标注 · 编译擦除',
+    tag: '01.5 工具',
+    role: '最小 TS 动手；主服仍以 JS 为准。',
+    prereqs: ['code-functions', 'code-modules'],
+    next: ['code-checkpoint', 'lang-typescript'],
+    position: LAYOUT.topics['code-typescript-hands'],
+    markdown: codeTypescriptHands,
+    chapterOut: ['lang-typescript'],
+  },
+  {
+    id: 'craft-observability',
+    kind: 'topic',
+    parentId: CH_CRAFT,
+    label: '日志与观测',
+    subtitle: '级别 · 脱敏 · 关联 ID',
+    tag: '番外·素养',
+    role: '上线后如何看见系统状态。',
+    prereqs: ['craft-debug'],
+    next: ['craft-ci'],
+    position: LAYOUT.topics['craft-observability'],
+    markdown: craftObservability,
+  },
+  {
+    id: 'craft-ci',
+    kind: 'topic',
+    parentId: CH_CRAFT,
+    label: 'CI 直觉',
+    subtitle: '推送后自动检查',
+    tag: '番外·素养',
+    role: '持续集成心智；Secret 不进仓。',
+    prereqs: ['craft-testing', 'git-advanced'],
+    next: [],
+    position: LAYOUT.topics['craft-ci'],
+    markdown: craftCi,
+  },
+  {
+    id: 'ai-embedding',
+    kind: 'topic',
+    parentId: CH_AI,
+    label: 'Embedding 直觉',
+    subtitle: '向量 · 近邻 · 分块',
+    tag: '05 知识',
+    role: 'RAG 检索为何「语义相近」。',
+    prereqs: ['ai-openai-protocol'],
+    next: ['ai-rag'],
+    position: LAYOUT.topics['ai-embedding'],
+    markdown: aiEmbedding,
+  },
+  {
+    id: 'xrk-lab-http',
+    kind: 'topic',
+    parentId: CH_XRK,
+    label: '实践 · 最小 HTTP',
+    subtitle: 'HttpResponse · curl 验证',
+    tag: '04 实践',
+    role: 'core/*/http 最小接口通关。',
+    prereqs: ['xrk-http-www', 'http-hands-on', 'code-checkpoint'],
+    next: ['xrk-lab-config', 'xrk-stream'],
+    position: LAYOUT.topics['xrk-lab-http'],
+    markdown: xrkLabHttp,
+  },
+  {
+    id: 'xrk-lab-config',
+    kind: 'topic',
+    parentId: CH_XRK,
+    label: '实践 · 配置三同步',
+    subtitle: '模板 · schema · 消费',
+    tag: '04 实践',
+    role: '改配置字段要动哪三处。',
+    prereqs: ['xrk-config', 'data-yaml'],
+    next: ['xrk-lab-plugin'],
+    position: LAYOUT.topics['xrk-lab-config'],
+    markdown: xrkLabConfig,
+  },
+  {
+    id: 'panel-essence',
+    kind: 'topic',
+    parentId: CH_PANEL,
+    label: '面板是什么',
+    subtitle: '图形化运维层',
+    tag: '番外·面板',
+    role: '面板 ≠ OS ≠ 业务；底层仍是反代与进程。',
+    prereqs: ['reverse-proxy', 'linux-cli'],
+    next: ['panel-baota', 'panel-1panel'],
+    position: LAYOUT.topics['panel-essence'],
+    markdown: panelEssence,
+  },
+  {
+    id: 'panel-baota',
+    kind: 'topic',
+    parentId: CH_PANEL,
+    label: '宝塔面板',
+    subtitle: 'BT Panel · LNMP 心智',
+    tag: '番外·面板',
+    role: '国内高分享度面板；安全与反代实务。',
+    prereqs: ['panel-essence'],
+    next: ['panel-compare', 'panel-run-node'],
+    position: LAYOUT.topics['panel-baota'],
+    markdown: panelBaota,
+  },
+  {
+    id: 'panel-1panel',
+    kind: 'topic',
+    parentId: CH_PANEL,
+    label: '1Panel',
+    subtitle: '开源 · 容器亲和',
+    tag: '番外·面板',
+    role: '现代化开源面板；Docker 路径更顺。',
+    prereqs: ['panel-essence'],
+    next: ['panel-compare', 'ops-docker'],
+    position: LAYOUT.topics['panel-1panel'],
+    markdown: panel1panel,
+    sideOut: ['ops-docker'],
+  },
+  {
+    id: 'panel-compare',
+    kind: 'topic',
+    parentId: CH_PANEL,
+    label: '面板对照选型',
+    subtitle: '宝塔 · 1Panel · 纯 SSH',
+    tag: '番外·面板',
+    role: '按教程生态、容器、IaC 需求选型。',
+    prereqs: ['panel-baota', 'panel-1panel'],
+    next: ['panel-run-node'],
+    position: LAYOUT.topics['panel-compare'],
+    markdown: panelCompare,
+  },
+  {
+    id: 'panel-run-node',
+    kind: 'topic',
+    parentId: CH_PANEL,
+    label: '面板上跑 Node',
+    subtitle: '反代 · 证书 · 保活',
+    tag: '番外·面板',
+    role: '面板管入口，本仓仍听本地端口。',
+    prereqs: ['panel-compare', 'xrk-deploy-env'],
+    next: ['host-systemd', 'host-tls', 'net-nginx'],
+    position: LAYOUT.topics['panel-run-node'],
+    markdown: panelRunNode,
+    chapterOut: ['xrk-deploy-env'],
+    sideOut: ['host-systemd', 'host-tls'],
+  },
+
+
+  {
+    id: 'adev-vibe-coding',
+    kind: 'topic',
+    parentId: CH_ADEV,
+    label: 'Vibe Coding 心智',
+    subtitle: '五拍 · 安全 · 提问',
+    tag: '番外·AI工具',
+    role: '路径 A 主入口；产品展柜不占主脊。',
+    prereqs: ['computer-system'],
+    next: ['adev-compare', 'workbench-troubleshoot', 'xrk-first-run', 'xrk-min-path'],
+    position: LAYOUT.topics['adev-vibe-coding'],
+    markdown: adevVibeCoding,
+    chapterOut: ['workbench-troubleshoot', 'xrk-min-path'],
+  },
+  {
+    id: 'adev-compare',
+    kind: 'topic',
+    parentId: CH_ADEV,
+    label: '形态与黄页',
+    subtitle: 'IDE · CLI · 云端 · 品牌索引',
+    tag: '番外·AI工具',
+    role: '选型查表；不是六门产品必修。',
+    prereqs: ['adev-vibe-coding'],
+    next: ['adev-project-memory', 'workbench-editor', 'ai-cli'],
+    position: LAYOUT.topics['adev-compare'],
+    markdown: adevCompare,
+  },
+  {
+    id: 'adev-project-memory',
+    kind: 'topic',
+    parentId: CH_ADEV,
+    label: '项目记忆文件',
+    subtitle: 'AGENTS · rules · 换皮不换交底',
+    tag: '番外·AI工具',
+    role: '接到第五章 AGENTS/Rules 机制课。',
+    prereqs: ['adev-vibe-coding', 'adev-compare'],
+    next: ['ai-agents-md', 'ai-rules', 'xrk-min-path'],
+    position: LAYOUT.topics['adev-project-memory'],
+    markdown: adevProjectMemory,
+    chapterOut: ['ai-agents-md', 'ai-rules'],
+  },
+
+  {
+    id: 'host-systemd',
+    kind: 'topic',
+    parentId: CH_HOST,
+    label: 'systemd 直觉',
+    subtitle: '服务 · 自启 · 日志',
+    tag: '番外·主机',
+    role: '无面板时用 unit 拉起 node。',
+    prereqs: ['linux-cli'],
+    next: ['host-tls', 'panel-run-node'],
+    position: LAYOUT.topics['host-systemd'],
+    markdown: hostSystemd,
+  },
+  {
+    id: 'host-tls',
+    kind: 'topic',
+    parentId: CH_HOST,
+    label: 'TLS 证书实务',
+    subtitle: 'HTTPS · 续期 · 终止',
+    tag: '番外·主机',
+    role: '域名 + 证书 + 网关终止 TLS。',
+    prereqs: ['dns-https'],
+    next: ['host-backup', 'panel-run-node'],
+    position: LAYOUT.topics['host-tls'],
+    markdown: hostTls,
+  },
+  {
+    id: 'host-backup',
+    kind: 'topic',
+    parentId: CH_HOST,
+    label: '备份与恢复',
+    subtitle: '代码 · 配置 · 数据',
+    tag: '番外·主机',
+    role: '没测过恢复的备份是安慰剂。',
+    prereqs: ['host-tls', 'fs-layout'],
+    next: [],
+    position: LAYOUT.topics['host-backup'],
+    markdown: hostBackup,
+  },
+
+  {
+    id: 'dsa-hot',
+    kind: 'topic',
+    parentId: CH_DSA,
+    label: '大厂高频题型',
+    subtitle: '题型弹药库',
+    tag: '番外·DSA',
+    role: '把结构课串成一面常见组合。',
+    prereqs: ['dsa-dp'],
+    next: [],
+    position: LAYOUT.topics['dsa-hot'],
+    markdown: dsaHot,
+  },
+
   {
     id: 'esp-mcu',
     kind: 'topic',
@@ -2227,7 +3015,8 @@ export const knowledgeEdges = [
   { id: 'e-ai-ft', source: 'ai-adaptation', target: 'ai-finetune', sourceHandle: 'right', targetHandle: 'left', label: '改参手法', branch: 'c5' },
   { id: 'e-ai-chat', source: 'ai-finetune', target: 'ai-chat-era', sourceHandle: 'right', targetHandle: 'left', label: '产品化', branch: 'c5' },
   { id: 'e-ai-cc', source: 'ai-chat-era', target: 'ai-openai-protocol', sourceHandle: 'right', targetHandle: 'left', label: '可编程会话', branch: 'c5' },
-  { id: 'e-ai-rag', source: 'ai-openai-protocol', target: 'ai-rag', sourceHandle: 'right', targetHandle: 'left', label: '外挂知识', branch: 'c5', animated: true },
+  { id: 'e-ai-embed', source: 'ai-openai-protocol', target: 'ai-embedding', sourceHandle: 'right', targetHandle: 'left', label: '先向量化', branch: 'c5', animated: true },
+  { id: 'e-ai-rag', source: 'ai-embedding', target: 'ai-rag', sourceHandle: 'right', targetHandle: 'left', label: '外挂知识', branch: 'c5', animated: true },
   { id: 'e-ai-tools', source: 'ai-rag', target: 'ai-tool-calling', sourceHandle: 'right', targetHandle: 'left', label: '能提行动', branch: 'c5', animated: true },
   { id: 'e-ai-mcp', source: 'ai-tool-calling', target: 'ai-mcp', sourceHandle: 'right', targetHandle: 'left', label: '标准插头', branch: 'c5', animated: true },
   { id: 'e-ai-forks', source: 'ai-mcp', target: 'ai-protocol-forks', sourceHandle: 'right', targetHandle: 'left', label: '继续分层', branch: 'c5' },
@@ -2241,6 +3030,131 @@ export const knowledgeEdges = [
   { id: 'e-ai-cli', source: 'ai-subagent', target: 'ai-cli', sourceHandle: 'right', targetHandle: 'left', label: '终端面', branch: 'c5' },
   { id: 'e-ai-agentsmd', source: 'ai-cli', target: 'ai-agents-md', sourceHandle: 'right', targetHandle: 'left', label: '项目交底', branch: 'c5', animated: true },
   { id: 'e-ai-pi', source: 'ai-cli', target: 'ai-pi-agent', sourceHandle: 'bottom', targetHandle: 'top', label: '旁支案例', branch: 'side' },
+
+
+  /* 工作台 */
+  { id: 'e-term-wb', source: 'terminal-worlds', target: 'workbench-editor', sourceHandle: 'right', targetHandle: 'left', label: '改文件的地方', branch: 'c1' },
+  { id: 'e-git-wb', source: 'git-workspace', target: 'workbench-editor', sourceHandle: 'right', targetHandle: 'left', label: '在仓库根打开', branch: 'c1' },
+  { id: 'e-wb-ts', source: 'workbench-editor', target: 'workbench-troubleshoot', sourceHandle: 'bottom', targetHandle: 'top', label: '坏了先分层', branch: 'c1', animated: true },
+  { id: 'e-install-ts', source: 'installers-path', target: 'workbench-troubleshoot', sourceHandle: 'right', targetHandle: 'left', label: 'PATH 层排查', branch: 'c1' },
+  { id: 'e-wb-run', source: 'workbench-editor', target: 'xrk-first-run', sourceHandle: 'right', targetHandle: 'left', label: '保存后再跑', branch: 'c1' },
+  { id: 'e-ts-run', source: 'workbench-troubleshoot', target: 'xrk-first-run', sourceHandle: 'right', targetHandle: 'left', label: '倒推哪一层', branch: 'c1' },
+  { id: 'e-wb-code', source: 'workbench-editor', target: 'code-first-program', sourceHandle: 'top', targetHandle: 'bottom', label: '开始写程序', branch: 'c15', animated: true },
+  { id: 'e-node-code', source: 'runtime-nodejs', target: 'code-first-program', sourceHandle: 'top', targetHandle: 'bottom', label: '用 Node 执行', branch: 'c15', animated: true },
+  { id: 'e-run-code', source: 'xrk-first-run', target: 'code-checkpoint', sourceHandle: 'top', targetHandle: 'bottom', label: '跑通后再过关', branch: 'bridge' },
+
+  /* 编程基础链 */
+  { id: 'e-c-first-val', source: 'code-first-program', target: 'code-values-types', sourceHandle: 'right', targetHandle: 'left', label: '值是什么', branch: 'c15', animated: true },
+  { id: 'e-c-val-flow', source: 'code-values-types', target: 'code-control-flow', sourceHandle: 'bottom', targetHandle: 'top', label: '按条件换路', branch: 'c15' },
+  { id: 'e-c-flow-fn', source: 'code-control-flow', target: 'code-functions', sourceHandle: 'right', targetHandle: 'left', label: '收成函数', branch: 'c15' },
+  { id: 'e-c-fn-oa', source: 'code-functions', target: 'code-objects-arrays', sourceHandle: 'bottom', targetHandle: 'top', label: '打包数据', branch: 'c15' },
+  { id: 'e-c-oa-mod', source: 'code-objects-arrays', target: 'code-modules', sourceHandle: 'right', targetHandle: 'left', label: '拆文件', branch: 'c15', animated: true },
+  { id: 'e-c-mod-async', source: 'code-modules', target: 'code-async', sourceHandle: 'bottom', targetHandle: 'top', label: '等待 I/O', branch: 'c15' },
+  { id: 'e-c-async-err', source: 'code-async', target: 'code-read-errors', sourceHandle: 'right', targetHandle: 'left', label: '失败怎么读', branch: 'c15' },
+  { id: 'e-c-oa-json', source: 'code-objects-arrays', target: 'data-json', sourceHandle: 'right', targetHandle: 'left', label: '序列化', branch: 'c15', animated: true },
+  { id: 'e-c-err-json', source: 'code-read-errors', target: 'data-json', sourceHandle: 'bottom', targetHandle: 'top', label: '数据文字', branch: 'c15' },
+  { id: 'e-c-json-yaml', source: 'data-json', target: 'data-yaml', sourceHandle: 'bottom', targetHandle: 'top', label: '配置形', branch: 'c15' },
+  { id: 'e-c-yaml-md', source: 'data-yaml', target: 'data-markdown', sourceHandle: 'right', targetHandle: 'left', label: '文档形', branch: 'c15' },
+  { id: 'e-c-md-env', source: 'data-markdown', target: 'data-env', sourceHandle: 'bottom', targetHandle: 'top', label: '密钥进进程', branch: 'c15' },
+  { id: 'e-c-env-ck', source: 'data-env', target: 'code-checkpoint', sourceHandle: 'right', targetHandle: 'left', label: '过关自检', branch: 'c15', animated: true },
+  { id: 'e-c-err-ck', source: 'code-read-errors', target: 'code-checkpoint', sourceHandle: 'right', targetHandle: 'left', label: '含排错演练', branch: 'c15' },
+  { id: 'e-ck-lang', source: 'code-checkpoint', target: 'lang-what-is-language', sourceHandle: 'top', targetHandle: 'bottom', label: '再看语言版图', branch: 'c2', animated: true },
+  { id: 'e-ck-min', source: 'code-checkpoint', target: 'xrk-min-path', sourceHandle: 'right', targetHandle: 'left', label: '最小贡献', branch: 'c4', animated: true },
+  { id: 'e-ck-dsa', source: 'code-checkpoint', target: 'dsa-complexity', sourceHandle: 'left', targetHandle: 'right', label: '面试轨', branch: 'side' },
+  { id: 'e-yaml-cfg', source: 'data-yaml', target: 'xrk-config', sourceHandle: 'right', targetHandle: 'left', label: '配置归属', branch: 'bridge' },
+  { id: 'e-async-http', source: 'code-async', target: 'http-hands-on', sourceHandle: 'right', targetHandle: 'left', label: 'fetch 实践', branch: 'bridge' },
+  { id: 'e-json-http', source: 'data-json', target: 'http-hands-on', sourceHandle: 'right', targetHandle: 'top', label: 'JSON 体', branch: 'bridge' },
+
+  /* HTTP 动手 */
+  { id: 'e-http-hands', source: 'http-web', target: 'http-hands-on', sourceHandle: 'bottom', targetHandle: 'top', label: '动手一次', branch: 'c3', animated: true },
+  { id: 'e-hands-proxy', source: 'http-hands-on', target: 'reverse-proxy', sourceHandle: 'right', targetHandle: 'left', label: '入口工程化', branch: 'c3' },
+  { id: 'e-hands-xrk', source: 'http-hands-on', target: 'xrk-http-www', sourceHandle: 'right', targetHandle: 'left', label: '落到本仓', branch: 'bridge' },
+
+  /* SQL 动手 */
+  { id: 'e-land-sql', source: 'db-landscape', target: 'db-sql-hands-on', sourceHandle: 'right', targetHandle: 'left', label: '先会四句', branch: 'side', animated: true },
+  { id: 'e-sql-sqlite', source: 'db-sql-hands-on', target: 'db-sqlite', sourceHandle: 'bottom', targetHandle: 'top', label: '产品：SQLite', branch: 'side' },
+  { id: 'e-sql-pg', source: 'db-sql-hands-on', target: 'db-postgresql', sourceHandle: 'bottom', targetHandle: 'top', label: '产品：PG', branch: 'side' },
+
+  /* 最小路径 */
+  { id: 'e-firstrun-min', source: 'xrk-first-run', target: 'xrk-min-path', sourceHandle: 'right', targetHandle: 'left', label: '锁定必学', branch: 'c4', animated: true },
+  { id: 'e-min-deploy', source: 'xrk-min-path', target: 'xrk-deploy-env', sourceHandle: 'right', targetHandle: 'left', label: '环境清单', branch: 'c4' },
+  { id: 'e-min-ov', source: 'xrk-min-path', target: 'xrk-overview', sourceHandle: 'right', targetHandle: 'top', label: '鸟瞰', branch: 'c4' },
+  { id: 'e-min-lab', source: 'xrk-min-path', target: 'xrk-lab-plugin', sourceHandle: 'bottom', targetHandle: 'top', label: '终点：最小插件', branch: 'c4' },
+
+  /* 工程素养 */
+  { id: 'e-err-debug', source: 'code-read-errors', target: 'craft-debug', sourceHandle: 'right', targetHandle: 'left', label: '调试加深', branch: 'side', animated: true },
+  { id: 'e-ts-debug', source: 'workbench-troubleshoot', target: 'craft-debug', sourceHandle: 'right', targetHandle: 'left', label: '排障→调试', branch: 'side' },
+  { id: 'e-debug-sec', source: 'craft-debug', target: 'craft-security', sourceHandle: 'right', targetHandle: 'left', label: '别踩雷', branch: 'side' },
+  { id: 'e-env-sec', source: 'data-env', target: 'craft-security', sourceHandle: 'right', targetHandle: 'left', label: '密钥习惯', branch: 'side' },
+  { id: 'e-sec-test', source: 'craft-security', target: 'craft-testing', sourceHandle: 'right', targetHandle: 'left', label: '锁定行为', branch: 'side', animated: true },
+  { id: 'e-debug-test', source: 'craft-debug', target: 'craft-testing', sourceHandle: 'bottom', targetHandle: 'top', label: '回归', branch: 'side' },
+  { id: 'e-sec-auth', source: 'craft-security', target: 'xrk-http-auth', sourceHandle: 'right', targetHandle: 'left', label: '本仓鉴权', branch: 'bridge' },
+  { id: 'e-test-lab', source: 'craft-testing', target: 'xrk-lab-plugin', sourceHandle: 'right', targetHandle: 'left', label: '动手验证', branch: 'bridge' },
+
+  /* DSA */
+  { id: 'e-dsa-c-l', source: 'dsa-complexity', target: 'dsa-linear', sourceHandle: 'right', targetHandle: 'left', label: '线性底座', branch: 'side', animated: true },
+  { id: 'e-dsa-l-h', source: 'dsa-linear', target: 'dsa-hash', sourceHandle: 'right', targetHandle: 'left', label: '键值加速', branch: 'side' },
+  { id: 'e-dsa-h-t', source: 'dsa-hash', target: 'dsa-tree', sourceHandle: 'right', targetHandle: 'left', label: '层级', branch: 'side' },
+  { id: 'e-dsa-t-g', source: 'dsa-tree', target: 'dsa-graph', sourceHandle: 'bottom', targetHandle: 'top', label: '网状', branch: 'side' },
+  { id: 'e-dsa-g-s', source: 'dsa-graph', target: 'dsa-sort', sourceHandle: 'right', targetHandle: 'left', label: '排序查找', branch: 'side' },
+  { id: 'e-dsa-s-dp', source: 'dsa-sort', target: 'dsa-dp', sourceHandle: 'right', targetHandle: 'left', label: '最优子结构', branch: 'side' },
+  { id: 'e-dsa-dp-hot', source: 'dsa-dp', target: 'dsa-hot', sourceHandle: 'right', targetHandle: 'left', label: '题型串', branch: 'side', animated: true },
+  { id: 'e-js-dsa', source: 'lang-javascript', target: 'dsa-linear', sourceHandle: 'left', targetHandle: 'right', label: '容器实现对照', branch: 'side' },
+
+
+  { id: 'e-git-adv', source: 'git-forges', target: 'git-advanced', sourceHandle: 'right', targetHandle: 'left', label: '协作加深', branch: 'c1', animated: true },
+  { id: 'e-gitws-adv', source: 'git-workspace', target: 'git-advanced', sourceHandle: 'right', targetHandle: 'top', label: '会 commit 再分支', branch: 'c1' },
+  { id: 'e-adv-run', source: 'git-advanced', target: 'xrk-first-run', sourceHandle: 'right', targetHandle: 'left', label: '再跑项目', branch: 'c1' },
+  { id: 'e-adv-ci', source: 'git-advanced', target: 'craft-ci', sourceHandle: 'right', targetHandle: 'left', label: 'PR 触发检查', branch: 'side' },
+  { id: 'e-oa-re', source: 'code-objects-arrays', target: 'code-regex', sourceHandle: 'right', targetHandle: 'left', label: '模式匹配', branch: 'c15' },
+  { id: 'e-re-ck', source: 'code-regex', target: 'code-checkpoint', sourceHandle: 'right', targetHandle: 'left', label: '过关含正则', branch: 'c15' },
+  { id: 'e-re-lab', source: 'code-regex', target: 'xrk-lab-plugin', sourceHandle: 'right', targetHandle: 'left', label: '写 rule.reg', branch: 'bridge' },
+  { id: 'e-fn-ts', source: 'code-functions', target: 'code-typescript-hands', sourceHandle: 'right', targetHandle: 'left', label: '加类型', branch: 'c15' },
+  { id: 'e-mod-ts', source: 'code-modules', target: 'code-typescript-hands', sourceHandle: 'right', targetHandle: 'top', label: '模块上标注', branch: 'c15' },
+  { id: 'e-ts-ck', source: 'code-typescript-hands', target: 'code-checkpoint', sourceHandle: 'right', targetHandle: 'left', label: '可选过关', branch: 'c15' },
+  { id: 'e-ts-lang', source: 'code-typescript-hands', target: 'lang-typescript', sourceHandle: 'top', targetHandle: 'bottom', label: '版图对照', branch: 'c2' },
+  { id: 'e-dbg-obs', source: 'craft-debug', target: 'craft-observability', sourceHandle: 'right', targetHandle: 'left', label: '上线可见性', branch: 'side' },
+  { id: 'e-test-ci', source: 'craft-testing', target: 'craft-ci', sourceHandle: 'right', targetHandle: 'left', label: '自动跑检查', branch: 'side', animated: true },
+  { id: 'e-obs-ci', source: 'craft-observability', target: 'craft-ci', sourceHandle: 'right', targetHandle: 'left', label: '流水线', branch: 'side' },
+  { id: 'e-http-lab', source: 'xrk-http-www', target: 'xrk-lab-http', sourceHandle: 'bottom', targetHandle: 'top', label: '动手 API', branch: 'c4', animated: true },
+  { id: 'e-hands-labhttp', source: 'http-hands-on', target: 'xrk-lab-http', sourceHandle: 'right', targetHandle: 'left', label: '概念→本仓', branch: 'bridge' },
+  { id: 'e-cfg-lab', source: 'xrk-config', target: 'xrk-lab-config', sourceHandle: 'bottom', targetHandle: 'top', label: '动手三同步', branch: 'c4', animated: true },
+  { id: 'e-yaml-labcfg', source: 'data-yaml', target: 'xrk-lab-config', sourceHandle: 'right', targetHandle: 'left', label: '改 yaml', branch: 'bridge' },
+  { id: 'e-labhttp-stream', source: 'xrk-lab-http', target: 'xrk-stream', sourceHandle: 'right', targetHandle: 'left', label: '练完接业务', branch: 'c4' },
+  { id: 'e-labcfg-plug', source: 'xrk-lab-config', target: 'xrk-lab-plugin', sourceHandle: 'right', targetHandle: 'left', label: '配齐再写插件', branch: 'c4' },
+  { id: 'e-proxy-panel', source: 'reverse-proxy', target: 'panel-essence', sourceHandle: 'bottom', targetHandle: 'top', label: '图形化入口', branch: 'side' },
+  { id: 'e-nginx-panel', source: 'net-nginx', target: 'panel-essence', sourceHandle: 'bottom', targetHandle: 'top', label: '面板常封装 Nginx', branch: 'side' },
+  { id: 'e-edge-panel', source: 'net-edge-practice', target: 'panel-run-node', sourceHandle: 'right', targetHandle: 'left', label: '出口到主机', branch: 'side' },
+  { id: 'e-panel-bt', source: 'panel-essence', target: 'panel-baota', sourceHandle: 'right', targetHandle: 'left', label: '宝塔', branch: 'side', animated: true },
+  { id: 'e-panel-1p', source: 'panel-essence', target: 'panel-1panel', sourceHandle: 'bottom', targetHandle: 'top', label: '1Panel', branch: 'side', animated: true },
+  { id: 'e-bt-cmp', source: 'panel-baota', target: 'panel-compare', sourceHandle: 'right', targetHandle: 'left', label: '对照', branch: 'side' },
+  { id: 'e-1p-cmp', source: 'panel-1panel', target: 'panel-compare', sourceHandle: 'right', targetHandle: 'left', label: '对照', branch: 'side' },
+  { id: 'e-1p-docker', source: 'panel-1panel', target: 'ops-docker', sourceHandle: 'right', targetHandle: 'left', label: '容器亲和', branch: 'side' },
+  { id: 'e-cmp-run', source: 'panel-compare', target: 'panel-run-node', sourceHandle: 'right', targetHandle: 'left', label: '落到 Node', branch: 'side', animated: true },
+  { id: 'e-deploy-panel', source: 'xrk-deploy-env', target: 'panel-run-node', sourceHandle: 'bottom', targetHandle: 'top', label: '一种装法', branch: 'side' },
+  { id: 'e-run-systemd', source: 'panel-run-node', target: 'host-systemd', sourceHandle: 'right', targetHandle: 'left', label: '无面板保活', branch: 'side' },
+  { id: 'e-run-tls', source: 'panel-run-node', target: 'host-tls', sourceHandle: 'bottom', targetHandle: 'top', label: '证书层', branch: 'side' },
+  { id: 'e-cli-systemd', source: 'linux-cli', target: 'host-systemd', sourceHandle: 'bottom', targetHandle: 'top', label: '服务管理', branch: 'side' },
+  { id: 'e-dns-tls', source: 'dns-https', target: 'host-tls', sourceHandle: 'bottom', targetHandle: 'top', label: '证书实务', branch: 'side' },
+  { id: 'e-systemd-tls', source: 'host-systemd', target: 'host-tls', sourceHandle: 'right', targetHandle: 'left', label: '服务之上 HTTPS', branch: 'side' },
+  { id: 'e-tls-bak', source: 'host-tls', target: 'host-backup', sourceHandle: 'right', targetHandle: 'left', label: '别忘备份', branch: 'side', animated: true },
+  { id: 'e-fs-bak', source: 'fs-layout', target: 'host-backup', sourceHandle: 'right', targetHandle: 'left', label: '数据在哪', branch: 'side' },
+
+
+
+  /* 番外 · AI 编程（收束三卡） */
+  { id: 'e-cs-vibe', source: 'computer-system', target: 'adev-vibe-coding', sourceHandle: 'bottom', targetHandle: 'top', label: '路径 A · Vibe', branch: 'bridge', animated: true },
+  { id: 'e-wb-vibe', source: 'workbench-editor', target: 'adev-vibe-coding', sourceHandle: 'right', targetHandle: 'left', label: '用 Agent 开工', branch: 'bridge' },
+  { id: 'e-cli-compare', source: 'ai-cli', target: 'adev-compare', sourceHandle: 'bottom', targetHandle: 'top', label: '形态黄页', branch: 'bridge' },
+  { id: 'e-adev-vibe-cmp', source: 'adev-vibe-coding', target: 'adev-compare', sourceHandle: 'right', targetHandle: 'left', label: '选型', branch: 'side', animated: true },
+  { id: 'e-adev-cmp-mem', source: 'adev-compare', target: 'adev-project-memory', sourceHandle: 'right', targetHandle: 'left', label: '交底文件', branch: 'side', animated: true },
+  { id: 'e-adev-mem-agents', source: 'adev-project-memory', target: 'ai-agents-md', sourceHandle: 'right', targetHandle: 'left', label: 'AGENTS 专课', branch: 'bridge', animated: true },
+  { id: 'e-adev-mem-rules', source: 'adev-project-memory', target: 'ai-rules', sourceHandle: 'right', targetHandle: 'left', label: 'Rules', branch: 'bridge' },
+  { id: 'e-adev-vibe-tb', source: 'adev-vibe-coding', target: 'workbench-troubleshoot', sourceHandle: 'right', targetHandle: 'left', label: '主脊·排障', branch: 'bridge', animated: true },
+  { id: 'e-adev-vibe-min', source: 'adev-vibe-coding', target: 'xrk-min-path', sourceHandle: 'right', targetHandle: 'left', label: '主脊·最小路径', branch: 'bridge', animated: true },
+  { id: 'e-adev-vibe-deploy', source: 'adev-vibe-coding', target: 'xrk-deploy-env', sourceHandle: 'right', targetHandle: 'left', label: '委派部署', branch: 'bridge' },
+  { id: 'e-adev-sec-vibe', source: 'craft-security', target: 'adev-vibe-coding', sourceHandle: 'right', targetHandle: 'left', label: '密钥习惯', branch: 'side' },
+  { id: 'e-adev-vibe-ci', source: 'adev-vibe-coding', target: 'craft-ci', sourceHandle: 'right', targetHandle: 'left', label: '改完仍检查', branch: 'side' },
 
   /* 番外 */
   { id: 'e-net-clash', source: 'network-basics', target: 'clash', sourceHandle: 'bottom', targetHandle: 'top', label: '番外：代理引擎', branch: 'side' },

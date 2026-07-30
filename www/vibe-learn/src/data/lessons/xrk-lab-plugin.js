@@ -116,6 +116,19 @@ export default class HelloLab extends PluginBase {
 - \`docs/runtime-surface.md\` · \`docs/框架可扩展性指南.md\`  
 - 本框：**Core 放码** · **插件架构** · **Tasker 通道**
 
+## Coding Agent 协作
+
+可复制：
+
+\`\`\`
+目标：在 core/my-lab-Core/plugin/ 写最小 PluginBase 插件，规则 /^#lab$/，回复 lab-ok。
+现场：仓库已能 node app；我选的 core 名=…
+约束：不改 src/；constructor 不建 Map/缓存；无 package.json 时用 #infrastructure/plugins/plugin-base.js；娱乐插件勿加主仓白名单。
+验收：热更或重启后发 #lab 收到 lab-ok；列出改动文件供我审 diff。
+\`\`\`
+
+安全节奏见 **Vibe 心智里的安全底线**；提问地图见 **Vibe Coding 心智**。
+
 ## 下一步
 
 插件通了 → **HTTP / www** 或 **Stream**；要多语言能力 → **实践·子服调用**。  

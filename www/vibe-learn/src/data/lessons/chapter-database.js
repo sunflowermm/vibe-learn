@@ -8,7 +8,7 @@ export default `# 番外 · 数据库
 
 ## 三线怎么分（先看这张表）
 \`\`\`steps
-{"title":"数据库番外怎么读","steps":[{"title":"先本质","body":"数据 / 数据库 / DBMS 三层别混。"},{"title":"再模型","body":"关系 / 文档 / 键值。"},{"title":"再产品","body":"SQLite / PG / MySQL / Redis / Mongo。"},{"title":"回本仓","body":"热数据常见 Redis。"}]}
+{"title":"数据库番外怎么读","steps":[{"title":"先本质","body":"数据 / 数据库 / DBMS 三层别混。"},{"title":"再模型","body":"关系 / 文档 / 键值。"},{"title":"SQL 动手","body":"CRUD 四句。"},{"title":"再产品","body":"SQLite / PG / MySQL / Redis / Mongo。"},{"title":"回本仓","body":"热数据常见 Redis。"}]}
 \`\`\`
 
 
@@ -28,7 +28,9 @@ flowchart TB
   E --> M[为何叫中间件]
   S --> L[版图与流行度]
   M --> L
-  L --> R[Redis]
+  L --> SQL[SQL 最小动手]
+  SQL --> R[Redis]
+  L --> R
   L --> Q[SQLite]
   L --> G[MongoDB]
   L --> P[PostgreSQL]
@@ -65,4 +67,9 @@ flowchart TB
 | **语言** | 分层定义从那里伸出；本框展开「数据类中间件」 |
 | **网络** | 服务要端口、连接、超时 |
 | **XRK** | 契约与安装；概念不在此重复讲三遍 |
+
+## 与 Vibe Coding
+
+SQL / Redis：可让 Agent 写练习查询，但你要能口述「改的是哪张表/哪个键」。本仓 Redis 契约见第四章 **数据库** 与番外 Redis 课。
+
 `;

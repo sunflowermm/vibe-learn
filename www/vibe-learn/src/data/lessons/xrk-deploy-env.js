@@ -347,8 +347,24 @@ node app
 | **corepack / pnpm** | Node 包管理器启用器 + 本仓唯一包管理 | \`corepack enable\` 后用 \`pnpm install\` | 别用 npm/yarn 装本仓依赖 |
 | **ensure-redis（启动前 Redis 探测）** | 本仓脚本确认 Redis 可用 | 无 Redis → fail-fast；见数据与缓存课 | 别与「可选 Mongo Core」同等对待 |
 
+## Coding Agent 协作
+
+> 完整提问地图见 **Vibe Coding 心智**。部署最适合「检查表 + 一步一层」。
+
+可复制：
+
+\`\`\`
+目标：按 XRK-AGT 部署清单，确认本机/服务器是否具备 Git、Node≥26、pnpm、Redis、出网代理。
+现场：OS=…；仓库路径=…；我粘贴 node -v / pnpm -v / redis-cli ping 的输出如下：…
+约束：只用 pnpm；未确认前不要改 yaml / .env；不要提交密钥；不要改 src/infrastructure。
+验收：给出缺项安装步骤；全部绿后说明下一步应打开「首次跑通」还是「面板上跑 Node」。
+\`\`\`
+
+面板 / systemd / 证书：同课框 **面板上跑 Node**、**systemd 直觉** 里也有对应提问。
+
 ## 下一步
 
+- **番外 · Vibe Coding 心智（提问附录）** — 部署/反代提示词全集  
 - **番外 · 代理引擎（Clash）** — \`HTTP_PROXY\` 与系统代理；部署卡 GitHub 时优先回这里  
 - **番外 · 本机目录** — Users / \`/home\` / \`.xxx\`  
 - **不同终端环境**（第一章）— 终端 / Shell / OS 完整概念  

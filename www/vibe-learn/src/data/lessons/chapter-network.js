@@ -9,7 +9,7 @@ export default `# 第三章 · 计算机网络
 
 ## 与前面章节的咬合
 \`\`\`steps
-{"title":"网络章路径","steps":[{"title":"网是什么","body":"LAN/WAN/性能词。"},{"title":"地址与路由","body":"IP、NAT。"},{"title":"传输与应用","body":"TCP/UDP、HTTP、DNS/HTTPS。"},{"title":"入口层","body":"反代、Nginx、边缘。"}]}
+{"title":"网络章路径","steps":[{"title":"网是什么","body":"LAN/WAN/性能词。"},{"title":"地址与路由","body":"IP、NAT。"},{"title":"传输与应用","body":"TCP/UDP、HTTP、DNS/HTTPS。"},{"title":"动手","body":"HTTP 动手一次。"},{"title":"入口层","body":"反代、Nginx、边缘。"}]}
 \`\`\`
 
 
@@ -29,7 +29,8 @@ flowchart LR
   IP --> ROUTE[路由 / NAT / 防火墙]
   IP --> DNS[DNS / HTTPS]
   TCP --> HTTP
-  HTTP --> PROXY[反向代理 / CDN]
+  HTTP --> HANDS[HTTP 动手]
+  HANDS --> PROXY[反向代理 / CDN]
   PROXY --> NGX[Nginx 产品]
   PROXY --> EDGE[边缘实务]
   NGX --> EDGE
@@ -87,4 +88,9 @@ flowchart LR
 | **云厂商入门实验** | 安全组、弹性 IP、SLB | 把「协议+端口」练成肌肉记忆（含 UDP 开服） |
 
 备考建议：概念用本图谱 + 小林图解；实操用 Packet Tracer / 云控制台安全组各做一遍「只开对协议」的对照实验。
+
+## 与 Vibe Coding
+
+HTTP / 反代 / 证书：让 Agent 生成 \`curl\` 验收命令与 Nginx/面板步骤草稿；**你**核对端口、域名与是否裸奔。提问地图见 **Vibe Coding 心智**；动手课 **HTTP 动手** 已含模拟终端。
+
 `;

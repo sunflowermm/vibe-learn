@@ -55,4 +55,9 @@ flowchart TB
 | **数据库** | \`docker run redis\` 是起 DBMS 服务的一种方式 |
 | **网络** | 容器要映射端口；**反代/Nginx 另线** |
 | **XRK** | 开发机可用 Compose 起 Redis |
+
+## 与 Vibe Coding
+
+Docker/Compose：沙箱可练命令直觉；真机起容器前让 Agent 解释端口映射，并自己 \`docker ps\` 验收。
+
 `;

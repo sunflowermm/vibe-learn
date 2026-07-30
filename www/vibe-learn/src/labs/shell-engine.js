@@ -42,6 +42,10 @@ export function defaultLinuxTree() {
                     type: 'file',
                     content: '先 pwd，再 ls，再 cd。\n点文件要用 ls -la 才看得见。\n',
                   },
+                  'hello.js': {
+                    type: 'file',
+                    content: "console.log('hello, xrk')\n",
+                  },
                 },
               },
               Downloads: { type: 'dir', children: {} },
@@ -317,6 +321,14 @@ export function createShellSession(config = {}) {
 
   const aliases = { ll: 'ls -la', ...(config.aliases || {}) };
 
+  /** 简易 Git 工作区状态（仅沙箱教学） */
+  const gitState = {
+    branch: 'main',
+    staged: /** @type {string[]} */ ([]),
+    dirty: /** @type {string[]} */ (['README.md']),
+    commits: 1,
+  };
+
   const builtins = {
     help: {
       help: '列出可用命令',
@@ -535,19 +547,38 @@ export function createShellSession(config = {}) {
       },
     },
     curl: {
-      help: '模拟 HTTP 探测',
+      help: '模拟 HTTP 探测（-I 看头；普通 GET 看体）',
       run(_c, args) {
         const url = args.find((a) => !a.startsWith('-')) || '';
-        if (!url) return 'curl: 试 curl -I https://example.com';
-        if (args.includes('-I') || args.includes('-i')) {
+        if (!url) {
           return [
-            'HTTP/1.1 200 OK',
-            'content-type: text/html',
-            'x-sim: vibe-learn',
-            `# 模拟响应 · 目标 ${url}`,
+            '用法直觉：',
+            '  curl -I https://example.com     # 只看响应头',
+            '  curl -sS https://httpbin.org/get  # 看 JSON 体（模拟）',
+            '# -s 安静 · -S 出错仍显示 · 本窗不上真网',
           ];
         }
-        return `<html>模拟页面 · ${url}</html>`;
+        if (args.includes('-I') || args.includes('-i') || args.includes('-D')) {
+          return [
+            'HTTP/1.1 200 OK',
+            'Content-Type: application/json',
+            'x-sim: vibe-learn',
+            `# 模拟响应头 · 目标 ${url}`,
+            '# 状态行第一段数字=状态码（200=成功一类）',
+          ];
+        }
+        if (/httpbin\.org\/get|\/api\/|application\/json/i.test(url) || args.includes('-s') || args.includes('-sS')) {
+          return [
+            '{',
+            '  "success": true,',
+            '  "message": "ok",',
+            '  "url": "' + url + '",',
+            '  "origin": "127.0.0.1"',
+            '}',
+            '# [模拟 JSON] 真机可对 httpbin.org 或本仓 API 再试',
+          ];
+        }
+        return `<html>模拟页面 · ${url}</html>\n# 试加 -I 看头，或对 httpbin.org/get 看 JSON`;
       },
     },
     ping: {
@@ -583,10 +614,30 @@ export function createShellSession(config = {}) {
       },
     },
     node: {
-      help: '模拟 node -v',
-      run(_c, args) {
-        if (args[0] === '-v' || args[0] === '--version') return 'v26.0.0';
-        return '模拟 node：试 node -v';
+      help: '模拟 node -v；可跑极简 .js（只识别 console.log 字符串）',
+      run(c, args) {
+        if (!args.length || args[0] === '-v' || args[0] === '--version') {
+          return args[0] ? 'v26.0.0' : 'Welcome to Node.js v26.0.0.\n# 试 node -v 或 node hello.js';
+        }
+        if (args[0] === '-e' && args[1]) {
+          const m = String(args[1]).match(/console\.log\(\s*['"]([^'"]*)['"]\s*\)/);
+          return m ? m[1] : '# 模拟 -e：本沙箱只演示 console.log("文字")';
+        }
+        const file = args[0];
+        if (file && !file.startsWith('-')) {
+          const { node } = c.resolve(file);
+          if (!node) return `Error: Cannot find module '${file}'\n# 先 cd 到文件所在目录，或写对相对路径`;
+          if (node.type !== 'file') return `Error: ${file} 不是文件`;
+          const logs = [...String(node.content).matchAll(/console\.log\(\s*['"]([^'"]*)['"]\s*\)/g)].map(
+            (m) => m[1]
+          );
+          if (logs.length) return logs;
+          return [
+            '# 已「假装」执行，但文件里没有可识别的 console.log("…")',
+            '# 本沙箱不跑完整 JS；真机请用本机 node',
+          ];
+        }
+        return '模拟 node：试 node -v · node hello.js · node -e "console.log(1+1)"（后者仅字符串演示）';
       },
     },
     npm: {
@@ -609,14 +660,15 @@ export function createShellSession(config = {}) {
       },
     },
     git: {
-      help: '模拟 git（含 clone 失败 / 代理 / ghproxy）',
+      help: '模拟 git：clone / status / 分支 / add / commit（教学状态机）',
       run(c, args) {
         if (!args.length || args[0] === '--help') {
           return [
             '用法（模拟）：',
-            '  git --version',
-            '  git clone <url>',
-            '直连 github.com 常失败；可先 export HTTPS_PROXY=… 或改用 ghproxy 前缀 URL',
+            '  git --version · git clone <url>',
+            '  git status · git diff · git add <文件> · git commit -m "说明"',
+            '  git switch -c feat/demo · git branch',
+            'clone 直连 github.com 常失败 → 设 HTTPS_PROXY 或 ghproxy 前缀',
           ];
         }
         if (args[0] === '--version') return 'git version 2.45.2';
@@ -630,11 +682,93 @@ export function createShellSession(config = {}) {
           return 'origin  https://github.com/sunflowermm/XRK-AGT.git (fetch)\norigin  https://github.com/sunflowermm/XRK-AGT.git (push)';
         }
         if (args[0] === 'status') {
-          return 'On branch main\nnothing to commit, working tree clean\n# [模拟]';
+          const lines = [`On branch ${gitState.branch}`];
+          if (gitState.staged.length) {
+            lines.push('Changes to be committed:');
+            gitState.staged.forEach((f) => lines.push(`\tmodified:   ${f}`));
+          }
+          if (gitState.dirty.length) {
+            lines.push('Changes not staged for commit:');
+            gitState.dirty.forEach((f) => lines.push(`\tmodified:   ${f}`));
+          }
+          if (!gitState.staged.length && !gitState.dirty.length) {
+            lines.push('nothing to commit, working tree clean');
+          }
+          lines.push('# [模拟] 真机 git status 才看你仓库真实状态');
+          return lines;
+        }
+        if (args[0] === 'diff') {
+          if (!gitState.dirty.length && !gitState.staged.length) {
+            return '# [模拟] 无差异';
+          }
+          const file = gitState.dirty[0] || gitState.staged[0];
+          return [
+            `diff --git a/${file} b/${file}`,
+            '--- a/' + file,
+            '+++ b/' + file,
+            '@@ -1 +1 @@',
+            '-旧行（模拟）',
+            '+新行（模拟）',
+            '# 真机 diff 显示你改过的每一行',
+          ];
+        }
+        if (args[0] === 'add') {
+          const target = args[1];
+          if (!target) return 'Nothing specified, nothing added.\n# 试：git add README.md  或  git add .';
+          const take =
+            target === '.' || target === '-A'
+              ? [...gitState.dirty]
+              : gitState.dirty.filter((f) => f === target || target.endsWith(f));
+          if (!take.length && target !== '.' && target !== '-A') {
+            gitState.staged.push(target);
+          } else {
+            take.forEach((f) => {
+              if (!gitState.staged.includes(f)) gitState.staged.push(f);
+            });
+            gitState.dirty = gitState.dirty.filter((f) => !gitState.staged.includes(f));
+          }
+          return `# [模拟] 已暂存：${gitState.staged.join(', ') || '(空)'} → 再 git status`;
+        }
+        if (args[0] === 'commit') {
+          const mi = args.indexOf('-m');
+          const msg = mi >= 0 ? args[mi + 1] : '';
+          if (!gitState.staged.length) {
+            return 'On branch ' + gitState.branch + '\nnothing to commit, working tree clean\n# 先 git add';
+          }
+          if (!msg) return 'error: 请用 git commit -m "说明为什么改"';
+          gitState.commits += 1;
+          gitState.staged = [];
+          return [
+            `[${gitState.branch} ${String(gitState.commits).padStart(7, '0')}] ${msg}`,
+            '# [模拟] 提交成功；推远程真机再 git push',
+          ];
+        }
+        if (args[0] === 'branch') {
+          if (gitState.branch === 'main') return '* main';
+          return [`* ${gitState.branch}`, '  main'];
+        }
+        if (args[0] === 'switch' || args[0] === 'checkout') {
+          const create = args.includes('-c') || args.includes('-b');
+          const name = args.find((a, i) => {
+            if (a.startsWith('-')) return false;
+            if (i === 0) return false;
+            return true;
+          });
+          if (!name) return 'fatal: 缺少分支名\n# 试：git switch -c feat/demo';
+          gitState.branch = name;
+          return create
+            ? `Switched to a new branch '${name}'\n# [模拟] 实验改动与 main 隔离`
+            : `Switched to branch '${name}'`;
+        }
+        if (args[0] === 'pull' || args[0] === 'push' || args[0] === 'merge') {
+          return [
+            `# [模拟] git ${args[0]} 需要真远程；本窗不联网`,
+            '先在本机仓库练 status / add / commit / switch',
+          ];
         }
         return [
-          `git ${args[0]}：本沙箱重点演示 clone / 网络`,
-          '试：git clone https://github.com/sunflowermm/XRK-AGT.git',
+          `git ${args[0]}：可试 status · add · commit · switch -c · clone`,
+          '网络类重点：git clone（配合代理课）',
         ];
       },
     },

@@ -1,4 +1,4 @@
-/** 插件式架构 · Loader 族与分工 */
+﻿/** 插件式架构 · Loader 族与分工 */
 export default `# 插件式架构
 
 > 扩展方式为 **约定目录 + Loader 扫描 + 基类契约**（插件式 / 可插拔架构）。  
@@ -122,10 +122,24 @@ constructor 内禁止建易变缓存（\`Map\`/\`{}\` 当状态容器）——�
 - \`docs/plugin-base.md\` · \`docs/tasker-loader.md\`  
 - \`docs/框架可扩展性指南.md\` · \`docs/runtime-surface.md\`
 
+## Vibe Coding
+
+可复制提示词（粘贴到 Cursor / Claude Code 等）：
+
+~~~
+目标：解释本仓 plugin Loader 与 PluginBase 契约，并指出我写最小插件应放的目录。
+现场：我要匹配整句 #lab 回复 lab-ok。
+约束：不改 src/；constructor 不建 Map；给出文件骨架前先列路径。
+验收：我能说出放哪、热更还是重启、如何用消息验收。
+~~~
+
+心智：**Vibe Coding 心智** · 动手：**实践 · 最小插件**。
+
 ## 下一步
 
 插件对外暴露 → **HTTP / www** · **Auth**；  
 按语言生态卸重活 → **子服务端**；  
 对话能力 → **Stream** · **Factory** · **MCP**；  
 动手 → **实践·最小插件**。
+
 `;

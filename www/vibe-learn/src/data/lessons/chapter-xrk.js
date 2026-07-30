@@ -9,7 +9,7 @@ export default `# 第四章 · XRK-AGT（项目实践）
 
 ## 知识结构
 \`\`\`steps
-{"title":"第四章怎么走","steps":[{"title":"部署环境","body":"代理、Git、Node、Redis。"},{"title":"鸟瞰与扩展点","body":"Runtime / Core / plugin…"},{"title":"工作流与管线","body":"AiWorkflow · 对话管线 · 办事工作区。"},{"title":"实践","body":"最小插件与子服实验。"}]}
+{"title":"第四章怎么走","steps":[{"title":"最小贡献路径","body":"锁定必学节点。"},{"title":"部署环境","body":"代理、Git、Node、Redis。"},{"title":"鸟瞰与扩展点","body":"Runtime / Core / plugin…"},{"title":"工作流与管线","body":"AiWorkflow · 对话管线 · 办事工作区。"},{"title":"实践","body":"最小插件与子服实验。"}]}
 \`\`\`
 
 
@@ -18,10 +18,12 @@ flowchart TB
   subgraph pre["前几章"]
     OS[进程/OS]
     ENV[终端/pnpm/Git]
+    CODE[编程基础过关]
     LANG[语言版图]
     NET[端口/HTTP]
   end
   subgraph xrk["本框"]
+    MIN[最小贡献路径]
     DEP[部署环境]
     OV[鸟瞰]
     MAP[业务层全景]
@@ -47,6 +49,10 @@ flowchart TB
   OS --> OV
   ENV --> DEP
   ENV --> OV
+  CODE --> MIN
+  MIN --> DEP
+  MIN --> OV
+  MIN --> LAB1
   LANG --> LS
   NET --> HTTP
   DEP --> OV
@@ -104,11 +110,11 @@ flowchart TB
 
 ## 建议读法
 
-1. **部署环境** → **鸟瞰** → **业务层全景**  
+1. **部署环境** → **鸟瞰** → **业务层全景**（卡住就打开 **Vibe Coding 心智** + **Vibe Coding 心智**，把清单/报错交给 Agent）  
 2. **Runtime** → **Core 放码** → **插件架构**  
 3. 按需：**Tasker** / **events** / **Auth** / **数据库** / **Factory** / **MCP**  
 4. **语言栈** → **HTTP/www** → **子服务端** → **配置归属**  
-5. **工作流** → **对话管线** → **办事助手** → **实践·插件** / **实践·子服**  
+5. **工作流** → **对话管线** → **办事助手** → **实践·插件** / **实践·子服**（实践课均可委派 Agent，你负责审 diff 与验收）  
 6. 进入 **第五章**（概念五柱：窗口 · 注意力 · 自适应…；与本框管线互参）
 
 ## 与已有课的关系
