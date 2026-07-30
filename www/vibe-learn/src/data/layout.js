@@ -281,13 +281,24 @@ const AI_SNAKE = snakeRowPositions(
       'ai-cli',
       'ai-agents-md',
     ],
+    /* 工程细化：面经高频、经典 RAG/Agent 主干未展开的课 */
+    [
+      'ai-chunking',
+      'ai-hybrid-search',
+      'ai-rerank',
+      'ai-vector-store',
+      'ai-rag-eval',
+      'ai-agent-memory',
+      'ai-agent-planning',
+      'ai-prompt-security',
+    ],
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, rowGap: LANE_GAP + 40 }
 );
-/* 旁支：Pi 脚手架（非主干先修）——挂在 CLI 下方 */
+/* 旁支：Pi 脚手架——挂在第 4 行下方，避免与知识工程行重叠 */
 AI_SNAKE['ai-pi-agent'] = {
   x: AI_SNAKE['ai-cli'].x,
-  y: AI_SNAKE['ai-cli'].y + CARD_ROW + 48,
+  y: AI_SNAKE['ai-prompt-security'].y + CARD_ROW + 48,
 };
 assertNoCardOverlap(AI_SNAKE, 'frameAi');
 /* ═══════════════════════════════════════════

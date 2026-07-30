@@ -338,8 +338,8 @@ export const GLOSSARY = {
   },
   pip: {
     term: 'pip',
-    brief: 'IP address（IP 地址）：Internet Protocol（网际协议）层分配给主机的数字标识，用于在网络中定位主机（如 192.168.1.3）。',
-    also: ['package-managers', 'lang-landscape'],
+    brief: 'pip：Python 官方包安装器，用于从 PyPI 等索引安装发行包；本仓 Python 子服亦常见 uv 作为更快的替代工作流。',
+    also: ['package-managers', 'lang-landscape', 'xrk-subserver'],
   },
   dhcp: {
     term: 'DHCP',
@@ -687,8 +687,8 @@ export const GLOSSARY = {
   },
   latency: {
     term: '延迟（Latency）',
-    brief: 'Latency（延迟）：数据从发送到被接收方感知所经历的时间，常用毫秒（ms）度量；与 Bandwidth 独立影响用户体验。',
-    also: ['network-basics'],
+    brief: 'Latency（延迟）：从发出到被感知响应所经历的时间（常以 ms 计）；与 Bandwidth（带宽）独立。网络侧常关联 RTT、排队与序列化；体感慢不一定是带宽不够。',
+    also: ['network-basics', 'rtt', 'http-web'],
   },
   topology: {
     term: '拓扑（Topology）',
@@ -712,12 +712,12 @@ export const GLOSSARY = {
   },
   ip: {
     term: 'IP 地址',
-    brief: '给上网设备的数字门牌号（如 192.168.1.3），用来在网络层找到「哪一台主机」。',
-    also: ['ip-addressing'],
+    brief: 'IP address（IP 地址）：Internet Protocol（网际协议）层标识主机或网卡接口的逻辑地址（如 192.168.1.3 或 2001:db8::1）。找「哪台机器」靠 IP；找「哪个进程服务」还要 Port（端口）。勿与 Domain name（域名）、URL 混淆。',
+    also: ['ip-addressing', 'tcp-udp', 'dns-https'],
   },
   subnet: {
     term: '子网 / 掩码',
-    brief: 'Subnet / netmask（子网与掩码）：将 IP 地址空间划分为连续前缀的规则，用于判断通信是否在同一广播域或须经 Gateway（网关）。',
+    brief: 'Subnet / netmask（子网与掩码）：将 IP 地址空间划分为连续前缀的规则，用于判断通信是否在同一网段或须经 Gateway（网关）。点分掩码（如 255.255.255.0）与 CIDR（/24）描述同一前缀长度，工程上更常写 CIDR。',
     also: ['ip-addressing', 'routing-nat'],
   },
   port: {
@@ -757,8 +757,8 @@ export const GLOSSARY = {
   },
   domain: {
     term: '域名（Domain name）',
-    brief: 'Domain name（域名）：DNS 命名空间中的层次化字符串标识（如 example.com），机器通信仍须解析为 IP 地址。',
-    also: ['dns-https'],
+    brief: 'Domain name（域名）：DNS 命名空间中的层次化名字（如 example.com）。人类好记；机器通信仍须经 DNS 解析成 IP。域名 ≠ IP ≠ URL：URL 还可含协议、端口与路径。',
+    also: ['dns-https', 'ip-addressing', 'http-web'],
   },
   https: {
     term: 'HTTPS',
@@ -802,8 +802,8 @@ export const GLOSSARY = {
   },
   forward_proxy: {
     term: '正向代理',
-    brief: 'Forward proxy（正向代理）：部署在客户端侧、代客户端访问外部目标的代理；Clash 等代理引擎更接近此角色。',
-    also: ['reverse-proxy', 'net-edge-practice', 'clash'],
+    brief: 'Forward proxy（正向代理）：部署在客户端侧、代客户端访问外部目标的代理（公司网关、本地 Clash 等）；与 Reverse proxy（反向代理，入口替后端接客）方向相反。',
+    also: ['reverse-proxy', 'net-edge-practice', 'data-env'],
   },
 
   /* —— 第四章 · XRK —— */
@@ -1187,9 +1187,9 @@ export const GLOSSARY = {
     also: ['clash', 'clash-setup', 'proxy_node'],
   },
   cidr: {
-    term: 'CIDR',
-    brief: 'Classless Inter-Domain Routing（无类域间路由，CIDR）：以「网络地址/前缀长度」表示网段（如 10.0.0.0/24），用于路由表、安全组与 Virtual Private Cloud（VPC）。',
-    also: ['ip-addressing', 'routing-nat'],
+    term: 'CIDR / 前缀长度',
+    brief: 'Classless Inter-Domain Routing（无类域间路由，CIDR）：用「地址/前缀长度」表示网段（如 192.168.1.0/24 表示前 24 位为网络号）。路由表、安全组、VPN 与 VPC 均常用此记法。',
+    also: ['ip-addressing', 'subnet', 'routing-nat'],
   },
   dmz: {
     term: 'DMZ',
@@ -1243,13 +1243,198 @@ export const GLOSSARY = {
   },
   private_ip: {
     term: '私有 IP',
-    brief: 'Private IP address（私有 IP 地址）：RFC 1918 等保留的内网地址段（如 192.168.0.0/16），不可在公网路由；出公网须经 NAT。',
-    also: ['ip-addressing', 'routing-nat'],
+    brief: 'Private IP address（私有 IP 地址）：RFC 1918 等保留的内网地址段（如 10.0.0.0/8、172.16.0.0/12、192.168.0.0/16），公网不可直达；出网通常经 NAT。',
+    also: ['ip-addressing', 'routing-nat', 'nat'],
+  },
+  public_ip: {
+    term: '公网 IP',
+    brief: 'Public IP address（公网 IP）：可在互联网上全局路由的地址，由运营商或云厂商分配；与私有 IP 相对。家庭宽带常只有一个公网 IP，内网设备靠 NAT 共享。',
+    also: ['ip-addressing', 'routing-nat', 'nat'],
+  },
+  ipv4: {
+    term: 'IPv4',
+    brief: 'Internet Protocol version 4（网际协议第 4 版）：32 位地址，常见点分十进制写法（a.b.c.d）；地址耗尽推动了 NAT 与 IPv6。',
+    also: ['ip-addressing'],
+  },
+  ipv6: {
+    term: 'IPv6',
+    brief: 'Internet Protocol version 6（网际协议第 6 版）：128 位地址空间，缓解 IPv4 耗尽；写法如 2001:db8::1。部署进度因地区与运营商而异。',
+    also: ['ip-addressing'],
+  },
+  hostname: {
+    term: '主机名（Hostname）',
+    brief: 'Hostname（主机名）：单机在本地或内网中的名字（如 laptop、api-1），不一定能在公网 DNS 解析；与 FQDN、Domain name 层次不同。',
+    also: ['dns-https', 'ip-addressing'],
+  },
+  fqdn: {
+    term: 'FQDN（完整域名）',
+    brief: 'Fully Qualified Domain Name（完全限定域名）：带完整后缀的域名，如 www.example.com.；相对仅主机名，FQDN 可在 DNS 树中唯一定位。',
+    also: ['dns-https', 'domain'],
+  },
+  url: {
+    term: 'URL',
+    brief: 'Uniform Resource Locator（统一资源定位符）：定位资源的字符串，典型含 scheme（https）、主机（域名或 IP）、端口、路径与查询串。例：https://api.example.com:443/v1/items?id=1',
+    also: ['http-web', 'dns-https'],
+  },
+  uri: {
+    term: 'URI',
+    brief: 'Uniform Resource Identifier（统一资源标识符）：标识资源的更广概念；URL 是可定位的 URI 子集。日常口语常混用，工程文档宜分清「标识」与「定位」。',
+    also: ['http-web'],
+  },
+  localhost: {
+    term: 'localhost',
+    brief: 'localhost：约定解析到本机回环地址（通常 127.0.0.1 / ::1）的主机名；本地开发访问本机服务时使用，流量不经物理网卡出网。',
+    also: ['ip-addressing', 'xrk-first-run'],
+  },
+  dns_a: {
+    term: 'DNS A / AAAA 记录',
+    brief: 'DNS resource record A / AAAA：A 将域名映射到 IPv4；AAAA 映射到 IPv6。浏览器访问网站前通常先查这类记录得到 IP。',
+    also: ['dns-https'],
+  },
+  dns_cname: {
+    term: 'DNS CNAME',
+    brief: 'CNAME（规范名字记录）：将一个域名别名为另一域名；常用于 www 指向主域或接入 CDN。最终仍须有可解析的 A/AAAA 终点。',
+    also: ['dns-https', 'net-edge-practice'],
+  },
+  dns_resolver: {
+    term: 'DNS 解析器',
+    brief: 'DNS resolver（解析器）：代表客户端发起递归查询的组件（系统 stub、运营商、或 1.1.1.1/8.8.8.8 等）。排障「打不开网站」常先分清是解析失败还是 TCP/TLS 失败。',
+    also: ['dns-https', 'workbench-troubleshoot'],
+  },
+  hosts_file: {
+    term: 'hosts 文件',
+    brief: 'hosts file：操作系统本地的「域名→IP」静态表，优先于或部分覆盖 DNS 查询；开发与应急切流常用，误改会导致「只有你电脑异常」。',
+    also: ['dns-https', 'ip-addressing'],
+  },
+  packet: {
+    term: '数据包 / 报文',
+    brief: 'Packet（数据包）：网络中传输的协议数据单元；IP 层常称 packet，TCP 段、以太网帧是不同层的封装。排障时「丢包」指该层 PDU 未达。',
+    also: ['network-basics', 'protocol-stack'],
+  },
+  tcp_handshake: {
+    term: 'TCP 三次握手',
+    brief: 'TCP three-way handshake（三次握手）：SYN → SYN-ACK → ACK，用于双方确认序号并建立连接状态，之后才能可靠传字节流。',
+    also: ['tcp-udp'],
+  },
+  icmp_ping: {
+    term: 'ICMP / ping',
+    brief: 'Internet Control Message Protocol（网际控制报文协议）与 ping：用 Echo 探测主机可达性与 RTT；ping 通不代表 HTTPS 业务一定正常（端口/TLS/应用仍可能失败）。',
+    also: ['network-basics', 'tcp-udp', 'workbench-troubleshoot'],
+  },
+  cors: {
+    term: 'CORS',
+    brief: 'Cross-Origin Resource Sharing（跨源资源共享）：浏览器同源策略下，服务端通过响应头声明是否允许其他 Origin 读写响应；curl 常无此限制，故「接口 curl 通、前端报错」多查 CORS。',
+    also: ['http-web', 'api-frontend'],
+  },
+  origin: {
+    term: 'Origin（源）',
+    brief: 'Origin（源）：scheme + 主机 + 端口 的三元组（如 https://a.com:443）。同源策略以此判断是否跨站；路径不同仍可同源。',
+    also: ['http-web', 'api-frontend'],
+  },
+  cookie: {
+    term: 'Cookie',
+    brief: 'HTTP Cookie：服务器可通过 Set-Cookie 让浏览器在后续请求自动携带的小段状态；常用于会话。须配合 Secure、HttpOnly、SameSite 等属性降低泄漏与 CSRF 风险。',
+    also: ['http-web', 'craft-security'],
+  },
+  websocket: {
+    term: 'WebSocket',
+    brief: 'WebSocket：在 TCP 上升级出的全双工长连接，适合服务端主动推送；与普通 HTTP 请求—响应模型不同，仍常经反代与鉴权。',
+    also: ['http-web', 'xrk-stream'],
+  },
+  sse: {
+    term: 'SSE（Server-Sent Events）',
+    brief: 'Server-Sent Events：服务器经 HTTP 单向推送文本事件流的机制；聊天补全流式输出常见选型之一，实现比 WebSocket 更轻。',
+    also: ['http-web', 'xrk-stream'],
+  },
+  host_header: {
+    term: 'Host 头 / 虚拟主机',
+    brief: 'Host header：HTTP 请求声明目标主机名，使同一 IP 上可托管多站点；TLS 侧对应 SNI。反代按 Host 分流是常规做法。',
+    also: ['http-web', 'reverse-proxy'],
+  },
+  certificate: {
+    term: 'TLS 证书',
+    brief: 'TLS certificate（证书）：由 Certificate Authority（证书颁发机构，CA）签名的公钥与域名绑定文件，用于向客户端证明服务器身份；过期或域名不匹配会导致浏览器报不安全。',
+    also: ['dns-https', 'host-tls'],
+  },
+  well_known_port: {
+    term: '知名端口',
+    brief: 'Well-known ports：0–1023 段中约定服务端口，如 80/HTTP、443/HTTPS、22/SSH、53/DNS；实际部署仍以监听配置为准，且可用非标准端口。',
+    also: ['tcp-udp', 'http-web'],
+  },
+  ephemeral_port: {
+    term: '临时端口',
+    brief: 'Ephemeral / dynamic port（临时端口）：客户端发起连接时由操作系统分配的短生命周期源端口；TIME_WAIT 过多或端口耗尽会导致偶发连不上。',
+    also: ['tcp-udp'],
+  },
+  query_string: {
+    term: '查询串（Query string）',
+    brief: 'Query string：URL 中 `?` 后的键值参数（如 ?page=2&q=x），常用于 GET 过滤；敏感数据勿放查询串（易进日志与 Referer）。',
+    also: ['http-web'],
+  },
+  http_header: {
+    term: 'HTTP 头（Header）',
+    brief: 'HTTP header（首部）：请求或响应中的元数据字段（Content-Type、Authorization、Cookie 等），与 Body 正文分离；联调时 `-i`/`-v` 必看。',
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_body: {
+    term: 'HTTP 正文（Body）',
+    brief: 'HTTP message body：请求或响应携带的载荷，如 JSON、表单或文件；是否存在取决于方法与状态码约定。',
+    also: ['http-web'],
   },
   status_code: {
     term: 'HTTP 状态码',
     brief: 'HTTP status code（HTTP 状态码）：响应中的三位数字状态（2xx 成功、4xx 客户端错误、5xx 服务端错误，如 404、502）。',
     also: ['http-web', 'reverse-proxy'],
+  },
+  http_redirect: {
+    term: 'HTTP 重定向',
+    brief: 'HTTP redirect：用 3xx（常见 301/302/307/308）与 Location 头把客户端导向另一 URL；永久与临时、是否改方法要按状态码语义选用，勿乱用。',
+    also: ['http-web', 'reverse-proxy'],
+  },
+  http_method: {
+    term: 'HTTP 方法',
+    brief: 'HTTP method（请求方法）：GET/POST/PUT/PATCH/DELETE 等表达意图；GET 宜安全幂等，写操作常用 POST/PUT，并注意幂等与缓存副作用。',
+    also: ['http-web', 'api-frontend'],
+  },
+  content_type: {
+    term: 'Content-Type',
+    brief: 'Content-Type：声明 Body 媒体类型（如 application/json、multipart/form-data）；服务端解析与浏览器处理依赖它，错配常导致 415 或静默解析失败。',
+    also: ['http-web', 'data-json'],
+  },
+  authorization_hdr: {
+    term: 'Authorization 头',
+    brief: 'Authorization header：携带凭证的请求头，常见 `Bearer <token>`；勿把长寿命密钥塞进 URL 或前端明文仓库。',
+    also: ['http-web', 'craft-security', 'api-frontend'],
+  },
+  keep_alive: {
+    term: 'HTTP Keep-Alive',
+    brief: 'HTTP persistent connection / Keep-Alive：同一 TCP（或 TLS）连接上复用多次请求，降低握手与 RTT 开销；反向代理与客户端默认多已开启。',
+    also: ['http-web', 'tcp-udp'],
+  },
+  dns_ttl: {
+    term: 'DNS TTL',
+    brief: 'DNS Time To Live（存活时间）：解析结果可被缓存的秒数；改 A/AAAA 后全球生效受 TTL 与各级缓存影响，排障要分清「记录已改」与「缓存未过期」。',
+    also: ['dns-https'],
+  },
+  csrf: {
+    term: 'CSRF',
+    brief: 'Cross-Site Request Forgery（跨站请求伪造）：诱导已登录用户的浏览器向目标站发出带 Cookie 的非预期请求；SameSite Cookie、CSRF Token、避免副作用 GET 是常见防法。',
+    also: ['http-web', 'craft-security'],
+  },
+  xss: {
+    term: 'XSS',
+    brief: 'Cross-Site Scripting（跨站脚本）：把不可信输入当 HTML/JS 执行，窃 Cookie 或篡改页面；输出编码、CSP、HttpOnly Cookie 是基础防线。',
+    also: ['http-web', 'craft-security', 'api-frontend'],
+  },
+  cache_control: {
+    term: 'Cache-Control',
+    brief: 'Cache-Control：控制中间缓存与浏览器是否/如何缓存响应（max-age、no-store、private 等）；静态资源与 API 策略应分开设计。',
+    also: ['http-web', 'reverse-proxy'],
+  },
+  etag: {
+    term: 'ETag',
+    brief: 'Entity Tag（实体标签）：资源版本指纹；配合 If-None-Match 可实现条件请求与 304，减少重复传输。',
+    also: ['http-web'],
   },
   load_balance: {
     term: '负载均衡',
@@ -1410,4 +1595,49 @@ export function resolveGlossary(ids = []) {
     out.push({ id, ...entry });
   }
   return out;
+}
+
+/**
+ * @returns {Array<{ id: string, term: string, brief: string, also?: string[] }>}
+ */
+export function listGlossary() {
+  return Object.entries(GLOSSARY).map(([id, entry]) => ({ id, ...entry }));
+}
+
+/**
+ * @param {string} query
+ * @param {{ limit?: number }} [opts]
+ * @returns {Array<{ id: string, term: string, brief: string, also?: string[], score: number }>}
+ */
+export function searchGlossary(query, opts = {}) {
+  const q = String(query ?? '')
+    .trim()
+    .toLowerCase();
+  const limit = opts.limit ?? 80;
+  const all = listGlossary();
+  if (!q) return all.slice(0, limit).map((e) => ({ ...e, score: 0 }));
+
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const scored = [];
+  for (const e of all) {
+    const hay = `${e.id} ${e.term} ${e.brief}`.toLowerCase();
+    let score = 0;
+    for (const t of tokens) {
+      if (e.term.toLowerCase().includes(t)) score += 8;
+      if (e.id.toLowerCase().includes(t)) score += 6;
+      if (hay.includes(t)) score += 2;
+      else {
+        score = -1;
+        break;
+      }
+    }
+    if (score >= 0) scored.push({ ...e, score });
+  }
+  scored.sort((a, b) => b.score - a.score || a.term.localeCompare(b.term, 'zh'));
+  return scored.slice(0, limit);
+}
+
+/** @returns {number} */
+export function glossaryCount() {
+  return Object.keys(GLOSSARY).length;
 }

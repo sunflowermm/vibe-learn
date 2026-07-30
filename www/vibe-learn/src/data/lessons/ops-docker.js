@@ -62,6 +62,11 @@ flowchart LR
 
 Windows：Docker Desktop 常依赖 WSL2 / 虚拟化；装不上时本仓仍可用 Memurai / 社区 Redis 发行（见部署环境）。
 
+## 和 AI 全栈的交界
+
+本地联调 RAG/Agent 时常容器化：**向量库、Postgres、Redis**；宿主机跑 Node。  
+对齐环境比「在笔记本上裸装五套中间件」更省事——前提是你会 \`ps\` / \`logs\` / 端口映射。
+
 ## 八股 × 业务串联
 
 | 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |

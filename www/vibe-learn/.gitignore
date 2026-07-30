@@ -6,3 +6,6 @@ dist/
 
 # 本地排查脚本，不入库
 scripts/
+
+# 公开大纲拉取产物（pnpm run quiz:outlines）
+src/data/quiz/outlines/

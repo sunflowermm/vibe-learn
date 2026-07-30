@@ -36,10 +36,13 @@ const toneStyle = computed(() => ({
     <div class="card__tag">
       <span>{{ data.tag }}</span>
       <span
-        v-if="data.bookmarked || data.hasNote || data.visited"
+        v-if="data.bookmarked || data.hasNote || data.visited || data.quizCount"
         class="card__marks"
         aria-hidden="true"
       >
+        <span v-if="data.quizCount" class="card__mark card__mark--quiz" :title="`关联 ${data.quizCount} 道练习题`">
+          题{{ data.quizCount > 99 ? '99+' : data.quizCount }}
+        </span>
         <svg
           v-if="data.visited"
           class="card__mark card__mark--visited"
@@ -102,6 +105,7 @@ const toneStyle = computed(() => ({
   box-shadow: var(--shadow-node);
   cursor: pointer;
   transform: translateZ(0);
+  box-sizing: border-box;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
@@ -196,6 +200,17 @@ const toneStyle = computed(() => ({
   color: #bae6fd;
 }
 
+.card__mark--quiz {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  color: #fde68a;
+}
+
 .card.stub .card__tag {
   font-size: 10px;
   margin-bottom: 0;
@@ -206,6 +221,10 @@ const toneStyle = computed(() => ({
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card.stub .card__title {
@@ -218,6 +237,10 @@ const toneStyle = computed(() => ({
   font-size: 12.5px;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.82);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card.stub .card__sub {

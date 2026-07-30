@@ -68,9 +68,12 @@ const lit = computed(() => Boolean(props.data?.lit) || props.selected);
 .chapter__head {
   position: absolute;
   left: 12px;
+  right: 12px;
   top: 12px;
   z-index: 2;
-  max-width: min(420px, calc(100% - 28px));
+  max-width: none;
+  width: auto;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 10px;

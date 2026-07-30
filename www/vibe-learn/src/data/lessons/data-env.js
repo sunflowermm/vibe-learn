@@ -36,6 +36,17 @@ flowchart TB
 
 本仓配置还有 yaml 三同步；环境变量偏**密钥与机器差**，别把一切塞进 \`.env\`。
 
+## 和 AI 全栈的交界
+
+| 场景 | 常见变量 |
+|------|----------|
+| 调云端模型 | \`OPENAI_API_KEY\` / 各厂商 Key（名以实际配置为准） |
+| 出网代理 | \`HTTP_PROXY\` \`HTTPS_PROXY\` \`NO_PROXY\` |
+| 本机服务 | \`PORT\`、数据库 URL |
+
+对照：[菜鸟 Linux export](https://www.runoob.com/linux/linux-comm-export.html) / [env](https://www.runoob.com/linux/linux-comm-env.html)——\`export\` 影响后续进程，\`env\` 可查看或在干净环境跑命令。  
+**密钥进 Git = 事故**；模板用 \`.env.example\`。
+
 常见本地 \`.env\`（通常 **不要** 进 Git）：
 
 \`\`\`dotenv

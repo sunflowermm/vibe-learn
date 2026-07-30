@@ -7,6 +7,7 @@ import PanelNotes from './PanelNotes.vue';
 import TermsBlock from './TermsBlock.vue';
 import { useUserLibrary } from '../composables/useUserLibrary.js';
 import { resolveNodes } from '../data/nodes.js';
+import { questionsForNode, isGlossaryQuestion } from '../data/quiz/bank.js';
 import { SHELL_PRESETS } from '../labs/shell-presets.js';
 
 const props = defineProps({
@@ -16,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'navigate']);
+const emit = defineEmits(['close', 'navigate', 'quiz', 'open-glossary']);
 
 const library = useUserLibrary();
 const scrollEl = ref(null);
@@ -49,6 +50,19 @@ const visited = computed(() =>
   props.node?.id ? library.isVisited(props.node.id) : false
 );
 const primaryNext = computed(() => nextNodes.value[0] || null);
+const relatedQuizCount = computed(() =>
+  props.node?.id ? questionsForNode(props.node.id).length : 0
+);
+const relatedGlossaryCount = computed(() =>
+  props.node?.id
+    ? questionsForNode(props.node.id).filter((q) => isGlossaryQuestion(q)).length
+    : 0
+);
+const relatedAdaptedCount = computed(() =>
+  props.node?.id
+    ? questionsForNode(props.node.id).filter((q) => q.origin === 'adapted').length
+    : 0
+);
 
 function chipVisited(id) {
   return library.isVisited(id);
@@ -65,6 +79,10 @@ watch(
 
 function onToggleBookmark() {
   if (props.node?.id) library.toggleBookmark(props.node.id);
+}
+
+function openRelatedQuiz() {
+  if (props.node?.id && relatedQuizCount.value) emit('quiz', props.node.id);
 }
 </script>
 
@@ -88,6 +106,23 @@ function onToggleBookmark() {
         <p class="panel__sub">{{ node.subtitle }}</p>
       </div>
       <div class="panel__head-actions">
+        <button
+          type="button"
+          class="panel__icon-btn"
+          aria-label="打开词典"
+          title="词典随查"
+          @click="emit('open-glossary', '')"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3.5 2.5h6.2c.7 0 1.3.6 1.3 1.3v8.4c0 .5-.4.9-.9.9H3.5V2.5z"
+              stroke="currentColor"
+              stroke-width="1.25"
+            />
+            <path d="M5 5h4.2M5 7.5h3.2M5 10h2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+            <path d="M12.2 3.2v9.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+          </svg>
+        </button>
         <button
           type="button"
           class="panel__icon-btn"
@@ -167,7 +202,27 @@ function onToggleBookmark() {
         </div>
       </nav>
 
-      <TermsBlock :node-id="node.id" @navigate="emit('navigate', $event)" />
+            <TermsBlock
+              :node-id="node.id"
+              @navigate="emit('navigate', $event)"
+              @open-glossary="emit('open-glossary', $event)"
+            />
+
+      <div v-if="relatedQuizCount" class="panel__quiz-launch">
+        <button type="button" class="panel__quiz-btn" @click="openRelatedQuiz">
+          刷本课相关题
+          <span class="panel__quiz-count">{{ relatedQuizCount }}</span>
+        </button>
+        <p class="panel__quiz-hint">
+          跳转题库，抽本课绑定题
+          <template v-if="relatedGlossaryCount">
+            · 含本课名词释义 {{ relatedGlossaryCount }}
+          </template>
+          <template v-if="relatedAdaptedCount">
+            · 开源改编 {{ relatedAdaptedCount }}（题内标注来源）
+          </template>
+        </p>
+      </div>
 
       <LessonBody v-if="node.markdown" :markdown="node.markdown" />
       <NetworkLab v-if="showLab" />
@@ -374,6 +429,42 @@ function onToggleBookmark() {
   color: var(--mist-dim);
   margin-right: 0.25rem;
   min-width: 3.5rem;
+}
+
+.panel__quiz-launch {
+  padding: 0 1.25rem 0.75rem;
+}
+
+.panel__quiz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line));
+  background: color-mix(in srgb, var(--amber) 12%, transparent);
+  color: var(--amber);
+  cursor: pointer;
+}
+
+.panel__quiz-btn:hover {
+  background: color-mix(in srgb, var(--amber) 20%, transparent);
+}
+
+.panel__quiz-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  opacity: 0.9;
+}
+
+.panel__quiz-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--mist-dim);
 }
 
 .panel__chip {

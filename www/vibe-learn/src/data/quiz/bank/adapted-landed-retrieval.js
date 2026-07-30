@@ -1,0 +1,463 @@
+/**
+ * 改编题库 · interview-adapted-landed-retrieval
+ * 系统非原创 · AI 全栈向 · 中文 · landedjobs/rag-engineer-interview-questions · retrieval
+ */
+/** @type {import('../schema.js').QuizQuestion[]} */
+export const QUESTIONS = [
+  {
+    "id": "adapted:landed-retrieval:q1",
+    "q": "你要在固定 4 万篇文档的知识库上做客服问答，延迟预算 1.5 秒。架构选型应优先按哪种「形态」来框定？",
+    "choices": [
+      {
+        "t": "对话形态 — 封闭语料、延迟可接受；重点投入分块、重排与模型选择",
+        "ok": true,
+        "why": "有界语料 + 1.5s 预算属于对话形态；主要杠杆是索引质量与重排，而非向量库本身。"
+      },
+      {
+        "t": "网页搜索形态 — 优化单引擎以支撑秒级新鲜、十亿级文档检索",
+        "ok": false,
+        "why": "那是 Perplexity 类问题；封闭 4 万篇语料不需要网页级新鲜度架构。"
+      },
+      {
+        "t": "形态无所谓 — 所有 RAG 都是同一套流水线",
+        "ok": false,
+        "why": "形态决定延迟预算、规模与主杠杆；混为一谈容易过度或不足建设。"
+      },
+      {
+        "t": "关掉检索，把整库原文塞进每次请求的上下文",
+        "ok": false,
+        "why": "成本、延迟与召回都会失控，且无法按问题精确定位片段。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-vector-store"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q2",
+    "q": "面试被问：「要让模型基于内部 Wiki 回答，该用 RAG 还是微调？」最稳的开场回答是？",
+    "choices": [
+      {
+        "t": "RAG — 查询时检索，保新鲜、可引用、可做权限；仅在风格/格式或固定技能上考虑微调",
+        "ok": true,
+        "why": "RAG 把知识与权重解耦：可重索引保新鲜、可引用片段、可按 ACL 过滤。"
+      },
+      {
+        "t": "在 Wiki 上微调，把事实写进权重",
+        "ok": false,
+        "why": "微调会把事实烘焙进模型，每次编辑就过期，且无引用、难做按用户授权。"
+      },
+      {
+        "t": "都不需要 — 换更大的基座模型即可",
+        "ok": false,
+        "why": "再大的模型也没有你私有、训练后新增的数据行。"
+      },
+      {
+        "t": "把 Wiki 全文写进系统提示，跳过检索",
+        "ok": false,
+        "why": "上下文窗口装不下且无法更新；Wiki 一改就要手工改提示。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rag",
+      "ai-token-context",
+      "ai-finetune"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q3",
+    "q": "用户搜索精确错误码「E1042」。哪种检索方式最可靠地命中？",
+    "choices": [
+      {
+        "t": "关键词 / BM25，放在混合检索里（配合合理的分词器）",
+        "ok": true,
+        "why": "词法检索能匹配精确 token；混合检索保留语义召回 — 关键是分词器别把错误码剥掉。"
+      },
+      {
+        "t": "纯稠密向量检索",
+        "ok": false,
+        "why": "嵌入会模糊罕见精确 token —「E1042」在向量空间里可能离任何有用内容都很远。"
+      },
+      {
+        "t": "换更大的嵌入模型",
+        "ok": false,
+        "why": "仍是嵌入 — 罕见精确 token 仍是弱项，模型再大也难救。"
+      },
+      {
+        "t": "让 LLM 凭记忆生成错误码含义，不做检索",
+        "ok": false,
+        "why": "内部错误码不在训练数据里；且无法引用文档出处。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-agent-memory",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q4",
+    "q": "生产系统（如 Perplexity）为何融合 BM25 + 稠密检索后再跑 cross-encoder，而不是只做更大的向量搜索？",
+    "choices": [
+      {
+        "t": "召回与精排是不同工作：先用 BM25+稠密做廉价宽召回，再对短名单用昂贵但精准的重排器",
+        "ok": true,
+        "why": "宽而便宜的网最大化正确文档进候选；cross-encoder 只对短名单重排序。"
+      },
+      {
+        "t": "因为向量搜索在大规模下太慢",
+        "ok": false,
+        "why": "ANN 本身很快；问题是质量而非速度 — 召回与精排职责不同。"
+      },
+      {
+        "t": "为了完全不用向量数据库",
+        "ok": false,
+        "why": "他们仍用向量检索 — 只是与词法融合后再重排。"
+      },
+      {
+        "t": "因为 cross-encoder 可以替代第一阶段检索",
+        "ok": false,
+        "why": "cross-encoder 无法预索引全库；只能对短名单打分，不能单独扛召回。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-rerank",
+      "ai-vector-store"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q5",
+    "q": "已开混合检索，但搜零件号「ACME-X200」仍经常漏召，文档里明明有。最可能原因是？",
+    "choices": [
+      {
+        "t": "BM25 分词器把连字符拆开/剥掉，导致「ACME-X200」从未成为可匹配 token",
+        "ok": true,
+        "why": "BM25 只匹配分词器吐出的 token；默认分词剥标点会杀死精确码匹配 — 混合检索经典坑。"
+      },
+      {
+        "t": "RRF 给稠密检索权重过高",
+        "ok": false,
+        "why": "若 BM25 从未产出该 token，融合权重再高也救不了 — 失败在上游分词。"
+      },
+      {
+        "t": "嵌入模型太小",
+        "ok": false,
+        "why": "精确罕见 token 是稠密检索弱项，与模型大小关系不大；这是词法分词问题。"
+      },
+      {
+        "t": "应把 top-k 从 20 提到 200 就能召回",
+        "ok": false,
+        "why": "候选池里根本没有该 token 的匹配项；加 k 不能创造不存在的 BM25 命中。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q6",
+    "q": "同事想用调参加权融合（α·BM25 + (1−α)·稠密）替换 RRF，以 squeeze 几个 nDCG 点。资深工程师的提醒是？",
+    "choices": [
+      {
+        "t": "权重与语料/查询分布绑定，漂移后会失效，需要标注集并持续重调",
+        "ok": true,
+        "why": "RRF 零维护的鲁棒性通常比小幅 nDCG 增益更值。"
+      },
+      {
+        "t": "加权融合永远比 RRF 差",
+        "ok": false,
+        "why": "不一定 — 校准好的 α 可以比 RRF 高几分；问题是维护成本，不是硬上限。"
+      },
+      {
+        "t": "加权融合无法合并 BM25 与余弦尺度",
+        "ok": false,
+        "why": "可以，靠分数归一化；真正难点是权重随时间维护。"
+      },
+      {
+        "t": "只要离线 nDCG 提升就可以直接上线",
+        "ok": false,
+        "why": "离线集不代表生产查询分布；加权方案在漂移后可能静默退化。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-rag-eval",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q7",
+    "q": "查询全是自然语言 paraphrase，语料是干净的小型 FAQ，没有代码或专有名词。同事坚持加 BM25 + RRF。最佳决策？",
+    "choices": [
+      {
+        "t": "此处可先不加混合 — 先度量；纯 paraphrase 流量下纯稠密可能已够用",
+        "ok": true,
+        "why": "混合不是免费的；查询分布没有精确 token 需求时，往往白加索引与延迟 — 让指标说话。"
+      },
+      {
+        "t": "一定要加 — 混合永远更好",
+        "ok": false,
+        "why": "混合的优势来自精确 token 查询；没有这类查询时，收益很小。"
+      },
+      {
+        "t": "改上 SPLADE，它严格优于 BM25",
+        "ok": false,
+        "why": "SPLADE 擅长词汇不匹配 + 精确匹配场景；纯 paraphrase 是不必要的复杂度。"
+      },
+      {
+        "t": "去掉向量检索，只保留 BM25",
+        "ok": false,
+        "why": "paraphrase 正是稠密检索的强项；只留 BM25 会伤语义改写召回。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q8",
+    "q": "面试官问：为何不把整库塞进 100 万 token 上下文、直接跳过检索？最强反驳是？",
+    "choices": [
+      {
+        "t": "成本（按 token 计费）、延迟（prefill）、召回（lost-in-the-middle）、归因（无可引用片段）四轴都输 — 检索让窗口小、便宜、有序",
+        "ok": true,
+        "why": "语料级 QA 四个维度都偏向检索；长上下文是补充，不是替代。"
+      },
+      {
+        "t": "长上下文比跑向量库更便宜",
+        "ok": false,
+        "why": "相反 — 每次查询都为倾倒的 token 付费。"
+      },
+      {
+        "t": "模型实际上读不了 100 万 token",
+        "ok": false,
+        "why": "能 ingest，但随长度召回退化，且成本/延迟/归因问题仍在。"
+      },
+      {
+        "t": "检索只是为了兼容旧硬件",
+        "ok": false,
+        "why": "检索是信息检索与成本工程问题，与硬件代际无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-token-context",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q9",
+    "q": "受监管客户要求「把你们的 RAG 产品部署到我们 VPC」。实际交付物应如何框定？",
+    "choices": [
+      {
+        "t": "控制面（身份、策略、审计、护栏）包裹数据面（入库、检索、生成），模型是可替换的配置项",
+        "ok": true,
+        "why": "交付的是可问责性：每层产出带签名的、按用户键控的 artifact；换模型厂商不动 SSO/RBAC/审计故事。"
+      },
+      {
+        "t": "在他们云账号里跑一个向量库 + LLM 端点",
+        "ok": false,
+        "why": "那只是数据面；没有身份、策略、审计与护栏，交付的是 demo。"
+      },
+      {
+        "t": "在客户文档上微调一个专属模型",
+        "ok": false,
+        "why": "微调烘焙过期事实，无按用户权限与引用能力。"
+      },
+      {
+        "t": "只交付检索索引，生成由客户自行对接",
+        "ok": false,
+        "why": "缺少统一审计、策略与护栏链路；合规场景需要端到端 accountability。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-prompt-security",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  },
+  {
+    "id": "adapted:landed-retrieval:q10",
+    "q": "客户部署初期用托管模型，但可能日后切到自托管开源权重。哪项设计最能保护这条路径？",
+    "choices": [
+      {
+        "t": "模型作为网关后可替换的端点；身份、策略、检索、审计不依赖具体模型厂商",
+        "ok": true,
+        "why": "控制面与模型解耦后，Bedrock 换 Llama-on-EKS 只是改配置，不是重建。"
+      },
+      {
+        "t": "深度绑定托管模型的专有 API，集成越紧越好",
+        "ok": false,
+        "why": "与单一厂商 API 紧耦合正是日后被迫重平台的根因。"
+      },
+      {
+        "t": "不用考虑 — 上线后模型选型不会变",
+        "ok": false,
+        "why": "Klarna 等案例在成本/质量压力下上线后仍调整模型组合。"
+      },
+      {
+        "t": "一开始就用最大开源模型自托管，避免日后迁移",
+        "ok": false,
+        "why": "小团队可能被运维拖垮；可替换接口比 Day-1 自托管更务实。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · retrieval",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-retrieval"
+  }
+];

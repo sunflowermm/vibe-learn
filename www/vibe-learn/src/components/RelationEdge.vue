@@ -44,7 +44,7 @@ const pathKind = computed(() => props.data?.pathKind || 'smoothstep');
 const showLabel = computed(
   () =>
     Boolean(text.value) &&
-    (props.selected || isPreview.value || hovered.value)
+    (props.selected || isPreview.value || isChapterLit.value || hovered.value)
 );
 
 const pathStyle = computed(() => ({

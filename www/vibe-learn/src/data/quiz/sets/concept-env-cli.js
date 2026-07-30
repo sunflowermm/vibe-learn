@@ -1,0 +1,158 @@
+import { defineQuizSet } from '../schema.js';
+
+/** 环境变量 / PATH / 代理模块（放 craft · data-env / installers-path） */
+export default defineQuizSet({
+  id: 'concept-env-cli',
+  title: '概念 · 环境变量与 PATH（基础→进阶）',
+  kind: 'concept',
+  domain: 'craft',
+  tags: ['环境变量', 'PATH', '代理', '指令', '基础', '进阶'],
+  relatedNodes: ['data-env', 'installers-path', 'terminal-worlds'],
+  caption: 'export/env/PATH/.env/代理——跑 Node 与调模型的地基（对照菜鸟 export/env）。',
+  questions: [
+    {
+      id: 'concept-env-cli:q1',
+      q: '在当前 shell 设置变量供后续命令继承（Bash）？',
+      choices: [
+        { t: 'export MY_KEY=value', ok: true, why: 'export 进入环境，子进程可见。' },
+        { t: 'git export MY_KEY', ok: false, why: '不是 Git 子命令。' },
+        { t: 'chmod MY_KEY=value', ok: false, why: '权限。' },
+        { t: 'docker export 等于 shell export', ok: false, why: 'docker export 是导出容器文件系统。' },
+      ],
+      relatedNodes: ['data-env', 'linux-cli'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-env-cli:q2',
+      q: '打印当前环境变量列表（Linux）？',
+      choices: [
+        { t: 'env 或 printenv', ok: true, why: '菜鸟 env：查看/在定制环境跑命令。' },
+        { t: 'lsenv', ok: false, why: '非标准。' },
+        { t: 'git env', ok: false, why: '无关。' },
+        { t: 'npm env 必列出系统全部变量', ok: false, why: 'npm 有自己的配置命令，不是系统 env。' },
+      ],
+      relatedNodes: ['data-env', 'linux-cli'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-env-cli:q3',
+      q: 'command not found 且确认已安装，优先查？',
+      choices: [
+        { t: 'PATH 是否包含可执行文件目录；新开终端是否加载了配置', ok: true, why: '安装器/包管理常改 PATH，旧终端未刷新。' },
+        { t: '立刻格式化磁盘', ok: false, why: '过激。' },
+        { t: '删除 .git', ok: false, why: '无关。' },
+        { t: '把 temperature 调到 0', ok: false, why: '模型参数无关。' },
+      ],
+      relatedNodes: ['installers-path', 'data-env', 'workbench-troubleshoot'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-env-cli:q4',
+      q: 'Node 里读取环境变量？',
+      choices: [
+        { t: 'process.env.NAME', ok: true, why: '值为字符串或 undefined。' },
+        { t: 'global.env.NAME 官方唯一写法', ok: false, why: '应用层用 process.env。' },
+        { t: 'window.env 在服务端 Node', ok: false, why: '浏览器概念。' },
+        { t: 'require("env").auto', ok: false, why: '非标准内置。' },
+      ],
+      relatedNodes: ['data-env', 'runtime-nodejs'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-env-cli:q5',
+      q: '.env 与 .env.example 的正确分工？',
+      choices: [
+        { t: '.env 含真实密钥勿提交；.env.example 只列键名/假值可提交', ok: true, why: '密钥分离。' },
+        { t: '二者都应提交真实生产密钥', ok: false, why: '事故。' },
+        { t: '.env.example 必须加密才能进 Git', ok: false, why: '示例本就可以明文假值。' },
+        { t: '有了 .env 就禁止使用 yaml 配置', ok: false, why: '本仓还有配置归属。' },
+      ],
+      relatedNodes: ['data-env', 'craft-security', 'xrk-config'],
+      tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-env-cli:q6',
+      q: '国内机器拉 GitHub/npm 失败，环境侧常设？',
+      choices: [
+        { t: 'HTTP_PROXY / HTTPS_PROXY（及 NO_PROXY=localhost 等）', ok: true, why: '出网走本地代理；勿代理回环。' },
+        { t: 'GIT_SSL_NO_VERIFY=1 当唯一长期方案', ok: false, why: '关校验危险，仅临时诊断。' },
+        { t: '删除 PATH', ok: false, why: '命令会全找不到。' },
+        { t: 'DOCKER_HOST=null', ok: false, why: '无关且有害。' },
+      ],
+      relatedNodes: ['data-env', 'clash', 'package-managers'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-env-cli:q7',
+      q: '只对「这一条命令」临时注入变量，不改当前 shell？',
+      choices: [
+        { t: 'env FOO=1 node app.js 或 FOO=1 node app.js', ok: true, why: '仅子进程可见。' },
+        { t: '必须先 unset -a', ok: false, why: '过猛。' },
+        { t: 'docker unset', ok: false, why: '无此日常用法。' },
+        { t: 'git -c 只能设 Git 配置，不能当通用环境注入示例', ok: false, why: 'git -c 是 Git 配置；通用注入用 env/前缀赋值。' },
+      ],
+      relatedNodes: ['data-env', 'linux-cli'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-env-cli:q8',
+      q: 'which node / command -v node 用来？',
+      choices: [
+        { t: '看 shell 实际解析到的可执行路径（排查多版本 Node）', ok: true, why: 'PATH 顺序决定用哪一个。' },
+        { t: '卸载 Node', ok: false, why: '否。' },
+        { t: '编译内核', ok: false, why: '否。' },
+        { t: '申请 TLS 证书', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['installers-path', 'runtime-nodejs'],
+      tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-env-cli:q9',
+      q: 'CI 里放模型 API Key，较稳妥？',
+      choices: [
+        { t: 'CI Secrets / 密文变量注入环境，勿写进仓库 yaml 明文', ok: true, why: '与本地 .env 同一原则。' },
+        { t: '写进 README 方便复制', ok: false, why: '泄漏。' },
+        { t: '写进前端打包后的 JS', ok: false, why: '浏览器可见。' },
+        { t: '用 commit message 传递', ok: false, why: '进历史。' },
+      ],
+      relatedNodes: ['data-env', 'craft-ci', 'craft-security'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-env-cli:q10',
+      q: 'Windows PowerShell 临时设环境变量（当前会话）？',
+      choices: [
+        { t: '$env:HTTPS_PROXY="http://127.0.0.1:7890"', ok: true, why: 'PowerShell 环境变量语法。' },
+        { t: 'export HTTPS_PROXY=...（在纯 PowerShell 里总是唯一写法）', ok: false, why: 'export 是 Bash；PS 用 $env:。' },
+        { t: 'setx 必须每次调试都用且无法改会话', ok: false, why: 'setx 写用户持久变量，调试宜用会话级。' },
+        { t: 'git config --global http.proxy 替代一切 Node fetch 代理', ok: false, why: '只影响 Git；Node 仍看环境变量/自身配置。' },
+      ],
+      relatedNodes: ['data-env', 'lang-powershell', 'terminal-worlds'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-env-cli:q11',
+      q: 'NODE_ENV=production 常见工程含义？',
+      choices: [
+        { t: '框架/工具按生产模式优化或关闭开发中间件；仍要自己管密钥与日志级别', ok: true, why: '约定而非魔法开关。' },
+        { t: '设置后自动获得无限 API 额度', ok: false, why: '否。' },
+        { t: '等于关闭所有安全校验', ok: false, why: '更应加强。' },
+        { t: 'NODE_ENV 只能是整数', ok: false, why: '字符串约定。' },
+      ],
+      relatedNodes: ['data-env', 'runtime-nodejs'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-env-cli:q12',
+      q: 'dotenv 类库加载 .env 时，更稳妥的习惯？',
+      choices: [
+        { t: '仅非生产或明确场景加载；真实密钥勿提交；已存在的环境变量通常不覆盖', ok: true, why: '生产常由编排/面板注入，避免本地文件覆盖线上。' },
+        { t: '生产必须把 .env 提交进 Git', ok: false, why: '泄漏。' },
+        { t: 'dotenv 会替代 TLS', ok: false, why: '否。' },
+        { t: '有 dotenv 就不需要 process.env', ok: false, why: '最终仍读 process.env。' },
+      ],
+      relatedNodes: ['data-env', 'craft-security'],
+      tags: ['进阶'],
+    },
+  ],
+});

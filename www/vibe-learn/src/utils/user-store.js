@@ -1,5 +1,5 @@
 /**
- * 用户学习库（书签 / 笔记 / 进度）
+ * 用户学习库（书签 / 笔记 / 进度 / 刷题作答 / 错题本）
  *
  * 存在浏览器同源 IndexedDB，并镜像一份到 localStorage。
  * DB 名与 key 固定，与 Vite 资源 hash、框架 build 版本无关。
@@ -8,13 +8,15 @@
 
 const DB_NAME = 'vibe-learn-user';
 /** 仅 schema 变更时递增；迁移必须保留旧数据 */
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const BACKUP_KEY = 'vibe-learn-user-backup';
-const EXPORT_VERSION = 1;
+const EXPORT_VERSION = 2;
 
 const STORE_BOOKMARKS = 'bookmarks';
 const STORE_NOTES = 'notes';
 const STORE_PROGRESS = 'progress';
+const STORE_QUIZ_ATTEMPTS = 'quizAttempts';
+const STORE_QUIZ_WRONG = 'quizWrong';
 
 /** @type {Promise<IDBDatabase> | null} */
 let dbPromise = null;
@@ -39,6 +41,12 @@ function openDb() {
       }
       if (!db.objectStoreNames.contains(STORE_PROGRESS)) {
         db.createObjectStore(STORE_PROGRESS, { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains(STORE_QUIZ_ATTEMPTS)) {
+        db.createObjectStore(STORE_QUIZ_ATTEMPTS, { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains(STORE_QUIZ_WRONG)) {
+        db.createObjectStore(STORE_QUIZ_WRONG, { keyPath: 'id' });
       }
     };
   });
@@ -105,7 +113,7 @@ function readBackup() {
     const raw = localStorage.getItem(BACKUP_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw);
-    if (!data || data.version !== EXPORT_VERSION) return null;
+    if (!data || (data.version !== 1 && data.version !== EXPORT_VERSION)) return null;
     return data;
   } catch {
     return null;
@@ -120,25 +128,41 @@ function writeBackup(snapshot) {
   }
 }
 
+function emptyLibrary() {
+  return {
+    bookmarks: [],
+    notes: [],
+    progress: [],
+    quizAttempts: [],
+    quizWrong: [],
+  };
+}
+
 /**
  * @returns {Promise<{
  *   bookmarks: Array<{ id: string, createdAt: number }>,
  *   notes: Array<{ id: string, body: string, updatedAt: number }>,
  *   progress: Array<{ id: string, visitedAt: number, visitCount: number }>,
+ *   quizAttempts: Array<{ id: string, correct: number, wrong: number, lastAt: number, lastWrongChoice?: number }>,
+ *   quizWrong: Array<{ id: string, questionId: string, addedAt: number, masteredAt?: number | null, streak: number }>,
  * }>}
  */
 export async function loadUserLibrary() {
   try {
-    const [bookmarks, notes, progress] = await Promise.all([
+    const [bookmarks, notes, progress, quizAttempts, quizWrong] = await Promise.all([
       idbGetAll(STORE_BOOKMARKS),
       idbGetAll(STORE_NOTES),
       idbGetAll(STORE_PROGRESS),
+      idbGetAll(STORE_QUIZ_ATTEMPTS),
+      idbGetAll(STORE_QUIZ_WRONG),
     ]);
     const snapshot = {
       version: EXPORT_VERSION,
       bookmarks: bookmarks || [],
       notes: notes || [],
       progress: progress || [],
+      quizAttempts: quizAttempts || [],
+      quizWrong: quizWrong || [],
     };
     writeBackup(snapshot);
     return snapshot;
@@ -149,9 +173,11 @@ export async function loadUserLibrary() {
         bookmarks: backup.bookmarks || [],
         notes: backup.notes || [],
         progress: backup.progress || [],
+        quizAttempts: backup.quizAttempts || [],
+        quizWrong: backup.quizWrong || [],
       };
     }
-    return { bookmarks: [], notes: [], progress: [] };
+    return emptyLibrary();
   }
 }
 
@@ -219,18 +245,135 @@ export async function touchProgress(id) {
   return row;
 }
 
+/**
+ * @param {string} questionId
+ * @param {{ ok: boolean, choiceIndex?: number }} result
+ */
+export async function recordQuizAttempt(questionId, result) {
+  const id = String(questionId || '');
+  if (!id) return null;
+  const now = Date.now();
+  let attempt = {
+    id,
+    correct: 0,
+    wrong: 0,
+    lastAt: now,
+    lastWrongChoice: undefined,
+  };
+  let wrongRow = null;
+
+  try {
+    const existing = await idbGet(STORE_QUIZ_ATTEMPTS, id);
+    if (existing) {
+      attempt = {
+        id,
+        correct: Number(existing.correct) || 0,
+        wrong: Number(existing.wrong) || 0,
+        lastAt: now,
+        lastWrongChoice: existing.lastWrongChoice,
+      };
+    }
+    if (result.ok) {
+      attempt.correct += 1;
+    } else {
+      attempt.wrong += 1;
+      if (typeof result.choiceIndex === 'number') {
+        attempt.lastWrongChoice = result.choiceIndex;
+      }
+    }
+    await idbPut(STORE_QUIZ_ATTEMPTS, attempt);
+
+    if (result.ok) {
+      const prevWrong = await idbGet(STORE_QUIZ_WRONG, id);
+      if (prevWrong && !prevWrong.masteredAt) {
+        const streak = (Number(prevWrong.streak) || 0) + 1;
+        wrongRow = {
+          id,
+          questionId: id,
+          addedAt: prevWrong.addedAt || now,
+          masteredAt: streak >= 2 ? now : null,
+          streak,
+        };
+        await idbPut(STORE_QUIZ_WRONG, wrongRow);
+      }
+    } else {
+      const prevWrong = await idbGet(STORE_QUIZ_WRONG, id);
+      wrongRow = {
+        id,
+        questionId: id,
+        addedAt: prevWrong?.addedAt || now,
+        masteredAt: null,
+        streak: 0,
+      };
+      await idbPut(STORE_QUIZ_WRONG, wrongRow);
+    }
+  } catch {
+    /* ignore */
+  }
+
+  await mirrorAfterMutation();
+  return { attempt, wrong: wrongRow };
+}
+
+export async function markWrongMastered(questionId) {
+  const id = String(questionId || '');
+  if (!id) return null;
+  let row = null;
+  try {
+    const prev = await idbGet(STORE_QUIZ_WRONG, id);
+    if (!prev) return null;
+    row = { ...prev, masteredAt: Date.now(), streak: Math.max(2, Number(prev.streak) || 0) };
+    await idbPut(STORE_QUIZ_WRONG, row);
+  } catch {
+    /* ignore */
+  }
+  await mirrorAfterMutation();
+  return row;
+}
+
+export async function removeWrong(questionId) {
+  const id = String(questionId || '');
+  if (!id) return;
+  try {
+    await idbDelete(STORE_QUIZ_WRONG, id);
+  } catch {
+    /* ignore */
+  }
+  await mirrorAfterMutation();
+}
+
+export async function clearWrongBook({ onlyMastered = false } = {}) {
+  try {
+    if (!onlyMastered) {
+      await idbClear(STORE_QUIZ_WRONG);
+    } else {
+      const rows = await idbGetAll(STORE_QUIZ_WRONG);
+      for (const r of rows) {
+        if (r?.masteredAt) await idbDelete(STORE_QUIZ_WRONG, r.id);
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  await mirrorAfterMutation();
+}
+
 async function mirrorAfterMutation() {
   try {
-    const [bookmarks, notes, progress] = await Promise.all([
+    const [bookmarks, notes, progress, quizAttempts, quizWrong] = await Promise.all([
       idbGetAll(STORE_BOOKMARKS),
       idbGetAll(STORE_NOTES),
       idbGetAll(STORE_PROGRESS),
+      idbGetAll(STORE_QUIZ_ATTEMPTS),
+      idbGetAll(STORE_QUIZ_WRONG),
     ]);
     writeBackup({
       version: EXPORT_VERSION,
       bookmarks,
       notes,
       progress,
+      quizAttempts,
+      quizWrong,
       mirroredAt: Date.now(),
     });
   } catch {
@@ -239,13 +382,15 @@ async function mirrorAfterMutation() {
 }
 
 /**
- * @param {{ bookmarks?: any[], notes?: any[], progress?: any[] }} data
+ * @param {{ bookmarks?: any[], notes?: any[], progress?: any[], quizAttempts?: any[], quizWrong?: any[] }} data
  * @param {'merge' | 'replace'} mode
  */
 export async function importUserLibrary(data, mode = 'merge') {
   const bookmarks = Array.isArray(data?.bookmarks) ? data.bookmarks : [];
   const notes = Array.isArray(data?.notes) ? data.notes : [];
   const progress = Array.isArray(data?.progress) ? data.progress : [];
+  const quizAttempts = Array.isArray(data?.quizAttempts) ? data.quizAttempts : [];
+  const quizWrong = Array.isArray(data?.quizWrong) ? data.quizWrong : [];
 
   if (mode === 'replace') {
     try {
@@ -253,6 +398,8 @@ export async function importUserLibrary(data, mode = 'merge') {
         idbClear(STORE_BOOKMARKS),
         idbClear(STORE_NOTES),
         idbClear(STORE_PROGRESS),
+        idbClear(STORE_QUIZ_ATTEMPTS),
+        idbClear(STORE_QUIZ_WRONG),
       ]);
     } catch {
       /* ignore */
@@ -262,7 +409,7 @@ export async function importUserLibrary(data, mode = 'merge') {
   const current =
     mode === 'merge'
       ? await loadUserLibrary()
-      : { bookmarks: [], notes: [], progress: [] };
+      : emptyLibrary();
 
   const bmMap = new Map(current.bookmarks.map((b) => [b.id, b]));
   for (const b of bookmarks) {
@@ -293,11 +440,7 @@ export async function importUserLibrary(data, mode = 'merge') {
     const visitCount = Number(p.visitCount) || 1;
     const prev = progMap.get(p.id);
     if (!prev) {
-      progMap.set(String(p.id), {
-        id: String(p.id),
-        visitedAt,
-        visitCount,
-      });
+      progMap.set(String(p.id), { id: String(p.id), visitedAt, visitCount });
     } else {
       progMap.set(String(p.id), {
         id: String(p.id),
@@ -307,10 +450,61 @@ export async function importUserLibrary(data, mode = 'merge') {
     }
   }
 
+  const attMap = new Map(current.quizAttempts.map((a) => [a.id, a]));
+  for (const a of quizAttempts) {
+    if (!a?.id) continue;
+    const prev = attMap.get(a.id);
+    const next = {
+      id: String(a.id),
+      correct: Number(a.correct) || 0,
+      wrong: Number(a.wrong) || 0,
+      lastAt: Number(a.lastAt) || Date.now(),
+      lastWrongChoice: a.lastWrongChoice,
+    };
+    if (!prev) attMap.set(next.id, next);
+    else {
+      attMap.set(next.id, {
+        id: next.id,
+        correct: Math.max(prev.correct || 0, next.correct),
+        wrong: Math.max(prev.wrong || 0, next.wrong),
+        lastAt: Math.max(prev.lastAt || 0, next.lastAt),
+        lastWrongChoice: next.lastAt >= (prev.lastAt || 0) ? next.lastWrongChoice : prev.lastWrongChoice,
+      });
+    }
+  }
+
+  const wrongMap = new Map(current.quizWrong.map((w) => [w.id, w]));
+  for (const w of quizWrong) {
+    if (!w?.id && !w?.questionId) continue;
+    const id = String(w.id || w.questionId);
+    const next = {
+      id,
+      questionId: String(w.questionId || id),
+      addedAt: Number(w.addedAt) || Date.now(),
+      masteredAt: w.masteredAt ? Number(w.masteredAt) : null,
+      streak: Number(w.streak) || 0,
+    };
+    const prev = wrongMap.get(id);
+    if (!prev) wrongMap.set(id, next);
+    else {
+      wrongMap.set(id, {
+        id,
+        questionId: id,
+        addedAt: Math.min(prev.addedAt || Infinity, next.addedAt),
+        masteredAt: prev.masteredAt && next.masteredAt
+          ? Math.min(prev.masteredAt, next.masteredAt)
+          : prev.masteredAt || next.masteredAt || null,
+        streak: Math.max(prev.streak || 0, next.streak),
+      });
+    }
+  }
+
   try {
     for (const row of bmMap.values()) await idbPut(STORE_BOOKMARKS, row);
     for (const row of noteMap.values()) await idbPut(STORE_NOTES, row);
     for (const row of progMap.values()) await idbPut(STORE_PROGRESS, row);
+    for (const row of attMap.values()) await idbPut(STORE_QUIZ_ATTEMPTS, row);
+    for (const row of wrongMap.values()) await idbPut(STORE_QUIZ_WRONG, row);
   } catch {
     /* IDB 失败时仍写备份 */
   }
@@ -320,6 +514,8 @@ export async function importUserLibrary(data, mode = 'merge') {
     bookmarks: [...bmMap.values()],
     notes: [...noteMap.values()],
     progress: [...progMap.values()],
+    quizAttempts: [...attMap.values()],
+    quizWrong: [...wrongMap.values()],
   };
   writeBackup(snapshot);
   return snapshot;
@@ -333,6 +529,8 @@ export function buildExportPayload(library) {
     bookmarks: library.bookmarks || [],
     notes: library.notes || [],
     progress: library.progress || [],
+    quizAttempts: library.quizAttempts || [],
+    quizWrong: library.quizWrong || [],
   };
 }
 

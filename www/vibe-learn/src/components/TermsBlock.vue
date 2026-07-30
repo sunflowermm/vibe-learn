@@ -11,12 +11,16 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['navigate']);
+const emit = defineEmits(['navigate', 'open-glossary']);
 
 const entries = computed(() => resolveGlossary(NODE_TERMS[props.nodeId] || []));
 
 function related(entry) {
   return resolveNodes(entry.also || []).filter((n) => n.id !== props.nodeId);
+}
+
+function openTerm(id) {
+  if (id) emit('open-glossary', id);
 }
 </script>
 
@@ -24,24 +28,40 @@ function related(entry) {
   <section v-if="entries.length" class="terms" aria-label="本课专有名词">
     <header class="terms__head">
       <h3 class="terms__title">本课专有名词</h3>
-      <p class="terms__hint">零基础先扫一眼：后文出现的词，都能在这里找到人话解释。</p>
+      <p class="terms__hint">
+        点词条打开右侧词典悬浮窗，随查随用；也可顶栏「词典」全局搜索。
+      </p>
     </header>
     <dl class="terms__list">
       <div v-for="e in entries" :key="e.id" class="terms__item">
-        <dt class="terms__term">{{ e.term }}</dt>
+        <dt class="terms__term">
+          <button
+            type="button"
+            class="terms__term-btn"
+            :title="`在词典中查看：${e.term}`"
+            @click="openTerm(e.id)"
+          >
+            {{ e.term }}
+          </button>
+        </dt>
         <dd class="terms__brief">
           {{ e.brief }}
-          <span v-if="related(e).length" class="terms__also">
-            相关
-            <button
-              v-for="n in related(e)"
-              :key="n.id"
-              type="button"
-              class="terms__link"
-              @click="emit('navigate', n.id)"
-            >
-              {{ n.label }}
+          <span class="terms__actions">
+            <button type="button" class="terms__lookup" @click="openTerm(e.id)">
+              词典
             </button>
+            <template v-if="related(e).length">
+              <span class="terms__also-label">相关</span>
+              <button
+                v-for="n in related(e)"
+                :key="n.id"
+                type="button"
+                class="terms__link"
+                @click="emit('navigate', n.id)"
+              >
+                {{ n.label }}
+              </button>
+            </template>
           </span>
         </dd>
       </div>
@@ -121,9 +141,24 @@ function related(entry) {
 
 .terms__term {
   margin: 0 0 0.2rem;
+}
+
+.terms__term-btn {
+  padding: 0;
+  border: none;
+  background: none;
   font-size: 0.86rem;
   font-weight: 650;
-  color: var(--node-title);
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-underline-offset: 0.18em;
+  cursor: pointer;
+  text-align: left;
+}
+
+.terms__term-btn:hover {
+  text-decoration-color: var(--accent);
 }
 
 .terms__brief {
@@ -133,7 +168,7 @@ function related(entry) {
   color: var(--mist);
 }
 
-.terms__also {
+.terms__actions {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
@@ -144,6 +179,11 @@ function related(entry) {
   color: var(--mist-dim);
 }
 
+.terms__also-label {
+  margin-left: 0.15rem;
+}
+
+.terms__lookup,
 .terms__link {
   padding: 0.12rem 0.45rem;
   border-radius: 999px;
@@ -156,6 +196,7 @@ function related(entry) {
     background 0.15s ease;
 }
 
+.terms__lookup:hover,
 .terms__link:hover {
   border-style: solid;
   border-color: var(--accent);

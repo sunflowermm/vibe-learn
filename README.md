@@ -22,6 +22,33 @@
 
 AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专课已收进黄页）。
 
+**全局工具（顶栏）**
+
+| 入口 | 作用 | 数据 |
+|------|------|------|
+| **左上角导图切换** | 多张思维导图（当前：知识图谱 / 题库） | `src/data/maps.js` |
+| **词典** | 搜索术语；点选释义钉在列表上方 | `src/data/glossary.js` |
+| **书架** | 书签 / 笔记 / 足迹（本机） | IndexedDB |
+
+**题库模块（静态落盘）**
+
+| 路径 | 作用 |
+|------|------|
+| `quiz/categories.js` | kind（大厂/概念）× domain（领域） |
+| `quiz/schema.js` | `defineQuizSet` / 四选一；**禁止**静默填充干扰项 |
+| `quiz/sets/*.js` | 精选题组；新建后在 `quiz/index.js` 的 `REGISTRY` 登记 |
+| `quiz/bank/{domain}.js` | **静态全库分片**（人工可审）；生产只读此处 |
+| `quiz/bank/glossary.js` | **名词释义题**（名词→释义 / 释义→名词）；`pnpm run quiz:glossary` |
+| `quiz/bank.js` | 聚合 API：`pickRandom` / `questionsForNode` / `glossaryPoolMeta` |
+| `quiz/graph.js` | 题库导图（随机枢纽 + 名词池 + 领域框） |
+| `quiz/derive/` · `_migrate/` | **不进生产**；仅迁移脚本历史参考 |
+
+约定：每题 **4 选项、恰一正确**；`relatedNodes` 每题至多 3 个知识节点；**171/171 课节点均有关联题**；URL `?map=quiz&qset=…&qnode=…`。课面板「刷本课相关题」跳题库。刷题台：**随机 / 刷名词 / 错题本**。
+
+**扩题**：改 `bank/*.js` 或新增 `sets/*.js` 并登记 REGISTRY。校验：`pnpm run quiz:audit`。课节点题：`quiz:bank`；名词题：`quiz:glossary`。
+
+**错题本**：答错写入 IndexedDB；可再练 / 标掌握 / 清空；导出含 `quizAttempts` / `quizWrong`。选错展示教学 `why` 与正确答案（名词题会点明「这段对应哪个名词」）。
+
 ## 章节
 
 | 章 | 名称 | 内容块（摘要） |

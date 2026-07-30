@@ -12,6 +12,7 @@ import {
   buildFlowNodes,
   getOriginPositions,
 } from '../data/nodes.js';
+import { listQuestions } from '../data/quiz/bank.js';
 import { isStackedLayout } from '../composables/usePanelResize.js';
 
 const props = defineProps({
@@ -54,17 +55,37 @@ const isMobileGraph = computed(() => !nodesDraggable.value);
 const miniWidth = computed(() => (isMobileGraph.value ? 128 : 172));
 const miniHeight = computed(() => (isMobileGraph.value ? 88 : 120));
 
+function quizCountMap() {
+  /** @type {Map<string, number>} */
+  const m = new Map();
+  try {
+    for (const q of listQuestions()) {
+      for (const id of q.relatedNodes || []) {
+        m.set(id, (m.get(id) || 0) + 1);
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return m;
+}
+
 const nodes = ref(
-  buildFlowNodes().map((n) => {
-    const isChapter = n.type === 'chapter' || n.data?.kind === 'chapter';
-    return {
-      ...n,
-      selected: n.id === props.activeId,
-      class: '',
-      draggable: nodesDraggable.value,
-      dragHandle: isChapter && nodesDraggable.value ? '.chapter__drag' : undefined,
-    };
-  })
+  (() => {
+    const counts = quizCountMap();
+    return buildFlowNodes().map((n) => {
+      const isChapter = n.type === 'chapter' || n.data?.kind === 'chapter';
+      const quizCount = counts.get(n.id) || 0;
+      return {
+        ...n,
+        selected: n.id === props.activeId,
+        class: '',
+        draggable: nodesDraggable.value,
+        dragHandle: isChapter && nodesDraggable.value ? '.chapter__drag' : undefined,
+        data: n.data ? { ...n.data, quizCount } : n.data,
+      };
+    });
+  })()
 );
 const edges = ref(buildFlowEdges());
 

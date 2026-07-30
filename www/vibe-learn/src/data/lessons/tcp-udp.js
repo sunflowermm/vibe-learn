@@ -13,6 +13,17 @@ export default `# TCP 与 UDP
 
 记忆钩：**IP 找主机，端口找进程；TCP 挂号信，UDP 明信片。**
 
+## 和调模型 API 的关系
+
+| 步骤 | 协议直觉 |
+|------|----------|
+| \`api.xxx.com\` | 先 **DNS** |
+| 443 | 常见 **HTTPS** 端口 |
+| TLS | 加密与证书校验 |
+| 请求体 JSON | 跑在 **TCP** 连接上的 **HTTP** |
+
+丢包、乱序、半包——TCP 帮你扛；你业务层仍要处理 **超时、429、重试退避**。
+
 \`\`\`match
 {"title":"TCP 与 UDP 对照配对","pairs":[{"id":"tcp","left":"TCP","right":"可靠、有序、面向连接（挂号信）"},{"id":"udp","left":"UDP","right":"尽力而为、无连接（明信片）"},{"id":"http","left":"多数 HTTP","right":"跑在 TCP 上"},{"id":"dns","left":"DNS 查询（常见）","right":"常用 UDP"}]}
 \`\`\`

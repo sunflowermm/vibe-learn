@@ -1,0 +1,643 @@
+/**
+ * 改编题库 · interview-adapted-landed-security
+ * 系统非原创 · AI 全栈向 · 中文 · landedjobs/rag-engineer-interview-questions · security
+ */
+/** @type {import('../schema.js').QuizQuestion[]} */
+export const QUESTIONS = [
+  {
+    "id": "adapted:landed-security:q1",
+    "q": "RAG 系统里，应按用户可见范围做文档权限控制时，正确落点是？",
+    "choices": [
+      {
+        "t": "检索阶段：用元数据 / ACL 过滤，在重排与拼提示之前就拦住",
+        "ok": true,
+        "why": "片段若从未被检索到，就无法进入模型上下文，也就无从泄露。"
+      },
+      {
+        "t": "写在提示里，让模型「忽略用户无权看的文档」",
+        "ok": false,
+        "why": "片段已经进窗；提示规则可被注入覆盖，且模型可能仍引用禁用内容。"
+      },
+      {
+        "t": "生成之后再对答案做脱敏 / 打码",
+        "ok": false,
+        "why": "太晚：模型已经读过禁用上下文，可能已用过其中信息。"
+      },
+      {
+        "t": "关掉检索，只靠模型背诵公司文档",
+        "ok": false,
+        "why": "放弃外挂知识等于放弃 RAG，也不解决权限边界。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rerank",
+      "ai-rag",
+      "ai-rules"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q2",
+    "q": "多租户 RAG 在测试里答对了。上线前最该优先防的风险是？",
+    "choices": [
+      {
+        "t": "权限串租：检索时强制 ACL，且在重排 / 拼提示之前生效",
+        "ok": true,
+        "why": "跨租户泄露（过滤失效或注入拉到特权上下文）是灾难级故障。"
+      },
+      {
+        "t": "元数据过滤带来的轻微延迟上升",
+        "ok": false,
+        "why": "真实但次要；隔离被突破远比几毫秒延迟严重。"
+      },
+      {
+        "t": "嵌入模型选得不够新",
+        "ok": false,
+        "why": "影响质量，但不是多租户产品定义级的隔离风险。"
+      },
+      {
+        "t": "把所有租户文档混进同一条系统提示以省成本",
+        "ok": false,
+        "why": "会放大串租与注入面，与隔离目标相反。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rerank",
+      "ai-rag",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q3",
+    "q": "初级分析师用 RAG 问出了自己不该看的特权备忘录，防火墙 / SIEM / DLP 都没报警。这说明什么？怎么修？",
+    "choices": [
+      {
+        "t": "边界设备看不见检索层泄露；必须在片段进提示前按身份做文档级授权（过滤）",
+        "ok": true,
+        "why": "检索器才是未治理的安全边界；外设看不懂「语义答对了不该看的内容」。"
+      },
+      {
+        "t": "给 DLP 加更复杂的正则就能抓住备忘录",
+        "ok": false,
+        "why": "泄露的是自然语言特权内容，不是固定 PII 签名；DLP 覆盖不了这类。"
+      },
+      {
+        "t": "禁止这批人打开聊天助手入口即可",
+        "ok": false,
+        "why": "人本来有权用助手；失败点是检索时的文档级授权，不是入口开关。"
+      },
+      {
+        "t": "换成更大参数量的生成模型",
+        "ok": false,
+        "why": "模型大小解决不了权限边界。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-prompt-security",
+      "ai-rag",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q4",
+    "q": "语料约 5000 万篇，每位用户可见不足 1%。哪种授权模式更合适？要注意什么？",
+    "choices": [
+      {
+        "t": "预过滤到允许的文档 ID 集合，并用租户分区 / 感知过滤的索引，避免 ANN 召回断崖",
+        "ok": true,
+        "why": "高选择性适合预过滤；若过滤掉约 99%，朴素 HNSW 召回会塌，需要分区索引。"
+      },
+      {
+        "t": "先宽召回 Top-K，再丢掉用户无权看的文档（后过滤）",
+        "ok": false,
+        "why": "可见比例 <1% 时，命中几乎全被丢掉——又贵又低召回。"
+      },
+      {
+        "t": "入库时把角色写进块元数据，之后只信这份静态 ACL",
+        "ok": false,
+        "why": "组变更后静态 ACL 会过期；最多作辅助，不能当唯一权威闸门。"
+      },
+      {
+        "t": "不做过滤，靠提示告诉模型「只答公开内容」",
+        "ok": false,
+        "why": "不可信，且特权片段仍可能进窗。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q5",
+    "q": "客户问：「向量库被攻破但里面只有嵌入向量，真实暴露是什么？」",
+    "choices": [
+      {
+        "t": "嵌入可被反演还原大量原文，且库可被投毒；需差分隐私噪声、加密与入库校验等缓解",
+        "ok": true,
+        "why": "暴露面是反演 + 投毒，不是「只是一堆数字」。"
+      },
+      {
+        "t": "嵌入只是数字，泄露了也没什么用",
+        "ok": false,
+        "why": "假安全感：解码式反演可还原大量原文 token，投毒是另一条风险。"
+      },
+      {
+        "t": "唯一风险是攻击者知道你有多少文档",
+        "ok": false,
+        "why": "严重低估暴露面。"
+      },
+      {
+        "t": "只要生成模型在内网，向量库泄露就无所谓",
+        "ok": false,
+        "why": "向量库本身已是敏感资产与投毒面。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-embedding",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q6",
+    "q": "攻击者发来含隐藏指令的文档；智能体日后检索到它，把数据外传到某 URL——用户从未输入恶意内容。这是哪类攻击？核心防御？",
+    "choices": [
+      {
+        "t": "间接提示注入；检索正文当不可信数据（系统 > 上下文 > 用户），入库清洗，工具最小权限",
+        "ok": true,
+        "why": "指令层级 + 工具最小权限，防止不可信上下文驱动特权调用。"
+      },
+      {
+        "t": "直接提示注入；只要消毒用户输入框即可",
+        "ok": false,
+        "why": "用户输入是良性的；载荷来自被检索内容。"
+      },
+      {
+        "t": "模型幻觉；换更大模型就好",
+        "ok": false,
+        "why": "这是对抗注入，不是幻觉。"
+      },
+      {
+        "t": "向量维度选错导致的误召回，重嵌即可",
+        "ok": false,
+        "why": "问题在信任边界与工具权限，不在维度。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-prompt-security",
+      "ai-agent-birth",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q7",
+    "q": "试点时只在入库用 Presidio 做脱敏，就宣称 PII 处理完成。资深会怎么挑？",
+    "choices": [
+      {
+        "t": "入库脱敏是尽力而为，嵌入还会抹掉分类信号——还需检索复核、出站脱敏，以及向量侧噪声 / 加密等纵深",
+        "ok": true,
+        "why": "单点脱敏会漏；入库 / 检索 / 出站三层纵深才够。"
+      },
+      {
+        "t": "Presidio 是大厂框架，单点足够",
+        "ok": false,
+        "why": "工具出身无关；官方也强调检测是尽力而为。"
+      },
+      {
+        "t": "部署在 VPC 里就不需要脱敏",
+        "ok": false,
+        "why": "VPC 管出口，不解决语料内部的 PII。"
+      },
+      {
+        "t": "生成后再人工抽检就够了",
+        "ok": false,
+        "why": "抽检无法替代系统化控制，且事故已发生在事后。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q8",
+    "q": "面试官让你为「客户档位混杂」的多租户 RAG 选隔离模型。最稳的答法？",
+    "choices": [
+      {
+        "t": "看档位与合规：强监管用 Silo，低档 Pool，中间 Bridge——在成本、隔离与爆炸半径间权衡",
+        "ok": true,
+        "why": "能点名 Silo / Pool / Bridge 并比较，才是资深信号。"
+      },
+      {
+        "t": "一律 Pool，共享整条流水线最便宜",
+        "ok": false,
+        "why": "Pool 几乎没有向量库性能隔离，吵闹邻居会拖垮全体。"
+      },
+      {
+        "t": "一律 Silo，全隔离才安全",
+        "ok": false,
+        "why": "Silo 最贵，低档客户很少需要。"
+      },
+      {
+        "t": "隔离交给生成模型的「系统提示自我约束」",
+        "ok": false,
+        "why": "提示不是多租户隔离机制。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-rag",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q9",
+    "q": "CISO 质疑：「合规语料为什么不能直接用 ChatGPT Enterprise？」较好的回应是？",
+    "choices": [
+      {
+        "t": "点出对本语料缺失的控制：无行级租户控制、无输入内容审计链、无专用 PII 脱敏层（外加驻留等约束）",
+        "ok": true,
+        "why": "针对本语料缺什么控制，而不是空喊「云都不安全」。"
+      },
+      {
+        "t": "ChatGPT Enterprise 一律不安全，永远别用",
+        "ok": false,
+        "why": "过绝对；它有 SOC2 / SSO 等，很多场景可用。"
+      },
+      {
+        "t": "换更新更大的模型就能打消顾虑",
+        "ok": false,
+        "why": "能力与租户隔离、审计、驻留、脱敏无关。"
+      },
+      {
+        "t": "只要签了企业合同就等于满足所有合规",
+        "ok": false,
+        "why": "合同 ≠ 对本语料的技术控制齐备。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-prompt-security",
+      "ai-chat-era",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q10",
+    "q": "为什么「读时计算授权（如 ReBAC）」往往优于把 ACL 预写进向量元数据？",
+    "choices": [
+      {
+        "t": "读时决策能立刻反映撤销（改一条关系即可）；烤进元数据会过期，往往要等到重嵌才更新",
+        "ok": true,
+        "why": "组成员频繁变动；预计算闸门在权限变更后立刻错误。"
+      },
+      {
+        "t": "因为图查询一定比元数据过滤更快",
+        "ok": false,
+        "why": "重点不是速度；元数据过滤可以很快。关键是随时间正确。"
+      },
+      {
+        "t": "可以完全去掉嵌入，向量库不再参与鉴权路径",
+        "ok": false,
+        "why": "ReBAC 与检索并行；语义匹配仍靠嵌入。"
+      },
+      {
+        "t": "预写 ACL 永远不会过期，所以不必读时计算",
+        "ok": false,
+        "why": "与事实相反：组变更会使预写 ACL 过期。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q11",
+    "q": "设计审计日志：既要过 SOC2 / 类似监管抽查，又不要再造一份 PII 仓库。较好设计？",
+    "choices": [
+      {
+        "t": "只追加、可签名的事件：user_id、trace_id、返回的 doc/chunk id、逐文档授权结论、模型/索引版本；正文用 id 回指，不落全文",
+        "ok": true,
+        "why": "可回放、防篡改，把每次检索绑到身份与策略，又不复制敏感正文。"
+      },
+      {
+        "t": "每次请求把检索到的块全文写入日志，以免丢失",
+        "ok": false,
+        "why": "等于把敏感语料再抄进日志，制造新泄露面。"
+      },
+      {
+        "t": "只记每天查询与回答的聚合计数",
+        "ok": false,
+        "why": "聚合无法还原「某用户取过哪些文档」。"
+      },
+      {
+        "t": "关掉审计以降低合规成本",
+        "ok": false,
+        "why": "与监管要求相反。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-prompt-security",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q12",
+    "q": "受监管客户说：「你们仍把查询经公网打到模型。」若用 AWS，较精确的答法？",
+    "choices": [
+      {
+        "t": "用 PrivateLink 接口终端访问 Bedrock：流量走 AWS 骨干，无公网 IP / 互联网网关；密钥可由客户 KMS 掌控",
+        "ok": true,
+        "why": "PrivateLink 直接回应「公网」顾虑；「托管模型」≠「必须走公网」。"
+      },
+      {
+        "t": "只要 TLS 加密，走公网也完全等价于专线",
+        "ok": false,
+        "why": "TLS 保机密性，但路径仍可能经公网，驻留/路径要求未必满足。"
+      },
+      {
+        "t": "立刻上全空气隙，否则无法谈",
+        "ok": false,
+        "why": "对许多客户过重；PrivateLink 已能回应当前异议。"
+      },
+      {
+        "t": "把模型换成开源本地小模型即可无视网络路径",
+        "ok": false,
+        "why": "能力与合规路径是不同问题；且未必满足客户质量要求。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q13",
+    "q": "客户坚持「全空气隙才最安全」——无 ITAR、无严格驻留，且一个月内要上线。资深回应？",
+    "choices": [
+      {
+        "t": "先追问真实触发条件；若没有，建议 VPC 内网关 + PrivateLink 托管模型，并指出空气隙也解决不了文档级授权",
+        "ok": true,
+        "why": "空气隙只在有明确触发时值得；文档 ACL 无论是否空气隙都要做。"
+      },
+      {
+        "t": "立刻同意并开工空气隙",
+        "ok": false,
+        "why": "周期与运维成本巨大；无触发且一月上线，是在优化恐惧。"
+      },
+      {
+        "t": "告诉对方云永远安全，空气隙没必要",
+        "ok": false,
+        "why": "武断且错误——真有触发时空气隙合理。"
+      },
+      {
+        "t": "用更大的上下文窗口替代隔离",
+        "ok": false,
+        "why": "窗口大小与隔离无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-token-context",
+      "craft-security",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  },
+  {
+    "id": "adapted:landed-security:q14",
+    "q": "上线严格注入护栏后，内部 QA 里带「忽略以上指令」的探针也被拒。正确修法？",
+    "choices": [
+      {
+        "t": "为已知良性内部模式做显式白名单，并调阈值——接受质量与误伤的折中",
+        "ok": true,
+        "why": "强护栏会过拒；白名单 + 阈值校准，而不是拆掉防护。"
+      },
+      {
+        "t": "因为有误报，直接拆掉注入护栏",
+        "ok": false,
+        "why": "重新打开真实攻击面；问题在校准。"
+      },
+      {
+        "t": "要求 QA 永远不要再用这类话术",
+        "ok": false,
+        "why": "治标不治本，别的合法表述仍会撞车。"
+      },
+      {
+        "t": "把所有内部流量绕过鉴权与护栏",
+        "ok": false,
+        "why": "内部账号被盗或误操作时风险更大。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "安全",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "landedjobs/rag-engineer-interview-questions · security",
+    "attributionUrl": "https://github.com/landedjobs/rag-engineer-interview-questions",
+    "setId": "interview-adapted-landed-security"
+  }
+];

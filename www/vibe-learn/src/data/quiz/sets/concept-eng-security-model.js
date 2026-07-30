@@ -1,0 +1,134 @@
+import { defineQuizSet } from '../schema.js';
+
+/** 安全威胁模型：超出「别提交密钥」的工程判断 */
+export default defineQuizSet({
+  id: 'concept-eng-security-model',
+  title: '工程 · 安全威胁模型',
+  kind: 'concept',
+  domain: 'craft',
+  tags: ['安全', '鉴权', '注入', '供应链', '基础', '进阶'],
+  relatedNodes: ['craft-security', 'http-web', 'xrk-http-auth'],
+  caption: '先问「谁会怎样害我」；控制面、数据面、供应链分开看。',
+  questions: [
+    {
+      id: 'concept-eng-security-model:q1',
+      q: '认证（Authentication）与授权（Authorization）差别？',
+      choices: [
+        { t: '认证：你是谁；授权：你被允许做什么', ok: true, why: '401 vs 403 的语义根基。' },
+        { t: '二者完全同义', ok: false, why: '否。' },
+        { t: '授权发生在认识身份之前', ok: false, why: '通常先认证。' },
+        { t: '只有前端需要授权', ok: false, why: '服务端必须强制。' },
+      ],
+      relatedNodes: ['craft-security', 'http-web'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-eng-security-model:q2',
+      q: '「前端隐藏按钮」能否当授权？',
+      choices: [
+        { t: '不能：攻击者可直接打 API；授权必须在服务端执行', ok: true, why: 'UI 只是体验，不是控制面。' },
+        { t: 'display:none 即安全边界', ok: false, why: '否。' },
+        { t: '有了 HTTPS 就不需要授权', ok: false, why: 'TLS≠鉴权。' },
+        { t: '只要仓库私有，API 可裸奔', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['craft-security', 'api-frontend', 'xrk-http-auth'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-eng-security-model:q3',
+      q: '注入类问题的共同本质？',
+      choices: [
+        { t: '不信任的数据被当成代码/查询/命令执行——要参数化、转义、分层', ok: true, why: 'SQL/命令/模板/LLM 提示注入同构。' },
+        { t: '只有 SQL 存在注入', ok: false, why: '更广。' },
+        { t: 'JSON 格式可免疫全部注入', ok: false, why: '否。' },
+        { t: '注入只影响 CSS', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['craft-security', 'db-sql-hands-on', 'ai-prompt-security'],
+      tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q4',
+      q: '最小权限原则落到服务账号/API Key？',
+      choices: [
+        { t: '只授完成任务所需的最小作用域；按环境拆分密钥并轮换', ok: true, why: '泄漏时爆炸半径可控。' },
+        { t: '一把 root 密钥打天下最省事故正确', ok: false, why: '爆炸半径最大。' },
+        { t: '权限越大 CI 越安全', ok: false, why: '相反。' },
+        { t: '只读密钥可以提交进公开仓', ok: false, why: '仍可能被滥用。' },
+      ],
+      relatedNodes: ['craft-security', 'data-env', 'craft-ci'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q5',
+      q: '依赖供应链风险，工程师应做什么？',
+      choices: [
+        { t: '锁版本、审新增依赖、关注漏洞公告；勿随意装来路不明的包', ok: true, why: '现代攻击常打 npm/PyPI。' },
+        { t: '依赖越多越安全', ok: false, why: '攻击面更大。' },
+        { t: 'lockfile 应每周删除重建并忽略 diff', ok: false, why: '失去可复现与审查。' },
+        { t: 'postinstall 脚本可以无条件信任', ok: false, why: '高风险。' },
+      ],
+      relatedNodes: ['package-managers', 'craft-security', 'craft-ci'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q6',
+      q: '日志与错误回显中的敏感数据？',
+      choices: [
+        { t: '脱敏：令牌、密码、证件、完整支付信息不应落明文日志或回给客户端', ok: true, why: '可观测与安全要同时设计。' },
+        { t: '日志越全含密钥越好', ok: false, why: '事故。' },
+        { t: '错误页贴全栈 + 环境变量方便用户', ok: false, why: '信息泄漏。' },
+        { t: '内网日志可以永久明文存密码', ok: false, why: '内网也会被攻破。' },
+      ],
+      relatedNodes: ['craft-observability', 'craft-security'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q7',
+      q: 'SSR/代理把用户 URL 拿去服务端请求时，要防？',
+      choices: [
+        { t: 'SSRF：限制协议与目标网段，防止打内网元数据/管理口', ok: true, why: '云上经典；爬虫/预览类功能高发。' },
+        { t: 'URL 越随意越好', ok: false, why: '危险。' },
+        { t: 'SSRF 只影响打印机', ok: false, why: '否。' },
+        { t: '有 Docker 就自动免疫 SSRF', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['craft-security', 'http-web'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q8',
+      q: '把不可信用户内容塞进 LLM 提示时？',
+      choices: [
+        { t: '按提示注入设防：分隔、指令优先级、工具权限最小化、输出校验', ok: true, why: '与经典注入同构，新增模型服从问题。' },
+        { t: '模型有常识所以绝对安全', ok: false, why: '可被诱导。' },
+        { t: '用户内容应拥有与系统提示同等权限', ok: false, why: '恰恰要隔离。' },
+        { t: '只需前端过滤脏话', ok: false, why: '远不够。' },
+      ],
+      relatedNodes: ['ai-prompt-security', 'craft-security', 'ai-tool-calling'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-eng-security-model:q9',
+      q: '密钥泄漏后的正确第一动作？',
+      choices: [
+        { t: '在签发方立刻轮换/吊销，再清历史与排查滥用', ok: true, why: '先废掉钥匙，再考古。' },
+        { t: '只改 README 道歉', ok: false, why: '密钥仍有效。' },
+        { t: '把旧密钥再提交一次覆盖', ok: false, why: '历史仍在。' },
+        { t: '等待 30 天自然过期再处理', ok: false, why: '太慢。' },
+      ],
+      relatedNodes: ['craft-security', 'git-workspace', 'data-env'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-eng-security-model:q10',
+      q: '威胁建模一句话方法？',
+      choices: [
+        { t: '列出资产、入口、信任边界与可能滥用，再决定控制措施', ok: true, why: 'STRIDE 等框架是工具；先有边界图。' },
+        { t: '只靠每年一次渗透报告，开发期不用想', ok: false, why: '太晚。' },
+        { t: '威胁模型等于购买防火墙型号', ok: false, why: '过窄。' },
+        { t: '开源项目不需要威胁模型', ok: false, why: '同样需要。' },
+      ],
+      relatedNodes: ['craft-security', 'xrk-http-auth'],
+      tags: ['进阶'],
+    },
+  ],
+});

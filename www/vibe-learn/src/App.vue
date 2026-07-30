@@ -3,6 +3,11 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import KnowledgeGraph from './components/KnowledgeGraph.vue';
 import NodePanel from './components/NodePanel.vue';
 import UserLibraryDrawer from './components/UserLibraryDrawer.vue';
+import GlossaryDrawer from './components/GlossaryDrawer.vue';
+import GlossaryFab from './components/GlossaryFab.vue';
+import MapSwitcher from './components/MapSwitcher.vue';
+import QuizMindMap from './components/quiz/QuizMindMap.vue';
+import QuizDesk from './components/quiz/QuizDesk.vue';
 import { useBlobity } from './composables/useBlobity.js';
 import {
   clampGraphHeight,
@@ -15,6 +20,10 @@ import {
 } from './composables/usePanelResize.js';
 import { useUserLibrary } from './composables/useUserLibrary.js';
 import { getNodeById, countTopics } from './data/nodes.js';
+import { glossaryCount } from './data/glossary.js';
+import { getLearningMap, normalizeMapId } from './data/maps.js';
+import { quizQuestionCount, questionsForNode } from './data/quiz/bank.js';
+import { getQuizCardById } from './data/quiz/graph.js';
 
 const THEME_KEY = 'vibe-learn-theme';
 
@@ -23,6 +32,19 @@ function readTheme() {
     return localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light';
   } catch {
     return 'light';
+  }
+}
+
+function readMapFromUrl() {
+  try {
+    const sp = new URLSearchParams(window.location.search);
+    const map = sp.get('map');
+    if (map) return normalizeMapId(map);
+    // 兼容旧 ?mode=quiz
+    if (sp.get('mode') === 'quiz') return 'quiz';
+    return 'knowledge';
+  } catch {
+    return 'knowledge';
   }
 }
 
@@ -35,23 +57,39 @@ function readNodeFromUrl() {
   }
 }
 
-function writeNodeToUrl(id) {
+function readQsetFromUrl() {
   try {
-    const url = new URL(window.location.href);
-    if (id) url.searchParams.set('node', id);
-    else url.searchParams.delete('node');
-    history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    const id = new URLSearchParams(window.location.search).get('qset');
+    if (!id) return null;
+    if (id === 'pool-random' || id === 'pool-glossary' || id.startsWith('pool-')) return id;
+    return getQuizCardById(id) ? id : null;
   } catch {
-    /* ignore */
+    return null;
   }
 }
 
+function readQnodeFromUrl() {
+  try {
+    const id = new URLSearchParams(window.location.search).get('qnode');
+    return id && getNodeById(id) ? id : null;
+  } catch {
+    return null;
+  }
+}
+
+const activeMapId = ref(readMapFromUrl());
 const activeId = ref(readNodeFromUrl());
+const quizActiveId = ref(readQsetFromUrl());
+const quizFocusNodeId = ref(readQnodeFromUrl());
 const theme = ref(readTheme());
-/** 面板 chip 跳转时递增，驱动图谱聚焦该节点 */
 const focusNonce = ref(0);
+const quizFocusNonce = ref(0);
 const activeNode = computed(() => (activeId.value ? getNodeById(activeId.value) : null));
+const activeMap = computed(() => getLearningMap(activeMapId.value));
+const isQuizMap = computed(() => activeMapId.value === 'quiz');
 const libraryOpen = ref(false);
+const glossaryOpen = ref(false);
+const glossaryFocusId = ref('');
 const library = useUserLibrary();
 const {
   bookmarkedIds,
@@ -60,7 +98,15 @@ const {
   bookmarkCount,
   noteCount,
   visitedCount,
+  wrongOpenCount,
 } = library;
+
+const termCount = glossaryCount();
+const bankQuestionCount = quizQuestionCount();
+const mapBadges = computed(() => ({
+  knowledge: countTopics(),
+  quiz: bankQuestionCount,
+}));
 
 const panelWidth = ref(readPanelWidth());
 const graphHeight = ref(readGraphHeight());
@@ -82,6 +128,29 @@ const workspaceStyle = computed(() => {
 
 useBlobity(theme);
 
+function writeUrlState() {
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('mode');
+    if (activeMapId.value === 'quiz') {
+      url.searchParams.set('map', 'quiz');
+      if (quizActiveId.value) url.searchParams.set('qset', quizActiveId.value);
+      else url.searchParams.delete('qset');
+      if (quizFocusNodeId.value) url.searchParams.set('qnode', quizFocusNodeId.value);
+      else url.searchParams.delete('qnode');
+    } else {
+      url.searchParams.delete('map');
+      url.searchParams.delete('qset');
+      url.searchParams.delete('qnode');
+      if (activeId.value) url.searchParams.set('node', activeId.value);
+      else url.searchParams.delete('node');
+    }
+    history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  } catch {
+    /* ignore */
+  }
+}
+
 watch(
   theme,
   (t) => {
@@ -95,13 +164,31 @@ watch(
   { immediate: true }
 );
 
-watch(activeId, (id) => {
-  writeNodeToUrl(id);
-  if (id) library.markVisited(id);
-}, { immediate: true });
+watch(
+  activeId,
+  (id) => {
+    if (isQuizMap.value) return;
+    writeUrlState();
+    if (id) library.markVisited(id);
+  },
+  { immediate: true }
+);
+
+watch([activeMapId, quizActiveId, quizFocusNodeId], () => {
+  writeUrlState();
+});
 
 function toggleTheme() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark';
+}
+
+function onMapChange(id) {
+  activeMapId.value = normalizeMapId(id);
+  if (activeMapId.value !== 'quiz') {
+    quizFocusNodeId.value = null;
+  } else {
+    libraryOpen.value = false;
+  }
 }
 
 function selectNode(id) {
@@ -117,14 +204,73 @@ function clearSelection() {
   activeId.value = null;
 }
 
+function selectQuizSet(id) {
+  quizActiveId.value = id;
+  quizFocusNodeId.value = null;
+}
+
+function clearQuizSelection() {
+  quizActiveId.value = null;
+}
+
+function gotoLearnFromQuiz(nodeId) {
+  activeMapId.value = 'knowledge';
+  quizFocusNodeId.value = null;
+  activeId.value = nodeId;
+  focusNonce.value += 1;
+}
+
+function openQuizForNode(nodeId) {
+  if (!nodeId || !questionsForNode(nodeId).length) return;
+  libraryOpen.value = false;
+  activeMapId.value = 'quiz';
+  quizFocusNodeId.value = nodeId;
+  quizActiveId.value = null;
+  quizFocusNonce.value += 1;
+}
+
 function onKey(e) {
-  if (e.key === 'Escape') {
-    if (libraryOpen.value) {
-      libraryOpen.value = false;
+  if (e.key !== 'Escape') return;
+  if (glossaryOpen.value) {
+    glossaryOpen.value = false;
+    return;
+  }
+  if (libraryOpen.value) {
+    libraryOpen.value = false;
+    return;
+  }
+  if (isQuizMap.value) {
+    if (quizFocusNodeId.value) {
+      quizFocusNodeId.value = null;
       return;
     }
-    clearSelection();
+    if (quizActiveId.value) {
+      quizActiveId.value = null;
+      return;
+    }
+    return;
   }
+  clearSelection();
+}
+
+function openLibrary() {
+  glossaryOpen.value = false;
+  libraryOpen.value = true;
+}
+
+function openGlossary(termId = '') {
+  libraryOpen.value = false;
+  glossaryFocusId.value = String(termId || '').trim();
+  glossaryOpen.value = true;
+}
+
+function toggleGlossary() {
+  if (glossaryOpen.value) {
+    glossaryOpen.value = false;
+    glossaryFocusId.value = '';
+    return;
+  }
+  openGlossary();
 }
 
 function syncLayoutMode() {
@@ -152,11 +298,9 @@ function startResize(e) {
 
   function onMove(ev) {
     if (mode === 'col') {
-      const next = clampPanelWidth(startW + (startX - ev.clientX));
-      panelWidth.value = next;
+      panelWidth.value = clampPanelWidth(startW + (startX - ev.clientX));
     } else {
-      const next = clampGraphHeight(startH + (ev.clientY - startY));
-      graphHeight.value = next;
+      graphHeight.value = clampGraphHeight(startH + (ev.clientY - startY));
     }
   }
 
@@ -223,11 +367,24 @@ onUnmounted(() => {
     <a class="skip-link" href="#learn-panel">跳到讲解面板</a>
 
     <header class="topbar">
-      <div class="brand" data-blobity translate="no">
-        <div class="brand-mark">Vibe <span>Learn</span></div>
-        <div class="brand-sub">知识图谱</div>
-      </div>
+      <MapSwitcher
+        :model-value="activeMapId"
+        :badges="mapBadges"
+        @update:model-value="onMapChange"
+      />
       <div class="topbar-actions">
+        <button
+          type="button"
+          class="theme-toggle shelf-launch"
+          data-blobity
+          :aria-pressed="glossaryOpen"
+          aria-label="打开词典"
+          title="搜索术语与缩写"
+          @click="openGlossary"
+        >
+          词典
+          <span class="topbar-badge">{{ termCount }}</span>
+        </button>
         <button
           type="button"
           class="theme-toggle shelf-launch"
@@ -235,7 +392,7 @@ onUnmounted(() => {
           :aria-pressed="libraryOpen"
           aria-label="打开我的书架"
           title="书签、笔记与备份"
-          @click="libraryOpen = true"
+          @click="openLibrary"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
@@ -262,14 +419,27 @@ onUnmounted(() => {
           {{ theme === 'dark' ? '深色' : '浅色' }}
         </button>
         <div class="topbar-meta">
-          图谱 <strong>{{ countTopics() }}</strong> · 足迹 <strong>{{ visitedCount }}</strong>
+          <template v-if="!isQuizMap">
+            {{ activeMap.short }} <strong>{{ countTopics() }}</strong> · 足迹
+            <strong>{{ visitedCount }}</strong>
+          </template>
+          <template v-else>
+            {{ activeMap.short }} <strong>{{ bankQuestionCount }}</strong>
+            <template v-if="wrongOpenCount">
+              · 错题 <strong>{{ wrongOpenCount }}</strong>
+            </template>
+          </template>
         </div>
       </div>
     </header>
 
     <div class="workspace" :class="{ 'is-resizing': resizing }" :style="workspaceStyle">
-      <section class="graph-pane" aria-label="知识图谱画布">
+      <section
+        class="graph-pane"
+        :aria-label="isQuizMap ? '题库思维导图' : '知识图谱画布'"
+      >
         <KnowledgeGraph
+          v-if="!isQuizMap"
           :active-id="activeId"
           :theme="theme"
           :focus-nonce="focusNonce"
@@ -279,9 +449,21 @@ onUnmounted(() => {
           @select="selectNode"
           @clear="clearSelection"
         />
+        <QuizMindMap
+          v-else
+          :active-id="quizActiveId"
+          :theme="theme"
+          :focus-nonce="quizFocusNonce"
+          @select="selectQuizSet"
+          @clear="clearQuizSelection"
+        />
       </section>
 
-      <aside id="learn-panel" class="panel-pane" aria-label="节点讲解">
+      <aside
+        id="learn-panel"
+        class="panel-pane"
+        :aria-label="isQuizMap ? '刷题台' : '节点讲解'"
+      >
         <div
           class="split-handle"
           :class="stacked ? 'split-handle--row' : 'split-handle--col'"
@@ -295,16 +477,30 @@ onUnmounted(() => {
           @keydown="onSplitKey"
         />
         <Transition name="panel-swap" mode="out-in">
-          <NodePanel
-            v-if="activeNode"
+          <QuizDesk
+            v-if="isQuizMap"
+            :key="`quiz-${quizActiveId || 'none'}-${quizFocusNodeId || ''}`"
+            :active-set-id="quizActiveId"
+            :focus-node-id="quizFocusNodeId"
+            @select-set="selectQuizSet"
+            @goto-learn="gotoLearnFromQuiz"
+            @close-focus="quizFocusNodeId = null"
+          />
+            <NodePanel
+            v-else-if="activeNode"
             :key="activeNode.id"
             :node="activeNode"
             @close="clearSelection"
             @navigate="navigateNode"
+            @quiz="openQuizForNode"
+            @open-glossary="openGlossary"
           />
           <div v-else key="empty" class="empty-hint">
             <h2>选择一个节点</h2>
-            <p>点选卡片会点亮所属整章；悬停可预览相邻关系说明；点连线跳到另一端。Esc 取消选中。</p>
+            <p>
+              左上角可切换思维导图（知识 / 题库）。点选卡片点亮整章；右下角词典悬浮球可随时浮层查词（不挡刷题）。Esc
+              取消选中。
+            </p>
           </div>
         </Transition>
       </aside>
@@ -314,6 +510,17 @@ onUnmounted(() => {
       :open="libraryOpen"
       @close="libraryOpen = false"
       @navigate="navigateNode"
+    />
+    <GlossaryDrawer
+      :open="glossaryOpen"
+      :focus-id="glossaryFocusId"
+      @close="glossaryOpen = false; glossaryFocusId = ''"
+      @navigate="navigateNode"
+    />
+    <GlossaryFab
+      :open="glossaryOpen"
+      :term-count="termCount"
+      @toggle="toggleGlossary"
     />
   </div>
 </template>

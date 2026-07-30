@@ -47,6 +47,14 @@ console.log(doubled, onlyBig, name, copy)
 
 可变 vs 不可变：\`push\` 改原数组；\`map\` 一般返回新数组。团队风格不一，改共享状态前先想清楚。
 
+## 和 AI 全栈的交界
+
+| 场景 | 为什么对象/数组功底重要 |
+|------|------------------------|
+| 工具调用参数 | 模型吐 JSON，运行时要校验、浅拷贝、防污染 |
+| RAG 元数据 | chunk payload 常是嵌套对象 |
+| HttpResponse | 拍平字段、解包成功体——全是对象心智 |
+
 \`\`\`quiz
 {"title":"对象数组","questions":[{"q":"const b = a（a 为对象）后改 b.x，a.x？","choices":[{"t":"不变，已深拷贝","ok":false,"why":"赋值共享引用。"},{"t":"一起变","ok":true,"why":"同一对象。"},{"t":"必报错","ok":false,"why":"合法。"}]}]}
 \`\`\`

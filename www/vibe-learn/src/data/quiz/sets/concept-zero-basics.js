@@ -1,0 +1,158 @@
+import { defineQuizSet } from '../schema.js';
+
+/** 零基础：电脑 / 程序 / 终端——进全栈前的第一台阶 */
+export default defineQuizSet({
+  id: 'concept-zero-basics',
+  title: '零基础 · 电脑、程序与终端',
+  kind: 'concept',
+  domain: 'lang',
+  tags: ['零基础', '入门', '终端', '程序'],
+  relatedNodes: ['computer-system', 'code-first-program', 'terminal-worlds'],
+  caption: '从「文件是什么」到「在终端里跑起来」——不假设你会编程。',
+  questions: [
+    {
+      id: 'concept-zero-basics:q1',
+      q: '「程序」最朴素的理解是？',
+      choices: [
+        { t: '按顺序给计算机执行的一组指令，用来完成某件事', ok: true, why: '先建立「指令→机器执行」的直觉，再学语法。' },
+        { t: '只能是游戏，不能是工具', ok: false, why: '浏览器、编辑器、服务端都是程序。' },
+        { t: '必须手写在纸上才能运行', ok: false, why: '存在文件里由运行时执行。' },
+        { t: '程序等于一张图片', ok: false, why: '图片是数据；程序是可执行逻辑（也可处理图片）。' },
+      ],
+      relatedNodes: ['code-first-program', 'computer-system'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q2',
+      q: '操作系统（OS）对普通开发者最直观的作用？',
+      choices: [
+        { t: '管理文件、进程、内存和网络，让应用不必直接操作硬件', ok: true, why: 'Windows/macOS/Linux 都是 OS；终端命令也走 OS。' },
+        { t: '只负责壁纸和主题', ok: false, why: '那是外观；内核管资源。' },
+        { t: '代替你写全部业务代码', ok: false, why: '否。' },
+        { t: 'OS 就是某一种编程语言', ok: false, why: '语言跑在 OS 之上。' },
+      ],
+      relatedNodes: ['os-essence', 'computer-system'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q3',
+      q: '「文件」和「文件夹（目录）」的关系？',
+      choices: [
+        { t: '目录用来组织文件；路径告诉电脑去哪找', ok: true, why: '项目就是一棵目录树；终端用 cd/ls 在树里走。' },
+        { t: '文件夹不能包含文件', ok: false, why: '正是用来装文件。' },
+        { t: '所有文件必须叫 a.txt', ok: false, why: '否。' },
+        { t: '路径对程序不重要', ok: false, why: '找不到文件就跑不起来。' },
+      ],
+      relatedNodes: ['fs-layout', 'terminal-worlds'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q4',
+      q: '终端（命令行）相对「只点鼠标」多了什么？',
+      choices: [
+        { t: '用文字命令精确操作：进目录、跑程序、看日志——可脚本化', ok: true, why: '全栈/运维/AI 工程日常都在终端。' },
+        { t: '终端只能用来聊天', ok: false, why: '否。' },
+        { t: '有了终端就禁止使用图形界面', ok: false, why: '两者互补。' },
+        { t: '终端等于浏览器', ok: false, why: '不同工具。' },
+      ],
+      relatedNodes: ['terminal-worlds', 'linux-cli'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q5',
+      q: '第一次跑通「Hello World」最该收获什么？',
+      choices: [
+        { t: '确认：编辑→保存→在正确目录执行→看到输出的闭环已通', ok: true, why: '环境信心比代码长短更重要。' },
+        { t: '一次写出完整电商网站', ok: false, why: '目标过大。' },
+        { t: '证明不需要任何工具链', ok: false, why: '仍需编辑器与运行时。' },
+        { t: '复制成功就永远不必理解', ok: false, why: '理解才能排障。' },
+      ],
+      relatedNodes: ['code-first-program', 'workbench-editor'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q6',
+      q: '报错信息对零基础同学正确态度是？',
+      choices: [
+        { t: '当定位器：读类型、读关键句、看指向的文件行号', ok: true, why: '害怕报错会卡住；读报错是第一技能。' },
+        { t: '立刻重装系统', ok: false, why: '过激。' },
+        { t: '关掉所有输出以免心烦', ok: false, why: '丢掉线索。' },
+        { t: '报错越长越可以忽略', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['code-read-errors', 'workbench-troubleshoot'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q7',
+      q: '变量最直观的比喻？',
+      choices: [
+        { t: '贴了名字的盒子，用来存放稍后要用的值', ok: true, why: '先会存取，再谈类型。' },
+        { t: '只能存密码', ok: false, why: '可存任意数据。' },
+        { t: '变量就是网络端口', ok: false, why: '层次不同。' },
+        { t: '声明变量会格式化磁盘', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['code-values-types', 'code-first-program'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q8',
+      q: 'if / for 控制流在零基础阶段先记住？',
+      choices: [
+        { t: 'if 做判断分支；for/while 做重复——程序因此能「应变」', ok: true, why: '逻辑骨架；语法细节后练。' },
+        { t: '它们是数据库品牌', ok: false, why: '否。' },
+        { t: '只能写在 YAML 里', ok: false, why: '编程语言语法。' },
+        { t: '有了 if 就不需要函数', ok: false, why: '各司其职。' },
+      ],
+      relatedNodes: ['code-control-flow'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q9',
+      q: '函数（function）对初学者最大的好处？',
+      choices: [
+        { t: '给一段逻辑起名字，重复用、好读、好改', ok: true, why: '避免复制粘贴同一段。' },
+        { t: '函数只能调用一次', ok: false, why: '正是为了复用。' },
+        { t: '函数替代操作系统', ok: false, why: '否。' },
+        { t: '有函数就不必调试', ok: false, why: '仍要调试。' },
+      ],
+      relatedNodes: ['code-functions'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q10',
+      q: '「依赖 / 包」是什么直觉？',
+      choices: [
+        { t: '别人写好、你可以安装复用的代码库（如用 pnpm 安装）', ok: true, why: '现代项目很少从零造所有轮子。' },
+        { t: '依赖等于病毒', ok: false, why: '要甄别来源，但概念本身是复用。' },
+        { t: '安装依赖不需要网络与锁文件', ok: false, why: '常要出网；锁文件保证版本一致。' },
+        { t: '有了依赖就不用自己写任何逻辑', ok: false, why: '业务逻辑仍要写。' },
+      ],
+      relatedNodes: ['package-managers', 'installers-path'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q11',
+      q: '编辑器（VS Code / Cursor）在学习路径上的位置？',
+      choices: [
+        { t: '改文件、看终端、看 diff 的工作台——不是魔法自动上线器', ok: true, why: 'Agent 辅助也要你审 diff。' },
+        { t: '编辑器会替代 Git 与服务器', ok: false, why: '否。' },
+        { t: '只能看不能改', ok: false, why: '核心是编辑。' },
+        { t: '必须手写机器码', ok: false, why: '否。' },
+      ],
+      relatedNodes: ['workbench-editor', 'adev-vibe-coding'],
+      tags: ['零基础'],
+    },
+    {
+      id: 'concept-zero-basics:q12',
+      q: '零基础学全栈时，更稳妥的节奏是？',
+      choices: [
+        { t: '小闭环：会跑→会改→会读报错→再叠 Git/HTTP/库——忌一上来造平台', ok: true, why: '与 XRK「最小贡献路径」同一精神。' },
+        { t: '同时学完所有框架再动手', ok: false, why: '纸上谈兵。' },
+        { t: '跳过终端与报错，只看视频', ok: false, why: '动手才会。' },
+        { t: '先提交所有密钥到 GitHub 方便练习', ok: false, why: '危险且错误。' },
+      ],
+      relatedNodes: ['xrk-min-path', 'code-first-program'],
+      tags: ['零基础', '进阶'],
+    },
+  ],
+});

@@ -1,0 +1,2295 @@
+/**
+ * 改编题库 · interview-adapted-naresh-rag
+ * 系统非原创 · AI 全栈向 · 中文 · Nareshedagotti/AI-Engineer-Interview-QA · RAG
+ */
+/** @type {import('../schema.js').QuizQuestion[]} */
+export const QUESTIONS = [
+  {
+    "id": "adapted:naresh-rag:1",
+    "q": "多版式 PDF（表格、图片、重复页眉页脚）用普通文本解析器会有什么问题？正确应对思路是？",
+    "choices": [
+      {
+        "t": "标准解析器不懂视觉结构：表格变乱码、图片丢失、页眉页脚重复污染；需布局感知解析/OCR + 结构化抽取",
+        "ok": true,
+        "why": "PDF 是视觉布局而非纯文本流；必须保留表格行列关系并过滤重复头尾。"
+      },
+      {
+        "t": "查询与文档用不同嵌入模型，各学各的语义空间",
+        "ok": false,
+        "why": "这是嵌入一致性问题，与 PDF 版式解析无关。"
+      },
+      {
+        "t": "混合检索 = 向量语义 + 关键词精确匹配",
+        "ok": false,
+        "why": "混合检索解决召回策略，解决不了入库前 PDF 解析质量。"
+      },
+      {
+        "t": "检索上下文矛盾时模型会幻觉，应加强生成提示",
+        "ok": false,
+        "why": "幻觉是生成侧问题；本题卡在文档解析与结构化入库。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:2",
+    "q": "如何尽早发现 PDF 解析失败，并决定走 OCR 还是普通文本抽取？",
+    "choices": [
+      {
+        "t": "监控空文本、异常字符占比、词字符比过低等信号；疑似扫描件/损坏则转 OCR，纯文本 PDF 走直接抽取",
+        "ok": true,
+        "why": "启发式质量检测能在索引前拦截「无声失败」，避免脏数据进向量库。"
+      },
+      {
+        "t": "HTML 标签和重复页眉会造成嵌入噪声与漂移",
+        "ok": false,
+        "why": "描述的是嵌入质量劣化，不是解析失败检测流程。"
+      },
+      {
+        "t": "ANN 为速度牺牲精度，可能漏召回",
+        "ok": false,
+        "why": "检索算法权衡，与入库前 OCR 决策无关。"
+      },
+      {
+        "t": "查询改写把用户模糊问法变成更适合检索的形式",
+        "ok": false,
+        "why": "查询侧优化，不解决文档抽取是否成功。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:3",
+    "q": "分块尺寸如何影响检索精度？不同文档类型怎么定最优 chunk 大小？",
+    "choices": [
+      {
+        "t": "小块（约 100–200 token）细节准但缺语境易误配；大块（1000+ token）语境全但语义过宽降精确率；按文档类型 A/B 测",
+        "ok": true,
+        "why": "chunk 大小在「可检索粒度」与「语义聚焦」间权衡，需用评测集按场景调参。"
+      },
+      {
+        "t": "多语言嵌入把不同语言映射到同一语义空间",
+        "ok": false,
+        "why": "跨语言召回能力，不是分块尺寸权衡。"
+      },
+      {
+        "t": "向量库频繁增删改会导致索引碎片与性能下降",
+        "ok": false,
+        "why": "运维与索引维护问题，与 chunk 粒度设计无关。"
+      },
+      {
+        "t": "HyDE 用 LLM 生成假想答案再嵌入检索",
+        "ok": false,
+        "why": "查询增强技巧，不改变 chunk 切分策略本身。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-rag-eval"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:4",
+    "q": "固定长度、语义、递归、层级分块各是什么？分别适合什么场景？",
+    "choices": [
+      {
+        "t": "固定长度：每 N token 切，快但可能断句；语义：按主题边界；递归：多级回退；层级：保留文档结构树",
+        "ok": true,
+        "why": "四种策略在实现复杂度、结构保真与检索粒度上各有取舍。"
+      },
+      {
+        "t": "余弦相似度看向量夹角，适合文本检索",
+        "ok": false,
+        "why": "相似度度量，不是分块策略分类。"
+      },
+      {
+        "t": "版本号写进元数据，查询时过滤指定版本",
+        "ok": false,
+        "why": "向量库版本治理，与分块算法选择无关。"
+      },
+      {
+        "t": "索引越大 ANN 假阴性越多",
+        "ok": false,
+        "why": "规模化检索问题，不是分块方式对比。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:5",
+    "q": "什么时候该给 chunk 加 overlap？什么时候不该？边界切分如何影响嵌入？",
+    "choices": [
+      {
+        "t": "关键信息可能跨边界时加 50–100 token 重叠；结构化文档已有清晰边界时可少重叠；硬切会把完整概念拆散",
+        "ok": true,
+        "why": "overlap 防「半句话」进不同 chunk；过度重叠则增索引冗余与成本。"
+      },
+      {
+        "t": "嵌入归一化后余弦与点积等价，可加速计算",
+        "ok": false,
+        "why": "向量数学性质，与是否 overlap 分块无关。"
+      },
+      {
+        "t": "top-k 太低漏上下文，太高带进噪声",
+        "ok": false,
+        "why": "检索数量超参，不是分块边界策略。"
+      },
+      {
+        "t": "对话记忆存当前会话近期消息",
+        "ok": false,
+        "why": "Agent 记忆设计，与文档 chunk overlap 无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-agent-memory",
+      "ai-agent-birth"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:6",
+    "q": "源代码与自然语言文本的分块策略应有什么不同？",
+    "choices": [
+      {
+        "t": "按函数/类/方法等语法边界切，避免把逻辑单元拆断；必要时保留 import 与签名上下文",
+        "ok": true,
+        "why": "代码语义绑定结构；固定 token 切分常把函数拦腰截断，检索无法还原完整逻辑。"
+      },
+      {
+        "t": "换嵌入模型或检测到漂移时应全量重嵌入",
+        "ok": false,
+        "why": "语料重索引时机，不是代码分块方法。"
+      },
+      {
+        "t": "重排器用交叉编码器对初检结果二次排序",
+        "ok": false,
+        "why": "检索后处理，与入库前如何切代码无关。"
+      },
+      {
+        "t": "入库前用正则脱敏信用卡号等敏感信息",
+        "ok": false,
+        "why": "安全过滤，不改变代码分块粒度。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:7",
+    "q": "生产环境如何在 OpenAI、Cohere、Voyage、Jina 等嵌入模型家族间选型？",
+    "choices": [
+      {
+        "t": "按语种、领域、维度、延迟/成本、托管方式与评测 Recall@K 综合权衡，而非只看榜单",
+        "ok": true,
+        "why": "OpenAI 通用但贵；Cohere/Voyage 检索向；Jina 多语强 — 必须用你的语料实测。"
+      },
+      {
+        "t": "Flat 暴力检索 100% 召回，只适合小库",
+        "ok": false,
+        "why": "索引类型选择，不是嵌入模型厂商对比。"
+      },
+      {
+        "t": "MMR 在相关性与多样性间取平衡",
+        "ok": false,
+        "why": "结果多样性算法，与嵌入模型选型无关。"
+      },
+      {
+        "t": "给系统提示、用户问、记忆、检索 chunk 分配固定 token 预算",
+        "ok": false,
+        "why": "上下文预算分配，不是嵌入模型选择标准。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-agent-memory"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:8",
+    "q": "查询与文档用不同嵌入模型，或向量维度不一致，会发生什么？",
+    "choices": [
+      {
+        "t": "语义空间不一致，相似度分数无意义；query 与 doc 必须用同一模型且同维度",
+        "ok": true,
+        "why": "双塔检索前提是同一嵌入函数；混模型等于比较不同坐标系里的点。"
+      },
+      {
+        "t": "混合检索结合向量与 BM25",
+        "ok": false,
+        "why": "检索融合策略，不解决嵌入空间不一致。"
+      },
+      {
+        "t": "检索上下文矛盾时模型仍可能幻觉",
+        "ok": false,
+        "why": "生成行为问题；本题是嵌入空间数学不兼容。"
+      },
+      {
+        "t": "基础 RAG：相似 chunk 检索后直接生成",
+        "ok": false,
+        "why": "架构描述，未触及 query/doc 嵌入必须一致的要求。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-hybrid-search",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:9",
+    "q": "嵌入噪声与漂移由什么引起？如何发现与修复？",
+    "choices": [
+      {
+        "t": "噪声来自 HTML/乱码/重复头尾等脏文本；漂移来自语料分布变化；监控检索质量，清洗语料或重嵌入/换模型",
+        "ok": true,
+        "why": "入库质量决定向量质量；分布漂移会让旧向量与新 query 语义错位。"
+      },
+      {
+        "t": "ANN 近似搜索可能漏掉边界附近的相关结果",
+        "ok": false,
+        "why": "检索算法精度问题，不是嵌入向量本身劣化。"
+      },
+      {
+        "t": "查询改写扩展用户原问",
+        "ok": false,
+        "why": "查询侧增强，不修复嵌入噪声或漂移根因。"
+      },
+      {
+        "t": "多跳检索串行多次查询补信息",
+        "ok": false,
+        "why": "复杂问答架构，与嵌入质量监控无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-embedding",
+      "ai-agentic-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:10",
+    "q": "多语言嵌入如何实现跨语言 RAG？",
+    "choices": [
+      {
+        "t": "多语模型把不同语言映射到同一语义空间，英文问可召回西/法等同义文档",
+        "ok": true,
+        "why": "跨语言检索靠共享嵌入空间，而非逐语言独立索引（除非刻意分区）。"
+      },
+      {
+        "t": "向量库增删改导致索引碎片",
+        "ok": false,
+        "why": "运维性能问题，不是跨语言语义对齐机制。"
+      },
+      {
+        "t": "HyDE 生成假想文档再检索",
+        "ok": false,
+        "why": "单语/多语都可用，但不解释跨语言对齐原理。"
+      },
+      {
+        "t": "chunk 路由按查询类型选子索引",
+        "ok": false,
+        "why": "检索范围路由，不是跨语言嵌入机制。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:11",
+    "q": "语义检索为何常用余弦相似度？何时改用其他度量？",
+    "choices": [
+      {
+        "t": "余弦看方向不看模长，文档长短不影响相关度；需考虑幅度或已归一化时可用点积/欧氏等",
+        "ok": true,
+        "why": "文本嵌入更关心语义方向；长文档向量模长更大，点积可能偏长文。"
+      },
+      {
+        "t": "元数据存 version 字段做版本过滤",
+        "ok": false,
+        "why": "数据治理，不是相似度度量选择。"
+      },
+      {
+        "t": "索引变大后 ANN 假阴性增加",
+        "ok": false,
+        "why": "规模化召回问题，与余弦 vs 点积无关。"
+      },
+      {
+        "t": "编排器管理多步 RAG 工作流与状态",
+        "ok": false,
+        "why": "系统编排，不是向量相似度公式。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:12",
+    "q": "嵌入向量 L2 归一化如何影响相似度打分？",
+    "choices": [
+      {
+        "t": "单位向量上余弦相似度与点积等价，可简化计算且避免模长偏置",
+        "ok": true,
+        "why": "归一化后各向量贡献尺度一致，许多向量库默认假设已归一化。"
+      },
+      {
+        "t": "top-k 决定初检返回条数",
+        "ok": false,
+        "why": "检索超参，不是归一化数学效果。"
+      },
+      {
+        "t": "对话记忆仅保留当前会话",
+        "ok": false,
+        "why": "Agent 状态，与嵌入归一化无关。"
+      },
+      {
+        "t": "RAG 护栏防止幻觉与越权引用",
+        "ok": false,
+        "why": "输出安全层，不改变向量打分公式。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-agent-memory",
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:13",
+    "q": "什么情况下应对全库重新嵌入（re-embed）？",
+    "choices": [
+      {
+        "t": "更换嵌入模型、检测到明显检索漂移、语料性质大变，或厂商 deprecate 旧模型时",
+        "ok": true,
+        "why": "向量与模型绑定；模型或分布变了，旧向量与新 query 不再可比。"
+      },
+      {
+        "t": "用交叉编码器重排初检 top-N",
+        "ok": false,
+        "why": "检索后精排，不需要全库重嵌入。"
+      },
+      {
+        "t": "入库前脱敏 PII",
+        "ok": false,
+        "why": "安全合规，通常局部更新而非全库 re-embed 触发条件。"
+      },
+      {
+        "t": "设相似度阈值过滤低分 chunk",
+        "ok": false,
+        "why": "在线检索策略，不是 re-embed 决策。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:14",
+    "q": "Flat、HNSW、IVF 索引如何取舍？各自怎么调 recall？",
+    "choices": [
+      {
+        "t": "Flat 暴力全扫 100% 召回适合小库；HNSW 图索引快、调 ef；IVF 聚类分桶、调 nprobe 平衡速度/recall",
+        "ok": true,
+        "why": "三种结构在构建成本、内存与 recall–latency 曲线上位置不同。"
+      },
+      {
+        "t": "MMR 让结果既相关又多样",
+        "ok": false,
+        "why": "结果去重算法，不是 ANN 索引类型。"
+      },
+      {
+        "t": "按相关性给记忆与检索 chunk 分配 token 预算",
+        "ok": false,
+        "why": "上下文组装，与向量索引结构无关。"
+      },
+      {
+        "t": "结构化输出强制每条陈述带引用标记",
+        "ok": false,
+        "why": "生成格式约束，不是索引算法。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-agent-memory"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:15",
+    "q": "混合检索（向量 + 关键词）是什么？什么时候必要？",
+    "choices": [
+      {
+        "t": "向量抓语义与同义，BM25/关键词保 SKU、法条号等精确匹配；专有名词、代码、编号场景常必要",
+        "ok": true,
+        "why": "纯向量对 rare token 与 exact match 弱；融合可互补 recall。"
+      },
+      {
+        "t": "检索上下文矛盾时模型仍可能编造",
+        "ok": false,
+        "why": "生成幻觉，不是混合检索定义。"
+      },
+      {
+        "t": "基础 RAG 一次检索直接答",
+        "ok": false,
+        "why": "架构简图，未说明为何需要关键词支路。"
+      },
+      {
+        "t": "恶意文档注入向量库导致检索投毒",
+        "ok": false,
+        "why": "安全攻击面，与混合检索必要性无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-vector-store",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:16",
+    "q": "ANN 检索为什么会漏掉相关 chunk？元数据过滤应如何设计？",
+    "choices": [
+      {
+        "t": "ANN 为速度近似搜索，边界附近真近邻可能被跳过；过滤字段应低基数、可索引，且避免过滤掉 >90% 向量导致 recall 坍塌",
+        "ok": true,
+        "why": "近似 + 高选择性预过滤会叠加假阴性；需分区索引或调 ef/nprobe。"
+      },
+      {
+        "t": "查询改写扩展语义",
+        "ok": false,
+        "why": "查询增强，不解释 ANN 漏召回机理。"
+      },
+      {
+        "t": "多跳检索串行补全信息",
+        "ok": false,
+        "why": "复杂推理检索，不是 ANN 漏检原因。"
+      },
+      {
+        "t": "chunk 打 source/category/ACL 元数据并在检索前过滤",
+        "ok": false,
+        "why": "只描述了过滤做法，未点明 ANN 近似漏检与过滤选择性风险。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-agentic-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:17",
+    "q": "向量库运行久了查询延迟升高、性能劣化，常见根因有哪些？",
+    "choices": [
+      {
+        "t": "频繁增删改致索引碎片、内存压力与 swap、参数未随数据量重调、冷热数据未分层",
+        "ok": true,
+        "why": "向量索引不是写一次永远不变；运维需 rebuild/compaction 与容量规划。"
+      },
+      {
+        "t": "HyDE 用假想答案嵌入",
+        "ok": false,
+        "why": "检索技巧，不解释向量库性能衰减。"
+      },
+      {
+        "t": "chunk 路由缩小搜索空间",
+        "ok": false,
+        "why": "架构优化，不是性能劣化根因。"
+      },
+      {
+        "t": "调 HNSW ef 参数平衡 recall 与延迟",
+        "ok": false,
+        "why": "调参手段，未说明「为何会变慢」的结构性原因。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-agent-planning"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:18",
+    "q": "生产向量库如何做版本管理、去重与软删除？",
+    "choices": [
+      {
+        "t": "元数据存 version/is_deleted/content_hash；查询过滤最新版与未删记录；去重用 hash 跳过重复嵌入",
+        "ok": true,
+        "why": "软删保留回滚能力；版本过滤防旧文档污染答案；去重省存储与噪声。"
+      },
+      {
+        "t": "索引越大 ANN 精度越低",
+        "ok": false,
+        "why": "规模化召回问题，不是版本/去重/软删方案。"
+      },
+      {
+        "t": "LangGraph 编排条件分支工作流",
+        "ok": false,
+        "why": "应用编排，不是向量库数据生命周期。"
+      },
+      {
+        "t": "缓存高频 query 的嵌入向量",
+        "ok": false,
+        "why": "性能优化，与版本治理无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "ai-embedding",
+      "ai-agent-graph"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:19",
+    "q": "top-k 取多少合适？何时增大或减小？",
+    "choices": [
+      {
+        "t": "k 太小漏关键 chunk；太大带进噪声并涨 LLM 成本/延迟；复杂多问用较大 k + 重排，简单 factoid 可小 k",
+        "ok": true,
+        "why": "k 连接检索 recall 与生成上下文预算，应随任务与是否有 rerank 调节。"
+      },
+      {
+        "t": "对话记忆存近期轮次",
+        "ok": false,
+        "why": "会话状态，不是检索 k 值。"
+      },
+      {
+        "t": "RAG 护栏约束只许引用上下文",
+        "ok": false,
+        "why": "输出合规，不决定初检 k。"
+      },
+      {
+        "t": "向量与 BM25 并行检索再融合",
+        "ok": false,
+        "why": "检索架构，不是 k 超参取舍。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-hybrid-search",
+      "ai-rerank"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:20",
+    "q": "重排（reranking）是什么？为何关键？交叉编码器与双塔编码器有何不同？",
+    "choices": [
+      {
+        "t": "对初检 top-N 用更强模型（常为 cross-encoder）逐对打分重排；双塔快但粗，交叉编码器看 query-doc 联合表示更准",
+        "ok": true,
+        "why": "bi-encoder 适合百万级召回；rerank 在百级候选上换精度，是 RAG 性价比最高的提精确率手段之一。"
+      },
+      {
+        "t": "入库前正则脱敏敏感字段",
+        "ok": false,
+        "why": "安全预处理，不是重排定义。"
+      },
+      {
+        "t": "相似度低于 0.7 则拒答",
+        "ok": false,
+        "why": "阈值策略，不是 rerank 机制。"
+      },
+      {
+        "t": "小块增多检索次数、大块增大 LLM token",
+        "ok": false,
+        "why": "chunk 与成本权衡，不是重排器原理。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:21",
+    "q": "MMR（最大边际相关性）是什么？何时该用？",
+    "choices": [
+      {
+        "t": "在相关性与多样性间加权：已选结果相似的新候选降权，避免 top-k 全是重复段落",
+        "ok": true,
+        "why": "长文档多 chunk 重叠时，纯相似度排序常返回近 duplicate；MMR 提升上下文信息覆盖。"
+      },
+      {
+        "t": "按相关性给各信息源分配 token 预算",
+        "ok": false,
+        "why": "上下文裁剪，不是 MMR 算法。"
+      },
+      {
+        "t": "结构化输出强制 [1][2] 引用",
+        "ok": false,
+        "why": "引用格式，与结果多样性无关。"
+      },
+      {
+        "t": "截断 chunk 去掉页眉页脚再送 LLM",
+        "ok": false,
+        "why": "上下文瘦身，不是 MMR。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-token-context"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:22",
+    "q": "检索内容看起来正确，模型仍幻觉 — 为什么？怎么防？",
+    "choices": [
+      {
+        "t": "上下文矛盾/含糊、模型更信预训练、缺少拒答能力；需矛盾检测、强约束提示、置信度阈值与 citation 校验",
+        "ok": true,
+        "why": "RAG 不是「有上下文就不会编」；生成器仍可能忽略或曲解片段。"
+      },
+      {
+        "t": "基础 RAG 一次检索一次生成",
+        "ok": false,
+        "why": "流程描述，未解释幻觉成因与对策。"
+      },
+      {
+        "t": "检索投毒是恶意文档进库",
+        "ok": false,
+        "why": "攻击场景；本题是「检索对但仍编」。"
+      },
+      {
+        "t": "系统提示写「仅依据上下文作答」",
+        "ok": false,
+        "why": "必要但不充分；未覆盖矛盾上下文与拒答机制。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rag",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:23",
+    "q": "查询改写（query rewriting）如何改善差检索？",
+    "choices": [
+      {
+        "t": "把口语/含糊/多义问法扩写、分解或改写成更贴索引的检索 query（可用 LLM 或规则）",
+        "ok": true,
+        "why": "用户问法与文档表述常有 gap；改写缩小 semantic mismatch。"
+      },
+      {
+        "t": "多跳检索分步补信息",
+        "ok": false,
+        "why": "复杂问答路径，不是单步 query 改写。"
+      },
+      {
+        "t": "元数据 ACL 过滤文档集",
+        "ok": false,
+        "why": "权限边界，不改善 query 与文档语义匹配。"
+      },
+      {
+        "t": "用 XML/Markdown 分隔符结构化拼上下文",
+        "ok": false,
+        "why": "提示组装，发生在检索之后。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-agentic-rag",
+      "ai-rules",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:24",
+    "q": "HyDE（假想文档嵌入）原理是什么？何时 helpful / harmful？",
+    "choices": [
+      {
+        "t": "LLM 先生成假想答案再嵌入检索；短/query-document 语义 gap 大时可能提升 recall，但假想错误会带偏检索",
+        "ok": true,
+        "why": "答案式文本有时比问题式更接近库内 chunk；成本是多一次 LLM 调用且依赖生成质量。"
+      },
+      {
+        "t": "chunk 路由先分类再搜子库",
+        "ok": false,
+        "why": "索引分区策略，不是 HyDE。"
+      },
+      {
+        "t": "调 HNSW 参数降延迟",
+        "ok": false,
+        "why": "索引调优，与 HyDE 无关。"
+      },
+      {
+        "t": "系统提示定义助手人格与事实约束",
+        "ok": false,
+        "why": "生成侧配置，不是检索增强技巧。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:25",
+    "q": "索引规模变大后检索质量为何下降？规模化时如何维持质量？",
+    "choices": [
+      {
+        "t": "ANN 近似 + 向量空间更拥挤致假阴性增多；可分区/分层索引、调参、混合检索、rerank 与定期 rebuild",
+        "ok": true,
+        "why": "规模带来噪声邻居与索引结构压力；不能只靠「同一个 k」硬扛。"
+      },
+      {
+        "t": "编排器处理「不够就改写再检」分支",
+        "ok": false,
+        "why": "工作流模式，不是规模化质量维持的系统手段全集。"
+      },
+      {
+        "t": "缓存热门 query 嵌入",
+        "ok": false,
+        "why": "降延迟，不直接解决 recall 随规模下降。"
+      },
+      {
+        "t": "提示里要求每条陈述附引用",
+        "ok": false,
+        "why": "输出格式，不改变检索 recall。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-hybrid-search",
+      "ai-rerank",
+      "ai-vector-store"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:26",
+    "q": "对话记忆与长期记忆有何区别？各存什么？",
+    "choices": [
+      {
+        "t": "对话记忆：当前会话近期消息与临时偏好，会话结束可清；长期记忆：跨会话用户画像/事实，需持久化与检索更新策略",
+        "ok": true,
+        "why": "二者 TTL、存储后端与隐私模型不同；混用会导致上下文爆炸或泄露旧偏好。"
+      },
+      {
+        "t": "RAG 护栏校验输出合规",
+        "ok": false,
+        "why": "安全层，不是记忆分层定义。"
+      },
+      {
+        "t": "向量与关键词检索并行",
+        "ok": false,
+        "why": "检索架构，与记忆类型无关。"
+      },
+      {
+        "t": "检索增强系统提示动态拼规则",
+        "ok": false,
+        "why": "提示构建方式，不是会话 vs 长期记忆。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-agent-memory",
+      "ai-prompt-security",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:27",
+    "q": "如何防止敏感信息写入 Agent/RAG 记忆库？",
+    "choices": [
+      {
+        "t": "入库前 PII/密钥检测与 redaction，分级存储，记忆检索同样走 ACL",
+        "ok": true,
+        "why": "记忆与文档库一样是可检索持久化面；事后生成侧打码太晚。"
+      },
+      {
+        "t": "低相似度 chunk 直接拒答",
+        "ok": false,
+        "why": "在线拒答策略，不阻止敏感数据入库。"
+      },
+      {
+        "t": "缩小 chunk 降 LLM 成本",
+        "ok": false,
+        "why": "成本优化，与敏感信息泄露无关。"
+      },
+      {
+        "t": "收集用户 query 建评测集",
+        "ok": false,
+        "why": "评测流程，不是记忆脱敏。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-agent-memory"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:28",
+    "q": "记忆与检索 chunk 合并进提示时，如何避免超出上下文窗口？",
+    "choices": [
+      {
+        "t": "固定 token 预算：系统/用户/记忆（约 200–300）/检索（约 2000–3000）/生成预留；按相关性与时效裁剪",
+        "ok": true,
+        "why": "显式预算是防 overflow 的唯一可靠方式；不能无界堆历史与 top-k。"
+      },
+      {
+        "t": "结构化输出强制引用格式",
+        "ok": false,
+        "why": "输出约束，不解决输入超长。"
+      },
+      {
+        "t": "去掉 chunk 中页眉页脚再送模型",
+        "ok": false,
+        "why": "有帮助但仍需总预算，否则仍会爆窗。"
+      },
+      {
+        "t": "Recall@K 衡量前 K 条召回率",
+        "ok": false,
+        "why": "评测指标，不是上下文组装策略。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-agent-memory"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:29",
+    "q": "基础 RAG、多向量 RAG、Graph RAG、Agentic RAG 各是什么？何时选用？",
+    "choices": [
+      {
+        "t": "基础：单向量 chunk QA；多向量：一 doc 多表征；Graph：实体关系推理；Agentic：模型决定何时/如何检；复杂度递增",
+        "ok": true,
+        "why": "简单 FAQ 用基础即可；关系密集型或多步工具调用才值得上 Graph/Agent。"
+      },
+      {
+        "t": "检索投毒是恶意内容进库",
+        "ok": false,
+        "why": "安全风险，不是架构对比。"
+      },
+      {
+        "t": "系统提示写「仅依据上下文」",
+        "ok": false,
+        "why": "提示技巧，未区分四种 RAG 形态。"
+      },
+      {
+        "t": "先看检索结果判断失败在检索还是生成",
+        "ok": false,
+        "why": "调试方法，不是架构选型。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag",
+      "ai-tool-calling"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:30",
+    "q": "多跳检索与 retrieval chain-of-thought 是什么？什么时候需要？",
+    "choices": [
+      {
+        "t": "首轮检索后根据缺口改写/分解 query 再检，多步串联；适合需跨文档综合、比较、推理的复杂问",
+        "ok": true,
+        "why": "单跳检索对「A 导致 B 再影响 C」类问题常不够；多跳把大问题拆成可检索子问题。"
+      },
+      {
+        "t": "元数据过滤限定文档集",
+        "ok": false,
+        "why": "权限/范围控制，不是多跳推理。"
+      },
+      {
+        "t": "分隔符结构化拼上下文",
+        "ok": false,
+        "why": "提示格式，发生在检索完成之后。"
+      },
+      {
+        "t": "布局感知 PDF 解析保留表格",
+        "ok": false,
+        "why": "入库解析，与多跳检索无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rag-eval",
+      "ai-agentic-rag",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:31",
+    "q": "chunk 路由（chunk-routing）是什么？如何实现？",
+    "choices": [
+      {
+        "t": "先分类 query（意图/领域/租户），再路由到对应子索引或文档子集，缩小搜索空间提精度",
+        "ok": true,
+        "why": "全库 ANN 在大 heterogeneous 语料上噪声高；路由相当于粗筛。"
+      },
+      {
+        "t": "调 ANN 参数平衡 recall 与延迟",
+        "ok": false,
+        "why": "索引调参，不是 query 路由。"
+      },
+      {
+        "t": "系统提示定义助手行为边界",
+        "ok": false,
+        "why": "生成配置，不改变检索索引选择。"
+      },
+      {
+        "t": "空文本/乱码启发式触发 OCR",
+        "ok": false,
+        "why": "解析流程，不是 chunk 路由。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:32",
+    "q": "LangGraph/LangChain 等编排器如何改进复杂 RAG 工作流？",
+    "choices": [
+      {
+        "t": "显式状态机管理多步：检索→评估→不够则改写再检→工具调用→生成；支持条件分支、重试与人审",
+        "ok": true,
+        "why": "复杂 RAG 不是线性 pipeline；编排器让失败路径可编程而非写死在单函数里。"
+      },
+      {
+        "t": "缓存重复 query 的 embedding",
+        "ok": false,
+        "why": "性能优化，不是工作流编排价值。"
+      },
+      {
+        "t": "提示示例规定引用格式",
+        "ok": false,
+        "why": "提示工程，不是 orchestrator 职责。"
+      },
+      {
+        "t": "小块增检索次数、大块增 LLM token",
+        "ok": false,
+        "why": "chunk 权衡，与编排无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-embedding",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:33",
+    "q": "RAG 护栏（guardrails）包含什么？如何 enforce「只许依据检索上下文作答」？",
+    "choices": [
+      {
+        "t": "检索阈值、提示约束、结构化输出、citation 校验、拒答与人工审核；低分 chunk 不进提示或触发「不知道」",
+        "ok": true,
+        "why": "护栏是检索+生成+后验多层；单靠一句 system prompt 不够。"
+      },
+      {
+        "t": "向量与 BM25 并行检索",
+        "ok": false,
+        "why": "召回策略，不是 guardrail 体系。"
+      },
+      {
+        "t": "动态检索规则拼进 system prompt",
+        "ok": false,
+        "why": "一种提示技巧，不是完整护栏定义。"
+      },
+      {
+        "t": "固定 token 数机械切分",
+        "ok": false,
+        "why": "分块策略，与输出约束无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-hybrid-search",
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:34",
+    "q": "初检返回明显无关 chunk 时，如何阻断幻觉答案？",
+    "choices": [
+      {
+        "t": "设最低相似度阈值，低于则拒答或触发澄清；结合 rerank 分与 LLM 自评相关性",
+        "ok": true,
+        "why": "垃圾进垃圾出；无关 chunk 进窗等于邀请模型编造。"
+      },
+      {
+        "t": "缩小 chunk 尺寸",
+        "ok": false,
+        "why": "可能改 recall，不直接解决「已检到无关仍作答」。"
+      },
+      {
+        "t": "收集 ground truth 建评测集",
+        "ok": false,
+        "why": "离线评测，不是在线阻断机制。"
+      },
+      {
+        "t": "chunk 间加 overlap",
+        "ok": false,
+        "why": "分块技巧，与无关检索拒答无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-rag-eval"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:35",
+    "q": "如何实现引用强制（citation enforcement）并检测漏标来源？",
+    "choices": [
+      {
+        "t": "结构化输出要求 [n] 标记 + 后验校验引用 ID 是否对应检索列表；无支撑陈述标红或重生成",
+        "ok": true,
+        "why": "仅提示「请引用」不可靠；需 schema 约束与自动对齐检测。"
+      },
+      {
+        "t": "截断 chunk 去 boilerplate",
+        "ok": false,
+        "why": "上下文瘦身，不保证引用完整性。"
+      },
+      {
+        "t": "Recall@K 评检索召回",
+        "ok": false,
+        "why": "离线指标，不是 citation  enforcement。"
+      },
+      {
+        "t": "按函数边界切源代码",
+        "ok": false,
+        "why": "分块策略，与引用格式无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:36",
+    "q": "检索投毒（retrieval poisoning）是什么？如何预防？",
+    "choices": [
+      {
+        "t": "攻击者向语料库注入误导/恶意文档，被高相似度召回；需来源校验、写入权限、内容审核与异常监控",
+        "ok": true,
+        "why": "RAG 信任检索结果；投毒绕过生成侧安全，直接在知识层下毒。"
+      },
+      {
+        "t": "系统提示要求仅依据上下文",
+        "ok": false,
+        "why": "挡不住「上下文本身就是假的」。"
+      },
+      {
+        "t": "检查检索缺失判断 retrieval failure",
+        "ok": false,
+        "why": "调试手法，不是投毒防御。"
+      },
+      {
+        "t": "按成本选 OpenAI vs Cohere 嵌入",
+        "ok": false,
+        "why": "模型选型，与安全投毒无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-rag-eval",
+      "ai-rag",
+      "ai-openai-protocol"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:37",
+    "q": "如何校验召回 chunk 属于允许文档集，并检测 jailbreak 试图越权检索？",
+    "choices": [
+      {
+        "t": "chunk 元数据带 tenant/source/ACL；检索前预过滤 + 召回后二次校验；监控异常 broad query 与 filter bypass 尝试",
+        "ok": true,
+        "why": "授权必须在片段进提示前生效；仅生成侧拒绝不够。"
+      },
+      {
+        "t": "XML 标签分隔各 chunk",
+        "ok": false,
+        "why": "提示可读性，不 enforce 文档归属。"
+      },
+      {
+        "t": "布局感知 PDF 解析",
+        "ok": false,
+        "why": "入库质量，与 ACL 校验无关。"
+      },
+      {
+        "t": "query/doc 必须用同一嵌入模型",
+        "ok": false,
+        "why": "嵌入一致性，不是权限边界。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-prompt-security",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:38",
+    "q": "生产环境如何降低向量库查询延迟？",
+    "choices": [
+      {
+        "t": "选合适索引（如 HNSW）、调 ef/nprobe、量化/降维、分片、缓存热 query、副本就近读",
+        "ok": true,
+        "why": "延迟 = 索引结构 + 硬件 + 数据布局；需在可接受 recall 下压 P99。"
+      },
+      {
+        "t": "系统提示要求简洁 factual",
+        "ok": false,
+        "why": "生成侧，不影响向量检索毫秒数。"
+      },
+      {
+        "t": "启发式判断 PDF 是否走 OCR",
+        "ok": false,
+        "why": "入库解析，不是在线 query 延迟。"
+      },
+      {
+        "t": "清洗 HTML 噪声防嵌入漂移",
+        "ok": false,
+        "why": "质量维护，不直接降 query latency。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-vector-store",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:39",
+    "q": "何时缓存 embedding，何时缓存检索结果？各有什么风险？",
+    "choices": [
+      {
+        "t": "embedding 缓存适合重复 query/文档；检索结果缓存适合稳定语料与相同 filter；风险是语料/权限变更导致 stale",
+        "ok": true,
+        "why": "缓存键必须含 model/version/ACL；更新语料需失效策略。"
+      },
+      {
+        "t": "提示示例展示引用格式",
+        "ok": false,
+        "why": "提示工程，不是缓存层设计。"
+      },
+      {
+        "t": "小块 vs 大块权衡检索与 LLM 成本",
+        "ok": false,
+        "why": "分块策略，与缓存粒度无关。"
+      },
+      {
+        "t": "多语言共享嵌入空间",
+        "ok": false,
+        "why": "模型能力，不是缓存决策。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-embedding",
+      "craft-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:40",
+    "q": "如何并行化检索与生成以压低端到端延迟？",
+    "choices": [
+      {
+        "t": "多路 retriever（向量+BM25）并行；预处理与 embedding 流水线化；生成可在 top 结果就绪后流式开写",
+        "ok": true,
+        "why": "串行「embed→search→rank→generate」会把延迟叠满；可并行的段应尽量并行。"
+      },
+      {
+        "t": "动态检索规则写入 system prompt",
+        "ok": false,
+        "why": "提示构建，不是并行调度。"
+      },
+      {
+        "t": "固定长度机械分块",
+        "ok": false,
+        "why": "索引策略，与 runtime 并行无关。"
+      },
+      {
+        "t": "余弦相似度看向量夹角",
+        "ok": false,
+        "why": "相似度定义，不是 latency 优化。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-hybrid-search",
+      "ai-embedding"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:41",
+    "q": "chunk 大小、嵌入维度、重排如何共同影响延迟与成本？",
+    "choices": [
+      {
+        "t": "小块→更多向量与检索次数↑、LLM token↓；高维嵌入→存储与计算↑；rerank→精度↑但延迟↑",
+        "ok": true,
+        "why": "三者在索引大小、检索 QPS 与生成 token 费之间联动，需整体 profiling。"
+      },
+      {
+        "t": "收集多样 query 建 gold 评测集",
+        "ok": false,
+        "why": "评测方法，不是成本/延迟机理。"
+      },
+      {
+        "t": "chunk 边界加 overlap",
+        "ok": false,
+        "why": "单因素分块技巧，未覆盖维度与 rerank 联动。"
+      },
+      {
+        "t": "L2 归一化使点积等价余弦",
+        "ok": false,
+        "why": "向量数学，不是三因素成本模型。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-rag-eval"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:42",
+    "q": "如何优化 LLM 上下文窗口占用以降低推理时延与费用？",
+    "choices": [
+      {
+        "t": "去 boilerplate、摘要/压缩检索结果、少而精的 top chunk、结构化分隔；避免重复贴全文",
+        "ok": true,
+        "why": "生成成本近似线性随 input token；RAG 的主要杠杆之一是「少而准的上下文」。"
+      },
+      {
+        "t": "Recall@K 评检索",
+        "ok": false,
+        "why": "评测指标，不是 prompt 瘦身手段。"
+      },
+      {
+        "t": "按语法单元切代码",
+        "ok": false,
+        "why": "分块策略，不直接减已选进窗 token（除非配合裁剪）。"
+      },
+      {
+        "t": "语料漂移时全库 re-embed",
+        "ok": false,
+        "why": "索引维护，不是 inference token 优化。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:43",
+    "q": "系统提示如何影响 RAG 真实性与引用行为？",
+    "choices": [
+      {
+        "t": "明确「仅依据所给上下文」「不知则拒答」「每条关键陈述需引用」可显著降幻觉与乱引",
+        "ok": true,
+        "why": "system prompt 设行为先验；弱约束下模型仍会用 parametric 知识补全。"
+      },
+      {
+        "t": "先看检索是否缺 relevant chunk",
+        "ok": false,
+        "why": "调试步骤，不是 system prompt 作用机制。"
+      },
+      {
+        "t": "按场景选嵌入厂商",
+        "ok": false,
+        "why": "检索层，不是生成行为约束。"
+      },
+      {
+        "t": "Flat 索引适合小库",
+        "ok": false,
+        "why": "索引选型，与引用习惯无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:44",
+    "q": "检索上下文在提示里怎么结构化最好？模型为何有时「无视」上下文？",
+    "choices": [
+      {
+        "t": "用清晰分隔符/标签标注每条 chunk 与来源；长上下文靠后、关键摘录靠前；噪声多或指令冲突时模型易忽略",
+        "ok": true,
+        "why": "「lost in the middle」与指令竞争会让模型跳过检索段；结构化和排序是实用缓解。"
+      },
+      {
+        "t": "多版式 PDF 需布局解析",
+        "ok": false,
+        "why": "入库问题，不是提示内上下文排版。"
+      },
+      {
+        "t": "query/doc 嵌入模型必须一致",
+        "ok": false,
+        "why": "检索正确性前提，不解释生成阶段忽略上下文。"
+      },
+      {
+        "t": "混合检索融合向量与 BM25",
+        "ok": false,
+        "why": "召回策略，不是 prompt 结构。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-hybrid-search"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:45",
+    "q": "RAG 里 system / retrieval / answer 三类 prompt 各管什么？",
+    "choices": [
+      {
+        "t": "system：全局行为/安全；retrieval：改写/HyDE/子 query 生成；answer：基于已检 chunk 组织最终回答",
+        "ok": true,
+        "why": "混在一坨会导致指令冲突；分阶段 prompt 便于评测与迭代。"
+      },
+      {
+        "t": "启发式检测 PDF 解析失败",
+        "ok": false,
+        "why": "入库 pipeline，不是三类 prompt 分工。"
+      },
+      {
+        "t": "HTML 噪声致嵌入漂移",
+        "ok": false,
+        "why": "数据质量，不是 prompt 角色划分。"
+      },
+      {
+        "t": "ANN 近似搜索漏召回",
+        "ok": false,
+        "why": "检索算法，与 prompt 类型无关。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-rag-eval"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:46",
+    "q": "如何设计提示以强制模型引用来源？",
+    "choices": [
+      {
+        "t": "指令写明格式 + few-shot 示例 + 结构化输出 schema；后验检查引用 ID",
+        "ok": true,
+        "why": "口头要求引用 compliance 低；示例与 schema 把任务变成可验证的格式问题。"
+      },
+      {
+        "t": "小块 capture 细节、大块保语境",
+        "ok": false,
+        "why": "分块权衡，不是 citation prompt 设计。"
+      },
+      {
+        "t": "多语嵌入跨语言召回",
+        "ok": false,
+        "why": "检索能力，与引用格式无关。"
+      },
+      {
+        "t": "索引碎片导致查询变慢",
+        "ok": false,
+        "why": "运维问题，不是 prompt 技巧。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "craft-observability"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:47",
+    "q": "检索增强系统提示（retrieval-augmented system prompting）是什么？何时会失败？",
+    "choices": [
+      {
+        "t": "按 query 检索相关规则/示例动态拼 system prompt；检索错规则或指令过多时会失败或互相打架",
+        "ok": true,
+        "why": "静态 system 难覆盖全场景；动态规则依赖检索质量与 prompt 长度预算。"
+      },
+      {
+        "t": "固定 token 机械切分",
+        "ok": false,
+        "why": "文档分块，不是动态 system 构建。"
+      },
+      {
+        "t": "余弦相似度衡量语义接近",
+        "ok": false,
+        "why": "向量度量，不是 augmented system prompt。"
+      },
+      {
+        "t": "元数据 version 字段做版本过滤",
+        "ok": false,
+        "why": "数据治理，不是动态 system 机制。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:48",
+    "q": "如何构建可靠的 RAG 评测数据集？",
+    "choices": [
+      {
+        "t": "收集真实多样 query，标注 gold 答案与支持 chunk；覆盖难度、领域、失败模式；定期回归",
+        "ok": true,
+        "why": "没有 chunk 级标注就无法区分 retrieval vs generation 失败。"
+      },
+      {
+        "t": "chunk 边界加 overlap",
+        "ok": false,
+        "why": "工程技巧，不是评测集构建方法。"
+      },
+      {
+        "t": "嵌入 L2 归一化",
+        "ok": false,
+        "why": "向量处理，与 gold 数据集无关。"
+      },
+      {
+        "t": "调 top-k 平衡噪声与 recall",
+        "ok": false,
+        "why": "运行时超参，不是数据集设计。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rag-eval",
+      "ai-rag"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:49",
+    "q": "Recall@K、MRR、nDCG、Precision@K 各衡量什么？何时用哪个？",
+    "choices": [
+      {
+        "t": "Recall@K：相关 chunk 是否进前 K；MRR：首个相关位次；nDCG：分级相关性排序质量；Precision@K：前 K 有多准",
+        "ok": true,
+        "why": "漏召回用 Recall@K；排序质量用 MRR/nDCG；控噪声进窗看 Precision@K。"
+      },
+      {
+        "t": "按函数/类切分源代码",
+        "ok": false,
+        "why": "分块策略，不是检索指标。"
+      },
+      {
+        "t": "换嵌入模型时全库 re-embed",
+        "ok": false,
+        "why": "运维操作，不是 metric 选择。"
+      },
+      {
+        "t": "cross-encoder 重排初检结果",
+        "ok": false,
+        "why": "检索组件，不是 offline metric 定义。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-rerank",
+      "ai-rag-eval"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  },
+  {
+    "id": "adapted:naresh-rag:50",
+    "q": "幻觉来自检索失败还是生成失败？如何分别调试？",
+    "choices": [
+      {
+        "t": "先看 gold chunk 是否在 top-k：不在→查 embedding/chunk/ANN；在但答错→查 prompt/模型/护栏",
+        "ok": true,
+        "why": "二分法避免盲目调生成；检索与生成优化手段完全不同。"
+      },
+      {
+        "t": "按成本选 OpenAI/Cohere 嵌入",
+        "ok": false,
+        "why": "选型问题，不是 hallucination 归因流程。"
+      },
+      {
+        "t": "小库用 Flat 暴力索引",
+        "ok": false,
+        "why": "索引技巧，不是 failure 分解。"
+      },
+      {
+        "t": "MMR 提升结果多样性",
+        "ok": false,
+        "why": "检索后处理，不是 debug 路径。"
+      }
+    ],
+    "kind": "interview",
+    "domain": "ai",
+    "tags": [
+      "RAG",
+      "检索",
+      "AI全栈",
+      "系统非原创",
+      "adapted",
+      "中文"
+    ],
+    "relatedNodes": [
+      "ai-chunking",
+      "ai-vector-store",
+      "ai-prompt-security"
+    ],
+    "source": "adapted",
+    "origin": "adapted",
+    "attribution": "Nareshedagotti/AI-Engineer-Interview-QA · RAG",
+    "attributionUrl": "https://github.com/Nareshedagotti/AI-Engineer-Interview-QA",
+    "setId": "interview-adapted-naresh-rag"
+  }
+];

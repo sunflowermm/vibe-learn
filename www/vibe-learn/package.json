@@ -7,7 +7,17 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 5188 --strictPort --host 127.0.0.1",
-    "static": "vite build"
+    "static": "vite build",
+    "quiz:dump": "node scripts/migrate-quiz-dump.mjs",
+    "quiz:clean": "node scripts/clean-quiz-bank.mjs",
+    "quiz:audit": "node scripts/audit-quiz.mjs",
+    "quiz:outlines": "node scripts/fetch-interview-outlines.mjs",
+    "quiz:import": "node scripts/import-adapted-quiz.mjs",
+    "quiz:zh": "node scripts/zh-adapted-quiz.mjs",
+    "quiz:sync-sets": "node scripts/sync-adapted-sets.mjs",
+    "quiz:rebind": "node scripts/rebind-adapted-nodes.mjs",
+    "quiz:glossary": "node scripts/rewrite-glossary-bank.mjs",
+    "quiz:bank": "node scripts/rewrite-bank-beginner.mjs"
   },
   "dependencies": {
     "@vue-flow/background": "^1.3.2",
