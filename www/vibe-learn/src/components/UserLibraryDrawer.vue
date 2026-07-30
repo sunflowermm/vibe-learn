@@ -1,6 +1,6 @@
 <script setup>
 /**
- * 本机学习台账：书签 / 笔记 / 足迹 + 备份
+ * 本机学习台账：书签 / 笔记 / 已学 / 足迹 + 备份
  */
 import { computed, nextTick, ref, watch } from 'vue';
 import { getNodeById } from '../data/nodes.js';
@@ -13,7 +13,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'navigate']);
 
 const library = useUserLibrary();
-const { bookmarkCount, noteCount } = library;
+const { bookmarkCount, noteCount, learnedCount } = library;
 const tab = ref('bookmarks');
 const query = ref('');
 const importMsg = ref('');
@@ -27,6 +27,7 @@ const backupOpen = ref(false);
 const tabs = computed(() => [
   { id: 'bookmarks', label: '书签', count: bookmarkCount.value },
   { id: 'notes', label: '笔记', count: noteCount.value },
+  { id: 'learned', label: '已学', count: learnedCount.value },
   {
     id: 'recent',
     label: '足迹',
@@ -91,7 +92,21 @@ const recentRows = computed(() =>
       visitCount: p.visitCount || 1,
       visitedAt: p.visitedAt,
       bookmarked: library.isBookmarked(p.id),
+      learned: library.isLearned(p.id),
       hasNote: Boolean(library.notes.value[p.id]?.body?.trim()),
+    }))
+    .filter(matchQuery)
+);
+
+const learnedRows = computed(() =>
+  Object.values(library.learned.value)
+    .sort((a, b) => (b.learnedAt || 0) - (a.learnedAt || 0))
+    .map((r) => ({
+      ...enrich(r.id),
+      learnedAt: r.learnedAt,
+      bookmarked: library.isBookmarked(r.id),
+      learned: true,
+      hasNote: Boolean(library.notes.value[r.id]?.body?.trim()),
     }))
     .filter(matchQuery)
 );
@@ -104,6 +119,10 @@ const emptyCopy = {
   notes: {
     title: '还没有笔记',
     body: '讲解面板底部有「我的笔记」，边读边写会自动出现在此。',
+  },
+  learned: {
+    title: '还没有已学标记',
+    body: '读完一课后点「标记已学」。打开过的足迹不算已学。',
   },
   recent: {
     title: '还没有足迹',
@@ -145,7 +164,7 @@ function pickImport(mode) {
   importMode.value = mode === 'replace' ? 'replace' : 'merge';
   if (mode === 'replace') {
     const ok = window.confirm(
-      '替换导入会清空本机当前书签与笔记，再用文件覆盖。确定继续？'
+      '替换导入会清空本机当前书签、笔记、已学与足迹，再用文件覆盖。确定继续？'
     );
     if (!ok) return;
   }
@@ -360,6 +379,65 @@ watch(
             </article>
           </template>
 
+          <template v-else-if="tab === 'learned'">
+            <div v-if="!learnedRows.length" class="shelf__empty">
+              <div class="shelf__empty-ico" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="5.2" stroke="currentColor" stroke-width="1.4" />
+                  <path
+                    d="M5.2 8.1l1.9 1.9 3.8-3.9"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <h3>{{ query ? '没有匹配的已学' : emptyCopy.learned.title }}</h3>
+              <p>{{ query ? '试试别的关键词' : emptyCopy.learned.body }}</p>
+            </div>
+            <article
+              v-for="(row, i) in learnedRows"
+              :key="row.id"
+              class="shelf-card"
+              :style="{ '--i': i }"
+            >
+              <button type="button" class="shelf-card__main" @click="go(row.id)">
+                <div class="shelf-card__top">
+                  <span class="shelf-card__tag">{{ row.tag || '主题' }}</span>
+                  <span v-if="row.chapter" class="shelf-card__chapter">{{ row.chapter }}</span>
+                </div>
+                <h3 class="shelf-card__title">{{ row.label }}</h3>
+                <div class="shelf-card__foot">
+                  <span>{{ fmt(row.learnedAt) }}</span>
+                  <span class="shelf-card__flags">
+                    <span class="shelf-card__pill shelf-card__pill--learned">已学</span>
+                    <span v-if="row.bookmarked" class="shelf-card__pill shelf-card__pill--amber">书签</span>
+                    <span v-if="row.hasNote" class="shelf-card__pill">笔记</span>
+                  </span>
+                </div>
+              </button>
+              <button
+                type="button"
+                class="shelf-card__star shelf-card__star--learned is-on"
+                title="取消已学"
+                aria-label="取消已学"
+                @click="library.toggleLearned(row.id)"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3" />
+                  <path
+                    d="M5 8.1l2 2 4-4.1"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </article>
+          </template>
+
           <template v-else>
             <div v-if="!recentRows.length" class="shelf__empty">
               <div class="shelf__empty-ico" aria-hidden="true">
@@ -386,6 +464,7 @@ watch(
                 <div class="shelf-card__foot">
                   <span>{{ fmt(row.visitedAt) }}</span>
                   <span class="shelf-card__flags">
+                    <span v-if="row.learned" class="shelf-card__pill shelf-card__pill--learned">已学</span>
                     <span v-if="row.bookmarked" class="shelf-card__pill shelf-card__pill--amber">书签</span>
                     <span v-if="row.hasNote" class="shelf-card__pill">笔记</span>
                   </span>
@@ -813,6 +892,11 @@ watch(
   color: var(--amber);
 }
 
+.shelf-card__pill--learned {
+  background: color-mix(in srgb, #34d399 16%, transparent);
+  color: color-mix(in srgb, #059669 80%, var(--mist));
+}
+
 .shelf-card__star {
   align-self: start;
   margin: 0.65rem 0.65rem 0 0;
@@ -834,6 +918,14 @@ watch(
 
 .shelf-card__star.is-on {
   color: var(--amber);
+}
+
+.shelf-card__star--learned.is-on {
+  color: color-mix(in srgb, #059669 80%, var(--mist));
+}
+
+.shelf-card__star--learned:hover {
+  color: #059669;
 }
 
 .shelf__foot {

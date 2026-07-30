@@ -95,9 +95,11 @@ const {
   bookmarkedIds,
   notedIds,
   visitedIds,
+  learnedIds,
   bookmarkCount,
   noteCount,
   visitedCount,
+  learnedCount,
   wrongOpenCount,
 } = library;
 
@@ -421,7 +423,7 @@ onUnmounted(() => {
         <div class="topbar-meta">
           <template v-if="!isQuizMap">
             {{ activeMap.short }} <strong>{{ countTopics() }}</strong> · 足迹
-            <strong>{{ visitedCount }}</strong>
+            <strong>{{ visitedCount }}</strong> · 已学 <strong>{{ learnedCount }}</strong>
           </template>
           <template v-else>
             {{ activeMap.short }} <strong>{{ bankQuestionCount }}</strong>
@@ -446,6 +448,7 @@ onUnmounted(() => {
           :bookmarked-ids="bookmarkedIds"
           :noted-ids="notedIds"
           :visited-ids="visitedIds"
+          :learned-ids="learnedIds"
           @select="selectNode"
           @clear="clearSelection"
         />

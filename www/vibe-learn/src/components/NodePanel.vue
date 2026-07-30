@@ -46,8 +46,8 @@ const bookmarked = computed(() =>
 const hasNote = computed(() =>
   props.node?.id ? Boolean(library.noteOf(props.node.id).trim()) : false
 );
-const visited = computed(() =>
-  props.node?.id ? library.isVisited(props.node.id) : false
+const learned = computed(() =>
+  props.node?.id ? library.isLearned(props.node.id) : false
 );
 const primaryNext = computed(() => nextNodes.value[0] || null);
 const relatedQuizCount = computed(() =>
@@ -64,8 +64,8 @@ const relatedAdaptedCount = computed(() =>
     : 0
 );
 
-function chipVisited(id) {
-  return library.isVisited(id);
+function chipLearned(id) {
+  return library.isLearned(id);
 }
 
 watch(
@@ -81,6 +81,10 @@ function onToggleBookmark() {
   if (props.node?.id) library.toggleBookmark(props.node.id);
 }
 
+function onToggleLearned() {
+  if (props.node?.id) library.toggleLearned(props.node.id);
+}
+
 function openRelatedQuiz() {
   if (props.node?.id && relatedQuizCount.value) emit('quiz', props.node.id);
 }
@@ -92,8 +96,8 @@ function openRelatedQuiz() {
       <div class="panel__head-text">
         <div class="panel__meta-row">
           <p class="panel__tag">{{ node.tag }}</p>
-          <span v-if="hasNote" class="panel__chip-soft">已有笔记</span>
-          <span v-if="visited" class="panel__chip-soft panel__chip-soft--visited">已学过</span>
+          <span v-if="hasNote" class="panel__chip-soft">有笔记</span>
+          <span v-if="learned" class="panel__chip-soft panel__chip-soft--learned">已学</span>
         </div>
         <h2
           :id="`panel-title-${node.id}`"
@@ -121,6 +125,26 @@ function openRelatedQuiz() {
             />
             <path d="M5 5h4.2M5 7.5h3.2M5 10h2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
             <path d="M12.2 3.2v9.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="panel__icon-btn"
+          :class="{ active: learned }"
+          :aria-pressed="learned"
+          :aria-label="learned ? '取消已学标记' : '标记为已学'"
+          :title="learned ? '取消已学' : '自己标记已学（足迹不算）'"
+          @click="onToggleLearned"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.25" />
+            <path
+              d="M4.9 8.1l2.1 2.1 4.2-4.3"
+              stroke="currentColor"
+              stroke-width="1.35"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </button>
         <button
@@ -168,7 +192,7 @@ function openRelatedQuiz() {
             :key="n.id"
             type="button"
             class="panel__chip"
-            :class="{ 'is-visited': chipVisited(n.id) }"
+            :class="{ 'is-learned': chipLearned(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -181,7 +205,7 @@ function openRelatedQuiz() {
             :key="n.id"
             type="button"
             class="panel__chip next"
-            :class="{ 'is-visited': chipVisited(n.id) }"
+            :class="{ 'is-learned': chipLearned(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -194,7 +218,7 @@ function openRelatedQuiz() {
             :key="n.id"
             type="button"
             class="panel__chip extend"
-            :class="{ 'is-visited': chipVisited(n.id) }"
+            :class="{ 'is-learned': chipLearned(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -202,11 +226,11 @@ function openRelatedQuiz() {
         </div>
       </nav>
 
-            <TermsBlock
-              :node-id="node.id"
-              @navigate="emit('navigate', $event)"
-              @open-glossary="emit('open-glossary', $event)"
-            />
+      <TermsBlock
+        :node-id="node.id"
+        @navigate="emit('navigate', $event)"
+        @open-glossary="emit('open-glossary', $event)"
+      />
 
       <div v-if="relatedQuizCount" class="panel__quiz-launch">
         <button type="button" class="panel__quiz-btn" @click="openRelatedQuiz">
@@ -214,12 +238,12 @@ function openRelatedQuiz() {
           <span class="panel__quiz-count">{{ relatedQuizCount }}</span>
         </button>
         <p class="panel__quiz-hint">
-          跳转题库，抽本课绑定题
+          本课绑定 {{ relatedQuizCount }} 题
           <template v-if="relatedGlossaryCount">
-            · 含本课名词释义 {{ relatedGlossaryCount }}
+            · 名词 {{ relatedGlossaryCount }}
           </template>
           <template v-if="relatedAdaptedCount">
-            · 开源改编 {{ relatedAdaptedCount }}（题内标注来源）
+            · 改编 {{ relatedAdaptedCount }}
           </template>
         </p>
       </div>
@@ -232,8 +256,18 @@ function openRelatedQuiz() {
       </div>
     </div>
 
-    <footer v-if="primaryNext" class="panel__foot">
+    <footer class="panel__foot">
       <button
+        type="button"
+        class="panel__learn-cta"
+        :class="{ 'is-on': learned }"
+        :aria-pressed="learned"
+        @click="onToggleLearned"
+      >
+        {{ learned ? '已学 · 点击取消' : '标记已学' }}
+      </button>
+      <button
+        v-if="primaryNext"
         type="button"
         class="panel__next-cta"
         @click="emit('navigate', primaryNext.id)"
@@ -293,9 +327,9 @@ function openRelatedQuiz() {
   color: var(--signal);
 }
 
-.panel__chip-soft--visited {
+.panel__chip-soft--learned {
   background: color-mix(in srgb, #34d399 18%, transparent);
-  color: color-mix(in srgb, #34d399 85%, var(--mist));
+  color: color-mix(in srgb, #059669 80%, var(--mist));
 }
 
 .panel__title {
@@ -528,7 +562,7 @@ function openRelatedQuiz() {
   background: var(--accent-soft);
 }
 
-.panel__chip.is-visited::after {
+.panel__chip.is-learned::after {
   content: '✓';
   margin-left: 0.35rem;
   font-size: 0.72em;
@@ -537,9 +571,35 @@ function openRelatedQuiz() {
 
 .panel__foot {
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
   padding: 0.65rem 1.15rem 0.75rem;
   border-top: 1px solid var(--line);
   background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
+}
+
+.panel__learn-cta {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #34d399 40%, var(--line));
+  background: color-mix(in srgb, #34d399 10%, transparent);
+  color: color-mix(in srgb, #059669 75%, var(--mist));
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 650;
+  cursor: pointer;
+  text-align: center;
+}
+
+.panel__learn-cta:hover {
+  border-color: #34d399;
+}
+
+.panel__learn-cta.is-on {
+  background: color-mix(in srgb, #34d399 22%, transparent);
+  border-color: #34d399;
 }
 
 .panel__next-cta {

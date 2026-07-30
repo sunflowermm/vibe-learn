@@ -404,7 +404,7 @@
   margin: 0;
 }
 
-/* —— 词典浮层：无遮罩、右下角卡片，可边刷题边查 —— */
+/* —— 词典浮层：无遮罩；位置/宽高由 JS 按悬浮球就近计算 —— */
 .study-drawer--float {
   pointer-events: none;
 }
@@ -414,20 +414,23 @@
 }
 
 .study-drawer--float .study-drawer__panel {
-  top: auto;
-  right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  height: min(72vh, 36rem);
-  width: min(22.5rem, calc(100vw - 1.5rem));
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  width: min(28rem, calc(100vw - 1.25rem));
+  height: min(78vh, 40rem);
+  max-width: calc(100vw - 1.25rem);
+  max-height: calc(100vh - 1.25rem);
   border-radius: 16px;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
-  transform: translateY(1rem) scale(0.96);
+  transform: translateY(0.6rem) scale(0.98);
   opacity: 0;
   pointer-events: auto;
   transition:
-    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.22s ease;
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
 }
 
 .study-drawer--float.is-open .study-drawer__panel {
@@ -452,16 +455,22 @@
   padding-inline: 0.85rem;
 }
 
-/* —— 词典悬浮球（位置由 JS left/top 控制） —— */
+/* —— 词典悬浮球（固定 52 圆；开闭/悬停不改尺寸） —— */
 .glossary-fab {
   position: fixed;
   z-index: 90;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  min-height: 2.85rem;
-  padding: 0.5rem 0.9rem 0.5rem 0.55rem;
-  border-radius: 999px;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  max-width: 52px;
+  max-height: 52px;
+  border-radius: 50%;
   border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
   background: color-mix(in srgb, var(--panel-bg) 88%, var(--accent-soft));
   color: var(--accent);
@@ -470,19 +479,25 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
   backdrop-filter: blur(10px);
+  transform: none;
   transition:
     border-color 0.18s ease,
     background 0.18s ease,
-    box-shadow 0.18s ease;
+    color 0.18s ease;
+}
+
+.glossary-fab:hover:not(.is-dragging),
+.glossary-fab:active,
+.glossary-fab.is-open,
+.glossary-fab.is-dragging {
+  transform: none;
+  width: 52px;
+  height: 52px;
 }
 
 .glossary-fab:hover:not(.is-dragging) {
   border-color: var(--accent);
-  box-shadow: var(--shadow);
 }
 
 .glossary-fab:focus-visible {
@@ -498,55 +513,24 @@
 
 .glossary-fab.is-dragging {
   cursor: grabbing;
-  box-shadow: var(--shadow);
   opacity: 0.96;
-}
-
-.glossary-fab__grip {
-  width: 0.28rem;
-  height: 1.05rem;
-  border-radius: 2px;
-  background: repeating-linear-gradient(
-    to bottom,
-    currentColor 0 2px,
-    transparent 2px 4px
-  );
-  opacity: 0.35;
-  flex-shrink: 0;
 }
 
 .glossary-fab__ico {
   display: inline-grid;
   place-items: center;
+  line-height: 0;
 }
 
-.glossary-fab__label {
-  font-family: var(--font-display);
-}
-
-.glossary-fab__badge {
-  min-width: 1.35rem;
-  padding: 0.08rem 0.35rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--mist) 10%, transparent);
-  color: inherit;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 650;
-  text-align: center;
-}
-
-.glossary-fab.is-open .glossary-fab__badge {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-@media (max-width: 640px) {
-  .study-drawer--float .study-drawer__panel {
-    width: calc(100vw - 1rem);
-    height: min(62vh, 32rem);
-    right: 0.5rem;
-    bottom: max(0.5rem, env(safe-area-inset-bottom));
-  }
+.glossary-fab__dot {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.42rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--panel-bg) 80%, transparent);
 }
 
 

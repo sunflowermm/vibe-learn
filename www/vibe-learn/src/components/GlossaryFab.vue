@@ -1,6 +1,6 @@
 <script setup>
 /**
- * 词典悬浮球：可拖、可点、位置记忆；打开浮层时自动避开遮挡。
+ * 词典悬浮球：固定尺寸圆形；拖动换位；开闭只改色不改大小。
  */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import {
@@ -8,6 +8,7 @@ import {
   clampFabPos,
   defaultFabPos,
   persistFabPos,
+  publishFabBox,
   readFabPos,
   snapFabToEdge,
 } from '../composables/useGlossaryFabPos.js';
@@ -15,8 +16,6 @@ import {
 const props = defineProps({
   open: { type: Boolean, default: false },
   termCount: { type: Number, default: 0 },
-  /** 词典浮层 panel 选择器，用于避让 */
-  avoidSelector: { type: String, default: '.study-drawer--float .study-drawer__panel' },
 });
 
 const emit = defineEmits(['toggle']);
@@ -28,45 +27,34 @@ const ready = ref(false);
 
 /** @type {{ pointerId: number, startX: number, startY: number, origX: number, origY: number, moved: boolean } | null} */
 let drag = null;
-let size = { w: 96, h: 48 };
+const SIZE = 52;
 
 const style = computed(() => ({
   left: `${pos.value.x}px`,
   top: `${pos.value.y}px`,
   right: 'auto',
   bottom: 'auto',
+  width: `${SIZE}px`,
+  height: `${SIZE}px`,
   visibility: ready.value ? 'visible' : 'hidden',
 }));
 
 function measure() {
-  const el = rootEl.value;
-  if (!el) return size;
-  const r = el.getBoundingClientRect();
-  size = {
-    w: Math.max(48, Math.round(r.width) || size.w),
-    h: Math.max(40, Math.round(r.height) || size.h),
-  };
-  return size;
+  return { w: SIZE, h: SIZE };
 }
 
-function avoidRect() {
-  if (!props.open || typeof document === 'undefined') return null;
-  const panel = document.querySelector(props.avoidSelector);
-  if (!panel || !(panel instanceof HTMLElement)) return null;
-  if (getComputedStyle(panel).display === 'none' || panel.getAttribute('aria-hidden') === 'true') {
-    return null;
-  }
-  const r = panel.getBoundingClientRect();
-  if (r.width < 8 || r.height < 8) return null;
-  return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+function broadcast() {
+  const { w, h } = measure();
+  publishFabBox({ x: pos.value.x, y: pos.value.y, w, h });
 }
 
 function applyClamp(next, { persist = false, snap = false } = {}) {
   const { w, h } = measure();
-  let p = clampFabPos(next, w, h, avoidRect());
+  let p = clampFabPos(next, w, h, null);
   if (snap) p = snapFabToEdge(p, w, h);
-  p = clampFabPos(p, w, h, avoidRect());
+  p = clampFabPos(p, w, h, null);
   pos.value = p;
+  broadcast();
   if (persist) persistFabPos(p);
 }
 
@@ -81,7 +69,6 @@ function onPointerDown(e) {
   if (e.button != null && e.button !== 0) return;
   const el = rootEl.value;
   if (!el) return;
-  measure();
   drag = {
     pointerId: e.pointerId,
     startX: e.clientX,
@@ -160,8 +147,7 @@ watch(
   () => props.open,
   async () => {
     await nextTick();
-    applyClamp(pos.value, { persist: false });
-    window.setTimeout(() => applyClamp(pos.value, { persist: false }), 300);
+    broadcast();
   }
 );
 
@@ -178,6 +164,7 @@ onUnmounted(() => {
   window.removeEventListener('orientationchange', onResizeDebounced);
   window.visualViewport?.removeEventListener('resize', onResizeDebounced);
   window.clearTimeout(resizeTimer);
+  publishFabBox(null);
   drag = null;
 });
 </script>
@@ -190,8 +177,8 @@ onUnmounted(() => {
     :class="{ 'is-open': open, 'is-dragging': dragging }"
     :style="style"
     :aria-pressed="open"
-    :aria-label="open ? '收起词典' : '打开词典悬浮窗'"
-    :title="open ? '收起词典 · 可拖动位置' : '词典随查 · 拖动可换位'"
+    :aria-label="open ? '收起词典' : '打开词典'"
+    :title="open ? '收起词典' : termCount ? `词典 · ${termCount}` : '词典'"
     @pointerdown="onPointerDown"
     @pointermove="onPointerMove"
     @pointerup="onPointerUp"
@@ -199,9 +186,8 @@ onUnmounted(() => {
     @keydown="onKey"
     @click.prevent
   >
-    <span class="glossary-fab__grip" aria-hidden="true" />
     <span class="glossary-fab__ico" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
         <path
           d="M5 4.5h9.5A2.5 2.5 0 0 1 17 7v12.2a1.3 1.3 0 0 1-1.3 1.3H5V4.5Z"
           stroke="currentColor"
@@ -216,7 +202,6 @@ onUnmounted(() => {
         <path d="M19 5.2v14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
       </svg>
     </span>
-    <span class="glossary-fab__label">{{ open ? '收起' : '词典' }}</span>
-    <span v-if="!open && termCount" class="glossary-fab__badge">{{ termCount }}</span>
+    <span v-if="!open && termCount" class="glossary-fab__dot" aria-hidden="true" />
   </button>
 </template>

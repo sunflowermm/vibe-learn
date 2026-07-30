@@ -1,5 +1,5 @@
 /**
- * 用户书架：书签 / 笔记 / 访问进度 / 刷题错题本（本机持久化，rebuild 不清除）
+ * 用户书架：书签 / 笔记 / 已学 / 足迹 / 刷题错题本（本机持久化，rebuild 不清除）
  */
 import { computed, ref, shallowRef } from 'vue';
 import {
@@ -9,9 +9,11 @@ import {
   loadUserLibrary,
   markWrongMastered,
   putBookmark,
+  putLearned,
   putNote,
   recordQuizAttempt,
   removeBookmark,
+  removeLearned,
   removeWrong,
   touchProgress,
 } from '../utils/user-store.js';
@@ -42,15 +44,20 @@ export function useUserLibrary() {
   const quizWrong = ref(
     /** @type {Record<string, { id: string, questionId: string, addedAt: number, masteredAt?: number | null, streak: number }>} */ ({})
   );
+  const learned = ref(
+    /** @type {Record<string, { id: string, learnedAt: number }>} */ ({})
+  );
 
   const bookmarkedIds = computed(() => bookmarks.value.map((b) => b.id));
   const notedIds = computed(() =>
     Object.keys(notes.value).filter((id) => notes.value[id]?.body?.trim())
   );
   const visitedIds = computed(() => Object.keys(progress.value));
+  const learnedIds = computed(() => Object.keys(learned.value));
   const bookmarkCount = computed(() => bookmarks.value.length);
   const noteCount = computed(() => notedIds.value.length);
   const visitedCount = computed(() => visitedIds.value.length);
+  const learnedCount = computed(() => learnedIds.value.length);
 
   const wrongOpenList = computed(() =>
     Object.values(quizWrong.value)
@@ -90,6 +97,11 @@ export function useUserLibrary() {
       if (w?.id) wmap[w.id] = w;
     }
     quizWrong.value = wmap;
+    const lmap = {};
+    for (const r of snap.learned || []) {
+      if (r?.id) lmap[r.id] = r;
+    }
+    learned.value = lmap;
   }
 
   async function init() {
@@ -112,6 +124,10 @@ export function useUserLibrary() {
 
   function isVisited(id) {
     return Boolean(id && progress.value[id]);
+  }
+
+  function isLearned(id) {
+    return Boolean(id && learned.value[id]);
   }
 
   function noteOf(id) {
@@ -145,6 +161,20 @@ export function useUserLibrary() {
     await ensureReady();
     const row = await touchProgress(id);
     progress.value = { ...progress.value, [id]: row };
+  }
+
+  async function toggleLearned(id) {
+    if (!id) return;
+    await ensureReady();
+    if (isLearned(id)) {
+      await removeLearned(id);
+      const next = { ...learned.value };
+      delete next[id];
+      learned.value = next;
+    } else {
+      const row = await putLearned(id);
+      learned.value = { ...learned.value, [id]: row };
+    }
   }
 
   /**
@@ -197,6 +227,7 @@ export function useUserLibrary() {
       progress: Object.values(progress.value),
       quizAttempts: Object.values(quizAttempts.value),
       quizWrong: Object.values(quizWrong.value),
+      learned: Object.values(learned.value),
     });
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: 'application/json',
@@ -231,12 +262,15 @@ export function useUserLibrary() {
     progress,
     quizAttempts,
     quizWrong,
+    learned,
     bookmarkedIds,
     notedIds,
     visitedIds,
+    learnedIds,
     bookmarkCount,
     noteCount,
     visitedCount,
+    learnedCount,
     wrongOpenList,
     wrongOpenCount,
     wrongOpenIds,
@@ -244,10 +278,12 @@ export function useUserLibrary() {
     init,
     isBookmarked,
     isVisited,
+    isLearned,
     noteOf,
     toggleBookmark,
     saveNote,
     markVisited,
+    toggleLearned,
     recordQuizAnswer,
     masterWrong,
     dropWrong,

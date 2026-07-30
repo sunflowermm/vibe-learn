@@ -20,6 +20,8 @@ const props = defineProps({
    * false：浮层词典——无遮罩、可边看课/刷题边查词
    */
   blocking: { type: Boolean, default: true },
+  /** 浮层定位（left/top/width/height），blocking=false 时生效 */
+  panelStyle: { type: Object, default: null },
 });
 
 const emit = defineEmits(['close', 'update:query']);
@@ -74,6 +76,7 @@ defineExpose({ bodyEl, scrollBodyToTop, searchEl, panelEl });
         role="dialog"
         :aria-modal="blocking ? 'true' : 'false'"
         :aria-labelledby="titleId"
+        :style="!blocking && panelStyle ? panelStyle : undefined"
         tabindex="-1"
       >
         <header class="study-drawer__head">

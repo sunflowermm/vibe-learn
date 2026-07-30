@@ -8,15 +8,16 @@
 
 const DB_NAME = 'vibe-learn-user';
 /** 仅 schema 变更时递增；迁移必须保留旧数据 */
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const BACKUP_KEY = 'vibe-learn-user-backup';
-const EXPORT_VERSION = 2;
+const EXPORT_VERSION = 3;
 
 const STORE_BOOKMARKS = 'bookmarks';
 const STORE_NOTES = 'notes';
 const STORE_PROGRESS = 'progress';
 const STORE_QUIZ_ATTEMPTS = 'quizAttempts';
 const STORE_QUIZ_WRONG = 'quizWrong';
+const STORE_LEARNED = 'learned';
 
 /** @type {Promise<IDBDatabase> | null} */
 let dbPromise = null;
@@ -47,6 +48,9 @@ function openDb() {
       }
       if (!db.objectStoreNames.contains(STORE_QUIZ_WRONG)) {
         db.createObjectStore(STORE_QUIZ_WRONG, { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains(STORE_LEARNED)) {
+        db.createObjectStore(STORE_LEARNED, { keyPath: 'id' });
       }
     };
   });
@@ -113,7 +117,7 @@ function readBackup() {
     const raw = localStorage.getItem(BACKUP_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw);
-    if (!data || (data.version !== 1 && data.version !== EXPORT_VERSION)) return null;
+    if (!data || (data.version !== 1 && data.version !== 2 && data.version !== EXPORT_VERSION)) return null;
     return data;
   } catch {
     return null;
@@ -135,6 +139,7 @@ function emptyLibrary() {
     progress: [],
     quizAttempts: [],
     quizWrong: [],
+    learned: [],
   };
 }
 
@@ -145,16 +150,18 @@ function emptyLibrary() {
  *   progress: Array<{ id: string, visitedAt: number, visitCount: number }>,
  *   quizAttempts: Array<{ id: string, correct: number, wrong: number, lastAt: number, lastWrongChoice?: number }>,
  *   quizWrong: Array<{ id: string, questionId: string, addedAt: number, masteredAt?: number | null, streak: number }>,
+ *   learned: Array<{ id: string, learnedAt: number }>,
  * }>}
  */
 export async function loadUserLibrary() {
   try {
-    const [bookmarks, notes, progress, quizAttempts, quizWrong] = await Promise.all([
+    const [bookmarks, notes, progress, quizAttempts, quizWrong, learned] = await Promise.all([
       idbGetAll(STORE_BOOKMARKS),
       idbGetAll(STORE_NOTES),
       idbGetAll(STORE_PROGRESS),
       idbGetAll(STORE_QUIZ_ATTEMPTS),
       idbGetAll(STORE_QUIZ_WRONG),
+      idbGetAll(STORE_LEARNED),
     ]);
     const snapshot = {
       version: EXPORT_VERSION,
@@ -163,6 +170,7 @@ export async function loadUserLibrary() {
       progress: progress || [],
       quizAttempts: quizAttempts || [],
       quizWrong: quizWrong || [],
+      learned: learned || [],
     };
     writeBackup(snapshot);
     return snapshot;
@@ -175,6 +183,7 @@ export async function loadUserLibrary() {
         progress: backup.progress || [],
         quizAttempts: backup.quizAttempts || [],
         quizWrong: backup.quizWrong || [],
+        learned: backup.learned || [],
       };
     }
     return emptyLibrary();
@@ -243,6 +252,30 @@ export async function touchProgress(id) {
   }
   await mirrorAfterMutation();
   return row;
+}
+
+export async function putLearned(id) {
+  const row = { id, learnedAt: Date.now() };
+  try {
+    const existing = await idbGet(STORE_LEARNED, id);
+    if (existing?.learnedAt) {
+      row.learnedAt = existing.learnedAt;
+    }
+    await idbPut(STORE_LEARNED, row);
+  } catch {
+    /* ignore */
+  }
+  await mirrorAfterMutation();
+  return row;
+}
+
+export async function removeLearned(id) {
+  try {
+    await idbDelete(STORE_LEARNED, id);
+  } catch {
+    /* ignore */
+  }
+  await mirrorAfterMutation();
 }
 
 /**
@@ -360,12 +393,13 @@ export async function clearWrongBook({ onlyMastered = false } = {}) {
 
 async function mirrorAfterMutation() {
   try {
-    const [bookmarks, notes, progress, quizAttempts, quizWrong] = await Promise.all([
+    const [bookmarks, notes, progress, quizAttempts, quizWrong, learned] = await Promise.all([
       idbGetAll(STORE_BOOKMARKS),
       idbGetAll(STORE_NOTES),
       idbGetAll(STORE_PROGRESS),
       idbGetAll(STORE_QUIZ_ATTEMPTS),
       idbGetAll(STORE_QUIZ_WRONG),
+      idbGetAll(STORE_LEARNED),
     ]);
     writeBackup({
       version: EXPORT_VERSION,
@@ -374,6 +408,7 @@ async function mirrorAfterMutation() {
       progress,
       quizAttempts,
       quizWrong,
+      learned,
       mirroredAt: Date.now(),
     });
   } catch {
@@ -382,7 +417,7 @@ async function mirrorAfterMutation() {
 }
 
 /**
- * @param {{ bookmarks?: any[], notes?: any[], progress?: any[], quizAttempts?: any[], quizWrong?: any[] }} data
+ * @param {{ bookmarks?: any[], notes?: any[], progress?: any[], quizAttempts?: any[], quizWrong?: any[], learned?: any[] }} data
  * @param {'merge' | 'replace'} mode
  */
 export async function importUserLibrary(data, mode = 'merge') {
@@ -391,6 +426,7 @@ export async function importUserLibrary(data, mode = 'merge') {
   const progress = Array.isArray(data?.progress) ? data.progress : [];
   const quizAttempts = Array.isArray(data?.quizAttempts) ? data.quizAttempts : [];
   const quizWrong = Array.isArray(data?.quizWrong) ? data.quizWrong : [];
+  const learned = Array.isArray(data?.learned) ? data.learned : [];
 
   if (mode === 'replace') {
     try {
@@ -400,6 +436,7 @@ export async function importUserLibrary(data, mode = 'merge') {
         idbClear(STORE_PROGRESS),
         idbClear(STORE_QUIZ_ATTEMPTS),
         idbClear(STORE_QUIZ_WRONG),
+        idbClear(STORE_LEARNED),
       ]);
     } catch {
       /* ignore */
@@ -499,12 +536,23 @@ export async function importUserLibrary(data, mode = 'merge') {
     }
   }
 
+  const learnedMap = new Map((current.learned || []).map((r) => [r.id, r]));
+  for (const r of learned) {
+    if (!r?.id) continue;
+    const learnedAt = Number(r.learnedAt) || Date.now();
+    const prev = learnedMap.get(r.id);
+    if (!prev || learnedAt < (prev.learnedAt || Infinity)) {
+      learnedMap.set(String(r.id), { id: String(r.id), learnedAt });
+    }
+  }
+
   try {
     for (const row of bmMap.values()) await idbPut(STORE_BOOKMARKS, row);
     for (const row of noteMap.values()) await idbPut(STORE_NOTES, row);
     for (const row of progMap.values()) await idbPut(STORE_PROGRESS, row);
     for (const row of attMap.values()) await idbPut(STORE_QUIZ_ATTEMPTS, row);
     for (const row of wrongMap.values()) await idbPut(STORE_QUIZ_WRONG, row);
+    for (const row of learnedMap.values()) await idbPut(STORE_LEARNED, row);
   } catch {
     /* IDB 失败时仍写备份 */
   }
@@ -516,6 +564,7 @@ export async function importUserLibrary(data, mode = 'merge') {
     progress: [...progMap.values()],
     quizAttempts: [...attMap.values()],
     quizWrong: [...wrongMap.values()],
+    learned: [...learnedMap.values()],
   };
   writeBackup(snapshot);
   return snapshot;
@@ -531,6 +580,7 @@ export function buildExportPayload(library) {
     progress: library.progress || [],
     quizAttempts: library.quizAttempts || [],
     quizWrong: library.quizWrong || [],
+    learned: library.learned || [],
   };
 }
 

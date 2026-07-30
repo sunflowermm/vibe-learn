@@ -1,10 +1,16 @@
 <script setup>
 /**
- * 全局词典：点选后释义钉在列表上方，无需翻到底
+ * 全局词典：浮层跟随悬浮球就近展开；点选后释义钉在列表上方
  */
-import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { GLOSSARY, glossaryCount, searchGlossary } from '../data/glossary.js';
 import { getNodeById, resolveNodes } from '../data/nodes.js';
+import {
+  getFabBox,
+  measurePanelSize,
+  placePanelNearAnchor,
+  subscribeFabBox,
+} from '../composables/useGlossaryFabPos.js';
 import { copyWithButtonFeedback } from '../utils/copy-text.js';
 import StudyDrawerShell from './study/StudyDrawerShell.vue';
 
@@ -14,13 +20,12 @@ const props = defineProps({
   focusId: { type: String, default: '' },
 });
 
-/** 词典默认非遮罩浮层，不挡课内/刷题操作 */
-
 const emit = defineEmits(['close', 'navigate']);
 
 const query = ref('');
 const activeId = ref(null);
 const shell = ref(null);
+const panelStyle = ref(null);
 
 const rows = computed(() => searchGlossary(query.value, { limit: 120 }));
 const active = computed(() => {
@@ -35,20 +40,53 @@ const lede = computed(() => {
   const n = rows.value.length;
   const total = glossaryCount();
   if (!query.value.trim()) {
-    return `${total} 条术语。浮层不挡内容，可边刷题边查。↑↓ 切换，Esc 或悬浮球收起。`;
+    return `${total} 条。跟悬浮球就近展开。↑↓ 切换，Esc 收起。`;
   }
-  return `匹配 ${n} / ${total}。点选钉在上方；可复制释义。`;
+  return `匹配 ${n} / ${total}`;
 });
+
+function layoutPanel() {
+  if (!props.open) {
+    panelStyle.value = null;
+    return;
+  }
+  const { w, h } = measurePanelSize();
+  const p = placePanelNearAnchor(getFabBox(), w, h);
+  panelStyle.value = {
+    left: `${p.x}px`,
+    top: `${p.y}px`,
+    right: 'auto',
+    bottom: 'auto',
+    width: `${w}px`,
+    height: `${h}px`,
+  };
+}
+
+let unsubFab = () => {};
+let resizeTimer = 0;
+
+function onResize() {
+  if (props.open) layoutPanel();
+}
+
+function onResizeDebounced() {
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(onResize, 80);
+}
 
 watch(
   () => [props.open, props.focusId],
   async ([open, focusId]) => {
     if (!open) {
       activeId.value = null;
+      panelStyle.value = null;
       window.removeEventListener('keydown', onDrawerKey);
       return;
     }
     window.addEventListener('keydown', onDrawerKey);
+    layoutPanel();
+    await nextTick();
+    layoutPanel();
     const id = String(focusId || '').trim();
     if (id && GLOSSARY[id]) {
       query.value = '';
@@ -57,8 +95,22 @@ watch(
   }
 );
 
+onMounted(() => {
+  unsubFab = subscribeFabBox(() => {
+    if (props.open) layoutPanel();
+  });
+  window.addEventListener('resize', onResizeDebounced);
+  window.addEventListener('orientationchange', onResizeDebounced);
+  window.visualViewport?.addEventListener('resize', onResizeDebounced);
+});
+
 onUnmounted(() => {
   window.removeEventListener('keydown', onDrawerKey);
+  window.removeEventListener('resize', onResizeDebounced);
+  window.removeEventListener('orientationchange', onResizeDebounced);
+  window.visualViewport?.removeEventListener('resize', onResizeDebounced);
+  window.clearTimeout(resizeTimer);
+  unsubFab();
 });
 
 async function selectTerm(id, { toggle = true } = {}) {
@@ -93,7 +145,6 @@ function onDrawerKey(e) {
   const tag = e.target?.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA') {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-    /* 搜索框也允许方向键切词条 */
   }
   if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
   if (!rows.value.length) return;
@@ -112,6 +163,7 @@ function onDrawerKey(e) {
     ref="shell"
     :open="open"
     :blocking="false"
+    :panel-style="panelStyle"
     title="词典"
     eyebrow="Glossary · 浮层"
     title-id="glossary-drawer-title"

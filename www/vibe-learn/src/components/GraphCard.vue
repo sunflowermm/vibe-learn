@@ -36,7 +36,7 @@ const toneStyle = computed(() => ({
     <div class="card__tag">
       <span>{{ data.tag }}</span>
       <span
-        v-if="data.bookmarked || data.hasNote || data.visited || data.quizCount"
+        v-if="data.bookmarked || data.hasNote || data.visited || data.learned || data.quizCount"
         class="card__marks"
         aria-hidden="true"
       >
@@ -44,12 +44,13 @@ const toneStyle = computed(() => ({
           题{{ data.quizCount > 99 ? '99+' : data.quizCount }}
         </span>
         <svg
-          v-if="data.visited"
-          class="card__mark card__mark--visited"
+          v-if="data.learned"
+          class="card__mark card__mark--learned"
           width="12"
           height="12"
           viewBox="0 0 16 16"
           fill="none"
+          title="已学"
         >
           <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.5" />
           <path
@@ -60,6 +61,11 @@ const toneStyle = computed(() => ({
             stroke-linejoin="round"
           />
         </svg>
+        <span
+          v-else-if="data.visited"
+          class="card__mark card__mark--foot"
+          title="足迹"
+        />
         <svg
           v-if="data.bookmarked"
           class="card__mark card__mark--bm"
@@ -192,8 +198,16 @@ const toneStyle = computed(() => ({
   color: #fde68a;
 }
 
-.card__mark--visited {
+.card__mark--learned {
   color: #a7f3d0;
+}
+
+.card__mark--foot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
 .card__mark--note {
