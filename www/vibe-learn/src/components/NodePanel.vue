@@ -45,6 +45,14 @@ const bookmarked = computed(() =>
 const hasNote = computed(() =>
   props.node?.id ? Boolean(library.noteOf(props.node.id).trim()) : false
 );
+const visited = computed(() =>
+  props.node?.id ? library.isVisited(props.node.id) : false
+);
+const primaryNext = computed(() => nextNodes.value[0] || null);
+
+function chipVisited(id) {
+  return library.isVisited(id);
+}
 
 watch(
   () => props.node?.id,
@@ -67,6 +75,7 @@ function onToggleBookmark() {
         <div class="panel__meta-row">
           <p class="panel__tag">{{ node.tag }}</p>
           <span v-if="hasNote" class="panel__chip-soft">已有笔记</span>
+          <span v-if="visited" class="panel__chip-soft panel__chip-soft--visited">已学过</span>
         </div>
         <h2
           :id="`panel-title-${node.id}`"
@@ -124,6 +133,7 @@ function onToggleBookmark() {
             :key="n.id"
             type="button"
             class="panel__chip"
+            :class="{ 'is-visited': chipVisited(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -136,6 +146,7 @@ function onToggleBookmark() {
             :key="n.id"
             type="button"
             class="panel__chip next"
+            :class="{ 'is-visited': chipVisited(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -148,6 +159,7 @@ function onToggleBookmark() {
             :key="n.id"
             type="button"
             class="panel__chip extend"
+            :class="{ 'is-visited': chipVisited(n.id) }"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -164,6 +176,17 @@ function onToggleBookmark() {
         <LessonShell :config="shellLabConfig" />
       </div>
     </div>
+
+    <footer v-if="primaryNext" class="panel__foot">
+      <button
+        type="button"
+        class="panel__next-cta"
+        @click="emit('navigate', primaryNext.id)"
+      >
+        <span class="panel__next-cta-kicker">下一课</span>
+        <span class="panel__next-cta-label">{{ primaryNext.label }}</span>
+      </button>
+    </footer>
 
     <PanelNotes :node-id="node.id" />
   </div>
@@ -213,6 +236,11 @@ function onToggleBookmark() {
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--signal);
+}
+
+.panel__chip-soft--visited {
+  background: color-mix(in srgb, #34d399 18%, transparent);
+  color: color-mix(in srgb, #34d399 85%, var(--mist));
 }
 
 .panel__title {
@@ -407,6 +435,62 @@ function onToggleBookmark() {
 .panel__chip.extend:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.panel__chip.is-visited::after {
+  content: '✓';
+  margin-left: 0.35rem;
+  font-size: 0.72em;
+  opacity: 0.75;
+}
+
+.panel__foot {
+  flex-shrink: 0;
+  padding: 0.65rem 1.15rem 0.75rem;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
+}
+
+.panel__next-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--amber) 45%, var(--line));
+  background: color-mix(in srgb, var(--amber) 12%, var(--ink-3));
+  color: var(--node-title);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.panel__next-cta:hover {
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 18%, var(--ink-3));
+  transform: translateY(-1px);
+}
+
+.panel__next-cta:active {
+  transform: scale(0.99);
+}
+
+.panel__next-cta-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.panel__next-cta-label {
+  font-size: 0.92rem;
+  font-weight: 650;
 }
 
 .panel__shell-lab {

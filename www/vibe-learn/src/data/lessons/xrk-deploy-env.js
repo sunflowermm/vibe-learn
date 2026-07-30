@@ -353,7 +353,7 @@ node app
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：按 XRK-AGT 部署清单，确认本机/服务器是否具备 Git、Node≥26、pnpm、Redis、出网代理。
 现场：OS=…；仓库路径=…；我粘贴 node -v / pnpm -v / redis-cli ping 的输出如下：…
 约束：只用 pnpm；未确认前不要改 yaml / .env；不要提交密钥；不要改 src/infrastructure。

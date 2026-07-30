@@ -35,7 +35,28 @@ const toneStyle = computed(() => ({
 
     <div class="card__tag">
       <span>{{ data.tag }}</span>
-      <span v-if="data.bookmarked || data.hasNote" class="card__marks" aria-hidden="true">
+      <span
+        v-if="data.bookmarked || data.hasNote || data.visited"
+        class="card__marks"
+        aria-hidden="true"
+      >
+        <svg
+          v-if="data.visited"
+          class="card__mark card__mark--visited"
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="none"
+        >
+          <circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.5" />
+          <path
+            d="M4.8 8.1l2.1 2.1 4.3-4.4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
         <svg
           v-if="data.bookmarked"
           class="card__mark card__mark--bm"
@@ -165,6 +186,10 @@ const toneStyle = computed(() => ({
 
 .card__mark--bm {
   color: #fde68a;
+}
+
+.card__mark--visited {
+  color: #a7f3d0;
 }
 
 .card__mark--note {

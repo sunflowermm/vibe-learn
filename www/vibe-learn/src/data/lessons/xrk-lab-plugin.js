@@ -120,7 +120,7 @@ export default class HelloLab extends PluginBase {
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：在 core/my-lab-Core/plugin/ 写最小 PluginBase 插件，规则 /^#lab$/，回复 lab-ok。
 现场：仓库已能 node app；我选的 core 名=…
 约束：不改 src/；constructor 不建 Map/缓存；无 package.json 时用 #infrastructure/plugins/plugin-base.js；娱乐插件勿加主仓白名单。

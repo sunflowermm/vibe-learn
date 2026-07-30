@@ -21,6 +21,7 @@ import { createApp } from 'vue';
 import LessonShell from '../components/LessonShell.vue';
 import { parseShellSource } from '../labs/shell-engine.js';
 import { SHELL_PRESETS } from '../labs/shell-presets.js';
+import { copyWithButtonFeedback } from './copy-text.js';
 import {
   mountCheck,
   mountDecide,
@@ -186,11 +187,16 @@ function mountTerm(host, model) {
     text: '重播',
     'aria-label': '重新播放终端演示',
   });
+  const copyCmds = el('button', 'vibe-term__replay vibe-term__copy', {
+    type: 'button',
+    text: '复制命令',
+    'aria-label': '复制演示中的输入命令',
+  });
   head.append(dots, title);
   if (model.env) {
     head.append(el('span', 'vibe-term__env', { text: model.env, title: '演示环境（非本机）' }));
   }
-  head.append(replay);
+  head.append(copyCmds, replay);
 
   const screen = el('div', 'vibe-term__screen');
   root.append(head, screen);
@@ -281,6 +287,13 @@ function mountTerm(host, model) {
 
   replay.addEventListener('click', () => {
     playTyped();
+  });
+
+  copyCmds.addEventListener('click', async () => {
+    const lines = model.steps.filter((s) => s.type === 'in').map((s) => s.text);
+    const blob = lines.join('\n');
+    if (!blob.trim()) return;
+    await copyWithButtonFeedback(copyCmds, blob);
   });
 
   // 首屏立刻出结果（对齐 Mermaid）；打字留给「重播」

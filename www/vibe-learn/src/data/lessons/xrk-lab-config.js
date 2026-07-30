@@ -27,7 +27,7 @@ export default `# 实践课 · 配置三同步
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：给独立产品 Core 增加布尔配置 feature.enabled（示例名可改）。
 现场：core 名=…；是独立产品还是 system/工厂=…
 约束：独立产品只动 core/<名>/default/ + commonconfig/ + 消费代码；禁止往 config/default_config/ 塞产品配置。

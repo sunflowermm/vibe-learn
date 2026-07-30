@@ -2,12 +2,14 @@
  * 课文渲染：Markdown + HTML5/SVG 片段 + Mermaid + 交互围栏
  * （term / compare / shell / env / quiz / reveal / check / decide /
  *  match / flip / steps / ports / sort）
+ * 普通代码围栏带复制条；`prompt`/`agent` 或含「目标：…验收：」的无语言块标为 Agent 提问。
  * Mermaid 随 Vite/pnpm 打包，不依赖外网 CDN。
  */
 import { marked } from 'marked';
 import purify from 'dompurify';
 import { normalizeMermaidSource } from './normalize-mermaid.js';
 import { WIDGET_LANGS } from './lesson-widgets.js';
+import { wrapCodeBlockHtml } from './code-copy.js';
 
 const DOMPurify = purify?.sanitize ? purify : purify?.default ?? purify;
 
@@ -33,7 +35,6 @@ export function normalizeEmphasisParens(markdown) {
 }
 
 const renderer = new marked.Renderer();
-const baseCode = renderer.code.bind(renderer);
 
 renderer.code = function code(token) {
   const lang = (token.lang || '').trim().toLowerCase().split(/\s+/)[0] || '';
@@ -54,7 +55,7 @@ renderer.code = function code(token) {
   if (RAW_LANGS.has(lang)) {
     return `<div class="lesson-embed" data-embed="${lang}">${text}</div>`;
   }
-  return baseCode(token);
+  return wrapCodeBlockHtml(lang, escapeHtml(text), text);
 };
 
 marked.setOptions({
@@ -116,6 +117,8 @@ const PURIFY = {
     'data-embed',
     'data-vibe',
     'data-hydrated',
+    'data-copy-kind',
+    'data-code-copy',
     'class',
     'hidden',
     'viewBox',

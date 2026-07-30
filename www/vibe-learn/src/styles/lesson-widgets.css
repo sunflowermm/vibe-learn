@@ -208,6 +208,11 @@
   border-color: color-mix(in srgb, var(--term-accent) 45%, transparent);
 }
 
+.vibe-term__copy.is-copied {
+  color: #86efac;
+  border-color: color-mix(in srgb, #86efac 45%, transparent);
+}
+
 .vibe-term__replay:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);

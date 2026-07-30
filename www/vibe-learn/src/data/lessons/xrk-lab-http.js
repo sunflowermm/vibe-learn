@@ -23,7 +23,7 @@ export default `# 实践课 · 最小 HTTP API
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：在 core/<core>/http/ 加最小接口，用 HttpResponse.success(res, { hello: 'lab' })。
 现场：core 名=…；本地端口=…；是否已有鉴权中间件=…
 约束：勿裸 res.json 混用；普通对象字段拍平到顶层；先给文件骨架与 curl 验收命令，再改文件。

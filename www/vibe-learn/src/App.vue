@@ -56,8 +56,10 @@ const library = useUserLibrary();
 const {
   bookmarkedIds,
   notedIds,
+  visitedIds,
   bookmarkCount,
   noteCount,
+  visitedCount,
 } = library;
 
 const panelWidth = ref(readPanelWidth());
@@ -259,7 +261,9 @@ onUnmounted(() => {
         >
           {{ theme === 'dark' ? '深色' : '浅色' }}
         </button>
-        <div class="topbar-meta">图谱 <strong>{{ countTopics() }}</strong> 个主题</div>
+        <div class="topbar-meta">
+          图谱 <strong>{{ countTopics() }}</strong> · 足迹 <strong>{{ visitedCount }}</strong>
+        </div>
       </div>
     </header>
 
@@ -271,6 +275,7 @@ onUnmounted(() => {
           :focus-nonce="focusNonce"
           :bookmarked-ids="bookmarkedIds"
           :noted-ids="notedIds"
+          :visited-ids="visitedIds"
           @select="selectNode"
           @clear="clearSelection"
         />

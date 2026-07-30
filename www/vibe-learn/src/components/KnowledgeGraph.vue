@@ -23,6 +23,8 @@ const props = defineProps({
   bookmarkedIds: { type: Array, default: () => [] },
   /** 有笔记的节点 id */
   notedIds: { type: Array, default: () => [] },
+  /** 已访问过的节点 id */
+  visitedIds: { type: Array, default: () => [] },
 });
 
 const emit = defineEmits(['select', 'clear']);
@@ -253,16 +255,22 @@ watch(
 );
 
 watch(
-  () => [props.bookmarkedIds, props.notedIds],
+  () => [props.bookmarkedIds, props.notedIds, props.visitedIds],
   () => {
     const bm = new Set(props.bookmarkedIds || []);
     const nt = new Set(props.notedIds || []);
+    const vs = new Set(props.visitedIds || []);
     for (const n of nodes.value) {
       if (n.data?.kind !== 'topic') continue;
       const bookmarked = bm.has(n.id);
       const hasNote = nt.has(n.id);
-      if (n.data.bookmarked !== bookmarked || n.data.hasNote !== hasNote) {
-        n.data = { ...n.data, bookmarked, hasNote };
+      const visited = vs.has(n.id);
+      if (
+        n.data.bookmarked !== bookmarked ||
+        n.data.hasNote !== hasNote ||
+        n.data.visited !== visited
+      ) {
+        n.data = { ...n.data, bookmarked, hasNote, visited };
       }
     }
   },

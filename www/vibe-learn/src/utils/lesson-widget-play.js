@@ -3,6 +3,7 @@
  * env · quiz · reveal · check · decide · match · flip · steps · ports · sort
  * 由 lesson-widgets.js 注册 hydrate。
  */
+import { copyWithButtonFeedback } from './copy-text.js';
 
 function el(tag, className, attrs = {}) {
   const node = document.createElement(tag);
@@ -214,15 +215,10 @@ export function mountEnv(host, model) {
     });
     copyBtn.addEventListener('click', async () => {
       const blob = tab.lines.join('\n');
-      try {
-        await navigator.clipboard.writeText(blob);
-        copyBtn.textContent = '已复制';
-        window.setTimeout(() => {
-          copyBtn.textContent = '复制此环境命令';
-        }, 1200);
-      } catch {
-        copyBtn.textContent = '复制失败 · 请手动选中';
-      }
+      await copyWithButtonFeedback(copyBtn, blob, {
+        okText: '已复制',
+        failText: '复制失败 · 请手动选中',
+      });
     });
     actions.append(copyBtn);
     panel.append(actions);

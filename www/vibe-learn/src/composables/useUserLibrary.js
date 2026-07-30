@@ -31,8 +31,10 @@ export function useUserLibrary() {
   const notedIds = computed(() =>
     Object.keys(notes.value).filter((id) => notes.value[id]?.body?.trim())
   );
+  const visitedIds = computed(() => Object.keys(progress.value));
   const bookmarkCount = computed(() => bookmarks.value.length);
   const noteCount = computed(() => notedIds.value.length);
+  const visitedCount = computed(() => visitedIds.value.length);
 
   let initPromise = null;
 
@@ -68,6 +70,10 @@ export function useUserLibrary() {
 
   function isBookmarked(id) {
     return bookmarks.value.some((b) => b.id === id);
+  }
+
+  function isVisited(id) {
+    return Boolean(id && progress.value[id]);
   }
 
   function noteOf(id) {
@@ -144,10 +150,13 @@ export function useUserLibrary() {
     progress,
     bookmarkedIds,
     notedIds,
+    visitedIds,
     bookmarkCount,
     noteCount,
+    visitedCount,
     init,
     isBookmarked,
+    isVisited,
     noteOf,
     toggleBookmark,
     saveNote,

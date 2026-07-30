@@ -82,7 +82,7 @@ console.log(await res.json())
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：写一段 Node 脚本，用 fetch + AbortSignal.timeout(8000) 请求 https://httpbin.org/get，打印 status 与 JSON 前几字段。
 现场：我在仓库外练习目录即可；Node 版本=…
 约束：不要引入 node-fetch；解释本仓 HttpResponse.success 普通对象为何字段在顶层。

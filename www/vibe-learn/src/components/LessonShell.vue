@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, useId, watch } from 'vue';
 import { createShellSession } from '../labs/shell-engine.js';
+import { copyWithButtonFeedback } from '../utils/copy-text.js';
 
 const props = defineProps({
   /** @type {import('vue').PropType<import('../labs/shell-engine.js').ShellConfig>} */
@@ -223,6 +224,27 @@ async function useHint(cmd) {
   }
 }
 
+/** 右键芯片：复制命令到剪贴板，不自动执行 */
+async function onHintContextMenu(e, cmd) {
+  e.preventDefault();
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  if (!(btn instanceof HTMLButtonElement)) return;
+  await copyWithButtonFeedback(btn, cmd, { okText: '已复制', restoreMs: 900 });
+}
+
+async function copyTranscript(e) {
+  e?.stopPropagation?.();
+  const blob = lines.value.map((l) => l.text).join('\n').trim();
+  if (!blob) return;
+  const btn = e?.currentTarget;
+  await copyWithButtonFeedback(
+    btn instanceof HTMLButtonElement ? btn : null,
+    blob,
+    { okText: '已复制', restoreMs: 1200 }
+  );
+}
+
 function replayAuto() {
   boot({ typed: true });
 }
@@ -280,6 +302,14 @@ onUnmounted(() => {
       <button type="button" class="lesson-shell__btn" @click.stop="replayAuto">
         重播
       </button>
+      <button
+        type="button"
+        class="lesson-shell__btn"
+        title="复制当前屏幕全部输出"
+        @click.stop="copyTranscript"
+      >
+        复制屏
+      </button>
     </header>
 
     <div
@@ -293,7 +323,9 @@ onUnmounted(() => {
         type="button"
         class="lesson-shell__chip"
         :disabled="busy"
+        :title="'单击填入并运行 · 右键复制：' + h"
         @click="useHint(h)"
+        @contextmenu="onHintContextMenu($event, h)"
       >
         {{ h }}
       </button>
@@ -331,7 +363,7 @@ onUnmounted(() => {
     </div>
 
     <p class="lesson-shell__foot">
-      假终端 · 首屏秒出结果 · 「重播」可看打字 · 点芯片练习 · ↑↓ 历史 ·
+      假终端 · 首屏秒出 · 「重播」看打字 · 芯片单击练习 / 右键复制 · 「复制屏」带走输出 · ↑↓ 历史 ·
       <strong>真实操作请用本机终端</strong>
     </p>
   </section>
@@ -529,6 +561,11 @@ onUnmounted(() => {
 .lesson-shell__chip:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.lesson-shell__chip.is-copied {
+  color: #86efac;
+  border-color: color-mix(in srgb, #86efac 50%, transparent);
 }
 
 .lesson-shell__viewport {

@@ -2,6 +2,7 @@
  * 为已渲染的 Mermaid 图包裹缩放/平移壳
  * 控件通过事件委托绑定（见 LessonBody）
  */
+import { copyWithButtonFeedback } from './copy-text.js';
 
 const MIN = 0.5;
 const MAX = 3;
@@ -46,32 +47,11 @@ async function copyMermaidFromFrame(frame) {
   const svg = frame.querySelector('.mermaid svg, pre.mermaid svg');
   const text = source.trim() || (svg ? svg.outerHTML : '');
   if (!text) return;
-
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.cssText = 'position:fixed;left:-9999px;top:0';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-    } finally {
-      ta.remove();
-    }
-  }
-
-  if (btn) {
-    const prev = btn.textContent;
-    btn.textContent = '已复制';
-    btn.classList.add('is-copied');
-    window.setTimeout(() => {
-      btn.textContent = prev || '复制';
-      btn.classList.remove('is-copied');
-    }, 1200);
-  }
+  await copyWithButtonFeedback(
+    btn instanceof HTMLButtonElement ? btn : null,
+    text,
+    { okText: '已复制' }
+  );
 }
 
 /**

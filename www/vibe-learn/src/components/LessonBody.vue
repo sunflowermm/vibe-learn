@@ -4,6 +4,7 @@ import { renderLesson } from '../utils/lesson-render.js';
 import { hydrateLessonWidgets } from '../utils/lesson-widgets.js';
 import { renderMermaidIn } from '../composables/useMermaid.js';
 import { bindMermaidZoomInteractions } from '../utils/mermaid-zoom.js';
+import { bindCodeCopyButtons } from '../utils/code-copy.js';
 import '../styles/lesson-md.css';
 import '../styles/lesson-widgets.css';
 
@@ -22,6 +23,7 @@ const html = computed(() => renderLesson(props.markdown));
 const bodyKey = computed(() => `${themeTick.value}:${props.markdown.length}`);
 
 let unbindZoom = () => {};
+let unbindCopy = () => {};
 let disposeWidgets = () => {};
 let disposeReveal = () => {};
 /** @type {MutationObserver | null} */
@@ -32,7 +34,9 @@ function revealLessonBlocks() {
   if (!root) return () => {};
   const reduced =
     typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const targets = [...root.querySelectorAll('h2, h3, table, .vibe-widget, pre.mermaid, .mermaid')];
+  const targets = [
+    ...root.querySelectorAll('h2, h3, table, .vibe-widget, .md-code, pre.mermaid, .mermaid'),
+  ];
   if (!targets.length) return () => {};
   if (reduced) {
     for (const t of targets) t.classList.add('lesson-reveal');
@@ -70,7 +74,10 @@ watch([() => props.markdown, themeTick], paintDiagrams, { flush: 'post' });
 
 onMounted(() => {
   paintDiagrams();
-  if (hostEl.value) unbindZoom = bindMermaidZoomInteractions(hostEl.value);
+  if (hostEl.value) {
+    unbindZoom = bindMermaidZoomInteractions(hostEl.value);
+    unbindCopy = bindCodeCopyButtons(hostEl.value);
+  }
 
   themeMo = new MutationObserver(() => {
     themeTick.value += 1;
@@ -84,6 +91,7 @@ onMounted(() => {
 onUnmounted(() => {
   themeMo?.disconnect();
   unbindZoom();
+  unbindCopy();
   disposeWidgets();
   disposeReveal();
 });

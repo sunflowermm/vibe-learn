@@ -80,7 +80,7 @@ git push -u origin my-branch
 
 可复制：
 
-\`\`\`
+\`\`\`prompt
 目标：帮我整理当前改动准备开 PR（不要替我 push --force）。
 现场：git status / git diff 输出如下：…；目标分支=main；意图=…
 约束：不要 amend 已推送提交；不要提交 .env/密钥；提交说明写 why；冲突处列出选项让我选。
