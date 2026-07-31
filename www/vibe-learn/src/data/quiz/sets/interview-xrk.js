@@ -1,6 +1,8 @@
 import { defineQuizSet } from '../schema.js';
 
-/** 面试开口：少而硬 */
+/**
+ * 面试开口：讲清权衡与产品落位（定义细节见 concept-xrk-*）。
+ */
 export default defineQuizSet({
   id: 'interview-xrk-arch',
   title: '大厂 / 项目 · XRK 架构开口',
@@ -8,139 +10,139 @@ export default defineQuizSet({
   domain: 'xrk',
   tags: ['架构', '开口'],
   relatedNodes: ['xrk-biz-map', 'xrk-plugin-arch'],
-  caption: '分层、卖 API、工具面、配置——能讲清。',
+  caption: '分层边界、卖 API、工具面、配置纪律——开口能讲 why。',
   questions: [
     {
       id: 'interview-xrk-arch:pitch',
-      q: '一句话介绍 XRK-AGT？',
+      q: '面试官问「你们这套 Runtime 解决什么」时，怎么开口？',
       choices: [
         {
-          t: '多端 Agent Runtime：插件/HTTP/工作流/Tasker/配置等扩展点',
+          t: '多端消息进同一套扩展点（plugin/HTTP/工作流/Tasker/配置），业务按 Core 插拔，不必为每个通道重写底座',
           ok: true,
-          why: '底座 + 扩展点。',
+          why: '强调扩展点与通道解耦，而不是背文件名。',
         },
         {
-          t: '纯前端框架',
+          t: '就是一个纯前端脚手架，没有服务端',
           ok: false,
           why: '核心是 Node Runtime。',
         },
         {
-          t: '必须绑某云才能启动',
+          t: '必须绑某一朵云才能启动',
           ok: false,
-          why: '本机可开发。',
+          why: '本机可开发；云只是部署选项。',
         },
         {
-          t: '禁止第三方 Core',
+          t: '禁止第三方产品 Core',
           ok: false,
-          why: 'Loader 扫各 Core。',
+          why: 'Loader 扫各 Core；产品各自落地。',
         },
       ],
       relatedNodes: ['xrk-biz-map', 'xrk-overview'],
     },
     {
       id: 'interview-xrk-arch:api-product',
-      q: '怎么在这套框架上卖 AI API？',
+      q: '「在这套框架上卖 AI API」你会怎么分层讲？',
       choices: [
         {
-          t: '工厂配模型 → Core http 暴露并鉴权 → 计量计费在产品 Core',
+          t: '工厂出模型客户端 → Core http 鉴权暴露 → 计量/配额/账单在产品 Core，不改 Runtime 硬塞计费',
           ok: true,
-          why: '基建与产品分层。',
+          why: '基建与产品边界：面试要听清钱与权限落在哪一层。',
         },
         {
-          t: '计费写进 src/factory',
+          t: '计费与客户密钥写进 src/factory',
           ok: false,
-          why: '业务进 Core。',
+          why: '工厂只管客户端；业务进 Core。',
         },
         {
-          t: '只提供 QQ 指令当 API',
+          t: '只提供 QQ 指令，就算对外开放 API',
           ok: false,
-          why: '机器集成走 HTTP。',
+          why: '机器集成走 HTTP；指令通道是另一面。',
         },
         {
-          t: '密钥放前端按次扣费',
+          t: '密钥放前端，按次在浏览器扣费',
           ok: false,
-          why: '必须服务端。',
+          why: '密钥与计费必须服务端。',
         },
       ],
-      relatedNodes: ['xrk-factory-llm', 'xrk-http-www', 'xrk-http-auth'],
+      relatedNodes: ['xrk-factory-llm', 'xrk-http-auth', 'xrk-http-www'],
     },
     {
-      id: 'interview-xrk-arch:www',
-      q: '产品前端在本仓怎么讲？',
+      id: 'interview-xrk-arch:boundary',
+      q: '同事想「为了快，直接改 src/infrastructure」——你怎么挡？',
       choices: [
         {
-          t: 'www/<应用>/ 挂载；静态或 Vite 产物/反代均可；解包遵守 HttpResponse；兼容层产品内联',
+          t: '业务放 core/；缺能力先扩基类/提框架改动，禁止产品 PR 顺手改 Runtime',
           ok: true,
-          why: '不绑死框架品牌；约束目录与契约。',
+          why: '分层纪律：快一时、审与升级时还债。',
         },
         {
-          t: '只允许某一个官方 SPA 框架',
+          t: '同意改，反正热更新能救',
           ok: false,
-          why: '挂载不审框架名。',
+          why: '热更不解决归属与升级冲突。',
         },
         {
-          t: '前端必须改 Runtime 才能挂',
+          t: '所有产品配置都塞进 default_config/',
           ok: false,
-          why: '放对 www 即可。',
+          why: '独立产品模板在 core/<名>/default/。',
         },
         {
-          t: '页面占用 shared 根名更短更好',
+          t: '让他改浏览器 localStorage 代替配置系统',
           ok: false,
-          why: '保留段。',
+          why: '服务端配置与面板不在浏览器。',
         },
       ],
-      relatedNodes: ['xrk-http-www'],
+      relatedNodes: ['xrk-core-layout', 'xrk-runtime', 'xrk-config'],
     },
     {
       id: 'interview-xrk-arch:tools',
-      q: '给模型用的工具怎么讲？',
+      q: '开口讲「模型工具面」时要强调什么？',
       choices: [
         {
-          t: 'MCP/工作流真调用；工厂只出客户端；禁止假调用',
+          t: 'MCP/工作流真调用；工厂只出客户端；禁止 prompt 里假装已调工具',
           ok: true,
-          why: '工具面与模型面正交。',
+          why: '工具面与模型面正交；假 ReAct 过不了审。',
         },
         {
-          t: '工具写进 LLM Factory 源码',
+          t: '工具全部写进 LLM Factory 源码',
           ok: false,
           why: '工厂不管工具目录。',
         },
         {
-          t: '有 Factory 就自动有全部外部工具',
+          t: '有 Factory 就自动拥有全部外部工具',
           ok: false,
-          why: '要挂 MCP 等。',
+          why: '还要挂载 MCP / 注册工具。',
         },
         {
-          t: '工具只能放浏览器扩展',
+          t: '工具只能放浏览器扩展里执行',
           ok: false,
           why: '主服工具环是正路。',
         },
       ],
-      relatedNodes: ['xrk-mcp-ops', 'xrk-factory-llm'],
+      relatedNodes: ['xrk-mcp-ops', 'xrk-factory-llm', 'xrk-stream'],
     },
     {
       id: 'interview-xrk-arch:trisync',
-      q: '配置三同步解决什么？',
+      q: '为什么强调配置「三同步」，而不是只改一份 data yaml？',
       choices: [
         {
-          t: '模板可引导、schema 可校验、代码真消费——避免改了不生效',
+          t: '模板可引导新环境、schema 可校验、代码真消费——任一环缺就「改了不生效」',
           ok: true,
-          why: 'Config-as-code 纪律。',
+          why: 'Config-as-code 纪律；面试官听的是可运维性。',
         },
         {
-          t: '一天提交三次',
+          t: '指一天必须提交三次',
           ok: false,
-          why: '指三处工程同步。',
+          why: '指模板 / schema / 消费代码三处。',
         },
         {
-          t: '只改 data yaml 永远够',
+          t: '只改 data yaml 在任何新 clone 上都够',
           ok: false,
-          why: '新环境会翻车。',
+          why: '新环境缺模板与 schema 会翻车。',
         },
         {
-          t: '密钥写进默认模板',
+          t: '把密钥写进默认模板最省事',
           ok: false,
-          why: '禁止。',
+          why: '密钥禁止进仓。',
         },
       ],
       relatedNodes: ['xrk-config', 'xrk-lab-config'],

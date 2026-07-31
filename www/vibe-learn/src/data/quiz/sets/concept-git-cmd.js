@@ -279,7 +279,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-git-cmd:branch",
-    "q": "列出本地分支？",
+    "q": "Git 列出本地分支用？",
     "choices": [
       {
         "t": "git branch",
@@ -413,7 +413,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-git-cmd:log",
-    "q": "查看提交历史？",
+    "q": "Git 查看提交历史用？",
     "choices": [
       {
         "t": "git log（常用 --oneline）",

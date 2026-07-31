@@ -45,7 +45,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-shell-op:redir_out",
-    "q": "覆盖写入文件？",
+    "q": "Shell 里覆盖写入文件用？",
     "choices": [
       {
         "t": "cmd > file",
@@ -78,7 +78,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-shell-op:redir_append",
-    "q": "追加写入文件？",
+    "q": "Shell 里追加写入文件用？",
     "choices": [
       {
         "t": "cmd >> file",

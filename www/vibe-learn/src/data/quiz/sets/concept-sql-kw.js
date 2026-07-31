@@ -44,7 +44,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:insert",
-    "q": "插入新行？",
+    "q": "SQL 插入新行用？",
     "choices": [
       {
         "t": "INSERT INTO … VALUES …",
@@ -77,7 +77,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:update",
-    "q": "更新已有行？",
+    "q": "SQL 更新已有行用？",
     "choices": [
       {
         "t": "UPDATE … SET … WHERE …",
@@ -110,7 +110,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:delete",
-    "q": "删除行？",
+    "q": "SQL 删除行用？",
     "choices": [
       {
         "t": "DELETE FROM … WHERE …",
@@ -176,7 +176,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:join",
-    "q": "两表按键关联？",
+    "q": "SQL 两表按键关联用？",
     "choices": [
       {
         "t": "JOIN … ON …",
@@ -209,7 +209,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:order_by",
-    "q": "对结果排序？",
+    "q": "SQL 对结果排序用？",
     "choices": [
       {
         "t": "ORDER BY …",
@@ -242,7 +242,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:limit",
-    "q": "限制返回行数？",
+    "q": "SQL 限制返回行数用？",
     "choices": [
       {
         "t": "LIMIT n",
@@ -275,7 +275,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:create_table",
-    "q": "新建表结构？",
+    "q": "SQL 新建表结构用？",
     "choices": [
       {
         "t": "CREATE TABLE …",
@@ -341,7 +341,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:begin",
-    "q": "开启事务？",
+    "q": "SQL 开启事务用？",
     "choices": [
       {
         "t": "BEGIN（或 START TRANSACTION）",
@@ -374,7 +374,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-sql-kw:commit",
-    "q": "提交事务？",
+    "q": "SQL 提交事务用？",
     "choices": [
       {
         "t": "COMMIT",

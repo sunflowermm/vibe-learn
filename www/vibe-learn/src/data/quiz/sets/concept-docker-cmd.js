@@ -110,7 +110,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-docker-cmd:logs",
-    "q": "看容器日志？",
+    "q": "Docker 看容器日志用？",
     "choices": [
       {
         "t": "docker logs <container>（-f 跟踪）",
@@ -210,7 +210,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-docker-cmd:images",
-    "q": "列出本机镜像？",
+    "q": "Docker 列出本机镜像用？",
     "choices": [
       {
         "t": "docker images",

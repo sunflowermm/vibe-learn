@@ -82,7 +82,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-linux-cmd:cd",
-    "q": "回到上级目录？",
+    "q": "Shell 回到上级目录用？",
     "choices": [
       {
         "t": "cd ..",
@@ -292,7 +292,7 @@ export default defineQuizSet({
   },
   {
     "id": "concept-linux-cmd:cp",
-    "q": "递归复制目录？",
+    "q": "Shell 递归复制目录用？",
     "choices": [
       {
         "t": "cp -r src/ dest/",

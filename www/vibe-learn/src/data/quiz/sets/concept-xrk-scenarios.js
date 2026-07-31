@@ -38,7 +38,7 @@ export default defineQuizSet({
           why: 'Loader 扫 core/*/http 即可。',
         },
       ],
-      relatedNodes: ['xrk-factory-llm', 'xrk-http-www', 'xrk-http-auth', 'xrk-biz-map'],
+      relatedNodes: ['xrk-factory-llm', 'xrk-http-auth'],
     },
     {
       id: 'concept-xrk-scenarios:where-config-ai',
@@ -92,7 +92,7 @@ export default defineQuizSet({
           why: '工具环在主服工作流。',
         },
       ],
-      relatedNodes: ['xrk-mcp-ops', 'xrk-factory-llm', 'xrk-stream', 'xrk-subserver'],
+      relatedNodes: ['xrk-mcp-ops', 'xrk-stream'],
     },
     {
       id: 'concept-xrk-scenarios:dir-map',
