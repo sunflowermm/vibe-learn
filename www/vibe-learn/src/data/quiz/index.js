@@ -39,6 +39,7 @@ import conceptAiAgentStack from './sets/concept-ai-agent-stack.js';
 import conceptCraftQuality from './sets/concept-craft-quality.js';
 import conceptGit from './sets/concept-git-security.js';
 import conceptDsaStructures from './sets/concept-dsa-structures.js';
+import conceptDsaScenarios from './sets/concept-dsa-scenarios.js';
 import conceptDsaLinearKw from './sets/concept-dsa-linear-kw.js';
 import conceptDsaBigO from './sets/concept-dsa-big-o.js';
 import conceptDsaHashKw from './sets/concept-dsa-hash-kw.js';
@@ -179,6 +180,7 @@ const REGISTRY = [
   conceptTroubleshootCli,
   interviewCraft,
   conceptDsaStructures,
+  conceptDsaScenarios,
   conceptDsaLinearKw,
   conceptDsaBigO,
   conceptDsaHashKw,

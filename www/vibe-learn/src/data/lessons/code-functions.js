@@ -48,8 +48,27 @@ const doubled = nums.map((n) => n * 2) // map 接收函数
 
 「函数当值传递」= 高阶函数的日常形态；下一课数组方法会大量用到。
 
+## 闭包（面试开口）
+
+**闭包** = 函数能访问**定义时**外层作用域里的变量。  
+常见用途：封装私有状态、工厂函数、回调里「带着」当时的配置。
+
+\`\`\`javascript
+function makeCounter() {
+  let n = 0
+  return () => {
+    n += 1
+    return n
+  }
+}
+const next = makeCounter()
+console.log(next(), next()) // 1 2；n 被闭包保住
+\`\`\`
+
+口述：定义 + 用途；追问时提「别无意间闭包住大对象导致难回收」。
+
 \`\`\`quiz
-{"title":"函数","questions":[{"q":"函数没有 return 时，调用结果通常是？","choices":[{"t":"0","ok":false,"why":"不是默认数字。"},{"t":"undefined","ok":true,"why":"没有交回值。"},{"t":"报错必崩","ok":false,"why":"可以没有 return。"}]},{"q":"本仓插件 run(e) 更像？","choices":[{"t":"无参数的打印脚本","ok":false,"why":"接收事件上下文。"},{"t":"收上下文、做事、可异步返回","ok":true,"why":"参数→过程→（可选）结果。"},{"t":"只能同步不能 async","ok":false,"why":"常用 async。"}]}]}
+{"title":"函数","questions":[{"q":"函数没有 return 时，调用结果通常是？","choices":[{"t":"0","ok":false,"why":"不是默认数字。"},{"t":"undefined","ok":true,"why":"没有交回值。"},{"t":"报错必崩","ok":false,"why":"可以没有 return。"}]},{"q":"闭包更贴切的说法？","choices":[{"t":"把代码压成一行","ok":false,"why":"那是压缩/混淆。"},{"t":"函数能访问定义时外层作用域的变量","ok":true,"why":"标准定义。"},{"t":"只存在于 TypeScript","ok":false,"why":"JS 本身就有。"}]},{"q":"本仓插件 run(e) 更像？","choices":[{"t":"无参数的打印脚本","ok":false,"why":"接收事件上下文。"},{"t":"收上下文、做事、可异步返回","ok":true,"why":"参数→过程→（可选）结果。"},{"t":"只能同步不能 async","ok":false,"why":"常用 async。"}]}]}
 \`\`\`
 
 ## 接到本仓
