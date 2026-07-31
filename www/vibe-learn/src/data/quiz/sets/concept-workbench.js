@@ -1,168 +1,149 @@
 import { defineQuizSet } from '../schema.js';
 
+/** 工作台：编辑器、目录、dotfiles；Git 深流见 git-cli */
 export default defineQuizSet({
   id: 'concept-workbench',
-  title: '概念 · 工作台、Git 协作与进阶',
+  title: '概念 · 工作台与本机目录',
   kind: 'concept',
   domain: 'craft',
-  tags: ['编辑器', 'Git', '工作区'],
-  relatedNodes: [
-    'workbench-editor',
-    'workbench-troubleshoot',
-    'git-workspace',
-    'git-forges',
-    'git-advanced',
-  ],
+  tags: ['编辑器', '工作区', 'dotfiles'],
+  relatedNodes: ['workbench-editor', 'workbench-troubleshoot', 'fs-dotfiles'],
+  caption: '编辑器是主战场；认清目录与点文件；排障命令见 troubleshoot-cli。',
   questions: [
     {
-      q: '代码编辑器（如 VS Code、Cursor）作为「工作台」的核心价值是什么？',
+      id: 'concept-workbench:editor',
+      q: '代码编辑器（如 VS Code、Cursor）作为「工作台」的核心价值？',
       choices: [
         {
           t: '集中完成编辑文件、查看差异、运行任务等日常开发操作',
           ok: true,
-          why: '编辑器是开发者停留时间最长的工具，把读写代码和调试串在同一界面。',
+          why: '停留时间最长的工具，把读写与调试串在同一界面。',
         },
         {
-          t: '替代操作系统内核，直接管理 CPU 和内存分配',
+          t: '替代操作系统内核，直接管理 CPU 和内存',
           ok: false,
-          why: '编辑器是用户态应用，硬件调度仍由操作系统负责。',
+          why: '编辑器是用户态应用，调度仍由 OS 负责。',
         },
         {
-          t: '自动把代码部署到生产服务器，完全不需要人工确认',
+          t: '自动把代码部署到生产且完全不需确认',
           ok: false,
-          why: '部署通常需要 CI/CD 或手动流程，编辑器本身不会自动上线。',
+          why: '部署通常要 CI/CD 或人工流程。',
         },
         {
-          t: '只能阅读代码，不允许修改或保存任何文件',
+          t: '只能阅读代码，不允许修改或保存',
           ok: false,
-          why: '编辑器的核心功能就是修改和保存代码，只读模式只是特殊场景。',
+          why: '核心就是修改与保存；只读只是特例。',
         },
       ],
+      relatedNodes: ['workbench-editor'],
     },
     {
-      q: 'Git 中「工作区」里的修改，与「已提交到仓库」的内容是什么关系？',
+      id: 'concept-workbench:three-areas',
+      q: 'Git「工作区」改动与「已提交」内容的关系（工作台直觉）？',
       choices: [
         {
-          t: '工作区和暂存区可以有未提交改动；git commit 后才进入版本历史',
+          t: '工作区/暂存区可以有未提交改动；commit 后才进入版本历史',
           ok: true,
-          why: '理解三区模型（工作区→暂存区→仓库）是正确使用 Git 的基础。',
+          why: '三区模型是基础；命令细节见 git-cli / git-cmd。',
         },
         {
-          t: '每次保存文件都会立刻不可逆地覆盖远程仓库历史',
+          t: '每次保存文件都会立刻不可逆覆盖远程历史',
           ok: false,
-          why: '保存只是写入本地工作区，必须 add 和 commit 才会进入 Git 历史。',
+          why: '保存只写本地磁盘；要 add/commit/push 才进远程。',
         },
         {
-          t: 'Git 不保存任何历史，只保留当前最新一份文件',
+          t: 'Git 不保存历史，只保留当前最新一份',
           ok: false,
-          why: 'Git 的核心就是记录每次提交的快照，可以随时回溯历史版本。',
+          why: '核心就是提交快照与历史。',
         },
         {
-          t: '工作区的改动会自动同步到所有同事的电脑，无需 push',
+          t: '工作区改动会自动同步到所有同事电脑，无需 push',
           ok: false,
-          why: '本地修改只有 commit 并 push 到远程后，他人才可以通过 pull 获取。',
+          why: '必须 push 后他人才能 pull。',
         },
       ],
+      relatedNodes: ['git-workspace', 'workbench-editor'],
     },
     {
-      q: 'GitHub、GitLab 等代码托管平台主要提供什么能力？',
+      id: 'concept-workbench:dirs',
+      q: '学习「本机目录地图」对日常开发的帮助？',
       choices: [
         {
-          t: '远程仓库存储、Pull Request 代码审查和 Issue 协作跟踪',
+          t: '知道项目源码、配置与运行时数据各自放在哪个目录',
           ok: true,
-          why: '托管平台让团队共享代码、讨论改动并追踪任务，是在线协作的基础设施。',
-        },
-        {
-          t: '本机 CPU 的驱动程序下载与安装服务',
-          ok: false,
-          why: '硬件驱动由操作系统或硬件厂商提供，与代码托管无关。',
-        },
-        {
-          t: 'TLS 加密证书的唯一签发机构',
-          ok: false,
-          why: '证书由证书颁发机构（CA）签发，GitHub 等平台不提供此服务。',
-        },
-        {
-          t: '替代本地 Git，所有 commit 必须在线网页上逐行输入',
-          ok: false,
-          why: '托管平台存储远程仓库，日常 commit 仍在本地通过 Git 命令完成。',
-        },
-      ],
-    },
-    {
-      q: '使用 Git 分支（Branch）和 Pull Request（PR）协作的直觉是什么？',
-      choices: [
-        {
-          t: '在独立分支上隔离改动，经审查后再合并进主线',
-          ok: true,
-          why: '分支让多人并行开发互不干扰，PR 提供代码审查与讨论入口。',
-        },
-        {
-          t: '所有人必须同时修改同一个分支上的同一文件，禁止审查',
-          ok: false,
-          why: '这种做法极易产生冲突，正是分支和 PR 机制要避免的。',
-        },
-        {
-          t: 'Git 禁止使用分支，所有改动必须直接提交到 main',
-          ok: false,
-          why: '分支是 Git 的核心功能，被广泛用于功能开发和 bug 修复。',
-        },
-        {
-          t: 'PR 合并后原分支上的所有 commit 会自动从历史上消失',
-          ok: false,
-          why: '合并后 commit 历史通常保留，只是分支指针可能不再指向最新主线。',
-        },
-      ],
-    },
-    {
-      q: '学习「本机目录地图」课程，对日常开发有什么帮助？',
-      choices: [
-        {
-          t: '知道项目源码、配置文件和运行时数据各自放在哪个目录',
-          ok: true,
-          why: '清楚目录分工能快速定位要改的文件，避免误改配置或数据。',
+          why: '快速定位要改的文件，避免误改配置或数据。',
         },
         {
           t: '要求背诵全世界所有电脑上的绝对路径',
           ok: false,
-          why: '只需理解自己项目的目录约定，不必记忆无关路径。',
+          why: '只需理解本项目约定。',
         },
         {
-          t: '禁止使用相对路径，所有引用必须写绝对路径',
+          t: '禁止使用相对路径',
           ok: false,
-          why: '相对路径在项目中更便携，很多工具和配置都依赖相对引用。',
+          why: '相对路径更便携，工具常依赖它。',
         },
         {
-          t: '所有文件必须放在桌面根目录，不能有子文件夹',
+          t: '所有文件必须放在桌面根目录',
           ok: false,
-          why: '项目通常有层次化的目录结构，子文件夹是正常且必要的组织方式。',
+          why: '层次化目录是正常组织方式。',
         },
       ],
+      relatedNodes: ['workbench-editor', 'fs-layout'],
     },
     {
-      q: '「点文件（dotfiles）」通常包含哪些内容？',
+      id: 'concept-workbench:dotfiles',
+      q: '「点文件（dotfiles）」通常包含？',
       choices: [
         {
           t: 'Shell 配置、编辑器设置等以点开头的隐藏配置文件',
           ok: true,
-          why: '如 .bashrc、.gitconfig 等点文件保存个人工具偏好，方便迁移和备份。',
+          why: '如 .bashrc、.gitconfig；方便迁移个人环境。',
         },
         {
-          t: '必须是 PNG 或 JPG 格式的图片素材',
+          t: '必须是 PNG/JPG 图片素材',
           ok: false,
-          why: '点文件是文本配置文件，不是图片资源。',
+          why: '点文件通常是文本配置。',
         },
         {
-          t: '操作系统内核源码存放的唯一位置',
+          t: '操作系统内核源码的唯一位置',
           ok: false,
-          why: '内核源码有专门的目录结构，与用户的 dotfiles 无关。',
+          why: '与用户家目录配置无关。',
         },
         {
-          t: '只能由 root 用户创建，普通开发者无法拥有',
+          t: '只能由 root 创建，普通开发者无法拥有',
           ok: false,
-          why: '每个用户的家目录下都可以有自己的点文件来配置个人环境。',
+          why: '每个用户家目录都可以有自己的点文件。',
         },
       ],
+      relatedNodes: ['fs-dotfiles'],
+    },
+    {
+      id: 'concept-workbench:accept',
+      q: '在 Cursor 等工作台用 Agent 改代码时，Accept 前更应？',
+      choices: [
+        {
+          t: '看 diff、确认未越界改 Runtime/密钥，并本机跑通相关路径',
+          ok: true,
+          why: '工作台价值是加速，不是免审；与 vibe 课一致。',
+        },
+        {
+          t: '无脑全盘 Accept',
+          ok: false,
+          why: '易引入越界改动。',
+        },
+        {
+          t: '先把密钥写进仓库方便 Agent',
+          ok: false,
+          why: '密钥禁止进仓；应走环境变量或 Secrets。',
+        },
+        {
+          t: '只看语气是否友好',
+          ok: false,
+          why: '看行为与可运行结果。',
+        },
+      ],
+      relatedNodes: ['workbench-editor', 'adev-vibe-coding'],
     },
   ],
 });

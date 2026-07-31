@@ -285,7 +285,7 @@ export function domainPoolMeta(domain) {
     domain,
     tags: ['静态池'],
     relatedNodes: [],
-    caption: `本领域专题 ${qs.length} 题（不含名词）`,
+    caption: `本章共 ${qs.length} 题（不含名词）`,
     questionCount: qs.length,
     questions: qs,
   };

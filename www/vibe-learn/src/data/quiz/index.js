@@ -37,7 +37,7 @@ import conceptAiLlm from './sets/concept-ai-llm.js';
 import conceptAiRag from './sets/concept-ai-rag.js';
 import conceptAiAgentStack from './sets/concept-ai-agent-stack.js';
 import conceptCraftQuality from './sets/concept-craft-quality.js';
-import conceptGit from './sets/concept-git.js';
+import conceptGit from './sets/concept-git-security.js';
 import conceptDsaStructures from './sets/concept-dsa-structures.js';
 import conceptDsaLinearKw from './sets/concept-dsa-linear-kw.js';
 import conceptDsaBigO from './sets/concept-dsa-big-o.js';
@@ -47,6 +47,7 @@ import conceptDsaSortKw from './sets/concept-dsa-sort-kw.js';
 import conceptDsaGraphKw from './sets/concept-dsa-graph-kw.js';
 import conceptDbOps from './sets/concept-db-ops.js';
 import conceptContainer from './sets/concept-container.js';
+import conceptContainerScenarios from './sets/concept-container-scenarios.js';
 import conceptPanel from './sets/concept-panel.js';
 import conceptClash from './sets/concept-clash.js';
 import conceptEsp from './sets/concept-esp.js';
@@ -193,6 +194,7 @@ const REGISTRY = [
   conceptEngDataConsistency,
   interviewOsDb,
   conceptContainer,
+  conceptContainerScenarios,
   conceptDockerCli,
   conceptDockerCmd,
   conceptComposeKw,

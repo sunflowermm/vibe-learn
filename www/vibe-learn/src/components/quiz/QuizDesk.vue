@@ -17,6 +17,7 @@ import {
   quizQuestionCount,
   quizTopicQuestionCount,
   glossaryPoolMeta,
+  domainPoolMeta,
 } from '../../data/quiz/bank.js';
 import { getQuizCardById } from '../../data/quiz/graph.js';
 import { getNodeById, resolveNodes } from '../../data/nodes.js';
@@ -99,11 +100,14 @@ const trackMeta = computed(() => {
         badge: '名词释义',
         tip: '词典四选一，作答后揭晓名词',
       };
-    case 'domain':
+    case 'domain': {
+      const dom = props.activeSetId?.replace(/^pool-/, '') || '';
+      const n = dom ? domainPoolMeta(dom).questionCount : 0;
       return {
-        badge: '领域综合',
-        tip: '本领域专题随机，不含名词',
+        badge: '本章综合',
+        tip: n ? `本章共 ${n} 题 · 不含名词 · 下方可改本局题数` : '本领域专题随机，不含名词',
       };
+    }
     case 'topic':
       return {
         badge: '专题题组',
@@ -217,6 +221,7 @@ function rebuildSession() {
 
   if (props.activeSetId?.startsWith('pool-')) {
     const dom = props.activeSetId.replace(/^pool-/, '');
+    const chapterN = domainPoolMeta(dom).questionCount;
     const qs = pickRandom({
       n: randomN.value,
       domain: dom,
@@ -225,7 +230,7 @@ function rebuildSession() {
     });
     activeQuestions.value = prepareSession(qs);
     sessionTitle.value = `${domainMeta(dom).label} · 综合池`;
-    sessionCaption.value = `${qs.length} 题 · 本领域专题`;
+    sessionCaption.value = `本章共 ${chapterN} 题 · 本局 ${qs.length} 题`;
     sessionKey.value += 1;
     return;
   }
@@ -319,14 +324,18 @@ function drillWrong() {
 <template>
   <div class="quiz-desk" role="article" aria-labelledby="quiz-desk-title">
     <header class="quiz-desk__head">
-      <p class="quiz-desk__eyebrow">Question desk</p>
-      <h2 id="quiz-desk-title" class="quiz-desk__title">刷题台</h2>
-      <p class="quiz-desk__lede">
-        专题 <strong>{{ topicCount }}</strong>
-        · 名词 <strong>{{ glossaryCount }}</strong>
-        · 错题 <strong>{{ wrongOpenCount }}</strong>
-        · 今日 <strong>{{ todayAnswerCount }}</strong>
-      </p>
+      <div class="quiz-desk__head-row">
+        <div class="quiz-desk__head-titles">
+          <p class="quiz-desk__eyebrow">Question desk</p>
+          <h2 id="quiz-desk-title" class="quiz-desk__title">刷题台</h2>
+        </div>
+        <p class="quiz-desk__lede" aria-label="题库概览">
+          <span>专题 <strong>{{ topicCount }}</strong></span>
+          <span>名词 <strong>{{ glossaryCount }}</strong></span>
+          <span>错题 <strong>{{ wrongOpenCount }}</strong></span>
+          <span>今日 <strong>{{ todayAnswerCount }}</strong></span>
+        </p>
+      </div>
     </header>
 
     <div class="quiz-desk__modes" role="tablist" aria-label="刷题模式">
@@ -452,7 +461,7 @@ function drillWrong() {
         </div>
         <div class="quiz-desk__row quiz-desk__row--actions">
           <label class="quiz-desk__n">
-            题数
+            本局
             <input v-model.number="randomN" type="number" min="5" max="50" step="5" />
           </label>
           <button type="button" class="quiz-desk__primary" @click="retakeSame">
