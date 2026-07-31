@@ -191,6 +191,8 @@ export function defineQuizSet(set) {
     0,
     RELATED_NODES_MAX
   );
+  // 多课混编 set：勿把全部节点只挂在 set 级——缺 relatedNodes 的题会整包继承，
+  // 刷题台按节点筛选就会串台（调子服刷到最小贡献路径）。一题一挂。
   const questions = set.questions
     .map((raw, i) => {
       const own = uniqueStrings(raw?.relatedNodes || raw?.also || []);

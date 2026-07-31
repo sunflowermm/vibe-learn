@@ -21,10 +21,17 @@ import conceptLangFrameworks from './sets/concept-lang-frameworks.js';
 import conceptNetLayers from './sets/concept-net-layers.js';
 import conceptNetPath from './sets/concept-net-path.js';
 import conceptHttpHands from './sets/concept-http-hands.js';
+import conceptHttpStatus from './sets/concept-http-status.js';
+import conceptHttpMethod from './sets/concept-http-method.js';
+import conceptHttpHdr from './sets/concept-http-hdr.js';
+import conceptCookieFlag from './sets/concept-cookie-flag.js';
+import conceptCorsKw from './sets/concept-cors-kw.js';
+import conceptCacheHdr from './sets/concept-cache-hdr.js';
 import conceptNetAddressing from './sets/concept-net-addressing.js';
+import conceptWellKnownPorts from './sets/concept-well-known-ports.js';
+import conceptNginxDir from './sets/concept-nginx-dir.js';
 import conceptXrkCore from './sets/concept-xrk-core.js';
 import conceptXrkAgentPipe from './sets/concept-xrk-agent-pipe.js';
-import conceptXrk from './sets/concept-xrk.js';
 import conceptAdev from './sets/concept-adev.js';
 import conceptAiLlm from './sets/concept-ai-llm.js';
 import conceptAiRag from './sets/concept-ai-rag.js';
@@ -32,6 +39,12 @@ import conceptAiAgentStack from './sets/concept-ai-agent-stack.js';
 import conceptCraftQuality from './sets/concept-craft-quality.js';
 import conceptGit from './sets/concept-git.js';
 import conceptDsaStructures from './sets/concept-dsa-structures.js';
+import conceptDsaLinearKw from './sets/concept-dsa-linear-kw.js';
+import conceptDsaBigO from './sets/concept-dsa-big-o.js';
+import conceptDsaHashKw from './sets/concept-dsa-hash-kw.js';
+import conceptDsaTreeKw from './sets/concept-dsa-tree-kw.js';
+import conceptDsaSortKw from './sets/concept-dsa-sort-kw.js';
+import conceptDsaGraphKw from './sets/concept-dsa-graph-kw.js';
 import conceptDbOps from './sets/concept-db-ops.js';
 import conceptContainer from './sets/concept-container.js';
 import conceptPanel from './sets/concept-panel.js';
@@ -40,15 +53,25 @@ import conceptEsp from './sets/concept-esp.js';
 import conceptWorkbench from './sets/concept-workbench.js';
 import conceptCodeTsRegex from './sets/concept-code-ts-regex.js';
 import conceptShell from './sets/concept-shell.js';
+import conceptShellOp from './sets/concept-shell-op.js';
 import conceptXrkLabs from './sets/concept-xrk-labs.js';
+import conceptXrkScenarios from './sets/concept-xrk-scenarios.js';
 import conceptGapNodes from './sets/concept-gap-nodes.js';
 import conceptAiOpsBridge from './sets/concept-ai-ops-bridge.js';
 import conceptGitCli from './sets/concept-git-cli.js';
+import conceptGitCmd from './sets/concept-git-cmd.js';
 import conceptLinuxCli from './sets/concept-linux-cli.js';
+import conceptLinuxCmd from './sets/concept-linux-cmd.js';
 import conceptDockerCli from './sets/concept-docker-cli.js';
+import conceptDockerCmd from './sets/concept-docker-cmd.js';
 import conceptEnvCli from './sets/concept-env-cli.js';
+import conceptEnvKw from './sets/concept-env-kw.js';
 import conceptSqlCli from './sets/concept-sql-cli.js';
+import conceptSqlKw from './sets/concept-sql-kw.js';
+import conceptPnpmCmd from './sets/concept-pnpm-cmd.js';
 import conceptNginxOps from './sets/concept-nginx-ops.js';
+import conceptComposeKw from './sets/concept-compose-kw.js';
+import conceptSecKw from './sets/concept-sec-kw.js';
 import conceptTroubleshootCli from './sets/concept-troubleshoot-cli.js';
 import conceptZeroBasics from './sets/concept-zero-basics.js';
 import conceptZeroWebGit from './sets/concept-zero-web-git.js';
@@ -56,7 +79,6 @@ import conceptXrkZero from './sets/concept-xrk-zero.js';
 import conceptXrkExtensions from './sets/concept-xrk-extensions.js';
 import conceptXrkBridge from './sets/concept-xrk-bridge.js';
 import conceptXrkFirstRun from './sets/concept-xrk-first-run.js';
-import conceptXrkPatterns from './sets/concept-xrk-patterns.js';
 import conceptEngReliability from './sets/concept-eng-reliability.js';
 import conceptEngApiContracts from './sets/concept-eng-api-contracts.js';
 import conceptEngConcurrency from './sets/concept-eng-concurrency.js';
@@ -110,6 +132,7 @@ const REGISTRY = [
   conceptDataFormats,
   conceptCodeTsRegex,
   conceptShell,
+  conceptShellOp,
   conceptLangLandscape,
   conceptLangFrameworks,
   interviewLang,
@@ -119,7 +142,15 @@ const REGISTRY = [
   conceptNetPath,
   conceptNetAddressing,
   conceptHttpHands,
+  conceptHttpStatus,
+  conceptHttpMethod,
+  conceptHttpHdr,
+  conceptCookieFlag,
+  conceptCorsKw,
+  conceptCacheHdr,
+  conceptWellKnownPorts,
   conceptNginxOps,
+  conceptNginxDir,
   conceptEngApiContracts,
   interviewNet,
   // XRK / Vibe
@@ -128,10 +159,9 @@ const REGISTRY = [
   conceptXrkCore,
   conceptXrkAgentPipe,
   conceptXrkExtensions,
-  conceptXrkPatterns,
   conceptXrkBridge,
-  conceptXrk,
   conceptXrkLabs,
+  conceptXrkScenarios,
   conceptAdev,
   interviewXrk,
   // AI
@@ -148,20 +178,34 @@ const REGISTRY = [
   conceptEngConcurrency,
   conceptGit,
   conceptGitCli,
+  conceptGitCmd,
   conceptEnvCli,
+  conceptEnvKw,
+  conceptPnpmCmd,
+  conceptSecKw,
   conceptTroubleshootCli,
   interviewCraft,
   conceptDsaStructures,
+  conceptDsaLinearKw,
+  conceptDsaBigO,
+  conceptDsaHashKw,
+  conceptDsaTreeKw,
+  conceptDsaSortKw,
+  conceptDsaGraphKw,
   interviewDsa,
   conceptGapNodes,
   conceptAiOpsBridge,
   conceptDbOps,
   conceptSqlCli,
+  conceptSqlKw,
   conceptEngDataConsistency,
   interviewOsDb,
   conceptContainer,
   conceptDockerCli,
+  conceptDockerCmd,
+  conceptComposeKw,
   conceptLinuxCli,
+  conceptLinuxCmd,
   conceptPanel,
   conceptClash,
   conceptEsp,

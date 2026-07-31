@@ -1578,6 +1578,1062 @@ export const GLOSSARY = {
     brief: 'Events 监听：core/*/events 目录下的生命周期事件钩子，与 Tasker 通道不同；部分变更须重启进程方可生效（不支持热更）。',
     also: ['xrk-events', 'xrk-plugin-arch', 'loader'],
   },
+  /* —— HTTP 状态码（一码一名词） —— */
+  http_200: {
+    term: "HTTP 200 OK",
+    brief: "HTTP 200 OK：请求已成功，响应体通常携带所请求的资源表示；是最常见的成功状态码。大厂联调时先确认业务是否真成功，勿只看「有响应」。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_201: {
+    term: "HTTP 201 Created",
+    brief: "HTTP 201 Created：请求已成功且服务器已创建新资源；响应常带 Location 指向新资源。POST/PUT 创建场景的大厂约定，勿与 200 混用掩盖「已创建」。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_204: {
+    term: "HTTP 204 No Content",
+    brief: "HTTP 204 No Content：成功处理但响应无正文；常见于 DELETE 成功或无需回写体的更新。客户端不应期望解析 JSON body。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_301: {
+    term: "HTTP 301 Moved Permanently",
+    brief: "HTTP 301 Moved Permanently：资源永久迁移；客户端与搜索引擎应改记新 URL。缓存与 SEO 敏感，勿拿 301 做临时活动跳转。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_302: {
+    term: "HTTP 302 Found",
+    brief: "HTTP 302 Found：临时重定向（历史语义混杂）；许多客户端会把 POST 改成 GET。需要保留方法时优先考虑 307/308。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_304: {
+    term: "HTTP 304 Not Modified",
+    brief: "HTTP 304 Not Modified：协商缓存命中，正文不传；依赖 If-None-Match / If-Modified-Since 与 ETag/Last-Modified。用于省带宽，不是错误。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_307: {
+    term: "HTTP 307 Temporary Redirect",
+    brief: "HTTP 307 Temporary Redirect：临时重定向且禁止擅自改请求方法与正文；比 302 语义更清晰，适合 API 临时换入口。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_308: {
+    term: "HTTP 308 Permanent Redirect",
+    brief: "HTTP 308 Permanent Redirect：永久重定向且保留原方法与正文；比 301 更适合「POST 也要跟到新 URL」的 API 场景。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_400: {
+    term: "HTTP 400 Bad Request",
+    brief: "HTTP 400 Bad Request：请求语法或语义无法被服务器理解（缺字段、JSON 非法、参数校验失败等）。大厂应返回可机器解析的错误体，勿只用 500 糊弄客户端错误。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_401: {
+    term: "HTTP 401 Unauthorized",
+    brief: "HTTP 401 Unauthorized：未提供或凭证无效；应触发重新认证。名称历史误导，实质是 authentication 失败，与 403 授权失败区分。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_403: {
+    term: "HTTP 403 Forbidden",
+    brief: "HTTP 403 Forbidden：服务器理解请求且通常已识别身份，但拒绝执行（权限/策略）。客户端换 Token 未必有用，需改角色或资源 ACL。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_404: {
+    term: "HTTP 404 Not Found",
+    brief: "HTTP 404 Not Found：目标资源不存在或对调用方不可见。联调先查路径、挂载与路由；有时故意对无权限也回 404 以防枚举。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_405: {
+    term: "HTTP 405 Method Not Allowed",
+    brief: "HTTP 405 Method Not Allowed：URI 存在但不支持该 HTTP 方法；响应宜带 Allow 列出可用方法。例如对只读资源发 DELETE。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_408: {
+    term: "HTTP 408 Request Timeout",
+    brief: "HTTP 408 Request Timeout：服务器等待请求完整到达超时。与 504（网关等上游）不同，偏客户端发送过慢或连接空闲。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_409: {
+    term: "HTTP 409 Conflict",
+    brief: "HTTP 409 Conflict：与当前资源状态冲突，如乐观锁版本不符、唯一键冲突。大厂 API 常用其表达「可重试的状态冲突」而非笼统 400。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_413: {
+    term: "HTTP 413 Content Too Large",
+    brief: "HTTP 413 Content Too Large（Payload Too Large）：请求体超过服务器或网关限制。上传接口需在反代与应用层同时设限并返回清晰错误。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_415: {
+    term: "HTTP 415 Unsupported Media Type",
+    brief: "HTTP 415 Unsupported Media Type：Content-Type 不被支持，如接口只要 application/json 却收到 form。检查头与序列化，而非乱改状态码为 500。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_429: {
+    term: "HTTP 429 Too Many Requests",
+    brief: "HTTP 429 Too Many Requests：触发限流；响应常带 Retry-After。调用方应退避重试，服务方需防刷与配额。大厂开放 API 高频考点。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_500: {
+    term: "HTTP 500 Internal Server Error",
+    brief: "HTTP 500 Internal Server Error：服务器未捕获的故障。生产应记日志与关联 ID，勿把堆栈直接回给公网；能区分的客户端错误不要一律 500。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_502: {
+    term: "HTTP 502 Bad Gateway",
+    brief: "HTTP 502 Bad Gateway：作为网关/反代收到上游无效响应。排障看上游进程、端口、协议是否通，而不是先改前端文案。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_503: {
+    term: "HTTP 503 Service Unavailable",
+    brief: "HTTP 503 Service Unavailable：服务暂时不可用（过载、维护、熔断）。可带 Retry-After；与 502（上游应答坏）区分：503 更像「现在别来」。",
+    also: ['http-web', 'http-hands-on'],
+  },
+  http_504: {
+    term: "HTTP 504 Gateway Timeout",
+    brief: "HTTP 504 Gateway Timeout：网关等上游超时。查上游耗时、超时配置与依赖慢查询；与 408（等客户端请求）不同。",
+    also: ['http-web', 'http-hands-on'],
+  },
+
+  /* —— Linux 基础命令（一令一名词） —— */
+  cli_pwd: {
+    term: "pwd",
+    brief: "pwd（print working directory）：打印当前工作目录绝对路径。排障与脚本定位的第一步。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_ls: {
+    term: "ls",
+    brief: "ls：列出目录项；常用 ls -la 看隐藏文件与权限。大厂排障先看目录里到底有什么。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_cd: {
+    term: "cd",
+    brief: "cd：切换当前工作目录；cd .. 上级，cd ~ 或 cd 回家目录。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_tree: {
+    term: "tree",
+    brief: "tree：以树形打印目录结构，便于快速看项目布局；未安装时可用 find 近似。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_cat: {
+    term: "cat",
+    brief: "cat：串联并打印文件内容到标准输出；小文件快速查看。大文件用 less。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_less: {
+    term: "less",
+    brief: "less：可分页、可搜索的文件阅读器；大日志优于 cat。按 q 退出，/ 搜索。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_mkdir: {
+    term: "mkdir",
+    brief: "mkdir：创建目录；mkdir -p a/b/c 可创建中间路径。与 touch（建空文件）不同。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_rm: {
+    term: "rm",
+    brief: "rm：删除文件；rm -r 递归删目录。生产慎用 rm -rf；误删难恢复。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_cp: {
+    term: "cp",
+    brief: "cp：复制文件；cp -r 递归复制目录树。备份与发布前的常见操作。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_mv: {
+    term: "mv",
+    brief: "mv：移动或重命名文件/目录。同文件系统上常为改名，跨设备则复制+删除。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_grep: {
+    term: "grep",
+    brief: "grep：按正则/字符串检索文本；grep -n 行号，-r 递归。日志排障核心工具；也可用 ripgrep。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_find: {
+    term: "find",
+    brief: "find：按名称、时间、权限等元数据遍历目录树；find . -name \"*.log\"。与 grep 搜内容互补。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_ps: {
+    term: "ps",
+    brief: "ps：快照进程表；ps aux | grep name 常用于找进程。与 top/htop 实时视图互补。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_top: {
+    term: "top",
+    brief: "top：交互式实时查看 CPU/内存占用进程。负载飙升时第一眼工具之一。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_htop: {
+    term: "htop",
+    brief: "htop：增强版交互式进程监视（常需安装）；比 top 更易读、可点选。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_kill: {
+    term: "kill",
+    brief: "kill：向进程发信号；默认 SIGTERM，kill -9 为 SIGKILL（最后手段）。先确认 PID。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_chmod: {
+    term: "chmod",
+    brief: "chmod：改文件权限位；chmod +x 加执行权限，或数字如 755。安全基线：密钥文件勿 777。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_chown: {
+    term: "chown",
+    brief: "chown：改文件所有者与属组；部署后修正 www 用户权限常见。勿随意 chown -R /。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_sudo: {
+    term: "sudo",
+    brief: "sudo：以另一用户（常为 root）权限执行命令；有审计。扩大权限即扩大误伤面，勿习惯性 sudo rm -rf。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_curl: {
+    term: "curl",
+    brief: "curl：命令行传数据，常用于调 HTTP API；curl -L 跟随重定向，-o 写文件。大厂联调与 CI 标配。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_wget: {
+    term: "wget",
+    brief: "wget：非交互下载工具，擅长递归镜像与断点续传；与 curl 互补。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_ping: {
+    term: "ping",
+    brief: "ping：用 ICMP 探测主机可达性与往返时延。通 ≠ 业务端口通；还需 ss/curl 查端口与 HTTP。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_tail: {
+    term: "tail",
+    brief: "tail：看文件末尾；tail -f 跟踪追加日志。服务排障看最新错误的首选。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_head: {
+    term: "head",
+    brief: "head：看文件开头若干行；与 tail 相对。快速瞄配置文件头部。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_ss: {
+    term: "ss",
+    brief: "ss：查看套接字/端口监听；ss -lntp 看谁占用端口。现代替代部分 netstat 场景。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_df: {
+    term: "df",
+    brief: "df：查看文件系统磁盘空间；df -h 人类可读。磁盘满是服务异常经典原因。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_du: {
+    term: "du",
+    brief: "du：统计目录占用；du -sh dir 看某目录总大小。与 df（卷容量）互补，用于找大目录。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_tar: {
+    term: "tar",
+    brief: "tar：打包/解包；tar -czf a.tgz dir/ 与 tar -xzf a.tgz 是发布备份经典组合。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_echo: {
+    term: "echo",
+    brief: "echo：向标准输出打印参数；脚本里拼路径、打调试信息常用。注意引号与通配。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  cli_which: {
+    term: "which / command -v",
+    brief: "which 或 command -v：定位命令在 PATH 中的路径。排查「装了但找不到」与多版本冲突。",
+    also: ['linux-cli', 'terminal-worlds'],
+  },
+  /* —— 基础全表名词（seed-basics-tables） —— */
+  http_m_get: {
+    term: "HTTP GET",
+    brief: "HTTP GET：获取资源表示，按约定无副作用、可缓存；查询参数放 URL。大厂禁止用 GET 做删除/扣款。",
+    also: ["http-web","http-hands-on"],
+  },
+  http_m_post: {
+    term: "HTTP POST",
+    brief: "HTTP POST：向目标资源提交处理（常创建子资源或触发动作），通常非幂等。表单提交与「创建」常用 POST。",
+    also: ["http-web","http-hands-on"],
+  },
+  http_m_put: {
+    term: "HTTP PUT",
+    brief: "HTTP PUT：用请求体整体替换目标资源；幂等——同一 URL 多次 PUT 结果应一致。与 POST「由服务器分配 id」不同。",
+    also: ["http-web"],
+  },
+  http_m_patch: {
+    term: "HTTP PATCH",
+    brief: "HTTP PATCH：对资源做部分更新（补丁），不必传完整文档。与 PUT 全量替换区分。",
+    also: ["http-web"],
+  },
+  http_m_delete: {
+    term: "HTTP DELETE",
+    brief: "HTTP DELETE：删除目标资源；规范上幂等。成功常 200/202/204。",
+    also: ["http-web"],
+  },
+  http_m_head: {
+    term: "HTTP HEAD",
+    brief: "HTTP HEAD：与 GET 相同的处理，但不返回正文，只取响应头。探测资源是否存在、查 Content-Length 常用。",
+    also: ["http-web","http-hands-on"],
+  },
+  http_m_options: {
+    term: "HTTP OPTIONS",
+    brief: "HTTP OPTIONS：询问目标资源支持的通信选项；浏览器 CORS 预检常用。响应可含 Allow。",
+    also: ["http-web"],
+  },
+  git_cmd_clone: {
+    term: "git clone",
+    brief: "git clone：把远程仓库复制到本地工作目录并配置 origin。新人第一命令。",
+    also: ["git-workspace","git-forges"],
+  },
+  git_cmd_clone_depth: {
+    term: "git clone --depth=1",
+    brief: "git clone --depth=1：浅克隆，只取最近提交，加快 CI/大仓拉取；历史不完整。",
+    also: ["git-workspace","craft-ci"],
+  },
+  git_cmd_remote_v: {
+    term: "git remote -v",
+    brief: "git remote -v：列出远程名与 fetch/push URL。确认 origin 指哪。",
+    also: ["git-workspace","git-forges"],
+  },
+  git_cmd_status: {
+    term: "git status",
+    brief: "git status：查看工作区/暂存区状态与当前分支。每日最高频。",
+    also: ["git-workspace"],
+  },
+  git_cmd_diff: {
+    term: "git diff",
+    brief: "git diff：看未暂存改动；git diff --staged 看已暂存。审 diff 再 commit。",
+    also: ["git-workspace","adev-vibe-coding"],
+  },
+  git_cmd_add: {
+    term: "git add",
+    brief: "git add：把改动放入暂存区，准备进入下一次 commit。",
+    also: ["git-workspace"],
+  },
+  git_cmd_commit: {
+    term: "git commit",
+    brief: "git commit：把暂存区做成历史快照；-m 写说明 why。小步可复查。",
+    also: ["git-advanced"],
+  },
+  git_cmd_switch_c: {
+    term: "git switch -c",
+    brief: "git switch -c <branch>：创建并切换到新分支。现代推荐，替代部分 checkout -b。",
+    also: ["git-advanced"],
+  },
+  git_cmd_branch: {
+    term: "git branch",
+    brief: "git branch：列出本地分支；-d 删除已合并分支。",
+    also: ["git-advanced"],
+  },
+  git_cmd_push: {
+    term: "git push",
+    brief: "git push：把本地提交推到远程；首次常用 -u 设上游。",
+    also: ["git-forges","git-advanced"],
+  },
+  git_cmd_pull: {
+    term: "git pull",
+    brief: "git pull：取远程更新并合并/变基进当前分支。协作前先拉。",
+    also: ["git-advanced","git-forges"],
+  },
+  git_cmd_fetch: {
+    term: "git fetch",
+    brief: "git fetch：只下载远程对象与引用，不自动合并。先看再合更安全。",
+    also: ["git-advanced"],
+  },
+  git_cmd_log: {
+    term: "git log",
+    brief: "git log：查看提交历史；--oneline 紧凑。回溯 why 的入口。",
+    also: ["git-workspace"],
+  },
+  git_cmd_stash: {
+    term: "git stash",
+    brief: "git stash：临时搁置未提交改动，切分支救急；pop/apply 取回。",
+    also: ["git-advanced"],
+  },
+  git_cmd_restore: {
+    term: "git restore",
+    brief: "git restore：丢弃工作区改动或取消暂存（--staged）。替代部分 checkout/reset 用途。",
+    also: ["git-advanced"],
+  },
+  git_cmd_gitignore: {
+    term: ".gitignore",
+    brief: ".gitignore：声明不纳入版本控制的路径（密钥、依赖目录、构建产物）。应进仓共享。",
+    also: ["git-workspace","craft-security"],
+  },
+  docker_cmd_pull: {
+    term: "docker pull",
+    brief: "docker pull：从仓库拉取镜像到本机。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_run: {
+    term: "docker run",
+    brief: "docker run：基于镜像创建并启动容器；-p 映射端口，-d 后台，--rm 退出删除。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_ps: {
+    term: "docker ps",
+    brief: "docker ps：列出运行中容器；-a 含已停止。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_logs: {
+    term: "docker logs",
+    brief: "docker logs：看容器标准输出/错误；-f 跟踪。排障第一眼。",
+    also: ["ops-docker","workbench-troubleshoot"],
+  },
+  docker_cmd_stop: {
+    term: "docker stop",
+    brief: "docker stop：优雅停止容器（发信号）；粗暴可用 kill。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_rm: {
+    term: "docker rm",
+    brief: "docker rm：删除已停止的容器实例（不是删镜像）。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_images: {
+    term: "docker images",
+    brief: "docker images：列出本机镜像。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_build: {
+    term: "docker build",
+    brief: "docker build -t name:tag ：按 Dockerfile 构建镜像并打标签。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_exec: {
+    term: "docker exec",
+    brief: "docker exec -it：在运行中容器内执行命令（进 shell 排障）。",
+    also: ["ops-docker"],
+  },
+  docker_cmd_compose_up: {
+    term: "docker compose up",
+    brief: "docker compose up -d：按 compose 文件后台拉起多服务。本地依赖栈常用。",
+    also: ["ops-compose","ops-docker"],
+  },
+  docker_cmd_compose_down: {
+    term: "docker compose down",
+    brief: "docker compose down：停止并移除 compose 创建的容器/网络（卷需额外选项）。",
+    also: ["ops-compose"],
+  },
+  docker_cmd_df_from: {
+    term: "Dockerfile FROM",
+    brief: "Dockerfile FROM：指定基础镜像，构建第一指令。",
+    also: ["ops-docker"],
+  },
+  sql_kw_select: {
+    term: "SQL SELECT",
+    brief: "SELECT：查询投影列；FROM 指定表。只读查询入口。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_insert: {
+    term: "SQL INSERT",
+    brief: "INSERT INTO … VALUES …：插入新行。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_update: {
+    term: "SQL UPDATE",
+    brief: "UPDATE … SET … WHERE …：更新已有行；缺 WHERE 会更新全表——事故。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_delete: {
+    term: "SQL DELETE",
+    brief: "DELETE FROM … WHERE …：删除行；缺 WHERE 删光表。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_where: {
+    term: "SQL WHERE",
+    brief: "WHERE：过滤行条件；在 GROUP BY 聚合前生效。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_join: {
+    term: "SQL JOIN",
+    brief: "JOIN … ON …：按键关联多表；先 INNER 再学 LEFT。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_order_by: {
+    term: "SQL ORDER BY",
+    brief: "ORDER BY：结果排序；ASC/DESC。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_limit: {
+    term: "SQL LIMIT",
+    brief: "LIMIT：限制返回行数；分页常配合 OFFSET（方言各异）。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_create_table: {
+    term: "SQL CREATE TABLE",
+    brief: "CREATE TABLE：定义表结构与约束。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_pk: {
+    term: "PRIMARY KEY",
+    brief: "PRIMARY KEY：主键约束，唯一标识行，常非空。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_begin: {
+    term: "SQL BEGIN / START TRANSACTION",
+    brief: "BEGIN（或 START TRANSACTION）：开启事务，后续语句可一并提交或回滚。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_commit: {
+    term: "SQL COMMIT",
+    brief: "COMMIT：提交事务，使变更持久。",
+    also: ["db-sql-hands-on"],
+  },
+  sql_kw_rollback: {
+    term: "SQL ROLLBACK",
+    brief: "ROLLBACK：回滚事务，撤销未提交变更。",
+    also: ["db-sql-hands-on"],
+  },
+  shell_op_pipe: {
+    term: "Shell 管道 |",
+    brief: "管道 |：把前一命令 stdout 接到下一命令 stdin。组合小工具。",
+    also: ["lang-shell","linux-cli"],
+  },
+  shell_op_redir_out: {
+    term: "Shell 重定向 >",
+    brief: ">：覆盖写入文件；>> 追加。",
+    also: ["lang-shell"],
+  },
+  shell_op_redir_append: {
+    term: "Shell 追加 >>",
+    brief: ">>：追加写入文件，保留原内容。",
+    also: ["lang-shell"],
+  },
+  shell_op_redir_err: {
+    term: "Shell 2>&1",
+    brief: "2>&1：把 stderr 并入 stdout，常与 >file 一起保存全部输出。",
+    also: ["lang-shell","linux-cli"],
+  },
+  shell_op_set_e: {
+    term: "set -e",
+    brief: "set -e：命令失败（非零退出）则脚本退出。CI 脚本常用。",
+    also: ["lang-shell","craft-ci"],
+  },
+  shell_op_set_u: {
+    term: "set -u",
+    brief: "set -u：使用未定义变量则报错退出，防空变量酿灾。",
+    also: ["lang-shell"],
+  },
+  shell_op_pipefail: {
+    term: "set -o pipefail",
+    brief: "set -o pipefail：管道中任一命令失败则整管失败，避免只看最后一个退出码。",
+    also: ["lang-shell","craft-ci"],
+  },
+  shell_op_status: {
+    term: "Shell $?",
+    brief: "$?：上一命令退出码；0 通常成功。脚本分支判断。",
+    also: ["lang-shell"],
+  },
+  shell_op_shebang: {
+    term: "Shebang #!/usr/bin/env bash",
+    brief: "Shebang：脚本首行指定解释器；env bash 便于 PATH 解析。",
+    also: ["lang-shell"],
+  },
+  pnpm_cmd_corepack: {
+    term: "corepack enable",
+    brief: "corepack enable：启用 Node 自带的包管理器管理，便于按 packageManager 字段用 pnpm。",
+    also: ["package-managers","runtime-nodejs"],
+  },
+  pnpm_cmd_install: {
+    term: "pnpm install",
+    brief: "pnpm install：按 lockfile 安装依赖。本仓默认包管理命令。",
+    also: ["package-managers","xrk-first-run"],
+  },
+  pnpm_cmd_run: {
+    term: "pnpm run",
+    brief: "pnpm run <script>：执行 package.json scripts。",
+    also: ["package-managers"],
+  },
+  pnpm_cmd_frozen: {
+    term: "pnpm install --frozen-lockfile",
+    brief: "pnpm install --frozen-lockfile：CI 禁止更新 lockfile，锁不一致则失败。",
+    also: ["package-managers","craft-ci"],
+  },
+  pnpm_cmd_lock: {
+    term: "pnpm-lock.yaml",
+    brief: "pnpm-lock.yaml：依赖精确版本锁；应提交进仓保证可复现。",
+    also: ["package-managers"],
+  },
+  pnpm_cmd_npx: {
+    term: "npx",
+    brief: "npx：执行 npm 包中的二进制（临时或本地）。与 pnpm exec/dlx 同类需求。",
+    also: ["package-managers","runtime-nodejs"],
+  },
+  port_80: {
+    term: "端口 80",
+    brief: "TCP 80：默认 HTTP 明文服务端口。",
+    also: ["network-basics","http-web"],
+  },
+  port_443: {
+    term: "端口 443",
+    brief: "TCP 443：默认 HTTPS（HTTP over TLS）端口。",
+    also: ["network-basics","dns-https"],
+  },
+  port_22: {
+    term: "端口 22",
+    brief: "TCP 22：默认 SSH 远程登录。",
+    also: ["network-basics"],
+  },
+  port_53: {
+    term: "端口 53",
+    brief: "UDP/TCP 53：DNS 域名解析。",
+    also: ["network-basics","dns-https"],
+  },
+  port_3306: {
+    term: "端口 3306",
+    brief: "TCP 3306：MySQL 默认端口。",
+    also: ["network-basics","db-mysql"],
+  },
+  port_5432: {
+    term: "端口 5432",
+    brief: "TCP 5432：PostgreSQL 默认端口。",
+    also: ["network-basics","db-postgresql"],
+  },
+  port_6379: {
+    term: "端口 6379",
+    brief: "TCP 6379：Redis 默认端口。",
+    also: ["network-basics","xrk-database"],
+  },
+  port_27017: {
+    term: "端口 27017",
+    brief: "TCP 27017：MongoDB 默认端口。",
+    also: ["network-basics","db-mongodb"],
+  },
+  /* —— 基础全表名词 batch2（seed-basics-tables2） —— */
+  cookie_cookie: {
+    term: "Cookie",
+    brief: "Cookie：服务器经 Set-Cookie 让浏览器保存的小段名值对；后续同范围请求自动带上。约 4KB 级，内容对客户端可见（除非 HttpOnly）。",
+    also: ["http-web"],
+  },
+  cookie_session: {
+    term: "Session（服务端会话）",
+    brief: "Session：会话状态存在服务器；浏览器通常只持有 SessionID（常经 Cookie）。强踢下线、即时失效往往比纯 JWT 更顺手。",
+    also: ["http-web","craft-security"],
+  },
+  cookie_httponly: {
+    term: "HttpOnly（Cookie 标志）",
+    brief: "HttpOnly：标记后文档脚本（如 document.cookie）读不到该 Cookie，降低 XSS 偷会话标识的风险；不防 CSRF。",
+    also: ["http-web","craft-security"],
+  },
+  cookie_secure: {
+    term: "Secure（Cookie 标志）",
+    brief: "Secure：仅在 HTTPS（安全连接）请求中发送该 Cookie，降低明文信道被窃听风险。",
+    also: ["http-web","host-tls"],
+  },
+  cookie_samesite: {
+    term: "SameSite（Cookie 标志）",
+    brief: "SameSite：控制跨站请求是否带 Cookie（Lax/Strict/None）；是缓解 CSRF 的关键手段之一，不能替代 XSS 防护。",
+    also: ["http-web","craft-security"],
+  },
+  cookie_domain_path: {
+    term: "Cookie Domain / Path",
+    brief: "Domain / Path：限定 Cookie 作用的主机与路径范围；范围过大易扩大泄漏与 CSRF 面，应按最小必要设置。",
+    also: ["http-web"],
+  },
+  cors_same_origin: {
+    term: "同源（Same-Origin）",
+    brief: "同源：协议、主机、端口三者皆同。任一不同即跨源；浏览器据此限制前端脚本读跨源响应。",
+    also: ["http-web"],
+  },
+  cors_origin: {
+    term: "Origin 请求头",
+    brief: "Origin：浏览器在跨源请求中标明页面来源（协议+主机+端口）。服务器用它决定是否放行 CORS。",
+    also: ["http-web"],
+  },
+  cors_preflight: {
+    term: "CORS 预检（Preflight）",
+    brief: "预检：对「非简单」跨源请求，浏览器先发 OPTIONS 询问服务器是否允许方法/头，通过后再发真实请求。",
+    also: ["http-web","http-hands-on"],
+  },
+  cors_acao: {
+    term: "Access-Control-Allow-Origin",
+    brief: "Access-Control-Allow-Origin：响应头，声明哪些 Origin 可读该响应。生产慎用 * 搭配凭证；常与反代同源转发对照。",
+    also: ["http-web","reverse-proxy"],
+  },
+  cache_cache_control: {
+    term: "Cache-Control",
+    brief: "Cache-Control：控制缓存的主头（max-age、no-cache、no-store、private/public 等）。强缓存未过期时常直接用本地副本。",
+    also: ["http-web"],
+  },
+  cache_expires: {
+    term: "Expires",
+    brief: "Expires：绝对过期时间的老标准；优先级通常低于 Cache-Control。理解遗留系统时仍会遇到。",
+    also: ["http-web"],
+  },
+  cache_etag: {
+    term: "ETag",
+    brief: "ETag：资源内容指纹；客户端用 If-None-Match 协商，未变常回 304。比纯时间戳更精确。",
+    also: ["http-web"],
+  },
+  cache_last_modified: {
+    term: "Last-Modified",
+    brief: "Last-Modified：资源上次修改时间；客户端用 If-Modified-Since 协商。精度与时钟问题下常不如 ETag。",
+    also: ["http-web"],
+  },
+  cache_strong_vs_revalidate: {
+    term: "强缓存 vs 协商缓存",
+    brief: "强缓存：未过期可不打服务器直接用；协商缓存：带验证头问服务器，304 用本地或 200 拿新内容。",
+    also: ["http-web","net-edge-practice"],
+  },
+  env_kw_env_var: {
+    term: "环境变量",
+    brief: "环境变量：进程可见的「名=值」配置；子进程常继承。密钥、代理、路径等多放这里，勿写进将提交的源码。",
+    also: ["data-env"],
+  },
+  env_kw_path: {
+    term: "PATH",
+    brief: "PATH：特殊环境变量，列出 shell 搜索可执行文件的目录列表；「command not found」常先查 PATH。",
+    also: ["data-env","installers-path"],
+  },
+  env_kw_export: {
+    term: "export（shell）",
+    brief: "export：把变量标进当前 shell 环境，供后续子进程继承；关终端会话通常即失效（除非写入配置文件）。",
+    also: ["data-env","linux-cli"],
+  },
+  env_kw_dotenv: {
+    term: ".env 文件",
+    brief: ".env：本地键值文本，工具可读入变成环境变量；通常含真实密钥，必须 gitignore，勿提交。",
+    also: ["data-env","craft-security"],
+  },
+  env_kw_dotenv_example: {
+    term: ".env.example",
+    brief: ".env.example：只列键名与假值/说明，可以进仓库，作为同事与 CI 的填写模板。",
+    also: ["data-env","craft-security"],
+  },
+  env_kw_http_proxy: {
+    term: "HTTP_PROXY / HTTPS_PROXY",
+    brief: "HTTP_PROXY / HTTPS_PROXY：告诉许多工具出网走哪个代理（如本机 7890）。国内拉 GitHub/npm 常见设置。",
+    also: ["data-env","clash"],
+  },
+  env_kw_no_proxy: {
+    term: "NO_PROXY",
+    brief: "NO_PROXY：列出不走代理的主机（常含 127.0.0.1,localhost,::1），避免本机回环也被代理绕一圈。",
+    also: ["data-env","clash"],
+  },
+  env_kw_process_env: {
+    term: "process.env（Node）",
+    brief: "process.env：Node 进程读取环境变量的对象；值为字符串或 undefined。启动前注入，不是运行时随意改 OS 全局的唯一方式。",
+    also: ["data-env","runtime-nodejs"],
+  },
+  nginx_dir_server: {
+    term: "Nginx server 块",
+    brief: "server：一组虚拟主机配置（监听、域名、location 等）。一台 Nginx 可有多个 server。",
+    also: ["net-nginx"],
+  },
+  nginx_dir_location: {
+    term: "Nginx location",
+    brief: "location：按 URI 路径匹配规则；可挂静态 root、反代 proxy_pass、重写等。路径拼接细节影响上游看到的 URI。",
+    also: ["net-nginx","http-web"],
+  },
+  nginx_dir_proxy_pass: {
+    term: "proxy_pass",
+    brief: "proxy_pass：把匹配到的请求转到上游（如 http://127.0.0.1:3000）。反代核心；尾斜杠会影响路径拼接。",
+    also: ["net-nginx","reverse-proxy"],
+  },
+  nginx_dir_listen: {
+    term: "listen",
+    brief: "listen：指定 server 监听的地址/端口（如 80、443 ssl）。公网入口常见只暴露 443。",
+    also: ["net-nginx","network-basics"],
+  },
+  nginx_dir_upstream: {
+    term: "upstream",
+    brief: "upstream：定义一组后端服务器，供 proxy_pass 引用，可做简单负载。不是容器专有词。",
+    also: ["net-nginx","reverse-proxy"],
+  },
+  nginx_dir_nginx_t: {
+    term: "nginx -t",
+    brief: "nginx -t：测试配置语法/基本正确性。改 conf 后应先 -t 再 reload，避免写挂全站。",
+    also: ["net-nginx"],
+  },
+  nginx_dir_reload: {
+    term: "Nginx reload",
+    brief: "reload：热加载配置（如 nginx -s reload / systemctl reload nginx），多数改动无需掐断全部连接硬重启。",
+    also: ["net-nginx"],
+  },
+  nginx_dir_root_static: {
+    term: "root / 静态资源",
+    brief: "root（及 alias）：把 URI 映射到磁盘目录，直接返回静态文件，不经应用逻辑。与 proxy_pass 反代业务 API 对照。",
+    also: ["net-nginx","http-web"],
+  },
+  compose_kw_services: {
+    term: "Compose services",
+    brief: "services：声明有哪些容器角色（如 redis、app）。Compose 管「一套」，docker run 管「一个」。",
+    also: ["ops-compose"],
+  },
+  compose_kw_image: {
+    term: "Compose image",
+    brief: "image：使用已有镜像名（可含标签）启动服务，不必本地 build。",
+    also: ["ops-compose","ops-docker"],
+  },
+  compose_kw_build: {
+    term: "Compose build",
+    brief: "build：按 Dockerfile（或上下文）本地构建镜像再运行；与直接 image 拉现成对照。",
+    also: ["ops-compose","ops-docker"],
+  },
+  compose_kw_ports: {
+    term: "Compose ports",
+    brief: "ports：宿主机端口:容器端口映射，如 6379:6379，让本机进程连 localhost 进容器。",
+    also: ["ops-compose","network-basics"],
+  },
+  compose_kw_volumes: {
+    term: "Compose volumes",
+    brief: "volumes：把容器内目录持久化到命名卷或宿主机路径，避免删容器丢数据。卷 ≠ 镜像只读层。",
+    also: ["ops-compose"],
+  },
+  compose_kw_depends_on: {
+    term: "depends_on",
+    brief: "depends_on：启动顺序提示（先起 A 再起 B）；不等于健康检查「已可接受连接」。",
+    also: ["ops-compose"],
+  },
+  dsa_lin_array: {
+    term: "数组 / 动态数组",
+    brief: "数组：下标连续，随机访问 O(1)；中部插入删除常 O(n)。JS Array 日常当动态数组用。",
+    also: ["dsa-linear"],
+  },
+  dsa_lin_linked_list: {
+    term: "链表",
+    brief: "链表：节点用指针/引用串联；已知节点时局部插入删除便宜，随机访问要 O(n)。常考反转、环、合并。",
+    also: ["dsa-linear"],
+  },
+  dsa_lin_stack: {
+    term: "栈（Stack）",
+    brief: "栈：LIFO 后进先出；一端进出。典型：括号匹配、撤销、DFS/递归模拟。",
+    also: ["dsa-linear"],
+  },
+  dsa_lin_queue: {
+    term: "队列（Queue）",
+    brief: "队列：FIFO 先进先出；典型 BFS、任务排队。JS 可用数组 push + shift 模拟（大数据量注意 shift 成本）。",
+    also: ["dsa-linear"],
+  },
+  dsa_lin_deque: {
+    term: "双端队列（Deque）",
+    brief: "双端队列：两头都能进出；滑动窗口最值等题常用单调双端队列。",
+    also: ["dsa-linear","dsa-hot"],
+  },
+  dsa_lin_dummy: {
+    term: "哑节点（Dummy）",
+    brief: "哑节点：链表题里放在真头前的哨兵，简化头插/头删边界，少写空指针特判。",
+    also: ["dsa-linear"],
+  },
+  sec_kw_sqli: {
+    term: "SQL 注入",
+    brief: "SQL 注入：不可信输入改变了 SQL 结构。防御：参数化/预编译/ORM 绑定，禁止字符串拼接查询。",
+    also: ["craft-security","db-sql-hands-on"],
+  },
+  sec_kw_xss: {
+    term: "XSS（跨站脚本）",
+    brief: "XSS：不可信输入当脚本在别人浏览器执行。防御：按上下文输出编码；勿把未消毒 HTML 当可信；Cookie 可加 HttpOnly。",
+    also: ["craft-security","http-web"],
+  },
+  sec_kw_cmdi: {
+    term: "命令注入",
+    brief: "命令注入：用户输入进了 shell/exec。防御：避免 shell；参数白名单；用数组形式传参而非字符串拼接命令行。",
+    also: ["craft-security"],
+  },
+  sec_kw_secret_leak: {
+    term: "密钥泄漏应急",
+    brief: "密钥进 Git/日志：先在服务商处轮换/吊销，再清配置与历史。只删提交不能替代轮换——机器人可能已扫到。",
+    also: ["craft-security","data-env"],
+  },
+  sec_kw_authz: {
+    term: "服务端鉴权",
+    brief: "鉴权：每个敏感接口服务端再判身份与权限；只藏前端按钮或关鉴权「图省事」上生产是事故。",
+    also: ["craft-security","http-web"],
+  },
+  /* —— 基础全表名词 batch3（seed-basics-tables3） —— */
+  dsa_o_o1: {
+    term: "O(1)",
+    brief: "O(1)：与输入规模无关的常量时间（如数组下标、哈希平均查找）。大 O 描述增长趋势，不是墙上秒数。",
+    also: ["dsa-complexity"],
+  },
+  dsa_o_olog: {
+    term: "O(log n)",
+    brief: "O(log n)：每次排除一部分（常砍一半），如二分查找。规模翻倍，步数只加一常数量级。",
+    also: ["dsa-complexity","dsa-sort"],
+  },
+  dsa_o_on: {
+    term: "O(n)",
+    brief: "O(n)：与输入规模成线性，扫一遍数组是典型。",
+    also: ["dsa-complexity"],
+  },
+  dsa_o_onlog: {
+    term: "O(n log n)",
+    brief: "O(n log n)：分治排序级，如快排平均、堆排、归并。许多「先排序再处理」的下界直觉落在这。",
+    also: ["dsa-complexity","dsa-sort"],
+  },
+  dsa_o_on2: {
+    term: "O(n²)",
+    brief: "O(n²)：双重循环同长 n 全扫常见。简单两数之和暴力即此类。",
+    also: ["dsa-complexity"],
+  },
+  dsa_o_oexp: {
+    term: "O(2ⁿ) / 指数",
+    brief: "O(2ⁿ) / O(n!)：未剪枝回溯、朴素递归斐波那契等，规模稍大即不可用；常靠记忆化/DP 压下来。",
+    also: ["dsa-complexity","dsa-dp"],
+  },
+  dsa_o_space: {
+    term: "空间复杂度",
+    brief: "空间复杂度：额外开了多大表/递归栈。O(1) 额外空间≠不能改输入（看题意）；递归深度 n 常至少 O(n) 栈。",
+    also: ["dsa-complexity"],
+  },
+  dsa_o_avg_worst: {
+    term: "平均 vs 最坏",
+    brief: "平均 vs 最坏：快排/哈希要分清。面试开口应说明讨论的是哪一种，勿混成一个数。",
+    also: ["dsa-complexity","dsa-hash","dsa-sort"],
+  },
+  dsa_hash_table: {
+    term: "哈希表（散列表）",
+    brief: "哈希表：键经哈希函数落到桶，平均查找/插入近 O(1)。两数之和、计数、去重的常用底座。",
+    also: ["dsa-hash"],
+  },
+  dsa_hash_collision: {
+    term: "哈希冲突",
+    brief: "冲突：不同键落到同一桶。用链址或开放寻址处理；冲突多则退化，最坏可至 O(n)。",
+    also: ["dsa-hash"],
+  },
+  dsa_hash_load: {
+    term: "负载因子",
+    brief: "负载因子：已用槽位与容量之比。过高冲突增、需扩容；影响常数与退化风险。",
+    also: ["dsa-hash"],
+  },
+  dsa_hash_map: {
+    term: "Map（JS）",
+    brief: "Map：键可为任意类型，插序可迭代；比普通对象更适合当通用字典。",
+    also: ["dsa-hash","lang-javascript"],
+  },
+  dsa_hash_set: {
+    term: "Set（JS）",
+    brief: "Set：只要键不要值的集合，天然去重。判存在、滑窗字符集合常用。",
+    also: ["dsa-hash","lang-javascript"],
+  },
+  dsa_hash_object: {
+    term: "Object 当字典",
+    brief: "Object：键主要是 string/symbol；注意原型链干扰（可用 Object.create(null)）。简单字符串键场景仍常见。",
+    also: ["dsa-hash","lang-javascript"],
+  },
+  dsa_tree_preorder: {
+    term: "前序遍历",
+    brief: "前序：根 → 左 → 右。常用于复制结构、前缀表达。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_inorder: {
+    term: "中序遍历",
+    brief: "中序：左 → 根 → 右。BST 中序得到有序序列——开口高频点。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_postorder: {
+    term: "后序遍历",
+    brief: "后序：左 → 右 → 根。删树、后缀表达、先处理孩子再处理根。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_level: {
+    term: "层序遍历",
+    brief: "层序：逐层访问，队列 BFS。锯齿层序、每层最右节点等题模板。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_bst: {
+    term: "二叉搜索树（BST）",
+    brief: "BST：左子树键 < 根 < 右子树。查找/插入平均 O(log n)，退化成链则 O(n)。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_heap: {
+    term: "堆（优先队列）",
+    brief: "堆：满足堆序的完全二叉树，常数组实现。父优于子；插入上浮、删顶下沉 O(log n)。",
+    also: ["dsa-tree"],
+  },
+  dsa_tree_topk: {
+    term: "TopK 与堆",
+    brief: "TopK：维持大小为 K 的堆扫 n 个元素 → O(n log K)。第 K 大常用小顶堆。",
+    also: ["dsa-tree","dsa-hot"],
+  },
+  dsa_sort_quick: {
+    term: "快速排序",
+    brief: "快排：平均 O(n log n)，最坏 O(n²)；不稳定；常数好。随机枢轴改善最坏。",
+    also: ["dsa-sort"],
+  },
+  dsa_sort_merge: {
+    term: "归并排序",
+    brief: "归并：始终 O(n log n)，稳定，需额外 O(n) 空间；外排友好。",
+    also: ["dsa-sort"],
+  },
+  dsa_sort_heap_sort: {
+    term: "堆排序",
+    brief: "堆排：O(n log n)，原地，不稳定；常数常不如快排。优先队列思想同源。",
+    also: ["dsa-sort","dsa-tree"],
+  },
+  dsa_sort_stable: {
+    term: "排序稳定性",
+    brief: "稳定：相等元素相对次序不变。多关键字排序时重要；归并典型稳定，快排/堆排通常不。",
+    also: ["dsa-sort"],
+  },
+  dsa_sort_binary: {
+    term: "二分查找",
+    brief: "二分：序列对答案单调（有序是特例），O(log n)。统一区间开闭、防中点溢出、分清找左/右边界。",
+    also: ["dsa-sort"],
+  },
+  dsa_graph_adj_list: {
+    term: "邻接表",
+    brief: "邻接表：每个顶点存邻居列表。稀疏图最常用，空间约 O(V+E)。",
+    also: ["dsa-graph"],
+  },
+  dsa_graph_adj_mat: {
+    term: "邻接矩阵",
+    brief: "邻接矩阵：n×n 判边 O(1)，稠密图或需快速判边时用；空间 O(n²)。",
+    also: ["dsa-graph"],
+  },
+  dsa_graph_bfs: {
+    term: "BFS（广度优先）",
+    brief: "BFS：队列逐层扩展。无权图最短层数、层序、岛屿「沉岛」等常用。",
+    also: ["dsa-graph"],
+  },
+  dsa_graph_dfs: {
+    term: "DFS（深度优先）",
+    brief: "DFS：栈或递归走深。连通分量、路径存在、拓扑前奏、网格沉岛均可。",
+    also: ["dsa-graph"],
+  },
+  dsa_graph_topo: {
+    term: "拓扑排序",
+    brief: "拓扑排序：有向无环图（DAG）上的线性序。课程表、任务依赖；有环则无法完成。入度表+队列是经典。",
+    also: ["dsa-graph","dsa-hot"],
+  },
+  http_hdr_host: {
+    term: "Host",
+    brief: "Host：请求目标主机（及端口）。虚拟主机/反代按 Host 选站点；HTTP/1.1 必带。",
+    also: ["http-web","net-nginx"],
+  },
+  http_hdr_content_type: {
+    term: "Content-Type",
+    brief: "Content-Type：正文的媒体类型（如 application/json）。收发双方据此序列化/解析 Body。",
+    also: ["http-web","http-hands-on"],
+  },
+  http_hdr_authorization: {
+    term: "Authorization",
+    brief: "Authorization：携带凭证，常见 Bearer <token>。密钥放服务端环境变量，勿写进前端打包。",
+    also: ["http-web","craft-security","data-env"],
+  },
+  http_hdr_accept: {
+    term: "Accept",
+    brief: "Accept：客户端可接受的响应媒体类型。内容协商时服务器据此选型。",
+    also: ["http-web"],
+  },
+  http_hdr_user_agent: {
+    term: "User-Agent",
+    brief: "User-Agent：客户端标识字符串。统计与兼容用；勿当唯一安全依据（可伪造）。",
+    also: ["http-web"],
+  },
+  http_hdr_cookie_req: {
+    term: "Cookie（请求头）",
+    brief: "Cookie 请求头：浏览器自动带上此前存下的 Cookie。与 Set-Cookie 响应头成对；会话 ID 常走这条。",
+    also: ["http-web"],
+  },
+  http_hdr_set_cookie: {
+    term: "Set-Cookie",
+    brief: "Set-Cookie：服务器让浏览器存储 Cookie 的响应头，可带 HttpOnly/Secure/SameSite 等属性。",
+    also: ["http-web","craft-security"],
+  },
+  http_hdr_origin_hdr: {
+    term: "Origin（头）",
+    brief: "Origin：跨源请求中标明页面来源。CORS 与 CSRF 讨论里常与 Cookie 策略对照。",
+    also: ["http-web"],
+  },
 };
 
 /**

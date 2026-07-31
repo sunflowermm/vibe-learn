@@ -9,17 +9,8 @@ export default defineQuizSet({
   kind: 'interview',
   domain: 'net',
   tags: ['网络', 'HTTP', 'TCP', 'RFC9110'],
-  relatedNodes: [
-    'tcp-udp',
-    'http-web',
-    'dns-https',
-    'routing-nat',
-    'reverse-proxy',
-    'net-edge-practice',
-    'protocol-stack',
-    'ip-addressing',
-  ],
-  caption: '开口对齐教材/RFC：可靠传输、TLS、幂等、握手。',
+  relatedNodes: ['http-web', 'tcp-udp'],
+  caption: 'TCP/TLS/幂等 + 状态码联调开口；一题一挂防串台。',
   questions: [
     {
       q: '传输控制协议（TCP）相对用户数据报协议（UDP），教材里的标准差别是什么？',
@@ -45,6 +36,7 @@ export default defineQuizSet({
           why: '说反了；TCP 提供可靠有序字节流，UDP 不保证。',
         },
       ],
+      relatedNodes: ['tcp-udp', 'protocol-stack'],
     },
     {
       q: '浏览器地址栏出现「小锁」图标，通常表示什么？',
@@ -70,6 +62,7 @@ export default defineQuizSet({
           why: 'DNS 解析发生在连接前；小锁对应 TLS 会话已建立。',
         },
       ],
+      relatedNodes: ['dns-https', 'http-web'],
     },
     {
       q: '反向代理对外监听 443 终止 TLS，再转发到本机 Node 端口，常见目的是什么？',
@@ -95,6 +88,7 @@ export default defineQuizSet({
           why: '反代转发不改变 TCP/UDP 语义；可靠传输仍由 TCP/TLS 负责。',
         },
       ],
+      relatedNodes: ['reverse-proxy', 'net-nginx'],
     },
     {
       q: '按 RFC 9110，下列哪组 HTTP 方法在语义上通常视为幂等（idempotent）？',
@@ -120,6 +114,7 @@ export default defineQuizSet({
           why: 'WebSocket 是全双工协议；与 HTTP 方法幂等定义无关。',
         },
       ],
+      relatedNodes: ['http-web', 'http-hands-on'],
     },
     {
       q: 'TCP 三次握手（SYN / SYN-ACK / ACK）主要要达成什么目标？',
@@ -145,6 +140,7 @@ export default defineQuizSet({
           why: '状态码是 HTTP 应用层语义；TCP 只建立可靠字节通道。',
         },
       ],
+      relatedNodes: ['tcp-udp'],
     },
     {
       q: 'HTTP/1.1 持久连接（Keep-Alive）的主要收益是什么？',
@@ -170,6 +166,88 @@ export default defineQuizSet({
           why: 'HTTP/1.1 仍跑在 TCP 上；UDP 是另一传输层选择（如 QUIC 场景）。',
         },
       ],
+      relatedNodes: ['http-web', 'tcp-udp'],
+    },
+    {
+      id: 'interview-net-http:sc-401-403',
+      q: '联调时 401 与 403，开口怎么分？',
+      choices: [
+        {
+          t: '401 未认证/凭证无效；403 已识别身份但无权限',
+          ok: true,
+          why: '处理不同：401 去登录，403 改 ACL/角色。',
+        },
+        {
+          t: '两者完全同义可互换',
+          ok: false,
+          why: '客户端处理路径不同。',
+        },
+        {
+          t: '403 表示资源不存在',
+          ok: false,
+          why: '不存在更常 404。',
+        },
+        {
+          t: '401 表示网关超时',
+          ok: false,
+          why: '超时是 504/408 等。',
+        },
+      ],
+      relatedNodes: ['http-web', 'http-hands-on'],
+    },
+    {
+      id: 'interview-net-http:sc-502-504',
+      q: '反代后出现 502 与 504，怎么讲？',
+      choices: [
+        {
+          t: '502 上游应答无效；504 网关等上游超时——先查上游进程/耗时',
+          ok: true,
+          why: '边缘排障分层：网关日志 + 上游健康。',
+        },
+        {
+          t: '两者都表示浏览器缓存命中',
+          ok: false,
+          why: '缓存命中是 304 等。',
+        },
+        {
+          t: '502 等于 404',
+          ok: false,
+          why: '404 是资源不存在。',
+        },
+        {
+          t: '只能改前端文案解决',
+          ok: false,
+          why: '属基础设施与上游。',
+        },
+      ],
+      relatedNodes: ['reverse-proxy', 'http-web', 'net-nginx'],
+    },
+    {
+      id: 'interview-net-http:sc-429',
+      q: '开放 API 返回 429 时，调用方与服务方各应注意？',
+      choices: [
+        {
+          t: '调用方退避重试（看 Retry-After）；服务方限流与配额防刷',
+          ok: true,
+          why: '大厂开放平台高频考点。',
+        },
+        {
+          t: '429 表示创建成功',
+          ok: false,
+          why: '201/200 才是成功创建/成功。',
+        },
+        {
+          t: '应改成 200 并在 body 里写失败',
+          ok: false,
+          why: '状态码应诚实表达限流。',
+        },
+        {
+          t: '429 只出现在浏览器，API 不会有',
+          ok: false,
+          why: 'API 网关限流常用 429。',
+        },
+      ],
+      relatedNodes: ['http-web', 'http-hands-on'],
     },
   ],
 });

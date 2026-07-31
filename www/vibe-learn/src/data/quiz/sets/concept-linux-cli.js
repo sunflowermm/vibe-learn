@@ -1,274 +1,184 @@
 import { defineQuizSet } from '../schema.js';
 
-/** Linux / Unix 指令模块：基础导航 + 进阶排障（放 ops · linux-cli） */
 export default defineQuizSet({
-  id: 'concept-linux-cli',
-  title: '概念 · Linux 指令（基础→进阶）',
-  kind: 'concept',
-  domain: 'ops',
-  tags: ['Linux', '指令', 'Shell', '基础', '进阶'],
-  relatedNodes: ['linux-cli', 'linux-distros', 'terminal-worlds'],
-  caption: '经典导航/权限/检索 + 管道与进程排障（对照菜鸟 Linux 命令直觉）。',
+  id: "concept-linux-cli",
+  title: "概念 · Linux 指令（基础→进阶）",
+  kind: "concept",
+  domain: "ops",
+  tags: ["Linux","指令","Shell","基础","进阶"],
+  relatedNodes: ["linux-distros","linux-cli","package-managers","runtime-nodejs","host-systemd","lang-shell"],
+  caption: "发行版差异、进程组合、systemd/作业控制——命令词典见 Linux 命令全表。",
   questions: [
-    {
-      id: 'concept-linux-cli:q1',
-      q: '打印当前工作目录？',
-      choices: [
-        { t: 'pwd', ok: true, why: 'print working directory。' },
-        { t: 'cwd', ok: false, why: 'cwd 是概念名，命令是 pwd。' },
-        { t: 'where', ok: false, why: '非标准定位 cwd。' },
-        { t: 'home', ok: false, why: '不是打印 cwd 的命令。' },
-      ],
-      relatedNodes: ['linux-cli', 'terminal-worlds'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q2',
-      q: '列出目录（含隐藏文件）较常用？',
-      choices: [
-        { t: 'ls -la', ok: true, why: '-a 含隐藏；-l 长格式。' },
-        { t: 'dir /s（在 Bash 里）', ok: false, why: '那是 Windows cmd 习惯。' },
-        { t: 'list --all', ok: false, why: '非标准。' },
-        { t: 'show hidden', ok: false, why: '不是命令。' },
-      ],
-      relatedNodes: ['linux-cli'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q3',
-      q: '切换目录到上级，经典写法？',
-      choices: [
-        { t: 'cd ..', ok: true, why: '.. 表示父目录。' },
-        { t: 'cd //', ok: false, why: '根路径习惯，不是上级。' },
-        { t: 'cd ~~', ok: false, why: '~ 是家目录。' },
-        { t: 'cd --parent-only', ok: false, why: '无此标准选项。' },
-      ],
-      relatedNodes: ['linux-cli'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q4',
-      q: '递归复制目录 tree？',
-      choices: [
-        { t: 'cp -r src/ dest/', ok: true, why: '-r/--recursive 复制目录树。' },
-        { t: 'cp src/ dest/（无 -r）', ok: false, why: '默认不递归目录。' },
-        { t: 'mv -r 仅用于复制', ok: false, why: 'mv 是移动/改名。' },
-        { t: 'touch -r', ok: false, why: 'touch 改时间戳/建空文件。' },
-      ],
-      relatedNodes: ['linux-cli'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q5',
-      q: '在文件内容里搜字符串，经典工具？',
-      choices: [
-        { t: 'grep -n "error" app.log', ok: true, why: '文本检索；-n 行号。现代也可用 rg。' },
-        { t: 'find -name error', ok: false, why: 'find 偏文件名/元数据，不是内容搜索主力。' },
-        { t: 'chmod error', ok: false, why: '改权限。' },
-        { t: 'ping error', ok: false, why: '网络探测。' },
-      ],
-      relatedNodes: ['linux-cli', 'workbench-troubleshoot'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q6',
-      q: '按文件名在目录树中查找 *.log？',
-      choices: [
-        { t: 'find . -name "*.log"', ok: true, why: 'find 遍历元数据；名称匹配用 -name。' },
-        { t: 'grep -r 只能找文件名', ok: false, why: 'grep -r 搜内容。' },
-        { t: 'ls *.log 递归全部子目录', ok: false, why: '裸通配不递归（除非 ** 与 shell 选项）。' },
-        { t: 'cat *.log -name', ok: false, why: 'cat 看内容。' },
-      ],
-      relatedNodes: ['linux-cli'],
-      tags: ['基础', '进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q7',
-      q: '同一意图「装系统软件」，Ubuntu 与 Fedora 常见命令差别说明什么？',
-      choices: [
-        {
-          t: '发行版家族不同 → 包管理方言不同（如 apt vs dnf），文档要对准发行版',
-          ok: true,
-          why: '内核可同属 Linux；仓库与工具链是发行版产品差异。',
-        },
-        {
-          t: 'TCP 端口数学定义随发行版变化',
-          ok: false,
-          why: '端口是协议标准，与 apt/dnf 无关。',
-        },
-        {
-          t: '二者必须使用 pnpm 安装内核',
-          ok: false,
-          why: 'pnpm 管 JS 项目依赖，不管系统内核。',
-        },
-        {
-          t: 'Fedora 禁止使用任何包管理器',
-          ok: false,
-          why: 'dnf/rpm 正是其包管理路径。',
-        },
-      ],
-      relatedNodes: ['linux-distros', 'linux-cli', 'package-managers'],
-      tags: ['基础', '进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q8',
-      q: '给脚本加可执行权限，经典？',
-      choices: [
-        { t: 'chmod +x script.sh', ok: true, why: '增加执行位；也可用数字如 755。' },
-        { t: 'chown +x script.sh', ok: false, why: 'chown 改所有者。' },
-        { t: 'chgrp +x script.sh', ok: false, why: '改组。' },
-        { t: 'umask +x', ok: false, why: 'umask 设默认掩码。' },
-      ],
-      relatedNodes: ['linux-cli', 'craft-security'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q9',
-      q: '看谁占用了 3000 端口（Linux 常见）？',
-      choices: [
-        { t: 'ss -lntp | grep 3000（或 lsof -i :3000）', ok: true, why: '现代用 ss；lsof 也很常见。' },
-        { t: 'pwd 3000', ok: false, why: '无关。' },
-        { t: 'chmod 3000', ok: false, why: '权限。' },
-        { t: 'git status :3000', ok: false, why: '无关。' },
-      ],
-      relatedNodes: ['linux-cli', 'workbench-troubleshoot', 'http-web'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q10',
-      q: '跟踪进程实时输出日志文件？',
-      choices: [
-        { t: 'tail -f app.log', ok: true, why: 'follow 追加；也可用 less +F。' },
-        { t: 'head -f', ok: false, why: 'head 看开头，不 follow。' },
-        { t: 'wc -f', ok: false, why: 'wc 计数。' },
-        { t: 'sort -f 只用于跟日志', ok: false, why: 'sort 排序。' },
-      ],
-      relatedNodes: ['linux-cli', 'craft-observability'],
-      tags: ['基础', '进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q11',
-      q: '后台查看进程、按名过滤 node？',
-      choices: [
-        { t: 'ps aux | grep node（注意排除 grep 自身）', ok: true, why: '经典组合；也可用 pgrep -a node。' },
-        { t: 'ls node', ok: false, why: '列文件。' },
-        { t: 'kill -9 不加 pid 即可', ok: false, why: '必须指定进程。' },
-        { t: 'nice node 只用来杀进程', ok: false, why: 'nice 调优先级。' },
-      ],
-      relatedNodes: ['linux-cli', 'runtime-nodejs'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q12',
-      q: '重定向：把命令标准错误也并入文件？',
-      choices: [
-        { t: 'cmd >out.log 2>&1', ok: true, why: 'stdout 进文件，stderr 并入 stdout。' },
-        { t: 'cmd < out.log', ok: false, why: '那是 stdin 重定向。' },
-        { t: 'cmd | out.log', ok: false, why: '管道右边应是命令。' },
-        { t: 'cmd >>> out.log', ok: false, why: '非标准。' },
-      ],
-      relatedNodes: ['linux-cli', 'lang-shell'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q13',
-      q: '用 systemd 看某服务是否在跑（现代发行版）？',
-      choices: [
-        { t: 'systemctl status my.service', ok: true, why: '主机服务管理入口。' },
-        { t: 'git status my.service', ok: false, why: 'Git。' },
-        { t: 'docker status 等于 systemctl', ok: false, why: '容器另有体系。' },
-        { t: 'npm status', ok: false, why: '无关。' },
-      ],
-      relatedNodes: ['host-systemd', 'linux-cli'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q14',
-      q: '下载文件（无交互）常用？',
-      choices: [
-        { t: 'curl -L -o file.tgz URL 或 wget URL', ok: true, why: '运维与 CI 经典；-L 跟随重定向。' },
-        { t: 'cd URL', ok: false, why: 'cd 改目录。' },
-        { t: 'chmod URL', ok: false, why: '权限。' },
-        { t: 'git init URL 必下载任意文件', ok: false, why: 'git 克隆仓库。' },
-      ],
-      relatedNodes: ['linux-cli', 'installers-path'],
-      tags: ['基础', '进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q15',
-      q: '看磁盘空间与目录体积？',
-      choices: [
-        { t: 'df -h 看挂载点；du -sh dir 看目录占用', ok: true, why: '磁盘满是服务挂掉经典原因。' },
-        { t: 'git df', ok: false, why: '不是 Git 子命令。' },
-        { t: 'npm disk', ok: false, why: '无此标准命令。' },
-        { t: 'chmod -h', ok: false, why: 'chmod 改权限，不查空间。' },
-      ],
-      relatedNodes: ['linux-cli', 'workbench-troubleshoot'],
-      tags: ['基础', '进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q16',
-      q: '打包/解压 tar.gz 经典组合？',
-      choices: [
-        { t: 'tar -czf a.tgz dir/ 打包；tar -xzf a.tgz 解压', ok: true, why: '发布与备份常见。' },
-        { t: 'tar 只能压缩单个字母文件名', ok: false, why: '可打包目录树。' },
-        { t: 'unzip 是唯一能处理 .tar.gz 的工具', ok: false, why: 'zip≠tar.gz；用 tar。' },
-        { t: 'tar -czf 会自动 git push', ok: false, why: '打包与推送无关。' },
-      ],
-      relatedNodes: ['linux-cli'],
-      tags: ['基础'],
-    },
-    {
-      id: 'concept-linux-cli:q17',
-      q: '需要管理员权限执行命令时？',
-      choices: [
-        { t: 'sudo command（理解风险；勿盲目 sudo rm -rf）', ok: true, why: '提权有审计与误伤成本。' },
-        { t: '任何命令前加 sudo 都更安全', ok: false, why: '扩大破坏面。' },
-        { t: 'sudo 等于关闭防火墙', ok: false, why: '提权≠改防火墙策略。' },
-        { t: '普通用户永远不能读自己的家目录', ok: false, why: '家目录本就可以读。' },
-      ],
-      relatedNodes: ['linux-cli', 'craft-security'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q18',
-      q: '看 systemd 服务近期日志？',
-      choices: [
-        { t: 'journalctl -u my.service -n 100 --no-pager', ok: true, why: '主机服务排障入口。' },
-        { t: 'git log -u my.service', ok: false, why: 'Git 历史，不是服务日志。' },
-        { t: 'npm journal', ok: false, why: '无此标准命令。' },
-        { t: 'docker journalctl 等于删除镜像', ok: false, why: 'journalctl 读日志，不删镜像。' },
-      ],
-      relatedNodes: ['host-systemd', 'linux-cli'],
-      tags: ['进阶'],
-    },
-    {
-      id: 'concept-linux-cli:q19',
-      q: '把命令放到后台跑、再拉回前台，经典？',
-      choices: [
-        {
-          t: '末尾 `&` 后台；`fg` 拉回前台；`Ctrl+C` 打断前台进程',
-          ok: true,
-          why: '长任务与交互会话管理基础；与「另开一个终端」互补。',
-        },
-        {
-          t: '`&` 表示逻辑与，不能用于后台',
-          ok: false,
-          why: '命令末尾的 `&` 是作业控制后台。',
-        },
-        {
-          t: '后台进程无法再被管理',
-          ok: false,
-          why: 'jobs/fg/bg/kill 都可管。',
-        },
-        {
-          t: '只有 root 能用 Ctrl+C',
-          ok: false,
-          why: '普通用户也可中断自己的前台进程。',
-        },
-      ],
-      relatedNodes: ['linux-cli', 'lang-shell'],
-      tags: ['进阶'],
-    },
-  ],
+  {
+    "id": "concept-linux-cli:q7",
+    "q": "同一意图「装系统软件」，Ubuntu 与 Fedora 常见命令差别说明什么？",
+    "choices": [
+      {
+        "t": "发行版家族不同 → 包管理方言不同（如 apt vs dnf），文档要对准发行版",
+        "ok": true,
+        "why": "内核可同属 Linux；仓库与工具链是发行版产品差异。"
+      },
+      {
+        "t": "Fedora 禁止使用任何包管理器",
+        "ok": false,
+        "why": "dnf/rpm 正是其包管理路径。"
+      },
+      {
+        "t": "二者必须使用 pnpm 安装内核",
+        "ok": false,
+        "why": "pnpm 管 JS 项目依赖，不管系统内核。"
+      },
+      {
+        "t": "TCP 端口数学定义随发行版变化",
+        "ok": false,
+        "why": "端口是协议标准，与 apt/dnf 无关。"
+      }
+    ],
+    "relatedNodes": [
+      "linux-distros",
+      "linux-cli",
+      "package-managers"
+    ],
+    "tags": [
+      "基础",
+      "进阶"
+    ]
+  },
+  {
+    "id": "concept-linux-cli:q11",
+    "q": "后台查看进程、按名过滤 node？",
+    "choices": [
+      {
+        "t": "ps aux | grep node（注意排除 grep 自身）",
+        "ok": true,
+        "why": "经典组合；也可用 pgrep -a node。"
+      },
+      {
+        "t": "kill -9 不加 pid 即可",
+        "ok": false,
+        "why": "必须指定进程。"
+      },
+      {
+        "t": "ls node",
+        "ok": false,
+        "why": "列文件。"
+      },
+      {
+        "t": "nice node 只用来杀进程",
+        "ok": false,
+        "why": "nice 调优先级。"
+      }
+    ],
+    "relatedNodes": [
+      "linux-cli",
+      "runtime-nodejs"
+    ],
+    "tags": [
+      "基础",
+      "进阶"
+    ]
+  },
+  {
+    "id": "concept-linux-cli:q13",
+    "q": "用 systemd 看某服务是否在跑（现代发行版）？",
+    "choices": [
+      {
+        "t": "systemctl status my.service",
+        "ok": true,
+        "why": "主机服务管理入口。"
+      },
+      {
+        "t": "npm status",
+        "ok": false,
+        "why": "无关。"
+      },
+      {
+        "t": "git status my.service",
+        "ok": false,
+        "why": "Git。"
+      },
+      {
+        "t": "docker status 等于 systemctl",
+        "ok": false,
+        "why": "容器另有体系。"
+      }
+    ],
+    "relatedNodes": [
+      "host-systemd",
+      "linux-cli"
+    ],
+    "tags": [
+      "基础",
+      "进阶"
+    ]
+  },
+  {
+    "id": "concept-linux-cli:q18",
+    "q": "看 systemd 服务近期日志？",
+    "choices": [
+      {
+        "t": "journalctl -u my.service -n 100 --no-pager",
+        "ok": true,
+        "why": "主机服务排障入口。"
+      },
+      {
+        "t": "docker journalctl 等于删除镜像",
+        "ok": false,
+        "why": "journalctl 读日志，不删镜像。"
+      },
+      {
+        "t": "npm journal",
+        "ok": false,
+        "why": "无此标准命令。"
+      },
+      {
+        "t": "git log -u my.service",
+        "ok": false,
+        "why": "Git 历史，不是服务日志。"
+      }
+    ],
+    "relatedNodes": [
+      "host-systemd",
+      "linux-cli"
+    ],
+    "tags": [
+      "基础",
+      "进阶"
+    ]
+  },
+  {
+    "id": "concept-linux-cli:q19",
+    "q": "把命令放到后台跑、再拉回前台，经典？",
+    "choices": [
+      {
+        "t": "末尾 `&` 后台；`fg` 拉回前台；`Ctrl+C` 打断前台进程",
+        "ok": true,
+        "why": "长任务与交互会话管理基础；与「另开一个终端」互补。"
+      },
+      {
+        "t": "后台进程无法再被管理",
+        "ok": false,
+        "why": "jobs/fg/bg/kill 都可管。"
+      },
+      {
+        "t": "只有 root 能用 Ctrl+C",
+        "ok": false,
+        "why": "普通用户也可中断自己的前台进程。"
+      },
+      {
+        "t": "`&` 表示逻辑与，不能用于后台",
+        "ok": false,
+        "why": "命令末尾的 `&` 是作业控制后台。"
+      }
+    ],
+    "relatedNodes": [
+      "linux-cli",
+      "lang-shell"
+    ],
+    "tags": [
+      "基础",
+      "进阶"
+    ]
+  }
+],
 });
