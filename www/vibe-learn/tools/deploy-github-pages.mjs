@@ -41,20 +41,26 @@ try {
   sh('gh', ['repo', 'view', REPO], { env, stdio: 'pipe' });
 } catch {
   console.log(`创建仓库 ${REPO} …`);
-  sh(
-    'gh',
-    [
-      'repo',
-      'create',
-      REPO,
-      '--public',
-      '--description',
-      'Vibe Learn — 知识节点图谱（GitHub Pages 静态站）',
-      '--disable-issues',
-      '--disable-wiki',
-    ],
-    { env }
-  );
+  try {
+    sh(
+      'gh',
+      [
+        'repo',
+        'create',
+        REPO,
+        '--public',
+        '--description',
+        'Vibe Learn — 知识节点图谱（GitHub Pages 静态站）',
+        '--disable-issues',
+        '--disable-wiki',
+      ],
+      { env }
+    );
+  } catch (e) {
+    const msg = String(e?.stderr || e?.message || e);
+    if (!/already exists|Name already exists/i.test(msg)) throw e;
+    console.log('仓库已存在，继续部署');
+  }
 }
 
 sh('git', ['init', '-b', BRANCH], { cwd: STAGE, env });
