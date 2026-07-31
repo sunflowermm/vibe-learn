@@ -95,20 +95,12 @@ import interviewXrk from './sets/interview-xrk.js';
 import interviewCraft from './sets/interview-craft.js';
 import interviewLang from './sets/interview-lang.js';
 import interviewOps from './sets/interview-ops.js';
-// adapted-imports
+// adapted-imports（guo 多数包为 Markdown 笔记 dump，未 scrub 前勿入 REGISTRY；仅 obs 可用）
 import interview_adapted_naresh_rag from './sets/interview-adapted-naresh-rag.js';
 import interview_adapted_naresh_llm from './sets/interview-adapted-naresh-llm.js';
 import interview_adapted_naresh_agent from './sets/interview-adapted-naresh-agent.js';
 import interview_adapted_naresh_transformer from './sets/interview-adapted-naresh-transformer.js';
-import interview_adapted_guo_rag from './sets/interview-adapted-guo-rag.js';
-import interview_adapted_guo_agent from './sets/interview-adapted-guo-agent.js';
-import interview_adapted_guo_prompt from './sets/interview-adapted-guo-prompt.js';
-import interview_adapted_guo_mcp from './sets/interview-adapted-guo-mcp.js';
-import interview_adapted_guo_multi_agent from './sets/interview-adapted-guo-multi-agent.js';
-import interview_adapted_guo_prod from './sets/interview-adapted-guo-prod.js';
-import interview_adapted_guo_rag_adv from './sets/interview-adapted-guo-rag-adv.js';
 import interview_adapted_guo_obs from './sets/interview-adapted-guo-obs.js';
-import interview_adapted_guo_sys from './sets/interview-adapted-guo-sys.js';
 import interview_adapted_landed_retrieval from './sets/interview-adapted-landed-retrieval.js';
 import interview_adapted_landed_embeddings from './sets/interview-adapted-landed-embeddings.js';
 import interview_adapted_landed_chunking from './sets/interview-adapted-landed-chunking.js';
@@ -215,15 +207,7 @@ const REGISTRY = [
   interview_adapted_naresh_llm,
   interview_adapted_naresh_agent,
   interview_adapted_naresh_transformer,
-  interview_adapted_guo_rag,
-  interview_adapted_guo_agent,
-  interview_adapted_guo_prompt,
-  interview_adapted_guo_mcp,
-  interview_adapted_guo_multi_agent,
-  interview_adapted_guo_prod,
-  interview_adapted_guo_rag_adv,
   interview_adapted_guo_obs,
-  interview_adapted_guo_sys,
   interview_adapted_landed_retrieval,
   interview_adapted_landed_embeddings,
   interview_adapted_landed_chunking,

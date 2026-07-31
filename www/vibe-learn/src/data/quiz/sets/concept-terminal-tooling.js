@@ -16,8 +16,6 @@ export default defineQuizSet({
     'installers-path',
     'package-managers',
     'runtime-nodejs',
-    'linux-cli',
-    'workbench-troubleshoot',
   ],
   caption: '窗口 / Shell / OS → PATH → 系统包 vs 项目包 → 首次跑通前的环境地基。',
   questions: [
@@ -239,30 +237,30 @@ export default defineQuizSet({
     },
     {
       id: 'concept-terminal-tooling:q9',
-      q: 'WSL 与「原生 Linux 云主机」最关键的边界？',
+      q: '在 WSL 里改的项目文件，用 Windows 侧编辑器打开时，更该注意？',
       choices: [
         {
-          t: 'WSL 跑在 Windows 上的 Linux 兼容层/虚拟化环境；原生机是独立内核与硬件边界',
+          t: '路径与换行（CRLF/LF）、权限观感可能不同；跨侧混用要统一编辑器与 Git 换行策略',
           ok: true,
-          why: '文件路径、网络回环、systemd 完整度可能不同；部署文档要对准目标环境。',
+          why: 'WSL 文件系统与 Windows 盘互通常见坑是换行与「看起来同路径却不是同一挂载」。',
         },
         {
-          t: '二者字节级完全相同，无任何差异',
+          t: 'WSL 与 Windows 对同一文件强制比特级永不差异',
           ok: false,
-          why: '边界与集成方式不同。',
+          why: '换行、权限展示、路径前缀都可能不同。',
         },
         {
-          t: 'WSL 不能运行任何命令行工具',
+          t: 'WSL 里禁止使用任何文本编辑器',
           ok: false,
-          why: '正是为了在 Windows 上用 Linux 工具链。',
+          why: '可以编辑；要注意跨侧一致性。',
         },
         {
-          t: '原生 Linux 禁止使用 SSH',
+          t: '换行符只影响打印机，与 Git 无关',
           ok: false,
-          why: '云主机常用 SSH。',
+          why: 'Git 与跨平台 diff 常被 CRLF 干扰。',
         },
       ],
-      relatedNodes: ['terminal-worlds', 'linux-distros'],
+      relatedNodes: ['terminal-worlds', 'git-workspace'],
     },
     {
       id: 'concept-terminal-tooling:q10',
@@ -374,30 +372,30 @@ export default defineQuizSet({
     },
     {
       id: 'concept-terminal-tooling:q14',
-      q: '为何要把 pnpm-lock.yaml / package-lock.json 提交进仓库？',
+      q: 'CI 里希望「锁文件与解析结果不一致就立刻失败」，pnpm 侧常见做法？',
       choices: [
         {
-          t: '锁定依赖树版本，让本机、CI、同事安装结果可复现，减少「我这边能跑」',
+          t: '使用冻结锁安装（如 --frozen-lockfile），禁止 CI 默默改出新锁',
           ok: true,
-          why: '没有锁文件时解析结果会随时间漂移。',
+          why: '本地可更新锁并提交；CI 应复现而非改写依赖图。',
         },
         {
-          t: '锁文件专门存放 API 密钥',
+          t: 'CI 每次删除 lockfile 再随便解析',
           ok: false,
-          why: '密钥走环境变量/Secrets，不进锁文件。',
+          why: '正是不可复现的根源。',
         },
         {
-          t: '有锁文件就可以不写 package.json',
+          t: '把 lockfile 改名成 .env 即可',
           ok: false,
-          why: '清单与锁文件分工不同，都需要。',
+          why: '职责不同；密钥不进锁文件。',
         },
         {
-          t: '锁文件只在 Windows 上有意义',
+          t: '只有 Windows Runner 才需要锁文件',
           ok: false,
-          why: '跨平台复现都依赖它。',
+          why: '所有平台 CI 都要可复现。',
         },
       ],
-      relatedNodes: ['package-managers', 'craft-ci', 'workbench-troubleshoot'],
+      relatedNodes: ['package-managers', 'craft-ci'],
     },
     {
       id: 'concept-terminal-tooling:q15',

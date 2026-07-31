@@ -16,9 +16,6 @@ export default defineQuizSet({
     'routing-nat',
     'reverse-proxy',
     'net-edge-practice',
-    'net-nginx',
-    'dns-https',
-    'ip-addressing',
   ],
   caption: '按因果链：五元组 → 传输选型 → 出网 NAT/ACL → 门面反代 → 边缘回源。',
   questions: [
@@ -132,30 +129,30 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-path:q5',
-      q: 'TCP 三次握手主要达成什么？',
+      q: 'TCP 三次握手失败时，上层 HTTP 请求通常会怎样？',
       choices: [
         {
-          t: '双方确认可达并同步初始序号（ISN），进入可传数据的连接状态',
+          t: '根本发不出去：浏览器/客户端先卡在「连不上」，谈不上拿到状态码',
           ok: true,
-          why: 'SYN → SYN-ACK → ACK；握手失败时 HTTP 根本发不出去。',
+          why: '握手建的是可靠字节通道；失败时常见 connection timed out / refused，而不是先看到 404。',
         },
         {
-          t: '在握手阶段完成全部业务 JSON 加密',
+          t: '仍会稳定返回 HTTP 200，只是 body 为空',
           ok: false,
-          why: '业务加密多在 TLS；TCP 握手本身不加密应用数据。',
+          why: '没有 TCP 连接就没有 HTTP 响应。',
         },
         {
-          t: '向权威 DNS 申请 A 记录',
+          t: '握手失败会自动改成 UDP 再试一次业务 JSON',
           ok: false,
-          why: 'DNS 在建连之前；不是握手职责。',
+          why: 'HTTPS API 不会因握手失败改走 UDP。',
         },
         {
-          t: '协商 HTTP 404/500 的含义',
+          t: '只影响 DNS，不影响本机到 IP 的建连',
           ok: false,
-          why: '状态码是应用层语义。',
+          why: '握手发生在已有目标 IP 之后；与「解析失败」是不同阶段。',
         },
       ],
-      relatedNodes: ['tcp-udp', 'http-web'],
+      relatedNodes: ['tcp-udp', 'http-web', 'workbench-troubleshoot'],
     },
     {
       id: 'concept-net-path:q6',
@@ -591,30 +588,30 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-path:q22',
-      q: 'ping 通但 HTTPS 打不开时，分层结论更接近？',
+      q: '安全组「入站放行 443」配好了，但只对某个办公网段开放——外网用户仍打不开，更可能是？',
       choices: [
         {
-          t: 'ICMP 可达≠业务端口/TLS/HTTP 正常——继续查端口、证书与进程',
+          t: 'ACL 源地址过窄：规则匹配的是「谁可以来」，不是只看目的端口',
           ok: true,
-          why: '安全组禁 ICMP 也可能 ping 不通但网站仍开；反之亦然。',
+          why: '端口对了还要看源网段/安全组绑定的网卡与实例；排障要读完整规则。',
         },
         {
-          t: 'ping 通则一切 Web 必通',
+          t: '只要写了 443，全世界一定能连，无需看源',
           ok: false,
-          why: '经典误解。',
+          why: '云厂商安全组常按源 CIDR 限制。',
         },
         {
-          t: '只能重装操作系统',
+          t: '一定是 HTTP 方法写错成 GET',
           ok: false,
-          why: '过激；先分层排障。',
+          why: '外网「连不上」优先查网络 ACL，不是先猜方法。',
         },
         {
-          t: '一定是域名写错（题设已用 IP）',
+          t: 'TLS 证书品牌决定安全组是否生效',
           ok: false,
-          why: '用 IP 访问时仍可能端口/TLS 问题。',
+          why: '证书与安全组是不同层。',
         },
       ],
-      relatedNodes: ['routing-nat', 'tcp-udp', 'dns-https', 'network-basics'],
+      relatedNodes: ['routing-nat', 'net-edge-practice', 'network-basics'],
     },
   ],
 });

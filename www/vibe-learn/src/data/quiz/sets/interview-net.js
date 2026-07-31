@@ -146,9 +146,9 @@ export default defineQuizSet({
       q: 'HTTP/1.1 持久连接（Keep-Alive）的主要收益是什么？',
       choices: [
         {
-          t: '同一 TCP 连接上串行发送多个请求，摊薄握手与慢启动成本',
+          t: '同一 TCP 连接上依次完成多个请求-响应，摊薄握手与慢启动成本',
           ok: true,
-          why: '相对每个请求新建 TCP，Keep-Alive 减少延迟与 CPU 开销。',
+          why: '相对每请求新建 TCP 更省延迟；勿与 HTTP/2 多路复用或少见的 HTTP/1.1 pipelining 混为一谈。',
         },
         {
           t: '自动防御结构化查询语言（SQL）注入攻击',
@@ -163,7 +163,7 @@ export default defineQuizSet({
         {
           t: '把默认传输层从 TCP 换成 UDP',
           ok: false,
-          why: 'HTTP/1.1 仍跑在 TCP 上；UDP 是另一传输层选择（如 QUIC 场景）。',
+          why: 'HTTP/1.1 仍跑在 TCP 上；UDP/QUIC 是另一传输路径。',
         },
       ],
       relatedNodes: ['http-web', 'tcp-udp'],
