@@ -15,7 +15,7 @@ export default `# 子代理 · Subagent
 ## 为什么诞生
 
 \`\`\`quiz
-{"title":"Subagent 自测","questions":[{"q":"Subagent 适合什么？","choices":[{"t":"把可隔离的子任务交给专项上下文","ok":true,"why":"降噪、分工。"},{"t":"替代操作系统进程调度器","ok":false,"why":"是产品/编排概念。"},{"t":"保证模型永不幻觉","ok":false,"why":"不能保证。"}]}]}
+{"title":"Subagent 自测","questions":[{"q":"Subagent 适合什么？","choices":[{"t":"把可隔离的子任务交给专项上下文","ok":true,"why":"降噪、分工。"},{"t":"替代操作系统进程调度器","ok":false,"why":"是产品/编排概念。"},{"t":"保证模型永不幻觉","ok":false,"why":"不能保证。"},{"t":"自动消灭所有网络延迟","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 | 痛点 | 说明 |
@@ -52,7 +52,7 @@ export default `# 子代理 · Subagent
 | 为委派而委派 | 一步小事也开子代理 | 短任务留在主对话 |
 
 \`\`\`quiz
-{"title":"Subagent 边界","questions":[{"q":"子代理相对主对话，最不该默认假设的是？","choices":[{"t":"自动拥有全部闲聊上下文","ok":true,"why":"上下文常隔离；靠 brief / rules / skills。"},{"t":"可以遵守项目 Rules","ok":false,"why":"通常应遵守。"},{"t":"适合可隔离子任务","ok":false,"why":"这正是适用场景。"}]}]}
+{"title":"Subagent 边界","questions":[{"q":"子代理相对主对话，最不该默认假设的是？","choices":[{"t":"自动拥有全部闲聊上下文","ok":true,"why":"上下文常隔离；靠 brief / rules / skills。"},{"t":"可以遵守项目 Rules","ok":false,"why":"通常应遵守。"},{"t":"适合可隔离子任务","ok":false,"why":"这正是适用场景。"},{"t":"必须物理换一台电脑才能启动","ok":false,"why":"逻辑隔离即可。"}]}]}
 \`\`\`
 
 ---
@@ -67,6 +67,19 @@ export default `# 子代理 · Subagent
 - **Rules** = 全工地安全条例  
 
 质检班不必听完你和工头午饭聊了啥，但必须遵守安全条例。
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 子代理清单 | \`subagents.yaml\`：路由提示 / 角色说明（按配置） |
+| 默认边界 | 当前常见是**提示级路由**，不默认拉起完全隔离子会话进程 |
+| 与 Skills | 子任务 brief + 可匹配技能；勿假设继承全部闲聊 |
+| 真源 | \`docs/agent-context.md\` · \`docs/agents.md\` · 第四章 **办事助手** |
+
+\`\`\`quiz
+{"title":"本仓子代理","questions":[{"q":"本仓 subagents.yaml 更准确的默认理解是？","choices":[{"t":"路由提示清单；勿默认当成已启完整隔离进程池","ok":true,"why":"先读现行契约，再谈产品级并行子会话。"},{"t":"自动在 ESP32 上调度线程","ok":false,"why":"与 MCU 无关。"},{"t":"替代 pnpm lockfile","ok":false,"why":"无关。"},{"t":"关闭所有工具白名单","ok":false,"why":"委派更需要权限边界。"}]}]}
+\`\`\`
 
 ## 接到下一站
 

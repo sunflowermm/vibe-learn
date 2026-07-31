@@ -100,6 +100,10 @@ flowchart LR
 
 防火墙与 NAT 常同机配置：先有地址转换，再有「哪些端口允许进入」。
 
+\`\`\`quiz
+{"title":"路由 / NAT 自测","questions":[{"q":"SNAT 与 DNAT 的方向？","choices":[{"t":"SNAT 改源（多出网）；DNAT 改目的/端口（多入站进内网）","ok":true,"why":"家用出网常见 SNAT/PAT；端口转发入站常见 DNAT。"},{"t":"二者完全同义","ok":false,"why":"改源还是改目的，方向不同。"},{"t":"SNAT 专门做 DNS","ok":false,"why":"NAT 不做名字解析。"},{"t":"只有 IPv6 需要","ok":false,"why":"IPv4 私网出网正是高发区。"}]},{"q":"外网访问不到自建服务，但本机能上网，优先查？","choices":[{"t":"入站端口转发/安全组是否放行","ok":true,"why":"出站通≠入站开。"},{"t":"一定是 CSS","ok":false,"why":"层次不对。"},{"t":"DNS 成功即证明入站已开","ok":false,"why":"解析≠端口可达。"},{"t":"只能重装系统","ok":false,"why":"先查转发与 ACL。"}]}]}
+\`\`\`
+
 ---
 
 ## 5. 端口转发（入门）

@@ -227,6 +227,10 @@ flowchart LR
 - 说清 Claude Code 为何推荐 Git for Windows（Bash tool）  
 - 说清 WSL 与原生 Linux 不是同一台机器  
 
+\`\`\`quiz
+{"title":"终端环境自测","questions":[{"q":"终端仿真器、Shell、OS 的分工？","choices":[{"t":"仿真器管窗口输入输出；Shell 解释命令；OS 起进程管文件权限","ok":true,"why":"三件套分层；混为一谈会排错层。"},{"t":"三者完全同义","ok":false,"why":"换终端窗口不会换掉 Shell 语义。"},{"t":"Shell 负责磁盘分区","ok":false,"why":"分区是 OS/存储层。"},{"t":"没有图形桌面就没有 Shell","ok":false,"why":"服务器 SSH 正是终端+Shell。"}]},{"q":"WSL 与原生 Linux 云主机？","choices":[{"t":"WSL 在 Windows 上提供 Linux 环境；原生机有独立内核与硬件边界，验收要对准目标","ok":true,"why":"路径、网络、systemd 完整度可能不同。"},{"t":"二者强制比特级一致","ok":false,"why":"现实常有差异。"},{"t":"WSL 不能跑命令行","ok":false,"why":"正是为了跑 Linux 工具链。"},{"t":"原生 Linux 禁止 SSH","ok":false,"why":"云主机常用 SSH。"}]}]}
+\`\`\`
+
 ## 下一步
 
 - **安装器与 PATH** — 命令如何进 PATH、为何要新开终端；环境变量地基  

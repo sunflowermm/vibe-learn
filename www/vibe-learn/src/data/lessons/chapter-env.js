@@ -70,6 +70,6 @@ flowchart LR
 
 ## 与 Vibe Coding
 
-装 Node / clone / 代理卡住时：**不要空喊帮我装**。打开番外 **Vibe Coding 心智** → **Vibe Coding 心智**，复制「环境」格，贴上 \`node -v\` 等输出。排障口诀仍在 **工作台 · 分层排障**。
+装 Node / clone / 代理卡住时：**不要空喊帮我装**。打开番外 **Vibe Coding 心智**，复制「环境」格，贴上 \`node -v\` 等输出。排障口诀仍在 **工作台 · 分层排障**。
 
 `;

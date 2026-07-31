@@ -6,7 +6,16 @@ export default defineQuizSet({
   kind: 'interview',
   domain: 'ai',
   tags: ['AI', 'RAG', 'Embedding'],
-  relatedNodes: ['ai-embedding', 'ai-rag', 'ai-agents-md'],
+  relatedNodes: [
+    'ai-embedding',
+    'ai-rag',
+    'ai-chunking',
+    'ai-hybrid-search',
+    'ai-rerank',
+    'ai-vector-store',
+    'ai-rag-eval',
+    'ai-agentic-rag',
+  ],
   questions: [
     {
       q: '做 Embedding 向量库时，建库（入库）与查询（检索）必须满足什么条件？',

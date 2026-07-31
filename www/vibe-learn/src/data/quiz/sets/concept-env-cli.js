@@ -27,23 +27,39 @@ export default defineQuizSet({
       q: '打印当前环境变量列表（Linux）？',
       choices: [
         { t: 'env 或 printenv', ok: true, why: '菜鸟 env：查看/在定制环境跑命令。' },
-        { t: 'lsenv', ok: false, why: '非标准。' },
-        { t: 'git env', ok: false, why: '无关。' },
-        { t: 'npm env 必列出系统全部变量', ok: false, why: 'npm 有自己的配置命令，不是系统 env。' },
+        { t: 'lsenv', ok: false, why: '不是标准工具名；系统侧用 env/printenv。' },
+        { t: 'git env', ok: false, why: 'Git 无此子命令来列出 OS 环境块。' },
+        { t: 'npm env 必列出系统全部变量', ok: false, why: 'npm 配置命令看的是 npm 自身配置，不是完整 process 环境转储的替代。' },
       ],
       relatedNodes: ['data-env', 'linux-cli'],
       tags: ['基础'],
     },
     {
       id: 'concept-env-cli:q3',
-      q: 'command not found 且确认已安装，优先查？',
+      q: '路径 `/home/u/proj` 与 `./src` 的差别？',
       choices: [
-        { t: 'PATH 是否包含可执行文件目录；新开终端是否加载了配置', ok: true, why: '安装器/包管理常改 PATH，旧终端未刷新。' },
-        { t: '立刻格式化磁盘', ok: false, why: '过激。' },
-        { t: '删除 .git', ok: false, why: '无关。' },
-        { t: '把 temperature 调到 0', ok: false, why: '模型参数无关。' },
+        {
+          t: '前者常为绝对路径（从根说起）；后者相对当前工作目录——cwd 一变，相对路径指向就变',
+          ok: true,
+          why: '脚本与文档里写错相对路径是「我这边能跑」高频原因。',
+        },
+        {
+          t: '相对路径永远比绝对路径更安全且不可变',
+          ok: false,
+          why: '相对路径依赖 cwd；换目录就错。',
+        },
+        {
+          t: '绝对路径只能用在 Windows',
+          ok: false,
+          why: 'Unix 以 / 开头同样是绝对路径。',
+        },
+        {
+          t: '二者与文件系统无关，只是装饰',
+          ok: false,
+          why: '路径就是定位文件的方式。',
+        },
       ],
-      relatedNodes: ['installers-path', 'data-env', 'workbench-troubleshoot'],
+      relatedNodes: ['linux-cli', 'terminal-worlds', 'fs-layout'],
       tags: ['基础'],
     },
     {
@@ -96,14 +112,30 @@ export default defineQuizSet({
     },
     {
       id: 'concept-env-cli:q8',
-      q: 'which node / command -v node 用来？',
+      q: 'Shell 里 `~` 与环境变量 `HOME`（Windows 常对照 `USERPROFILE`）？',
       choices: [
-        { t: '看 shell 实际解析到的可执行路径（排查多版本 Node）', ok: true, why: 'PATH 顺序决定用哪一个。' },
-        { t: '卸载 Node', ok: false, why: '否。' },
-        { t: '编译内核', ok: false, why: '否。' },
-        { t: '申请 TLS 证书', ok: false, why: '否。' },
+        {
+          t: '`~` 展开为当前用户家目录；配置与很多工具默认写在家目录下的点文件里',
+          ok: true,
+          why: '跨系统先认「家目录」角色，再记具体路径名。',
+        },
+        {
+          t: '`~` 永远等于磁盘根目录 `/`',
+          ok: false,
+          why: '根是 `/`；家目录是用户私有空间。',
+        },
+        {
+          t: '只有 root 才有家目录',
+          ok: false,
+          why: '普通用户也有。',
+        },
+        {
+          t: '`HOME` 与 PATH 必须设成同一个值',
+          ok: false,
+          why: '语义不同。',
+        },
       ],
-      relatedNodes: ['installers-path', 'runtime-nodejs'],
+      relatedNodes: ['fs-layout', 'fs-dotfiles', 'terminal-worlds', 'data-env'],
       tags: ['基础', '进阶'],
     },
     {

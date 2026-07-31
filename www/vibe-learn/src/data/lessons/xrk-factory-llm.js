@@ -1,104 +1,92 @@
 /** Factory · LLM / ASR / TTS */
 export default `# Factory · LLM / ASR / TTS
 
-> 主服通过 **工厂** 统一创建模型客户端：对话走 LLM，语音识别 ASR，语音合成 TTS。  
-> 业务（尤其 \`AiWorkflow\`）**不要**自己 \`new\` 厂商 SDK 散落各处——经工厂 + CommonConfig 取客户端。
+> 工厂 = **按配置创建模型客户端**（对话 LLM · 语音 ASR · 合成 TTS）。  
+> 业务（\`AiWorkflow\`）经工厂取客户端，**不要**在 Core 里散落 \`new\` 各厂商 SDK。
 
-## 本课你要带走什么
+## 设计巧思：插座 vs 菜谱
+
+| 角色 | 比喻 | 本仓 |
+|------|------|------|
+| **Factory** | 墙上的统一插座（电压/插头标准） | \`src/factory/llm|asr|tts\` |
+| **配置** | 插哪一路电（Provider / Key / Base） | \`*_llm\` · \`ai-workflow\` |
+| **AiWorkflow** | 菜谱：先备料再开火 | \`core/*/workflow\` |
+| **MCP** | 橱柜里的电动工具 | \`registerMCPTool\` |
+
+换插座品牌（换模型厂商）不该重写整本菜谱。
+
 \`\`\`steps
-{"title":"工厂在链路哪一环","steps":[{"title":"读配置","body":"CommonConfig / ai-workflow · *_llm 决定 Provider。"},{"title":"工厂取客户端","body":"LLMFactory（或 ASR/TTS）按配置创建 *Client。"},{"title":"工作流调用","body":"AiWorkflow.process 经工厂发请求，不散落 new SDK。"},{"title":"工具另挂","body":"MCP 供工具；工厂只管模型客户端。"}]}
+{"title":"一次调用","steps":[{"title":"配置就绪","body":"CommonConfig 已 load（见 Runtime 课）。"},{"title":"工厂取客户端","body":"LLMFactory 按 Provider 选 *Client。"},{"title":"工作流编排","body":"组 messages → 发请求 → 可选 tool_calls。"},{"title":"工具另线","body":"工具走 MCP；工厂不管工具目录。"}]}
 \`\`\`
-
-\`\`\`flip
-{"title":"LLM 工厂翻卡","cards":[{"front":"工厂","back":"按配置创建模型客户端"},{"front":"配置归属","back":"运行时模板在 default_config；业务勿乱塞"},{"front":"与工作流","back":"工厂供客户端；AiWorkflow 做编排"}]}
-\`\`\`
-
-
-1. \`src/factory/llm|asr|tts\` 的职责边界  
-2. CommonConfig / 默认 yaml 里各 LLM 工厂配置落在哪  
-3. 与 **工作流（AiWorkflow）**、**MCP** 的关系：工厂供客户端，工作流做编排，MCP 挂工具  
-4. 实践：在配置页确认已加载工厂 / Provider
 
 ---
 
-## 1. 目录与职责
+## 1. 跨章串联
+
+| 章 | 接法 |
+|----|------|
+| **配置归属** | 工厂 yaml ∈ \`config/default_config/\`；**产品业务**勿塞这里 |
+| **环境 · 代理** | 国内出网常要 \`HTTP_PROXY\`；工厂 fetch 跟环境走 |
+| **网络 · HTTPS** | 调云端模型默认 TLS；Key 勿进 Git（提示安全） |
+| **工作流 / 对话管线** | 工厂供客户端；三层消息在管线课 |
+| **第五章 · 协议分层** | Chat Completions 兼容 ≈ 多数客户端心智；\`openai_compat_llm\` 给第三方网关 |
+
 \`\`\`match
-{"title":"LLM 工厂配对","pairs":[{"id":"fac","left":"工厂","right":"按配置创建/切换模型客户端"},{"id":"cfg","left":"配置模板","right":"运行时 default_config 体系"},{"id":"core","left":"业务调用","right":"Core 消费工厂，不复制协议细节"},{"id":"key","left":"密钥","right":"本地配置，勿提交"}]}
+{"title":"工厂配对","pairs":[{"id":"fac","left":"LLMFactory","right":"创建/切换对话客户端"},{"id":"asr","left":"ASR 工厂","right":"语音→文本"},{"id":"tts","left":"TTS 工厂","right":"文本→语音"},{"id":"compat","left":"openai_compat_llm","right":"第三方 OpenAI 形态网关"}]}
 \`\`\`
 
+---
 
-| 工厂 | 路径 | 作用 |
-|------|------|------|
-| **LLM** | \`src/factory/llm/\`（\`LLMFactory.js\` + 各 \`*LLMClient.js\`） | Chat / completions 类客户端 |
-| **ASR** | \`src/factory/asr/\` | 语音 → 文本 |
-| **TTS** | \`src/factory/tts/\` | 文本 → 语音 |
-| 基类 | \`src/factory/BaseFactory.js\` | 工厂共性 |
+## 2. 目录揉碎
+
+| 工厂 | 路径 | 一句话 |
+|------|------|--------|
+| LLM | \`src/factory/llm/\` | Chat / completions |
+| ASR | \`src/factory/asr/\` | 听写 |
+| TTS | \`src/factory/tts/\` | 播报 |
+| 基类 | \`BaseFactory.js\` | 共性 |
 
 \`\`\`mermaid
 flowchart LR
-  CFG[CommonConfig / ai-workflow · *_llm] --> FAC[LLMFactory]
-  FAC --> CLI[具体 *LLMClient]
-  WF[AiWorkflow.process] --> FAC
-  WF --> MCP[MCP tools]
-  CLI --> API[厂商 / 兼容网关 HTTP]
+  CFG["ai-workflow · *_llm"] --> FAC[LLMFactory]
+  FAC --> CLI[*Client]
+  WF[AiWorkflow] --> FAC
+  WF --> MCP[工具面]
+  CLI --> Net[厂商 HTTP]
 \`\`\`
 
-| 角色 | 说明 |
-|------|------|
-| **工厂** | 按配置选出客户端实现（OpenAI、DeepSeek、Gemini、兼容网关…） |
-| **AiWorkflow** | 组 messages、调工厂、跑 tool_calls 循环 |
-| **MCP** | 工具发现与执行通道（见 MCP 课 / 第五章概念） |
+对齐 \`docs/base-classes.md\`：builtin 客户端各管自家协议；兼容网关用 \`openai_compat_llm\`。业务可 \`patchLLMConfig\` 追加场景字段，勿复制签名逻辑。
 
-对齐 \`docs/base-classes.md\`：厂商协议用各 builtin 客户端；\`openai_compat_llm\` 留给第三方 OpenAI 形态网关。业务可重写 \`patchLLMConfig(merged, apiConfig)\` 追加场景字段。
+\`\`\`quiz
+{"title":"工厂快测","questions":[{"q":"Core 里正确用模型的方式？","choices":[{"t":"经 AiWorkflow / 工厂 API 取客户端，配置选 Provider","ok":true,"why":"统一超时、代理、协议差异。"},{"t":"每个插件 new 一份厂商 SDK 并硬编码 Key","ok":false,"why":"密钥与分叉维护灾难。"},{"t":"模型只能跑在子服 Python，主服禁止","ok":false,"why":"本仓 LLM 在主服工厂。"},{"t":"有 Factory 就不必 HTTPS","ok":false,"why":"出网仍要安全传输。"}]},{"q":"openai_compat_llm 更适合？","choices":[{"t":"第三方 OpenAI 形态网关","ok":true,"why":"builtin 留给官方协议客户端。"},{"t":"替代 Redis","ok":false,"why":"无关。"},{"t":"只用于前端 Vite","ok":false,"why":"服务端配置。"},{"t":"关闭所有 MCP","ok":false,"why":"正交。"}]}]}
+\`\`\`
 
 ---
 
-## 2. 配置落点（别写错目录）
+## 3. 配置落点（防写错）
 
-| 类型 | 模板 / 数据 | Schema 直觉 |
-|------|-------------|-------------|
-| 工作流总控 | \`config/default_config/ai-workflow.yaml\` → 运行时 \`data/server_bots/.../ai-workflow.yaml\` | \`core/system-Core/commonconfig/\` |
-| 各 LLM 工厂 | \`config/default_config/*_llm*.yaml\`（以仓库实际文件名为准） | system-Core commonconfig 对应段 |
-| ASR / TTS | 对应 default_config 与 commonconfig | 同上 |
+| 类型 | 模板 | Schema |
+|------|------|--------|
+| 工作流总控 | \`ai-workflow.yaml\` | system-Core commonconfig |
+| 各 LLM | \`config/default_config/*_llm*.yaml\` | 对应 commonconfig |
+| 产品业务开关 | **\`core/<产品>/default/\`** | 产品 commonconfig |
 
-规则回顾（\`xrk-project\`）：**框架 / LLM 工厂类模板**可在 \`config/default_config/\`；**独立产品业务配置**应在 \`core/<产品>/default/\`，不要塞进 default_config。
-
-业务取客户端：经 Runtime 已加载的工厂 API / 工作流基类封装（以 \`docs/ai-workflow.md\` 与 \`LLMFactory\` 源码为准），**禁止**在 Core 里复制一套厂商签名逻辑。
+密钥：环境变量 / 面板密文；模板只放字段结构。
 
 ---
 
-## 3. 和 Stream 的衔接
+## 4. 和实践的咬合
 
-一次对话（摘要，细节见 **Stream** 课与 \`docs/ai-workflow.md\`）：
+1. 数 \`src/factory/llm/*Client.js\`，对照配置 Provider 名。  
+2. 配置页确认 \`ai-workflow\` + LLM 段已加载。  
+3. 本地故意错 Base（再改回）→ 看报错是否来自客户端层。  
+4. 回 **Stream** 课：工厂 = 连哪个模型；\`streams\` = 能调哪些工具。
 
-1. \`buildChatContext\` / \`buildSystemPrompt\`  
-2. 经 \`LLMFactory\` 发 OpenAI 兼容形态（或对应客户端协议）请求  
-3. 若有 \`tool_calls\` → MCP / 工作流注册工具 → 结果回灌再生成  
-4. 流式则推 \`delta.content\`
+## 文档
 
-\`streams\` 白名单限制本轮暴露的工具集——工厂解决「连哪个模型」，白名单解决「能调哪些工具」。
-
----
-
-## 4. 实践清单
-
-1. 打开 \`src/factory/llm/\`，数一数有哪些 \`*Client.js\`，对照配置里的 Provider 名。  
-2. 打开主服**配置页**（system 控制台 / CommonConfig），查看 **ai-workflow** 与各 LLM 相关段是否已加载、Provider 是否指向你期望的工厂。  
-3. 故意填错 API Base 或 Key（仅本地）→ 看工作流报错是否来自客户端层，再改回。  
-4. 读 \`docs/ai-workflow.md\`「配置要点」一节，把 \`llm.*\` 字段与 UI 对上号。
-
----
-
-## 5. 文档链接
-
-- \`docs/ai-workflow.md\`  
-- \`docs/base-classes.md\`（AiWorkflow · 厂商协议说明）  
-- \`docs/runtime-surface.md\`  
-- \`config/default_config/ai-workflow.yaml\`  
-- 源码：\`src/factory/llm/LLMFactory.js\`
+\`docs/ai-workflow.md\` · \`docs/base-classes.md\` · Runtime 课「配置就绪时机」。
 
 ## 下一步
 
-**Stream 业务层**（编排）· **MCP 运维**（工具挂载）· 第五章 **Tool Calling / MCP 概念**。  
-语音能力需要时再看同目录 ASR/TTS 客户端与对应 yaml。
+**MCP 运维** · **工作流** · **对话管线** · 第五章 **Tool Calling / 协议分层**。
 `;

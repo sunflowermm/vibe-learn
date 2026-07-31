@@ -6,7 +6,7 @@ export default `# 边缘实务：IP 池 · Cloudflare · 地域与代理
 
 ## 本课分块
 \`\`\`quiz
-{"title":"边缘 / CDN 自测","questions":[{"q":"CDN 主要帮你解决什么？","choices":[{"t":"把源站数据库搬到每台手机里","ok":false,"why":"CDN 缓存边缘副本，不是整库。"},{"t":"把静态/缓存内容放到离用户更近的节点","ok":true,"why":"降延迟、卸源站压力。"},{"t":"替代 DNS","ok":false,"why":"常与 DNS 配合，但不等于 DNS。"}]}]}
+{"title":"边缘 / CDN 自测","questions":[{"q":"CDN 主要帮你解决什么？","choices":[{"t":"把源站数据库搬到每台手机里","ok":false,"why":"CDN 缓存边缘副本，不是整库。"},{"t":"把静态/缓存内容放到离用户更近的节点","ok":true,"why":"降延迟、卸源站压力。"},{"t":"替代 DNS","ok":false,"why":"常与 DNS 配合，但不等于 DNS。"},{"t":"废除全部 HTTPS","ok":false,"why":"边缘常见 TLS 终止，不是取消加密。"}]},{"q":"Cloudflare 橙云相对仅 DNS（灰云）？","choices":[{"t":"橙云先到边缘再回源，源站 IP 不易直暴；灰云解析直接给源站 IP","ok":true,"why":"代理开关决定是否隐藏源站与启用边缘能力。"},{"t":"橙云关闭 DNS","ok":false,"why":"仍管权威 DNS。"},{"t":"灰云自动 Anycast 隐藏源站","ok":false,"why":"仅 DNS 时源站对外可见。"},{"t":"二者对源站暴露完全相同","ok":false,"why":"这正是差别所在。"}]}]}
 \`\`\`
 
 

@@ -6,7 +6,15 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'xrk',
   tags: ['Runtime', 'Core', '配置', '插件'],
-  relatedNodes: ['xrk-runtime', 'xrk-core-layout', 'xrk-plugin-arch'],
+  relatedNodes: [
+    'xrk-runtime',
+    'xrk-core-layout',
+    'xrk-plugin-arch',
+    'xrk-config',
+    'xrk-http-www',
+    'xrk-http-auth',
+    'xrk-lab-http',
+  ],
   questions: [
     {
       q: '在 XRK-AGT 里，Agent Runtime（智能体运行时）启动后主要负责哪些事情？',
@@ -70,6 +78,58 @@ export default defineQuizSet({
         { t: '把 src/infrastructure 整份复制进 Core 目录再 import，避免跨目录引用', ok: false, why: '复制 Runtime 代码会造成分叉维护，且违反 Core 不改 src/ 的边界。' },
         { t: '通过浏览器 fetch 动态加载 src/ 下的 .js 模块，服务端插件也这样引用', ok: false, why: 'Core 服务端代码在 Node ESM 环境运行，应使用静态 import，不是浏览器 fetch。' },
       ],
+    },
+    {
+      q: '业务代码何时才能稳定使用 runtimeConfig？',
+      choices: [
+        {
+          t: 'AgentRuntime.run 里 CommonConfigRegistry.load() 完成并挂全局之后',
+          ok: true,
+          why: 'docs/runtime-surface.md：配置阶段完成前勿假设已就绪。',
+        },
+        {
+          t: '任意文件一被 import 的瞬间，即使 Loader 未跑完',
+          ok: false,
+          why: '挂载有先后；过早读取会空或未定义。',
+        },
+        {
+          t: '只能在 www 前端页面里读 runtimeConfig',
+          ok: false,
+          why: 'runtimeConfig 是服务端单例。',
+        },
+        {
+          t: '永远禁止读配置，只能硬编码端口与密钥',
+          ok: false,
+          why: '就绪后正常 import runtimeConfig。',
+        },
+      ],
+      relatedNodes: ['xrk-runtime', 'xrk-config'],
+    },
+    {
+      q: '新增 /api/... 路由时，关于 systemAuth 的正确说法？',
+      choices: [
+        {
+          t: 'path 以 /api/ 开头时默认启用系统 API Key；公开接口显式 systemAuth: false',
+          ok: true,
+          why: 'HttpApi 基类约定；见 http-api / AUTH。',
+        },
+        {
+          t: '/api 路由永远跳过鉴权',
+          ok: false,
+          why: '默认相反。',
+        },
+        {
+          t: '鉴权只对 www 静态文件生效',
+          ok: false,
+          why: '针对 HTTP API 路由。',
+        },
+        {
+          t: 'systemAuth 等于关闭 HTTPS',
+          ok: false,
+          why: '鉴权与 TLS 是不同层。',
+        },
+      ],
+      relatedNodes: ['xrk-http-auth', 'xrk-http-www', 'xrk-lab-http'],
     },
   ],
 });

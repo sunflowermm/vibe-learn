@@ -7,7 +7,7 @@ export default `# 配置归属
 ## 归属判定
 
 \`\`\`quiz
-{"title":"配置归属自测","questions":[{"q":"独立产品 Core 的业务 yaml 默认模板应放？","choices":[{"t":"config/default_config/","ok":false,"why":"那里只放运行时/体系模板。"},{"t":"core/<core>/default/ + commonconfig + data/<产品>/","ok":true,"why":"独立 Core 配置三件套。"},{"t":"随便放在 src/","ok":false,"why":"业务不进 src。"}]}]}
+{"title":"配置归属自测","questions":[{"q":"独立产品 Core 的业务 yaml 默认模板应放？","choices":[{"t":"config/default_config/","ok":false,"why":"那里只放运行时/体系模板。"},{"t":"core/<core>/default/ + commonconfig + data/<产品>/","ok":true,"why":"独立 Core 配置三件套。"},{"t":"随便放在 src/","ok":false,"why":"业务不进 src。"},{"t":"只提交到 README 即可生效","ok":false,"why":"文档不驱动运行时。"}]}]}
 \`\`\`
 
 | 配置性质 | 位置 |

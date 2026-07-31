@@ -1,15 +1,16 @@
 /**
- * 题库聚合：精选题组 + 静态分片 bank/*.js（无运行时 derive）。
+ * 题库聚合：精选题组 + 静态分片 + 课文 ```quiz 收获（derive）。
  */
 
 import { QUIZ_DOMAINS, QUIZ_KINDS, domainMeta, kindMeta } from './categories.js';
 import { listQuizSets, getQuizSet, searchQuizSets, kindShortLabel } from './index.js';
-import { shuffleCopy } from './schema.js';
+import { shuffleCopy, RELATED_NODES_MAX } from './schema.js';
 import { STATIC_QUESTIONS } from './bank/index.js';
 import { NODE_TERMS } from '../terms-by-node.js';
+import { deriveLessonQuestions } from './derive/lesson.js';
 
-/** 精选题落到节点上的 relatedNodes 上限（过短会导致大量课「刷本课相关题」过稀） */
-const RELATED_NODE_CAP = 8;
+/** 与 schema.RELATED_NODES_MAX 对齐 */
+const RELATED_NODE_CAP = RELATED_NODES_MAX;
 
 /** @type {import('./schema.js').QuizQuestion[] | null} */
 let cached = null;
@@ -58,7 +59,13 @@ function sourceRank(source) {
 function buildBank() {
   const byId = new Map();
   const byStem = new Map();
-  for (const q of [...flattenCurated(), ...STATIC_QUESTIONS]) {
+  // 精选优先；同干冲突时 lesson/static 可顶掉 adapted，但顶不掉 curated
+  const streams = [
+    ...flattenCurated(),
+    ...STATIC_QUESTIONS,
+    ...deriveLessonQuestions(),
+  ];
+  for (const q of streams) {
     if (!q?.id || !Array.isArray(q.choices) || q.choices.length !== 4) continue;
     if (!q.choices.some((c) => c.ok)) continue;
 

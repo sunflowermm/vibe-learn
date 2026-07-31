@@ -12,7 +12,7 @@ export default `# 工作流 · AiWorkflow
 \`\`\`
 
 \`\`\`quiz
-{"title":"工作流自测","questions":[{"q":"业务工作流代码应放在？","choices":[{"t":"core/*/workflow/*.js","ok":true,"why":"AiWorkflowLoader 扫描此目录。"},{"t":"src/factory/","ok":false,"why":"工厂只提供模型客户端。"},{"t":"agents/workspace/","ok":false,"why":"那是办事助手种子，不是工作流类。"}]}]}
+{"title":"工作流自测","questions":[{"q":"业务工作流代码应放在？","choices":[{"t":"core/*/workflow/*.js","ok":true,"why":"AiWorkflowLoader 扫描此目录。"},{"t":"src/factory/","ok":false,"why":"工厂只提供模型客户端。"},{"t":"agents/workspace/","ok":false,"why":"那是办事助手种子，不是工作流类。"},{"t":"www/<应用>/ 根目录随便丢 .js","ok":false,"why":"www 是前端；编排在 workflow/。"}]}]}
 \`\`\`
 
 \`\`\`match

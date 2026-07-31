@@ -7,8 +7,17 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'xrk',
   tags: ['扩展点', 'Events', 'Tasker', 'MCP', 'LLM', '进阶'],
-  relatedNodes: ['xrk-events', 'xrk-tasker-channels', 'xrk-factory-llm'],
-  caption: '对照底层：扩展点各干一摊，并与 HTTP/配置/通道协作。',
+  relatedNodes: [
+    'xrk-events',
+    'xrk-tasker-channels',
+    'xrk-factory-llm',
+    'xrk-mcp-ops',
+    'xrk-http-auth',
+    'xrk-agent-workspace',
+    'xrk-plugin-arch',
+    'ai-mcp',
+  ],
+  caption: '对照底层：扩展点各干一摊；厨房三角 / 插座 / USB 巧思可记。',
   questions: [
     {
       id: 'concept-xrk-extensions:q1',
@@ -128,6 +137,62 @@ export default defineQuizSet({
         { t: '有 schema 就不必写消费代码', ok: false, why: '仍要 read。' },
       ],
       relatedNodes: ['xrk-config', 'xrk-lab-config'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-xrk-extensions:q11',
+      q: '厨房三角：Tasker / plugin / events 分别像？',
+      choices: [
+        {
+          t: '进货拆箱 / 炒菜上菜 / 排烟与温度计（横切常开）',
+          ok: true,
+          why: '通道造 e、业务吃 e、Listener 挂副作用；见两课巧思。',
+        },
+        {
+          t: '三者都只负责画 CSS',
+          ok: false,
+          why: '服务端扩展点。',
+        },
+        {
+          t: 'events 应承载全部用户指令',
+          ok: false,
+          why: '指令放 plugin。',
+        },
+        {
+          t: 'Tasker 应直接微调模型权重',
+          ok: false,
+          why: '通道不管训练。',
+        },
+      ],
+      relatedNodes: ['xrk-tasker-channels', 'xrk-events', 'xrk-plugin-arch'],
+      tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-xrk-extensions:q12',
+      q: 'e.bot 与 AgentRuntime 戴错会怎样？',
+      choices: [
+        {
+          t: '回消息找错对象或去通道实例上调子服/Loader',
+          ok: true,
+          why: 'e.bot=账号通道；AgentRuntime=全局编排。',
+        },
+        {
+          t: '二者始终可互换，框架自动纠正',
+          ok: false,
+          why: '不会自动纠正语义错误。',
+        },
+        {
+          t: '只有浏览器能用 e.bot',
+          ok: false,
+          why: '服务端事件对象。',
+        },
+        {
+          t: 'e.bot 等于 HTTP Response',
+          ok: false,
+          why: '无关。',
+        },
+      ],
+      relatedNodes: ['xrk-tasker-channels', 'xrk-runtime', 'xrk-lab-plugin'],
       tags: ['进阶'],
     },
   ],

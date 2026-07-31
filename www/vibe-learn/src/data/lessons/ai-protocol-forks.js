@@ -69,6 +69,20 @@ flowchart TB
 
 四样可以同时存在于一个系统里。
 
+## 本仓怎么做
+
+| 层 | 本仓落点 |
+|----|----------|
+| L1 兼容 Chat Completions | 大语言模型工厂默认心智；消息列表形状 |
+| L1 厂商原生能力 | 按提供商扩展；能用兼容层先用兼容层 |
+| L2 MCP | \`registerMCPTool\` · 远程 \`remote-mcp.*\` · \`docs/mcp-guide.md\` |
+| L3 Agent 协作 | \`subagents.yaml\` 目前偏路由提示；完整 A2A 非主路径默认 |
+| 真源 | \`docs/ai-workflow.md\` · \`docs/agent-context.md\` |
+
+\`\`\`quiz
+{"title":"协议分层","questions":[{"q":"本仓默认更贴近哪一层当「对话 API」心智？","choices":[{"t":"L1 Chat Completions 兼容形状","ok":true,"why":"迁移面广；原生能力按需叠加。"},{"t":"必须先实现完整 A2A 才能调模型","ok":false,"why":"L3 协作不是对话入口前提。"},{"t":"只用 DNS TXT 记录传提示","ok":false,"why":"无关。"},{"t":"协议分层等于取消工具调用","ok":false,"why":"L2 MCP 正是工具面。"}]}]}
+\`\`\`
+
 ## 接到下一站
 
 协议分层看清之后——把行动收成闭环：**智能体与控制循环**。驯服面（规则 / 技能）在汇合段之后。

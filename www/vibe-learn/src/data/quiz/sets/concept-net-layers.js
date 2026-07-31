@@ -6,7 +6,16 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'net',
   tags: ['协议栈', 'IP', 'DNS', 'Nginx'],
-  relatedNodes: ['network-basics', 'protocol-stack', 'ip-addressing'],
+  relatedNodes: [
+    'network-basics',
+    'protocol-stack',
+    'ip-addressing',
+    'tcp-udp',
+    'routing-nat',
+    'dns-https',
+    'reverse-proxy',
+    'net-edge-practice',
+  ],
   questions: [
     {
       q: '计算机网络中「协议栈（Protocol Stack）」的直觉模型是什么？',

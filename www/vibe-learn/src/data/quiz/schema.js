@@ -49,6 +49,9 @@ export const BANNED_FILLER_PATTERNS = [
   /表述过绝对，缺少必要边界/,
 ];
 
+/** 题组 / 单题可挂知识节点上限（与 bank 聚合对齐；过短会让长课链挂不全） */
+export const RELATED_NODES_MAX = 8;
+
 /**
  * 规范化选项；不足 4 项或无正确项时返回 null（不自动灌填充项）。
  * @param {QuizChoice[]} choices
@@ -127,7 +130,7 @@ export function normalizeQuestion(raw, meta = {}) {
   const related = uniqueStrings([
     ...(raw?.relatedNodes || raw?.also || []),
     ...(meta.relatedNodes || []),
-  ]).slice(0, 3);
+  ]).slice(0, RELATED_NODES_MAX);
 
   return {
     id: String(id),
@@ -184,7 +187,10 @@ export function defineQuizSet(set) {
   }
 
   const tags = set.tags || [];
-  const relatedNodes = uniqueStrings(set.relatedNodes || []).slice(0, 3);
+  const relatedNodes = uniqueStrings(set.relatedNodes || []).slice(
+    0,
+    RELATED_NODES_MAX
+  );
   const questions = set.questions
     .map((raw, i) => {
       const own = uniqueStrings(raw?.relatedNodes || raw?.also || []);
@@ -193,7 +199,9 @@ export function defineQuizSet(set) {
         kind: raw?.kind || set.kind,
         domain: raw?.domain || set.domain,
         tags,
-        relatedNodes: own.length ? own.slice(0, 3) : relatedNodes,
+        relatedNodes: own.length
+          ? own.slice(0, RELATED_NODES_MAX)
+          : relatedNodes,
         source: set.origin === 'adapted' || raw?.origin === 'adapted' ? 'adapted' : 'curated',
         setId: set.id,
         origin: raw?.origin || set.origin || 'original',

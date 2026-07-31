@@ -6,7 +6,16 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'xrk',
   tags: ['实践', '插件', 'HTTP', '配置'],
-  relatedNodes: ['xrk-lab-plugin', 'xrk-lab-http', 'xrk-lab-config'],
+  relatedNodes: [
+    'xrk-lab-plugin',
+    'xrk-lab-http',
+    'xrk-lab-config',
+    'xrk-lab-subserver',
+    'xrk-http-www',
+    'xrk-http-auth',
+    'xrk-min-path',
+    'xrk-config',
+  ],
   questions: [
     {
       q: '完成「最小插件」实践课后，怎样才算验收通过？',
@@ -25,6 +34,84 @@ export default defineQuizSet({
         { t: 'HttpResponse.success 禁止返回 message 字段，只能返回裸 data', ok: false, why: '约定始终含 success 与 message；普通对象还会拍平业务字段。' },
         { t: 'HTTP handler 里可以混用 HttpResponse 和裸 res.json()，前端自行适配', ok: false, why: '应统一用 HttpResponse，混用会导致前端解包规则不一致。' },
       ],
+    },
+    {
+      q: '本仓日常新增 HTTP 接口，导出形态更推荐？',
+      choices: [
+        {
+          t: 'core/*/http 对象导出 { name, routes }，由 HttpApiLoader 包装；复杂再考虑 extends HttpApi',
+          ok: true,
+          why: '对齐 docs/base-classes.md；对象导出是推荐路径。',
+        },
+        {
+          t: '必须修改 src/infrastructure/http 才能注册任何路由',
+          ok: false,
+          why: '业务不进 Runtime；放对 http/ 即可被扫描。',
+        },
+        {
+          t: '只能把接口写在 www/ 静态 HTML 的 script 标签里',
+          ok: false,
+          why: '服务端 API 在 http/；www 是前端。',
+        },
+        {
+          t: '禁止使用 HttpResponse，一律手写 res.end 字符串',
+          ok: false,
+          why: '应统一 HttpResponse 形状。',
+        },
+      ],
+      relatedNodes: ['xrk-lab-http', 'xrk-http-www'],
+    },
+    {
+      q: 'HttpResponse.success(res, { hello: "lab" }) 后，前端读字段的正确直觉？',
+      choices: [
+        {
+          t: '读顶层 hello（或 unwrapSuccess）；勿默认假定一定有 json.data.hello',
+          ok: true,
+          why: '普通对象拍平到顶层；数组/标量才进 data。',
+        },
+        {
+          t: '永远只读 json.data.hello，没有就报框架坏了',
+          ok: false,
+          why: '对象成功时常无 data 包一层。',
+        },
+        {
+          t: '响应一定是纯文本，不能是 JSON',
+          ok: false,
+          why: 'HttpResponse 输出 JSON。',
+        },
+        {
+          t: 'success 为 false 时 hello 仍保证存在',
+          ok: false,
+          why: '失败走 error 形状，勿假设业务字段仍在。',
+        },
+      ],
+      relatedNodes: ['xrk-lab-http', 'xrk-http-www'],
+    },
+    {
+      q: '路径以 /api/ 开头的路由，鉴权默认直觉？',
+      choices: [
+        {
+          t: '默认走系统 API Key（systemAuth）；公开接口显式 systemAuth: false',
+          ok: true,
+          why: '见 docs/http-api.md / AUTH.md；实验室可临时关闭，生产慎用。',
+        },
+        {
+          t: '/api 永远不需要鉴权',
+          ok: false,
+          why: '默认相反。',
+        },
+        {
+          t: '鉴权只存在于浏览器 localStorage，与服务端无关',
+          ok: false,
+          why: '主服 checkApiAuthorization。',
+        },
+        {
+          t: '必须把 Key 写进仓库 yaml 明文才能启动',
+          ok: false,
+          why: '密钥走环境/面板，勿提交。',
+        },
+      ],
+      relatedNodes: ['xrk-http-auth', 'xrk-lab-http'],
     },
     {
       q: '做完配置「三同步」实践课后，你应该能在运行时看到什么结果？',

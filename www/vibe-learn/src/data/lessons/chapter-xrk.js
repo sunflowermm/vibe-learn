@@ -110,12 +110,27 @@ flowchart TB
 
 ## 建议读法
 
-1. **部署环境** → **鸟瞰** → **业务层全景**（卡住就打开 **Vibe Coding 心智** + **Vibe Coding 心智**，把清单/报错交给 Agent）  
-2. **Runtime** → **Core 放码** → **插件架构**  
-3. 按需：**Tasker** / **events** / **Auth** / **数据库** / **Factory** / **MCP**  
-4. **语言栈** → **HTTP/www** → **子服务端** → **配置归属**  
-5. **工作流** → **对话管线** → **办事助手** → **实践·插件** / **实践·子服**（实践课均可委派 Agent，你负责审 diff 与验收）  
-6. 进入 **第五章**（概念五柱：窗口 · 注意力 · 自适应…；与本框管线互参）
+### 主脊（先跑通贡献）
+
+1. **部署环境** → **鸟瞰** → **业务层全景**（卡住打开 **Vibe Coding 心智**）  
+2. **Runtime** → **Core 放码** → **插件架构** → **实践·最小插件**  
+3. 要对前端/接口时：**HTTP/www** · **Auth** · **实践·最小 HTTP**
+
+### 细读轨（揉碎扩展点 · 建议按「通道 → 横切 → 模型 → 工具 → 办事」）
+
+| 顺序 | 课 | 巧思一句 | 回扣其它章 |
+|------|-----|----------|------------|
+| 1 | **Tasker** | 收发室造 \`e\` | 终端 stdin · 网络 WS |
+| 2 | **events** | 厨房排烟机 | 工程观测 · 热更边界 |
+| 3 | **Factory** | 统一插座 | 配置归属 · 代理 · HTTPS |
+| 4 | **MCP 运维** | 主机 USB 口 | 第五章 MCP · Auth |
+| 5 | **工作流** → **对话管线** → **办事助手** | 菜谱 → 拼窗 → 两张工牌 | 第五章 Rules/Skills/AGENTS |
+
+### 多语言 / 数据
+
+4. **语言栈** → **子服务端** → **实践·子服** · **配置归属**  
+5. **数据库**（契约）↔ 番外 **数据库**（产品概念）  
+6. 进入 **第五章**（概念与本框管线互参）
 
 ## 与已有课的关系
 
@@ -124,12 +139,15 @@ flowchart TB
 | **部署环境** | 清单与「首次跑通」分工；Redis 概念见番外 |
 | **数据库** | 本仓契约；产品概念见番外 **数据库** |
 | 语言栈 / 子服务端 / 配置归属 | 原课 + 实践·子服动手 |
-| HTTP / www | Auth 课补安全；全景课列产品 www |
+| HTTP / www | Auth 课补安全；全景课列产品 www；拍平解包接第三章 HTTP 动手 |
+| **Tasker / events** | 三角：通道 · 钩子 · 业务；接第一章终端与工程素养 |
+| **Factory / MCP** | 插座与 USB；接第五章 Tool Calling / 协议分层 |
 | **工作流** | 链 Factory + MCP；细拆见对话管线 |
 | **对话管线** | \`docs/agent-context.md\` |
-| **办事助手** | \`docs/agents.md\`；第五章 Rules/Skills/AGENTS 概念收束 |
+| **办事助手** | \`docs/agents.md\`；与根 AGENTS 两张工牌 |
 | 首次跑通（第一章） | 鸟瞰假定已能 \`node app\` |
 | Shell（第二章） | 可对照 [xrk-projects-scripts](https://github.com/sunflowermm/xrk-projects-scripts) |
+| 工程素养 | 改完要验收、密钥不进仓、观测打点可放 events |
 
 文档总入口：\`docs/runtime-surface.md\` · \`docs/base-classes.md\` · \`docs/AUTH.md\` · \`docs/database.md\` · \`docs/agent-context.md\` · \`docs/ai-workflow.md\` · \`docs/agents.md\` · \`docs/mcp-guide.md\` · \`docs/subserver-api.md\` · 根 \`AGENTS.md\` · [AGT-Cores-Tools-Index](https://github.com/sunflowermm/AGT-Cores-Tools-Index)。
 `;

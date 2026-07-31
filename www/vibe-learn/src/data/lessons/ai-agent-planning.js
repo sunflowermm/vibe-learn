@@ -32,11 +32,21 @@ flowchart TD
 | 超时与重试 | 外部系统会挂 |
 | 可观测轨迹 | 出事能回放 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| ReAct 内层环 | 大语言模型工厂多轮 \`tool_calls\`：提议 → 执行 → 观察回灌 |
+| 最大步数 | \`maxToolRounds\`（及工作流超时）；防死循环 |
+| 工具白名单 | \`registerMCPTool\` / 合并工作流后的可见工具面 |
+| 轨迹可观测 | 工具轮日志、\`onAfterToolRound\` 一类钩子（按实现） |
+| 真源 | \`docs/agent-context.md\` · \`docs/ai-workflow.md\` |
+
 \`\`\`quiz
-{"title":"规划","questions":[{"q":"ReAct 相对「单次补全」多了什么？","choices":[{"t":"更大的嵌入维度","ok":false,"why":"与维度无关。"},{"t":"多轮：依据观察再决定下一步行动","ok":true,"why":"控制循环核心。"},{"t":"必须上微调","ok":false,"why":"模式与是否微调正交。"}]}]}
+{"title":"规划","questions":[{"q":"ReAct 相对「单次补全」多了什么？","choices":[{"t":"更大的嵌入维度","ok":false,"why":"与维度无关。"},{"t":"多轮：依据观察再决定下一步行动","ok":true,"why":"控制循环核心。"},{"t":"必须上微调","ok":false,"why":"模式与是否微调正交。"},{"t":"必须改用 UDP 替代 HTTPS","ok":false,"why":"与传输协议选型无关。"}]},{"q":"本仓限制「想太久、调太多次」更贴近？","choices":[{"t":"maxToolRounds 等工具轮预算 + 超时","ok":true,"why":"步数与墙钟都要封顶。"},{"t":"删掉 package.json","ok":false,"why":"无关。"},{"t":"禁止使用任何模型","ok":false,"why":"过激。"},{"t":"把密钥写进 README","ok":false,"why":"安全反例，不是规划约束。"}]}]}
 \`\`\`
 
 ## 下一步
 
-**提示安全**（注入与护栏）· 回本仓看工具轮与步数预算。
+**提示安全**（注入与护栏）。
 `;

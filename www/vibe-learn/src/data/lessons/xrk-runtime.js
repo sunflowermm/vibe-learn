@@ -15,7 +15,7 @@ export default `# AgentRuntime
 
 ## 1. 概念对应
 \`\`\`quiz
-{"title":"Runtime 边界","questions":[{"q":"Core 开发者对 src/infrastructure 的正确态度？","choices":[{"t":"业务逻辑优先改进去图省事","ok":false,"why":"业务必须待在 core/。"},{"t":"只消费暴露能力；缺能力再提框架扩","ok":true,"why":"边界清晰才能多 Core 共存。"},{"t":"可以 fork 一份 Runtime 私改","ok":false,"why":"维护成本爆炸。"}]}]}
+{"title":"Runtime 边界","questions":[{"q":"Core 开发者对 src/infrastructure 的正确态度？","choices":[{"t":"业务逻辑优先改进去图省事","ok":false,"why":"业务必须待在 core/。"},{"t":"只消费暴露能力；缺能力再提框架扩","ok":true,"why":"边界清晰才能多 Core 共存。"},{"t":"可以 fork 一份 Runtime 私改","ok":false,"why":"维护成本爆炸。"},{"t":"把业务 yaml 全部塞进 src/ 更清晰","ok":false,"why":"配置与业务都不进 Runtime 源码树。"}]}]}
 \`\`\`
 
 
@@ -44,7 +44,12 @@ sequenceDiagram
   AR->>Load: Stream / Plugins / Api / Tasker …
 \`\`\`
 
-对齐 \`docs/runtime-surface.md\` 挂载时间线：配置在 \`CommonConfigRegistry.load()\` **完成前不可用**。
+对齐 \`docs/runtime-surface.md\` 挂载时间线：配置在 \`CommonConfigRegistry.load()\` **完成前不可用**。  
+启动顺序直觉：\`app.js\` → bootstrap-globals（\`PluginBase\` / \`msgSegment\`）→ \`start.js\` 挂 \`AgentRuntime\` → **先** CommonConfig → 再 Plugins / Http / Workflow / Tasker…
+
+\`\`\`quiz
+{"title":"挂载时机","questions":[{"q":"业务代码何时才能稳定读 runtimeConfig？","choices":[{"t":"CommonConfigRegistry.load() 完成并挂全局之后","ok":true,"why":"配置阶段完成前应用 ConfigBase/默认模板，勿假设已就绪。"},{"t":"一 import app.js 的瞬间，任何行都能读","ok":false,"why":"Loader 有先后；配置在后段才挂上。"},{"t":"只能在浏览器里读 runtimeConfig","ok":false,"why":"这是服务端单例。"},{"t":"永远不能读，只能硬编码","ok":false,"why":"就绪后正常 import runtimeConfig。"}]}]}
+\`\`\`
 
 ---
 

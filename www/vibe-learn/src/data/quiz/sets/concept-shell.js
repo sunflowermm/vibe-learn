@@ -109,29 +109,82 @@ export default defineQuizSet({
       ],
     },
     {
-      q: 'Shell 命令执行结束后，退出码（Exit Code）非 0 通常表示什么？',
+      q: 'Shell 脚本文件开头的 `#!/usr/bin/env bash`（shebang）作用？',
       choices: [
         {
-          t: '命令执行失败或异常终止，自动化脚本应据此判断是否继续',
+          t: '告诉系统用哪个解释器执行该脚本；`env` 形式便于在 PATH 里找 bash',
           ok: true,
-          why: '0 表示成功，非 0 表示出错，CI 流水线和脚本依赖此约定做分支判断。',
+          why: '无执行位或 shebang 不对时，会出现「权限不够」或跑错解释器。',
         },
         {
-          t: '命令一定执行成功，非 0 只是装饰性数字',
+          t: '专门用来加密脚本内容',
           ok: false,
-          why: '非 0 明确表示失败，忽略它可能导致脚本在错误状态下继续运行。',
+          why: 'shebang 不是加密。',
         },
         {
-          t: '仅表示命令向控制台打印了日志，与成败无关',
+          t: '只有 Windows cmd 识别 shebang',
           ok: false,
-          why: '日志输出走 stdout/stderr，退出码是独立的进程状态信号。',
+          why: '经典是 Unix 内核/加载器行为；Win 上常靠 Git Bash 等环境。',
         },
         {
-          t: '非 0 只出现在 PowerShell 中，Bash 永远返回 0',
+          t: 'shebang 等于 PATH 环境变量本身',
           ok: false,
-          why: 'Bash 和 PowerShell 都遵循退出码约定，非 0 表示失败是通用惯例。',
+          why: '一行解释器声明，不是目录搜索列表。',
         },
       ],
+      relatedNodes: ['lang-shell', 'linux-cli', 'installers-path'],
+    },
+    {
+      q: '标准输出（stdout）与标准错误（stderr）为何常要分开理解？',
+      choices: [
+        {
+          t: '正常结果走 stdout，诊断信息常走 stderr；重定向/管道默认可只带走 stdout',
+          ok: true,
+          why: '故有 `2>&1`：需要把报错一并写入日志或管道时显式合并。',
+        },
+        {
+          t: '二者永远是同一文件描述符，无法分开',
+          ok: false,
+          why: '正是两个流；可分别重定向。',
+        },
+        {
+          t: 'stderr 只能用于打印天气',
+          ok: false,
+          why: '用于诊断与错误通道。',
+        },
+        {
+          t: '只有 PowerShell 有 stderr',
+          ok: false,
+          why: 'Unix 与多数运行时都有这套约定。',
+        },
+      ],
+      relatedNodes: ['lang-shell', 'linux-cli'],
+    },
+    {
+      q: 'Shell 命令结束后，退出码（exit code）非 0 通常表示什么？',
+      choices: [
+        {
+          t: '命令失败或异常结束；脚本与 CI 常据此决定是否继续',
+          ok: true,
+          why: '约定 0=成功、非 0=失败；忽略它会在错误状态下继续跑。',
+        },
+        {
+          t: '非 0 只表示打印了日志，与成败无关',
+          ok: false,
+          why: '日志走 stdout/stderr；退出码是独立状态。',
+        },
+        {
+          t: 'Bash 永远返回 0，只有 PowerShell 用非 0',
+          ok: false,
+          why: '两边都遵循同一约定。',
+        },
+        {
+          t: '非 0 表示磁盘已加密成功',
+          ok: false,
+          why: '与磁盘加密无关。',
+        },
+      ],
+      relatedNodes: ['lang-shell', 'craft-ci', 'linux-cli'],
     },
   ],
 });

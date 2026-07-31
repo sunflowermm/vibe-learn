@@ -6,7 +6,16 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'xrk',
   tags: ['工作流', 'MCP', 'Tasker', '办事助手'],
-  relatedNodes: ['xrk-stream', 'xrk-chat-pipeline', 'xrk-agent-workspace'],
+  relatedNodes: [
+    'xrk-stream',
+    'xrk-chat-pipeline',
+    'xrk-agent-workspace',
+    'xrk-factory-llm',
+    'xrk-mcp-ops',
+    'xrk-tasker-channels',
+    'ai-mcp',
+    'ai-agents-md',
+  ],
   questions: [
     {
       q: '在 XRK-AGT 里，AI 工作流（AiWorkflow）的代码与配置通常对应哪些目录或配置名？',
@@ -61,6 +70,84 @@ export default defineQuizSet({
         { t: 'LLM Factory 负责把用户消息路由到 Tasker 通道，替代所有 HTTP handler', ok: false, why: '消息路由是 Tasker/对话管线的事；工厂只管 LLM 客户端构造。' },
         { t: 'LLM Factory 就是 MCP 服务器本身，两者在 XRK 里是同一个组件', ok: false, why: '工厂管模型 API 客户端；MCP 管工具/资源插接协议，层次不同。' },
       ],
+    },
+    {
+      q: '「两张工牌」巧思：根 AGENTS.md 与办事工作区 AGENTS.md？',
+      choices: [
+        {
+          t: '根给 Cursor 写框架/Core；工作区给群聊办事模型——戴错会改错舞台',
+          ok: true,
+          why: 'docs/agents.md 与根 AGENTS 分工；见办事助手课。',
+        },
+        {
+          t: '两份必须全文一字不差，否则启动失败',
+          ok: false,
+          why: '读者与职责不同，内容本就不同。',
+        },
+        {
+          t: '办事语气应改 src/agent-runtime.js',
+          ok: false,
+          why: '人设在工作区文件。',
+        },
+        {
+          t: '根 AGENTS 会自动注入办事助手 system',
+          ok: false,
+          why: '根 AGENTS 不进办事注入链。',
+        },
+      ],
+      relatedNodes: ['xrk-agent-workspace', 'ai-agents-md', 'adev-project-memory'],
+    },
+    {
+      q: '对话管线里「易变时间」与可缓存 system 的拆分，是为了？',
+      choices: [
+        {
+          t: '避免把每分钟变化的元数据污染可缓存的稳定前缀',
+          ok: true,
+          why: 'buildEnhancedContext 独立 user；对齐 agent-context。',
+        },
+        {
+          t: '让 Redis 必须每秒清空',
+          ok: false,
+          why: '无关。',
+        },
+        {
+          t: '禁止使用任何历史消息',
+          ok: false,
+          why: '历史另层。',
+        },
+        {
+          t: '强制关闭 MCP',
+          ok: false,
+          why: '正交。',
+        },
+      ],
+      relatedNodes: ['xrk-chat-pipeline', 'ai-token-context'],
+    },
+    {
+      q: 'Factory「插座」与 MCP「USB 工具」同时存在时，分工？',
+      choices: [
+        {
+          t: '工厂选模型客户端；MCP 挂可调用的外部能力；工作流编菜谱',
+          ok: true,
+          why: '三者正交；见 Factory / MCP / Stream 课巧思。',
+        },
+        {
+          t: '有工厂就不必 MCP',
+          ok: false,
+          why: '模型不会自动获得工具面。',
+        },
+        {
+          t: 'MCP 替代全部 YAML 配置',
+          ok: false,
+          why: '配置仍走 CommonConfig。',
+        },
+        {
+          t: '二者都必须写在 www/',
+          ok: false,
+          why: '服务端扩展点。',
+        },
+      ],
+      relatedNodes: ['xrk-factory-llm', 'xrk-mcp-ops', 'xrk-stream'],
     },
   ],
 });

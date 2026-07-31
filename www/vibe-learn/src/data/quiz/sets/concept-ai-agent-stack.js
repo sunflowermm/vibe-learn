@@ -10,11 +10,11 @@ export default defineQuizSet({
     'ai-tool-calling',
     'ai-mcp',
     'ai-agent-birth',
+    'ai-agentic-rag',
     'ai-subagent',
-    'ai-pi-agent',
     'ai-agent-memory',
     'ai-agent-planning',
-    'ai-prompt-security',
+    'ai-protocol-forks',
   ],
   questions: [
     {
@@ -43,6 +43,33 @@ export default defineQuizSet({
         { t: '控制循环指只训练模型、永不进行推理时的工具调用', ok: false, why: '控制循环发生在推理/运行期；训练是离线阶段。' },
         { t: 'Agent 循环与 RAG 检索完全互斥，用了 Agent 就不能做检索', ok: false, why: 'Agent 常结合 RAG 检索；二者可组合，不是互斥关系。' },
       ],
+      relatedNodes: ['ai-agent-birth', 'ai-agentic-rag'],
+    },
+    {
+      q: '把检索做成智能体工具（Agentic RAG）时，本仓更贴近哪条落地？',
+      choices: [
+        {
+          t: 'registerMCPTool / 知识类工作流 + 工厂 tool_calls 多轮回灌；小语料常直接 tools.read',
+          ok: true,
+          why: '检索工具化：模型提议、运行时执行；读工作区是廉价「再检索」。',
+        },
+        {
+          t: '禁止工具调用，只把向量库密码写进 system 提示',
+          ok: false,
+          why: '密钥进提示既不安全也不是工具环。',
+        },
+        {
+          t: '必须先微调，否则 tool_calls 无法出现',
+          ok: false,
+          why: '工具调用是推理期协议能力，不依赖先微调。',
+        },
+        {
+          t: 'Agentic RAG 要求关闭 maxToolRounds，只允许一轮',
+          ok: false,
+          why: '多轮再检索正需要工具轮次预算。',
+        },
+      ],
+      relatedNodes: ['ai-agentic-rag', 'ai-tool-calling', 'ai-mcp'],
     },
     {
       q: '「图编排（agent graph）」式工作流，更适合解决哪类问题？',
@@ -79,6 +106,85 @@ export default defineQuizSet({
         { t: '替代 pnpm-lock.yaml 锁定 npm 依赖版本', ok: false, why: '依赖锁定靠 lockfile；AGENTS.md 是 Agent 行为说明，不是包管理文件。' },
         { t: 'AGENTS.md 只给 LLM 训练用，推理时 IDE 不会读取其内容', ok: false, why: 'Cursor 等会在推理时注入 AGENTS.md 到上下文，正是为了运行时指导。' },
       ],
+      relatedNodes: ['ai-agents-md', 'adev-project-memory'],
+    },
+    {
+      q: '本仓「智能体记忆」落地时，会话连贯主要靠什么？',
+      choices: [
+        {
+          t: '消息组装与历史预算（三层消息 / agentWorkspace），不是当场改权重',
+          ok: true,
+          why: '工作记忆在窗内；长期事实另走工作流或 tools.read。',
+        },
+        {
+          t: '每次对话强制全量微调基座',
+          ok: false,
+          why: '日常办事不靠当场改权重。',
+        },
+        {
+          t: '把全部工具 JSON 永久写进 package.json',
+          ok: false,
+          why: '与包管理无关。',
+        },
+        {
+          t: '只改 DNS 就能跨会话记住事实',
+          ok: false,
+          why: '无关。',
+        },
+      ],
+      relatedNodes: ['ai-agent-memory', 'ai-token-context', 'xrk-agent-workspace'],
+    },
+    {
+      q: '本仓限制工具环「想太久、调太多次」更贴近？',
+      choices: [
+        {
+          t: 'maxToolRounds 等工具轮预算 + 超时',
+          ok: true,
+          why: 'ReAct 要封顶步数与墙钟；对应规划课工程约束。',
+        },
+        {
+          t: '删掉 package.json',
+          ok: false,
+          why: '无关。',
+        },
+        {
+          t: '禁止注册任何 MCP 工具',
+          ok: false,
+          why: '白名单 ≠ 零工具。',
+        },
+        {
+          t: '把密钥写进 README',
+          ok: false,
+          why: '安全反例。',
+        },
+      ],
+      relatedNodes: ['ai-agent-planning', 'ai-agent-birth', 'ai-tool-calling'],
+    },
+    {
+      q: '本仓协议分层里，默认对话 API 心智更贴近？',
+      choices: [
+        {
+          t: 'L1 Chat Completions 兼容形状；MCP 是 L2 工具面',
+          ok: true,
+          why: '兼容层迁移面广；工具走 registerMCPTool / remote-mcp。',
+        },
+        {
+          t: '必须先实现完整 A2A 才能调模型',
+          ok: false,
+          why: 'L3 协作不是对话入口前提。',
+        },
+        {
+          t: '只用 DNS TXT 传提示词',
+          ok: false,
+          why: '无关。',
+        },
+        {
+          t: '协议分层等于取消工具调用',
+          ok: false,
+          why: 'L2 正是工具面。',
+        },
+      ],
+      relatedNodes: ['ai-protocol-forks', 'ai-openai-protocol', 'ai-mcp'],
     },
   ],
 });

@@ -130,5 +130,61 @@ export default defineQuizSet({
       relatedNodes: ['xrk-lab-plugin', 'code-read-errors', 'workbench-troubleshoot'],
       tags: ['基础', '进阶'],
     },
+    {
+      id: 'concept-xrk-bridge:q11',
+      q: '第一章 stdin 终端与 Tasker stdin 通道的串联直觉？',
+      choices: [
+        {
+          t: '同一「终端输入」能力：调试时用 stdin Tasker 当假 IM，验 plugin 不必等真机器人',
+          ok: true,
+          why: '环境章终端 + XRK Tasker 课；callStdin / 对接终端。',
+        },
+        {
+          t: 'stdin Tasker 只能用来格式化硬盘',
+          ok: false,
+          why: '调试消息通道。',
+        },
+        {
+          t: '有了 stdin 就不必装 Node',
+          ok: false,
+          why: '主服仍是 Node。',
+        },
+        {
+          t: 'stdin 命令应转发到子服> 提示符',
+          ok: false,
+          why: '子服运维在子服终端；stdin Tasker 是主服调试通道。',
+        },
+      ],
+      relatedNodes: ['xrk-tasker-channels', 'terminal-worlds', 'xrk-lab-plugin'],
+      tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-xrk-bridge:q12',
+      q: '第五章 MCP 概念课与本仓「MCP 运维」课怎么合读？',
+      choices: [
+        {
+          t: '概念课认 Host/Client/Server；运维课指 mcp-server、http/mcp、白名单与 Key',
+          ok: true,
+          why: '先词后路径；两课分工。',
+        },
+        {
+          t: '只读概念课即可，仓库里没有挂载点',
+          ok: false,
+          why: '主服有明确挂载路径。',
+        },
+        {
+          t: '运维课替代全部网络知识，不必懂 HTTPS',
+          ok: false,
+          why: '出网与鉴权仍要网络/Auth。',
+        },
+        {
+          t: 'MCP 只存在于 ESP32 固件',
+          ok: false,
+          why: '主服工具协议。',
+        },
+      ],
+      relatedNodes: ['xrk-mcp-ops', 'ai-mcp', 'xrk-http-auth'],
+      tags: ['进阶'],
+    },
   ],
 });

@@ -88,6 +88,10 @@ export default `# 反向代理、限流与 CDN
 
 落地：Nginx \`limit_req\`、Redis 计数、网关中间件等。
 
+\`\`\`quiz
+{"title":"反代 / CDN 自测","questions":[{"q":"正向代理 vs 反向代理？","choices":[{"t":"正向靠近客户端常需配置；反向靠近服务器客户端通常无感","ok":true,"why":"Clash 偏正向；Nginx 门面偏反向。"},{"t":"二者完全等价","ok":false,"why":"位置与谁感知不同。"},{"t":"反向代理废除 DNS","ok":false,"why":"仍要解析到入口。"},{"t":"正向专门签发证书","ok":false,"why":"证书常在反代/边缘终止。"}]},{"q":"L7 相对 L4 负载均衡多了什么？","choices":[{"t":"能按 Host/URL/Header 等应用语义路由","ok":true,"why":"L4 只看 IP/端口/协议。"},{"t":"禁止用于生产","ok":false,"why":"差异在功能不是禁令。"},{"t":"只能看 MAC","ok":false,"why":"MAC 是链路层。"},{"t":"只能跑 UDP","ok":false,"why":"HTTP L7 常见于 TCP/QUIC。"}]}]}
+\`\`\`
+
 ---
 
 ## 5. 八股 × 业务串联

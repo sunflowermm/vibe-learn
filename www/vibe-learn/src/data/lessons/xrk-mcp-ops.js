@@ -1,120 +1,97 @@
 /** 主服 MCP 运维 */
 export default `# 主服 MCP 运维
 
-> 第五章讲 MCP **概念**（模型如何发现/调用工具）；本课讲本仓 **主服如何挂载** MCP：工作流工具汇总、HTTP/WS 出口、启动日志如何确认。  
+> 第五章讲 MCP **是什么**；本课讲本仓 **挂在哪、怎么验、挂了连不上怎么拆**。  
 > 真源：\`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\` · \`docs/ai-workflow.md\`。
 
-## 本课你要带走什么
-\`\`\`check
-{"title":"MCP 运维清单","items":[{"text":"分清 MCP 服务与客户端角色","hint":"谁暴露工具、谁来调"},{"text":"鉴权与网络边界清楚","hint":"别裸奔到公网"},{"text":"与 AiWorkflow 配置对得上","hint":"文档路径为准"}]}
+## 设计巧思：USB 口在主机上
+
+| 角色 | 人话 | 本仓 |
+|------|------|------|
+| MCP Server | 电脑上的 USB 口 + 驱动表 | \`mcp-server\` + 工作流工具表 |
+| MCP Client | 插上来的设备（Cursor 等） | 外部平台 |
+| 工具 | 口上挂的设备能力 | \`registerMCPTool\` |
+| API Key | 机箱锁 | \`docs/AUTH.md\` |
+
+本仓对话 Agent 也可以**同时是**工具的使用者（吃同一张工具表）——对内对外共用插口，省一套私有协议。
+
+\`\`\`steps
+{"title":"挂载核对","steps":[{"title":"工作流 init","body":"registerMCPTool 写入工具表。"},{"title":"mcp-server","body":"汇总协议与会话。"},{"title":"HTTP/WS 出口","body":"system-Core http/mcp。"},{"title":"日志绿灯","body":"看到挂载成功类文案。"},{"title":"白名单","body":"streams 只开本轮需要的。"}]}
 \`\`\`
-
-
-1. 主服 MCP 与 AiWorkflow 工具注册的关系  
-2. 关键代码路径：\`src/utils/mcp-server.js\`、\`core/system-Core/http/mcp.js\`  
-3. 和第五章 \`ai-mcp\` 课的分工：概念 vs 本仓挂载  
-4. 实践：启动日志看到「MCP服务已挂载」（或同类成功文案）
 
 ---
 
-## 1. 在地图上的位置
-\`\`\`match
-{"title":"MCP 运维配对","pairs":[{"id":"mcp","left":"MCP","right":"工具协议，给 Agent 接外部能力"},{"id":"auth","left":"鉴权","right":"工具也有信任边界"},{"id":"ops","left":"运维","right":"日志、超时、限额"}]}
-\`\`\`
+## 1. 跨章地图
 
+| 方向 | 课 |
+|------|-----|
+| 概念词 Host/Client/Server | 第五章 **ai-mcp** |
+| 模型怎么提议调用 | 第五章 **Tool Calling** · **协议分层** |
+| 本仓对话怎么跑工具环 | **工作流** · **对话管线** |
+| 鉴权 | **HTTP Auth** · AUTH.md |
+| 提示注入风险 | 第五章 **提示安全**（工具有副作用时更危险） |
+| 子服 | 历史「子服 AI 业务接口」已下线；工具执行以**主服**为准 |
 
 \`\`\`mermaid
 flowchart LR
-  WF[core/*/workflow] -->|registerMCPTool| Map[工作流工具表]
+  WF[workflow registerMCPTool] --> Map[工具表]
   Map --> Srv[mcp-server]
-  Srv --> HTTP[system-Core http/mcp]
-  Srv --> WS[MCP WebSocket]
-  Ext[Cursor / Claude / 其它] --> HTTP
-  Ext --> WS
-  Chat[主服对话 AiWorkflow] --> Map
+  Srv --> Out[HTTP / WS]
+  Ext[外部 Client] --> Out
+  Chat[主服 AiWorkflow] --> Map
 \`\`\`
 
-| 角色 | 说明 |
-|------|------|
-| **工作流** | \`init\` 里 \`registerMCPTool\`；\`streams\` 白名单限制暴露面 |
-| **mcp-server** | 汇总工具、协议版本、对外会话 |
-| **system-Core HTTP** | REST/WS 形态给外部平台连 |
-| **鉴权** | 走系统 API Key / WS 规则（\`docs/AUTH.md\`） |
-
-协议版本与端点细节以 \`mcp-guide.md\` 正文为准（文档标注规范版本，随代码演进）。
-
 ---
 
-## 2. 本仓路径
+## 2. 路径揉碎
 
-| 路径 | 说明 |
-|------|------|
-| \`docs/mcp-guide.md\` | 完整指南（工具列表示意、HTTP/WS） |
-| \`docs/mcp-config-guide.md\` | 外部平台连接配置 |
-| \`docs/ai-workflow.md\` | tool calling + MCP 链路 |
+| 路径 | 干什么 |
+|------|--------|
 | \`src/utils/mcp-server.js\` | 服务实现 |
-| \`core/system-Core/http/mcp.js\` | HTTP 挂载入口之一 |
-| \`config/default_config/ai-workflow.yaml\` → \`mcp.*\` | 开关与相关项 |
+| \`core/system-Core/http/mcp.js\` | 对外挂载入口之一 |
+| \`ai-workflow.yaml\` → \`mcp.*\` | 开关与相关项 |
+| \`docs/mcp-config-guide.md\` | 外部怎么填 URL/Key |
 
-> 历史「子服 AI 业务接口」已下线；工具执行以主服工作流 + MCP 为准（\`ai-workflow.md\` / \`subserver-api.md\` 结论）。
+工具名常带工作流前缀（如 \`tools.read\`）。\`frameworkToolSurface: true\` 的工作流可进 chat 白名单（见 base-classes）。
 
----
-
-## 3. 与第五章的桥
-
-| 第五章概念课 | 本课工程落点 |
-|--------------|--------------|
-| MCP 为何出现 | 主服需要标准工具通道给外部 Agent |
-| tools / resources | 工作流注册的工具名（常 \`stream.tool\`） |
-| Host / Client / Server | 外部平台为 Client；本仓 \`mcp-server\` 为 Server |
-| 安全 | API Key、白名单 \`streams\`、file 工具开关 |
-
-先读本课能「指着仓库说挂在哪」；再回第五章把协议词吃透。
+\`\`\`quiz
+{"title":"MCP 运维","questions":[{"q":"本仓 MCP 工具主要在哪注册？","choices":[{"t":"core/*/workflow 的 registerMCPTool","ok":true,"why":"汇总进 mcp-server。"},{"t":"随便写在 www 静态 JS","ok":false,"why":"前端不是工具注册面。"},{"t":"必须改 Linux 内核模块","ok":false,"why":"应用层协议。"},{"t":"只能写在子服且主服禁止执行","ok":false,"why":"现行以主服工具执行为准。"}]},{"q":"外部 Client 连不上时，第一刀？","choices":[{"t":"先看主服是否起来、MCP 挂载日志、Key 与 URL 路径","ok":true,"why":"运维核对表。"},{"t":"先微调基座权重","ok":false,"why":"连口都没有。"},{"t":"删掉全部 plugin","ok":false,"why":"不对症。"},{"t":"把 Key 贴进公开 Issue","ok":false,"why":"泄漏。"}]}]}
+\`\`\`
 
 ---
 
-## 4. 运维核对表
+## 3. 运维核对表（可打印）
 
-| 检查项 | 正常时你应看到 |
-|--------|----------------|
-| 启动日志 | MCP 服务挂载成功类提示（文案以现行日志为准） |
-| 工作流加载 | 相关 workflow 已 init，工具已注册 |
-| 外部 Client | URL / 协议版本 / API Key 与 \`mcp-config-guide.md\` 一致 |
-| 白名单 | 请求里的 \`streams\` 只含本轮需要的工作流名 |
+| 检查项 | 正常时 |
+|--------|--------|
+| 启动日志 | MCP 已挂载类提示 |
+| 工作流 | 已 init，工具已注册 |
+| Client | URL / 协议版本 / Key 对齐 config-guide |
+| \`streams\` | 只含本轮需要的工作流名 |
 | 危险工具 | \`tools.file.runEnabled\` 默认 false；开启则 loopback 也要 Key |
 
 <details>
-<summary>排障口诀（连不上时）</summary>
+<summary>连不上五步</summary>
 
-1. 主服是否真的起来、MCP 路由是否在 \`system-Core/http/mcp\`  
-2. Key 是否带对（\`docs/AUTH.md\`）  
-3. 客户端填的是 HTTP 还是 WS、路径是否多/少斜杠  
-4. 工具列表为空：工作流未加载或 \`streams\` 过窄  
-5. 工具执行失败：看工作流 handler 日志，而非只怪「MCP 协议」
+1. 主服进程与 \`http/mcp\` 路由  
+2. Key（AUTH.md）  
+3. HTTP vs WS、斜杠多寡  
+4. 工具列表空 → 工作流未载或白名单过窄  
+5. 执行失败 → 看工作流 handler 日志，别只骂「协议」
 
 </details>
 
 ---
 
-## 5. 实践清单
+## 4. 实践清单
 
-1. 启动主服，在日志中搜索 **MCP** / **已挂载**（以实际日志文案为准）。  
-2. 打开 \`core/system-Core/http/mcp.js\` 扫一眼路由前缀，对照 \`mcp-guide.md\` HTTP API 节。  
-3. 在配置中确认 \`ai-workflow\` 的 \`mcp\` 相关项；按 \`mcp-config-guide.md\` 看外部客户端要填的 URL 与 Key。  
-4. 选一个已加载 workflow，确认其 \`registerMCPTool\` 名称出现在工具列表（文档示例或调试接口）。  
-5. 对照第五章 **ai-mcp** 课：用本仓路径把「Server / 工具」指认一遍。
-
----
-
-## 6. 文档链接
-
-- \`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\`  
-- \`docs/ai-workflow.md\` · \`docs/AUTH.md\`  
-- \`docs/base-classes.md\`（\`frameworkToolSurface\` / \`registerMCPTool\`）  
-- 源码：\`src/utils/mcp-server.js\` · \`core/system-Core/http/mcp.js\`
+1. 日志搜 MCP / 已挂载。  
+2. 扫一眼 \`http/mcp.js\` 路由前缀。  
+3. 对照 \`mcp-config-guide.md\` 填外部 Client。  
+4. 指认一个 \`registerMCPTool\` 名称出现在工具列表。  
+5. 回第五章 **ai-mcp**：用本仓路径说清 Server / 工具。
 
 ## 下一步
 
-**Stream**（对话里如何调工具）· **Factory**（模型侧）· 第五章 **ai-mcp**（概念加深）。  
-外部连不通时优先查：挂载日志、API Key、URL 路径、\`streams\` 白名单。
+**Factory**（模型口）· **Stream**（对话里怎么调）· **提示安全**（工具副作用）。
 `;

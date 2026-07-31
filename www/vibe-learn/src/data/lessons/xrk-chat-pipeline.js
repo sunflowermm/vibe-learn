@@ -82,7 +82,7 @@ flowchart TB
 | 自适应 · Agent | 工具环 + 笔录 + MEMORY |
 
 \`\`\`quiz
-{"title":"管线自测","questions":[{"q":"易变的「当前时间」应放哪？","choices":[{"t":"拼进可缓存的 system 最前面","ok":false,"why":"会搅乱前缀缓存。"},{"t":"独立 user（buildEnhancedContext）","ok":true,"why":"代码刻意拆层。"},{"t":"只写进 Redis 不给模型","ok":false,"why":"模型需要看见会话元数据。"}]}]}
+{"title":"管线自测","questions":[{"q":"易变的「当前时间」应放哪？","choices":[{"t":"拼进可缓存的 system 最前面","ok":false,"why":"会搅乱前缀缓存。"},{"t":"独立 user（buildEnhancedContext）","ok":true,"why":"代码刻意拆层。"},{"t":"只写进 Redis 不给模型","ok":false,"why":"模型需要看见会话元数据。"},{"t":"写进 package.json engines","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 ## 文档链接

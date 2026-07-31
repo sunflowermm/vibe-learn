@@ -142,12 +142,15 @@ core/<Core名>/www/<应用名>/
 
 | 规则 | 说明 |
 |------|------|
-| 用 \`HttpResponse.success / error / …\` | 统一形状，少私创字段 |
+| 放置 / 导出 | \`core/*/http/*.js\`；**推荐对象导出** \`{ name, routes }\`（Loader 包装） |
+| 用 \`HttpResponse.success / error / …\` | 统一形状，少私创字段；勿与裸 \`res.json\` 混用 |
 | 普通对象成功 | 字段**拍平到顶层**（没有统一 \`data\` 包一层） |
 | 数组 / 标量 | 才放进 \`data\` |
+| \`/api/*\` 鉴权 | 默认 \`systemAuth\`；公开设 \`systemAuth: false\` |
 | 前端解包 | 有 \`data\` 用 \`data\`；否则去掉 \`success\`/\`message\` 读剩余字段 |
 
-写死 \`json.data.xxx\` 会在对象成功响应上取空——这是 www 联调最常见坑。
+写死 \`json.data.xxx\` 会在对象成功响应上取空——这是 www 联调最常见坑。  
+动手：**实践 · 最小 HTTP**。
 
 ---
 

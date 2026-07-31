@@ -7,7 +7,7 @@ export default defineQuizSet({
   kind: 'concept',
   domain: 'net',
   tags: ['Nginx', '反代', 'TLS', '基础', '进阶'],
-  relatedNodes: ['net-nginx', 'reverse-proxy', 'http-web'],
+  relatedNodes: ['net-nginx', 'reverse-proxy', 'http-web', 'net-edge-practice', 'routing-nat'],
   caption: '入口层：反代、TLS、静态与 502/504——上线与面板部署必会。',
   questions: [
     {

@@ -172,6 +172,10 @@ which node npm npx
 | **Homebrew / apt / winget** | 系统级包管理器 | 往电脑里装 CLI | 不是 pnpm |
 | **MSI** | Windows 安装包格式 | 常顺带改 PATH | 解压 zip（如部分 Redis）常不改 PATH |
 
+\`\`\`quiz
+{"title":"PATH 自测","questions":[{"q":"PATH 回答的核心问题？","choices":[{"t":"敲命令时到哪些目录按序搜索可执行文件","ok":true,"why":"多版本时前面的目录优先。"},{"t":"HTTP 默认走哪台代理","ok":false,"why":"那是 HTTP_PROXY 族。"},{"t":"Git 默认分支名","ok":false,"why":"Git 配置。"},{"t":"DNS 服务器列表","ok":false,"why":"解析器配置。"}]},{"q":"刚装完 Node，旧终端仍找不到 node，优先？","choices":[{"t":"新开终端或重载配置，用 which/where 核对 PATH","ok":true,"why":"旧会话不会自动刷新安装器写入的 PATH。"},{"t":"立刻格式化磁盘","ok":false,"why":"过激。"},{"t":"删除 .git","ok":false,"why":"无关。"},{"t":"调 temperature","ok":false,"why":"模型参数无关。"}]}]}
+\`\`\`
+
 ## 下一步
 
 **包管理器** — 系统包 vs 语言包；本仓为何钉 pnpm。  

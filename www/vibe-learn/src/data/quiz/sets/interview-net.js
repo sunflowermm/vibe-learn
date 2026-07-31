@@ -9,7 +9,16 @@ export default defineQuizSet({
   kind: 'interview',
   domain: 'net',
   tags: ['网络', 'HTTP', 'TCP', 'RFC9110'],
-  relatedNodes: ['tcp-udp', 'http-web', 'dns-https'],
+  relatedNodes: [
+    'tcp-udp',
+    'http-web',
+    'dns-https',
+    'routing-nat',
+    'reverse-proxy',
+    'net-edge-practice',
+    'protocol-stack',
+    'ip-addressing',
+  ],
   caption: '开口对齐教材/RFC：可靠传输、TLS、幂等、握手。',
   questions: [
     {

@@ -1,127 +1,93 @@
 /** events 监听 */
 export default `# events 监听
 
-> \`core/*/events\` 里的监听器挂在 **Listener** 体系上：在 Tasker / Runtime 生命周期节点上挂钩子，而不是替代通道或插件。  
-> 基类：\`ListenerBase\`（\`src/infrastructure/listener/base.js\`）。
+> \`core/*/events\` = **横切钩子**：在通道就绪、系统副作用处挂 \`ListenerBase\`，**不**替代 Tasker，也**不**替代 plugin。  
+> 基类：\`src/infrastructure/listener/base.js\`。
 
-## 本课你要带走什么
+## 设计巧思：三角厨房
+
+把 Runtime 想成厨房：
+
+| 角色 | 比喻 | 目录 |
+|------|------|------|
+| Tasker | 进货口（快递拆箱） | \`tasker/\` |
+| plugin | 炒菜（客人点了什么） | \`plugin/\` |
+| events | 排烟与温度计（常开、横切） | \`events/\` |
+
+排烟机不该决定菜单；菜单也不该自己拆快递箱。
+
 \`\`\`steps
-{"title":"事件三角怎么分","steps":[{"title":"Tasker","body":"协议适配：把平台消息变成统一事件 e。"},{"title":"events","body":"Listener 挂钩子：连接就绪、常驻 on、系统副作用。"},{"title":"plugin","body":"规则匹配业务：指令、回复、产品逻辑。"},{"title":"改完重启","body":"events 常绑长生命周期；改 Listener 后重启主服再验。"}]}
+{"title":"事件三角","steps":[{"title":"Tasker","body":"协议 → 统一 e。"},{"title":"events","body":"init 里 on：就绪、桥接、标记已处理。"},{"title":"plugin","body":"reg 匹配 → 业务 reply。"},{"title":"改完重启","body":"Listener 常绑长生命周期；改完重启再验。"}]}
 \`\`\`
-
-\`\`\`flip
-{"title":"事件翻卡","cards":[{"front":"events/","back":"监听运行时事件的扩展点"},{"front":"与 plugin","back":"插件偏命令/消息；事件偏钩子"},{"front":"ai-workspace.js","back":"system-Core 里与工作区外围相关的示例监听"}]}
-\`\`\`
-
-
-1. events 目录放什么、Loader 何时 \`init\`  
-2. 与 **tasker**、**plugin** 的三角关系  
-3. **热重载边界**：events 常需重启才能稳妥生效  
-4. 实践：对照 \`system-Core/events\` 与启动日志
 
 ---
 
-## 1. 职责表
-\`\`\`match
-{"title":"事件课配对","pairs":[{"id":"listen","left":"events/","right":"监听运行时事件"},{"id":"emit","left":"em()","right":"发出事件给监听方"},{"id":"vs","left":"vs plugin","right":"事件偏横切；插件偏命令/业务入口"}]}
+## 1. 跨章回扣
+
+| 章 | 对照 |
+|----|------|
+| **序章** | 钩子 ≈ 系统调用边界上的观察点 |
+| **工程素养 · 观测** | Listener 适合打点、联动，别塞成上帝类 |
+| **插件架构** | 热更：plugin 常可热更；**events 常需重启** |
+| **办事助手** | \`ai-workspace.js\` 一类监听是外围，不是人设文件本身 |
+| **第五章 · 子代理** | events ≠ subagent；一个是进程钩子，一个是对话委派 |
+
+\`\`\`flip
+{"title":"events 翻卡","cards":[{"front":"该放 events？","back":"连接后常驻 on、系统副作用、标记已处理"},{"front":"该放 plugin？","back":"用户指令、产品业务、要 reply"},{"front":"该放 tasker？","back":"新协议、WS 路径、造 e"},{"front":"热更？","back":"改 Listener → 重启主服更稳"}]}
 \`\`\`
 
+---
+
+## 2. 契约揉碎
 
 | 项 | 说明 |
 |----|------|
-| **作用** | 订阅平台或总线事件、做适配侧副作用（标记已处理、桥接设备等） |
-| **目录** | \`core/<名>/events/*.js\` |
-| **基类** | \`ListenerBase\`；构造后 Loader 调 \`async init()\`，注入 \`this.bot\` |
-| **谁来用** | 需要「通道就绪后常驻监听」的系统/产品能力 |
-| **别搞混** | ≠ Tasker（造事件）；≠ Plugin（规则匹配业务）；≠ workflow |
-
-\`\`\`mermaid
-flowchart TB
-  T[Tasker 产生/转发] --> Bus["AgentRuntime.em / 平台 on"]
-  Bus --> L[events Listener]
-  Bus --> P[plugin 规则链]
-  L --> Side[副作用 · 标记 · 桥接]
-  P --> Biz[业务回复]
-\`\`\`
-
-最小形状（对齐 \`docs/base-classes.md\`）：
+| 放置 | \`core/<名>/events/*.js\` |
+| 形状 | \`extends ListenerBase\` → Loader 调 \`async init()\`，注入 \`this.bot\` |
+| 总线 | 上游常经 \`AgentRuntime.em\` / 平台 \`on\` |
+| 别越权 | 大段业务逻辑 → plugin；造协议 → tasker |
 
 \`\`\`javascript
 export default class MyEvent extends ListenerBase {
-  constructor() { super('MyAdapter'); }
-  async init() { /* bot.on(...); markProcessed(e) */ }
+  constructor() { super('MyAdapter') }
+  async init() { /* this.bot.on(...); markProcessed(e) */ }
 }
+\`\`\`
+
+\`\`\`mermaid
+flowchart TB
+  T[Tasker] --> Bus["em / 平台 on"]
+  Bus --> L[Listener · 副作用]
+  Bus --> P[plugin · 业务]
+\`\`\`
+
+\`\`\`quiz
+{"title":"events 快测","questions":[{"q":"「用户发 #签到 领积分」应优先放？","choices":[{"t":"events Listener","ok":false,"why":"这是指令业务，放 plugin。"},{"t":"plugin 规则匹配","ok":true,"why":"reg + run + reply。"},{"t":"src/factory","ok":false,"why":"工厂不管签到。"},{"t":"www 静态 HTML 注释","ok":false,"why":"不进运行时。"}]},{"q":"改完 events 后更稳妥的验收？","choices":[{"t":"存盘即默认热更成功，不必看日志","ok":false,"why":"易双绑/漏解绑。"},{"t":"重启主服，确认 ListenerLoader 重新 init","ok":true,"why":"长生命周期绑定。"},{"t":"只刷新浏览器","ok":false,"why":"服务端钩子。"},{"t":"删除 Redis 再试","ok":false,"why":"不对症。"}]}]}
 \`\`\`
 
 ---
 
-## 2. 本仓路径
+## 3. system-Core 示例怎么读
 
-| 路径 | 说明 |
-|------|------|
-| \`src/infrastructure/listener/base.js\` | \`ListenerBase\` |
-| \`src/infrastructure/listener/loader.js\` | ListenerLoader |
-| \`core/system-Core/events/\` | 框架侧示例（如 \`stdin.js\`、\`onebot.js\`、\`device.js\`、\`ai-workspace.js\`） |
-| \`docs/base-classes.md\` → ListenerBase | 契约摘要 |
-| \`docs/runtime-surface.md\` | \`em\`、挂载时间线 |
-| \`docs/infrastructure-shared.md\` | Loader / 热重载共性（若查边界） |
+| 文件直觉 | 读时抓什么 |
+|----------|------------|
+| \`stdin.js\` / \`onebot.js\` | \`init\` 绑了谁 |
+| \`device.js\` | 设备通道副作用 |
+| \`ai-workspace.js\` | 与工作区外围的联动（非 AGENTS 正文） |
 
----
-
-## 3. 与 tasker / plugin 怎么配合
-
-| 场景 | 放哪里 |
-|------|--------|
-| 新 IM 协议接入、WS 路径 | **tasker** |
-| 「收到 #命令 做业务」 | **plugin** |
-| 「某适配器连接后持续 onxxx」或系统级钩子 | **events** |
-| 「对话里调 LLM / MCP」 | **workflow** |
-
-Listener 里需要回消息时，仍走事件对象上的通道能力（\`e\` / \`this.bot\`），不要把业务大段逻辑塞进 Listener 冒充 Plugin。
+路径：\`core/system-Core/events/\` · 契约：\`docs/base-classes.md\`。
 
 ---
 
-## 4. 热重载边界（必读）
+## 4. 实践清单
 
-| 扩展点 | 热更直觉（以现行 Loader 为准） |
-|--------|--------------------------------|
-| plugin / 部分 http / workflow | 常支持开发期热加载（看日志确认） |
-| **events** | **常需重启主服**；监听器在 \`init\` 绑到长生命周期对象上，热换易漏解绑或双绑 |
-| tasker / 数据库连接 | 多在启动期建立，改完重启 |
-
-实践原则：**改 events 后重启**，再在日志里确认 ListenerLoader 重新 \`init\` 成功。不要假设「存盘即生效」。
-
-### system-Core/events 速览（示例名，以仓库为准）
-
-| 文件直觉 | 可能职责 |
-|----------|----------|
-| \`stdin.js\` | 与 stdin Tasker / 控制台输入相关的监听 |
-| \`onebot.js\` | OneBot 侧补充钩子 |
-| \`device.js\` | 设备通道相关 |
-| \`ai-workspace.js\` | 与 AI 工作区 / 工作流外围相关 |
-
-读代码时抓住：\`init()\` 里绑定了什么、有没有在 \`destroy\`/重载路径上解绑（若基类或 Loader 提供清理钩子，以源码为准）。
-
----
-
-## 5. 实践清单
-
-1. 列出 \`core/system-Core/events/\` 文件名，各用一句话猜职责。  
-2. 启动日志中搜索 Listener / events 相关加载信息。  
-3. 改一个 Listener 的日志字符串 → **重启** → 确认新字符串出现。  
-4. 口述：为什么「指令逻辑」不该写进 events。
-
----
-
-## 6. 文档链接
-
-- \`docs/base-classes.md\`（ListenerBase）  
-- \`docs/runtime-surface.md\`  
-- \`docs/tasker-loader.md\` / \`docs/tasker-base-spec.md\`（上游事件从哪来）  
-- \`docs/事件系统标准化文档.md\`
+1. 列出 \`events/\` 文件名，各猜一句职责。  
+2. 启动日志确认 Listener 加载。  
+3. 改一行日志字符串 → **重启** → 看到新文案。  
+4. 口述三角：快递 / 炒菜 / 排烟。
 
 ## 下一步
 
-**插件架构**（Loader 族总览）· **Tasker 通道**（事件从哪来）· **实践·最小插件**（业务落点）。  
-需要 AI 对话时转到 **工作流 / Factory / MCP / 办事助手**。
+**Tasker**（\`e\` 从哪来）· **插件架构** · **实践·最小插件**。  
+AI 对话 → **工作流 / Factory / MCP**，别把工具环写进 Listener。
 `;

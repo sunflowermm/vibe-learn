@@ -66,7 +66,7 @@ flowchart TB
 
 ## 3. 与 tasker / events 分工
 \`\`\`quiz
-{"title":"热更边界快测","questions":[{"q":"下列哪类扩展通常更常需要重启主服？","choices":[{"t":"纯文案改动的 www 静态页","ok":false,"why":"静态常可热更或刷新即可。"},{"t":"动到 Runtime / 深层依赖绑定的改动","ok":true,"why":"热更有边界，懂边界才能稳。"},{"t":"任何 Markdown 注释","ok":false,"why":"注释不进运行时。"}]}]}
+{"title":"热更边界快测","questions":[{"q":"下列哪类扩展通常更常需要重启主服？","choices":[{"t":"纯文案改动的 www 静态页","ok":false,"why":"静态常可热更或刷新即可。"},{"t":"动到 Runtime / 深层依赖绑定的改动","ok":true,"why":"热更有边界，懂边界才能稳。"},{"t":"任何 Markdown 注释","ok":false,"why":"注释不进运行时。"},{"t":"只改 plugin 里一句回复文案且 watch 已命中","ok":false,"why":"多数 plugin 热更可观察；本问强调深层绑定。"}]}]}
 \`\`\`
 
 

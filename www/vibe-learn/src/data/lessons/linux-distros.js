@@ -81,6 +81,10 @@ Ubuntu 可以装 GNOME；同一发行版也可以几乎无桌面、只当服务�
 - WSL 里选的发行版，就是上面某一家族的成员  
 - 容器基础镜像常见 Alpine（\`apk\`）——连到番外 **Docker**  
 
+\`\`\`quiz
+{"title":"发行版自测","questions":[{"q":"Ubuntu 与 Fedora「装软件」命令不同，首先因为？","choices":[{"t":"发行版家族不同，默认系统包管理器方言不同","ok":true,"why":"apt vs dnf 等；内核可同属 Linux。"},{"t":"TCP 端口数学定义不同","ok":false,"why":"端口是协议标准。"},{"t":"必须用 pnpm 装内核","ok":false,"why":"pnpm 管 JS 项目依赖。"},{"t":"HTTP 404 语义相反","ok":false,"why":"Web 标准一致。"}]},{"q":"brew / apt 相对 pnpm？","choices":[{"t":"系统级装 CLI/运行时；pnpm 管项目 node_modules","ok":true,"why":"角色分层，勿互换。"},{"t":"完全等价可互换","ok":false,"why":"系统包≠语言项目依赖。"},{"t":"pnpm 管理系统内核","ok":false,"why":"pnpm 是 JS 包管理器。"},{"t":"apt 只能装 npm 包","ok":false,"why":"apt 是发行版软件包。"}]}]}
+\`\`\`
+
 ## 下一步
 
 **Linux 基础指令** — 目录、进程，以及 **curl / wget**。  

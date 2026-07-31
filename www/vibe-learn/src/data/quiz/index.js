@@ -12,12 +12,14 @@ import { toQuizModel } from './schema.js';
 
 import conceptComputerOs from './sets/concept-computer-os.js';
 import conceptTerminalTooling from './sets/concept-terminal-tooling.js';
+import interviewEnvTerminal from './sets/interview-env-terminal.js';
 import conceptCodeBasics from './sets/concept-code-basics.js';
 import conceptJs from './sets/concept-js.js';
 import conceptDataFormats from './sets/concept-data-formats.js';
 import conceptLangLandscape from './sets/concept-lang-landscape.js';
 import conceptLangFrameworks from './sets/concept-lang-frameworks.js';
 import conceptNetLayers from './sets/concept-net-layers.js';
+import conceptNetPath from './sets/concept-net-path.js';
 import conceptHttpHands from './sets/concept-http-hands.js';
 import conceptNetAddressing from './sets/concept-net-addressing.js';
 import conceptXrkCore from './sets/concept-xrk-core.js';
@@ -25,6 +27,7 @@ import conceptXrkAgentPipe from './sets/concept-xrk-agent-pipe.js';
 import conceptXrk from './sets/concept-xrk.js';
 import conceptAdev from './sets/concept-adev.js';
 import conceptAiLlm from './sets/concept-ai-llm.js';
+import conceptAiRag from './sets/concept-ai-rag.js';
 import conceptAiAgentStack from './sets/concept-ai-agent-stack.js';
 import conceptCraftQuality from './sets/concept-craft-quality.js';
 import conceptGit from './sets/concept-git.js';
@@ -99,6 +102,7 @@ const REGISTRY = [
   conceptZeroWebGit,
   conceptComputerOs,
   conceptTerminalTooling,
+  interviewEnvTerminal,
   conceptWorkbench,
   // 编程与数据
   conceptCodeBasics,
@@ -112,6 +116,7 @@ const REGISTRY = [
 
   // 网络
   conceptNetLayers,
+  conceptNetPath,
   conceptNetAddressing,
   conceptHttpHands,
   conceptNginxOps,
@@ -131,6 +136,7 @@ const REGISTRY = [
   interviewXrk,
   // AI
   conceptAiLlm,
+  conceptAiRag,
   conceptAiAgentStack,
   interviewAi,
   interviewAiExpand,

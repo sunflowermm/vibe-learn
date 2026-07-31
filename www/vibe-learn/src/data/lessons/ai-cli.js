@@ -56,6 +56,16 @@ Agent CLI：你说目的地，副驾（模型）接手换挡——但油门限�
 业界最小脚手架案例见旁支 **Pi 脚手架**（对照学习，非先修）。  
 **具体产品地图**（Cursor / Claude Code / Codex / OpenCode / Qwen Code / Trae…）见番外 **AI 编程工具**。
 
+## 本仓怎么做
+
+| 面 | 落点 |
+|----|------|
+| 开发机终端 Agent | Cursor CLI 等读根 \`AGENTS.md\` / \`.cursor/skills\`（开发舞台） |
+| 本仓通道侧「终端感」 | Tasker / stdin 等通道把人话接到 Runtime（产品运行面） |
+| 办事助手 | \`data/ai-workspace/{id}/\`；与开发机 CLI **不是同一份上下文** |
+| 边界 | 能跑命令 = 高风险；Rules / 确认 / 工作区路径守门 |
+| 对照 | 番外 **AI 编程工具** · 旁支 **Pi 脚手架** |
+
 ## 接到下一站
 
 IDE 与 CLI 都要读懂「这是什么项目」——下一课 **AGENTS.md**。旁支可看 **Pi 脚手架**；产品选型进 **AI 编程工具**。

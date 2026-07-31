@@ -11,7 +11,7 @@ export default `# HTTP Auth · API Key
 \`\`\`
 
 \`\`\`quiz
-{"title":"鉴权快测","questions":[{"q":"多数 /api/* 业务路由的鉴权默认在哪一层？","choices":[{"t":"Server 对全部路径统一拦截","ok":false,"why":"Server 不做全盘 /api 拒答。"},{"t":"HttpApi 注册且 /api/ 时默认校验","ok":true,"why":"ensureSystemCoreAuth → checkApiAuthorization。"},{"t":"每个 Core handler 必须手写","ok":false,"why":"一般不必在 handler 里重复。"}]}]}
+{"title":"鉴权快测","questions":[{"q":"多数 /api/* 业务路由的鉴权默认在哪一层？","choices":[{"t":"Server 对全部路径统一拦截","ok":false,"why":"Server 不做全盘 /api 拒答。"},{"t":"HttpApi 注册且 /api/ 时默认校验","ok":true,"why":"ensureSystemCoreAuth → checkApiAuthorization。"},{"t":"每个 Core handler 必须手写","ok":false,"why":"一般不必在 handler 里重复。"},{"t":"只校验 www 静态文件扩展名","ok":false,"why":"静态常放行；鉴权针对 /api 业务路由。"}]}]}
 \`\`\`
 
 1. Server 层 vs HttpApi 层 vs 业务 handler 的职责划分  

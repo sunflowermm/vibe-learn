@@ -1,187 +1,457 @@
 import { defineQuizSet } from '../schema.js';
 
+/**
+ * 第一章 · 环境与终端主链精选。
+ * 刻意不与 concept-linux-cli（pwd/ls/管道）重复；钉：仿真器≠Shell、PATH、发行版、系统包≠语言包、WSL。
+ */
 export default defineQuizSet({
   id: 'concept-terminal-tooling',
-  title: '概念 · 终端、PATH 与包管理',
+  title: '概念 · 终端、PATH 与发行版工具链',
   kind: 'concept',
   domain: 'ops',
-  tags: ['终端', 'Linux', 'Node', 'pnpm'],
-  relatedNodes: ['terminal-worlds', 'linux-cli', 'package-managers'],
+  tags: ['终端', 'PATH', '发行版', 'WSL', 'pnpm', '基础', '进阶'],
+  relatedNodes: [
+    'terminal-worlds',
+    'linux-distros',
+    'installers-path',
+    'package-managers',
+    'runtime-nodejs',
+    'linux-cli',
+    'workbench-troubleshoot',
+  ],
+  caption: '窗口 / Shell / OS → PATH → 系统包 vs 项目包 → 首次跑通前的环境地基。',
   questions: [
     {
-      q: '终端（Terminal）配合命令行解释器（Shell）的主要作用是什么？',
+      id: 'concept-terminal-tooling:q1',
+      q: '终端仿真器、Shell、操作系统三者分工？',
       choices: [
         {
-          t: '用文本命令与操作系统对话，完成文件操作、启动程序等任务',
+          t: '仿真器只管窗口与输入输出；Shell 解释命令；OS 真正创建进程与管文件/权限',
           ok: true,
-          why: '终端是开发者与系统交互的基础入口，许多工具链都依赖命令行完成。',
+          why: '三件套：看见的 / 说的话 / 真正干活的。混为一谈会排错层。',
         },
         {
-          t: '必须搭配图形桌面才能工作，纯文字界面无法使用',
+          t: '三者完全同义，只是厂商叫法不同',
           ok: false,
-          why: '服务器和远程环境常只有终端，不依赖图形界面也能完成全部操作。',
+          why: '职责不同：换 Windows Terminal 不会换掉 bash 语义。',
         },
         {
-          t: '专门用来运行数据库查询引擎，不能执行普通命令',
+          t: 'Shell 负责创建硬件中断，仿真器管理磁盘分区',
           ok: false,
-          why: '终端可以运行各种程序，数据库只是其中一种可能的用途。',
+          why: '硬件与分区是 OS/驱动层。',
         },
         {
-          t: '只能查看系统日志，不能创建或修改任何文件',
+          t: '只有图形桌面才能有 Shell',
           ok: false,
-          why: '终端完全可以执行 mkdir、touch 等命令来创建和管理文件。',
+          why: '服务器常无桌面，SSH 进的就是终端+Shell。',
         },
       ],
+      relatedNodes: ['terminal-worlds'],
     },
     {
-      q: '输入命令后提示「command not found」，最常见的原因是什么？',
+      id: 'concept-terminal-tooling:q2',
+      q: 'bash、zsh、PowerShell、cmd 的关系？',
       choices: [
         {
-          t: '该命令的可执行文件不在 PATH 环境变量所列目录中，或尚未安装',
+          t: '都是 Shell 方言：语法、内建命令与脚本约定不同，不是「全世界只有一个壳」',
           ok: true,
-          why: 'Shell 只在 PATH 指定的目录里搜索命令，路径不对或软件未装都会报此错。',
+          why: 'Windows 上 Git Bash / PowerShell / cmd 常并存；别把 export 当 PowerShell 唯一写法。',
         },
         {
-          t: '键盘输入速度太快，系统自动拒绝识别',
+          t: '只有 bash 合法，其余都是病毒',
           ok: false,
-          why: 'Shell 不关心输入速度，找不到命令一定是路径或安装问题。',
+          why: '多方言并存是常态。',
         },
         {
-          t: '必须更换整台电脑硬件才能解决此问题',
+          t: 'PowerShell 不能运行任何命令，只能改注册表',
           ok: false,
-          why: '这通常是软件配置问题，调整 PATH 或安装对应工具即可修复。',
+          why: 'PowerShell 是完整的命令与脚本环境。',
         },
         {
-          t: '命令拼写完全正确时也会随机出现，与路径无关',
+          t: '换 Shell 会自动换掉操作系统内核',
           ok: false,
-          why: '若程序已安装且 PATH 正确，拼写对的命令一定能被找到。',
+          why: 'Shell 在用户态；内核不变。',
         },
       ],
+      relatedNodes: ['terminal-worlds', 'lang-powershell', 'lang-shell'],
     },
     {
-      q: '本仓库（XRK-AGT）推荐的 JavaScript 包管理器是哪一个？',
+      id: 'concept-terminal-tooling:q3',
+      q: '敲下一行命令后，系统里实际发生什么？',
       choices: [
         {
-          t: 'pnpm，用于安装依赖并管理 node_modules',
+          t: 'Shell 在 PATH 目录里找同名可执行文件（或内建），再请 OS 起进程',
           ok: true,
-          why: '项目约定使用 pnpm 安装依赖，与 npm/yarn 相比更省磁盘且符合仓库规范。',
+          why: 'command not found = 未安装或 PATH/会话未加载到该目录。',
         },
         {
-          t: '必须全局用 npm install -g 随意安装所有模块',
+          t: '命令文字本身直接驱动 CPU 微码，不经过文件系统',
           ok: false,
-          why: '全局乱装易造成版本冲突，项目依赖应在仓库内用 pnpm 本地安装。',
+          why: '外置命令是磁盘上的程序文件。',
         },
         {
-          t: '只能通过图形应用商店安装 Node 模块，不能用命令行',
+          t: '浏览器下载该命令的网页版再执行',
           ok: false,
-          why: 'Node 生态的标准做法是用包管理器在终端中安装，图形商店不是主路径。',
+          why: '本地 Shell 不靠网页下载命令。',
         },
         {
-          t: '不需要任何包管理器，Node 会自动下载所有依赖',
+          t: '必须先编译整台电脑的内核才能执行 ls',
           ok: false,
-          why: '第三方库必须经包管理器声明和安装，Node 本身不会自动拉取项目依赖。',
+          why: '过激；日常命令是已安装的用户态程序。',
         },
       ],
+      relatedNodes: ['terminal-worlds', 'installers-path'],
     },
     {
-      q: 'Node.js 在本项目主服中扮演什么角色？',
+      id: 'concept-terminal-tooling:q4',
+      q: '刚装完 Node，旧终端仍报 node 不是内部命令，优先做什么？',
       choices: [
         {
-          t: '运行 JavaScript/TypeScript 服务端代码与工具链的运行时环境',
+          t: '新开终端（或重载 shell 配置），确认 PATH 已含 Node 目录；用 where/which 核对',
           ok: true,
-          why: 'Node.js 让 JS/TS 能在服务器上执行，是本仓后端与脚本的核心运行时。',
+          why: '安装器常改用户 PATH；旧会话不会自动刷新。',
         },
         {
-          t: '只用来打开网页浏览器，不能运行后端程序',
+          t: '立刻格式化系统盘',
           ok: false,
-          why: 'Node.js 是服务端运行时，可以启动 HTTP 服务、执行脚本，不仅限于浏览器。',
+          why: '过激；先刷新会话与 PATH。',
         },
         {
-          t: '完全取代操作系统内核，独立管理硬件',
+          t: '删除 .git 目录',
           ok: false,
-          why: 'Node.js 运行在操作系统之上，本身不负责硬件调度与驱动管理。',
+          why: '与命令解析无关。',
         },
         {
-          t: '仅用于格式化硬盘，与代码运行无关',
+          t: '把 temperature 调到 0',
           ok: false,
-          why: '格式化磁盘是操作系统或专用工具的功能，不是 Node.js 的用途。',
+          why: '模型参数与 PATH 无关。',
         },
       ],
+      relatedNodes: ['installers-path', 'runtime-nodejs', 'workbench-troubleshoot'],
     },
     {
-      q: '在 Linux 命令行中，查看当前所在目录和列出文件常用哪组命令？',
+      id: 'concept-terminal-tooling:q5',
+      q: 'PATH 环境变量回答的核心问题是？',
       choices: [
         {
-          t: 'pwd 显示当前路径，ls 列出目录内容',
+          t: '敲命令时，到哪些目录按顺序搜索可执行文件',
           ok: true,
-          why: 'pwd 和 ls 是导航文件系统的基础命令，初学者应最先掌握。',
+          why: '同名多版本时，排在前面的目录优先——which/where 可见。',
         },
         {
-          t: 'format c: 格式化磁盘，dir 只在 Windows 图形界面可用',
+          t: 'HTTP 请求默认走哪台代理',
           ok: false,
-          why: 'format c: 是 Windows 旧命令，Linux 下列目录用 ls 而非 dir。',
+          why: '那是 HTTP_PROXY 一族；与 PATH 同属环境变量但业务不同。',
         },
         {
-          t: '只有图形文件管理器才能看到目录，终端无法浏览',
+          t: 'Git 远程默认分支名',
           ok: false,
-          why: '终端通过 pwd、ls、cd 等命令完全可以浏览和管理目录结构。',
+          why: 'Git 配置，不是 PATH。',
         },
         {
-          t: 'cat 用来切换目录，cd 用来显示当前路径',
+          t: 'DNS 服务器地址列表',
           ok: false,
-          why: 'cat 用于查看文件内容，cd 才是切换目录，pwd 才是显示路径。',
+          why: '解析器配置，不是 PATH。',
         },
       ],
+      relatedNodes: ['installers-path', 'data-env', 'terminal-worlds'],
     },
     {
-      q: '判断项目「首次跑通」是否成功，更可靠的验收方式是什么？',
+      id: 'concept-terminal-tooling:q6',
+      q: 'Homebrew / apt / winget 与 pnpm 的层次差别？',
       choices: [
         {
-          t: '在本机按文档步骤启动服务，并看到预期的控制台或页面输出',
+          t: '前者是系统级包管理（往机器装软件）；pnpm 管项目 node_modules 依赖——角色不同',
           ok: true,
-          why: '亲自跑通能验证依赖、配置与代码是否齐备，比凭感觉更可靠。',
+          why: 'brew 装 node；pnpm 装本仓依赖。勿用 apt 替代 pnpm install。',
         },
         {
-          t: '只看别人截图觉得差不多就算完成',
+          t: '四者完全等价，可随意互换',
           ok: false,
-          why: '截图无法证明你的环境配置正确，必须在自己机器上实际运行。',
+          why: '系统包 ≠ 语言项目依赖。',
         },
         {
-          t: '跳过依赖安装，直接宣称项目已经可以运行',
+          t: 'pnpm 专门管理系统内核模块',
           ok: false,
-          why: '缺少依赖程序无法启动，省略安装步骤不可能真正跑通。',
+          why: 'pnpm 是 JS 包管理器。',
         },
         {
-          t: '只要 clone 了仓库代码，无需启动即视为成功',
+          t: 'apt 只能安装 npm 包',
           ok: false,
-          why: '下载代码只是第一步，能否运行取决于安装依赖和正确启动。',
+          why: 'apt 装的是发行版软件包，偶尔有 node 包名但不是 package.json 依赖树。',
         },
       ],
+      relatedNodes: ['package-managers', 'linux-distros', 'installers-path'],
     },
     {
-      q: 'Linux 发行版差异（如 Ubuntu 与 CentOS）首先会影响什么？',
+      id: 'concept-terminal-tooling:q7',
+      q: 'Ubuntu 与 Fedora 文档里「装软件」命令不同，首先因为？',
       choices: [
         {
-          t: '默认包管理器命令和系统文件路径习惯',
+          t: '发行版家族不同，默认系统包管理器方言不同（apt vs dnf 等）',
           ok: true,
-          why: '不同发行版用 apt、dnf 等不同包管理器，路径约定也可能略有不同。',
+          why: '同一 Linux 内核，仓库与工具链组合不同。',
         },
         {
-          t: 'TCP 协议中端口号的基本数学定义',
+          t: 'TCP 端口号数学定义不同',
           ok: false,
-          why: '端口号是网络协议标准，与 Linux 发行版选择无关。',
+          why: '端口是协议标准，与发行版无关。',
         },
         {
-          t: 'HTTP 状态码 404 和 500 的语义含义',
+          t: 'HTTP 404 语义在 Fedora 上相反',
           ok: false,
-          why: 'HTTP 状态码是 Web 标准，在任何操作系统上都一致。',
+          why: 'Web 标准一致。',
         },
         {
-          t: 'JavaScript 语言中 typeof 运算符的返回结果',
+          t: 'JavaScript typeof 返回值随发行版变化',
           ok: false,
-          why: 'typeof 行为由 ECMAScript 规范定义，不受 Linux 发行版影响。',
+          why: '由语言规范定义。',
         },
       ],
+      relatedNodes: ['linux-distros', 'package-managers'],
+    },
+    {
+      id: 'concept-terminal-tooling:q8',
+      q: 'Alpine 容器镜像里常见 apk，相对 Ubuntu 的 apt？',
+      choices: [
+        {
+          t: '同为系统包管理器，方言与包名不同；看文档要对上发行版/基础镜像',
+          ok: true,
+          why: '照抄 apt 命令到 Alpine 会失败。',
+        },
+        {
+          t: 'apk 等于 pnpm 的别名',
+          ok: false,
+          why: 'apk 是 Alpine 系统包管理。',
+        },
+        {
+          t: 'Alpine 禁止安装任何软件',
+          ok: false,
+          why: '用 apk 装。',
+        },
+        {
+          t: 'apt 在所有 Linux 上通用且唯一',
+          ok: false,
+          why: 'Debian 系为主；其它家族另有工具。',
+        },
+      ],
+      relatedNodes: ['linux-distros', 'ops-docker'],
+    },
+    {
+      id: 'concept-terminal-tooling:q9',
+      q: 'WSL 与「原生 Linux 云主机」最关键的边界？',
+      choices: [
+        {
+          t: 'WSL 跑在 Windows 上的 Linux 兼容层/虚拟化环境；原生机是独立内核与硬件边界',
+          ok: true,
+          why: '文件路径、网络回环、systemd 完整度可能不同；部署文档要对准目标环境。',
+        },
+        {
+          t: '二者字节级完全相同，无任何差异',
+          ok: false,
+          why: '边界与集成方式不同。',
+        },
+        {
+          t: 'WSL 不能运行任何命令行工具',
+          ok: false,
+          why: '正是为了在 Windows 上用 Linux 工具链。',
+        },
+        {
+          t: '原生 Linux 禁止使用 SSH',
+          ok: false,
+          why: '云主机常用 SSH。',
+        },
+      ],
+      relatedNodes: ['terminal-worlds', 'linux-distros'],
+    },
+    {
+      id: 'concept-terminal-tooling:q10',
+      q: '为何许多 Windows 教程推荐 Git Bash / Windows Terminal，而不是只靠老 cmd？',
+      choices: [
+        {
+          t: '更接近 Unix 工具习惯（ssh、常见 GNU 风命令），且多标签/UTF-8 体验更好',
+          ok: true,
+          why: 'Coding Agent / 开源文档示例也常按 Bash 写；cmd 语法差异大。',
+        },
+        {
+          t: 'cmd 已被内核删除，无法启动',
+          ok: false,
+          why: 'cmd 仍在，只是体验与生态示例偏旧。',
+        },
+        {
+          t: 'Git Bash 会替代 Node 运行时',
+          ok: false,
+          why: 'Bash 是壳；Node 仍要单独安装。',
+        },
+        {
+          t: '只用 Git Bash 就不需要 PATH',
+          ok: false,
+          why: '任何 Shell 都靠 PATH 找外置命令。',
+        },
+      ],
+      relatedNodes: ['terminal-worlds', 'git-workspace'],
+    },
+    {
+      id: 'concept-terminal-tooling:q11',
+      q: '本仓库（XRK-AGT）项目依赖应如何安装？',
+      choices: [
+        {
+          t: '在仓库内用 pnpm 安装；勿用全局乱装替代 lockfile 约定',
+          ok: true,
+          why: '包管理仅支持 pnpm；与系统级 brew/apt 分层。',
+        },
+        {
+          t: '必须 npm install -g 所有模块到全局',
+          ok: false,
+          why: '全局易冲突；项目依赖应本地安装。',
+        },
+        {
+          t: '只能通过应用商店点选安装 Node 模块',
+          ok: false,
+          why: '标准路径是终端包管理器。',
+        },
+        {
+          t: 'Node 会自动下载 package.json 全部依赖，无需包管理器',
+          ok: false,
+          why: '必须显式安装。',
+        },
+      ],
+      relatedNodes: ['package-managers', 'runtime-nodejs'],
+    },
+    {
+      id: 'concept-terminal-tooling:q12',
+      q: 'Node.js 在本项目主服中的角色？',
+      choices: [
+        {
+          t: '运行 JavaScript/TypeScript 服务端与工具链的运行时（引擎+标准库+事件循环）',
+          ok: true,
+          why: '语言选型之后仍要装对运行时版本（engines）。',
+        },
+        {
+          t: '只用来打开浏览器，不能跑后端',
+          ok: false,
+          why: '主服正是 Node 进程。',
+        },
+        {
+          t: '完全取代操作系统内核',
+          ok: false,
+          why: '跑在 OS 之上。',
+        },
+        {
+          t: '等于 pnpm 本身',
+          ok: false,
+          why: 'pnpm 是包管理器；Node 是运行时。',
+        },
+      ],
+      relatedNodes: ['runtime-nodejs', 'package-managers'],
+    },
+    {
+      id: 'concept-terminal-tooling:q13',
+      q: 'HTTP_PROXY 与 PATH 同属环境变量，业务差别？',
+      choices: [
+        {
+          t: 'PATH 管「命令去哪找」；HTTP(S)_PROXY 管「出网走哪台代理」',
+          ok: true,
+          why: '装不上工具查 PATH；拉 GitHub/npm 失败常查代理族与 NO_PROXY。',
+        },
+        {
+          t: '两者必须设成同一个字符串',
+          ok: false,
+          why: '语义不同。',
+        },
+        {
+          t: '设了 PATH 就自动有代理',
+          ok: false,
+          why: '要显式设代理变量或工具配置。',
+        },
+        {
+          t: '只有 Windows 有环境变量',
+          ok: false,
+          why: 'Unix 同样有；写法不同。',
+        },
+      ],
+      relatedNodes: ['installers-path', 'data-env', 'clash'],
+    },
+    {
+      id: 'concept-terminal-tooling:q14',
+      q: '为何要把 pnpm-lock.yaml / package-lock.json 提交进仓库？',
+      choices: [
+        {
+          t: '锁定依赖树版本，让本机、CI、同事安装结果可复现，减少「我这边能跑」',
+          ok: true,
+          why: '没有锁文件时解析结果会随时间漂移。',
+        },
+        {
+          t: '锁文件专门存放 API 密钥',
+          ok: false,
+          why: '密钥走环境变量/Secrets，不进锁文件。',
+        },
+        {
+          t: '有锁文件就可以不写 package.json',
+          ok: false,
+          why: '清单与锁文件分工不同，都需要。',
+        },
+        {
+          t: '锁文件只在 Windows 上有意义',
+          ok: false,
+          why: '跨平台复现都依赖它。',
+        },
+      ],
+      relatedNodes: ['package-managers', 'craft-ci', 'workbench-troubleshoot'],
+    },
+    {
+      id: 'concept-terminal-tooling:q15',
+      q: '提示符里的 `$` 或 `PS>` 主要说明什么？',
+      choices: [
+        {
+          t: '多半表示当前 Shell 类型/会话化妆；真正权限与路径要看 whoami、pwd、环境',
+          ok: true,
+          why: '别被提示符吓住或误判；root 常见 `#` 也只是约定。',
+        },
+        {
+          t: '`$` 表示磁盘已满',
+          ok: false,
+          why: '提示符与磁盘容量无关。',
+        },
+        {
+          t: '出现 `PS>` 就不能再运行 Node',
+          ok: false,
+          why: 'PowerShell 下同样可跑 node。',
+        },
+        {
+          t: '提示符文字本身就是 PATH',
+          ok: false,
+          why: 'PATH 是环境变量，不是提示符字符串。',
+        },
+      ],
+      relatedNodes: ['terminal-worlds'],
+    },
+    {
+      id: 'concept-terminal-tooling:q16',
+      q: '本机装了多个 Node（fnm/nvm/系统包），如何避免用错版本？',
+      choices: [
+        {
+          t: '用 which/where 看实际路径；对齐 package.json engines 与版本管理器当前版本',
+          ok: true,
+          why: 'PATH 顺序决定命中哪一个；engines 是项目声明的约束。',
+        },
+        {
+          t: '版本越多越好，Shell 会自动选最新且永远正确',
+          ok: false,
+          why: '不会自动「正确」；常命中 PATH 最前的那个。',
+        },
+        {
+          t: '删除 package.json 即可消除版本问题',
+          ok: false,
+          why: '没有清单更难对齐。',
+        },
+        {
+          t: '只有图形安装的 Node 能被项目使用',
+          ok: false,
+          why: '关键是 PATH 与版本，不是安装器 UI。',
+        },
+      ],
+      relatedNodes: ['runtime-nodejs', 'installers-path', 'package-managers'],
     },
   ],
 });
