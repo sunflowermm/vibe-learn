@@ -43,9 +43,9 @@ AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专�
 | `quiz/graph.js` | 题库导图（随机枢纽 + 名词池 + 领域框） |
 | `quiz/derive/` · `_migrate/` | **不进生产**；仅迁移脚本历史参考 |
 
-约定：每题 **4 选项、恰一正确**；`relatedNodes` 每题至多 3 个知识节点；**171/171 课节点均有关联题**；URL `?map=quiz&qset=…&qnode=…`。课面板「刷本课相关题」跳题库。刷题台：**随机 / 刷名词 / 错题本**。
+约定：每题 **4 选项、恰一正确**；`relatedNodes` 每题点名知识节点；URL `?map=quiz&qset=…&qnode=…`。课面板「刷本课相关题」跳题库。刷题台：**随机 / 刷名词 / 错题本**。
 
-**扩题**：改 `bank/*.js` 或新增 `sets/*.js` 并登记 REGISTRY。校验：`pnpm run quiz:audit`。课节点题：`quiz:bank`；名词题：`quiz:glossary`。
+**扩题**：改 `sets/*.js` 并登记 REGISTRY；改编包真源在 `bank/adapted-*.js`，`pnpm quiz:sync-sets` 生成题组（勿再写入 `STATIC_QUESTIONS`）。校验：`pnpm run quiz:audit`。名词题：`pnpm quiz:glossary`。
 
 **错题本**：答错写入 IndexedDB；可再练 / 标掌握 / 清空；导出含 `quizAttempts` / `quizWrong`。选错展示教学 `why` 与正确答案（名词题会点明「这段对应哪个名词」）。
 
