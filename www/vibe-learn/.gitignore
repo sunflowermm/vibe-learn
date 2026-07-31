@@ -9,3 +9,5 @@ scripts/
 
 # 公开大纲拉取产物（pnpm run quiz:outlines）
 src/data/quiz/outlines/
+
+.pages-stage/
