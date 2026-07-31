@@ -49,28 +49,30 @@ const PIPE_PAIR = CARD_ROW + 24;
 /* ═══════════════════════════════════════════
  * 序章 · 脊柱分叉汇合
  * computer-system → (os ‖ hw-sw) → chip-units
+ * 上支须 ≥ TOP，避开章头栏（chapter__head ≈ top12+内容）
  * ═══════════════════════════════════════════ */
+const MACHINE_SPINE_Y = TOP + CARD_ROW;
 const MACHINE_TOPICS = spineForkMergePositions({
   spine: ['computer-system', 'os-essence', 'chip-units'],
   /* os 作脊柱中段；硬件链路作下支，与 os 并行后汇入芯片 */
   lower: 'hw-sw-link',
   originX: ORIGIN_X,
-  originY: 220,
+  originY: MACHINE_SPINE_Y,
   colGap: CARD_COL,
   branchGap: CARD_ROW,
 });
-/* os 与 hw-sw 同列上下：微调 os 到上支位置 */
+/* os 与 hw-sw 同列上下：os 上支落在 TOP，避开章标题 */
 MACHINE_TOPICS['os-essence'] = {
   x: MACHINE_TOPICS['computer-system'].x + CARD_COL,
-  y: 220 - CARD_ROW,
+  y: MACHINE_SPINE_Y - CARD_ROW,
 };
 MACHINE_TOPICS['hw-sw-link'] = {
   x: MACHINE_TOPICS['computer-system'].x + CARD_COL,
-  y: 220 + CARD_ROW,
+  y: MACHINE_SPINE_Y + CARD_ROW,
 };
 MACHINE_TOPICS['chip-units'] = {
   x: MACHINE_TOPICS['computer-system'].x + CARD_COL * 2,
-  y: 220,
+  y: MACHINE_SPINE_Y,
 };
 assertNoCardOverlap(MACHINE_TOPICS, 'frameMachine');
 
