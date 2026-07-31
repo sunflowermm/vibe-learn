@@ -1,23 +1,20 @@
 <script setup>
 /**
- * 刷题台：三轨分离——专题 / 全库随机 / 名词释义；错题本另页
+ * 刷题台：当前选中内容块驱动；全库随机 / 名词释义只在选中对应图卡时出现
  */
 import { computed, onMounted, ref, watch } from 'vue';
 import {
   QUIZ_DOMAINS,
-  QUIZ_KINDS,
   domainMeta,
   getQuizSet,
   getQuestion,
-  kindShortLabel,
   pickRandom,
   questionsByIds,
   questionsForNode,
   questionsForSet,
   quizQuestionCount,
-  quizTopicQuestionCount,
-  glossaryPoolMeta,
   domainPoolMeta,
+  setKindLabel,
 } from '../../data/quiz/bank.js';
 import { getQuizCardById } from '../../data/quiz/graph.js';
 import { getNodeById, resolveNodes } from '../../data/nodes.js';
@@ -45,8 +42,9 @@ const {
   init: initLibrary,
 } = library;
 
-const kind = ref('all');
 const domain = ref('all');
+/** 本章综合池：all | topic | glossary */
+const poolSource = ref('all');
 const randomN = ref(20);
 const sessionKey = ref(0);
 const activeQuestions = ref([]);
@@ -69,14 +67,16 @@ const related = computed(() => {
   return resolveNodes(ids);
 });
 
-const totalBank = quizQuestionCount();
-const topicCount = quizTopicQuestionCount();
-const glossaryCount = glossaryPoolMeta().questionCount;
 const hasSession = computed(() => activeQuestions.value.length > 0);
 
-/**
- * 练习轨：idle | random | glossary | domain | topic | lesson
- */
+const chapterMeta = computed(() => {
+  if (!props.activeSetId?.startsWith('pool-')) return null;
+  const id = props.activeSetId;
+  if (id === 'pool-random' || id === 'pool-glossary') return null;
+  return domainPoolMeta(id.replace(/^pool-/, ''));
+});
+
+/** idle | random | glossary | domain | topic | lesson */
 const track = computed(() => {
   if (props.focusNodeId) return 'lesson';
   const id = props.activeSetId;
@@ -91,38 +91,30 @@ const track = computed(() => {
 const trackMeta = computed(() => {
   switch (track.value) {
     case 'random':
-      return {
-        badge: '全库随机',
-        tip: '从专题题里抽，不含名词释义',
-      };
+      return { badge: '全库随机', tip: '跨章专题抽练' };
     case 'glossary':
-      return {
-        badge: '名词释义',
-        tip: '词典四选一，作答后揭晓名词',
-      };
+      return { badge: '名词释义', tip: '全库词典 · 作答后揭晓' };
     case 'domain': {
-      const dom = props.activeSetId?.replace(/^pool-/, '') || '';
-      const n = dom ? domainPoolMeta(dom).questionCount : 0;
+      const m = chapterMeta.value;
       return {
         badge: '本章综合',
-        tip: n ? `本章共 ${n} 题 · 不含名词 · 下方可改本局题数` : '本领域专题随机，不含名词',
+        tip: m
+          ? `本章共 ${m.topicCount} 专题题 · ${m.glossaryCount} 词典题`
+          : '本章题库',
       };
     }
-    case 'topic':
+    case 'topic': {
+      const n = curated.value?.questions?.length || 0;
+      const kind = setKindLabel(curated.value?.kind);
       return {
-        badge: '专题题组',
-        tip: '本组固定题，与名词轨分开',
+        badge: `专题 · ${kind}`,
+        tip: n ? `本组固定 ${n} 题` : '本组固定题',
       };
+    }
     case 'lesson':
-      return {
-        badge: '课限定',
-        tip: '只刷与当前课关联的题',
-      };
+      return { badge: '课限定', tip: '当前课关联题' };
     default:
-      return {
-        badge: '',
-        tip: '左侧点专题卡片，或下方进全库 / 名词',
-      };
+      return { badge: '', tip: '点左侧内容块开始刷题' };
   }
 });
 
@@ -138,7 +130,7 @@ const pickedLabel = computed(() => {
 
 const playerKey = computed(
   () =>
-    `${deskMode.value}|${track.value}|${props.activeSetId || ''}|${props.focusNodeId || ''}|${sessionKey.value}`
+    `${deskMode.value}|${track.value}|${props.activeSetId || ''}|${props.focusNodeId || ''}|${poolSource.value}|${sessionKey.value}`
 );
 
 const wrongRows = computed(() =>
@@ -187,7 +179,7 @@ function rebuildSession() {
     const node = getNodeById(props.focusNodeId);
     activeQuestions.value = prepareSession(questionsForNode(props.focusNodeId));
     sessionTitle.value = node ? `相关题 · ${node.label}` : '相关题';
-    sessionCaption.value = `${activeQuestions.value.length} 题 · 课限定`;
+    sessionCaption.value = `${activeQuestions.value.length} 题`;
     sessionKey.value += 1;
     return;
   }
@@ -195,13 +187,12 @@ function rebuildSession() {
   if (props.activeSetId === 'pool-random') {
     const qs = pickRandom({
       n: randomN.value,
-      kind: kind.value,
       domain: domain.value === 'all' ? undefined : domain.value,
-      excludeTag: '名词',
+      glossary: 'exclude',
     });
     activeQuestions.value = prepareSession(qs);
     sessionTitle.value = '全库随机';
-    sessionCaption.value = `${kindShortLabel(kind.value)} · ${domainMeta(domain.value).label} · ${qs.length} 题 · 已排除名词`;
+    sessionCaption.value = `${domainMeta(domain.value).label} · 本局 ${qs.length} 题`;
     sessionKey.value += 1;
     return;
   }
@@ -209,28 +200,39 @@ function rebuildSession() {
   if (props.activeSetId === 'pool-glossary') {
     const qs = pickRandom({
       n: randomN.value,
-      tag: '名词',
+      glossary: 'only',
       domain: domain.value === 'all' ? undefined : domain.value,
     });
     activeQuestions.value = prepareSession(qs);
     sessionTitle.value = '名词释义';
-    sessionCaption.value = `${qs.length} 题 · 作答后揭晓`;
+    sessionCaption.value = `本局 ${qs.length} 题`;
     sessionKey.value += 1;
     return;
   }
 
   if (props.activeSetId?.startsWith('pool-')) {
     const dom = props.activeSetId.replace(/^pool-/, '');
-    const chapterN = domainPoolMeta(dom).questionCount;
+    const meta = domainPoolMeta(dom);
+    const glossMode =
+      poolSource.value === 'topic'
+        ? 'exclude'
+        : poolSource.value === 'glossary'
+          ? 'only'
+          : 'include';
     const qs = pickRandom({
       n: randomN.value,
       domain: dom,
-      kind: kind.value === 'all' ? undefined : kind.value,
-      excludeTag: '名词',
+      glossary: glossMode,
     });
     activeQuestions.value = prepareSession(qs);
     sessionTitle.value = `${domainMeta(dom).label} · 综合池`;
-    sessionCaption.value = `本章共 ${chapterN} 题 · 本局 ${qs.length} 题`;
+    const srcLabel =
+      poolSource.value === 'topic'
+        ? '专题'
+        : poolSource.value === 'glossary'
+          ? '词典'
+          : '全部';
+    sessionCaption.value = `本章共 ${meta.topicCount} 专题题 · ${meta.glossaryCount} 词典题 · 本局${srcLabel} ${qs.length} 题`;
     sessionKey.value += 1;
     return;
   }
@@ -239,16 +241,16 @@ function rebuildSession() {
     const qs = questionsForSet(curated.value.id);
     activeQuestions.value = prepareSession(qs);
     sessionTitle.value = curated.value.title;
+    const kind = setKindLabel(curated.value.kind);
     sessionCaption.value =
-      curated.value.caption ||
-      `${kindShortLabel(curated.value.kind)} · ${qs.length} 题 · 专题`;
+      curated.value.caption || `专题 · ${kind} · ${qs.length} 题`;
     sessionKey.value += 1;
     return;
   }
 
   activeQuestions.value = [];
-  sessionTitle.value = '选一条练习轨';
-  sessionCaption.value = `专题 ${topicCount} · 名词 ${glossaryCount} · 合计 ${totalBank}`;
+  sessionTitle.value = '点左侧内容块';
+  sessionCaption.value = `合计 ${quizQuestionCount()} 题 · 错题 ${wrongOpenCount.value}`;
 }
 
 watch(
@@ -258,8 +260,8 @@ watch(
     const selectionChanged =
       prev != null && (setId !== prev[0] || nodeId !== prev[1]);
 
-    // 仅在错题视图里「又点了左侧专题/课限定」时退回练习。
-    // 进入错题本时若已有选中专题，绝不能立刻踢回练习（否则像刷新）。
+    if (selectionChanged) poolSource.value = 'all';
+
     if (
       selectionChanged &&
       (mode === 'wrong-list' || mode === 'wrong-drill') &&
@@ -289,18 +291,6 @@ function setMode(mode) {
   }
 }
 
-function enterRandom() {
-  deskMode.value = 'practice';
-  emit('select-set', 'pool-random');
-  if (props.activeSetId === 'pool-random') rebuildSession();
-}
-
-function enterGlossary() {
-  deskMode.value = 'practice';
-  emit('select-set', 'pool-glossary');
-  if (props.activeSetId === 'pool-glossary') rebuildSession();
-}
-
 function clearToIdle() {
   emit('select-set', null);
   emit('close-focus');
@@ -308,6 +298,16 @@ function clearToIdle() {
 
 function retakeSame() {
   rebuildSession();
+}
+
+/** @param {'all' | 'topic' | 'glossary'} src */
+function setPoolSource(src) {
+  if (poolSource.value === src) {
+    retakeSame();
+    return;
+  }
+  poolSource.value = src;
+  retakeSame();
 }
 
 function goLearn(nodeId) {
@@ -329,9 +329,7 @@ function drillWrong() {
           <p class="quiz-desk__eyebrow">Question desk</p>
           <h2 id="quiz-desk-title" class="quiz-desk__title">刷题台</h2>
         </div>
-        <p class="quiz-desk__lede" aria-label="题库概览">
-          <span>专题 <strong>{{ topicCount }}</strong></span>
-          <span>名词 <strong>{{ glossaryCount }}</strong></span>
+        <p class="quiz-desk__lede" aria-label="刷题概览">
           <span>错题 <strong>{{ wrongOpenCount }}</strong></span>
           <span>今日 <strong>{{ todayAnswerCount }}</strong></span>
         </p>
@@ -362,52 +360,15 @@ function drillWrong() {
       </button>
     </div>
 
-    <section v-if="deskMode === 'practice'" class="quiz-desk__toolbar" aria-label="练习轨">
-      <div class="quiz-desk__tracks" role="group" aria-label="练习入口">
-        <button
-          type="button"
-          class="quiz-desk__track"
-          :class="{ active: track === 'random' }"
-          @click="enterRandom"
-        >
-          <span class="quiz-desk__track-title">全库随机</span>
-          <span class="quiz-desk__track-sub">专题题抽练 · {{ topicCount }}</span>
-        </button>
-        <button
-          type="button"
-          class="quiz-desk__track quiz-desk__track--gold"
-          :class="{ active: track === 'glossary' }"
-          @click="enterGlossary"
-        >
-          <span class="quiz-desk__track-title">名词释义</span>
-          <span class="quiz-desk__track-sub">词典另册 · {{ glossaryCount }}</span>
-        </button>
-      </div>
-      <p class="quiz-desk__track-hint">
-        专题题组：点左侧彩色卡片（与名词分开，互不混入）
-      </p>
-
+    <section v-if="deskMode === 'practice'" class="quiz-desk__toolbar" aria-label="当前练习">
       <div v-if="track !== 'idle'" class="quiz-desk__session-bar">
         <span class="quiz-desk__badge" :data-track="track">{{ trackMeta.badge }}</span>
         <span v-if="pickedLabel" class="quiz-desk__session-name">{{ pickedLabel }}</span>
         <span class="quiz-desk__session-tip">{{ trackMeta.tip }}</span>
       </div>
 
-      <!-- 全库随机：筛题型 / 领域 -->
+      <!-- 全库随机 -->
       <template v-if="track === 'random'">
-        <div class="quiz-desk__row" role="tablist" aria-label="题型">
-          <button
-            v-for="t in QUIZ_KINDS"
-            :key="t.id"
-            type="button"
-            class="quiz-desk__chip"
-            :class="{ active: kind === t.id }"
-            :aria-selected="kind === t.id"
-            @click="kind = t.id"
-          >
-            {{ t.label }}
-          </button>
-        </div>
         <label class="quiz-desk__select-wrap">
           <span class="quiz-desk__select-label">领域</span>
           <select v-model="domain" class="quiz-desk__select" aria-label="抽题领域">
@@ -418,20 +379,31 @@ function drillWrong() {
         </label>
         <div class="quiz-desk__row quiz-desk__row--actions">
           <label class="quiz-desk__n">
-            题数
+            本局
             <input v-model.number="randomN" type="number" min="5" max="50" step="5" />
           </label>
           <button type="button" class="quiz-desk__primary" @click="retakeSame">
             {{ hasSession ? '再抽一局' : '开始抽题' }}
           </button>
+          <button type="button" class="quiz-desk__ghost" @click="clearToIdle">
+            取消选中
+          </button>
         </div>
       </template>
 
-      <!-- 名词：只调题数 -->
+      <!-- 全库名词 -->
       <template v-else-if="track === 'glossary'">
+        <label class="quiz-desk__select-wrap">
+          <span class="quiz-desk__select-label">领域</span>
+          <select v-model="domain" class="quiz-desk__select" aria-label="词典领域">
+            <option v-for="t in QUIZ_DOMAINS" :key="t.id" :value="t.id">
+              {{ t.label }}
+            </option>
+          </select>
+        </label>
         <div class="quiz-desk__row quiz-desk__row--actions">
           <label class="quiz-desk__n">
-            题数
+            本局
             <input v-model.number="randomN" type="number" min="5" max="50" step="5" />
           </label>
           <button
@@ -439,24 +411,45 @@ function drillWrong() {
             class="quiz-desk__primary quiz-desk__primary--soft"
             @click="retakeSame"
           >
-            {{ hasSession ? '再刷一局名词' : '开始刷名词' }}
+            {{ hasSession ? '再刷一局' : '开始刷题' }}
+          </button>
+          <button type="button" class="quiz-desk__ghost" @click="clearToIdle">
+            取消选中
           </button>
         </div>
       </template>
 
-      <!-- 领域综合池 -->
+      <!-- 本章综合：全部 / 专题 / 词典（专题题组在图上按概念·大厂分卡片） -->
       <template v-else-if="track === 'domain'">
-        <div class="quiz-desk__row" role="tablist" aria-label="题型">
+        <div class="quiz-desk__row" role="tablist" aria-label="本章题源">
           <button
-            v-for="t in QUIZ_KINDS"
-            :key="t.id"
             type="button"
             class="quiz-desk__chip"
-            :class="{ active: kind === t.id }"
-            :aria-selected="kind === t.id"
-            @click="kind = t.id"
+            :class="{ active: poolSource === 'all' }"
+            :aria-selected="poolSource === 'all'"
+            @click="setPoolSource('all')"
           >
-            {{ t.label }}
+            全部
+          </button>
+          <button
+            type="button"
+            class="quiz-desk__chip"
+            :class="{ active: poolSource === 'topic' }"
+            :aria-selected="poolSource === 'topic'"
+            @click="setPoolSource('topic')"
+          >
+            专题
+            <span v-if="chapterMeta" class="quiz-desk__count">{{ chapterMeta.topicCount }}</span>
+          </button>
+          <button
+            type="button"
+            class="quiz-desk__chip quiz-desk__chip--soft"
+            :class="{ active: poolSource === 'glossary' }"
+            :aria-selected="poolSource === 'glossary'"
+            @click="setPoolSource('glossary')"
+          >
+            词典
+            <span v-if="chapterMeta" class="quiz-desk__count">{{ chapterMeta.glossaryCount }}</span>
           </button>
         </div>
         <div class="quiz-desk__row quiz-desk__row--actions">
@@ -473,7 +466,7 @@ function drillWrong() {
         </div>
       </template>
 
-      <!-- 专题 / 课限定：固定题组 -->
+      <!-- 单个专题题组 / 课限定：固定本组，不再叠综合池筛选项 -->
       <template v-else-if="track === 'topic' || track === 'lesson'">
         <div class="quiz-desk__row quiz-desk__row--actions">
           <button
@@ -482,7 +475,7 @@ function drillWrong() {
             class="quiz-desk__primary"
             @click="retakeSame"
           >
-            再测本专题
+            {{ track === 'lesson' ? '再测本课' : '再测本组' }}
           </button>
           <button
             v-if="focusNodeId"

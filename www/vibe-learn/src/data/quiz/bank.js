@@ -160,12 +160,20 @@ export function searchQuestions(query, opts = {}) {
  *   nodeId?: string,
  *   tag?: string,
  *   excludeTag?: string,
+ *   glossary?: 'exclude' | 'only' | 'include',
  * }} [opts]
+ * glossary: exclude=专题/综合池；only=名词释义轨；include=不过滤（默认）
  */
 export function pickRandom(opts = {}) {
   const n = Math.max(1, Math.min(100, opts.n ?? 20));
   const exclude = new Set(opts.excludeIds || []);
+  const glossary = opts.glossary || 'include';
   let pool = ensureBank().filter((q) => !exclude.has(q.id));
+  if (glossary === 'exclude') {
+    pool = pool.filter((q) => !isGlossaryQuestion(q));
+  } else if (glossary === 'only') {
+    pool = pool.filter((q) => isGlossaryQuestion(q));
+  }
   if (opts.domain && opts.domain !== 'all') {
     pool = pool.filter((q) => q.domain === opts.domain);
   }
@@ -271,12 +279,14 @@ export function questionsByIds(ids) {
 }
 
 /**
+ * 本章综合池：专题（非 g:，含专题题组/课核）+ 词典（g:）。
+ * 图上的专题题组卡片按 concept/interview 再分；综合池用「专题|词典」抽。
  * @param {import('./categories.js').QuizDomainId} domain
  */
 export function domainPoolMeta(domain) {
-  const qs = ensureBank().filter(
-    (q) => q.domain === domain && !isGlossaryQuestion(q)
-  );
+  const qs = ensureBank().filter((q) => q.domain === domain);
+  const topicQs = qs.filter((q) => !isGlossaryQuestion(q));
+  const glossQs = qs.filter((q) => isGlossaryQuestion(q));
   const label = domainMeta(domain).label;
   return {
     id: `pool-${domain}`,
@@ -285,13 +295,20 @@ export function domainPoolMeta(domain) {
     domain,
     tags: ['静态池'],
     relatedNodes: [],
-    caption: `本章共 ${qs.length} 题（不含名词）`,
+    caption: `本章共 ${topicQs.length} 专题题 · ${glossQs.length} 词典题`,
     questionCount: qs.length,
+    topicCount: topicQs.length,
+    glossaryCount: glossQs.length,
     questions: qs,
   };
 }
 
-/** 全库随机入口（不含名词释义题） */
+/** 专题题组展示名：概念 / 大厂 */
+export function setKindLabel(kind) {
+  return kind === 'interview' ? '大厂' : '概念';
+}
+
+/** 全库随机：跨章专题题（词典另走 pool-glossary） */
 export function randomPoolMeta() {
   const n = quizTopicQuestionCount();
   return {
@@ -301,7 +318,7 @@ export function randomPoolMeta() {
     domain: 'lang',
     tags: ['随机'],
     relatedNodes: [],
-    caption: `专题题 ${n} 道里随机抽（不含名词）`,
+    caption: `专题 ${n} 题随机抽`,
     questionCount: n,
   };
 }

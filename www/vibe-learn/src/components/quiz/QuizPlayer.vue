@@ -37,9 +37,6 @@ const pickedOk = computed(() => {
   if (!locked.value || picked.value < 0) return null;
   return Boolean(current.value?.choices?.[picked.value]?.ok);
 });
-const hasReveal = computed(() =>
-  Boolean(current.value?.choices?.some((c) => c.reveal))
-);
 const attributionLine = computed(() => {
   const q = current.value;
   if (!q || q.origin !== 'adapted') return '';
@@ -97,15 +94,16 @@ function choiceClass(i, c) {
   return '';
 }
 
-function choiceWhy(c) {
-  if (c?.why) return c.why;
-  return c?.ok ? '正确项。' : '干扰项。';
-}
-
-function revealLabel(c) {
+/** 单行槽：名词揭晓 + why 合并，避免双槽撑高选项 */
+function choiceNote(c) {
+  const parts = [];
   const r = String(c?.reveal || '');
-  if (!r) return '';
-  return (r.length < 48 && !r.includes('。') ? '名词 · ' : '释义 · ') + r;
+  if (r) {
+    parts.push((r.length < 48 && !r.includes('。') ? '名词 · ' : '释义 · ') + r);
+  }
+  if (c?.why) parts.push(c.why);
+  else parts.push(c?.ok ? '正确项。' : '干扰项。');
+  return parts.join(' · ');
 }
 
 function onKey(e) {
@@ -198,16 +196,11 @@ onUnmounted(() => {
             <span class="qplay__choice-body">
               <span class="qplay__choice-text">{{ c.t }}</span>
               <span
-                v-if="hasReveal"
-                class="qplay__why"
-                :class="{ 'is-on': locked && c.reveal }"
-              >{{ locked && c.reveal ? revealLabel(c) : '\u00a0' }}</span>
-              <span
                 class="qplay__why"
                 :class="{ 'is-on': locked }"
-                :title="locked ? choiceWhy(c) : undefined"
+                :title="locked ? choiceNote(c) : undefined"
                 aria-live="polite"
-              >{{ locked ? choiceWhy(c) : '\u00a0' }}</span>
+              >{{ locked ? choiceNote(c) : '\u00a0' }}</span>
             </span>
           </button>
         </div>
@@ -258,10 +251,10 @@ onUnmounted(() => {
 .qplay {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.55rem;
   min-height: 0;
-  max-height: min(72vh, 40rem);
-  padding: 0.65rem 0.75rem 0.7rem;
+  max-height: min(78vh, 44rem);
+  padding: 0.8rem 0.9rem 0.85rem;
   border-radius: 14px;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--ink-3) 92%, transparent);
@@ -285,17 +278,17 @@ onUnmounted(() => {
 .qplay__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 0.95rem;
-  line-height: 1.25;
+  font-size: 1.05rem;
+  line-height: 1.3;
   color: var(--node-title);
 }
 
 .qplay__caption,
 .qplay__hint,
 .qplay__empty {
-  margin: 0.15rem 0 0;
-  font-size: 0.72rem;
-  line-height: 1.35;
+  margin: 0.2rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
   color: var(--mist-dim);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -306,7 +299,7 @@ onUnmounted(() => {
 .qplay__progress {
   margin: 0;
   flex-shrink: 0;
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   line-height: 1.3;
   color: var(--mist-dim);
   white-space: nowrap;
@@ -356,16 +349,16 @@ onUnmounted(() => {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
   padding-bottom: 0.35rem;
   scrollbar-width: thin;
 }
 
 .qplay__q {
   margin: 0;
-  flex-shrink: 0;
-  font-size: 0.9rem;
-  line-height: 1.45;
+  flex: 0 0 auto;
+  font-size: 0.98rem;
+  line-height: 1.5;
   color: var(--mist);
   font-weight: 600;
   white-space: pre-wrap;
@@ -388,17 +381,20 @@ onUnmounted(() => {
 .qplay__choices {
   display: flex;
   flex-direction: column;
-  gap: 0.32rem;
+  flex: 0 0 auto;
+  gap: 0.35rem;
 }
 
 .qplay__choice {
   display: grid;
-  grid-template-columns: 1.1rem minmax(0, 1fr);
+  grid-template-columns: 1.2rem minmax(0, 1fr);
   gap: 0.4rem;
   width: 100%;
+  flex: 0 0 auto;
+  align-content: start;
   text-align: left;
-  padding: 0.42rem 0.55rem;
-  border-radius: 9px;
+  padding: 0.45rem 0.6rem;
+  border-radius: 10px;
   border: 1px solid var(--line);
   background: var(--panel-bg);
   color: var(--mist);
@@ -442,33 +438,33 @@ onUnmounted(() => {
 
 .qplay__letter {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--mist-dim);
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .qplay__choice-body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.12rem;
+  gap: 0.18rem;
 }
 
 .qplay__choice-text {
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   overflow-wrap: anywhere;
 }
 
-/* 固定一行 why：作答前后高度不变 */
+/* 固定一行解析槽：与题干长度无关 */
 .qplay__why {
-  height: 1.25em;
+  height: 1.3em;
   margin: 0;
-  font-size: 0.7rem;
-  line-height: 1.25;
+  font-size: 0.72rem;
+  line-height: 1.3;
   color: var(--mist-dim);
-  white-space: nowrap;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
   opacity: 0;
 }
@@ -490,8 +486,8 @@ onUnmounted(() => {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.28rem;
-  padding-top: 0.45rem;
+  gap: 0.35rem;
+  padding-top: 0.55rem;
   border-top: 1px solid color-mix(in srgb, var(--mist) 12%, transparent);
   background: color-mix(in srgb, var(--ink-3) 96%, transparent);
 }
@@ -500,16 +496,16 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.65rem;
-  min-height: 2.1rem;
+  gap: 0.75rem;
+  min-height: 2.4rem;
 }
 
 .qplay__verdict {
   margin: 0;
   min-width: 0;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 650;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .qplay__verdict.is-idle {
@@ -529,8 +525,8 @@ onUnmounted(() => {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 0.3rem;
-  height: 1.55rem;
+  gap: 0.35rem;
+  height: 1.75rem;
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
@@ -543,7 +539,7 @@ onUnmounted(() => {
 
 .qplay__related-label {
   flex-shrink: 0;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--mist-dim);
@@ -551,13 +547,13 @@ onUnmounted(() => {
 
 .qplay__related-chip {
   flex-shrink: 0;
-  max-width: 7.5rem;
+  max-width: 8.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font: inherit;
-  font-size: 0.68rem;
-  padding: 0.12rem 0.45rem;
+  font-size: 0.74rem;
+  padding: 0.18rem 0.55rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line));
   background: transparent;
@@ -578,14 +574,14 @@ onUnmounted(() => {
 
 .qplay__btn {
   flex-shrink: 0;
-  height: 2.1rem;
-  padding: 0 0.85rem;
-  border-radius: 9px;
+  height: 2.4rem;
+  padding: 0 1rem;
+  border-radius: 10px;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--mist-dim);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.86rem;
   font-weight: 600;
   cursor: pointer;
 }
