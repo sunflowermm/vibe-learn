@@ -1,8 +1,8 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 语言运行时大厂开口：事件循环、闭包、异步、模块——对齐常见前端/Node 面试话术。
- * 题源：公开教材/MDN/Node 文档共识表述，非爬取商业题库。
+ * 语言运行时大厂开口：事件循环、闭包、异步、模块。
+ * 语法细节见 js-async / code-basics；竞态见 eng-concurrency。
  */
 export default defineQuizSet({
   id: 'interview-lang-runtime',
@@ -14,6 +14,7 @@ export default defineQuizSet({
   caption: '开口题：事件循环、闭包、Promise、模块边界——面试官能追问的那种。',
   questions: [
     {
+      id: 'interview-lang-runtime:timeout0',
       q: '面试官问「JavaScript 里 setTimeout(fn, 0) 会不会立刻执行」，较好的回答是？',
       choices: [
         {
@@ -29,22 +30,24 @@ export default defineQuizSet({
         {
           t: 'setTimeout 会创建新的操作系统进程来跑回调',
           ok: false,
-          why: '浏览器/Node 在同一 JS 线程的事件循环里调度，不是另起进程。',
+          why: '在同一 JS 线程的事件循环里调度，不是另起进程。',
         },
         {
           t: '只要延迟写成 0，就保证比 Promise.then 更早执行',
           ok: false,
-          why: '通常微任务（then）会先于下一轮宏任务（timeout）执行。',
+          why: '通常微任务（then）先于下一轮宏任务（timeout）。',
         },
       ],
+      relatedNodes: ['code-async', 'lang-javascript'],
     },
     {
+      id: 'interview-lang-runtime:closure',
       q: '被问「什么是闭包（Closure），举一个实际用途」，怎么答比较稳？',
       choices: [
         {
           t: '函数能访问定义时外层作用域的变量；常用于封装私有状态或工厂函数',
           ok: true,
-          why: '既给定义又给用途，面试官容易继续追问「内存会不会泄漏」。',
+          why: '既给定义又给用途，方便追问内存与生命周期。',
         },
         {
           t: '闭包就是把代码压缩成一行，方便拷贝',
@@ -59,11 +62,13 @@ export default defineQuizSet({
         {
           t: '闭包等于全局变量，任何函数都能随便改',
           ok: false,
-          why: '闭包恰恰常用来避免污染全局、限制可见范围。',
+          why: '闭包常用来避免污染全局、限制可见范围。',
         },
       ],
+      relatedNodes: ['code-functions', 'lang-javascript'],
     },
     {
+      id: 'interview-lang-runtime:async-await',
       q: '「Promise 和 async/await 是什么关系」，一句话怎么说清楚？',
       choices: [
         {
@@ -74,7 +79,7 @@ export default defineQuizSet({
         {
           t: '有了 async/await 就不需要事件循环了',
           ok: false,
-          why: '异步仍靠事件循环调度；语法糖不取消运行时模型。',
+          why: '异步仍靠事件循环；语法糖不取消运行时模型。',
         },
         {
           t: 'async 函数返回的一定是字符串，不是 Promise',
@@ -84,11 +89,13 @@ export default defineQuizSet({
         {
           t: 'Promise 只能用在浏览器，Node 不支持',
           ok: false,
-          why: 'Node 长期支持 Promise；现代 Node 也支持 async/await。',
+          why: 'Node 长期支持 Promise 与 async/await。',
         },
       ],
+      relatedNodes: ['code-async'],
     },
     {
+      id: 'interview-lang-runtime:modules',
       q: '面试官问「为什么要用模块（ESM import/export）而不是一个大脚本」，重点说什么？',
       choices: [
         {
@@ -99,7 +106,7 @@ export default defineQuizSet({
         {
           t: '模块能让 JavaScript 自动变成多线程并行执行',
           ok: false,
-          why: '模块不改变单线程模型；并行要靠 Worker 等机制。',
+          why: '模块不改变单线程模型；并行要靠 Worker 等。',
         },
         {
           t: '有了模块就不需要包管理器了',
@@ -109,42 +116,46 @@ export default defineQuizSet({
         {
           t: 'export 会把变量复制到每个导入方，改一处全部自动同步改内存',
           ok: false,
-          why: 'ESM 对绑定是活绑定，但表述易误导；核心价值仍是封装与依赖图。',
+          why: '核心价值是封装与依赖图；勿用「复制内存」糊弄过去。',
         },
       ],
+      relatedNodes: ['code-modules'],
     },
     {
+      id: 'interview-lang-runtime:eq',
       q: '「== 和 === 有什么区别」被追问时，更专业的答法是？',
       choices: [
         {
           t: '=== 严格相等不转类型；== 会做类型转换，容易踩坑，业务代码优先 ===',
           ok: true,
-          why: '大厂偏好明确、少隐式转换；还能举 null/undefined、字符串数字例子。',
+          why: '大厂偏好明确、少隐式转换；可举字符串数字例子。',
         },
         {
           t: '两者完全一样，只是写法不同',
           ok: false,
-          why: '== 会触发抽象相等比较与强制转换，行为不同。',
+          why: '== 会触发强制转换，行为不同。',
         },
         {
           t: '=== 只能比较数字，== 才能比较字符串',
           ok: false,
-          why: '=== 可比较任意类型，只是类型不同时直接为 false。',
+          why: '=== 可比较任意类型，类型不同时直接为 false。',
         },
         {
           t: '线上环境会自动把 == 优化成 ===，所以随便写',
           ok: false,
-          why: '引擎不会改语义；混用 == 仍可能产生逻辑 bug。',
+          why: '引擎不会改语义；混用 == 仍可能出逻辑 bug。',
         },
       ],
+      relatedNodes: ['code-values-types', 'lang-javascript'],
     },
     {
+      id: 'interview-lang-runtime:callback-hell',
       q: '被问「前端/Node 里如何避免回调地狱」，你可以说哪些手段？',
       choices: [
         {
           t: '用 Promise 链式或 async/await 扁平化控制流，并统一错误用 catch/try',
           ok: true,
-          why: '这是标准演进路径；比继续嵌套回调更清晰可维护。',
+          why: '标准演进路径；比继续嵌套回调更清晰。',
         },
         {
           t: '把所有回调函数都命名成 a、b、c 就行',
@@ -154,14 +165,15 @@ export default defineQuizSet({
         {
           t: '禁止使用任何异步，全部改成同步阻塞',
           ok: false,
-          why: 'I/O 场景同步阻塞会拖垮吞吐；应正确组织异步而非消灭异步。',
+          why: 'I/O 同步阻塞会拖垮吞吐；应正确组织异步。',
         },
         {
           t: '只在全局挂一个回调，所有结果都往那里丢',
           ok: false,
-          why: '全局回调难追踪、易互相覆盖，不是可维护方案。',
+          why: '全局回调难追踪、易互相覆盖。',
         },
       ],
+      relatedNodes: ['code-async', 'code-functions'],
     },
   ],
 });
