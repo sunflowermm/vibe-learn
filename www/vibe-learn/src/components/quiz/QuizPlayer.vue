@@ -1,6 +1,6 @@
 <script setup>
 /**
- * 刷题播放器：四选一；作答后展开全部选项 why；进度 / 快捷键 / 错题本
+ * 刷题播放器：选项区可滚、底栏固定；作答只改色与 why 可见性，不改高度
  */
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useUserLibrary } from '../../composables/useUserLibrary.js';
@@ -30,41 +30,42 @@ const progressText = computed(() =>
 const progressPct = computed(() => {
   if (!total.value) return 0;
   if (finished.value) return 100;
-  return Math.round(((idx.value + (locked.value ? 1 : 0)) / total.value) * 100);
+  return Math.round((idx.value / total.value) * 100);
 });
 const currentRelated = computed(() => resolveNodes(current.value?.relatedNodes || []));
-const pickedOk = computed(() =>
-  locked.value && picked.value >= 0
-    ? Boolean(current.value?.choices?.[picked.value]?.ok)
-    : null
-);
-const verdictText = computed(() => {
-  if (pickedOk.value == null) return '';
-  return pickedOk.value ? '答对了' : '答错了 · 对照各选项解析';
+const pickedOk = computed(() => {
+  if (!locked.value || picked.value < 0) return null;
+  return Boolean(current.value?.choices?.[picked.value]?.ok);
 });
-const hasRevealMeta = computed(() =>
+const hasReveal = computed(() =>
   Boolean(current.value?.choices?.some((c) => c.reveal))
 );
 const attributionLine = computed(() => {
   const q = current.value;
   if (!q || q.origin !== 'adapted') return '';
-  const who = q.attribution || '公开开源题库';
-  return `系统非原创 · 改编自 ${who}`;
+  return `改编自 ${q.attribution || '公开开源题库'}`;
 });
 const attributionHref = computed(() => current.value?.attributionUrl || '');
+const nextLabel = computed(() =>
+  idx.value + 1 >= total.value ? '查看成绩' : '下一题'
+);
+const verdictText = computed(() => {
+  if (pickedOk.value === true) return '答对了';
+  if (pickedOk.value === false) return '答错了';
+  return '选一项作答';
+});
 
 async function pick(i) {
   if (locked.value || finished.value || !current.value) return;
   if (i < 0 || i >= (current.value.choices?.length || 0)) return;
   locked.value = true;
   picked.value = i;
-  const c = current.value.choices[i];
-  const ok = Boolean(c?.ok);
+  const ok = Boolean(current.value.choices[i]?.ok);
   if (ok) score.value += 1;
   try {
     await library.recordQuizAnswer(current.value.id, { ok, choiceIndex: i });
   } catch {
-    /* ignore persistence errors */
+    /* ignore */
   }
 }
 
@@ -91,32 +92,27 @@ function retake() {
 
 function choiceClass(i, c) {
   if (!locked.value) return '';
-  const classes = [];
-  if (c.ok) classes.push('is-ok');
-  if (picked.value === i && !c.ok) classes.push('is-bad');
-  if (picked.value === i) classes.push('is-picked');
-  return classes.join(' ');
+  if (c.ok) return picked.value === i ? 'is-ok is-picked' : 'is-ok';
+  if (picked.value === i) return 'is-bad is-picked';
+  return '';
 }
 
 function choiceWhy(c) {
   if (c?.why) return c.why;
-  if (c?.ok) return '正确项。';
-  return '干扰项。';
+  return c?.ok ? '正确项。' : '干扰项。';
 }
 
-/** 揭晓行前缀：短 reveal 当名词，长 reveal 当释义 */
-function revealPrefix(c) {
+function revealLabel(c) {
   const r = String(c?.reveal || '');
   if (!r) return '';
-  if (r.length < 48 && !r.includes('。')) return '名词 · ';
-  return '释义 · ';
+  return (r.length < 48 && !r.includes('。') ? '名词 · ' : '释义 · ') + r;
 }
 
 function onKey(e) {
   if (finished.value || !total.value) return;
   const tag = e.target?.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-  if (!locked.value && !finished.value) {
+  if (!locked.value) {
     const map = { '1': 0, '2': 1, '3': 2, '4': 3, a: 0, b: 1, c: 2, d: 3 };
     const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (key in map) {
@@ -144,13 +140,15 @@ onUnmounted(() => {
   <section class="qplay" role="region" :aria-label="title">
     <header class="qplay__head">
       <div class="qplay__head-main">
-        <h3 class="qplay__title">{{ title }}</h3>
+        <div class="qplay__titles">
+          <h3 class="qplay__title">{{ title }}</h3>
+          <p v-if="caption" class="qplay__caption">{{ caption }}</p>
+        </div>
         <p class="qplay__progress">
           <strong>{{ progressText }}</strong>
           <span v-if="!finished && total" class="qplay__keys">1–4 · Enter</span>
         </p>
       </div>
-      <p v-if="caption" class="qplay__caption">{{ caption }}</p>
       <div class="qplay__meter" aria-hidden="true">
         <div class="qplay__meter-fill" :style="{ width: `${progressPct}%` }" />
       </div>
@@ -163,79 +161,95 @@ onUnmounted(() => {
     <div v-else-if="finished" class="qplay__done">
       <p class="qplay__score">答对 {{ score }} / {{ total }}</p>
       <p class="qplay__hint">错题已记入错题本（连续答对两次可标掌握）。</p>
-      <button type="button" class="qplay__btn" @click="retake">再测一次</button>
+      <button type="button" class="qplay__btn qplay__btn--solid" @click="retake">
+        再测一次
+      </button>
     </div>
 
-    <div v-else-if="current" class="qplay__stage">
-      <p class="qplay__q">{{ current.q }}</p>
-      <p v-if="attributionLine" class="qplay__attr">
-        <span>{{ attributionLine }}</span>
-        <a
-          v-if="attributionHref"
-          :href="attributionHref"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="qplay__attr-link"
-        >来源</a>
-      </p>
-      <p v-if="!locked && hasRevealMeta" class="qplay__hint-inline">
-        提交后会展开各选项解析，并揭晓名词 / 释义。
-      </p>
-      <div
-        class="qplay__choices"
-        :class="{ 'is-revealed': locked }"
-        role="group"
-        aria-label="选项"
-      >
-        <button
-          v-for="(c, i) in current.choices"
-          :key="`${current.id}-${i}`"
-          type="button"
-          class="qplay__choice"
-          :class="choiceClass(i, c)"
-          :disabled="locked"
-          :aria-keyshortcuts="`${i + 1} ${String.fromCharCode(65 + i)}`"
-          @click="pick(i)"
-        >
-          <span class="qplay__letter">{{ String.fromCharCode(65 + i) }}.</span>
-          <span class="qplay__choice-body">
-            <span class="qplay__choice-text">
-              {{ c.t }}
-              <span v-if="locked && picked === i" class="qplay__picked-mark">你的选择</span>
-            </span>
-            <span v-if="locked && c.reveal" class="qplay__choice-reveal">
-              {{ revealPrefix(c) }}{{ c.reveal }}
-            </span>
-            <span class="qplay__choice-why" :class="{ 'is-on': locked }" aria-live="polite">
-              <template v-if="locked">{{ choiceWhy(c) }}</template>
-            </span>
-          </span>
-        </button>
-      </div>
-      <div class="qplay__foot">
-        <p
-          v-if="verdictText"
-          class="qplay__verdict"
-          :class="pickedOk ? 'is-ok' : 'is-bad'"
-        >
-          {{ verdictText }}
+    <div
+      v-else-if="current"
+      class="qplay__stage"
+      :class="{ 'is-locked': locked }"
+    >
+      <div class="qplay__scroll">
+        <p class="qplay__q">{{ current.q }}</p>
+        <p v-if="attributionLine" class="qplay__attr">
+          <span>{{ attributionLine }}</span>
+          <a
+            v-if="attributionHref"
+            :href="attributionHref"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="qplay__attr-link"
+          >来源</a>
         </p>
-        <div v-if="locked && currentRelated.length" class="qplay__related">
-          <span class="qplay__related-label">回课</span>
+        <div class="qplay__choices" role="group" aria-label="选项">
           <button
-            v-for="n in currentRelated"
-            :key="n.id"
+            v-for="(c, i) in current.choices"
+            :key="`${current.id}-${i}`"
             type="button"
-            class="qplay__related-chip"
-            @click="emit('goto-learn', n.id)"
+            class="qplay__choice"
+            :class="choiceClass(i, c)"
+            :disabled="locked"
+            :aria-keyshortcuts="`${i + 1} ${String.fromCharCode(65 + i)}`"
+            @click="pick(i)"
           >
-            {{ n.label }}
+            <span class="qplay__letter">{{ String.fromCharCode(65 + i) }}</span>
+            <span class="qplay__choice-body">
+              <span class="qplay__choice-text">{{ c.t }}</span>
+              <span
+                v-if="hasReveal"
+                class="qplay__why"
+                :class="{ 'is-on': locked && c.reveal }"
+              >{{ locked && c.reveal ? revealLabel(c) : '\u00a0' }}</span>
+              <span
+                class="qplay__why"
+                :class="{ 'is-on': locked }"
+                :title="locked ? choiceWhy(c) : undefined"
+                aria-live="polite"
+              >{{ locked ? choiceWhy(c) : '\u00a0' }}</span>
+            </span>
           </button>
         </div>
-        <button v-if="locked" type="button" class="qplay__btn" @click="next">
-          {{ idx + 1 >= total ? '查看成绩' : '下一题' }}
-        </button>
       </div>
+
+      <footer class="qplay__foot">
+        <div class="qplay__foot-row">
+          <p
+            class="qplay__verdict"
+            :class="{
+              'is-ok': pickedOk === true,
+              'is-bad': pickedOk === false,
+              'is-idle': pickedOk == null,
+            }"
+          >
+            {{ verdictText }}
+          </p>
+          <button
+            type="button"
+            class="qplay__btn qplay__btn--solid"
+            :disabled="!locked"
+            @click="next"
+          >
+            {{ nextLabel }}
+          </button>
+        </div>
+        <div class="qplay__related" :class="{ 'is-on': locked && currentRelated.length }">
+          <template v-if="currentRelated.length">
+            <span class="qplay__related-label">回课</span>
+            <button
+              v-for="n in currentRelated"
+              :key="n.id"
+              type="button"
+              class="qplay__related-chip"
+              :tabindex="locked ? 0 : -1"
+              @click="emit('goto-learn', n.id)"
+            >
+              {{ n.label }}
+            </button>
+          </template>
+        </div>
+      </footer>
     </div>
   </section>
 </template>
@@ -244,41 +258,55 @@ onUnmounted(() => {
 .qplay {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 0.75rem 0.85rem 0.95rem;
+  gap: 0.45rem;
+  min-height: 0;
+  max-height: min(72vh, 40rem);
+  padding: 0.65rem 0.75rem 0.7rem;
   border-radius: 14px;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--ink-3) 92%, transparent);
 }
 
+.qplay__head {
+  flex-shrink: 0;
+}
+
 .qplay__head-main {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.65rem;
+}
+
+.qplay__titles {
+  min-width: 0;
 }
 
 .qplay__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.25;
   color: var(--node-title);
-  min-width: 0;
 }
 
 .qplay__caption,
 .qplay__hint,
 .qplay__empty {
-  margin: 0.2rem 0 0;
-  font-size: 0.76rem;
-  line-height: 1.4;
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
   color: var(--mist-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .qplay__progress {
   margin: 0;
   flex-shrink: 0;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   line-height: 1.3;
   color: var(--mist-dim);
   white-space: nowrap;
@@ -290,7 +318,7 @@ onUnmounted(() => {
 }
 
 .qplay__meter {
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
   height: 3px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--mist) 14%, transparent);
@@ -309,22 +337,35 @@ onUnmounted(() => {
 }
 
 .qplay__keys {
-  margin-left: 0.35rem;
+  margin-left: 0.3rem;
   opacity: 0.8;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
 }
 
 .qplay__stage {
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  min-height: 22rem;
+  gap: 0;
+}
+
+.qplay__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
 }
 
 .qplay__q {
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
   color: var(--mist);
   font-weight: 600;
   white-space: pre-wrap;
@@ -333,60 +374,48 @@ onUnmounted(() => {
 .qplay__attr {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.55rem;
+  gap: 0.35rem;
   margin: 0;
-  font-size: 0.7rem;
-  line-height: 1.35;
+  font-size: 0.68rem;
   color: #a16207;
 }
 
 .qplay__attr-link {
   color: inherit;
   font-weight: 650;
-  text-underline-offset: 2px;
 }
 
 .qplay__choices {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex: 1 1 auto;
+  gap: 0.32rem;
 }
 
 .qplay__choice {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.4rem;
   width: 100%;
-  min-height: 4.6rem;
   text-align: left;
-  padding: 0.7rem 0.8rem 0.75rem;
-  border-radius: 11px;
+  padding: 0.42rem 0.55rem;
+  border-radius: 9px;
   border: 1px solid var(--line);
   background: var(--panel-bg);
   color: var(--mist);
   cursor: pointer;
   font: inherit;
-  line-height: 1.45;
+  line-height: 1.35;
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-.qplay__choices.is-revealed .qplay__choice {
-  min-height: 5.6rem;
+    border-color 0.12s ease,
+    background 0.12s ease;
 }
 
 .qplay__choice:hover:not(:disabled) {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  transform: translateY(-1px);
 }
 
 .qplay__choice:disabled {
   cursor: default;
-  opacity: 0.98;
 }
 
 .qplay__choice.is-ok {
@@ -399,100 +428,93 @@ onUnmounted(() => {
   background: color-mix(in srgb, #ef4444 10%, var(--panel-bg));
 }
 
-.qplay__choice.is-picked:not(.is-ok):not(.is-bad) {
-  outline: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+.qplay__choice.is-picked {
+  box-shadow: inset 2px 0 0 currentColor;
+}
+
+.qplay__choice.is-ok.is-picked {
+  box-shadow: inset 2px 0 0 #16a34a;
+}
+
+.qplay__choice.is-bad.is-picked {
+  box-shadow: inset 2px 0 0 #dc2626;
 }
 
 .qplay__letter {
-  flex-shrink: 0;
-  margin-top: 0.1rem;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--mist-dim);
-}
-
-.qplay__choice-text {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.5rem;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  font-size: 0.88rem;
-}
-
-.qplay__picked-mark {
-  flex-shrink: 0;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 0.08rem 0.35rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--mist-dim);
+  line-height: 1.45;
 }
 
 .qplay__choice-body {
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.28rem;
+  gap: 0.12rem;
 }
 
-.qplay__choice-reveal {
-  font-size: 0.76rem;
-  font-weight: 650;
-  line-height: 1.35;
-  color: var(--node-title);
-  padding: 0.18rem 0.4rem;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--amber) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--amber) 28%, transparent);
+.qplay__choice-text {
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
 }
 
-.qplay__choice-why {
-  display: block;
-  min-height: 2.1em;
-  font-size: 0.76rem;
-  line-height: 1.4;
-  color: transparent;
-  border-radius: 6px;
-}
-
-.qplay__choice-why.is-on {
-  color: var(--mist-dim);
-  padding: 0.15rem 0;
-}
-
-.qplay__choice.is-ok .qplay__choice-why.is-on {
-  color: color-mix(in srgb, #15803d 75%, var(--mist));
-}
-
-.qplay__choice.is-bad .qplay__choice-why.is-on {
-  color: color-mix(in srgb, #b91c1c 70%, var(--mist));
-}
-
-.qplay__hint-inline {
+/* 固定一行 why：作答前后高度不变 */
+.qplay__why {
+  height: 1.25em;
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  line-height: 1.25;
   color: var(--mist-dim);
-  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
 }
 
+.qplay__why.is-on {
+  opacity: 1;
+}
+
+.qplay__choice.is-ok .qplay__why.is-on {
+  color: color-mix(in srgb, #15803d 80%, var(--mist));
+}
+
+.qplay__choice.is-bad .qplay__why.is-on {
+  color: color-mix(in srgb, #b91c1c 75%, var(--mist));
+}
+
+/* 底栏固定：始终占位，不随作答插入 */
 .qplay__foot {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-top: 0.15rem;
+  gap: 0.28rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid color-mix(in srgb, var(--mist) 12%, transparent);
+  background: color-mix(in srgb, var(--ink-3) 96%, transparent);
+}
+
+.qplay__foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-height: 2.1rem;
 }
 
 .qplay__verdict {
   margin: 0;
-  font-size: 0.84rem;
+  min-width: 0;
+  font-size: 0.82rem;
   font-weight: 650;
-  line-height: 1.35;
+  line-height: 1.3;
+}
+
+.qplay__verdict.is-idle {
+  color: var(--mist-dim);
+  font-weight: 500;
 }
 
 .qplay__verdict.is-ok {
@@ -505,22 +527,37 @@ onUnmounted(() => {
 
 .qplay__related {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
+  height: 1.55rem;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.qplay__related.is-on {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .qplay__related-label {
-  font-size: 0.66rem;
-  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--mist-dim);
 }
 
 .qplay__related-chip {
+  flex-shrink: 0;
+  max-width: 7.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font: inherit;
-  font-size: 0.72rem;
-  padding: 0.18rem 0.5rem;
+  font-size: 0.68rem;
+  padding: 0.12rem 0.45rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line));
   background: transparent;
@@ -534,24 +571,37 @@ onUnmounted(() => {
 
 .qplay__score {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--node-title);
 }
 
 .qplay__btn {
-  align-self: flex-start;
-  padding: 0.45rem 0.9rem;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  color: var(--accent);
+  flex-shrink: 0;
+  height: 2.1rem;
+  padding: 0 0.85rem;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--mist-dim);
   font: inherit;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
 }
 
-.qplay__btn:hover {
+.qplay__btn--solid {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+}
+
+.qplay__btn--solid:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.qplay__btn--solid:hover:not(:disabled) {
   background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
@@ -559,11 +609,11 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  padding-top: 0.35rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .qplay__meter-fill,
-  .qplay__choice {
+  .qplay__meter-fill {
     transition: none;
   }
 }
