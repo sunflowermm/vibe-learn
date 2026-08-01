@@ -66,7 +66,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-xrk-core:loader',
-      q: '插件式架构下，Loader 最该记住的直觉？',
+      q: '你在 `core/foo-Core/plugin/` 新加了一个插件文件，重启后希望自动生效。Loader 靠什么挂上它？',
       choices: [
         {
           t: '按目录约定放好、继承基类，启动时自动扫描挂载',

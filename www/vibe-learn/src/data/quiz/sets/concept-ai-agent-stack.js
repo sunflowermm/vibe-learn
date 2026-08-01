@@ -73,7 +73,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-agent-stack:q3',
-      q: '智能体（Agent）的「控制循环」核心直觉是什么？',
+      q: '助手要「查库存→下单→再确认」多步才能完成。和一问一答 Chat 比，Agent 控制循环差在哪？',
       choices: [
         {
           t: '观察环境→决策下一步→执行工具或生成→再观察，直到任务完成或停止',

@@ -39,7 +39,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-lang-landscape:lib-vs-fw',
-      q: '「库（Library）」与「框架（Framework）」的常见差别直觉是什么？',
+      q: '你在写业务：调 lodash 是一种体验，搭 Vue/Express 又是另一种。库和框架差在谁主导调用？',
       choices: [
         {
           t: '你主动调用库里的函数；框架定义流程，在合适时机回调你的代码',

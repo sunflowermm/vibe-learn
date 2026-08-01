@@ -43,8 +43,8 @@ const {
 } = library;
 
 const domain = ref('all');
-/** 本章综合池：all | topic | glossary */
-const poolSource = ref('all');
+/** 本章综合池：all | topic | glossary；默认专题，避免词典双份刷屏 */
+const poolSource = ref('topic');
 const randomN = ref(20);
 const sessionKey = ref(0);
 const activeQuestions = ref([]);

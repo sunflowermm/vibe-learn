@@ -120,15 +120,15 @@ export default defineQuizSet({
     },
     {
       id: 'concept-zero-web-git:q10',
-      q: '学完本套零基础后，下一步最贴本站地图的是？',
+      q: '你本地能跑通小脚本了，但一换机器就「找不到命令 / 密钥乱飞」。接下来哪组练习最贴这个坑？',
       choices: [
-        { t: '练 Git/Linux/环境指令模块，同时跑通第一个 Node 小程序', ok: true, why: '知行合一；再进 XRK 放码与 HTTP。' },
-        { t: '直接微调大模型权重', ok: false, why: '跳过基础工具链；先把指令与本地跑通。' },
-        { t: '删除所有报错信息来源', ok: false, why: '报错是排障线索，应读懂而不是删掉。' },
-        { t: '把生产密钥发到公开群', ok: false, why: '直接制造安全事故。' },
+        { t: '练 Git 工作区与远程、Linux/环境指令，并把密钥放进 .env（勿进仓库）', ok: true, why: '版本、PATH、密钥分家，是换机可复现的地基；再进 XRK 放码与 HTTP。' },
+        { t: '直接微调大模型权重当下一步', ok: false, why: '跳过工具链；先把指令与本地环境跑稳。' },
+        { t: '删掉所有报错输出源，界面清爽就行', ok: false, why: '报错是排障线索，应读懂而不是删掉。' },
+        { t: '把生产密钥贴到公开群方便同事复制', ok: false, why: '直接制造安全事故。' },
       ],
       relatedNodes: ['git-workspace', 'linux-cli', 'data-env'],
-      tags: ['零基础'],
+      tags: ['零基础', '场景'],
     },
   ],
 });

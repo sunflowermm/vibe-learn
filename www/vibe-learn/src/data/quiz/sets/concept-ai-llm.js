@@ -73,7 +73,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-llm:q3',
-      q: 'Transformer 里「注意力机制（Attention）」的直觉是什么？',
+      q: '模型读长段落时，怎样决定「这一步该盯哪几个词」？Transformer 里对应哪条机制？',
       choices: [
         {
           t: '在序列中为每个位置计算与其他位置的相关权重，决定「看哪里」',

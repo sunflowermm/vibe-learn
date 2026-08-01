@@ -39,7 +39,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-db-ops:rel-vs-doc',
-      q: '关系型数据库与文档型数据库选型时，更稳妥的直觉是什么？',
+      q: '订单要强事务、配置文档又经常改字段。选型关系库还是文档库时，更稳妥看什么？',
       choices: [
         {
           t: '看查询模式、事务需求、团队熟悉度与运维成本',

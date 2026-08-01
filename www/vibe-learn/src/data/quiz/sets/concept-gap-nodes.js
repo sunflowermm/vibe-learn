@@ -21,7 +21,7 @@ export default defineQuizSet({
   questions: [
     {
       id: 'concept-gap-nodes:q1',
-      q: '给人工智能（AI）助手写「规则」时，零基础同学最该记住的原则是什么？',
+      q: '助手总越权改生产配置。你准备加「规则」文件。怎样写才有效？',
       choices: [
         {
           t: '规则要短、硬、可执行，和「技能说明书」分工：规则管红线，技能管怎么做',
@@ -46,7 +46,7 @@ export default defineQuizSet({
       ],
       relatedNodes: ['ai-rules'],
       domain: 'ai',
-      tags: ['名词', '零基础', 'ai-rules'],
+      tags: ['场景', 'ai-rules'],
     },
     {
       id: 'concept-gap-nodes:q2',
@@ -79,32 +79,32 @@ export default defineQuizSet({
     },
     {
       id: 'concept-gap-nodes:q3',
-      q: '数据结构里的「图」与「树」相比，零基础最该抓住的差别是什么？',
+      q: '插件依赖可能互相指向、形成环；任务调度要表达「谁依赖谁」。用树还是图更贴？',
       choices: [
         {
-          t: '图是结点加边，边可以形成环，也常用来表达网格、依赖、社交关系',
+          t: '用图：结点加边，边可成环，也常表达网格、依赖、社交关系',
           ok: true,
-          why: '树一般无环且有根；图更自由，遍历常用广度优先（BFS）与深度优先（DFS）。',
+          why: '树一般无环且有根；依赖与环检测属于图，遍历常用 BFS/DFS。',
         },
         {
-          t: '图只能存数字，不能表示人与人、模块与模块之间的关系',
+          t: '只能用树，因为图不能表示模块与模块之间的关系',
           ok: false,
-          why: '图恰恰擅长表示关系；结点和边都可以带业务含义。',
+          why: '图恰恰擅长表示关系；有环时树模型会装不下。',
         },
         {
-          t: '图等于数据库里的一张表，没有遍历问题',
+          t: '等于数据库一张表，没有遍历问题',
           ok: false,
-          why: '图是抽象结构；落库可以是表，但算法上仍要谈遍历与路径。',
+          why: '落库可以是表，但算法上仍要谈遍历、路径与环。',
         },
         {
-          t: '学图之前必须先会写操作系统内核',
+          t: '必须先会写操作系统内核才能用图',
           ok: false,
           why: '图是通用数据结构，与写内核无必要绑定。',
         },
       ],
       relatedNodes: ['dsa-graph'],
       domain: 'dsa',
-      tags: ['零基础', 'dsa-graph'],
+      tags: ['场景', 'dsa-graph'],
     },
     {
       id: 'concept-gap-nodes:q4',

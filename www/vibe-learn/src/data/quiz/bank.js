@@ -60,6 +60,7 @@ function buildBank() {
   const byId = new Map();
   const byStem = new Map();
   // 精选优先；同干冲突时 lesson/static 可顶掉 adapted，但顶不掉 curated
+  // 课核 s:*:core 保留：与精选互补（大厂场景角度），不再因「有精选」整段丢弃
   const streams = [
     ...flattenCurated(),
     ...STATIC_QUESTIONS,
@@ -237,7 +238,9 @@ export function questionsForNode(nodeId) {
   const bank = ensureBank();
   const primary = bank.filter((q) => (q.relatedNodes || []).includes(nodeId));
   const seen = new Set(primary.map((q) => q.id));
-  const termSet = new Set(NODE_TERMS[nodeId] || []);
+  const curatedN = primary.filter((q) => q.source === 'curated').length;
+  // 精选已够用时不再叠一整袋词典，避免 http-web 一类节点刷到上百题
+  const termSet = curatedN >= 8 ? new Set() : new Set(NODE_TERMS[nodeId] || []);
   const secondary = [];
   if (termSet.size) {
     for (const q of bank) {
@@ -245,6 +248,7 @@ export function questionsForNode(nodeId) {
       if (!(q.tags || []).some((t) => termSet.has(t))) continue;
       secondary.push(q);
       seen.add(q.id);
+      if (secondary.length >= 12) break;
     }
   }
   return [...primary, ...secondary].sort(

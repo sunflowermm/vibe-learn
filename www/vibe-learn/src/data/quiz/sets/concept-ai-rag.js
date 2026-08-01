@@ -240,7 +240,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-rag:q9',
-      q: '混合检索（hybrid search）的核心直觉是什么？',
+      q: '专名检索漏召、同义检索又飘。同一查询既要关键词又要语义，实务上怎么做？',
       choices: [
         {
           t: '同一查询并行稀疏（如 BM25）与稠密（向量）通道，再融合候选',

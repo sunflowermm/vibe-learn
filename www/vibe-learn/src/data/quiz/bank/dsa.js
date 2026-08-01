@@ -1,52 +1,22 @@
 /**
  * 静态题库 · dsa
- * 人工可审；零基础概念题，对齐知识图谱课节点。
+ * 命题师课核（题少考点密）；真源 scripts/handcraft-cores.mjs
  */
 /** @type {import('../schema.js').QuizQuestion[]} */
 export const QUESTIONS = [
   {
-    id: "s:dsa-hash:core",
-    q: "学习知识图谱里的「哈希表」时，零基础同学应先抓住下面哪一点？",
+    id: "s:dsa:openers:core",
+    q: "复杂度怎么开口？两数之和近线性？括号匹配？依赖有环？有序才能二分？",
     choices: [
-      { t: "计数、两数之和、LRU 组件。", ok: true, why: "对。学「哈希表」时，零基础应先建立这一核心认知，再去看细节与例子。" },
-      { t: "环境变量地基；落盘与 PATH；代理变量指向番外。", ok: false, why: "这是其他课「安装器与 PATH」的要点，不是本课。" },
-      { t: "别把脚打穿的底线。", ok: false, why: "这是其他课「安全常识」的要点，不是本课。" },
-      { t: "现代化开源面板；Docker 路径更顺。", ok: false, why: "这是其他课「1Panel」的要点，不是本课。" },
+      { t: "先讲 n 下时间/空间阶；哈希存值；栈匹配；图+拓扑/检环；二分前提是有序（或可比较序）", ok: true, why: "高频开口模板合并，对应结构课一张「急救卡」。" },
+      { t: "用代码行数当复杂度；再套循环到 O(n³)；只数左右括号个数；字典序当拓扑；乱序硬二分", ok: false, why: "全是经典错法。" },
+      { t: "有哈希就不必考虑有序场景；树一定强于图", ok: false, why: "题型决定结构。" },
+      { t: "DP 可替代所有图与栈问题", ok: false, why: "先认题型再选武器。" },
     ],
     kind: "concept",
     domain: "dsa",
-    tags: ["零基础概念","番外·DSA"],
-    relatedNodes: ["dsa-hash"],
-    source: 'static',
-  },
-  {
-    id: "s:dsa-hot:core",
-    q: "学习知识图谱里的「大厂高频题型」时，零基础同学应先抓住下面哪一点？",
-    choices: [
-      { t: "把结构课串成一面常见组合。", ok: true, why: "对。学「大厂高频题型」时，零基础应先建立这一核心认知，再去看细节与例子。" },
-      { t: "别把脚打穿的底线。", ok: false, why: "这是其他课「安全常识」的要点，不是本课。" },
-      { t: "环境变量地基；落盘与 PATH；代理变量指向番外。", ok: false, why: "这是其他课「安装器与 PATH」的要点，不是本课。" },
-      { t: "现代化开源面板；Docker 路径更顺。", ok: false, why: "这是其他课「1Panel」的要点，不是本课。" },
-    ],
-    kind: "concept",
-    domain: "dsa",
-    tags: ["零基础概念","番外·DSA"],
-    relatedNodes: ["dsa-hot"],
-    source: 'static',
-  },
-  {
-    id: "s:dsa-tree:core",
-    q: "学习知识图谱里的「树与堆」时，零基础同学应先抓住下面哪一点？",
-    choices: [
-      { t: "二叉树高频；堆作优先队列。", ok: true, why: "对。学「树与堆」时，零基础应先建立这一核心认知，再去看细节与例子。" },
-      { t: "现代化开源面板；Docker 路径更顺。", ok: false, why: "这是其他课「1Panel」的要点，不是本课。" },
-      { t: "别把脚打穿的底线。", ok: false, why: "这是其他课「安全常识」的要点，不是本课。" },
-      { t: "环境变量地基；落盘与 PATH；代理变量指向番外。", ok: false, why: "这是其他课「安装器与 PATH」的要点，不是本课。" },
-    ],
-    kind: "concept",
-    domain: "dsa",
-    tags: ["零基础概念","番外·DSA"],
-    relatedNodes: ["dsa-tree"],
+    tags: ["场景","课核"],
+    relatedNodes: ["dsa-complexity","dsa-linear","dsa-hash","dsa-tree","dsa-graph","dsa-sort","dsa-dp","dsa-hot"],
     source: 'static',
   }
 ];
