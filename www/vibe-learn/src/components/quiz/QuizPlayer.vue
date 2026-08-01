@@ -1,6 +1,6 @@
 <script setup>
 /**
- * 刷题播放器：选项区可滚、底栏固定；作答只改色与 why 可见性，不改高度
+ * 刷题播放器：选项区可滚、底栏固定；解析槽预留三行防抖动，超出槽内滚
  */
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useUserLibrary } from '../../composables/useUserLibrary.js';
@@ -94,16 +94,15 @@ function choiceClass(i, c) {
   return '';
 }
 
-/** 单行槽：名词揭晓 + why 合并，避免双槽撑高选项 */
-function choiceNote(c) {
-  const parts = [];
-  const r = String(c?.reveal || '');
+/** @param {{ reveal?: string, why?: string, ok?: boolean }} c */
+function choiceNotes(c) {
+  const lines = [];
+  const r = String(c?.reveal || '').trim();
   if (r) {
-    parts.push((r.length < 48 && !r.includes('。') ? '名词 · ' : '释义 · ') + r);
+    lines.push((r.length < 48 && !r.includes('。') ? '名词 · ' : '释义 · ') + r);
   }
-  if (c?.why) parts.push(c.why);
-  else parts.push(c?.ok ? '正确项。' : '干扰项。');
-  return parts.join(' · ');
+  lines.push(String(c?.why || '').trim() || (c?.ok ? '正确项。' : '干扰项。'));
+  return lines;
 }
 
 function onKey(e) {
@@ -196,11 +195,17 @@ onUnmounted(() => {
             <span class="qplay__choice-body">
               <span class="qplay__choice-text">{{ c.t }}</span>
               <span
-                class="qplay__why"
+                class="qplay__note"
                 :class="{ 'is-on': locked }"
-                :title="locked ? choiceNote(c) : undefined"
+                :title="locked ? choiceNotes(c).join('\n') : undefined"
                 aria-live="polite"
-              >{{ locked ? choiceNote(c) : '\u00a0' }}</span>
+              >
+                <span
+                  v-for="(line, j) in locked ? choiceNotes(c) : []"
+                  :key="`${current.id}-n-${i}-${j}`"
+                  class="qplay__note-line"
+                >{{ line }}</span>
+              </span>
             </span>
           </button>
         </div>
@@ -253,7 +258,8 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 0.55rem;
   min-height: 0;
-  max-height: min(78vh, 44rem);
+  /* dvh：移动端地址栏伸缩时更稳；上限略抬高以容纳完整解析 */
+  max-height: min(86dvh, 52rem);
   padding: 0.8rem 0.9rem 0.85rem;
   border-radius: 14px;
   border: 1px solid var(--line);
@@ -387,13 +393,13 @@ onUnmounted(() => {
 
 .qplay__choice {
   display: grid;
-  grid-template-columns: 1.2rem minmax(0, 1fr);
-  gap: 0.4rem;
+  grid-template-columns: 1.15rem minmax(0, 1fr);
+  gap: 0.35rem 0.4rem;
   width: 100%;
   flex: 0 0 auto;
   align-content: start;
   text-align: left;
-  padding: 0.45rem 0.6rem;
+  padding: 0.42rem 0.55rem;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: var(--panel-bg);
@@ -456,29 +462,39 @@ onUnmounted(() => {
   overflow-wrap: anywhere;
 }
 
-/* 固定一行解析槽：与题干长度无关 */
-.qplay__why {
-  height: 1.3em;
-  margin: 0;
-  font-size: 0.72rem;
+/* 预留三行；超出槽内滚，防抖动 */
+.qplay__note {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0.1rem 0 0;
+  min-width: 0;
+  height: calc(3 * 1.3em);
+  overflow: hidden;
+  font-size: 0.7rem;
   line-height: 1.3;
   color: var(--mist-dim);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   opacity: 0;
+  pointer-events: none;
 }
 
-.qplay__why.is-on {
+.qplay__note.is-on {
   opacity: 1;
+  pointer-events: auto;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
-.qplay__choice.is-ok .qplay__why.is-on {
-  color: color-mix(in srgb, #15803d 80%, var(--mist));
+.qplay__note-line {
+  overflow-wrap: anywhere;
 }
 
-.qplay__choice.is-bad .qplay__why.is-on {
-  color: color-mix(in srgb, #b91c1c 75%, var(--mist));
+.qplay__choice.is-ok .qplay__note.is-on {
+  color: color-mix(in srgb, #15803d 78%, var(--mist));
+}
+
+.qplay__choice.is-bad .qplay__note.is-on {
+  color: color-mix(in srgb, #b91c1c 72%, var(--mist));
 }
 
 /* 底栏固定：始终占位，不随作答插入 */
@@ -521,6 +537,7 @@ onUnmounted(() => {
   color: #dc2626;
 }
 
+/* 底栏回课条始终预留一行，避免作答后脚部上跳 */
 .qplay__related {
   display: flex;
   flex-wrap: nowrap;
@@ -535,6 +552,9 @@ onUnmounted(() => {
 .qplay__related.is-on {
   opacity: 1;
   pointer-events: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 .qplay__related-label {
@@ -546,8 +566,8 @@ onUnmounted(() => {
 }
 
 .qplay__related-chip {
-  flex-shrink: 0;
-  max-width: 8.5rem;
+  flex: 0 1 auto;
+  max-width: min(100%, 14rem);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -611,6 +631,35 @@ onUnmounted(() => {
 @media (prefers-reduced-motion: reduce) {
   .qplay__meter-fill {
     transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .qplay {
+    max-height: min(92dvh, 100%);
+    padding: 0.65rem 0.7rem 0.7rem;
+    gap: 0.4rem;
+  }
+
+  .qplay__q {
+    font-size: 0.92rem;
+  }
+
+  .qplay__choice {
+    padding: 0.38rem 0.5rem;
+  }
+
+  .qplay__choice-text {
+    font-size: 0.84rem;
+  }
+
+  .qplay__keys {
+    display: none;
+  }
+
+  .qplay__btn {
+    height: 2.2rem;
+    padding: 0 0.85rem;
   }
 }
 </style>
