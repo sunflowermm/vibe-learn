@@ -1,6 +1,6 @@
 import { defineQuizSet } from '../schema.js';
 
-/** HTTP 动手与本仓 API 约定（状态码/方法/头见全表） */
+/** HTTP 动手与本仓 API 约定。 */
 export default defineQuizSet({
   id: 'concept-http-hands',
   title: '概念 · HTTP 动手与 API',
@@ -22,12 +22,12 @@ export default defineQuizSet({
         {
           t: '仅指操作系统内核的系统调用，与 Web 无关',
           ok: false,
-          why: '「接口」一词也用于 syscall，但 Web 场景默认指 HTTP 端点。',
+          why: 'Web 场景默认指 HTTP 端点。',
         },
         {
           t: '仅指数据库里的一张表结构',
           ok: false,
-          why: '表是存储模型；API 是对外暴露的访问方式。',
+          why: '表是存储模型；API 是对外访问方式。',
         },
         {
           t: '前端 CSS 类名的命名规范',
@@ -45,10 +45,10 @@ export default defineQuizSet({
         {
           t: '业务字段常拍平到 JSON 顶层，不要默认只读 data',
           ok: true,
-          why: '对象会 Object.assign 到顶层；数组/标量才进 data。用 unwrapSuccess 或读顶层字段。',
+          why: '对象会 Object.assign 到顶层；数组/标量才进 data。',
         },
         {
-          t: '响应体永远只有 { success, message, data } 三层，字段都在 data 里',
+          t: '响应体永远只有 { success, message, data }，字段都在 data 里',
           ok: false,
           why: '普通对象会拍平；默认 return json.data 会丢字段。',
         },
@@ -68,7 +68,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-http-hands:q11',
-      q: '对「可安全重试」的写接口，工程上常强调？',
+      q: '对「可安全重试」的写接口，工程上常强调什么？',
       choices: [
         {
           t: '幂等设计或幂等键：网络抖动重试不应重复下单/扣款',
@@ -78,7 +78,7 @@ export default defineQuizSet({
         {
           t: '重试次数越多业务一定越正确，无需设计',
           ok: false,
-          why: '重复副作用是事故，不是特性。',
+          why: '重复副作用是事故。',
         },
         {
           t: '只有 GET 需要幂等，POST 永不必考虑',
@@ -88,7 +88,7 @@ export default defineQuizSet({
         {
           t: '幂等等于加密',
           ok: false,
-          why: '一个管重复执行副作用，一个管机密性。',
+          why: '一个管重复副作用，一个管机密性。',
         },
       ],
       relatedNodes: ['http-web', 'http-hands-on'],
@@ -96,12 +96,12 @@ export default defineQuizSet({
     },
     {
       id: 'concept-http-hands:q12',
-      q: '流式响应（SSE / chunked）相对「一次性 JSON」，对聊天式 LLM API 的意义？',
+      q: '流式响应（SSE / chunked）对聊天式 LLM API 的意义是？',
       choices: [
         {
           t: '边生成边推送，降低首字延迟，前端可逐步渲染',
           ok: true,
-          why: '仍要鉴权与超时/中断策略；流式不是免检票。',
+          why: '仍要鉴权与超时/中断策略。',
         },
         {
           t: '流式意味着可以不鉴权',
@@ -120,6 +120,62 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['http-web', 'xrk-stream', 'ai-openai-protocol'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-http-hands:curl-vs-browser',
+      q: '同一接口 curl 成功、浏览器前端报 CORS。正确理解是？',
+      choices: [
+        {
+          t: 'CORS 是浏览器同源策略限制；curl 不受约束',
+          ok: true,
+          why: '可用同源反代或正确 CORS 头；别误判成 TCP 坏了。',
+        },
+        {
+          t: '说明链路层丢包，应先换网线',
+          ok: false,
+          why: 'curl 已证明网络与接口可达。',
+        },
+        {
+          t: 'CORS 报错等于服务端进程已崩溃',
+          ok: false,
+          why: '常见是浏览器拦截跨源读响应。',
+        },
+        {
+          t: '把请求改成 UDP 即可绕过 CORS',
+          ok: false,
+          why: 'CORS 与传输层协议无关。',
+        },
+      ],
+      relatedNodes: ['http-web', 'http-hands-on', 'api-frontend'],
+      tags: ['进阶'],
+    },
+    {
+      id: 'concept-http-hands:cache-api-split',
+      q: '静态 JS 被强缓存成旧版，但 API JSON 已是新契约。联调时优先抓什么？',
+      choices: [
+        {
+          t: '静态资源与 API 的缓存策略要分开：版本化静态文件或缩短其缓存',
+          ok: true,
+          why: 'API 与静态 CDN 策略混用会导致「前端旧、后端新」。',
+        },
+        {
+          t: '先把 TCP 改成 UDP',
+          ok: false,
+          why: '与传输选型无关。',
+        },
+        {
+          t: 'CORS 一开，缓存问题自动消失',
+          ok: false,
+          why: 'CORS 与缓存正交。',
+        },
+        {
+          t: '一定是拆包丢了半个 JSON',
+          ok: false,
+          why: '先对版本与缓存，再怀疑传输。',
+        },
+      ],
+      relatedNodes: ['http-web', 'api-frontend', 'net-edge-practice'],
       tags: ['进阶'],
     },
   ],

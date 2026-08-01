@@ -1,7 +1,8 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 计算机网络寻址基础：域名 / IP / 端口 / URL / NAT —— 分清「叫什么、在哪、哪个门」。
+ * 寻址基础：域名 / IP / 端口 / URL / NAT。
+ * 命题：mcq-expert（一题一事；干扰项=排障似真误判）。
  */
 export default defineQuizSet({
   id: 'concept-net-addressing',
@@ -14,12 +15,12 @@ export default defineQuizSet({
   questions: [
     {
       id: 'concept-net-addressing:q1',
-      q: '域名（如 api.example.com）与 IP 地址的正确关系？',
+      q: '域名（如 api.example.com）与 IP 地址的正确关系是？',
       choices: [
         {
           t: '域名是人类可读名字；通常经 DNS 解析成 IP，通信按 IP（再加端口）送达',
           ok: true,
-          why: '名字层与网络层寻址分离：换 IP 可只改 DNS，不必改用户记住的域名。',
+          why: '名字层与网络层寻址分离：换 IP 可只改 DNS。',
         },
         {
           t: '域名就是 IP，只是书写格式不同',
@@ -29,12 +30,12 @@ export default defineQuizSet({
         {
           t: '有了域名就不需要 IP',
           ok: false,
-          why: '解析之后底层仍用 IP 选路；没有 IP 就无处投递。',
+          why: '解析之后底层仍用 IP 选路。',
         },
         {
-          t: '合法 IP 只能写成汉字',
+          t: '合法通信可以完全跳过 IP，只靠域名字符串路由',
           ok: false,
-          why: 'IPv4/IPv6 是数字形式；汉字不是 IP 字面量。',
+          why: '路由器按 IP 选路，不是按域名字符串。',
         },
       ],
       relatedNodes: ['dns-https', 'ip-addressing'],
@@ -42,17 +43,12 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q2',
-      q: '「IP 找主机，端口找进程」这句话在说？',
+      q: '「IP 找主机，端口找进程」这句话强调的是？',
       choices: [
         {
           t: '同一台机器可跑多个服务，用端口号区分监听的应用',
           ok: true,
-          why: '例如 443 给 HTTPS 入口，3000 给本机 Node；五元组里也含端口。',
-        },
-        {
-          t: '端口是指显示器上的 HDMI 接口型号',
-          ok: false,
-          why: '这里说的是传输层逻辑端口，不是物理视频口。',
+          why: '例如 443 给 HTTPS 入口，3000 给本机 Node。',
         },
         {
           t: '一个公网 IP 在协议上只能开一个端口',
@@ -63,6 +59,11 @@ export default defineQuizSet({
           t: '端口可以完全替代 DNS',
           ok: false,
           why: '端口不负责把名字变成地址。',
+        },
+        {
+          t: '端口号等于网卡的物理插槽编号',
+          ok: false,
+          why: '这里是传输层逻辑端口，不是物理接口型号。',
         },
       ],
       relatedNodes: ['tcp-udp', 'ip-addressing'],
@@ -80,7 +81,7 @@ export default defineQuizSet({
         {
           t: '整段一定是 IPv6 地址',
           ok: false,
-          why: '8443 是端口；IPv6 在 URL 里通常用方括号包起来。',
+          why: '8443 是端口；IPv6 在 URL 里通常用方括号。',
         },
         {
           t: '查询串本身（? 后面那一段）',
@@ -90,7 +91,7 @@ export default defineQuizSet({
         {
           t: 'TLS 证书序列号',
           ok: false,
-          why: '证书字段在 TLS 握手里，不会写成 URL 里的 :8443。',
+          why: '证书字段在 TLS 握手里，不会写成 URL 的 :8443。',
         },
       ],
       relatedNodes: ['http-web', 'tcp-udp'],
@@ -118,7 +119,7 @@ export default defineQuizSet({
         {
           t: '等于 DNS 根服务器的固定地址',
           ok: false,
-          why: '根服务器是另一套公网基础设施，不是 192.168/16。',
+          why: '根服务器是另一套公网基础设施。',
         },
       ],
       relatedNodes: ['ip-addressing', 'routing-nat'],
@@ -126,17 +127,17 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q5',
-      q: '127.0.0.1 / localhost 访问的是？',
+      q: '访问 127.0.0.1 / localhost 时，流量去哪？',
       choices: [
         {
           t: '本机回环，不经过物理网卡出网——本地开发常用',
           ok: true,
-          why: '与「局域网邻居的 192.168.x.x」不是一回事；容器/WSL 还要再分命名空间。',
+          why: '外网访问不到你的 127.0.0.1；容器/WSL 还要再分命名空间。',
         },
         {
           t: '一定是公司对外的公网入口 IP',
           ok: false,
-          why: '回环只在本机有效，外网访问不到你的 127.0.0.1。',
+          why: '回环只在本机有效。',
         },
         {
           t: 'DNS 根区的权威地址',
@@ -154,27 +155,27 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q6',
-      q: 'DNS 解析失败时，用户侧常见表现？',
+      q: 'DNS 解析失败时，用户侧更常见的现象是？',
       choices: [
         {
-          t: '浏览器报找不到服务器/DNS_PROBE 等，往往还没建起到业务端口的 TCP',
+          t: '报找不到服务器/DNS_PROBE 等，往往还没建起到业务端口的 TCP',
           ok: true,
           why: '先分清：解析失败 vs 端口不通 vs 应用 4xx/5xx。',
         },
         {
-          t: '一定是数据库事务死锁',
-          ok: false,
-          why: '层次不对：名字都解析不出时还到不了数据库。',
-        },
-        {
-          t: '一定是页面 CSS 语法错误',
-          ok: false,
-          why: 'CSS 错误不会表现为 DNS_PROBE。',
-        },
-        {
-          t: 'DNS 失败时仍能稳定收到业务 JSON 的 HTTP 200',
+          t: '一定先返回业务 JSON 的 HTTP 200',
           ok: false,
           why: '到不了主机就没有可靠的应用层响应。',
+        },
+        {
+          t: '一定是数据库事务死锁',
+          ok: false,
+          why: '名字都解析不出时还到不了数据库。',
+        },
+        {
+          t: '一定是 TLS 证书品牌不被信任',
+          ok: false,
+          why: '证书问题通常发生在已解析并开始 TLS 之后。',
         },
       ],
       relatedNodes: ['dns-https', 'workbench-troubleshoot'],
@@ -182,7 +183,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q7',
-      q: 'CIDR 写法 10.0.0.0/24 的直觉？',
+      q: 'CIDR 写法 10.0.0.0/24 的直觉是？',
       choices: [
         {
           t: '前 24 位是网络前缀，其余为主机位——表示一个网段范围',
@@ -195,14 +196,14 @@ export default defineQuizSet({
           why: '/24 是前缀长度，不是设备台数。',
         },
         {
-          t: 'CIDR 只允许用在电子邮件协议里',
-          ok: false,
-          why: 'CIDR 是通用地址块记法。',
-        },
-        {
           t: '/24 永远表示单个主机且没有网段',
           ok: false,
           why: '单主机常用 /32；/24 是一整段。',
+        },
+        {
+          t: 'CIDR 只允许用在电子邮件协议里',
+          ok: false,
+          why: 'CIDR 是通用地址块记法。',
         },
       ],
       relatedNodes: ['ip-addressing', 'routing-nat'],
@@ -210,12 +211,12 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q8',
-      q: '家庭多设备共用一个公网 IP 上网，主要靠？',
+      q: '家庭多设备共用一个公网 IP 上网，主要靠什么？',
       choices: [
         {
           t: 'NAT（常配合路由器）：改写地址/端口，让多内网主机共享出口',
           ok: true,
-          why: '出站靠 NAT/PAT；若要从外网进内网服务，还要端口转发或反代。',
+          why: '出站靠 NAT/PAT；要从外网进内网服务，还要端口转发或反代。',
         },
         {
           t: '把所有设备改成同一个 MAC 地址',
@@ -238,7 +239,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q9',
-      q: 'MAC 地址相对 IP 地址？',
+      q: 'MAC 地址相对 IP 地址，职责差别是？',
       choices: [
         {
           t: '链路层地址，主要用于同一局域网内帧投递；跨网靠 IP 路由',
@@ -253,7 +254,7 @@ export default defineQuizSet({
         {
           t: 'MAC 等于域名',
           ok: false,
-          why: '域名属应用/名字系统；MAC 属链路层。',
+          why: '域名属名字系统；MAC 属链路层。',
         },
         {
           t: '只有打印机才有 MAC',
@@ -266,7 +267,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q10',
-      q: 'ping 通某 IP，但 https://该IP 打不开，说明？',
+      q: 'ping 通某 IP，但 https://该IP 打不开，说明什么？',
       choices: [
         {
           t: 'ICMP 可达≠业务端口/TLS/HTTP 正常——还要查端口、证书与服务进程',
@@ -279,9 +280,9 @@ export default defineQuizSet({
           why: '经典误解：协议与端口都不同。',
         },
         {
-          t: '一定是域名写错（你访问用的是 IP）',
+          t: '一定是域名写错',
           ok: false,
-          why: '题设已是 IP；问题更可能在端口/TLS/进程。',
+          why: '题设已用 IP 访问；问题更可能在端口/TLS/进程。',
         },
         {
           t: '只能重装操作系统才能修好',
@@ -294,10 +295,10 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q11',
-      q: '主机名 laptop、域名 www.example.com、FQDN 的层次直觉？',
+      q: '主机名 laptop、域名 www.example.com、FQDN 的层次直觉是？',
       choices: [
         {
-          t: '主机名偏本机/内网短名；域名/FQDN 在 DNS 树中可被（全局或组织内）解析',
+          t: '主机名偏本机/内网短名；域名/FQDN 在 DNS 树中可被解析',
           ok: true,
           why: '排障时别把短主机名当成公网可解析的 FQDN。',
         },
@@ -322,7 +323,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-addressing:q12',
-      q: '浏览器地址栏输入域名后，到看到页面，最小链路更接近？',
+      q: '浏览器地址栏输入域名后到看到页面，最小链路更接近？',
       choices: [
         {
           t: 'DNS→IP；TCP（常+TLS）；HTTP 请求/响应；再渲染',
@@ -340,13 +341,41 @@ export default defineQuizSet({
           why: '数据库在应用之后；先要网络通。',
         },
         {
-          t: '浏览器直接读取对方磁盘上的源文件',
+          t: '浏览器直接挂载对方磁盘读源文件',
           ok: false,
           why: '经协议请求资源，不是挂载对方磁盘。',
         },
       ],
       relatedNodes: ['dns-https', 'tcp-udp', 'http-web'],
       tags: ['基础', '进阶'],
+    },
+    {
+      id: 'concept-net-addressing:q13',
+      q: '安全组放行了 ICMP，同事仍打不开你的 HTTPS 站点。更合理的解释是？',
+      choices: [
+        {
+          t: 'ICMP 与 TCP/443 是不同规则；还要单独放行业务端口',
+          ok: true,
+          why: 'ping 通只证明部分可达，不证明 443 与证书链路正常。',
+        },
+        {
+          t: '放行 ICMP 会自动放行全部 TCP 端口',
+          ok: false,
+          why: '云安全组按协议与端口分别匹配。',
+        },
+        {
+          t: '一定是 HTTP 方法必须改成 TRACE',
+          ok: false,
+          why: '连不上时先查端口放行，不是先改方法。',
+        },
+        {
+          t: 'HTTPS 站点从不需要安全组',
+          ok: false,
+          why: '公网暴露面仍靠 ACL 控制。',
+        },
+      ],
+      relatedNodes: ['network-basics', 'routing-nat', 'dns-https'],
+      tags: ['进阶'],
     },
   ],
 });
