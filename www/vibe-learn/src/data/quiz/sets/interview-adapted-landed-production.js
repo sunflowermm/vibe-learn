@@ -19,12 +19,12 @@ export default defineQuizSet({
   questions: [
     {
       id: "adapted:landed-production:q1",
-      q: "延迟、吞吐、单次检索指标都健康，用户却说答案 subtly 过时；大盘全绿。最可能的故障与如何发现？",
+      q: "延迟、吞吐、单次检索指标都健康，用户却说答案 subtly 过时；大盘全绿。最可能的故障模式是？",
       choices: [
-        { t: "静默新鲜度/表示漂移（文档 stale 或 vendor checkpoint 变更）；用固定 probe set 的 top-k overlap 遥测抓", ok: true, why: "recall 可在分布层面 decay 而 per-request 仍绿；只有 freshness/overlap 遥测能暴露。" },
-        { t: "容量问题 — 加副本", ok: false, why: "吞吐健康；加副本不治 stale 或 drifted 表示。" },
-        { t: "重排器配错了", ok: false, why: "重排问题体现在当前文档 precision，不是系统性 outdated 答案。" },
-        { t: "用户感知误差，指标没问题就不用查", ok: false, why: "大盘绿 + 用户抱怨过时是典型 silent drift 信号，应查索引版本与 overlap。" },
+        { t: "静默新鲜度或表示漂移：文档 stale，或供应商静默换 checkpoint", ok: true, why: "单请求指标仍绿时，分布层 recall 可能已 decay；靠固定 probe 的 top-k overlap / 索引版本遥测才能抓。" },
+        { t: "容量不足，需要加副本", ok: false, why: "吞吐已健康；加副本治不了 stale 文档或漂移的表示。" },
+        { t: "重排器配错导致整库过时", ok: false, why: "重排失误体现为当前文档 precision 差，不是系统性「答案过时」。" },
+        { t: "用户感知误差，大盘绿就不必查", ok: false, why: "大盘绿 + 过时抱怨是典型 silent drift 信号，应查索引版本与 overlap。" },
       ],
       relatedNodes: ["ai-rerank","craft-observability"],
       origin: 'adapted',
@@ -33,12 +33,12 @@ export default defineQuizSet({
     },
     {
       id: "adapted:landed-production:q2",
-      q: "数学/多步功能慢且贵。同事 A：2000 token 入、限 100 token 出；同事 B：1000 入、1000 出。哪个更便宜/更快？为何？",
+      q: "数学/多步功能慢且贵。方案 A：2000 token 入、限 100 token 出；方案 B：1000 入、1000 出。通常哪个更便宜且更快？",
       choices: [
-        { t: "2000 入 / 100 出 — 输出 token 单价约 4× 输入且主导总延迟，短输出胜过长 prompt", ok: true, why: "输出是贵且 sequential 的部分；长 prompt 还可能被 cache。" },
-        { t: "B 更便宜 — prompt 越短越省", ok: false, why: "不是 prompt 长度主导；输出 token 更贵（~4×）且占延迟大头。" },
-        { t: "一样 — 只看总 token", ok: false, why: "入/出定价不同（出 ~3–5× 入），split 很重要。" },
-        { t: "A 更慢 — 2000 token prefill 一定比 1000 慢一倍", ok: false, why: "prefill 可 cache；1000 token 输出的生成时间常远超多 1000 token prefill。" },
+        { t: "方案 A（短输出）— 输出单价约 4× 输入且主导墙钟时间", ok: true, why: "解码按 token 串行计费计时；长 prompt 还可能命中 prefix cache，短输出往往更省。" },
+        { t: "方案 B — prompt 越短一定更省", ok: false, why: "主导成本与延迟的是输出 token，不是「入更短就赢」。" },
+        { t: "一样 — 只看入+出总 token 数", ok: false, why: "入/出单价不同（出常约 3–5× 入），split 决定账单。" },
+        { t: "方案 A 更慢 — 2000 prefill 必比 1000 慢一倍", ok: false, why: "prefill 可并行/缓存；1000 token 解码常远超多出来的 1000 prefill。" },
       ],
       relatedNodes: ["ai-token-context"],
       origin: 'adapted',
@@ -47,12 +47,12 @@ export default defineQuizSet({
     },
     {
       id: "adapted:landed-production:q3",
-      q: "用户反馈「这周明显变差」，你们没发版。最可能原因与防护？",
+      q: "用户反馈「这周明显变差」，你们没发版。最可能原因是？",
       choices: [
-        { t: "提供商静默更新模型（或索引变 stale）；锁定模型版本 + 评测门禁 + 新鲜度遥测", ok: true, why: "锁定版本 + 金标集评测 + 前 k 重叠监控，能在用户之前抓住静默回退。" },
-        { t: "大模型随机性 — 没办法", ok: false, why: "无发版却持续质量跌，是提供商改模型或索引过期的经典签名。" },
-        { t: "上下文窗口悄悄缩小了", ok: false, why: "上下文上限不会静默缩小；未公告的模型更新才是常见 culprit。" },
-        { t: "用户问法变了，与系统无关", ok: false, why: "应先排除模型版本漂移与索引新鲜度；查询分布变化需链路证据。" },
+        { t: "提供商静默更新了模型，或索引/语料变 stale", ok: true, why: "无发版却整周质量跌，是上游 checkpoint 或索引新鲜度漂移的经典签名；应用版本锁定 + 金标门禁抓。" },
+        { t: "大模型固有随机性，无法归因", ok: false, why: "随机性会造成单次波动，不会解释「整周明显变差」的持续回退。" },
+        { t: "上下文窗口悄悄缩小了", ok: false, why: "上下文上限不会静默缩小；未公告的模型更新才更常见。" },
+        { t: "用户问法变了，与系统无关", ok: false, why: "应先排除模型版本与索引新鲜度；查询分布变化要有链路证据才能下结论。" },
       ],
       relatedNodes: ["ai-rag-eval","ai-token-context"],
       origin: 'adapted',
@@ -61,9 +61,9 @@ export default defineQuizSet({
     },
     {
       id: "adapted:landed-production:q4",
-      q: "语义缓存把细微不同的问题答成了同一个错误答案。怎么修？",
+      q: "语义缓存把细微不同的问题答成了同一个错误答案。最该先改哪一环？",
       choices: [
-        { t: "提高相似度阈值 + 索引更新时主动失效 — 绝不跨租户缓存", ok: true, why: "阈值太松会返回过期/错误答案；应收紧、更新时失效、严守租户隔离边界。" },
+        { t: "提高相似度阈值，并在索引更新时主动失效；严禁跨租户命中", ok: true, why: "阈值太松会串错答；应收紧、更新时失效、严守租户隔离。" },
         { t: "完全关掉缓存", ok: false, why: "丢掉真实成本/延迟收益；问题是阈值校准，不是缓存本身。" },
         { t: "只缓存完全相同的字符串", ok: false, why: "命中率近零；语义缓存价值在近重复长尾 — 应调阈值而非放弃语义匹配。" },
         { t: "把缓存有效期从 1 小时延到 24 小时提高命中率", ok: false, why: "更长有效期会放大过期/错答风险，与题意相反。" },

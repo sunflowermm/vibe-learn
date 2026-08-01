@@ -215,9 +215,9 @@ export default defineQuizSet({
     },
     {
       id: "adapted:naresh-agent:q15",
-      q: "Agent 记忆类型与典型用途？",
+      q: "Agent 长期记忆相对会话内短期状态，关键差别是？",
       choices: [
-        { t: "上下文/感官：当前窗内即时信息；短期：会话状态；长期：向量库等持久存储供检索", ok: true, why: "类比人类记忆分层；RAG/向量库常充当长期记忆读接口。" },
+        { t: "长期跨会话持久并可检索；短期主要是当前窗内会话与中间观察", ok: true, why: "TTL 与后端不同：长期常用向量/文档库，短期可随会话清理。" },
         { t: "Agent 不需要任何记忆，每轮完全独立", ok: false, why: "无记忆则无法多轮协作与个性化，也难完成长任务。" },
         { t: "长期记忆只能写在 system prompt 里，不能用外部库", ok: false, why: "超长历史放 prompt 会爆窗；向量库是常见长期记忆实现。" },
         { t: "短期记忆等于模型权重里的预训练知识", ok: false, why: "预训练知识是 parametric memory，不等于运行时短期会话状态。" },
@@ -243,9 +243,9 @@ export default defineQuizSet({
     },
     {
       id: "adapted:naresh-agent:q17",
-      q: "短期记忆与长期记忆，常见实现方式？",
+      q: "要把跨会话用户事实留下来供日后召回，常见实现是？",
       choices: [
-        { t: "短期：上下文窗内的对话与中间观察；长期：向量库/文档库/结构化存储 + 检索工具", ok: true, why: "短期零检索延迟；长期突破 context 上限，按需召回。" },
+        { t: "向量库/文档库/结构化存储 + 检索工具（长期记忆），而非只堆在当前窗", ok: true, why: "短期靠窗内消息即可；跨会话事实要持久化并按需召回。" },
         { t: "短期用 GPU 显存存权重，长期用 CPU 缓存", ok: false, why: "混淆模型参数与 Agent 运行时记忆。" },
         { t: "两者都只能用 Redis 字符串键", ok: false, why: "实现多样：窗内消息、摘要、向量库、SQL 等均可。" },
         { t: "长期记忆必须全量塞进每次 prompt", ok: false, why: "全量塞入不可扩展；长期记忆靠检索按需加载。" },
@@ -429,7 +429,7 @@ export default defineQuizSet({
       choices: [
         { t: "一切皆 Agent，通过对话/Message 协作完成任务，强调可编程多 Agent 会话", ok: true, why: "与 LangGraph 的图状态机风格不同，偏 conversational multi-agent。" },
         { t: "单线程 CSV 批处理工具，不涉及 LLM", ok: false, why: "AutoGen 是 Microsoft 的多 Agent LLM 框架。" },
-        { t: "禁止 Agent 之间发送消息", ok: false, why: "对话协作正是其核心。" },
+        { t: "禁止 Agent 之间发送消息", ok: false, why: "AutoGen 以 Agent 间 Message/对话协作为核心，禁止通信就否定了框架。" },
         { t: "只支持闭源 Azure，不能本地跑", ok: false, why: "开源框架，可接多种 model endpoint。" },
       ],
       relatedNodes: ["ai-agent-birth","ai-agent-graph"],

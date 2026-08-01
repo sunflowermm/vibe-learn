@@ -61,12 +61,12 @@ export default defineQuizSet({
     },
     {
       id: "adapted:landed-embeddings:q4",
-      q: "必须服务 8 亿向量但 RAM 紧张。哪种索引更合适 — 代价是什么？",
+      q: "必须服务约 8 亿向量且 RAM 紧张时，更合适的索引形态是？",
       choices: [
-        { t: "IVFPQ — 内存约减 20×，再对短名单用重排器补质量", ok: true, why: "IVFPQ 用 recall 换巨大内存节省（10 亿级约 70 GB vs ~1.4 TB）；配合重排可恢复 top-k 质量。" },
-        { t: "HNSW — recall 最好，接受 RAM 账单", ok: false, why: "10 亿向量 HNSW 约 1.4 TB 可能根本装不下；「最好 recall」在买不起 hosting 时无意义。" },
-        { t: "无所谓 — 所有 ANN 索引内存差不多", ok: false, why: "十亿规模可差 ~20×；索引选择是采购决策。" },
-        { t: "按租户拆成多个小 HNSW，每个租户单独索引", ok: false, why: "8 亿向量总量不变，RAM 线性求和仍可能爆；需压缩型索引而非单纯拆分。" },
+        { t: "IVFPQ（量化压缩）— 以部分 recall 换数量级内存下降，再对短名单重排补质量", ok: true, why: "十亿级 HNSW 常要 TB 级 RAM；IVFPQ 可降到约几十分之一，再用 rerank 捞回 top-k。" },
+        { t: "坚持全量 HNSW，接受可能 TB 级内存账单", ok: false, why: "8 亿×高维 HNSW 往往装不进预算；「最高 recall」在买不起时无意义。" },
+        { t: "无所谓 — 所有 ANN 索引内存差不多", ok: false, why: "十亿规模下不同索引可差约 20×；选型是采购级决策。" },
+        { t: "按租户拆多个小 HNSW，总量内存就会自动够用", ok: false, why: "向量总量不变，RAM 近似线性相加；需要的是压缩型索引，不是单纯拆分。" },
       ],
       relatedNodes: ["ai-rerank","ai-vector-store"],
       origin: 'adapted',

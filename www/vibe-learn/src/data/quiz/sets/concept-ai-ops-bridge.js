@@ -1,8 +1,8 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * AI 章工程桥：对话产品化、模型类型、调 API 的 HTTP/.env、MCP 挂载、提示安全、分层排障。
- * 不写 RAG 分块/混合/评测、Rules/Skills、子代理、记忆——那些在 concept-ai-rag / agent-stack。
+ * AI 工程桥：对话产品化、模型类型、HTTP/.env、MCP 挂载、提示安全、排障。
+ * 命题：mcq-expert。
  */
 export default defineQuizSet({
   id: 'concept-ai-ops-bridge',
@@ -54,7 +54,7 @@ export default defineQuizSet({
         {
           t: '检索空间与生成能力错配：嵌入要向量近邻，聊天要生成；接口与计费也常分开',
           ok: true,
-          why: '按任务切开：生成 vs embedding，混用会建错索引或答非所问。',
+          why: '按任务切开：生成 vs embedding。',
         },
         {
           t: '完全无影响，因为名字都叫模型',
@@ -77,12 +77,12 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-ops-bridge:q3',
-      q: 'Chat Completions 里常见的 temperature，产品侧直觉？',
+      q: 'Chat Completions 里 temperature 的产品侧直觉是？',
       choices: [
         {
           t: '采样随机性旋钮：偏高更发散，偏低更稳；不替代检索证据或权限边界',
           ok: true,
-          why: '调采样解决「风格/探索」；事实性靠证据与约束，不是把温度拧到 0 就万能。',
+          why: '调采样解决风格/探索；事实性靠证据与约束。',
         },
         {
           t: 'temperature=0 可保证零幻觉且永不需要 RAG',
@@ -97,7 +97,7 @@ export default defineQuizSet({
         {
           t: '只有嵌入模型才有 temperature',
           ok: false,
-          why: '常见于生成/聊天接口；嵌入接口通常不谈采样温度。',
+          why: '常见于生成/聊天接口。',
         },
       ],
       relatedNodes: ['ai-openai-protocol', 'ai-chat-era'],
@@ -110,12 +110,12 @@ export default defineQuizSet({
         {
           t: '按块推送 token，首字更快、要处理半包与取消；失败也可能已吐出半截',
           ok: true,
-          why: '体验与排障：要看 SSE/chunk 边界，不能只等最终 body。',
+          why: '要看 SSE/chunk 边界，不能只等最终 body。',
         },
         {
           t: '流式会自动加密 API Key，明文 HTTP 也安全',
           ok: false,
-          why: '传输安全靠 TLS，与是否流式无关。',
+          why: '传输安全靠 TLS。',
         },
         {
           t: '流式禁止使用 system 角色',
@@ -133,12 +133,12 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-ops-bridge:q5',
-      q: 'HTTP 在网络里大致处于哪一层？和调 LLM API 有何关系？',
+      q: '调云端 LLM API 时，HTTP 在协议栈上的位置直觉是？',
       choices: [
         {
-          t: '应用层协议，常跑在 TCP 之上；云端 Chat/Completions、许多 MCP 远程出口都是 HTTP 请求-响应',
+          t: '应用层协议，常跑在 TCP（TLS）之上，承载 Chat/Completions 等 JSON 请求',
           ok: true,
-          why: '分层：IP 寻址 → TCP 可靠传输 → HTTP 交换资源；调模型 API 正是 HTTPS 上的应用请求。',
+          why: 'IP 寻址 → TCP → HTTPS 交换资源。',
         },
         {
           t: 'HTTP 就是网线的物理规格',
@@ -148,7 +148,7 @@ export default defineQuizSet({
         {
           t: 'HTTP 只能传 HTML，不能传 JSON',
           ok: false,
-          why: 'HTTP 传任意字节；API 常用 JSON。',
+          why: 'API 常用 JSON。',
         },
         {
           t: '有了 HTTP 就不需要 DNS',
@@ -160,28 +160,56 @@ export default defineQuizSet({
       tags: ['HTTP'],
     },
     {
-      id: 'concept-ai-ops-bridge:q6',
-      q: '调模型 API 时收到 401 与 429，分别优先怀疑什么？',
+      id: 'concept-ai-ops-bridge:q6a',
+      q: '调模型 API 收到 401 Unauthorized，优先怀疑什么？',
       choices: [
         {
-          t: '401：密钥/鉴权失败；429：限流或配额——应查凭证与重试/退避，而不是先怪提示词',
+          t: '密钥缺失、过期或鉴权头写错',
           ok: true,
-          why: '4xx 多在客户端配置与配额；提示词再精也修不好坏 Key。',
+          why: '先查凭证与 Authorization，而不是先改提示词。',
         },
         {
-          t: '两者都说明模型参数量不够',
+          t: '模型参数量不够',
           ok: false,
           why: '与参数量无关。',
         },
         {
-          t: '401 表示服务器硬盘满了',
+          t: '限流/配额耗尽',
           ok: false,
-          why: '那更像 5xx/存储类故障。',
+          why: '那更常是 429。',
         },
         {
-          t: '429 表示 DNS 解析失败',
+          t: 'DNS 解析失败',
           ok: false,
-          why: 'DNS 问题通常连不上或名称错误，不是 429。',
+          why: 'DNS 问题通常连不上，不是 401。',
+        },
+      ],
+      relatedNodes: ['http-web', 'ai-openai-protocol', 'data-env'],
+      tags: ['HTTP状态码'],
+    },
+    {
+      id: 'concept-ai-ops-bridge:q6b',
+      q: '调模型 API 收到 429 Too Many Requests，优先做什么？',
+      choices: [
+        {
+          t: '按配额与 Retry-After 退避重试，降低并发',
+          ok: true,
+          why: '限流信号；硬刚会更糟。',
+        },
+        {
+          t: '立刻把 temperature 调到 2.0',
+          ok: false,
+          why: '采样不解决配额。',
+        },
+        {
+          t: '把密钥写进 URL 查询串绕过限流',
+          ok: false,
+          why: '危险且通常无效。',
+        },
+        {
+          t: '视为创建成功（等同 201）',
+          ok: false,
+          why: '429 是限流。',
         },
       ],
       relatedNodes: ['http-web', 'ai-openai-protocol', 'craft-observability'],
@@ -194,22 +222,22 @@ export default defineQuizSet({
         {
           t: 'TLS 加密与身份校验，降低窃听/篡改密钥与对话内容的风险',
           ok: true,
-          why: '明文 HTTP 不安全；API Key 场景更必须 HTTPS。',
+          why: 'API Key 场景更必须 HTTPS。',
         },
         {
           t: 'HTTPS 能让模型更聪明',
           ok: false,
-          why: '只改传输安全，不改模型能力。',
+          why: '只改传输安全。',
         },
         {
           t: 'HTTPS 禁止使用 JSON',
           ok: false,
-          why: 'TLS 只管传输通道，不限制 body 格式。',
+          why: 'TLS 不限制 body 格式。',
         },
         {
-          t: '内网调试也永远禁止明文 HTTP',
+          t: '内网调试也永远禁止任何明文 HTTP',
           ok: false,
-          why: '本机/受控环境可有例外，但公网云 API 默认 HTTPS。',
+          why: '本机/受控环境可有例外；公网云 API 默认 HTTPS。',
         },
       ],
       relatedNodes: ['dns-https', 'http-web', 'craft-security'],
@@ -220,7 +248,7 @@ export default defineQuizSet({
       q: '.env 与「可提交的配置模板」应如何分工？',
       choices: [
         {
-          t: '.env 放本机密钥与机器差且勿提交；.env.example / 文档只列键名与假值',
+          t: '.env 放本机密钥与机器差且勿提交；.env.example 只列键名与假值',
           ok: true,
           why: '密钥进仓库是事故；模板帮助同事知道要设哪些键。',
         },
@@ -232,7 +260,7 @@ export default defineQuizSet({
         {
           t: '所有业务逻辑都必须只靠 .env，禁止 yaml',
           ok: false,
-          why: '本仓还有配置归属与三同步；.env 偏密钥与环境差。',
+          why: '本仓还有配置归属与三同步。',
         },
         {
           t: '环境变量不能被 Node 读取',
@@ -250,7 +278,7 @@ export default defineQuizSet({
         {
           t: '概念课讲协议与工具发现；挂载课讲主服如何注册、鉴权、看日志确认已挂上',
           ok: true,
-          why: '同一词两层：懂协议 ≠ 会在本仓运维出口。',
+          why: '懂协议 ≠ 会在本仓运维出口。',
         },
         {
           t: '挂载课会重写 Transformer 公式',
@@ -273,25 +301,25 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-ops-bridge:q10',
-      q: '提示安全里，「间接注入」与「用户输入框注入」差别？',
+      q: '提示安全里，「间接注入」指什么？',
       choices: [
         {
-          t: '间接注入载荷藏在日后被检索到的文档/网页里；用户可能从未输入恶意字',
+          t: '恶意指令藏在日后被检索到的文档/网页里，用户可能从未亲手输入',
           ok: true,
           why: '检索正文必须当不可信数据。',
         },
         {
-          t: '间接注入只会发生在 UDP',
+          t: '只会发生在 UDP 传输上',
           ok: false,
-          why: '与传输层协议无关，是内容信任边界问题。',
+          why: '是内容信任边界问题。',
         },
         {
           t: '只要用了向量库就不会注入',
           ok: false,
-          why: '向量库正是间接注入的常见入口之一。',
+          why: '向量库正是间接注入常见入口之一。',
         },
         {
-          t: '间接注入可用更大 temperature 消除',
+          t: '可用更大 temperature 消除',
           ok: false,
           why: '采样温度不是信任边界。',
         },
@@ -300,11 +328,39 @@ export default defineQuizSet({
       tags: ['提示安全'],
     },
     {
-      id: 'concept-ai-ops-bridge:q11',
-      q: '工作台「分层排障」对调不通的 LLM 请求，较合理的第一刀？',
+      id: 'concept-ai-ops-bridge:q10b',
+      q: '用户在输入框里粘贴「忽略以上规则」类指令，属于哪类风险？',
       choices: [
         {
-          t: '先分清：DNS/TLS/代理 → HTTP 状态 → 密钥与配额 → 请求体/模型名 → 业务提示，不要一上来重装系统',
+          t: '直接提示注入：不可信用户正文试图覆盖系统规则',
+          ok: true,
+          why: '要把用户内容与系统规则隔离，并限制工具副作用。',
+        },
+        {
+          t: '间接注入：只存在于向量库文档',
+          ok: false,
+          why: '本题是用户框直接输入。',
+        },
+        {
+          t: '纯传输层问题，改 HTTPS 即可',
+          ok: false,
+          why: '内容信任边界，不是 TLS。',
+        },
+        {
+          t: '说明 temperature 太低',
+          ok: false,
+          why: '与采样无关。',
+        },
+      ],
+      relatedNodes: ['ai-prompt-security', 'ai-rules'],
+      tags: ['提示安全'],
+    },
+    {
+      id: 'concept-ai-ops-bridge:q11',
+      q: '调不通的 LLM 请求，较合理的第一刀是？',
+      choices: [
+        {
+          t: '先分清：DNS/TLS/代理 → HTTP 状态 → 密钥与配额 → 请求体/模型名 → 业务提示',
           ok: true,
           why: '自外向内分层：连不上就别先改 temperature。',
         },
@@ -326,6 +382,34 @@ export default defineQuizSet({
       ],
       relatedNodes: ['workbench-troubleshoot', 'http-web', 'data-env'],
       tags: ['排障'],
+    },
+    {
+      id: 'concept-ai-ops-bridge:q12',
+      q: 'Coding Agent / CLI 调外网模型 API 失败，但浏览器能开网页。更靠谱的处理是？',
+      choices: [
+        {
+          t: '为进程显式设 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY（及 NO_PROXY）',
+          ok: true,
+          why: '许多 CLI 不读系统代理。',
+        },
+        {
+          t: '只要开了系统代理，所有进程必然走代理',
+          ok: false,
+          why: 'CLI/Agent 常要环境变量。',
+        },
+        {
+          t: '把代理端口写进业务仓库当默认密钥',
+          ok: false,
+          why: '环境相关且易泄密。',
+        },
+        {
+          t: '关掉本机防火墙就等于配好了代理',
+          ok: false,
+          why: '防火墙≠出站代理策略。',
+        },
+      ],
+      relatedNodes: ['clash', 'data-env', 'ai-cli'],
+      tags: ['代理'],
     },
   ],
 });
