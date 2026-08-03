@@ -1,0 +1,202 @@
+{
+  "concept-http-method": [
+    "concept-http-method:get",
+    "concept-http-method:post",
+    "concept-http-method:put",
+    "concept-http-method:patch",
+    "concept-http-method:delete",
+    "concept-http-method:head",
+    "concept-http-method:options"
+  ],
+  "concept-git-cmd": [
+    "concept-git-cmd:clone",
+    "concept-git-cmd:clone_depth",
+    "concept-git-cmd:remote_v",
+    "concept-git-cmd:status",
+    "concept-git-cmd:diff",
+    "concept-git-cmd:add",
+    "concept-git-cmd:commit",
+    "concept-git-cmd:switch_c",
+    "concept-git-cmd:branch",
+    "concept-git-cmd:push",
+    "concept-git-cmd:pull",
+    "concept-git-cmd:fetch",
+    "concept-git-cmd:log",
+    "concept-git-cmd:stash",
+    "concept-git-cmd:restore",
+    "concept-git-cmd:gitignore"
+  ],
+  "concept-docker-cmd": [
+    "concept-docker-cmd:pull",
+    "concept-docker-cmd:run",
+    "concept-docker-cmd:ps",
+    "concept-docker-cmd:logs",
+    "concept-docker-cmd:stop",
+    "concept-docker-cmd:rm",
+    "concept-docker-cmd:images",
+    "concept-docker-cmd:build",
+    "concept-docker-cmd:exec",
+    "concept-docker-cmd:compose_up",
+    "concept-docker-cmd:compose_down",
+    "concept-docker-cmd:df_from"
+  ],
+  "concept-sql-kw": [
+    "concept-sql-kw:select",
+    "concept-sql-kw:insert",
+    "concept-sql-kw:update",
+    "concept-sql-kw:delete",
+    "concept-sql-kw:where",
+    "concept-sql-kw:join",
+    "concept-sql-kw:order_by",
+    "concept-sql-kw:limit",
+    "concept-sql-kw:create_table",
+    "concept-sql-kw:pk",
+    "concept-sql-kw:begin",
+    "concept-sql-kw:commit",
+    "concept-sql-kw:rollback"
+  ],
+  "concept-shell-op": [
+    "concept-shell-op:pipe",
+    "concept-shell-op:redir_out",
+    "concept-shell-op:redir_append",
+    "concept-shell-op:redir_err",
+    "concept-shell-op:set_e",
+    "concept-shell-op:set_u",
+    "concept-shell-op:pipefail",
+    "concept-shell-op:status",
+    "concept-shell-op:shebang"
+  ],
+  "concept-pnpm-cmd": [
+    "concept-pnpm-cmd:corepack",
+    "concept-pnpm-cmd:install",
+    "concept-pnpm-cmd:run",
+    "concept-pnpm-cmd:frozen",
+    "concept-pnpm-cmd:lock",
+    "concept-pnpm-cmd:npx"
+  ],
+  "concept-well-known-ports": [
+    "concept-well-known-ports:80",
+    "concept-well-known-ports:443",
+    "concept-well-known-ports:22",
+    "concept-well-known-ports:53",
+    "concept-well-known-ports:3306",
+    "concept-well-known-ports:5432",
+    "concept-well-known-ports:6379",
+    "concept-well-known-ports:27017"
+  ],
+  "concept-cookie-flag": [
+    "concept-cookie-flag:cookie",
+    "concept-cookie-flag:session",
+    "concept-cookie-flag:httponly",
+    "concept-cookie-flag:secure",
+    "concept-cookie-flag:samesite",
+    "concept-cookie-flag:domain_path"
+  ],
+  "concept-cors-kw": [
+    "concept-cors-kw:same_origin",
+    "concept-cors-kw:origin",
+    "concept-cors-kw:preflight",
+    "concept-cors-kw:acao"
+  ],
+  "concept-cache-hdr": [
+    "concept-cache-hdr:cache_control",
+    "concept-cache-hdr:expires",
+    "concept-cache-hdr:etag",
+    "concept-cache-hdr:last_modified",
+    "concept-cache-hdr:strong_vs_revalidate"
+  ],
+  "concept-env-kw": [
+    "concept-env-kw:env_var",
+    "concept-env-kw:path",
+    "concept-env-kw:export",
+    "concept-env-kw:dotenv",
+    "concept-env-kw:dotenv_example",
+    "concept-env-kw:http_proxy",
+    "concept-env-kw:no_proxy",
+    "concept-env-kw:process_env"
+  ],
+  "concept-nginx-dir": [
+    "concept-nginx-dir:server",
+    "concept-nginx-dir:location",
+    "concept-nginx-dir:proxy_pass",
+    "concept-nginx-dir:listen",
+    "concept-nginx-dir:upstream",
+    "concept-nginx-dir:nginx_t",
+    "concept-nginx-dir:reload",
+    "concept-nginx-dir:root_static"
+  ],
+  "concept-compose-kw": [
+    "concept-compose-kw:services",
+    "concept-compose-kw:image",
+    "concept-compose-kw:build",
+    "concept-compose-kw:ports",
+    "concept-compose-kw:volumes",
+    "concept-compose-kw:depends_on"
+  ],
+  "concept-dsa-linear-kw": [
+    "concept-dsa-linear-kw:array",
+    "concept-dsa-linear-kw:linked_list",
+    "concept-dsa-linear-kw:stack",
+    "concept-dsa-linear-kw:queue",
+    "concept-dsa-linear-kw:deque",
+    "concept-dsa-linear-kw:dummy"
+  ],
+  "concept-sec-kw": [
+    "concept-sec-kw:sqli",
+    "concept-sec-kw:xss",
+    "concept-sec-kw:cmdi",
+    "concept-sec-kw:secret_leak",
+    "concept-sec-kw:authz"
+  ],
+  "concept-dsa-big-o": [
+    "concept-dsa-big-o:o1",
+    "concept-dsa-big-o:olog",
+    "concept-dsa-big-o:on",
+    "concept-dsa-big-o:onlog",
+    "concept-dsa-big-o:on2",
+    "concept-dsa-big-o:oexp",
+    "concept-dsa-big-o:space",
+    "concept-dsa-big-o:avg_worst"
+  ],
+  "concept-dsa-hash-kw": [
+    "concept-dsa-hash-kw:table",
+    "concept-dsa-hash-kw:collision",
+    "concept-dsa-hash-kw:load",
+    "concept-dsa-hash-kw:map",
+    "concept-dsa-hash-kw:set",
+    "concept-dsa-hash-kw:object"
+  ],
+  "concept-dsa-tree-kw": [
+    "concept-dsa-tree-kw:preorder",
+    "concept-dsa-tree-kw:inorder",
+    "concept-dsa-tree-kw:postorder",
+    "concept-dsa-tree-kw:level",
+    "concept-dsa-tree-kw:bst",
+    "concept-dsa-tree-kw:heap",
+    "concept-dsa-tree-kw:topk"
+  ],
+  "concept-dsa-sort-kw": [
+    "concept-dsa-sort-kw:quick",
+    "concept-dsa-sort-kw:merge",
+    "concept-dsa-sort-kw:heap_sort",
+    "concept-dsa-sort-kw:stable",
+    "concept-dsa-sort-kw:binary"
+  ],
+  "concept-dsa-graph-kw": [
+    "concept-dsa-graph-kw:adj_list",
+    "concept-dsa-graph-kw:adj_mat",
+    "concept-dsa-graph-kw:bfs",
+    "concept-dsa-graph-kw:dfs",
+    "concept-dsa-graph-kw:topo"
+  ],
+  "concept-http-hdr": [
+    "concept-http-hdr:host",
+    "concept-http-hdr:content_type",
+    "concept-http-hdr:authorization",
+    "concept-http-hdr:accept",
+    "concept-http-hdr:user_agent",
+    "concept-http-hdr:cookie_req",
+    "concept-http-hdr:set_cookie",
+    "concept-http-hdr:origin_hdr"
+  ]
+}
