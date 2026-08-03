@@ -1768,17 +1768,17 @@ export const GLOSSARY = {
   },
   cli_kill: {
     term: "kill",
-    brief: "kill：向进程发信号；默认 SIGTERM，kill -9 为 SIGKILL（最后手段）。先确认 PID。",
+    brief: "kill：向进程发信号；默认 SIGTERM，-9 为 SIGKILL（最后手段）。先确认 PID。",
     also: ['linux-cli', 'terminal-worlds'],
   },
   cli_chmod: {
     term: "chmod",
-    brief: "chmod：改文件权限位；chmod +x 加执行权限，或数字如 755。安全基线：密钥文件勿 777。",
+    brief: "chmod：改文件权限位；+x 加执行权限，或数字如 755。安全基线：密钥文件勿 777。",
     also: ['linux-cli', 'terminal-worlds'],
   },
   cli_chown: {
     term: "chown",
-    brief: "chown：改文件所有者与属组；部署后修正 www 用户权限常见。勿随意 chown -R /。",
+    brief: "chown：改文件所有者与属组；部署后修正 www 用户权限常见。勿对根目录随意递归改属主。",
     also: ['linux-cli', 'terminal-worlds'],
   },
   cli_sudo: {
