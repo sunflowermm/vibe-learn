@@ -29,13 +29,14 @@ mkdirSync(STAGE, { recursive: true });
 cpSync(DIST, STAGE, { recursive: true });
 writeFileSync(join(STAGE, '.nojekyll'), '');
 
-const env = {
-  ...process.env,
-  HTTP_PROXY: process.env.HTTP_PROXY || 'http://127.0.0.1:7890',
-  HTTPS_PROXY: process.env.HTTPS_PROXY || 'http://127.0.0.1:7890',
-  ALL_PROXY: process.env.ALL_PROXY || 'http://127.0.0.1:7890',
-  NO_PROXY: process.env.NO_PROXY || '127.0.0.1,localhost,::1',
-};
+const env = { ...process.env };
+// 仅在显式开启或已配置代理时注入；默认直连，避免本机 7890 未开就失败
+if (process.env.VIBE_LEARN_USE_PROXY === '1' || process.env.HTTP_PROXY || process.env.HTTPS_PROXY) {
+  env.HTTP_PROXY = process.env.HTTP_PROXY || 'http://127.0.0.1:7890';
+  env.HTTPS_PROXY = process.env.HTTPS_PROXY || env.HTTP_PROXY;
+  env.ALL_PROXY = process.env.ALL_PROXY || env.HTTP_PROXY;
+  env.NO_PROXY = process.env.NO_PROXY || '127.0.0.1,localhost,::1';
+}
 
 try {
   sh('gh', ['repo', 'view', REPO], { env, stdio: 'pipe' });
@@ -72,12 +73,10 @@ sh('git', ['add', '-A'], { cwd: STAGE, env });
 sh('git', ['commit', '-m', 'deploy: vibe-learn static'], { cwd: STAGE, env });
 sh(
   'git',
-  ['remote', 'add', 'origin', `https://github.com/${REPO}.git`],
+  ['remote', 'add', 'origin', `git@github.com:${REPO}.git`],
   { cwd: STAGE, env }
 );
 
-// HTTPS push：走 gh 凭据
-sh('gh', ['auth', 'setup-git'], { env, stdio: 'pipe' });
 sh('git', ['push', '-f', 'origin', `HEAD:${BRANCH}`], { cwd: STAGE, env });
 
 let pagesOk = false;
