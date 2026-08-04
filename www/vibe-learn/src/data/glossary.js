@@ -1081,8 +1081,38 @@ export const GLOSSARY = {
   },
   tool_calling: {
     term: 'Tool Calling',
-    brief: 'Tool Calling（工具调用）：Function Calling 的泛化术语，使用 tools / tool_calls 字段；模型生成调用意图，宿主应用负责执行与回传结果。',
-    also: ['ai-tool-calling', 'ai-mcp', 'xrk-stream'],
+    brief: 'Tool Calling（工具调用）：Function Calling 的泛化术语，使用 tools / tool_calls 字段；模型生成调用意图，宿主应用负责执行与回传结果。本仓另有工具轮用尽后的 finalize（无工具再请求一轮写正文）。',
+    also: ['ai-tool-calling', 'ai-mcp', 'xrk-stream', 'xrk-factory-llm'],
+  },
+  tool_pair: {
+    term: 'toolPair（工具对投影）',
+    brief: 'toolPair：出站准备时把过旧 role=tool 结果投影压缩以省上下文窗口；不改磁盘上的持久聊天笔录。配置 ai-workflow.context.toolPair；实现 tool-pair-compact.js。',
+    also: ['ai-token-context', 'xrk-chat-pipeline'],
+  },
+  context_compaction: {
+    term: '上下文 compaction',
+    brief: 'Context compaction（上下文压缩）：超预算时用辅/主模型摘要历史块，可选 backup 与 session sidecar；配置 ai-workflow.context.compaction 与 llm.aux。出站链在 toolPair 之后、contextWindow 裁剪之前。',
+    also: ['ai-token-context', 'xrk-chat-pipeline', 'xrk-factory-llm'],
+  },
+  runtime_policies: {
+    term: 'policies[]（运行时策略）',
+    brief: 'policies[]：ai-workflow 运行时策略表，动作含 provider.use / tool.call / mcp.connect；ask 模式工具仍注入列表，真正执行时经 MCPServer.handleToolCall 审批或拒绝。',
+    also: ['ai-prompt-security', 'xrk-mcp-ops', 'xrk-chat-pipeline'],
+  },
+  tool_scan: {
+    term: 'security.toolScan',
+    brief: 'security.toolScan：工具参数威胁模式扫描（如危险 command），默认开启；与 security.approval（#批准，默认关）一并在 handleToolCall 门禁执行。',
+    also: ['ai-prompt-security', 'xrk-mcp-ops'],
+  },
+  agent_recipe: {
+    term: 'Recipe / 斜杠配方',
+    brief: 'Recipe：agents/recipes/*.yaml 种子；斜杠 /recipes 列表、/recipe <id> 注入 instructions+prompt。须已触发办事助手；可选 recipes.scheduleEnabled cron。',
+    also: ['xrk-agent-workspace', 'xrk-chat-pipeline'],
+  },
+  repo_map: {
+    term: 'tools.repo_map',
+    brief: 'tools.repo_map：轻量仓库代码地图（可带 query），陌生工作区改码前优先于盲目 list_files；同批还有 apply_edit / verify / update_todos。见技能 agent-tools。',
+    also: ['ai-mcp', 'xrk-mcp-ops', 'xrk-agent-workspace'],
   },
   json_schema: {
     term: 'JSON Schema',

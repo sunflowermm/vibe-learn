@@ -54,14 +54,17 @@ sequenceDiagram
 
 | 行为 | 落点 |
 |------|------|
-| 统一走大语言模型的工具调用 | \`AiWorkflow.callAI\` → 工厂客户端；**不再**解析文本假函数 |
+| 统一走大语言模型的工具调用 | \`AiWorkflow.callAI\` → 工厂客户端；**禁止**文本假 ReAct |
 | 注册可调工具 | 各工作流 \`registerMCPTool\` |
 | 多工作流工具并集 | \`mergeWorkflows\`；网页/浏览器等框架工具面自动并入 |
 | 请求侧白名单 | HTTP v3 的工作流名列表（streams） |
 | 工具轨迹进下一轮上下文 | \`recordToolCallResult\` 写入会话笔录（见对话管线） |
+| 工具轮用尽再收口 | 各 LLM 客户端可再发一轮无工具 **finalize**（\`tool-loop-finalize\`） |
+| 执行前统一门禁 | \`MCPServer.handleToolCall\`：策略 / 威胁扫描 / 审批（见 **提示安全**） |
+| 参数解析一次 | \`parse-tool-arguments.js\`（适配器只预览，勿双解析） |
 
 \`\`\`quiz
-{"title":"工具调用","questions":[{"q":"工具调用的关键是？","choices":[{"t":"模型输出结构化意图，由运行时执行并回填","ok":true,"why":"执行权在运行时。"},{"t":"模型直接改任意文件且无需协议","ok":false,"why":"必须经你允许的工具层。"},{"t":"只能调用浏览器","ok":false,"why":"工具可以是任意接口。"}]}]}
+{"title":"工具调用","questions":[{"q":"工具调用的关键是？","choices":[{"t":"模型输出结构化意图，由运行时执行并回填","ok":true,"why":"执行权在运行时。"},{"t":"模型直接改任意文件且无需协议","ok":false,"why":"必须经你允许的工具层。"},{"t":"只能调用浏览器","ok":false,"why":"工具可以是任意接口。"}]},{"q":"工具轮数用尽后本仓还可？","choices":[{"t":"静默丢弃，永远不再请求模型","ok":false,"why":"可 finalize 收口。"},{"t":"再发一轮无工具 finalize，让模型用已有结果写正文","ok":true,"why":"tool-loop-finalize。"},{"t":"自动微调基座权重","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 ## 下一课

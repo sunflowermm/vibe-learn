@@ -76,16 +76,17 @@ flowchart TB
 
 | 概念 | 本仓落点（第四章 / 文档） |
 |------|---------------------------|
-| 上下文窗口与预算 | \`agentWorkspace\` 字符上限、历史条数、技能目录压缩 |
+| 上下文窗口与预算 | \`agentWorkspace\` · \`context.toolPair\` / \`compaction\` / \`chatHistory\` · Provider \`contextWindow\` |
 | 稳定前缀 / 易变层 | \`assembleChatLlmMessages\` 三层 |
-| 上下文内学习 | 工作区 \`AGENTS.md\`、规则全文、技能**目录**、历史笔录 |
-| 工具调用 | 大语言模型工厂 + \`registerMCPTool\`；禁止文本假函数 |
-| 模型上下文协议 | 一等公民工具面；远程 \`remote-mcp.*\` |
-| 智能体循环 | 工厂多轮 \`tool_calls\`；\`maxToolRounds\`；\`onAfterToolRound\` |
+| 上下文内学习 | 工作区 \`AGENTS.md\`、规则全文、技能**目录**、历史笔录、配方 / microagents |
+| 工具调用 | 工厂 + \`registerMCPTool\`；**finalize**；禁止文本假函数 |
+| 模型上下文协议 | 一等公民工具面；\`apply_edit\` / \`repo_map\` 等；远程 \`remote-mcp.*\` |
+| 智能体循环 | 多轮 \`tool_calls\`；\`maxToolRounds\`；\`onAfterToolRound\`；出站链见对话管线 |
+| 提示安全 / 策略 | \`policies[]\` · \`security.toolScan\` · \`#批准\`（默认关）→ \`handleToolCall\` |
 | 图编排（概念对照） | 主路径固定消息三层 + 工具环，非通用 DAG 编辑器 |
 | 合并多工具面 | \`mergeWorkflows\` + 框架工具面 + 远程 MCP |
 | 检索 / 记忆 | 记忆 / 知识库等工作流（按已加载能力） |
-| 规则 vs 技能 | \`agents/rules/\` 全文；\`agents/skills/\` 目录 + \`tools.read\` |
+| 规则 vs 技能 | \`agents/rules/\` 全文；\`agents/skills/\` 目录 + \`tools.read\`（Coding：\`.cursor/skills/xrk-*\` 不进办事链） |
 | Pi（旁支对照） | 同为工具环；Pi 默认不内置 MCP——本仓相反 |
 
 ---

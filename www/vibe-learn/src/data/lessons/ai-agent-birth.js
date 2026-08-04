@@ -105,17 +105,20 @@ flowchart TB
 
 | 概念 | 落点 |
 |------|------|
-| 结构上接近推理与行动交替 | \`callAI\` → 工具调用 → 执行 MCP 工具 → 回灌 → 再调 |
+| 结构上接近推理与行动交替 | \`callAI\` → 出站准备 → 工具调用 → \`handleToolCall\` → 回灌 → 再调 |
 | **不是**文本 ReAct | \`docs/ai-workflow.md\` |
-| 步数预算 | 客户端 \`maxToolRounds\` |
-| 提前结束 | \`onAfterToolRound\` |
+| 步数预算 | 客户端 \`maxToolRounds\`（多客户端默认约 7） |
+| 轮尽收口 | **finalize**（无工具再请求一轮写正文） |
+| 提前结束 | \`onAfterToolRound\`（如 reply 已发出） |
 | 笔录延续 | \`recordToolCallResult\` → 历史「我·工具」行 |
-| 通道动作 | 对话工作流注册的工具 |
-| 驯服面 | 规则、技能、工作区 \`AGENTS.md\`（驯服段）；第四章办事助手 |
-| 契约 | \`docs/agent-context.md\` §工具环 |
+| 省窗 | 出站 \`toolPair\` / \`compaction\` / \`contextWindow\`（见令牌课 · 对话管线） |
+| 斜杠配方 | \`/recipe\` · \`/recipes\`（\`agents/recipes/\`） |
+| 通道动作 | 对话工作流注册的工具；群聊 \`plugin/ai.js\` 薄入口自动吃 merge + 下游链 |
+| 驯服面 | 规则、技能、工作区 \`AGENTS.md\`；第四章办事助手 |
+| 契约 | \`docs/agent-context.md\` §5 |
 
 \`\`\`flip
-{"title":"智能体与循环","cards":[{"front":"智能体","back":"目标 + 工具 + 观察的持续决策形态"},{"front":"循环","back":"选行动 → 执行 → 观察 → 再决定"},{"front":"本仓","back":"工厂 tool_calls + maxToolRounds，非文本假 ReAct"}]}
+{"title":"智能体与循环","cards":[{"front":"智能体","back":"目标 + 工具 + 观察的持续决策形态"},{"front":"循环","back":"选行动 → 执行 → 观察 → 再决定"},{"front":"本仓","back":"工厂 tool_calls + maxToolRounds + finalize，非文本假 ReAct"},{"front":"安全卡点","back":"policies / toolScan / #批准 在 handleToolCall"}]}
 \`\`\`
 
 \`\`\`quiz

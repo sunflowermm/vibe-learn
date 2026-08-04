@@ -99,12 +99,12 @@ flowchart TB
 | **HTTP Auth** | API Key · runtime-auth | 安全 |
 | 子服务端 | 多进程 HTTP 契约；配置只读 | 进程 + 端口 |
 | **数据库** | Redis/SQLite 必需；可选 Core | 番外·数据库 |
-| **Factory** | LLM/ASR/TTS 工厂 | 模型客户端 |
-| **MCP 运维** | 主服工具挂载 | 工具通道 |
+| **Factory** | LLM finalize · variants · aux · contextWindow | 模型客户端 |
+| **MCP 运维** | 主服工具挂载 · handleToolCall 门禁 · tools 扩展面 | 工具通道 |
 | 配置归属 | 框架模板与产品模板 | 契约 |
 | **工作流** | AiWorkflow · Factory · MCP | Agent 编排入口 |
-| **对话管线** | 三层消息 · mergeWorkflows · Workspace | \`docs/agent-context.md\` |
-| **办事助手** | \`agents/\` · \`ai-workspace\` · 四层 AGENTS | 对话 Agent |
+| **对话管线** | 三层消息 · 出站压缩 · 斜杠配方 · 策略 | \`docs/agent-context.md\` |
+| **办事助手** | \`agents/\` · recipes · microagents · 两张工牌 | 对话 Agent |
 | **实践·插件** | 最小 PluginBase 通关 | 动手 |
 | **实践·子服** | callSubserver · CONTRACT | 动手 |
 
@@ -122,9 +122,9 @@ flowchart TB
 |------|-----|----------|------------|
 | 1 | **Tasker** | 收发室造 \`e\` | 终端 stdin · 网络 WS |
 | 2 | **events** | 厨房排烟机 | 工程观测 · 热更边界 |
-| 3 | **Factory** | 统一插座 | 配置归属 · 代理 · HTTPS |
-| 4 | **MCP 运维** | 主机 USB 口 | 第五章 MCP · Auth |
-| 5 | **工作流** → **对话管线** → **办事助手** | 菜谱 → 拼窗 → 两张工牌 | 第五章 Rules/Skills/AGENTS |
+| 3 | **Factory** | 统一插座 · finalize / aux | 配置归属 · 代理 · HTTPS |
+| 4 | **MCP 运维** | USB 口 · handleToolCall 门禁 | 第五章 MCP · 提示安全 |
+| 5 | **工作流** → **对话管线** → **办事助手** | 菜谱 → 出站拼窗/配方 → 两张工牌 | 第五章 Rules/Skills/AGENTS |
 
 ### 多语言 / 数据
 
@@ -141,10 +141,10 @@ flowchart TB
 | 语言栈 / 子服务端 / 配置归属 | 原课 + 实践·子服动手 |
 | HTTP / www | Auth 课补安全；全景课列产品 www；拍平解包接第三章 HTTP 动手 |
 | **Tasker / events** | 三角：通道 · 钩子 · 业务；接第一章终端与工程素养 |
-| **Factory / MCP** | 插座与 USB；接第五章 Tool Calling / 协议分层 |
+| **Factory / MCP** | 插座与 USB；finalize · 门禁；接第五章 Tool Calling / 提示安全 |
 | **工作流** | 链 Factory + MCP；细拆见对话管线 |
-| **对话管线** | \`docs/agent-context.md\` |
-| **办事助手** | \`docs/agents.md\`；与根 AGENTS 两张工牌 |
+| **对话管线** | \`docs/agent-context.md\`（出站 · 策略 · 斜杠） |
+| **办事助手** | \`docs/agents.md\`；recipes / microagents；与根 AGENTS 两张工牌 |
 | 首次跑通（第一章） | 鸟瞰假定已能 \`node app\` |
 | Shell（第二章） | 可对照 [xrk-projects-scripts](https://github.com/sunflowermm/xrk-projects-scripts) |
 | 工程素养 | 改完要验收、密钥不进仓、观测打点可放 events |

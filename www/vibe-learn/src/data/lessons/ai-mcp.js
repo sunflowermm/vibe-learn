@@ -48,12 +48,14 @@ flowchart LR
 | 行为 | 落点 |
 |------|------|
 | 工作流内注册工具 | \`registerMCPTool\`（名称、说明、输入 Schema、处理函数） |
-| 配置段 | \`ai-workflow.yaml\` → \`mcp.*\` |
+| 配置段 | \`ai-workflow.yaml\` → \`mcp.*\` · \`policies\` · \`security.*\` |
 | 对话可用工具范围 | 合并工作流名 + 框架工具面 + \`remote-mcp.*\` |
-| 运维与排错 | 第四章 **MCP 运维** · \`docs/mcp-guide.md\` |
+| \`tools\` 副流常用面 | \`read\` / \`grep\` / \`write\`… 与 \`apply_edit\` / \`verify\` / \`repo_map\` / \`update_todos\` |
+| 执行门禁 | \`MCPServer.handleToolCall\`（策略 / toolScan / 审批）；远程连 \`mcp.connect\` |
+| 运维与排错 | 第四章 **MCP 运维** · \`docs/mcp-guide.md\` · 技能 \`agent-tools\` |
 
 \`\`\`flip
-{"title":"模型上下文协议","cards":[{"front":"协议本身","back":"发现与调用外部能力的标准方言"},{"front":"工具调用","back":"模型侧如何说出「要调谁」"},{"front":"本仓","back":"registerMCPTool + 工作流白名单"}]}
+{"title":"模型上下文协议","cards":[{"front":"协议本身","back":"发现与调用外部能力的标准方言"},{"front":"工具调用","back":"模型侧如何说出「要调谁」"},{"front":"本仓","back":"registerMCPTool + 白名单 + handleToolCall 门禁"},{"front":"陌生仓起步","back":"tools.repo_map → grep/read，勿盲 list 整仓"}]}
 \`\`\`
 
 \`\`\`quiz

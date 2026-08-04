@@ -16,7 +16,7 @@ export default `# Factory · LLM / ASR / TTS
 换插座品牌（换模型厂商）不该重写整本菜谱。
 
 \`\`\`steps
-{"title":"一次调用","steps":[{"title":"配置就绪","body":"CommonConfig 已 load（见 Runtime 课）。"},{"title":"工厂取客户端","body":"LLMFactory 按 Provider 选 *Client。"},{"title":"工作流编排","body":"组 messages → 发请求 → 可选 tool_calls。"},{"title":"工具另线","body":"工具走 MCP；工厂不管工具目录。"}]}
+{"title":"一次调用","steps":[{"title":"配置就绪","body":"CommonConfig 已 load（见 Runtime 课）。"},{"title":"出站准备","body":"管线侧 toolPair / compaction / trim（工厂之前）。"},{"title":"工厂取客户端","body":"LLMFactory 按 Provider 选 *Client。"},{"title":"工具环","body":"tool_calls → MCP 门禁 → 回灌；轮尽可 finalize。"},{"title":"工具另线","body":"工具走 MCP；工厂不管工具目录。"}]}
 \`\`\`
 
 ---
@@ -28,7 +28,7 @@ export default `# Factory · LLM / ASR / TTS
 | **配置归属** | 工厂 yaml ∈ \`config/default_config/\`；**产品业务**勿塞这里 |
 | **环境 · 代理** | 国内出网常要 \`HTTP_PROXY\`；工厂 fetch 跟环境走 |
 | **网络 · HTTPS** | 调云端模型默认 TLS；Key 勿进 Git（提示安全） |
-| **工作流 / 对话管线** | 工厂供客户端；三层消息在管线课 |
+| **工作流 / 对话管线** | 工厂供客户端；三层消息 + 出站压缩在管线课 |
 | **第五章 · 协议分层** | Chat Completions 兼容 ≈ 多数客户端心智；\`openai_compat_llm\` 给第三方网关 |
 
 \`\`\`match
@@ -57,8 +57,10 @@ flowchart LR
 
 对齐 \`docs/base-classes.md\`：builtin 客户端各管自家协议；兼容网关用 \`openai_compat_llm\`。业务可 \`patchLLMConfig\` 追加场景字段，勿复制签名逻辑。
 
+客户端侧（2026 融合后常见能力）：**工具环 finalize** · 重试 · **variants / reasoning budget** · 辅模型 \`llm.aux\`（compaction 等）。Provider 可配 \`contextWindow\`（出站裁剪用）。
+
 \`\`\`quiz
-{"title":"工厂快测","questions":[{"q":"Core 里正确用模型的方式？","choices":[{"t":"经 AiWorkflow / 工厂 API 取客户端，配置选 Provider","ok":true,"why":"统一超时、代理、协议差异。"},{"t":"每个插件 new 一份厂商 SDK 并硬编码 Key","ok":false,"why":"密钥与分叉维护灾难。"},{"t":"模型只能跑在子服 Python，主服禁止","ok":false,"why":"本仓 LLM 在主服工厂。"},{"t":"有 Factory 就不必 HTTPS","ok":false,"why":"出网仍要安全传输。"}]},{"q":"openai_compat_llm 更适合？","choices":[{"t":"第三方 OpenAI 形态网关","ok":true,"why":"builtin 留给官方协议客户端。"},{"t":"替代 Redis","ok":false,"why":"无关。"},{"t":"只用于前端 Vite","ok":false,"why":"服务端配置。"},{"t":"关闭所有 MCP","ok":false,"why":"正交。"}]}]}
+{"title":"工厂快测","questions":[{"q":"Core 里正确用模型的方式？","choices":[{"t":"经 AiWorkflow / 工厂 API 取客户端，配置选 Provider","ok":true,"why":"统一超时、代理、协议差异。"},{"t":"每个插件 new 一份厂商 SDK 并硬编码 Key","ok":false,"why":"密钥与分叉维护灾难。"},{"t":"模型只能跑在子服 Python，主服禁止","ok":false,"why":"本仓 LLM 在主服工厂。"},{"t":"有 Factory 就不必 HTTPS","ok":false,"why":"出网仍要安全传输。"}]},{"q":"openai_compat_llm 更适合？","choices":[{"t":"第三方 OpenAI 形态网关","ok":true,"why":"builtin 留给官方协议客户端。"},{"t":"替代 Redis","ok":false,"why":"无关。"},{"t":"只用于前端 Vite","ok":false,"why":"服务端配置。"},{"t":"关闭所有 MCP","ok":false,"why":"正交。"}]},{"q":"工具轮用尽后 finalize 是？","choices":[{"t":"再发一轮无工具请求，用已有结果写正文","ok":true,"why":"tool-loop-finalize。"},{"t":"自动改仓库根 AGENTS.md","ok":false,"why":"无关。"},{"t":"重启 Redis","ok":false,"why":"无关。"},{"t":"关闭 MCP 挂载","ok":false,"why":"正交。"}]}]}
 \`\`\`
 
 ---
@@ -67,24 +69,24 @@ flowchart LR
 
 | 类型 | 模板 | Schema |
 |------|------|--------|
-| 工作流总控 | \`ai-workflow.yaml\` | system-Core commonconfig |
-| 各 LLM | \`config/default_config/*_llm*.yaml\` | 对应 commonconfig |
+| 工作流总控 | \`ai-workflow.yaml\`（含 \`context.*\` · \`security\` · \`policies\` · \`recipes\`） | system-ai-workflow |
+| 各 LLM | \`config/default_config/*_llm*.yaml\`（\`contextWindow\` · variant 等） | 对应 commonconfig |
 | 产品业务开关 | **\`core/<产品>/default/\`** | 产品 commonconfig |
 
-密钥：环境变量 / 面板密文；模板只放字段结构。
+密钥：环境变量 / 面板密文；模板只放字段结构。面板 \`/xrk\` 经 schema 暴露上述字段。
 
 ---
 
 ## 4. 和实践的咬合
 
 1. 数 \`src/factory/llm/*Client.js\`，对照配置 Provider 名。  
-2. 配置页确认 \`ai-workflow\` + LLM 段已加载。  
+2. 配置页确认 \`ai-workflow\` + LLM 段已加载（含 compaction / policies）。  
 3. 本地故意错 Base（再改回）→ 看报错是否来自客户端层。  
-4. 回 **Stream** 课：工厂 = 连哪个模型；\`streams\` = 能调哪些工具。
+4. 回 **对话管线**：工厂 = 连哪个模型；出站链 = 窗里塞什么；\`streams\` = 能调哪些工具。
 
 ## 文档
 
-\`docs/ai-workflow.md\` · \`docs/base-classes.md\` · Runtime 课「配置就绪时机」。
+\`docs/ai-workflow.md\` · \`docs/base-classes.md\` · \`docs/factory.md\` · skill \`xrk-llm\` · Runtime 课「配置就绪时机」。
 
 ## 下一步
 

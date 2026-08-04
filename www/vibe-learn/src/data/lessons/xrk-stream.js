@@ -71,12 +71,14 @@ flowchart LR
 
 对齐 \`docs/ai-workflow.md\` · \`docs/agent-context.md\`：
 
-1. **\`process({ mergeWorkflows })\`**：合并副流工具  
-2. **\`assembleChatLlmMessages\`**：system → 易变 → 历史 → 当前（细节见 **对话管线**）  
-3. **\`callAI\`**：经 LLMFactory；\`tool_calls\` → MCP → 回灌  
-4. **出站**：reply / 正文；写回笔录  
+1. **\`process({ mergeWorkflows })\`**：合并副流工具（常含 \`tools\`）  
+2. **斜杠**：\`/recipe\` · \`/recipes\` 可展开或短路  
+3. **\`assembleChatLlmMessages\`**：system → 易变 → 历史 → 当前（细节见 **对话管线**）  
+4. **\`prepareOutboundMessages\`**：toolPair → compaction → contextWindow 裁剪  
+5. **\`callAI\`**：经 LLMFactory；\`tool_calls\` → \`handleToolCall\` → 回灌；轮尽可 finalize  
+6. **出站**：reply / 正文；写回笔录  
 
-配置：\`ai-workflow.yaml\`（\`llm\` / \`embedding\` / \`mcp\` / \`agentWorkspace\`）；助手 merge 列表在 \`ai_config\`。
+配置：\`ai-workflow.yaml\`（\`llm\` / \`context.*\` / \`security\` / \`policies\` / \`recipes\` / \`agentWorkspace\` / \`mcp\`）；助手 merge 列表在 \`ai_config\`。
 
 ---
 
@@ -84,11 +86,11 @@ flowchart LR
 
 | 概念 | 本仓落点 |
 |------|----------|
-| Token / 窗口 | 历史条数、\`max*Chars\`、Skills compact |
+| Token / 窗口 | \`context.*\` · \`max*Chars\` · Provider \`contextWindow\` |
 | 注意力 | 模型内部；我们管「谁进窗」 |
-| 自适应 · ICL | Workspace + Rules + Skills 目录 |
-| Tool Calling / MCP | 工厂客户端 + 工作流 \`registerMCPTool\` |
-| merge 多工具 | \`mergeWorkflows\`、工具名前缀 |
+| 自适应 · ICL | Workspace + Rules + Skills 目录 + recipes |
+| Tool Calling / MCP | 工厂 + \`registerMCPTool\` + finalize；门禁见提示安全 |
+| merge 多工具 | \`mergeWorkflows\`、工具名前缀（含 apply_edit / repo_map…） |
 
 ---
 
