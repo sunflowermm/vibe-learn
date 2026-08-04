@@ -1,0 +1,12 @@
+{
+  "source": "https://vibe-hub.org",
+  "attribution": "VibeHub（vibe-hub.org）· oil",
+  "skill": "https://github.com/oil-oil/vibe-hub-skill",
+  "revision": "c62f93379218ef6d",
+  "fetchedAt": "2026-08-04T18:37:07.164Z",
+  "lessonCount": 245,
+  "glossaryCount": 245,
+  "practiceCount": 245,
+  "practiceCoverage": "245/245（原站 lessonPractice + 无练习时用 usage.use/avoid 合成）",
+  "note": "静态学习快照；释义与练习版权归 VibeHub 原作者。词典与本仓去重；导图保留全量词条卡。刷题 relatedNodes 由 bank 按跨导图桥展开。重新同步：pnpm vibehub:sync"
+}

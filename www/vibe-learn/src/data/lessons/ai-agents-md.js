@@ -72,4 +72,14 @@ export default `# AGENTS.md · 项目说明书
 
 \`AiWorkflow\` 在跑「会话 + 工具」；办事助手工作区经 \`agentWorkspace\` 注入；  
 你在 Cursor 里改 vibe-learn，读的是根 \`AGENTS.md\` 与 \`.cursor/skills\`。词汇可互译，落点不同。
+
+## 结合知识导图2
+
+| 本课 | 导图2 | 落点 |
+|------|-------|------|
+| AGENTS.md / Rules / Skills | **Skill** · **系统提示词** · **上下文工程** | 仓内文件 vs 词条定义 |
+| 与 Coding 侧工牌 | Vibe Coding · Agent | 两张工牌勿打架 |
+
+番外 **项目记忆文件** 钉运营；本课钉第五章机制串。
+
 `;

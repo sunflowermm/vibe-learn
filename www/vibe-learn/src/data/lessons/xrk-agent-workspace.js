@@ -14,7 +14,7 @@ export default `# 办事助手 · Agent 工作区
 戴错工牌：要么 Agent 改坏 Runtime，要么开发助手满嘴「帮你订外卖」却不懂放码。
 
 \`\`\`steps
-{"title":"注入五段（进 system）","steps":[{"title":"assistant","body":"AGENTS / SOUL / USER / memory…"},{"title":"contextFiles","body":"额外上下文文件"},{"title":"rules","body":"agents/rules 全文护栏"},{"title":"Skills","body":"目录卡；细则 tools.read"},{"title":"Agents","body":"subagents 清单（提示路由）"}]}
+{"title":"注入五段（进 system）","steps":[{"title":"assistant","body":"AGENTS / SOUL / USER / memory…"},{"title":"contextFiles","body":"额外上下文文件"},{"title":"rules","body":"agents/rules ∪ 工作区 rules/（同路径覆盖）"},{"title":"Skills","body":"目录卡；细则 tools.read；装技能见 agent-skillhub"},{"title":"Agents","body":"subagents 清单（提示路由）"}]}
 \`\`\`
 
 另：**microagents**（\`agents/microagents\` 等，带 triggers）命中用户话时可整段注入。  
@@ -44,8 +44,8 @@ export default `# 办事助手 · Agent 工作区
 | 路径 | 角色 |
 |------|------|
 | \`agents/workspace/\` | 首次复制的模板 |
-| \`agents/rules/\` | 护栏全文 |
-| \`agents/skills/standard/\` | **产品 Agent** 技能种子（勿塞 xrk-*） |
+| \`agents/rules/\` | 产品共享护栏；seed 进工作区 \`rules/\` |
+| \`agents/skills/standard/\` | **产品 Agent** 技能种子（含 agent-skillhub；勿塞 xrk-*） |
 | \`agents/recipes/\` | 斜杠配方 yaml |
 | \`agents/microagents/\` | triggers 短手册 |
 | \`agents/subagents.yaml\` | 角色说明清单 |
@@ -79,6 +79,7 @@ flowchart LR
 | \`TOOLS.md\` / \`ENV.md\` | 本机路径与习惯 |
 | \`memory/\` | 流水 + 长期偏好 |
 | \`skills/\` | 技能副本 |
+| \`rules/\` | 本工作区护栏（覆盖同名共享规则） |
 | \`subagents.yaml\` | 可选覆盖种子角色 |
 
 改已有文稿：局部 \`search_replace\`；多文件批量 \`apply_edit\`（改后建议 \`verify\`）；多步 \`update_todos\`（\`docs/agents.md\` · 技能 **agent-tools**）。

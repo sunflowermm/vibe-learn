@@ -188,6 +188,7 @@ export const NODE_TONE = {
   'adev-vibe-coding': 'violet',
   'adev-compare': 'sky',
   'adev-project-memory': 'indigo',
+  'knowledge-hub': 'violet',
 
 
   'git-forges': 'sky',
@@ -200,5 +201,13 @@ export const NODE_TONE = {
 };
 
 export function toneOf(id) {
+  const key = String(id || '');
+  if (key.startsWith('vh-macro-')) return TONES.violet;
+  if (key.startsWith('vh-')) {
+    const palette = ['indigo', 'sky', 'teal', 'orange', 'pink', 'rose', 'violet', 'slate'];
+    let h = 0;
+    for (let i = 0; i < key.length; i += 1) h = (h + key.charCodeAt(i) * (i + 1)) % palette.length;
+    return TONES[palette[h]] || TONES.violet;
+  }
   return TONES[NODE_TONE[id]] || TONES.violet;
 }

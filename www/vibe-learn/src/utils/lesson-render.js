@@ -88,6 +88,7 @@ const PURIFY = {
     'nav',
     'main',
     'button',
+    'iframe',
   ],
   ADD_ATTR: [
     'open',
@@ -153,6 +154,11 @@ const PURIFY = {
     'clip-path',
     'marker-end',
     'marker-start',
+    'loading',
+    'referrerpolicy',
+    'sandbox',
+    'allow',
+    'title',
   ],
 };
 

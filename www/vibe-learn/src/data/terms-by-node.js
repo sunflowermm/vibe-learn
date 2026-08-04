@@ -1,6 +1,10 @@
 /**
  * 各知识点「本课必懂名词」——按学习路径点名，确保出现过的专有名词有解释入口
  */
+import { VIBEHUB_NODE_TERMS } from './vibehub/graph-pack.js';
+import { VIBEHUB_GLOSSARY_MERGE } from './glossary.js';
+import { remapGlossaryId } from './vibehub/merge-glossary.js';
+
 export const NODE_TERMS = {
   'computer-system': ['hardware', 'software', 'os', 'process'],
   'os-essence': [
@@ -993,9 +997,41 @@ export const NODE_TERMS = {
   'host-systemd': ['process', 'port', 'cli'],
   'host-tls': [ 'tls', 'certificate', 'https', 'dns', 'cookie_secure' ],
   'host-backup': ['storage_hierarchy', 'file_system'],
-  'adev-vibe-coding': [ 'agents_md', 'git', 'source_code', 'git_cmd_diff' ],
-  'adev-compare': ['agents_md', 'llm', 'source_code'],
-  'adev-project-memory': ['agents_md', 'git', 'dotfile'],
+  'adev-vibe-coding': [
+    'vh_vibe_coding',
+    'agent_concept',
+    'vh_ai_basics',
+    'vh_system_prompt',
+    'agents_md',
+    'function_calling',
+    'git',
+    'source_code',
+    'git_cmd_diff',
+  ],
+  'knowledge-hub': ['vh_vibe_coding', 'source_code', 'agent_concept'],
+  'adev-compare': [
+    'agent_concept',
+    'vh_harness_engineering',
+    'agent_harness',
+    'agents_md',
+    'llm',
+    'source_code',
+  ],
+  'adev-project-memory': [
+    'vh_skill',
+    'agent_skills',
+    'vh_system_prompt',
+    'vh_context_engineering',
+    'agents_md',
+    'git',
+    'dotfile',
+  ],
+  'chapter-adev': [
+    'vh_vibe_coding',
+    'agent_concept',
+    'vh_skill',
+    'agents_md',
+  ],
   'xrk-min-path': ['agent_runtime', 'core_pkg', 'nodejs'],
   'xrk-lab-http': ['http', 'http_response', 'core_pkg'],
   'xrk-lab-config': ['env_var', 'core_pkg', 'agent_runtime'],
@@ -1009,3 +1045,22 @@ export const NODE_TERMS = {
   'ai-agent-planning': ['agent_concept', 'llm', 'mcp'],
   'ai-prompt-security': ['llm', 'agent_concept', 'csrf'],
 };
+
+Object.assign(
+  NODE_TERMS,
+  Object.fromEntries(
+    Object.entries(VIBEHUB_NODE_TERMS).map(([nodeId, ids]) => [
+      nodeId,
+      [...new Set((ids || []).map((id) => remapGlossaryId(id, VIBEHUB_GLOSSARY_MERGE.map)))],
+    ])
+  )
+);
+
+/** 本仓课卡上的 vh_* 挂名也走合并表，避免与本仓键双挂 */
+for (const [nodeId, ids] of Object.entries(NODE_TERMS)) {
+  NODE_TERMS[nodeId] = [
+    ...new Set(
+      (ids || []).map((id) => remapGlossaryId(id, VIBEHUB_GLOSSARY_MERGE.map))
+    ),
+  ];
+}

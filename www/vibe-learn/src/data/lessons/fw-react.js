@@ -237,4 +237,15 @@ API 走 \`core/*/http\`；浏览器用 \`xrk-www-compat\`，**勿当 Node 26**�
 - 对照：**Vue** · **Angular**  
 - 本仓：**HTTP 与 www** · **Express/Nest**（后端对照）  
 - 可选：打开 React 仓库「Docs」入口，再对照本仓 www 的 \`base\` / mount。
+
+## 结合知识导图2
+
+| 本课 | 导图2 | 钉死 |
+|------|-------|------|
+| React 是 UI 库 | **React** · **JavaScript** · **前端** | 库 vs 框架见「库·框架」课 |
+| Hooks / 组件树 | React 词条「数据变化驱动 UI」 | 不自动等于全栈后端 |
+| 元框架 Next | **Next.js** | Next ≠ 「另一种语言」 |
+
+与 Vue 课对照着读导图2；选型判断留在语言章 / 本仓 www。
+
 `;

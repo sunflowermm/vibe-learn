@@ -5,10 +5,10 @@ export default defineQuizSet({
   id: 'concept-adev',
   title: '概念 · Vibe Coding 与项目记忆',
   kind: 'concept',
-  domain: 'xrk',
+  domain: 'vibe',
   tags: ['Vibe', 'AGENTS'],
-  relatedNodes: ['adev-vibe-coding', 'adev-project-memory'],
-  caption: '审 diff、守边界、交底对齐。',
+  relatedNodes: ['adev-vibe-coding', 'adev-project-memory', 'chapter-adev'],
+  caption: '审 diff、守边界、交底对齐；与导图2 词条对照。',
   questions: [
     {
       id: 'concept-adev:accept',

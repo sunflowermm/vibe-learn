@@ -80,6 +80,15 @@ function definitionBody(brief, term) {
         s = s.replace(re, '');
         break;
       }
+      // VibeHub 常见：「Vibe Coding 就是…」「Token 是…」无冒号标签
+      const reLead = new RegExp(
+        `^${esc}(?:\\s*[（(][^）)]{0,40}[）)])?\\s*(?:就是|是指|指的是|指|为|即)\\s*`,
+        'i'
+      );
+      if (reLead.test(s)) {
+        s = s.replace(reLead, '');
+        break;
+      }
     }
     if (s !== before) continue;
     if (startsWithUrlScheme(s)) break;
@@ -171,6 +180,28 @@ function renderQuestion(q) {
 }
 
 /**
+ * 从释义正文抹掉目标词别名，避免选项剧透（如 AGENTS.md 定义里出现 docs/agents.md）。
+ * @param {string} body
+ * @param {string} term
+ */
+function scrubTermMentions(body, term) {
+  let s = String(body || '');
+  for (const a of termAliases(term)) {
+    if (a.length < 2) continue;
+    const esc = a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (/^[A-Za-z0-9][A-Za-z0-9+._-]*$/.test(a) && a.length <= 4) {
+      s = s.replace(
+        new RegExp(`(?:^|[^A-Za-z0-9])(${esc})(?=[^A-Za-z0-9]|$)`, 'gi'),
+        (m, g1) => m.replace(g1, '该概念')
+      );
+    } else {
+      s = s.replace(new RegExp(esc, 'gi'), '该概念');
+    }
+  }
+  return s.replace(/\s+/g, ' ').trim();
+}
+
+/**
  * 题干/选项是否仍剧透目标词（前缀标签或正文点名）
  * @param {string} text
  * @param {string} term
@@ -229,6 +260,31 @@ async function main() {
   const { getNodeById } = await import(
     pathToFileURL(path.join(root, 'src/data/nodes.js')).href
   );
+  const { NODE_TERMS } = await import(
+    pathToFileURL(path.join(root, 'src/data/terms-by-node.js')).href
+  );
+
+  /** 反查：哪些课挂了该词典 id（补 relatedNodes，让面板「刷本课相关题」能吃到词典题） */
+  function nodesForGlossaryId(gid) {
+    /** @type {string[]} */
+    const out = [];
+    for (const [nid, ids] of Object.entries(NODE_TERMS || {})) {
+      if (Array.isArray(ids) && ids.includes(gid)) out.push(nid);
+    }
+    return out;
+  }
+
+  const VALID_DOMAINS = new Set([
+    'dsa',
+    'net',
+    'os-db',
+    'lang',
+    'craft',
+    'xrk',
+    'ai',
+    'ops',
+    'vibe',
+  ]);
 
   const all = listGlossary().filter((e) => e.term && e.brief && e.brief.length >= 16);
   /** @type {object[]} */
@@ -236,15 +292,22 @@ async function main() {
   let skippedLeak = 0;
 
   for (const e of all) {
-    const related = (e.also || []).filter((id) => getNodeById(id)).slice(0, 3);
-    const domain = inferDomain(related[0] || e.id, e.term);
+    const related = [
+      ...new Set([...(e.also || []), ...nodesForGlossaryId(e.id)]),
+    ]
+      .filter((id) => getNodeById(id))
+      .slice(0, 4);
+    const domain =
+      (typeof e.domain === 'string' && VALID_DOMAINS.has(e.domain) && e.domain) ||
+      inferDomain(related[0] || e.id, e.term);
     const others = shuffleCopy(all.filter((x) => x.id !== e.id));
     const level =
       e.brief.length > 90 || /架构|协议|事务|并发|隔离/.test(e.brief)
         ? '进阶'
         : '零基础';
     const tags = ['名词', level, e.id];
-    const correctDef = clipBrief(definitionBody(e.brief, e.term), 140);
+    const correctDefRaw = clipBrief(definitionBody(e.brief, e.term), 140);
+    const correctDef = scrubTermMentions(correctDefRaw, e.term);
     if (correctDef.length < 12) continue;
     // 剥过头：只剩 URL 碎片 / 纯路径，不能当「释义」选项
     if (
@@ -260,7 +323,10 @@ async function main() {
     const wrongDefs = [];
     const seenB = new Set([correctDef]);
     for (const o of others) {
-      const body = clipBrief(definitionBody(o.brief, o.term), 140);
+      const body = scrubTermMentions(
+        clipBrief(definitionBody(o.brief, o.term), 140),
+        o.term
+      );
       if (body.length < 12 || seenB.has(body)) continue;
       if (
         /^\/\//.test(body) ||

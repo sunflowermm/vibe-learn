@@ -1,0 +1,365 @@
+/**
+ * 三张思维导图共用画布底层
+ * —— 网格 / 章框穿透 / 焦点强调 / 控件与提示条
+ */
+
+/* —— 外壳 —— */
+.mm-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--canvas);
+}
+
+.mm-wrap .vue-flow {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* —— 章框：整节点 + 子树不截获；仅蓝条可点可拖 —— */
+.mm-flow .vue-flow__node-chapter,
+.mm-flow .vue-flow__node.mm-chapter-pass {
+  z-index: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  cursor: default !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.mm-flow .vue-flow__node-chapter *,
+.mm-flow .vue-flow__node.mm-chapter-pass * {
+  pointer-events: none !important;
+}
+
+.mm-flow .vue-flow__node-chapter .chapter__drag,
+.mm-flow .vue-flow__node-chapter .chapter__drag *,
+.mm-flow .vue-flow__node.mm-chapter-pass .chapter__drag,
+.mm-flow .vue-flow__node.mm-chapter-pass .chapter__drag * {
+  pointer-events: auto !important;
+}
+
+.mm-flow .vue-flow__node-chapter .chapter__drag {
+  cursor: grab;
+}
+
+.mm-flow .vue-flow__node-chapter .chapter__drag:active {
+  cursor: grabbing;
+}
+
+.mm-flow .vue-flow__node-knowledge {
+  z-index: 2 !important;
+  overflow: visible;
+  pointer-events: auto !important;
+}
+
+.mm-flow .vue-flow__node {
+  cursor: pointer;
+  transition:
+    opacity 0.22s ease,
+    filter 0.22s ease;
+}
+
+.mm-flow .vue-flow__node.is-dimmed {
+  opacity: 0.52;
+  filter: grayscale(0.18);
+}
+
+.mm-flow .vue-flow__node.is-dimmed:hover {
+  opacity: 0.92;
+  filter: none;
+}
+
+.mm-flow .vue-flow__node.is-chapter-peer .card {
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.32),
+    var(--shadow-node);
+  filter: brightness(1.03);
+}
+
+.mm-flow .vue-flow__node.is-bridge-peer .card {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--accent) 55%, #fff),
+    var(--shadow-node);
+  filter: brightness(1.02);
+}
+
+.mm-flow .vue-flow__node-chapter.is-chapter-frame {
+  opacity: 1 !important;
+}
+
+.mm-flow .vue-flow__node-chapter.is-chapter-frame .chapter {
+  border-color: var(--chapter-accent, var(--accent));
+  border-style: solid;
+}
+
+.mm-flow .vue-flow__node-chapter.is-chapter-dim .chapter {
+  opacity: 0.55;
+}
+
+.mm-flow.has-focus
+  .vue-flow__edge:not(.selected):not(.is-preview) .vue-flow__edge-path {
+  stroke-opacity: 0.14 !important;
+}
+
+.mm-flow .vue-flow__edge.selected .vue-flow__edge-path,
+.mm-flow .vue-flow__edge.is-preview .vue-flow__edge-path {
+  stroke-opacity: 1 !important;
+}
+
+.mm-flow .vue-flow__edges {
+  z-index: 1 !important;
+}
+
+.mm-flow .vue-flow__edge-labels {
+  z-index: 6 !important;
+  pointer-events: none !important;
+}
+
+.mm-flow .vue-flow__nodes {
+  z-index: 5 !important;
+}
+
+.mm-flow .vue-flow__node.dragging {
+  cursor: grabbing;
+}
+
+.mm-flow .vue-flow__edge-path {
+  stroke-linecap: round;
+  pointer-events: none;
+  transition:
+    stroke-opacity 0.2s ease,
+    stroke-width 0.2s ease;
+}
+
+.mm-flow .vue-flow__edge {
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.mm-flow .vue-flow__edge.animated path {
+  stroke-dasharray: 5;
+  animation: mm-vf-dash 0.5s linear infinite;
+}
+
+/* —— 控件 / 小地图 —— */
+.mm-flow .vue-flow__controls,
+.mm-flow .vue-flow__minimap {
+  z-index: 20;
+}
+
+.mm-flow .vue-flow__controls {
+  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin: 14px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+}
+
+.mm-flow .vue-flow__controls-button {
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+  width: 30px;
+  height: 30px;
+  fill: var(--mist-dim);
+}
+
+.mm-flow .vue-flow__controls-button:hover {
+  background: var(--accent-soft);
+  fill: var(--accent);
+}
+
+.mm-flow .vue-flow__controls-button:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.mm-flow .vue-flow__controls-button:last-child {
+  border-bottom: 0;
+}
+
+.mm-flow .vue-flow__minimap {
+  width: 172px !important;
+  height: 120px !important;
+  margin: 14px;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(
+      120% 80% at 100% 0%,
+      color-mix(in srgb, var(--accent) 10%, transparent),
+      transparent 55%
+    ),
+    var(--glass) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-flow .vue-flow__minimap::after {
+  content: '概览';
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 2;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mist-dim);
+  opacity: 0.78;
+}
+
+.mm-flow .vue-flow__minimap-mask {
+  fill-opacity: 1;
+}
+
+.mm-flow .vue-flow__minimap .mm-chapter {
+  stroke-dasharray: 3 2;
+}
+
+.mm-flow .vue-flow__minimap .mm-topic {
+  filter: saturate(0.92);
+}
+
+/* —— 工具条 / 提示 —— */
+.mm-tools {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+
+.mm-tool {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--mist-dim);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.mm-tool:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.mm-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 15;
+  margin: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--mist-dim);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+}
+
+.mm-wrap.has-focus .mm-hint {
+  opacity: 0;
+}
+
+/* —— 窄屏 —— */
+.mm-flow.is-mobile-graph .vue-flow__node {
+  cursor: pointer;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__node.dragging {
+  cursor: pointer;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__node-chapter .chapter__drag {
+  cursor: pointer;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__node-chapter .chapter__head:hover {
+  transform: none;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__node-chapter .chapter__drag-tip {
+  display: none;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__node .card:hover {
+  transform: none;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__controls {
+  margin: 10px;
+  border-radius: 14px;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__controls-button {
+  width: 36px;
+  height: 36px;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__minimap {
+  width: 128px !important;
+  height: 88px !important;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+.mm-flow.is-mobile-graph .vue-flow__minimap::after {
+  display: none;
+}
+
+.mm-wrap.is-mobile-graph .mm-tools {
+  top: max(8px, env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  gap: 6px;
+}
+
+.mm-wrap.is-mobile-graph .mm-tool {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  touch-action: manipulation;
+}
+
+.mm-wrap.is-mobile-graph .mm-hint {
+  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+  width: max-content;
+  max-width: calc(100% - 24px);
+  font-size: 10px;
+  padding: 4px 10px;
+}
+
+@keyframes mm-vf-dash {
+  from {
+    stroke-dashoffset: 10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-flow .vue-flow__edge.animated path {
+    animation: none;
+  }
+
+  .mm-flow .vue-flow__node {
+    transition: none;
+  }
+}

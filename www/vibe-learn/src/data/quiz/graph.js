@@ -39,6 +39,7 @@ export const DOMAIN_TONES = {
   craft: { bg: '#b45309' },
   xrk: { bg: '#be123c' },
   ai: { bg: '#9333ea' },
+  vibe: { bg: '#7c3aed' },
   ops: { bg: '#334155' },
 };
 
@@ -299,9 +300,11 @@ export function buildQuizFlowNodes() {
       draggable: true,
       selectable: false,
       zIndex: 0,
+      class: 'mm-chapter-pass',
       style: {
         width: `${f.size.width}px`,
         height: `${f.size.height}px`,
+        pointerEvents: 'none',
       },
       data: {
         kind: 'chapter',
@@ -318,6 +321,7 @@ export function buildQuizFlowNodes() {
       position: c.position,
       draggable: true,
       zIndex: 2,
+      class: 'mm-nopan',
       style: {
         width: `${QUIZ_CARD_W}px`,
       },

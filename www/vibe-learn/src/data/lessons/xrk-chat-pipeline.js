@@ -67,8 +67,8 @@ flowchart TB
 
 1. **assistant** — AGENTS / SOUL / USER / … / memory  
 2. **contextFiles**  
-3. **rules** — \`agents/rules\` 全文  
-4. **Skills** — \`<available_skills>\` 目录（细则 \`tools.read\`）  
+3. **rules** — \`agents/rules\` ∪ 工作区 \`rules/\`（同路径覆盖）  
+4. **Skills** — \`<available_skills>\` 目录（细则 \`tools.read\`；装技能 **agent-skillhub**）  
 5. **Agents** — subagents 清单（提示路由，非隔离子会话）
 
 另：triggers **microagents** 命中用户文本时可整段注入。  

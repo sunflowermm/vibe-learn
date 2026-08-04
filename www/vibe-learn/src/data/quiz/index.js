@@ -110,6 +110,7 @@ import interview_adapted_landed_reranking from './sets/interview-adapted-landed-
 import interview_adapted_landed_evaluation from './sets/interview-adapted-landed-evaluation.js';
 import interview_adapted_landed_production from './sets/interview-adapted-landed-production.js';
 import interview_adapted_landed_security from './sets/interview-adapted-landed-security.js';
+import vibehubPractice from './sets/vibehub-practice.js';
 
 /** @type {import('./schema.js').QuizSet[]} */
 const REGISTRY = [
@@ -219,6 +220,8 @@ const REGISTRY = [
   interview_adapted_landed_evaluation,
   interview_adapted_landed_production,
   interview_adapted_landed_security,
+  // VibeHub 术语判断（sync-vibehub.mjs）
+  vibehubPractice,
 ];
 
 const byId = new Map(REGISTRY.map((s) => [s.id, s]));

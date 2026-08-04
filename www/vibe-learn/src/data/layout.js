@@ -817,6 +817,12 @@ export const LAYOUT = {
     height: Math.ceil(adevB.maxY + PAD_H),
   },
 
+  /** 整图入口卡：落在序章左侧（对齐导图2 左枢纽） */
+  hubKnowledge: {
+    x: FRAME_MACHINE.x - CARD_W - 160,
+    y: FRAME_MACHINE.y + Math.floor(S.machine.h / 2) - Math.floor(CARD_H / 2),
+  },
+
   topics: {
     ...MACHINE_TOPICS,
     ...ENV_TOPICS,
@@ -835,6 +841,10 @@ export const LAYOUT = {
     ...PANEL_TOPICS,
     ...HOST_TOPICS,
     ...ADEV_TOPICS,
+    'knowledge-hub': {
+      x: FRAME_MACHINE.x - CARD_W - 160,
+      y: FRAME_MACHINE.y + Math.floor(S.machine.h / 2) - Math.floor(CARD_H / 2),
+    },
   },
 };
 

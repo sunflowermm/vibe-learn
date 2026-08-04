@@ -186,4 +186,12 @@ git remote add gitee https://gitee.com/<owner>/<repo>.git
 ## 下一步
 
 工作区就位后 → **首次跑通**；需要认清源码语言时 → 第二章 **计算机语言**。
+
+## 结合知识导图2
+
+| 本课 | 导图2 | 钉死 |
+|------|-------|------|
+| GitHub / Gitee / PR | **Pull Request** · **Git** · **Push** | 托管平台 ≠ Git 本身 |
+| 国内通路 | Clone · 终端 | 代理问题回 Clash / PATH 课 |
+
 `;

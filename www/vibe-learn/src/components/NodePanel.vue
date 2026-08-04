@@ -40,6 +40,9 @@ const nextNodes = computed(() => resolveNodes(props.node?.next));
 const extendNodes = computed(() =>
   resolveNodes([...(props.node?.chapterOut || []), ...(props.node?.sideOut || [])])
 );
+const mapLinks = computed(() =>
+  Array.isArray(props.node?.mapLinks) ? props.node.mapLinks : []
+);
 const bookmarked = computed(() =>
   props.node?.id ? library.isBookmarked(props.node.id) : false
 );
@@ -162,7 +165,7 @@ function openRelatedQuiz() {
       <p v-if="node.role" class="panel__role">{{ node.role }}</p>
 
       <nav
-        v-if="prereqNodes.length || nextNodes.length || extendNodes.length"
+        v-if="prereqNodes.length || nextNodes.length || extendNodes.length || mapLinks.length"
         class="panel__nav"
         aria-label="相关节点"
       >
@@ -200,6 +203,18 @@ function openRelatedQuiz() {
             type="button"
             class="panel__chip extend"
             :class="{ 'is-learned': chipLearned(n.id) }"
+            @click="emit('navigate', n.id)"
+          >
+            {{ n.label }}
+          </button>
+        </div>
+        <div v-if="mapLinks.length" class="panel__nav-row">
+          <span class="panel__nav-label">跨导图</span>
+          <button
+            v-for="n in mapLinks"
+            :key="`map-${n.id}`"
+            type="button"
+            class="panel__chip bridge"
             @click="emit('navigate', n.id)"
           >
             {{ n.label }}
@@ -543,6 +558,17 @@ function openRelatedQuiz() {
 .panel__chip.extend:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.panel__chip.bridge {
+  border-color: color-mix(in srgb, #7c3aed 45%, transparent);
+  background: color-mix(in srgb, #7c3aed 10%, transparent);
+  color: var(--node-title);
+}
+
+.panel__chip.bridge:hover {
+  border-color: #7c3aed;
+  background: color-mix(in srgb, #7c3aed 16%, transparent);
 }
 
 .panel__chip.is-learned::after {

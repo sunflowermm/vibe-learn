@@ -4,6 +4,7 @@
  * 序章 认识计算机 → 第一章 环境与终端 → 第一章半 编程基础
  * → 第二章 计算机语言 → 第三章 计算机网络 → 第四章 XRK 实践 → 第五章 人工智能
  * · 番外 Clash / 数据库 / 容器 / 本机目录 / ESP32 / 工程素养 / DSA / 主机面板 / 主机运维 / AI 编程工具
+ * · 知识导图2（Vibe Coding 词表）见 maps.js · knowledge2；跨导图见 map-bridges.js
  */
 import computerSystem from './lessons/computer-system.js';
 import osEssence from './lessons/os-essence.js';
@@ -169,7 +170,7 @@ import chapterAdev from './lessons/chapter-adev.js';
 import adevCompare from './lessons/adev-compare.js';
 import adevProjectMemory from './lessons/adev-project-memory.js';
 import adevVibeCoding from './lessons/adev-vibe-coding.js';
-
+import knowledgeHub from './lessons/knowledge-hub.js';
 
 import chapterCode from './lessons/chapter-code.js';
 import codeFirstProgram from './lessons/code-first-program.js';
@@ -431,6 +432,28 @@ export const graphFrames = [
 ];
 
 export const knowledgeNodes = [
+  /* 整图入口（无 parentId → 绝对坐标，对齐导图2 左枢纽） */
+  {
+    id: 'knowledge-hub',
+    kind: 'topic',
+    parentId: null,
+    label: '知识导图',
+    subtitle: '整图讲什么 · 怎么逛',
+    tag: '入口',
+    role: '系统默认导图说明书：章节故事、路径 A/B、与导图2（词表）分工。',
+    prereqs: [],
+    next: [
+      'computer-system',
+      'terminal-worlds',
+      'adev-vibe-coding',
+      'chapter-machine',
+      'chapter-env',
+      'chapter-xrk-agt',
+    ],
+    position: LAYOUT.topics['knowledge-hub'],
+    markdown: knowledgeHub,
+  },
+
   /* 序章 */
   {
     id: 'computer-system',
@@ -440,7 +463,7 @@ export const knowledgeNodes = [
     subtitle: '工坊总览与分叉',
     tag: '00 总览',
     role: '起源入口：后面系统本质、联动、处理单元都从这里展开。',
-    prereqs: [],
+    prereqs: ['knowledge-hub'],
     next: ['os-essence', 'hw-sw-link', 'terminal-worlds', 'network-basics', 'api-frontend', 'adev-vibe-coding'],
     position: LAYOUT.topics['computer-system'],
     markdown: computerSystem,
@@ -3264,6 +3287,15 @@ export const knowledgeEdges = [
 
 
 
+  /* 整图入口 → 主章（对齐导图2：枢纽连大区） */
+  { id: 'e-hub-cs', source: 'knowledge-hub', target: 'computer-system', sourceHandle: 'right', targetHandle: 'left', label: '从序章开始', branch: 'main', animated: true },
+  { id: 'e-hub-machine', source: 'knowledge-hub', target: 'chapter-machine', sourceHandle: 'right', targetHandle: 'left', label: '序章框', branch: 'bridge' },
+  { id: 'e-hub-env', source: 'knowledge-hub', target: 'chapter-env', sourceHandle: 'right', targetHandle: 'left', label: '环境章', branch: 'bridge' },
+  { id: 'e-hub-lang', source: 'knowledge-hub', target: 'chapter-languages', sourceHandle: 'right', targetHandle: 'left', label: '语言章', branch: 'bridge' },
+  { id: 'e-hub-xrk', source: 'knowledge-hub', target: 'chapter-xrk-agt', sourceHandle: 'right', targetHandle: 'left', label: '本仓枢纽', branch: 'bridge' },
+  { id: 'e-hub-ai', source: 'knowledge-hub', target: 'chapter-ai', sourceHandle: 'right', targetHandle: 'left', label: '路径 B · AI', branch: 'bridge' },
+  { id: 'e-hub-adev', source: 'knowledge-hub', target: 'chapter-adev', sourceHandle: 'bottom', targetHandle: 'left', label: '路径 A · Vibe', branch: 'bridge', animated: true },
+
   /* 番外 · AI 编程（收束三卡） */
   { id: 'e-cs-vibe', source: 'computer-system', target: 'adev-vibe-coding', sourceHandle: 'bottom', targetHandle: 'top', label: '路径 A · Vibe', branch: 'bridge', animated: true },
   { id: 'e-wb-vibe', source: 'workbench-editor', target: 'adev-vibe-coding', sourceHandle: 'right', targetHandle: 'left', label: '用 Agent 开工', branch: 'bridge' },
@@ -3363,6 +3395,12 @@ export function buildFlowNodes() {
     },
     width: f.size.width,
     height: f.size.height,
+    style: {
+      width: `${f.size.width}px`,
+      height: `${f.size.height}px`,
+      pointerEvents: 'none',
+    },
+    class: 'mm-chapter-pass',
     selectable: true,
     draggable: true,
     dragHandle: '.chapter__drag',
@@ -3383,6 +3421,7 @@ export function buildFlowNodes() {
         chapterId: n.parentId,
         tone,
       },
+      class: 'mm-nopan',
       selectable: true,
       draggable: true,
       zIndex: 10,

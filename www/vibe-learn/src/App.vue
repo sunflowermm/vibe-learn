@@ -6,6 +6,7 @@ import UserLibraryDrawer from './components/UserLibraryDrawer.vue';
 import GlossaryDrawer from './components/GlossaryDrawer.vue';
 import GlossaryFab from './components/GlossaryFab.vue';
 import MapSwitcher from './components/MapSwitcher.vue';
+import VibeMindMap from './components/VibeMindMap.vue';
 import QuizMindMap from './components/quiz/QuizMindMap.vue';
 import QuizDesk from './components/quiz/QuizDesk.vue';
 import { useBlobity } from './composables/useBlobity.js';
@@ -22,8 +23,12 @@ import { useUserLibrary } from './composables/useUserLibrary.js';
 import { getNodeById, countTopics } from './data/nodes.js';
 import { glossaryCount } from './data/glossary.js';
 import { getLearningMap, normalizeMapId } from './data/maps.js';
+import { bridgesForKnowledge, bridgesForMap2 } from './data/map-bridges.js';
+import { combineKnowledgeWithMap2 } from './data/map2-combine.js';
 import { quizQuestionCount, questionsForNode } from './data/quiz/bank.js';
 import { getQuizCardById } from './data/quiz/graph.js';
+import { getVibeEntryById } from './data/vibehub/graph-pack.js';
+import { countVibeTopics } from './data/vibehub/mind-map.js';
 
 const THEME_KEY = 'vibe-learn-theme';
 
@@ -51,9 +56,18 @@ function readMapFromUrl() {
 function readNodeFromUrl() {
   try {
     const id = new URLSearchParams(window.location.search).get('node');
-    return id && getNodeById(id) ? id : 'computer-system';
+    return id && getNodeById(id) ? id : 'knowledge-hub';
   } catch {
-    return 'computer-system';
+    return 'knowledge-hub';
+  }
+}
+
+function readVibeNodeFromUrl() {
+  try {
+    const id = new URLSearchParams(window.location.search).get('node');
+    return id && getVibeEntryById(id) ? id : 'vh-hub';
+  } catch {
+    return 'vh-hub';
   }
 }
 
@@ -79,14 +93,32 @@ function readQnodeFromUrl() {
 
 const activeMapId = ref(readMapFromUrl());
 const activeId = ref(readNodeFromUrl());
+const vibeActiveId = ref(
+  activeMapId.value === 'knowledge2' ? readVibeNodeFromUrl() : 'vh-hub'
+);
 const quizActiveId = ref(readQsetFromUrl());
 const quizFocusNodeId = ref(readQnodeFromUrl());
 const theme = ref(readTheme());
 const focusNonce = ref(0);
+const vibeFocusNonce = ref(0);
 const quizFocusNonce = ref(0);
-const activeNode = computed(() => (activeId.value ? getNodeById(activeId.value) : null));
 const activeMap = computed(() => getLearningMap(activeMapId.value));
 const isQuizMap = computed(() => activeMapId.value === 'quiz');
+const isKnowledge2Map = computed(() => activeMapId.value === 'knowledge2');
+const isKnowledgeMap = computed(() => activeMapId.value === 'knowledge');
+const activeNode = computed(() => {
+  if (isQuizMap.value) return null;
+  if (isKnowledge2Map.value) {
+    const e = vibeActiveId.value ? getVibeEntryById(vibeActiveId.value) : null;
+    if (!e) return null;
+    const links = bridgesForMap2(e.id);
+    return links.length ? { ...e, mapLinks: links } : e;
+  }
+  const n = activeId.value ? getNodeById(activeId.value) : null;
+  if (!n) return null;
+  /* 导图1 全量：原文 + 导图2 对照正文 + 跨导图芯片 */
+  return combineKnowledgeWithMap2(n);
+});
 const libraryOpen = ref(false);
 const glossaryOpen = ref(false);
 const glossaryFocusId = ref('');
@@ -105,8 +137,10 @@ const {
 
 const termCount = glossaryCount();
 const bankQuestionCount = quizQuestionCount();
+const vibeTopicCount = countVibeTopics();
 const mapBadges = computed(() => ({
   knowledge: countTopics(),
+  knowledge2: vibeTopicCount,
   quiz: bankQuestionCount,
 }));
 
@@ -140,6 +174,13 @@ function writeUrlState() {
       else url.searchParams.delete('qset');
       if (quizFocusNodeId.value) url.searchParams.set('qnode', quizFocusNodeId.value);
       else url.searchParams.delete('qnode');
+      url.searchParams.delete('node');
+    } else if (activeMapId.value === 'knowledge2') {
+      url.searchParams.set('map', 'knowledge2');
+      url.searchParams.delete('qset');
+      url.searchParams.delete('qnode');
+      if (vibeActiveId.value) url.searchParams.set('node', vibeActiveId.value);
+      else url.searchParams.delete('node');
     } else {
       url.searchParams.delete('map');
       url.searchParams.delete('qset');
@@ -169,7 +210,17 @@ watch(
 watch(
   activeId,
   (id) => {
-    if (isQuizMap.value) return;
+    if (!isKnowledgeMap.value) return;
+    writeUrlState();
+    if (id) library.markVisited(id);
+  },
+  { immediate: true }
+);
+
+watch(
+  vibeActiveId,
+  (id) => {
+    if (!isKnowledge2Map.value) return;
     writeUrlState();
     if (id) library.markVisited(id);
   },
@@ -186,10 +237,10 @@ function toggleTheme() {
 
 function onMapChange(id) {
   activeMapId.value = normalizeMapId(id);
-  if (activeMapId.value !== 'quiz') {
-    quizFocusNodeId.value = null;
-  } else {
+  if (activeMapId.value === 'quiz') {
     libraryOpen.value = false;
+  } else {
+    quizFocusNodeId.value = null;
   }
 }
 
@@ -197,12 +248,27 @@ function selectNode(id) {
   activeId.value = id;
 }
 
+function selectVibeNode(id) {
+  vibeActiveId.value = id;
+}
+
 function navigateNode(id) {
+  if (getVibeEntryById(id)) {
+    activeMapId.value = 'knowledge2';
+    vibeActiveId.value = id;
+    vibeFocusNonce.value += 1;
+    return;
+  }
+  activeMapId.value = 'knowledge';
   activeId.value = id;
   focusNonce.value += 1;
 }
 
 function clearSelection() {
+  if (isKnowledge2Map.value) {
+    vibeActiveId.value = null;
+    return;
+  }
   activeId.value = null;
 }
 
@@ -436,15 +502,19 @@ onUnmounted(() => {
           {{ theme === 'dark' ? '深色' : '浅色' }}
         </button>
         <div class="topbar-meta">
-          <template v-if="!isQuizMap">
-            {{ activeMap.short }} <strong>{{ countTopics() }}</strong> · 足迹
-            <strong>{{ visitedCount }}</strong> · 已学 <strong>{{ learnedCount }}</strong>
-          </template>
-          <template v-else>
+          <template v-if="isQuizMap">
             {{ activeMap.short }} <strong>{{ bankQuestionCount }}</strong>
             <template v-if="wrongOpenCount">
               · 错题 <strong>{{ wrongOpenCount }}</strong>
             </template>
+          </template>
+          <template v-else-if="isKnowledge2Map">
+            {{ activeMap.short }} <strong>{{ vibeTopicCount }}</strong> · 足迹
+            <strong>{{ visitedCount }}</strong> · 已学 <strong>{{ learnedCount }}</strong>
+          </template>
+          <template v-else>
+            {{ activeMap.short }} <strong>{{ countTopics() }}</strong> · 足迹
+            <strong>{{ visitedCount }}</strong> · 已学 <strong>{{ learnedCount }}</strong>
           </template>
         </div>
       </div>
@@ -453,10 +523,12 @@ onUnmounted(() => {
     <div class="workspace" :class="{ 'is-resizing': resizing }" :style="workspaceStyle">
       <section
         class="graph-pane"
-        :aria-label="isQuizMap ? '题库思维导图' : '知识图谱画布'"
+        :aria-label="
+          isQuizMap ? '题库思维导图' : isKnowledge2Map ? '知识导图2' : '知识导图画布'
+        "
       >
         <KnowledgeGraph
-          v-if="!isQuizMap"
+          v-if="isKnowledgeMap"
           :active-id="activeId"
           :theme="theme"
           :focus-nonce="focusNonce"
@@ -465,6 +537,18 @@ onUnmounted(() => {
           :visited-ids="visitedIds"
           :learned-ids="learnedIds"
           @select="selectNode"
+          @clear="clearSelection"
+        />
+        <VibeMindMap
+          v-else-if="isKnowledge2Map"
+          :active-id="vibeActiveId"
+          :theme="theme"
+          :focus-nonce="vibeFocusNonce"
+          :bookmarked-ids="bookmarkedIds"
+          :noted-ids="notedIds"
+          :visited-ids="visitedIds"
+          :learned-ids="learnedIds"
+          @select="selectVibeNode"
           @clear="clearSelection"
         />
         <QuizMindMap
@@ -516,7 +600,7 @@ onUnmounted(() => {
           <div v-else key="empty" class="empty-hint">
             <h2>选择一个节点</h2>
             <p>
-              切换知识 / 题库导图，点卡片看讲解。词典用顶栏或悬浮球；Esc 收起。
+              切换知识导图 / 知识导图2 / 题库，点卡片看讲解。词典用顶栏或悬浮球；Esc 收起。
             </p>
           </div>
         </Transition>

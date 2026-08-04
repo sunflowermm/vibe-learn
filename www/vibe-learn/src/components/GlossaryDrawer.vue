@@ -198,6 +198,9 @@ function onDrawerKey(e) {
         </div>
         <p class="study-detail__id">{{ active.id }}</p>
         <p class="study-detail__brief">{{ active.brief }}</p>
+        <p v-if="active.source === 'vibehub'" class="study-detail__ext">
+          来源：VibeHub 术语快照（第六章可学全文）
+        </p>
         <template v-if="alsoNodes.length">
           <p class="study-detail__label">相关课程</p>
           <div class="study-detail__chips">

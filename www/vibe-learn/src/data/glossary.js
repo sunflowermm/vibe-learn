@@ -2,9 +2,22 @@
  * 术语表（按学习出现顺序维护）
  * brief：专业定义优先（缩写展开）→ 边界/本仓落点；少用比喻
  * also：相关节点 id，供面板跳转
+ * vh_*：VibeHub（vibe-hub.org）快照，见 vibehub/glossary-entries.js；不覆盖本仓键
  */
 
-/** @typedef {{ term: string, brief: string, also?: string[] }} GlossaryEntry */
+import { VIBEHUB_GLOSSARY_ENTRIES } from './vibehub/glossary-entries.js';
+import { mergeVibehubGlossary } from './vibehub/merge-glossary.js';
+
+/** @typedef {{
+ *   term: string,
+ *   brief: string,
+ *   also?: string[],
+ *   href?: string,
+ *   source?: string,
+ *   aliases?: string[],
+ *   domain?: string,
+ *   vibehubId?: string,
+ * }} GlossaryEntry */
 
 /** @type {Record<string, GlossaryEntry>} */
 export const GLOSSARY = {
@@ -1136,8 +1149,9 @@ export const GLOSSARY = {
   },
   agent_skills: {
     term: 'Agent Skills',
-    brief: 'Agent Skills：按需加载的流程与规范包（SKILL.md 及可选脚本/参考），仅在相关任务时展开以节省上下文窗口。',
-    also: ['ai-skills'],
+    brief: '按需加载的流程与规范包（入口通常是 SKILL.md，可含脚本与参考），仅在相关任务时展开以节省上下文窗口。',
+    also: ['ai-skills', 'adev-project-memory', 'chapter-adev'],
+    aliases: ['Skill', 'Skills', '技能'],
   },
   agent_rules: {
     term: 'Rules（规则）',
@@ -1151,8 +1165,14 @@ export const GLOSSARY = {
   },
   agents_md: {
     term: 'AGENTS.md',
-    brief: '面向 Agent 的说明书：本仓分根目录（开发）、docs/agents.md（办事说明）、工作区 AGENTS（注入模型）、产品 Core AGENTS（若有）。',
-    also: ['ai-agents-md', 'xrk-agent-workspace', 'xrk-overview'],
+    brief: '面向 Coding Agent / 协作者的仓内交底说明书：约定放码位置、禁区、常用命令与验收；应版本化且不写密钥。本仓分根目录（开发）、docs 办事说明、工作区注入与产品 Core（若有）。',
+    also: [
+      'ai-agents-md',
+      'adev-project-memory',
+      'adev-vibe-coding',
+      'chapter-adev',
+      'xrk-agent-workspace',
+    ],
   },
 
   /* —— 番外 · Clash —— */
@@ -2666,6 +2686,12 @@ export const GLOSSARY = {
   },
 };
 
+/** VibeHub：与本仓重叠则并入本仓键，不重复建 vh_* */
+export const VIBEHUB_GLOSSARY_MERGE = mergeVibehubGlossary(
+  GLOSSARY,
+  VIBEHUB_GLOSSARY_ENTRIES
+);
+
 /**
  * @param {string[]} ids
  * @returns {GlossaryEntry[]}
@@ -2684,7 +2710,7 @@ export function resolveGlossary(ids = []) {
 }
 
 /**
- * @returns {Array<{ id: string, term: string, brief: string, also?: string[] }>}
+ * @returns {Array<GlossaryEntry & { id: string }>}
  */
 export function listGlossary() {
   return Object.entries(GLOSSARY).map(([id, entry]) => ({ id, ...entry }));
@@ -2693,7 +2719,7 @@ export function listGlossary() {
 /**
  * @param {string} query
  * @param {{ limit?: number }} [opts]
- * @returns {Array<{ id: string, term: string, brief: string, also?: string[], score: number }>}
+ * @returns {Array<GlossaryEntry & { id: string, score: number }>}
  */
 export function searchGlossary(query, opts = {}) {
   const q = String(query ?? '')
@@ -2706,11 +2732,15 @@ export function searchGlossary(query, opts = {}) {
   const tokens = q.split(/\s+/).filter(Boolean);
   const scored = [];
   for (const e of all) {
-    const hay = `${e.id} ${e.term} ${e.brief}`.toLowerCase();
+    const aliasHay = Array.isArray(e.aliases)
+      ? e.aliases.join(' ').toLowerCase()
+      : '';
+    const hay = `${e.id} ${e.term} ${e.brief} ${aliasHay}`.toLowerCase();
     let score = 0;
     for (const t of tokens) {
       if (e.term.toLowerCase().includes(t)) score += 8;
       if (e.id.toLowerCase().includes(t)) score += 6;
+      if (aliasHay.includes(t)) score += 7;
       if (hay.includes(t)) score += 2;
       else {
         score = -1;

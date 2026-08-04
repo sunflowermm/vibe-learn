@@ -18,7 +18,10 @@
     "quiz:sync-sets": "node scripts/sync-adapted-sets.mjs",
     "quiz:rebind": "node scripts/rebind-adapted-nodes.mjs",
     "quiz:glossary": "node scripts/rewrite-glossary-bank.mjs",
-    "quiz:bank": "node scripts/rewrite-bank-beginner.mjs"
+    "quiz:bank": "node scripts/rewrite-bank-beginner.mjs",
+    "vibehub:sync": "node scripts/sync-vibehub.mjs",
+    "vibehub:practice": "node scripts/rebuild-vibehub-practice.mjs",
+    "vibehub:graph": "node scripts/gen-vibehub-graph.mjs"
   },
   "dependencies": {
     "@vue-flow/background": "^1.3.2",

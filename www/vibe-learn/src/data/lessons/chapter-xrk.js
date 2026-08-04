@@ -150,4 +150,19 @@ flowchart TB
 | 工程素养 | 改完要验收、密钥不进仓、观测打点可放 events |
 
 文档总入口：\`docs/runtime-surface.md\` · \`docs/base-classes.md\` · \`docs/AUTH.md\` · \`docs/database.md\` · \`docs/agent-context.md\` · \`docs/ai-workflow.md\` · \`docs/agents.md\` · \`docs/mcp-guide.md\` · \`docs/subserver-api.md\` · 根 \`AGENTS.md\` · [AGT-Cores-Tools-Index](https://github.com/sunflowermm/AGT-Cores-Tools-Index)。
+
+## 结合知识导图2
+
+本框是**本仓工程地图**；导图2 提供上线与产品侧名词，用来给本仓概念「起外号对照」：
+
+| 本框课 | 导图2 对照 | 本仓仍要读 |
+|--------|------------|------------|
+| 部署环境 | **部署** · **环境变量** · **CI** / **CD** · 预发 / 回滚 | PATH、Redis、engines 清单 |
+| HTTP / www | **HTTP** · **路由** · **前端** | 本仓挂载与 Auth |
+| 语言栈 / 子服 | **技术栈** · **JavaScript** · **Python** · **后端** | 六子服契约 |
+| 工作流 / 管线 / 办事 | **AI Agent** · **流式响应** · **Skill** · 聊天 UI | \`docs/agent-context.md\` 真源 |
+| 最小贡献 / 实践 | **MVP** · **Git** · **Pull Request** | 放码边界与 PluginBase |
+
+卡住时：先 **Vibe Coding 心智** 五拍，再 **跨导图** 查词；改 Runtime 前仍以本框禁区为准。
+
 `;

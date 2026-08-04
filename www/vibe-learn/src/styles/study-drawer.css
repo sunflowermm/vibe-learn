@@ -366,6 +366,21 @@
   color: var(--mist);
 }
 
+.study-detail__ext {
+  margin: 0.55rem 0 0;
+}
+
+.study-detail__ext-link {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.study-detail__ext-link:hover {
+  color: var(--signal);
+}
+
 .study-detail__label {
   margin: 0.85rem 0 0.35rem;
   font-family: var(--font-mono);

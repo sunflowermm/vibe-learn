@@ -1,17 +1,40 @@
-/** Vibe Coding 心智（含安全与提问） */
+/** Vibe Coding 心智（本站五拍 + 导图2 / VibeHub 词条结合） */
 export default `# Vibe Coding 心智
 
 > **路径 A 主入口**：用 Coding Agent 读写仓库、跑命令；你负责目标、约束、验收与责任。  
 > **路径 B**（RAG / MCP / 办事助手 / 智能体循环）走 **第五章**，不要和「选 Cursor」混成一门。  
-> 选型：**形态与黄页**。交底：**项目记忆文件**。
+> 选型：**形态与黄页**。交底：**项目记忆文件**。  
+> 词表深挖：知识导图2 · \`vh-vibe-coding\`（面板 **跨导图**）；下文已把导图2 的定义、边界与判断题**合进本课**，不是删掉本站流程。
 
-## 词从哪来
+## 词从哪来（导图2 · VibeHub）
 
-业界口语 **vibe coding**（亦作 vibecoding）：大致指**用自然语言驱动 Agent 改代码**，人把精力放在意图与验收上。名字会过时，**五拍与审 diff 不会**。
+业界口语 **vibe coding**（亦作 vibecoding / 氛围编程）：
+
+> **一句话**：用自然语言向 AI 表达需求，让 AI 编写代码，再根据运行结果继续调整。
+
+**学会之后**：能判断一个任务是否适合先用 Vibe Coding 探索，以及**何时必须转入**代码审查、测试和安全检查。  
+**先具备**：用自然语言让 AI 生成或修改过页面和代码。
+
+例如：你说「做一个待办页面」，AI 先生成代码；你打开页面，发现按钮太挤或保存报错，再把结果告诉它继续改。它适合**快速试想法**，但能运行 ≠ 可靠；正式上线前仍要检查代码、测试和权限。
+
+### 怎么理解（导图2 三步）
+
+1. **先说出眼前想要的效果** — 尽快得到能运行、能看见的版本。  
+2. **再用结果推动修改** — 把画面、报错、手感当反馈贴回去。  
+3. **用途变严肃就切换做法** — 要存真实数据、账号权限或长期维护时：读懂关键改动，补测试，查依赖与安全边界。
+
+### 边界（务必保留）
+
+**Vibe Coding ≠ 所有 AI 辅助编程。**  
+认真读 diff、理解代码并验证结果，也是在用 AI 写代码，却不一定属于「很少看代码、一路 Accept」的原始语境；**原型跑通 ≠ 可以直接上线**。
 
 Coding Agent 的工程名常叫 **agent harness**：Instructions（规则/交底）+ Tools（文件/终端/MCP）+ Model。见 Cursor [Agent best practices](https://cursor.com/blog/agent-best-practices)。
 
-## 先认词
+\`\`\`html
+<figure class="vh-demo"><iframe class="vh-demo__frame" title="Vibe Coding 演示" src="https://vibe-hub.org/vibe-coding" loading="lazy" referrerpolicy="no-referrer-when-downgrade" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe><figcaption class="vh-demo__cap">源站预览 · vibe-coding（导图2 同款）</figcaption></figure>
+\`\`\`
+
+## 先认词（本站用法）
 
 | 写法 | 白话 |
 |------|------|
@@ -22,12 +45,12 @@ Coding Agent 的工程名常叫 **agent harness**：Instructions（规则/交底
 | **上下文** | 窗口有限；新任务常**新开对话**比硬续聊更干净 |
 
 \`\`\`flip
-{"title":"Vibe 翻卡","cards":[{"front":"默认用 AI？","back":"可以；不等于零验收上线"},{"front":"还学基础？","back":"否则审不了 diff、排不了层、写不出约束"},{"front":"Plan 失败了？","back":"改计划重跑，往往比在烂实现上追问更快"},{"front":"A 与 B","back":"A=会用 Agent 写代码；B=第五章 LLM 应用"}]}
+{"title":"Vibe 翻卡","cards":[{"front":"默认用 AI？","back":"可以；不等于零验收上线"},{"front":"还学基础？","back":"否则审不了 diff、排不了层、写不出约束"},{"front":"Plan 失败了？","back":"改计划重跑，往往比在烂实现上追问更快"},{"front":"A 与 B","back":"A=会用 Agent 写代码；B=第五章 LLM 应用"},{"front":"导图2 词条？","back":"名词与判断题；本课五拍仍是本仓驾照"}]}
 \`\`\`
 
 ---
 
-## 五拍（唯一要背的流程）
+## 五拍（本仓唯一要背的流程）
 
 \`\`\`steps
 {"title":"Vibe 五拍","steps":[{"title":"目标","body":"一句话要完成什么"},{"title":"现场","body":"OS、路径、已做、报错原文"},{"title":"约束","body":"pnpm；勿改 src/；勿交密钥…"},{"title":"验收","body":"哪条命令/哪页算过"},{"title":"审 diff + 跑通","body":"看改了哪些文件；本机再跑"}]}
@@ -53,7 +76,7 @@ Coding Agent 的工程名常叫 **agent harness**：Instructions（规则/交底
 | CI / 跑通 | AI 改完仍要本机或流水线验证 |
 
 \`\`\`quiz
-{"title":"反模式","questions":[{"q":"最危险的一句？","choices":[{"t":"先 plan，再小范围改，再审 diff","ok":false,"why":"推荐节奏。"},{"t":"整个项目重构一下，不用看","ok":true,"why":"无边界、不可审。"},{"t":"这是堆栈原文，请指出文件:行号","ok":false,"why":"好提问。"}]}]}
+{"title":"反模式 + 导图2 判断","questions":[{"q":"最危险的一句？","choices":[{"t":"先 plan，再小范围改，再审 diff","ok":false,"why":"推荐节奏。"},{"t":"整个项目重构一下，不用看","ok":true,"why":"无边界、不可审。"},{"t":"这是堆栈原文，请指出文件:行号","ok":false,"why":"好提问。"}]},{"q":"AI 做出的活动报名页已能在本机打开，团队准备明天收集真实姓名和手机号。下一步更合适的是？","choices":[{"t":"暂停堆功能，先检查数据流、权限和依赖，补关键测试并由人审查改动","ok":true,"why":"导图2：本机画面正常只证明原型能运行；接触真实个人信息前，当正式软件检查。"},{"t":"继续接受 AI 的全部修改，只要页面没有报错就直接上线","ok":false,"why":"没有报错不能证明数据处理与权限安全。"},{"t":"先让 AI 把颜色和动画做精致，视觉完成后再默认功能可靠","ok":false,"why":"视觉完成度不能代替数据与越权检查。"}]}]}
 \`\`\`
 
 ---
@@ -76,6 +99,7 @@ Coding Agent 的工程名常叫 **agent harness**：Instructions（规则/交底
 | 最小插件 | 「\`core/…/plugin/\` 写 PluginBase，\`/^#lab$/\` → \`lab-ok\`。勿改 src/；constructor 不建 Map。」 |
 | 配置三同步 | 「独立产品加 \`feature.enabled\`。先列 default/schema/消费三处路径，我确认再改。」 |
 | 面板 / 反代 | 「node 已在 127.0.0.1:PORT。给出只暴露 80/443 的反代+证书步骤；先清单后改生产。」 |
+| 周末原型（导图2） | 「我想先用 Vibe Coding 做一个周末原型，只放假数据，不接账号、支付或真实用户信息。请先做能运行的最小版本，每次改动后都运行并检查；需要真实数据、密钥或不可逆操作时先停下告诉我。完成后列出上线前仍要审查和测试的部分。」 |
 
 委派部署：**先本机跑通 → 一次一层 → 密钥走环境变量 → 高危你确认**。
 
@@ -89,9 +113,26 @@ Coding Agent 的工程名常叫 **agent harness**：Instructions（规则/交底
 
 ---
 
+## 与知识导图2（结合，不是替代）
+
+| 本课留下 | 导图2 补充 |
+|----------|------------|
+| 五拍、提问四件套、本仓禁区 | 词条定义、边界辨析、源站演示 |
+| 路径 A 主脊 | AI 区：Agent / Token / 工具调用 / Skill… |
+| 形态黄页 · 项目记忆 | \`vh-ai-agent\` · \`vh-system-prompt\` · \`vh-skill\` 等 |
+
+点面板 **跨导图** 打开 \`Vibe Coding\` 词条与 AI 区；学完仍回本课五拍与主脊。
+
+刷题：面板「刷本课相关题」含 **精选/改编判断** 与 **词典题**（\`Vibe Coding\` 名词↔释义）；题库领域选 **Vibe 术语** 可刷整池（专题 + 词典）。
+
+参考：[Karpathy 原始帖](https://x.com/karpathy/status/1886192184808149383) · 词表整理自 [VibeHub](https://vibe-hub.org)
+
+---
+
 ## 下一步
 
 1. **形态与黄页** — IDE / CLI / 云端与品牌事实钉  
 2. **项目记忆文件** — \`AGENTS.md\` / Rules / Skills  
 3. 回主脊：**工作台 · 排障** → **首次跑通** → **最小贡献路径**  
+4. **知识导图2** — 跨导图进入全量词表；与第五章概念课对着读  
 `;

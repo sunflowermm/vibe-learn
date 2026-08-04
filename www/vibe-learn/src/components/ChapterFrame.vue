@@ -1,4 +1,5 @@
 <script setup>
+import { Handle, Position } from '@vue-flow/core';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -8,13 +9,29 @@ const props = defineProps({
 
 /** 视觉高亮来自 data.lit（勿用 selected，避免多选拖拽） */
 const lit = computed(() => Boolean(props.data?.lit) || props.selected);
+
+/** 章框主色：导图2 各大区不同；导图1 回落全局 accent */
+const toneStyle = computed(() => {
+  const bg = props.data?.tone?.bg;
+  return bg ? { '--chapter-accent': bg } : undefined;
+});
 </script>
 
 <template>
-  <div class="chapter" :class="{ selected: lit }">
+  <div class="chapter" :class="{ selected: lit }" :style="toneStyle">
+    <Handle id="left" type="source" :position="Position.Left" class="chapter__handle" :connectable="false" />
+    <Handle id="right" type="source" :position="Position.Right" class="chapter__handle" :connectable="false" />
+    <Handle id="top" type="source" :position="Position.Top" class="chapter__handle" :connectable="false" />
+    <Handle id="bottom" type="source" :position="Position.Bottom" class="chapter__handle" :connectable="false" />
+    <Handle id="left-t" type="target" :position="Position.Left" class="chapter__handle" :connectable="false" />
+    <Handle id="right-t" type="target" :position="Position.Right" class="chapter__handle" :connectable="false" />
+    <Handle id="top-t" type="target" :position="Position.Top" class="chapter__handle" :connectable="false" />
+    <Handle id="bottom-t" type="target" :position="Position.Bottom" class="chapter__handle" :connectable="false" />
+
+    <!-- 仅蓝标题可拖整章；框内空白穿透，用于平移画布 -->
     <header
-      class="chapter__head chapter__drag"
-      title="桌面端：拖此条移动整章"
+      class="chapter__head chapter__drag mm-nopan"
+      title="点开章概览 · 拖此蓝条移动整章（框内空白拖动画布）"
       data-blobity
     >
       <span class="chapter__tag">{{ data.tag }}</span>
@@ -22,39 +39,52 @@ const lit = computed(() => Boolean(props.data?.lit) || props.selected);
         <h3 class="chapter__title">{{ data.label }}</h3>
         <p class="chapter__sub">{{ data.subtitle }}</p>
       </div>
-      <span class="chapter__drag-tip">拖整章</span>
+      <span class="chapter__drag-tip">点开 · 拖蓝条</span>
     </header>
   </div>
 </template>
 
 <style scoped>
 .chapter {
+  --chapter-accent: var(--accent);
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   border-radius: 18px;
-  border: 2px dashed var(--chapter-border);
-  /* 无填充：节点层压在连线上，有底色会糊住框内边 */
+  border: 2px dashed color-mix(in srgb, var(--chapter-accent) 55%, var(--chapter-border, #94a3b8));
   background: transparent;
   pointer-events: none;
 }
 
+.chapter__handle {
+  width: 6px !important;
+  height: 6px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .chapter.selected {
-  border-color: var(--accent);
+  border-color: var(--chapter-accent);
   border-style: solid;
   animation: chapter-lit-pulse 1.4s ease-out 1;
 }
 
 @keyframes chapter-lit-pulse {
   0% {
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    border-color: color-mix(in srgb, var(--chapter-accent) 35%, transparent);
   }
   40% {
-    border-color: var(--accent);
-    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 35%, transparent));
+    border-color: var(--chapter-accent);
+    filter: drop-shadow(
+      0 0 10px color-mix(in srgb, var(--chapter-accent) 35%, transparent)
+    );
   }
   100% {
-    border-color: var(--accent);
+    border-color: var(--chapter-accent);
     filter: none;
   }
 }
@@ -79,7 +109,7 @@ const lit = computed(() => Boolean(props.data?.lit) || props.selected);
   gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: var(--accent);
+  background: var(--chapter-accent);
   color: #fff;
   box-shadow: var(--shadow-node);
   pointer-events: all;

@@ -8,6 +8,15 @@ export function inferDomain(nodeId = '', tag = '') {
   const id = String(nodeId);
   const t = String(tag);
   if (
+    id.startsWith('vh_') ||
+    id.startsWith('vh-') ||
+    t.includes('Vibe') ||
+    t.includes('vibe') ||
+    /vibehub|氛围编程/i.test(t)
+  ) {
+    return 'vibe';
+  }
+  if (
     /^(dsa-|e-dsa)/.test(id) ||
     t.includes('DSA') ||
     t.includes('复杂度') ||
@@ -18,17 +27,19 @@ export function inferDomain(nodeId = '', tag = '') {
   if (
     /^(ai-|e-ai|e-pipe-token|e-agent|e-mcp|e-stream-ai)/.test(id) ||
     t.includes('人工智能') ||
-    t.includes('AI')
+    (t.includes('AI') && !/vibe/i.test(t))
   ) {
     return 'ai';
   }
   if (
-    /^(xrk-|adev-|e-xrk|e-adev|e-min|e-firstrun|e-lab)/.test(id) ||
+    /^(xrk-|e-xrk|e-min|e-firstrun|e-lab)/.test(id) ||
     t.includes('XRK') ||
-    t.includes('Vibe') ||
     t.includes('Chapter 04')
   ) {
     return 'xrk';
+  }
+  if (/^(adev-|e-adev)/.test(id) || t.includes('Vibe Coding') || t.includes('AGENTS')) {
+    return 'vibe';
   }
   if (
     /^(network|api-|protocol|ip-|tcp-|routing|dns-|http-|reverse|net-|e-net|e-http|e-tcp|e-dns|e-proxy|e-nginx|e-edge|e-route|e-stack-ip|e-stack-tcp|e-api)/.test(

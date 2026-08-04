@@ -7,10 +7,39 @@ import { listQuizSets, getQuizSet, searchQuizSets, kindShortLabel } from './inde
 import { shuffleCopy, RELATED_NODES_MAX } from './schema.js';
 import { STATIC_QUESTIONS } from './bank/index.js';
 import { NODE_TERMS } from '../terms-by-node.js';
+import { bridgesForKnowledge, bridgesForMap2 } from '../map-bridges.js';
 import { deriveLessonQuestions } from './derive/lesson.js';
 
 /** 与 schema.RELATED_NODES_MAX 对齐 */
 const RELATED_NODE_CAP = RELATED_NODES_MAX;
+
+/**
+ * 展开 relatedNodes：vh-* 词条题同时挂到跨导图桥接的导图1 课卡，
+ * 使 adev-* / ai-* 等课「刷本课相关题」能吃到 VibeHub 判断题。
+ * @param {string[]} nodes
+ * @returns {string[]}
+ */
+function expandRelatedNodes(nodes) {
+  const out = [];
+  const seen = new Set();
+  for (const raw of nodes || []) {
+    const id = String(raw || '').trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    out.push(id);
+    if (!id.startsWith('vh-') || id.startsWith('vh-frame-') || id === 'vh-hub') {
+      continue;
+    }
+    for (const b of bridgesForMap2(id)) {
+      const kid = String(b?.id || '').trim();
+      if (!kid || seen.has(kid)) continue;
+      seen.add(kid);
+      out.push(kid);
+      if (out.length >= RELATED_NODE_CAP) return out.slice(0, RELATED_NODE_CAP);
+    }
+  }
+  return out.slice(0, RELATED_NODE_CAP);
+}
 
 /** @type {import('./schema.js').QuizQuestion[] | null} */
 let cached = null;
@@ -30,7 +59,7 @@ function flattenCurated() {
         domain: q.domain || set.domain,
         setId: q.setId || set.id,
         source: q.source || 'curated',
-        relatedNodes: related,
+        relatedNodes: expandRelatedNodes(related),
         tags: q.tags?.length ? q.tags : set.tags || [],
       });
     }
@@ -63,7 +92,10 @@ function buildBank() {
   // 课核 s:*:core 保留：与精选互补（大厂场景角度），不再因「有精选」整段丢弃
   const streams = [
     ...flattenCurated(),
-    ...STATIC_QUESTIONS,
+    ...STATIC_QUESTIONS.map((q) => ({
+      ...q,
+      relatedNodes: expandRelatedNodes(q.relatedNodes || []),
+    })),
     ...deriveLessonQuestions(),
   ];
   for (const q of streams) {
@@ -236,7 +268,15 @@ export function questionsForNode(nodeId) {
     return 3;
   };
   const bank = ensureBank();
-  const primary = bank.filter((q) => (q.relatedNodes || []).includes(nodeId));
+  /** 导图1 课卡 ↔ 导图2 词条：挂名含 vh-* 的改编题也算本课相关 */
+  const bridgeIds = new Set(
+    bridgesForKnowledge(nodeId).map((b) => String(b?.id || '').trim()).filter(Boolean)
+  );
+  const primary = bank.filter((q) => {
+    const rel = q.relatedNodes || [];
+    if (rel.includes(nodeId)) return true;
+    return bridgeIds.size > 0 && rel.some((id) => bridgeIds.has(id));
+  });
   const seen = new Set(primary.map((q) => q.id));
   const curatedN = primary.filter((q) => q.source === 'curated').length;
   // 精选已够用时不再叠一整袋词典，避免 http-web 一类节点刷到上百题

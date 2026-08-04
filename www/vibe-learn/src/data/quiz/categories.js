@@ -4,7 +4,7 @@
  */
 
 /** @typedef {'interview' | 'concept'} QuizKindId */
-/** @typedef {'dsa' | 'net' | 'os-db' | 'lang' | 'craft' | 'xrk' | 'ai' | 'ops'} QuizDomainId */
+/** @typedef {'dsa' | 'net' | 'os-db' | 'lang' | 'craft' | 'xrk' | 'ai' | 'ops' | 'vibe'} QuizDomainId */
 
 /**
  * @typedef {{
@@ -36,8 +36,9 @@ export const QUIZ_DOMAINS = [
   { id: 'os-db', label: '系统与库' },
   { id: 'lang', label: '语言运行时' },
   { id: 'craft', label: '工程卫生' },
-  { id: 'xrk', label: 'XRK / Vibe' },
+  { id: 'xrk', label: 'XRK' },
   { id: 'ai', label: 'AI 应用' },
+  { id: 'vibe', label: 'Vibe 术语' },
   { id: 'ops', label: '运维面板' },
 ];
 
