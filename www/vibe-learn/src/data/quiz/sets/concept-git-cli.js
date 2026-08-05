@@ -8,7 +8,7 @@ export default defineQuizSet({
   domain: 'craft',
   tags: ['Git', '指令', '基础', '进阶'],
   relatedNodes: ['git-advanced', 'git-forges'],
-  caption: '提交闭环、冲突、共享分支、PR、reflog——单词命令见 Git 命令全表。',
+  caption: '提交闭环、冲突、共享分支、PR、stash、reflog——单词命令见 Git 命令全表。',
   questions: [
     {
       id: 'concept-git-cli:q2',
@@ -36,7 +36,35 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['基础'],
+    },
+    {
+      id: 'concept-git-cli:stash-switch',
+      q: '手头有未提交改动，又要临时切到另一分支修紧急 bug，较稳妥？',
+      choices: [
+        {
+          t: 'git stash（或 commit 到 WIP 分支）保存现场，再 switch；回来后 stash pop/apply',
+          ok: true,
+          why: '避免带着脏工作区强切分支；也别用 reset --hard 当「暂存」。',
+        },
+        {
+          t: '直接 git switch 到目标分支，并假设 Git 会把未提交改动完整自动拷贝到新分支上继续改',
+          ok: false,
+          why: '未提交改动常挡住切换，或留在错误分支上。',
+        },
+        {
+          t: '先执行 git reset --hard HEAD 清掉全部改动再切分支，并指望回来后这些改动会自动完整恢复',
+          ok: false,
+          why: 'hard 丢掉工作区；不是可恢复的暂存手段。',
+        },
+        {
+          t: '把整个项目再复制一份文件夹，在副本里改分支修紧急 bug，正本工作区继续脏着完全不管',
+          ok: false,
+          why: '丢版本关联与远程跟踪；应用 stash/WIP。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', '应用'],
     },
     {
       id: 'concept-git-cli:q6',
@@ -64,7 +92,7 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['git-forges', 'git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['基础'],
     },
     {
       id: 'concept-git-cli:q7',
@@ -76,23 +104,23 @@ export default defineQuizSet({
           why: '标记已解决并完成合并。',
         },
         {
-          t: '删除 .git 目录',
+          t: '直接 git push --force 到 main，跳过合并提交',
           ok: false,
-          why: '毁掉本地仓库历史，不是解决冲突。',
+          why: '未完成合并就强推共享主线，协作灾难。',
         },
         {
-          t: 'git reset --hard origin/main（不备份）',
+          t: 'git reset --hard origin/main（不备份）丢掉本地解决过程',
           ok: false,
           why: '丢掉本地解决过程与未提交工作。',
         },
         {
-          t: '直接 git push --force 到 main',
+          t: '删除冲突文件后立即 push，让远程用旧版本覆盖',
           ok: false,
-          why: '未完成合并就强推共享主线，协作灾难。',
+          why: '删文件不等于解决冲突；还可能丢功能。',
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['基础', '应用'],
     },
     {
       id: 'concept-git-cli:q9',
@@ -104,23 +132,23 @@ export default defineQuizSet({
           why: '本地整理可用 rebase；共享历史优先 merge 或充分沟通。',
         },
         {
-          t: '远程分支永远不能 fetch',
+          t: 'rebase 之后就不必再 fetch/pull，远程会自动对齐本地新历史',
           ok: false,
-          why: 'fetch 只下载引用，通常安全。',
+          why: '改写本地历史后常要协商 force-with-lease；他人仍基于旧点。',
         },
         {
-          t: 'commit message 越短越好，无 why',
+          t: 'commit message 越短越好，可以不写 why',
           ok: false,
-          why: '应写清意图，方便审与回滚。',
+          why: '应写清意图，方便审与回滚；与是否 rebase 无关。',
         },
         {
-          t: "merge 禁止用于任何开源协作，团队只能使用 rebase",
+          t: '共享主线应默认 force push，以保持历史永远线性',
           ok: false,
-          why: '只改历史形状，不代替产品决策。',
+          why: '共享主线强推易毁掉他人工作；merge 在协作中很常见。',
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['进阶'],
     },
     {
       id: 'concept-git-cli:q12',
@@ -148,7 +176,7 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['git-forges', 'git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['进阶', '应用'],
     },
     {
       id: 'concept-git-cli:q13',
@@ -160,23 +188,23 @@ export default defineQuizSet({
           why: '改写已推送历史会痛。',
         },
         {
-          t: "共享分支上应永远 force push 到 main，以保持历史线性",
+          t: '共享主线应默认 rebase + force push，禁止出现任何 merge commit',
           ok: false,
-          why: 'merge commit 在开源协作很常见。',
+          why: 'merge commit 在开源协作很常见；强推共享主线风险大。',
         },
         {
-          t: 'rebase 会自动解决所有产品需求',
+          t: 'rebase 会自动解决产品需求争议与代码冲突，无需人工沟通',
           ok: false,
-          why: '只整理提交历史，不解决需求。',
+          why: '只整理提交历史，不解决需求；冲突仍要人解。',
         },
         {
-          t: "rebase 会自动解决所有产品需求争议与代码合并冲突",
+          t: 'merge 只能用于个人分支，一推送到 origin 就必须改用 rebase',
           ok: false,
-          why: '共享主线强推易毁掉他人工作。',
+          why: '远程协作同样常用 merge；选型看分支是否已共享。',
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['进阶'],
     },
     {
       id: 'concept-git-cli:q14',
@@ -204,11 +232,11 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['进阶'],
     },
     {
       id: 'concept-git-cli:q16',
-      q: '只要某一两个提交到当前分支，经典命令？',
+      q: '只想把某一个已有提交「拣」到当前分支，经典命令？',
       choices: [
         {
           t: 'git cherry-pick <commit>',
@@ -216,12 +244,12 @@ export default defineQuizSet({
           why: '拣选；有冲突则解决后再继续。',
         },
         {
-          t: 'git tag -d 等于拣选',
+          t: 'git tag -d <name>',
           ok: false,
-          why: 'tag -d 是删标签。',
+          why: '删标签，不是拣选提交。',
         },
         {
-          t: 'git remote remove',
+          t: 'git remote remove <name>',
           ok: false,
           why: '删除远程名配置。',
         },
@@ -232,7 +260,7 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['git-advanced'],
-      tags: ['基础', '进阶'],
+      tags: ['进阶'],
     },
   ],
 });

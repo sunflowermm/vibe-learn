@@ -15,22 +15,22 @@ export default defineQuizSet({
       q: '脚本里要「找到匹配文件再批量处理」，比手写循环更稳妥的常见模式？',
       choices: [
         {
-          t: 'find … -print0 | xargs',
+          t: 'find … -print0 | xargs -0 …（按 NUL 分隔，抗空格文件名）',
           ok: true,
           why: '裸 for f in $(ls) 遇空格会拆词；-print0/-0 按 NUL 分隔更安全。',
         },
         {
-          t: '必须先 rm -rf / 再处理文件',
+          t: 'for f in $(ls *.txt)；再对每个 $f 做处理（最稳妥）',
           ok: false,
-          why: '灾难操作，与批量处理无关。',
+          why: '字词拆分经典坑；空格/特殊字符文件名会炸。',
         },
         {
-          t: '只能用图形界面多选，命令行禁止',
+          t: '只能用图形界面多选文件，命令行禁止批量处理',
           ok: false,
           why: '运维自动化正是命令行长项。',
         },
         {
-          t: 'grep 会自动改文件内容，无需其它工具',
+          t: 'grep 会自动改写匹配文件内容，无需再接其它工具',
           ok: false,
           why: '经典 grep 检索；改写另有 sed/专用工具。',
         },
@@ -43,9 +43,9 @@ export default defineQuizSet({
       q: '查看进程并用名字过滤 node 时，更稳妥的说法？',
       choices: [
         {
-          t: 'ps … | grep node 可用',
+          t: 'ps … | grep node 可用，但杀进程前先确认 PID',
           ok: true,
-          why: '经典组合；杀进程前先确认 PID，勿盲 kill -9。',
+          why: '经典组合；勿盲 kill -9。',
         },
         {
           t: 'kill -9 不带 PID 即可杀掉所有相关进程',
@@ -53,12 +53,12 @@ export default defineQuizSet({
           why: '必须指定进程；盲杀危险。',
         },
         {
-          t: 'ls node 会列出正在运行的 Node 进程',
+          t: 'ls node 会列出正在运行的全部 Node 进程',
           ok: false,
           why: 'ls 列目录，不列进程。',
         },
         {
-          t: 'nice 专门用来结束进程',
+          t: 'nice 专门用来结束进程，比 kill 更安全',
           ok: false,
           why: 'nice 调优先级，不是杀进程。',
         },
@@ -81,12 +81,12 @@ export default defineQuizSet({
           why: 'Git 工作区状态，不是主机服务。',
         },
         {
-          t: 'npm status 等于 systemctl',
+          t: 'npm status my.service（与 systemctl 等价）',
           ok: false,
           why: 'npm 管 JS 包，不管 systemd 单元。',
         },
         {
-          t: 'docker status 与 systemctl 永远同一套命令',
+          t: 'docker status my.service（与 systemctl 永远同一套）',
           ok: false,
           why: '容器生命周期用 docker/podman；主机服务用 systemd。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: '看 systemd 服务近期日志？',
       choices: [
         {
-          t: 'journalctl -u my.service -n',
+          t: 'journalctl -u my.service -n …',
           ok: true,
           why: '按单元过滤；排障比翻散落的 /var/log 文件更直接。',
         },
@@ -109,12 +109,12 @@ export default defineQuizSet({
           why: '提交历史，不是服务 journal。',
         },
         {
-          t: 'npm journal',
+          t: 'npm journal my.service',
           ok: false,
           why: '无此标准命令。',
         },
         {
-          t: 'journalctl 等于删除 Docker 镜像',
+          t: 'journalctl 等于删除 Docker 镜像的快捷方式',
           ok: false,
           why: '只读日志；删镜像是 docker rmi / prune。',
         },
@@ -127,22 +127,22 @@ export default defineQuizSet({
       q: '把命令放到后台跑、再拉回前台，经典作业控制？',
       choices: [
         {
-          t: '命令末尾 `&` 后台',
+          t: '命令末尾 `&` 后台，再用 jobs/fg 管理',
           ok: true,
           why: '与另开终端互补；jobs 可列后台任务。',
         },
         {
-          t: '末尾 `&` 只能表示逻辑与，绝不能后台',
+          t: '末尾 `&` 只能表示逻辑与，绝不能表示后台',
           ok: false,
           why: '命令末尾的 `&` 是作业控制；`&&` 才是成功后继续。',
         },
         {
-          t: '后台进程启动后无法再被管理',
+          t: '后台进程启动后就无法再被 jobs/fg/kill 管理',
           ok: false,
           why: 'jobs/fg/bg/kill 都可管。',
         },
         {
-          t: '只有 root 才能用 Ctrl+C',
+          t: '只有 root 才能用 Ctrl+C 中断前台进程',
           ok: false,
           why: '普通用户可中断自己的前台进程。',
         },

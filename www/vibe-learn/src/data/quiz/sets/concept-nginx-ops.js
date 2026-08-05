@@ -18,22 +18,22 @@ export default defineQuizSet({
       q: '反向代理相对「浏览器直接打到 Node 端口」的核心收益是？',
       choices: [
         {
-          t: '统一入口：TLS、路由、静态与限流',
+          t: '统一入口：TLS 终结、路由、静态与限流可集中配置',
           ok: true,
           why: '公网常只暴露 443，反代到 127.0.0.1:内部端口。',
         },
         {
-          t: '有了反代就不需要 HTTPS',
+          t: '有了反代就不需要 HTTPS，入口可以一直明文',
           ok: false,
           why: '反而常在反代上终结 TLS。',
         },
         {
-          t: 'Nginx 会替代数据库',
+          t: 'Nginx 反代会替代数据库，业务数据都存在 conf 里',
           ok: false,
           why: '门面与存储职责不同。',
         },
         {
-          t: '反代只能用于 UDP 游戏',
+          t: '反代只能用于 UDP 游戏流量，不能用于 HTTP API',
           ok: false,
           why: '经典场景是 HTTP(S) Web/API。',
         },
@@ -51,17 +51,17 @@ export default defineQuizSet({
           why: '502：网关活着，但与上游交互失败。',
         },
         {
-          t: '502 表示资源创建成功',
+          t: '502 表示资源创建成功，与上游连通无关',
           ok: false,
           why: '创建成功更常是 201/200。',
         },
         {
-          t: '一定是静态资源 304 缓存命中',
+          t: '一定是静态资源 304 缓存命中，可忽略',
           ok: false,
           why: '304 是协商缓存，不是网关错误。',
         },
         {
-          t: '一定是前端 CSS 写错',
+          t: '一定是前端 CSS 写错，与上游进程无关',
           ok: false,
           why: '已到 Nginx 回 502 时优先查上游。',
         },
@@ -79,17 +79,17 @@ export default defineQuizSet({
           why: '可调 proxy_read_timeout，但更应优化上游。',
         },
         {
-          t: '证书一定过期',
+          t: '证书一定过期，与上游耗时无关',
           ok: false,
           why: '证书问题多表现为握手失败/浏览器警告。',
         },
         {
-          t: '静态文件已缓存命中',
+          t: '静态文件已缓存命中，所以返回网关超时',
           ok: false,
           why: '缓存命中不是网关超时。',
         },
         {
-          t: '客户端未携带 Cookie',
+          t: '客户端未携带 Cookie，网关就会固定回 504',
           ok: false,
           why: '缺 Cookie 更常是 401/业务错误。',
         },
@@ -102,22 +102,22 @@ export default defineQuizSet({
       q: '在 Nginx 上做 TLS 终结的常见意思是？',
       choices: [
         {
-          t: '客户端到 Nginx 走 HTTPS',
+          t: '客户端到 Nginx 走 HTTPS，证书挂在入口终结',
           ok: true,
           why: '证书挂在入口；上游可在内网明文或再加密。',
         },
         {
-          t: '终结后所有 HTTP 状态码必须变成 100',
+          t: '终结后所有 HTTP 状态码必须变成 100 Continue',
           ok: false,
           why: 'TLS 与状态码语义无关。',
         },
         {
-          t: 'TLS 只能配在浏览器扩展里',
+          t: 'TLS 只能配在浏览器扩展里，服务端无法终结',
           ok: false,
           why: '服务端/边缘终结是常态。',
         },
         {
-          t: '终结意味着禁止使用任何证书',
+          t: '终结意味着禁止使用任何证书，入口必须明文',
           ok: false,
           why: '正是在入口卸载证书。',
         },
@@ -130,22 +130,22 @@ export default defineQuizSet({
       q: '静态资源与 API 同域部署时，Nginx 常如何分工？',
       choices: [
         {
-          t: '静态目录用 root',
+          t: '静态用 root/alias 直出，API location 再 proxy_pass 到上游',
           ok: true,
           why: '同域还利于 Cookie/CORS；动态 API 走上游。',
         },
         {
-          t: '禁止配置两个 location',
+          t: '禁止配置两个 location：同一 server 块里永远只允许写一条匹配规则',
           ok: false,
           why: '多 location 正是常见写法。',
         },
         {
-          t: '静态文件必须全部由数据库返回',
+          t: '静态文件必须全部先写入数据库，再由查询接口返回二进制给浏览器',
           ok: false,
           why: '静态应交 Nginx/对象存储。',
         },
         {
-          t: 'Node 不能放在反代后面',
+          t: 'Node 绝对不能放在反代后面，必须把业务端口直接裸暴露到公网',
           ok: false,
           why: '反代到 Node 是经典架构。',
         },
@@ -186,22 +186,22 @@ export default defineQuizSet({
       q: '反代到上游时，常要设 X-Forwarded-For / X-Forwarded-Proto，主要因为？',
       choices: [
         {
-          t: '上游需要知道原始客户端 IP 与是否 HT',
+          t: '上游需要知道原始客户端 IP 与是否 HTTPS',
           ok: true,
           why: '否则上游只看到反代本机地址，或生成 http:// 链接。',
         },
         {
-          t: '这两个头可以替代 TLS 证书',
+          t: '这两个头可以替代 TLS 证书，不必再配 HTTPS',
           ok: false,
           why: '头不提供加密。',
         },
         {
-          t: '设置后就不需要 proxy_pass',
+          t: '设置这两个头之后就不需要再写 proxy_pass',
           ok: false,
           why: '仍要转发上游。',
         },
         {
-          t: '只用于 UDP，HTTP 用不到',
+          t: '这两个头只用于 UDP 游戏流量，HTTP 反代用不到',
           ok: false,
           why: '正是 HTTP 反代常见头。',
         },

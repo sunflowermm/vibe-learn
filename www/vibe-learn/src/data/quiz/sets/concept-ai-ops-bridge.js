@@ -360,24 +360,24 @@ export default defineQuizSet({
       q: '调不通的 LLM 请求，较合理的第一刀是？',
       choices: [
         {
-          t: '先分清：DNS/TLS/代理 → HTTP 状态',
+          t: '先分清：DNS/TLS/代理 → HTTP 状态 → 再动模型参数',
           ok: true,
           why: '自外向内分层：连不上就别先改 temperature。',
         },
         {
-          t: '先重装操作系统',
+          t: '先把 temperature 调到 2.0，看会不会突然通',
           ok: false,
-          why: '成本最高且常无关。',
+          why: '连不上时调采样无意义。',
         },
         {
-          t: '先删掉全部向量库',
+          t: '先删掉全部向量库再重嵌，不管请求是否发出',
           ok: false,
           why: '请求都发不出去时与检索无关。',
         },
         {
-          t: '先把 temperature 调到 2.0',
+          t: '先改 system prompt 文案，跳过网络与鉴权检查',
           ok: false,
-          why: '连不上时调采样无意义。',
+          why: '通达性/鉴权未通时改提示无济于事。',
         },
       ],
       relatedNodes: ['workbench-troubleshoot', 'http-web', 'data-env'],

@@ -344,22 +344,22 @@ export default defineQuizSet({
     "q": "SQL 开启事务用？",
     "choices": [
       {
-        "t": "BEGIN（或 START TRANSAC",
+        "t": "BEGIN（或 START TRANSACTION）",
         "ok": true,
         "why": "BEGIN（或 START TRANSACTION）：开启事务，后续语句可一并提交或回滚。"
       },
       {
-        "t": "COMMIT 开启事务",
+        "t": "COMMIT（那是提交结束事务，不是开启）",
         "ok": false,
         "why": "与「SQL BEGIN / START TRANSACTION」不符。"
       },
       {
-        "t": "ROLLBACK 开启",
+        "t": "ROLLBACK（那是回滚，不是开启）",
         "ok": false,
         "why": "与「SQL BEGIN / START TRANSACTION」不符。"
       },
       {
-        "t": "SELECT TRANSACTION",
+        "t": "SELECT TRANSACTION（不是标准开启事务语句）",
         "ok": false,
         "why": "与「SQL BEGIN / START TRANSACTION」不符。"
       }

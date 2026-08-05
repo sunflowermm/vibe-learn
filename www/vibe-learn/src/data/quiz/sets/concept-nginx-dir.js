@@ -50,17 +50,17 @@ export default defineQuizSet({
           why: '可挂静态 root、反代 proxy_pass、重写等。',
         },
         {
-          t: '仅按客户端 MAC 地址',
+          t: '仅按客户端 MAC 地址匹配，与 URI 无关',
           ok: false,
           why: 'location 看 URI，不是 MAC。',
         },
         {
-          t: '仅按 SQL 表名',
+          t: '仅按 SQL 表名匹配，用来路由到不同数据库',
           ok: false,
           why: '无关。',
         },
         {
-          t: '仅按上游 upstream 名称自动生成，不可手写',
+          t: '仅按上游 upstream 名称自动生成，配置里不可手写',
           ok: false,
           why: 'location 是手写匹配规则。',
         },
@@ -101,22 +101,22 @@ export default defineQuizSet({
       q: 'Nginx listen 443 ssl 表示？',
       choices: [
         {
-          t: '该 server 在 443 端口接',
+          t: '该 server 在 443 端口接受 TLS/HTTPS 连接',
           ok: true,
           why: '公网入口常见只暴露 443；证书另配。',
         },
         {
-          t: '监听 Git 协议专用且不能改',
+          t: '监听只能走 Git 协议，端口号写死且永远不能改成别的',
           ok: false,
           why: 'listen 可改端口与地址。',
         },
         {
-          t: '等同关闭防火墙',
+          t: '等同关闭防火墙或安全组，对外全部端口自动放行',
           ok: false,
           why: 'listen ≠ 安全组放行。',
         },
         {
-          t: '声明一组后端 upstream',
+          t: '声明一组后端 upstream 供负载均衡引用，不是接连接',
           ok: false,
           why: '那是 upstream 块。',
         },
@@ -162,19 +162,19 @@ export default defineQuizSet({
           why: '避免写挂全站；-t 查语法与基本正确性。',
         },
         {
-          t: '直接杀进程不测配置',
-          ok: false,
-          why: '高风险；先 -t。',
-        },
-        {
-          t: '必须重启物理机电源',
+          t: '必须重启物理机电源才能让新配置生效',
           ok: false,
           why: '过激且通常无必要。',
         },
         {
-          t: '改 conf 会自动 git push',
+          t: '改 conf 会自动 git push，无需自己做配置管理',
           ok: false,
           why: '配置管理要自己做。',
+        },
+        {
+          t: '直接杀进程上线，不必先测配置语法',
+          ok: false,
+          why: '高风险；先 -t。',
         },
       ],
       relatedNodes: ['net-nginx'],
@@ -185,22 +185,22 @@ export default defineQuizSet({
       q: 'Nginx reload 相对硬重启进程？',
       choices: [
         {
-          t: '热载配置，通常比杀进程',
+          t: '热载配置，通常比杀进程重启更平滑、连接中断更少',
           ok: true,
           why: '如 nginx -s reload / systemctl reload nginx。',
         },
         {
-          t: '清空所有磁盘',
+          t: 'reload 会清空 Nginx 的 access/error 日志文件内容',
           ok: false,
-          why: '无关。',
+          why: 'reload 重载配置，不负责清日志。',
         },
         {
-          t: '只重载浏览器缓存',
+          t: 'reload 只重载浏览器本地缓存，与 Nginx 进程无关',
           ok: false,
           why: 'reload 的是 Nginx 进程配置。',
         },
         {
-          t: '删除上游数据库',
+          t: 'reload 会删除上游数据库里的全部表',
           ok: false,
           why: '无关。',
         },

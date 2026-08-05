@@ -24,7 +24,7 @@ export default defineQuizSet({
       q: '连接跟踪、安全组、会话保持常按「五元组」匹配。五元组通常指哪五样？',
       choices: [
         {
-          t: '源 IP、目的 IP、源端口、目的端口、传输层协议（TCP',
+          t: '源 IP、目的 IP、源端口、目的端口、传输层协议（TCP/UDP）',
           ok: true,
           why: 'NAT 会改其中 IP/端口；L7 的 URL/Cookie 不属于五元组。',
         },
@@ -291,25 +291,25 @@ export default defineQuizSet({
     },
     {
       id: 'concept-net-path:q11',
-      q: 'SNAT 与 DNAT 的方向直觉分别是？',
+      q: '出站改源、入站改目的：哪种 NAT 更贴近哪种方向？',
       choices: [
         {
-          t: 'SNAT 改源（多为内网出网）',
+          t: 'SNAT 改源地址（多为内网出网）；DNAT 改目的（多为端口转发/入站）',
           ok: true,
           why: '家用出网常见 SNAT/PAT；端口转发/LB 入站常见 DNAT。',
         },
         {
-          t: '两者完全同义，只是厂商叫法不同',
+          t: '两者完全同义，只是厂商叫法不同，改源还是改目的无所谓',
           ok: false,
           why: '改的是源还是目的，方向不同。',
         },
         {
-          t: 'SNAT 专门加密 HTTPS，DNAT 专门做 DNS',
+          t: 'SNAT 专门加密 HTTPS，DNAT 专门完成 DNS 解析',
           ok: false,
           why: 'NAT 做地址转换，不做加密/解析。',
         },
         {
-          t: '只有 IPv6 需要 SNAT，IPv4 不需要',
+          t: '只有 IPv6 需要 SNAT，IPv4 私网出网完全不需要地址转换',
           ok: false,
           why: 'IPv4 私网出网正是 NAT 高发区。',
         },

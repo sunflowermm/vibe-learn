@@ -15,22 +15,22 @@ export default defineQuizSet({
       q: 'Accept Agent 改动前？',
       choices: [
         {
-          t: '审 diff（防越界改 src',
+          t: '审 diff（防越界改 src/ 与配置归属）',
           ok: true,
           why: '人机协作底线：看行为，不看语气。',
         },
         {
-          t: '无脑全盘 Accept',
+          t: '无脑全盘 Accept，不看任何 diff',
           ok: false,
           why: '易引入越界改 Runtime 或破坏配置归属。',
         },
         {
-          t: '先提交密钥再 Accept',
+          t: '先把密钥提交进仓，再 Accept 其余改动',
           ok: false,
           why: '密钥禁止进仓，与 Accept 无关。',
         },
         {
-          t: '只看语气是否友好',
+          t: '只看 Agent 语气是否友好，不看改动内容',
           ok: false,
           why: '要看 diff 与可运行结果。',
         },

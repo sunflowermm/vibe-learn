@@ -577,22 +577,22 @@ export default defineQuizSet({
       q: '相对 502，HTTP 503 Service Unavailable 更强调？',
       choices: [
         {
-          t: '服务暂时不可用（过载、',
+          t: '服务暂时不可用（过载、维护）；可稍后重试',
           ok: true,
           why: '可带 Retry-After；与「上游应答无效」的 502 不同。',
         },
         {
-          t: '上游应答格式非法',
+          t: '上游应答格式非法或网关收到无效响应（更偏 502）',
           ok: false,
           why: '那更接近 502。',
         },
         {
-          t: '客户端未登录',
+          t: '客户端未登录或凭证无效（更偏 401）',
           ok: false,
           why: '那是 401。',
         },
         {
-          t: '永久重定向',
+          t: '永久重定向到新 URI（更偏 301/308）',
           ok: false,
           why: '那是 301/308。',
         },

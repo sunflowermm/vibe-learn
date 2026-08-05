@@ -2,7 +2,7 @@ import { defineQuizSet } from '../schema.js';
 
 /**
  * 大厂 · LLM 应用直觉（场景决策）
- * mcq-expert：一题一事、选项等长
+ * mcq-expert：一题一事、似真干扰
  */
 export default defineQuizSet({
   id: 'interview-ai-rag',
@@ -15,111 +15,271 @@ export default defineQuizSet({
   questions: [
     {
       id: 'interview-ai-rag:window',
-      q: '长规则贴进提示后前面约束丢失。常见因？',
+      q: '把很长的规则贴进提示后，前面的约束好像「丢了」。常见原因？',
       choices: [
-        { t: '上下文窗口被截断', ok: true, why: 'token 预算有限。' },
-        { t: '窗口工程可无限', ok: false, why: '有硬上限。' },
-        { t: '注意力永不丢规则', ok: false, why: '≠无限记忆。' },
-        { t: '温度 0 就不截断', ok: false, why: '温度不改长度。' },
+        {
+          t: '超出上下文窗口被截断，靠前的内容进不了模型有效上下文',
+          ok: true,
+          why: 'token 预算有硬上限；注意力也不是无限记忆。',
+        },
+        {
+          t: '工程上可以把上下文窗口当成无限，只要机器内存够',
+          ok: false,
+          why: '模型与接口都有上下文上限。',
+        },
+        {
+          t: '有了注意力机制，规则就永远不会因长度丢失',
+          ok: false,
+          why: '注意力≠无限记忆，长上下文仍会被截断或稀释。',
+        },
+        {
+          t: '把温度设为 0 就可以避免任何截断',
+          ok: false,
+          why: '温度影响采样随机性，不改变上下文长度。',
+        },
       ],
       relatedNodes: ['ai-token-context', 'ai-what'],
     },
     {
       id: 'interview-ai-rag:embed',
-      q: '向量库建库与查询，必须先强调？',
+      q: '向量库「建库」和「查询」时，必须先强调什么？',
       choices: [
-        { t: '同一套嵌入模型', ok: true, why: '同空间才可比较。' },
-        { t: '维度相同可换厂', ok: false, why: '空间未必一致。' },
-        { t: '每次查询随机换模', ok: false, why: '相似度失意义。' },
-        { t: 'MD5 当语义向量', ok: false, why: '摘要≠嵌入。' },
+        {
+          t: '建库与查询使用同一套嵌入模型（同一向量空间）',
+          ok: true,
+          why: '不同模型空间不可直接比相似度。',
+        },
+        {
+          t: '只要向量维度相同，就可以随意换厂商模型',
+          ok: false,
+          why: '维度相同不代表同一嵌入空间。',
+        },
+        {
+          t: '每次查询随机换一个嵌入模型，提高多样性',
+          ok: false,
+          why: '相似度会失去意义。',
+        },
+        {
+          t: '用文件 MD5 当「语义向量」做近邻检索',
+          ok: false,
+          why: '摘要哈希≠语义嵌入。',
+        },
       ],
       relatedNodes: ['ai-embedding', 'ai-vector-store'],
     },
     {
       id: 'interview-ai-rag:rag',
-      q: '公司文档问答，比整库塞提示更稳？',
+      q: '公司内部文档问答，比「整库塞进提示」更稳妥的是？',
       choices: [
-        { t: '分块索引再检索注入', ok: true, why: '经典 RAG。' },
-        { t: '整库一次塞进提示', ok: false, why: '易爆窗。' },
-        { t: '先全参微调永不检索', ok: false, why: '贵且难热更新。' },
-        { t: '禁止向量只靠手贴', ok: false, why: '无法规模化。' },
+        {
+          t: '文档分块建索引，查询时检索相关片段再注入生成',
+          ok: true,
+          why: '经典 RAG：控窗口、可更新语料。',
+        },
+        {
+          t: '把整个知识库一次全部塞进系统提示',
+          ok: false,
+          why: '极易爆窗，也无法规模化。',
+        },
+        {
+          t: '一上来全参微调基座，之后永远不做检索',
+          ok: false,
+          why: '贵、慢，且知识热更新困难。',
+        },
+        {
+          t: '禁止向量检索，只靠人工每次手贴相关段落',
+          ok: false,
+          why: '无法规模化，也难保证覆盖。',
+        },
       ],
       relatedNodes: ['ai-rag', 'ai-chunking'],
     },
     {
       id: 'interview-ai-rag:chunk',
-      q: '分块过大或过小，典型代价？',
+      q: 'RAG 分块大小失衡时，更准确的代价描述是？',
       choices: [
-        { t: '过大噪音，过小丢语境', ok: true, why: '块大小是关键旋钮。' },
-        { t: '块大小完全无影响', ok: false, why: '影响召回。' },
-        { t: '越大一定越好', ok: false, why: '易引入无关。' },
-        { t: '越小一定越好', ok: false, why: '易切断语义。' },
+        {
+          t: '过大易带噪音；过小易切断语境，召回与生成都受影响',
+          ok: true,
+          why: '块大小是关键旋钮，要结合重叠与评测调。',
+        },
+        {
+          t: '块大小对召回与答案质量完全没有影响',
+          ok: false,
+          why: '会显著影响检索与上下文质量。',
+        },
+        {
+          t: '块越大一定越好，因为总是带上更多上下文',
+          ok: false,
+          why: '易引入无关噪音，挤占有效 token。',
+        },
+        {
+          t: '块越小一定越好，因为更「精确」',
+          ok: false,
+          why: '过小会切断语义，生成缺语境。',
+        },
       ],
       relatedNodes: ['ai-chunking', 'ai-rag'],
     },
     {
       id: 'interview-ai-rag:bad',
-      q: 'RAG 答非所问，优先先查？',
+      q: 'RAG 系统答非所问，优先先查哪一层？',
       choices: [
-        { t: '检索是否召回对文档', ok: true, why: '差答先查检索层。' },
-        { t: '先全参微调基座', ok: false, why: '常非根因。' },
-        { t: '先把温度调到 2', ok: false, why: '更随机。' },
-        { t: '先关掉所有评测', ok: false, why: '失去信号。' },
+        {
+          t: '检索层：是否召回到正确文档 / 片段',
+          ok: true,
+          why: '差答先查「依据对不对」，再谈生成。',
+        },
+        {
+          t: '先全参微调基座模型，当作唯一手段',
+          ok: false,
+          why: '多数时候根因在检索与分块，不在立刻微调。',
+        },
+        {
+          t: '先把温度调到接近最大值，让模型更「敢说」',
+          ok: false,
+          why: '更随机，通常更糟。',
+        },
+        {
+          t: '先关掉所有评测与回归集，减少干扰',
+          ok: false,
+          why: '失去定位信号。',
+        },
       ],
       relatedNodes: ['ai-rag-eval', 'ai-rag'],
     },
     {
       id: 'interview-ai-rag:hybrid',
-      q: '稀疏+向量召回很杂，下一步？',
+      q: '稀疏检索 + 向量召回都很杂，下一步更合理？',
       choices: [
-        { t: '融合后重排 Top-N', ok: true, why: '混合+重排可控。' },
-        { t: 'BM25 禁止配向量', ok: false, why: '常互补。' },
-        { t: '换模后永不重建', ok: false, why: '要重建索引。' },
-        { t: '有 RAG 禁止引用', ok: false, why: '引用利于核对。' },
+        {
+          t: '融合候选后做重排，再只把 Top-N 注入生成',
+          ok: true,
+          why: '混合召回 + 重排是可控提质路径。',
+        },
+        {
+          t: '禁止 BM25 与向量同时使用，只能二选一',
+          ok: false,
+          why: '二者常互补，不是互斥。',
+        },
+        {
+          t: '换了嵌入模型后，旧索引可以永不重建',
+          ok: false,
+          why: '换模必须重建向量索引。',
+        },
+        {
+          t: '有了 RAG 就禁止答案出现任何引用',
+          ok: false,
+          why: '引用片段利于人工核对。',
+        },
       ],
       relatedNodes: ['ai-hybrid-search', 'ai-rerank'],
     },
     {
       id: 'interview-ai-rag:ft',
-      q: '知识常变的内部文档问答，更优先？',
+      q: '知识经常变更的内部文档问答，更优先哪条路线？',
       choices: [
-        { t: 'RAG/检索增强优先', ok: true, why: '语料可热更新。' },
-        { t: '一上来全参微调', ok: false, why: '贵且慢。' },
-        { t: '禁止任何检索', ok: false, why: '缺依据。' },
-        { t: '只调温度不碰知识', ok: false, why: '温度不注事实。' },
+        {
+          t: 'RAG / 检索增强优先，语料可热更新',
+          ok: true,
+          why: '变更频繁时检索比反复微调更划算。',
+        },
+        {
+          t: '一上来全参微调，把文档「背进」权重',
+          ok: false,
+          why: '成本高、更新慢。',
+        },
+        {
+          t: '禁止任何检索，只靠模型参数里的记忆',
+          ok: false,
+          why: '缺依据，易幻觉，难跟新文档。',
+        },
+        {
+          t: '只调温度参数，不碰知识注入与检索',
+          ok: false,
+          why: '温度不注入事实。',
+        },
       ],
       relatedNodes: ['ai-finetune', 'ai-rag'],
     },
     {
       id: 'interview-ai-rag:hallu',
-      q: '模型编造不存在的接口。工程上？',
+      q: '模型编造了不存在的内部接口。工程上更该？',
       choices: [
-        { t: '检索/工具约束再生成', ok: true, why: '靠依据降幻觉。' },
-        { t: '把温度调到最高', ok: false, why: '更发散。' },
-        { t: '禁止一切评测', ok: false, why: '无法量化。' },
-        { t: '认为窗口无限就好', ok: false, why: '不解决无依据。' },
+        {
+          t: '用检索或工具约束依据，再在依据上生成；并做评测',
+          ok: true,
+          why: '靠可核对依据降幻觉。',
+        },
+        {
+          t: '把温度调到最高，让模型更有「创造力」',
+          ok: false,
+          why: '更发散，幻觉常更严重。',
+        },
+        {
+          t: '禁止一切评测，避免暴露问题',
+          ok: false,
+          why: '无法量化与回归。',
+        },
+        {
+          t: '认为只要上下文窗口够大，幻觉就会自动消失',
+          ok: false,
+          why: '窗口大也不等于有正确依据。',
+        },
       ],
       relatedNodes: ['ai-what', 'ai-rag'],
     },
     {
       id: 'interview-ai-rag:attn',
-      q: '注意力机制主要在做什么？',
+      q: '面试里怎么一句话说清「注意力机制」在做什么？',
       choices: [
-        { t: '按相关性加权聚合', ok: true, why: '不保证事实正确。' },
-        { t: '保证输出永远正确', ok: false, why: '仍会幻觉。' },
-        { t: '证明只有它能 NLP', ok: false, why: '还有其他路线。' },
-        { t: '自动删除提示密钥', ok: false, why: '无此能力。' },
+        {
+          t: '按相关性对上下文加权聚合信息；不保证输出事实正确',
+          ok: true,
+          why: '机制描述 + 边界，避免神化。',
+        },
+        {
+          t: '保证模型输出永远正确、不会幻觉',
+          ok: false,
+          why: '注意力不提供事实性保证。',
+        },
+        {
+          t: '证明只有注意力路线才能做任何 NLP 任务',
+          ok: false,
+          why: '还有其他模型路线与系统组件。',
+        },
+        {
+          t: '会自动识别并删除提示里的密钥',
+          ok: false,
+          why: '无此安全能力；密钥仍靠工程隔离。',
+        },
       ],
       relatedNodes: ['ai-attention', 'ai-transformer'],
     },
     {
       id: 'interview-ai-rag:cite',
-      q: '对内知识问答要可核对，生成侧宜？',
+      q: '对内知识问答要做到可核对，生成侧更宜？',
       choices: [
-        { t: '要求引用检索片段', ok: true, why: '可追溯、降瞎编。' },
-        { t: '禁止出现任何引用', ok: false, why: '更难核对。' },
-        { t: '只靠提高温度', ok: false, why: '不增加依据。' },
-        { t: '关掉检索只靠背', ok: false, why: '易幻觉。' },
+        {
+          t: '要求回答引用检索到的片段或文档标识',
+          ok: true,
+          why: '可追溯、便于人工验真、降低瞎编。',
+        },
+        {
+          t: '禁止出现任何引用，答案越「流畅」越好',
+          ok: false,
+          why: '更难核对真伪。',
+        },
+        {
+          t: '只靠提高温度让表达更丰富',
+          ok: false,
+          why: '不增加依据。',
+        },
+        {
+          t: '关掉检索，只靠模型背诵内部文档',
+          ok: false,
+          why: '易幻觉，也难跟新。',
+        },
       ],
       relatedNodes: ['ai-rag', 'ai-rag-eval'],
     },

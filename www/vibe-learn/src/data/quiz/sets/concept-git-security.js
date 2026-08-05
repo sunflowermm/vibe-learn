@@ -1,6 +1,6 @@
 import { defineQuizSet } from '../schema.js';
 
-/** Git × 密钥 × CI 卫生（威胁模型见 eng-security；命令流见 git-cli） */
+/** Git × 密钥 × CI 卫生（威胁模型见 eng-security；冲突收尾见 git-cli） */
 export default defineQuizSet({
   id: 'concept-git-security',
   title: '概念 · Git、密钥与工程卫生',
@@ -8,7 +8,7 @@ export default defineQuizSet({
   domain: 'craft',
   tags: ['Git', '安全', 'CI'],
   relatedNodes: ['git-workspace', 'craft-security', 'craft-ci'],
-  caption: '密钥不进仓；泄漏先轮换；CI 冻结锁文件。',
+  caption: '密钥不进仓；泄漏先轮换；CI 冻结锁文件；审 diff 再提交。',
   questions: [
     {
       id: 'concept-git-security:no-key',
@@ -57,9 +57,9 @@ export default defineQuizSet({
           why: '值没变，攻击者仍可直接用。',
         },
         {
-          t: '等有人投诉再处理',
+          t: '先发公告等有人投诉，确认被滥用后再轮换',
           ok: false,
-          why: '扫描器可能几分钟内滥用。',
+          why: '扫描器可能几分钟内滥用；应先吊销。',
         },
       ],
       relatedNodes: ['craft-security', 'git-forges'],
@@ -74,19 +74,19 @@ export default defineQuizSet({
           why: 'CI 要可复现；冻结锁文件保证同一套版本。',
         },
         {
-          t: "跳过安装步骤，假设 runner 镜像里已经预装全部依赖包",
+          t: '每次 CI 都不锁版本，直接升到最新主版本最省事',
           ok: false,
           why: '依赖漂移导致本地/CI/线上不一致。',
         },
         {
-          t: "把数据库密码明文写进 workflow 文件，方便流水线读取",
+          t: '把数据库密码明文写进 workflow 文件，方便流水线读取',
           ok: false,
           why: 'workflow 在 Git 里，又一次密钥进仓。',
         },
         {
-          t: "每次 CI 都不锁版本，直接升到最新主版本最省事",
+          t: '跳过安装步骤，假设 runner 镜像里已经预装全部依赖包',
           ok: false,
-          why: 'CI 通常是干净环境，不装会直接失败。',
+          why: 'CI 通常是干净环境，不装常直接失败。',
         },
       ],
       relatedNodes: ['craft-ci', 'package-managers'],
@@ -119,31 +119,31 @@ export default defineQuizSet({
       relatedNodes: ['git-workspace', 'workbench-editor'],
     },
     {
-      id: 'concept-git-security:merge',
-      q: '多人协作时 merge 出现冲突，优先应该？',
+      id: 'concept-git-security:pre-push-diff',
+      q: 'Agent 刚改完一串文件，你准备 push 前，安全/卫生上更该先做？',
       choices: [
         {
-          t: '理解两边改动意图，手动合并后跑测试再提交',
+          t: '审 git status/diff：确认无密钥、无越界路径，再决定 add/commit',
           ok: true,
-          why: '盲目选一侧易丢功能或引入 bug。',
+          why: '工具加速不等于免审；与 workbench Accept 同一纪律。',
         },
         {
-          t: '随机保留一侧改动，永不打开冲突文件',
+          t: '直接 git add -A && push，相信 Agent 不会引入密钥或无关大删',
           ok: false,
-          why: '可能删掉同事新功能或自己的修复。',
+          why: '易把 .env、生成物或越界改动推进远程。',
         },
         {
-          t: '直接删除整个 .git 目录重新 clone',
+          t: '先 force push 到 main，有问题再在远程网页上回滚',
           ok: false,
-          why: '丢失未推送工作；应解决冲突。',
+          why: '共享主线强推伤害协作；应本地审完再常规推送。',
         },
         {
-          t: '用 git push --force 覆盖远程，冲突就消失了',
+          t: '把 diff 贴到公开聊天群请路人代审，含密钥也没关系',
           ok: false,
-          why: '强推共享分支易造成协作灾难。',
+          why: '二次泄漏面；密钥与隐私 diff 不应公发。',
         },
       ],
-      relatedNodes: ['git-advanced', 'git-forges'],
+      relatedNodes: ['git-workspace', 'craft-security', 'adev-vibe-coding'],
     },
     {
       id: 'concept-git-security:gitignore',

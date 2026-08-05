@@ -66,9 +66,9 @@ export default defineQuizSet({
           why: '方言不同，脚本通常不能零修改互跑。',
         },
         {
-          t: "更换登录 Shell 会重装操作系统内核并替换桌面环境与全部硬件驱动程序",
+          t: "只有 bash 是合法 Shell 方言，PowerShell 与 cmd 不能用于任何自动化或项目脚本",
           ok: false,
-          why: 'Shell 在用户态；换壳不改内核与驱动。',
+          why: '多方言并存才是常态；bash/PowerShell/cmd 语法与内建不同，但各自都合法。',
         },
       ],
       relatedNodes: ['terminal-worlds', 'lang-powershell', 'lang-shell'],
@@ -120,9 +120,9 @@ export default defineQuizSet({
           why: 'Shell 查 PATH 目录，不读 package.json main。',
         },
         {
-          t: "卸载并重装整个操作系统与用户账户，确保安装器写入的 PATH 在全新会话里一次性全部生效",
+          t: "在旧终端里执行 hash -r 或清除命令缓存后，不必新开会话也能读到安装器刚写入的用户 PATH",
           ok: false,
-          why: '过激；新开终端或重载 shell 配置通常就够。',
+          why: '多数安装器改的是用户环境变量；旧会话通常仍看不到，优先新开终端或重载配置。',
         },
       ],
       relatedNodes: ['installers-path', 'runtime-nodejs', 'workbench-troubleshoot'],
@@ -137,17 +137,17 @@ export default defineQuizSet({
           why: '同名多版本时，排在前面的目录优先——which/where 可见。',
         },
         {
-          t: 'HTTP 请求默认走哪台代理',
+          t: 'HTTP 请求默认走哪台代理服务器（与 PATH 同属环境变量但职责不同）',
           ok: false,
           why: '那是 HTTP_PROXY 一族；与 PATH 同属环境变量但业务不同。',
         },
         {
-          t: 'Git 远程默认分支名',
+          t: 'Git 远程仓库的默认分支名（如 main），以及 push 时跟踪哪条远程分支',
           ok: false,
           why: 'Git 配置，不是 PATH。',
         },
         {
-          t: 'DNS 服务器地址列表',
+          t: '本机解析域名时使用的 DNS 服务器地址列表与查询顺序',
           ok: false,
           why: '解析器配置，不是 PATH。',
         },
@@ -250,7 +250,7 @@ export default defineQuizSet({
           why: '需统一 .gitattributes 与编辑器策略；不会自动一致。',
         },
         {
-          t: "WSL 路径与 Windows 盘符路径永远一一对应，换编辑器不会改变文件内容、换行与权限观感",
+          t: "WSL 路径与 Windows 盘符路径总是同一物理文件，换编辑器不会改变内容、换行与权限观感",
           ok: false,
           why: '\\wsl$ 与 /mnt/c 等前缀不同；换行与权限展示常变。',
         },
@@ -272,7 +272,7 @@ export default defineQuizSet({
           why: 'Coding Agent / 开源文档示例也常按 Bash 写；cmd 语法差异大。',
         },
         {
-          t: "老式 cmd 已被操作系统内核删除，现代 Windows 无法启动",
+          t: "老式 cmd 已从现代 Windows 默认安装中移除，新机器无法再启动 cmd.exe",
           ok: false,
           why: 'cmd 仍在，只是体验与生态示例偏旧。',
         },
@@ -444,7 +444,7 @@ export default defineQuizSet({
           why: '能跑 ≠ 版本对；要对 which 路径与 engines。',
         },
         {
-          t: "删除 fnm/nvm 配置后，系统包管理器装的 Node 会自动覆盖 PATH 并永远优先于其它版本",
+          t: "删除 fnm/nvm 配置后，系统包管理器装的 Node 会自动改写 PATH 并优先于其它已安装版本",
           ok: false,
           why: '多版本共存时仍看 PATH 顺序，不会自动「永远优先」。',
         },

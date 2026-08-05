@@ -1,548 +1,434 @@
 import { defineQuizSet } from '../schema.js';
 
+/** Git 命令识别（场景流见 git-cli；密钥卫生见 git-security） */
 export default defineQuizSet({
-  id: "concept-git-cmd",
-  title: "基础 · Git 命令全表",
+  id: 'concept-git-cmd',
+  title: '基础 · Git 命令全表',
   kind: 'concept',
-  domain: "craft",
-  tags: ["Git","命令","基础"],
-  relatedNodes: ["git-workspace","git-advanced"],
-  caption: "clone→status→add→commit→push；分支与协作命令一令一题。",
+  domain: 'craft',
+  tags: ['Git', '命令', '基础'],
+  relatedNodes: ['git-workspace', 'git-advanced'],
+  caption: 'clone→status→add→commit→push；分支与协作命令一令一题。',
   questions: [
-  {
-    "id": "concept-git-cmd:clone",
-    "q": "把远程仓库拷到本地？",
-    "choices": [
-      {
-        "t": "git clone <url>",
-        "ok": true,
-        "why": "git clone：把远程仓库复制到本地工作目录并配置 origin。新人第一命令。"
-      },
-      {
-        "t": "git push <url> 首次必用",
-        "ok": false,
-        "why": "与「git clone」不符。"
-      },
-      {
-        "t": "git init <url> 等于克隆远程",
-        "ok": false,
-        "why": "与「git clone」不符。"
-      },
-      {
-        "t": "git status <url>",
-        "ok": false,
-        "why": "与「git clone」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace",
-      "git-forges"
-    ],
-    "tags": [
-      "基础",
-      "clone"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:clone_depth",
-    "q": "只要最新历史、加快克隆？",
-    "choices": [
-      {
-        "t": "git clone --depth=1 <url>",
-        "ok": true,
-        "why": "git clone --depth=1：浅克隆，只取最近提交，加快 CI/大仓拉取；历史不完整。"
-      },
-      {
-        "t": "git push --depth=1",
-        "ok": false,
-        "why": "与「git clone --depth=1」不符。"
-      },
-      {
-        "t": "git status --depth=1",
-        "ok": false,
-        "why": "与「git clone --depth=1」不符。"
-      },
-      {
-        "t": "git rm --depth=1",
-        "ok": false,
-        "why": "与「git clone --depth=1」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace",
-      "craft-ci"
-    ],
-    "tags": [
-      "基础",
-      "clone_depth"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:remote_v",
-    "q": "查看远程仓库地址？",
-    "choices": [
-      {
-        "t": "git remote -v",
-        "ok": true,
-        "why": "git remote -v：列出远程名与 fetch/push URL。确认 origin 指哪。"
-      },
-      {
-        "t": "git status -v 看远程 URL",
-        "ok": false,
-        "why": "与「git remote -v」不符。"
-      },
-      {
-        "t": "git blame -v",
-        "ok": false,
-        "why": "与「git remote -v」不符。"
-      },
-      {
-        "t": "git gc -v",
-        "ok": false,
-        "why": "与「git remote -v」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace",
-      "git-forges"
-    ],
-    "tags": [
-      "基础",
-      "remote_v"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:status",
-    "q": "看改了什么、暂存了什么？",
-    "choices": [
-      {
-        "t": "git status",
-        "ok": true,
-        "why": "git status：查看工作区/暂存区状态与当前分支。每日最高频。"
-      },
-      {
-        "t": "git blame 总览状态",
-        "ok": false,
-        "why": "与「git status」不符。"
-      },
-      {
-        "t": "git stash drop 看状态",
-        "ok": false,
-        "why": "与「git status」不符。"
-      },
-      {
-        "t": "git gc 日常状态",
-        "ok": false,
-        "why": "与「git status」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace"
-    ],
-    "tags": [
-      "基础",
-      "status"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:diff",
-    "q": "看尚未暂存的改动内容？",
-    "choices": [
-      {
-        "t": "git diff",
-        "ok": true,
-        "why": "git diff：看未暂存改动；git diff --staged 看已暂存。审 diff 再 commit。"
-      },
-      {
-        "t": "git push --diff",
-        "ok": false,
-        "why": "与「git diff」不符。"
-      },
-      {
-        "t": "git remote diff",
-        "ok": false,
-        "why": "与「git diff」不符。"
-      },
-      {
-        "t": "git tag diff",
-        "ok": false,
-        "why": "与「git diff」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace",
-      "adev-vibe-coding"
-    ],
-    "tags": [
-      "基础",
-      "diff"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:add",
-    "q": "把改动放入暂存区？",
-    "choices": [
-      {
-        "t": "git add <路径>",
-        "ok": true,
-        "why": "git add：把改动放入暂存区，准备进入下一次 commit。"
-      },
-      {
-        "t": "git commit 先于 add 的唯一正路",
-        "ok": false,
-        "why": "与「git add」不符。"
-      },
-      {
-        "t": "git push 代替暂存",
-        "ok": false,
-        "why": "与「git add」不符。"
-      },
-      {
-        "t": "git pull 代替 add",
-        "ok": false,
-        "why": "与「git add」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace"
-    ],
-    "tags": [
-      "基础",
-      "add"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:commit",
-    "q": "生成一次本地提交？",
-    "choices": [
-      {
-        "t": "git commit -m \"说明 why\"",
-        "ok": true,
-        "why": "git commit：把暂存区做成历史快照；-m 写说明 why。小步可复查。"
-      },
-      {
-        "t": "git push 等于本地 commit",
-        "ok": false,
-        "why": "与「git commit」不符。"
-      },
-      {
-        "t": "git add -m 提交",
-        "ok": false,
-        "why": "与「git commit」不符。"
-      },
-      {
-        "t": "git clone -m",
-        "ok": false,
-        "why": "与「git commit」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "commit"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:switch_c",
-    "q": "新建并切换功能分支？",
-    "choices": [
-      {
-        "t": "git switch -c feat/name",
-        "ok": true,
-        "why": "git switch -c <branch>：创建并切换到新分支。现代推荐，替代部分 checkout -b。"
-      },
-      {
-        "t": "git merge feat/name 建分支",
-        "ok": false,
-        "why": "与「git switch -c」不符。"
-      },
-      {
-        "t": "git remote add feat/name",
-        "ok": false,
-        "why": "与「git switch -c」不符。"
-      },
-      {
-        "t": "git tag feat/name 当功能分支日常",
-        "ok": false,
-        "why": "与「git switch -c」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "switch_c"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:branch",
-    "q": "Git 列出本地分支用？",
-    "choices": [
-      {
-        "t": "git branch",
-        "ok": true,
-        "why": "git branch：列出本地分支；-d 删除已合并分支。"
-      },
-      {
-        "t": "git status 专列远程分支名表",
-        "ok": false,
-        "why": "与「git branch」不符。"
-      },
-      {
-        "t": "git push --list-branches 唯一方式",
-        "ok": false,
-        "why": "与「git branch」不符。"
-      },
-      {
-        "t": "git rm --branches",
-        "ok": false,
-        "why": "与「git branch」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "branch"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:push",
-    "q": "把本地提交同步到远程？",
-    "choices": [
-      {
-        "t": "git push",
-        "ok": true,
-        "why": "git push：把本地提交推到远程；首次常用 -u 设上游。"
-      },
-      {
-        "t": "git pull 唯一上传方式",
-        "ok": false,
-        "why": "与「git push」不符。"
-      },
-      {
-        "t": "git add 上传远程",
-        "ok": false,
-        "why": "与「git push」不符。"
-      },
-      {
-        "t": "git status 推送",
-        "ok": false,
-        "why": "与「git push」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-forges",
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "push"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:pull",
-    "q": "拉取并整合远程更新？",
-    "choices": [
-      {
-        "t": "git pull",
-        "ok": true,
-        "why": "git pull：取远程更新并合并/变基进当前分支。协作前先拉。"
-      },
-      {
-        "t": "git push 代替拉取",
-        "ok": false,
-        "why": "与「git pull」不符。"
-      },
-      {
-        "t": "git clone 每天代替 pull",
-        "ok": false,
-        "why": "与「git pull」不符。"
-      },
-      {
-        "t": "git rm --pull",
-        "ok": false,
-        "why": "与「git pull」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced",
-      "git-forges"
-    ],
-    "tags": [
-      "基础",
-      "pull"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:fetch",
-    "q": "只下载远程更新、暂不合并？",
-    "choices": [
-      {
-        "t": "git fetch",
-        "ok": true,
-        "why": "git fetch：只下载远程对象与引用，不自动合并。先看再合更安全。"
-      },
-      {
-        "t": "git fetch 一定会改工作区文件",
-        "ok": false,
-        "why": "与「git fetch」不符。"
-      },
-      {
-        "t": "git commit --fetch",
-        "ok": false,
-        "why": "与「git fetch」不符。"
-      },
-      {
-        "t": "git add --fetch",
-        "ok": false,
-        "why": "与「git fetch」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "fetch"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:log",
-    "q": "Git 查看提交历史用？",
-    "choices": [
-      {
-        "t": "git log（常用 --oneline）",
-        "ok": true,
-        "why": "git log：查看提交历史；--oneline 紧凑。回溯 why 的入口。"
-      },
-      {
-        "t": "git status 代替历史",
-        "ok": false,
-        "why": "与「git log」不符。"
-      },
-      {
-        "t": "git remote log",
-        "ok": false,
-        "why": "与「git log」不符。"
-      },
-      {
-        "t": "git push --log-only",
-        "ok": false,
-        "why": "与「git log」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace"
-    ],
-    "tags": [
-      "基础",
-      "log"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:stash",
-    "q": "临时搁置未提交改动？",
-    "choices": [
-      {
-        "t": "git stash",
-        "ok": true,
-        "why": "git stash：临时搁置未提交改动，切分支救急；pop/apply 取回。"
-      },
-      {
-        "t": "git reset --hard 唯一搁置",
-        "ok": false,
-        "why": "与「git stash」不符。"
-      },
-      {
-        "t": "git tag stash",
-        "ok": false,
-        "why": "与「git stash」不符。"
-      },
-      {
-        "t": "git remote stash",
-        "ok": false,
-        "why": "与「git stash」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "stash"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:restore",
-    "q": "丢弃工作区某文件未提交改动？",
-    "choices": [
-      {
-        "t": "git restore <file>",
-        "ok": true,
-        "why": "git restore：丢弃工作区改动或取消暂存（--staged）。替代部分 checkout/reset 用途。"
-      },
-      {
-        "t": "git push --restore",
-        "ok": false,
-        "why": "与「git restore」不符。"
-      },
-      {
-        "t": "git clone --restore",
-        "ok": false,
-        "why": "与「git restore」不符。"
-      },
-      {
-        "t": "git remote restore",
-        "ok": false,
-        "why": "与「git restore」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-advanced"
-    ],
-    "tags": [
-      "基础",
-      "restore"
-    ]
-  },
-  {
-    "id": "concept-git-cmd:gitignore",
-    "q": "忽略 node_modules / 密钥文件靠？",
-    "choices": [
-      {
-        "t": ".gitignore 规则（并确认未被强制 add）",
-        "ok": true,
-        "why": ".gitignore：声明不纳入版本控制的路径（密钥、依赖目录、构建产物）。应进仓共享。"
-      },
-      {
-        "t": "只靠口头约定不写文件",
-        "ok": false,
-        "why": "与「.gitignore」不符。"
-      },
-      {
-        "t": "把密钥 commit 后再 ignore 就安全",
-        "ok": false,
-        "why": "与「.gitignore」不符。"
-      },
-      {
-        "t": "gitignore 只存在于远程 GitHub 设置",
-        "ok": false,
-        "why": "与「.gitignore」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "git-workspace",
-      "craft-security"
-    ],
-    "tags": [
-      "基础",
-      "gitignore"
-    ]
-  }
-],
+    {
+      id: 'concept-git-cmd:clone',
+      q: '把远程仓库拷到本地工作目录？',
+      choices: [
+        {
+          t: 'git clone <url>',
+          ok: true,
+          why: '复制远程仓并配置 origin；新人第一命令。',
+        },
+        {
+          t: 'git init <url>',
+          ok: false,
+          why: 'init 建空仓；带 URL 的是 clone，不是 init。',
+        },
+        {
+          t: 'git pull <url>',
+          ok: false,
+          why: 'pull 在已有本地仓上拉更新；首次落盘用 clone。',
+        },
+        {
+          t: 'git remote add <url>',
+          ok: false,
+          why: '只加远程名；不会下载整仓工作树。',
+        },
+      ],
+      relatedNodes: ['git-workspace', 'git-forges'],
+      tags: ['基础', 'clone'],
+    },
+    {
+      id: 'concept-git-cmd:clone_depth',
+      q: '只要最近历史、加快大仓/CI 克隆？',
+      choices: [
+        {
+          t: 'git clone --depth=1 <url>',
+          ok: true,
+          why: '浅克隆只取最近提交；历史不完整。',
+        },
+        {
+          t: 'git clone --single-branch --mirror <url>',
+          ok: false,
+          why: 'mirror 是裸镜像仓，用途不同；要浅历史用 --depth。',
+        },
+        {
+          t: 'git pull --depth=1',
+          ok: false,
+          why: 'pull 不负责「首次浅克隆整仓」。',
+        },
+        {
+          t: 'git fetch --unshallow',
+          ok: false,
+          why: '把浅仓加深；不是首次只要最新一层。',
+        },
+      ],
+      relatedNodes: ['git-workspace', 'craft-ci'],
+      tags: ['基础', 'clone_depth'],
+    },
+    {
+      id: 'concept-git-cmd:remote_v',
+      q: '查看本仓配置的远程名与 URL？',
+      choices: [
+        {
+          t: 'git remote -v',
+          ok: true,
+          why: '列出远程名与 fetch/push URL。',
+        },
+        {
+          t: 'git status -v',
+          ok: false,
+          why: 'status 看工作区状态，不列远程 URL。',
+        },
+        {
+          t: 'git branch -vv',
+          ok: false,
+          why: '看分支跟踪关系；完整远程 URL 仍看 remote -v。',
+        },
+        {
+          t: 'git config --list --show-origin',
+          ok: false,
+          why: '能翻到 url，但日常确认 origin 用 remote -v 更直接。',
+        },
+      ],
+      relatedNodes: ['git-workspace', 'git-forges'],
+      tags: ['基础', 'remote_v'],
+    },
+    {
+      id: 'concept-git-cmd:status',
+      q: '看改了什么、暂存了什么、当前在哪条分支？',
+      choices: [
+        {
+          t: 'git status',
+          ok: true,
+          why: '工作区/暂存区与分支状态；每日最高频。',
+        },
+        {
+          t: 'git log --stat',
+          ok: false,
+          why: '看已提交历史与变更统计，不是当前未提交状态。',
+        },
+        {
+          t: 'git blame',
+          ok: false,
+          why: '按行追谁改的；不是总览工作区。',
+        },
+        {
+          t: 'git ls-files',
+          ok: false,
+          why: '列已跟踪文件；不替代 status 的改动摘要。',
+        },
+      ],
+      relatedNodes: ['git-workspace'],
+      tags: ['基础', 'status'],
+    },
+    {
+      id: 'concept-git-cmd:diff',
+      q: '看尚未暂存的改动内容（逐行）？',
+      choices: [
+        {
+          t: 'git diff',
+          ok: true,
+          why: '未暂存改动；已暂存用 git diff --staged。',
+        },
+        {
+          t: 'git status',
+          ok: false,
+          why: '只列文件状态，不展示逐行 diff。',
+        },
+        {
+          t: 'git show HEAD',
+          ok: false,
+          why: '看某次提交内容，不是工作区相对暂存区的未暂存改。',
+        },
+        {
+          t: 'git log -p',
+          ok: false,
+          why: '历史提交补丁；不是当前未暂存工作区。',
+        },
+      ],
+      relatedNodes: ['git-workspace', 'adev-vibe-coding'],
+      tags: ['基础', 'diff'],
+    },
+    {
+      id: 'concept-git-cmd:add',
+      q: '把指定路径的改动放入暂存区？',
+      choices: [
+        {
+          t: 'git add <路径>',
+          ok: true,
+          why: '暂存候车，准备进入下一次 commit。',
+        },
+        {
+          t: 'git commit <路径>',
+          ok: false,
+          why: 'commit 做快照；路径进暂存区靠 add（或 commit -a 等特例）。',
+        },
+        {
+          t: 'git stage <路径>',
+          ok: false,
+          why: '没有日常子命令叫 git stage；标准是 add。',
+        },
+        {
+          t: 'git push <路径>',
+          ok: false,
+          why: 'push 同步已有提交，不负责暂存文件。',
+        },
+      ],
+      relatedNodes: ['git-workspace'],
+      tags: ['基础', 'add'],
+    },
+    {
+      id: 'concept-git-cmd:commit',
+      q: '把暂存区做成一次本地提交？',
+      choices: [
+        {
+          t: 'git commit -m "说明 why"',
+          ok: true,
+          why: '本地历史快照；message 写 why。',
+        },
+        {
+          t: 'git push -m "说明 why"',
+          ok: false,
+          why: 'push 上传已有提交，不新建本地 commit。',
+        },
+        {
+          t: 'git add -m "说明 why"',
+          ok: false,
+          why: 'add 只暂存；写说明是 commit 的事。',
+        },
+        {
+          t: 'git save -m "说明 why"',
+          ok: false,
+          why: '没有 git save；存档点是 commit。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'commit'],
+    },
+    {
+      id: 'concept-git-cmd:switch_c',
+      q: '新建并切换到功能分支？',
+      choices: [
+        {
+          t: 'git switch -c feat/name',
+          ok: true,
+          why: '创建并切换；现代推荐，替代部分 checkout -b。',
+        },
+        {
+          t: 'git branch -c feat/name',
+          ok: false,
+          why: 'branch -c 是复制分支；新建并切换常用 switch -c / checkout -b。',
+        },
+        {
+          t: 'git checkout feat/name',
+          ok: false,
+          why: '已有分支可 checkout/switch；新建需 -b/-c。',
+        },
+        {
+          t: 'git merge -c feat/name',
+          ok: false,
+          why: 'merge 合历史，不负责新建功能分支。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'switch_c'],
+    },
+    {
+      id: 'concept-git-cmd:branch',
+      q: '列出本地分支？',
+      choices: [
+        {
+          t: 'git branch',
+          ok: true,
+          why: '列本地分支；-a 含远程跟踪，-d 删已合并。',
+        },
+        {
+          t: 'git status --branches',
+          ok: false,
+          why: 'status 可带短分支摘要，完整列表用 branch。',
+        },
+        {
+          t: 'git remote',
+          ok: false,
+          why: '列远程名，不是本地分支表。',
+        },
+        {
+          t: 'git tag',
+          ok: false,
+          why: '列标签，不是功能分支列表。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'branch'],
+    },
+    {
+      id: 'concept-git-cmd:push',
+      q: '把本地提交同步到远程？',
+      choices: [
+        {
+          t: 'git push',
+          ok: true,
+          why: '推到远程；首次常用 -u 设上游。',
+        },
+        {
+          t: 'git pull',
+          ok: false,
+          why: '方向相反：拉远程进本地。',
+        },
+        {
+          t: 'git upload',
+          ok: false,
+          why: '没有 git upload；上传提交是 push。',
+        },
+        {
+          t: 'git commit --remote',
+          ok: false,
+          why: 'commit 只写本地；上远程另一步 push。',
+        },
+      ],
+      relatedNodes: ['git-forges', 'git-advanced'],
+      tags: ['基础', 'push'],
+    },
+    {
+      id: 'concept-git-cmd:pull',
+      q: '拉取并整合远程更新到当前分支？',
+      choices: [
+        {
+          t: 'git pull',
+          ok: true,
+          why: 'fetch + merge/rebase；协作前常先拉。',
+        },
+        {
+          t: 'git push --pull',
+          ok: false,
+          why: '没有这种组合；拉是 pull/fetch。',
+        },
+        {
+          t: 'git clone',
+          ok: false,
+          why: '首次拷仓；日常更新已有仓用 pull/fetch。',
+        },
+        {
+          t: 'git merge origin',
+          ok: false,
+          why: '缺具体分支引用；且未 fetch 时本地可能没有新对象。',
+        },
+      ],
+      relatedNodes: ['git-advanced', 'git-forges'],
+      tags: ['基础', 'pull'],
+    },
+    {
+      id: 'concept-git-cmd:fetch',
+      q: '只下载远程更新、暂不合并进当前分支？',
+      choices: [
+        {
+          t: 'git fetch',
+          ok: true,
+          why: '更新远程跟踪引用，不自动改工作区；先看再合更稳。',
+        },
+        {
+          t: 'git pull --no-commit',
+          ok: false,
+          why: '仍会尝试合并；只要下载用 fetch。',
+        },
+        {
+          t: 'git checkout origin/main',
+          ok: false,
+          why: '切换到远程跟踪提交；不替代「只下载」。',
+        },
+        {
+          t: 'git remote update --prune 等同于必然改工作区',
+          ok: false,
+          why: 'remote update 类似 fetch；默认不改工作区文件。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'fetch'],
+    },
+    {
+      id: 'concept-git-cmd:log',
+      q: '查看提交历史？',
+      choices: [
+        {
+          t: 'git log（常用 --oneline）',
+          ok: true,
+          why: '回溯提交与 why；--oneline 紧凑。',
+        },
+        {
+          t: 'git status --history',
+          ok: false,
+          why: 'status 看当前状态，不是历史列表。',
+        },
+        {
+          t: 'git reflog --all-history',
+          ok: false,
+          why: 'reflog 是 HEAD 移动痕迹；常规提交史用 log。',
+        },
+        {
+          t: 'git show-branch --current-only',
+          ok: false,
+          why: '偏分支拓扑；日常读史用 log。',
+        },
+      ],
+      relatedNodes: ['git-workspace'],
+      tags: ['基础', 'log'],
+    },
+    {
+      id: 'concept-git-cmd:stash',
+      q: '临时搁置未提交改动以便切分支？',
+      choices: [
+        {
+          t: 'git stash',
+          ok: true,
+          why: '搁置现场；回来 stash pop/apply。',
+        },
+        {
+          t: 'git reset --hard',
+          ok: false,
+          why: '丢掉工作区，不是可恢复搁置。',
+        },
+        {
+          t: 'git clean -fd',
+          ok: false,
+          why: '删未跟踪文件；不保存已跟踪改动。',
+        },
+        {
+          t: 'git commit --fixup stash',
+          ok: false,
+          why: 'fixup 服务自动 rebase；临时搁置用 stash。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'stash'],
+    },
+    {
+      id: 'concept-git-cmd:restore',
+      q: '丢弃工作区某已跟踪文件的未提交改动？',
+      choices: [
+        {
+          t: 'git restore <file>',
+          ok: true,
+          why: '恢复工作区；取消暂存加 --staged。',
+        },
+        {
+          t: 'git revert <file>',
+          ok: false,
+          why: 'revert 针对已有提交做反向提交，不是丢工作区改动。',
+        },
+        {
+          t: 'git reset <file> --hard',
+          ok: false,
+          why: '路径写法易混；现代丢工作区改动优先 restore。',
+        },
+        {
+          t: 'git rm --cached <file>',
+          ok: false,
+          why: '取消跟踪保留文件；不是丢弃内容改动。',
+        },
+      ],
+      relatedNodes: ['git-advanced'],
+      tags: ['基础', 'restore'],
+    },
+  ],
 });

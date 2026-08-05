@@ -106,14 +106,14 @@ export default defineQuizSet({
           why: 'Node 已内置全局 fetch，项目规范禁止 node-fetch 等旧依赖。',
         },
         {
-          t: '不设超时，一直等待直到服务器响应',
+          t: '不设超时，请求可以一直挂着直到进程自己崩掉',
           ok: false,
           why: '无超时可能永久挂起，拖垮连接与调用链。',
         },
         {
-          t: '用 setInterval 轮询 XMLHttpRequest 的 readyState',
+          t: '自己 new AbortController，再用 setTimeout 里手动 abort 拼超时',
           ok: false,
-          why: 'fetch 没有 readyState；那是 XHR 旧模型。',
+          why: '项目约定优先 AbortSignal.timeout，避免手写拼装。',
         },
       ],
       relatedNodes: ['code-async', 'lang-nodejs', 'http-web'],

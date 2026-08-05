@@ -260,22 +260,22 @@ export default defineQuizSet({
     "q": "递归删除目录（需极度谨慎）？",
     "choices": [
       {
-        "t": "rm -r dir/（理解风险",
+        "t": "rm -r dir/（递归删除；生产慎用 -f）",
         "ok": true,
         "why": "rm：删除文件；rm -r 递归删目录。生产慎用 rm -rf；误删难恢复。"
       },
       {
-        "t": "mkdir -r dir/",
+        "t": "mkdir -r dir/（创建目录，不删除）",
         "ok": false,
         "why": "不是 rm 的典型用法。"
       },
       {
-        "t": "cp -r 等于删除",
+        "t": "cp -r src dest（复制，不是删除）",
         "ok": false,
         "why": "不是 rm 的典型用法。"
       },
       {
-        "t": "pwd -rf",
+        "t": "pwd -rf（打印工作目录，不删除）",
         "ok": false,
         "why": "不是 rm 的典型用法。"
       }

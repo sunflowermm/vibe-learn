@@ -154,7 +154,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-lang-frameworks:q6',
-      q: 'Django / FastAPI 分别更贴近？',
+      q: '在 Python Web 选型里，Django 与 FastAPI 更常见的分工直觉？',
       choices: [
         {
           t: 'Python Web 框架：Django 偏全家桶，FastAPI 偏现代 API/类型注解与性能',

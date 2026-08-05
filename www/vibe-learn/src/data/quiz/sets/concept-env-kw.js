@@ -217,24 +217,24 @@ export default defineQuizSet({
     "q": "NO_PROXY 的典型用途？",
     "choices": [
       {
-        "t": "指定哪些主机不走 HTTP(",
+        "t": "指定哪些主机不走 HTTP(S) 代理",
         "ok": true,
         "why": "NO_PROXY：列出不走代理的主机（常含 127.0.0.1,localhost,::1），避免本机回环也被代理绕一圈。"
       },
       {
-        "t": "禁用全部网络",
+        "t": "禁用主机全部网卡，使任何流量都发不出去",
         "ok": false,
-        "why": "与「NO_PROXY」不符。"
+        "why": "NO_PROXY 是代理旁路名单，不是断网/清 PATH/强制 Tor。"
       },
       {
-        "t": "清空 PATH",
+        "t": "清空 PATH，让所有命令都找不到可执行文件",
         "ok": false,
-        "why": "与「NO_PROXY」不符。"
+        "why": "NO_PROXY 是代理旁路名单，不是断网/清 PATH/强制 Tor。"
       },
       {
-        "t": "强制所有流量走 Tor",
+        "t": "强制所有流量必须走 Tor 出口，不能直连",
         "ok": false,
-        "why": "与「NO_PROXY」不符。"
+        "why": "NO_PROXY 是代理旁路名单，不是断网/清 PATH/强制 Tor。"
       }
     ],
     "relatedNodes": [

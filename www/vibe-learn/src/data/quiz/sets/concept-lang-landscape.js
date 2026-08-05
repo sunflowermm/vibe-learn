@@ -96,22 +96,22 @@ export default defineQuizSet({
       q: '本仓库（XRK-AGT）主服的技术语言契约更贴近哪一项？',
       choices: [
         {
-          t: 'Node.js 运行时上的 JavaScript 与 Ty',
+          t: 'Node.js 运行时上的 JavaScript 与 TypeScript',
           ok: true,
           why: '主服以 JS/TS + Node 编写；子服可另用 Python 等。',
         },
         {
-          t: '必须且只能使用 PHP 作为唯一后端语言',
+          t: '必须且只能使用 PHP 作为唯一后端语言，禁止 Node 进程',
           ok: false,
           why: '本仓主服不是 PHP 选型。',
         },
         {
-          t: '只能在单片机裸机上运行，不支持通用服务器',
+          t: '只能在单片机裸机上运行，不支持通用 Linux/Windows 服务器',
           ok: false,
           why: '面向标准 Node 服务器环境的后端 Runtime。',
         },
         {
-          t: '主服用 Python 编写，Node 只负责前端页面',
+          t: '主服用 Python 编写业务内核，Node 只负责托管前端静态页',
           ok: false,
           why: 'Python 常见于子服 apis；主服入口是 Node。',
         },

@@ -155,17 +155,17 @@ export default defineQuizSet({
           why: '进程在 ≠ 健康；探针很重要。',
         },
         {
-          t: '自动备份数据库到 Git',
+          t: '自动备份数据库到 Git 仓库并开 PR',
           ok: false,
           why: '健康检查不做备份，也不该把库推进 Git。',
         },
         {
-          t: '替代全部应用日志',
+          t: '替代全部应用日志，有探针就不必再收集日志',
           ok: false,
           why: '探针与日志互补，不能互相替代。',
         },
         {
-          t: 'HEALTHCHECK 等于开放所有端口',
+          t: 'HEALTHCHECK 等于开放容器内全部端口到公网',
           ok: false,
           why: '与端口暴露无关。',
         },
@@ -178,22 +178,22 @@ export default defineQuizSet({
       q: '.dockerignore 的作用类似？',
       choices: [
         {
-          t: '减小 build 上下文',
+          t: '减小 build 上下文，避免把无关大文件送进 daemon',
           ok: true,
           why: '与 .gitignore 同思路：控制送进 daemon 的文件。',
         },
         {
-          t: '运行时屏蔽所有网络',
+          t: '运行时屏蔽所有网络，容器启动后无法出网',
           ok: false,
           why: '只影响构建上下文，不管运行网络。',
         },
         {
-          t: '必须忽略 Dockerfile 本身',
+          t: '必须忽略 Dockerfile 本身，否则构建会失败',
           ok: false,
           why: 'Dockerfile 要被 daemon 读取，不能靠 ignore 掉。',
         },
         {
-          t: '替代 compose 网络',
+          t: '替代 compose 网络配置，声明 ignore 就自动组网',
           ok: false,
           why: '网络由 compose/network 配置，不是 ignore。',
         },
@@ -206,22 +206,22 @@ export default defineQuizSet({
       q: '容器与虚拟机选型时更贴切的说法？',
       choices: [
         {
-          t: '要强隔离/不同内核场景偏 VM',
+          t: '要强隔离或不同内核的场景更偏虚拟机；也可组合使用',
           ok: true,
           why: '可组合：VM 里再跑容器也常见。',
         },
         {
-          t: '容器永远比 VM 更安全且无需补丁',
+          t: '容器永远比 VM 更安全，而且永远不需要打补丁',
           ok: false,
           why: '共享内核有独特风险面，仍要补丁与加固。',
         },
         {
-          t: 'VM 启动一定更快',
+          t: '虚拟机启动一定比容器更快，所以生产应全用 VM',
           ok: false,
           why: '通常容器启动更快。',
         },
         {
-          t: '二者不能同时用于生产',
+          t: '容器与虚拟机不能同时用于生产环境',
           ok: false,
           why: '生产常见组合部署。',
         },

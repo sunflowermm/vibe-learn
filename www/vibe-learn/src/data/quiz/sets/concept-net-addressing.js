@@ -18,7 +18,7 @@ export default defineQuizSet({
       q: '域名（如 api.example.com）与 IP 地址的正确关系是？',
       choices: [
         {
-          t: '域名是人类可读名字',
+          t: '域名是人类可读名字，经 DNS 解析成 IP 后再选路',
           ok: true,
           why: '名字层与网络层寻址分离：换 IP 可只改 DNS。',
         },
@@ -270,24 +270,24 @@ export default defineQuizSet({
       q: 'ping 通某 IP，但 https://该IP 打不开，说明什么？',
       choices: [
         {
-          t: 'ICMP 可达≠业务端口',
+          t: 'ICMP 可达≠业务端口可达；还要查 443/进程/证书/防火墙',
           ok: true,
           why: '安全组可能放行 ICMP 却禁 443；或进程没听、证书错。',
         },
         {
-          t: 'ping 通则一切 Web 服务必通',
+          t: 'ping 通则一切 Web 服务必通，不必再查端口',
           ok: false,
           why: '经典误解：协议与端口都不同。',
         },
         {
-          t: '一定是域名写错',
+          t: '一定是域名写错了，与端口和 TLS 无关',
           ok: false,
           why: '题设已用 IP 访问；问题更可能在端口/TLS/进程。',
         },
         {
-          t: '只能重装操作系统才能修好',
+          t: '先不查监听与防火墙，直接重装整套开发环境碰运气',
           ok: false,
-          why: '过激；先分层查监听与防火墙。',
+          why: '过激；先分层查监听、安全组与证书。',
         },
       ],
       relatedNodes: ['network-basics', 'tcp-udp', 'workbench-troubleshoot'],
@@ -326,22 +326,22 @@ export default defineQuizSet({
       q: '浏览器地址栏输入域名后到看到页面，最小链路更接近？',
       choices: [
         {
-          t: 'DNS→IP；TCP',
+          t: 'DNS 解析到 IP → TCP（及常有的 TLS）握手 → 发 HTTP → 渲染',
           ok: true,
           why: '每环失败现象不同：解析失败、超时、证书警告、4xx/5xx、白屏脚本错。',
         },
         {
-          t: '只需要 ARP，跨公网也不要 IP',
+          t: '只需要局域网里的 ARP 解析，跨公网访问也不必依赖 IP 寻址与路由转发',
           ok: false,
           why: '出局域网必须靠 IP 路由。',
         },
         {
-          t: '只需数据库事务，无需网络',
+          t: '只需远端数据库事务提交成功，浏览器打开页面完全无需 DNS、TCP 或 HTTP',
           ok: false,
           why: '数据库在应用之后；先要网络通。',
         },
         {
-          t: '浏览器直接挂载对方磁盘读源文件',
+          t: '浏览器直接挂载对方服务器磁盘，在本地文件系统打开源文件即可看到页面',
           ok: false,
           why: '经协议请求资源，不是挂载对方磁盘。',
         },

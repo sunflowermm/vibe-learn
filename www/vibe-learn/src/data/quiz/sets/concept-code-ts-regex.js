@@ -25,14 +25,14 @@ export default defineQuizSet({
           why: '类型会擦除，运行的仍是普通 JS，性能相当。',
         },
         {
-          t: '完全取代操作系统，直接在硬件上执行类型检查',
+          t: '运行时自带完整反射，每个变量都能查出完整类型树',
           ok: false,
-          why: '仍是语言工具链，需要 Node/浏览器与 OS。',
+          why: '类型在编译期擦除；运行时没有 TS 类型树。',
         },
         {
-          t: '让代码不需要经过任何编译步骤即可在浏览器运行',
+          t: '让代码不需要经过任何编译步骤即可在浏览器直接当 TS 执行',
           ok: false,
-          why: 'TS 需编译/转译为 JS 后才能执行。',
+          why: 'TS 需编译/转译为 JS 后才能执行（除非特殊工具链）。',
         },
       ],
       relatedNodes: ['code-typescript-hands', 'lang-typescript'],
@@ -52,12 +52,12 @@ export default defineQuizSet({
           why: '引擎不执行类型标注，它们只在编译前由 TS 使用。',
         },
         {
-          t: '必须手动把每个类型标注复制到 .env 环境变量里',
+          t: '必须手动把每个类型标注复制到 .env 环境变量里才能生效',
           ok: false,
           why: '类型写在 .ts 源文件，与环境变量无关。',
         },
         {
-          t: '类型标注会在运行时自动拦截所有非法操作',
+          t: '类型标注会在运行时自动拦截所有非法操作并回滚',
           ok: false,
           why: 'TS 不做运行时强制校验，错误应在编译期捕获。',
         },
@@ -74,19 +74,19 @@ export default defineQuizSet({
           why: '适合校验格式、抽日志字段等模式操作。',
         },
         {
-          t: '替代关系型数据库执行 ACID 事务',
+          t: '替代关系型数据库执行跨表 ACID 事务与索引优化',
           ok: false,
           why: '事务由数据库引擎管理，正则只处理字符串。',
         },
         {
-          t: '编译 C 语言内核模块并链接到操作系统',
+          t: '完整解析任意层嵌套的 HTML/JSON 并保证结构正确',
           ok: false,
-          why: '那是编译器/链接器的工作，与正则无关。',
+          why: '深层嵌套应交应用解析器；正则易碎难维护。',
         },
         {
-          t: '管理 Docker 容器的生命周期和镜像构建',
+          t: '编译并链接操作系统内核模块到目标硬件',
           ok: false,
-          why: '容器管理是 Docker 等工具的职能。',
+          why: '那是编译器/链接器的工作，与正则无关。',
         },
       ],
       relatedNodes: ['code-regex'],
@@ -101,7 +101,7 @@ export default defineQuizSet({
           why: '正则不擅长任意层嵌套；用 JSON.parse 或 DOM 等工具。',
         },
         {
-          t: '应该；一条足够长的正则就能解析任意编程语言',
+          t: '应该；一条足够长的正则就能可靠解析任意编程语言源码',
           ok: false,
           why: '经典误区；不可靠且难维护。',
         },
@@ -111,7 +111,7 @@ export default defineQuizSet({
           why: '可以匹配多字符模式；短板是深层嵌套结构。',
         },
         {
-          t: '正则和解析器完全等价，选哪个都一样',
+          t: '正则和解析器在能力上完全等价，选哪个对正确性没影响',
           ok: false,
           why: '解析器理解语法结构；复杂场景应选对工具。',
         },
@@ -133,7 +133,7 @@ export default defineQuizSet({
           why: 'any 恰恰放松检查，允许任意操作。',
         },
         {
-          t: '程序在运行时必定崩溃，无法正常运行',
+          t: '程序在运行时必定崩溃，无法正常启动或执行',
           ok: false,
           why: 'any 不导致必崩，只是编译期发现不了错误。',
         },
@@ -144,6 +144,34 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['code-typescript-hands', 'lang-typescript'],
+    },
+    {
+      id: 'concept-code-ts-regex:email-ok',
+      q: '校验「用户输入是否像邮箱格式」时，更稳妥的工程直觉？',
+      choices: [
+        {
+          t: '用适度正则或成熟校验库做格式门禁，最终仍以发信/验证码确认',
+          ok: true,
+          why: '格式像邮箱≠真实邮箱；正则只做第一道。',
+        },
+        {
+          t: '写一条试图覆盖 RFC 全部边角的超长正则，并当作唯一真理',
+          ok: false,
+          why: '邮箱 RFC 极复杂；超长正则难维护且仍会误判。',
+        },
+        {
+          t: '只要包含 @ 字符就一律放行，不再做任何格式检查',
+          ok: false,
+          why: '过松会产生大量脏数据；至少做基础格式门禁。',
+        },
+        {
+          t: '把整段用户输入交给 eval 执行，用运行结果判断是否合法邮箱',
+          ok: false,
+          why: 'eval 用户输入是严重安全风险，与邮箱校验无关。',
+        },
+      ],
+      relatedNodes: ['code-regex', 'craft-security'],
+      tags: ['应用'],
     },
   ],
 });

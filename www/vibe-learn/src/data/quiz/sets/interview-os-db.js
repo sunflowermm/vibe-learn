@@ -20,7 +20,7 @@ export default defineQuizSet({
           why: '进程是资源分配单位，线程是调度单位。',
         },
         {
-          t: '线程作为调度单位一定比进程慢很多',
+          t: '线程作为调度单位，在任何负载下都一定比进程慢很多',
           ok: false,
           why: '快慢取决于负载；线程切换通常更轻，但不是定义本身。',
         },
@@ -47,7 +47,7 @@ export default defineQuizSet({
           why: '与脏读、不可重复读、幻读相关。',
         },
         {
-          t: '磁盘坏道出现时的自动硬件修复',
+          t: '磁盘坏道出现时的自动硬件修复与扇区重映射',
           ok: false,
           why: '属存储/运维，不是事务隔离性定义。',
         },
@@ -133,7 +133,7 @@ export default defineQuizSet({
           why: '存储不执行程序；虚拟内存是地址映射机制。',
         },
         {
-          t: '取消文件系统，所有数据只能放内存',
+          t: '取消文件系统，规定所有持久数据只能放在内存里',
           ok: false,
           why: '与文件系统正交；磁盘仍用于持久文件。',
         },
@@ -171,6 +171,33 @@ export default defineQuizSet({
         },
       ],
       relatedNodes: ['db-essence', 'db-as-service'],
+    },
+    {
+      id: 'interview-os-db:index',
+      q: '业务查询突然变慢，EXPLAIN 显示走了全表扫描。面试开口更宜先谈？',
+      choices: [
+        {
+          t: '核对谓词是否能用上合适索引，以及索引是否被函数/类型转换废掉',
+          ok: true,
+          why: '先看执行计划与索引可用性，再谈扩容。',
+        },
+        {
+          t: '立刻把数据库换成内存纯缓存，并宣称不再需要任何索引设计',
+          ok: false,
+          why: '缓存不能替代正确查询与持久一致性设计。',
+        },
+        {
+          t: '先关掉慢查询日志与 EXPLAIN，避免暴露性能问题细节',
+          ok: false,
+          why: '丢掉定位信号。',
+        },
+        {
+          t: '认为全表扫描在任何数据量与选择性下都一定最快',
+          ok: false,
+          why: '大数据量下合适索引通常远优于全表扫描。',
+        },
+      ],
+      relatedNodes: ['db-sql-hands-on', 'db-as-service'],
     },
   ],
 });

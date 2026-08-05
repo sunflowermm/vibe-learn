@@ -17,22 +17,22 @@ export default defineQuizSet({
       q: '浏览器访问 http://example.com（未写端口）时，默认连哪一端口？',
       choices: [
         {
-          t: 'TCP 80（HTT',
+          t: 'TCP 80（HTTP 明文默认端口）',
           ok: true,
           why: '未写端口时 HTTP 默认 80。',
         },
         {
-          t: 'TCP 443',
+          t: 'TCP 443（HTTPS 默认端口）',
           ok: false,
           why: '443 是 HTTPS 默认；本题是 http://。',
         },
         {
-          t: 'TCP 22',
+          t: 'TCP 22（SSH 默认端口）',
           ok: false,
           why: '22 是 SSH。',
         },
         {
-          t: 'UDP 53',
+          t: 'UDP 53（DNS 常用端口）',
           ok: false,
           why: '53 是 DNS。',
         },
@@ -45,12 +45,12 @@ export default defineQuizSet({
       q: '浏览器访问 https://example.com（未写端口）时，默认连哪一端口？',
       choices: [
         {
-          t: 'TCP 443（HTTPS',
+          t: 'TCP 443（HTTPS 默认端口）',
           ok: true,
           why: '小锁站点默认走 443。',
         },
         {
-          t: 'TCP 80',
+          t: 'TCP 80（HTTP 明文默认端口）',
           ok: false,
           why: '80 是明文 HTTP 默认。',
         },
@@ -60,7 +60,7 @@ export default defineQuizSet({
           why: '8080 常见于开发/备用，不是 HTTPS 默认标准。',
         },
         {
-          t: 'TCP 22',
+          t: 'TCP 22（SSH 默认端口）',
           ok: false,
           why: '22 是 SSH。',
         },
@@ -101,22 +101,22 @@ export default defineQuizSet({
       q: '向解析器查询域名对应 IP 时，DNS 默认端口是？',
       choices: [
         {
-          t: '53（UDP 常见',
+          t: '53（UDP 常见；大包/区传送也用 TCP 53）',
           ok: true,
           why: '排障时别把 DNS 当成 80/443。',
         },
         {
-          t: 'TCP 80',
+          t: 'TCP 80（HTTP 默认）',
           ok: false,
           why: '80 是 HTTP。',
         },
         {
-          t: 'TCP 443',
+          t: 'TCP 443（HTTPS 默认；DoH 另说）',
           ok: false,
-          why: '443 是 HTTPS；DoH 另说，经典 DNS 是 53。',
+          why: '443 是 HTTPS；经典 DNS 是 53。',
         },
         {
-          t: 'TCP 22',
+          t: 'TCP 22（SSH 默认）',
           ok: false,
           why: '22 是 SSH。',
         },

@@ -38,7 +38,7 @@ export default defineQuizSet({
           why: '密钥不进 README；与装运行时无关。',
         },
         {
-          t: "要先确认是否已格式化数据盘并重装系统，否则语言运行时无法写入用户 PATH 环境变量",
+          t: "要先确认是否已清空用户目录下全部旧 PATH 条目，否则新装 Node 无法覆盖旧的命令查找路径",
           ok: false,
           why: '过激；发行版选型才是第一问。',
         },
@@ -55,19 +55,19 @@ export default defineQuizSet({
           why: '本地有 ≠ 流水线有；要对齐镜像与 setup-node 一类步骤。',
         },
         {
-          t: '一定是 JavaScript 语法在 CI 中被禁止',
+          t: 'CI 与本地用了不同的 Node 主版本，语法在一边能跑、另一边被引擎拒绝',
           ok: false,
-          why: '找不到命令发生在起进程之前。',
+          why: '找不到命令发生在起进程之前；版本不匹配通常是跑起来后的报错。',
         },
         {
-          t: '一定是 DNS 污染',
+          t: 'package.json 的 scripts 字段写错了脚本名，所以 CI 报 command not found',
           ok: false,
-          why: '本地命令解析不走 DNS。',
+          why: '`node -v` 本身找不到时，问题在镜像/PATH，不是业务脚本名。',
         },
         {
-          t: '一定是显示器分辨率不够',
+          t: 'CI 工作目录不在仓库根，相对路径脚本找不到，被误报成 node 命令不存在',
           ok: false,
-          why: '无关。',
+          why: 'node 可执行文件找不到是 PATH/安装问题；cwd 问题通常是脚本路径报错。',
         },
       ],
       relatedNodes: ['installers-path', 'runtime-nodejs', 'craft-ci'],
@@ -163,9 +163,9 @@ export default defineQuizSet({
           why: '出网与解析问题常被误判成「依赖写错」；先分层验证连通。',
         },
         {
-          t: "遇到 clone 或 install 失败时，应先把 PATH 中全部目录移除并重装 pnpm，迫使 Shell 从 node_modules/.bin 与系统默认路径重新发现 git 与 node 可执行文件位置",
+          t: "遇到 clone 或 install 失败时，应先怀疑 package.json 语法错误并重写依赖范围，而不是先查代理与镜像",
           ok: false,
-          why: '清空 PATH 会让命令更找不到；应先查代理/镜像/证书。',
+          why: '出网失败常被误判成依赖写错；应先查代理/镜像/证书。',
         },
         {
           t: "把 GitHub Personal Access Token 与 npm 镜像密钥明文写进前端打包后的 JS 静态资源，作为加快 git clone 与 pnpm install 出网访问的长期默认加速方案",
