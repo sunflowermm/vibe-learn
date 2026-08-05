@@ -5150,7 +5150,7 @@ export function mountAlgoViz(host, cfg) {
   root.append(el('div', 'vibe-algo__title', { text: cfg.title }));
   if (cfg.caption) root.append(el('p', 'vibe-algo__caption', { text: cfg.caption }));
 
-  const logEl = el('div', 'vibe-algo__log', { text: '点击「播放」开始演示' });
+  const logEl = el('div', 'vibe-algo__log', { text: '点上方按钮播放' });
   const controls = el('div', 'vibe-algo__controls');
   const btn = el('button', 'vibe-algo__btn', {
     type: 'button',
@@ -5162,7 +5162,7 @@ export function mountAlgoViz(host, cfg) {
   const kind = cfg.kind;
   let stageWrap = el('div', 'vibe-algo__stage');
 
-  function showIdle(msg = '动画待命 · 点下方按钮播放') {
+  function showIdle(msg = '点上方按钮播放') {
     const idle = el('div', 'vibe-algo__idle', { text: msg });
     stageWrap.replaceChildren(idle);
   }
