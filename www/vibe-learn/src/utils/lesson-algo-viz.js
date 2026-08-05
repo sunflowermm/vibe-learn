@@ -3311,32 +3311,46 @@ function mwChainStage(spec) {
     );
     return b;
   });
-  const packet = el('div', 'vibe-algo__mw-pkt', { text: 'HTTP' });
-  const status = el('div', 'vibe-algo__mw-status', { text: '请求尚未进入管道…' });
+  const n = Math.max(layers.length, 1);
+  stage.style.setProperty('--mw-n', String(n));
+
   const row = el('div', 'vibe-algo__mw-row');
+  row.style.gridTemplateColumns = `repeat(${n}, minmax(0, 1fr))`;
   for (const b of layers) row.append(b);
-  stage.append(row, packet, status);
+
+  const track = el('div', 'vibe-algo__mw-track');
+  const packet = el('div', 'vibe-algo__mw-pkt', { text: 'HTTP' });
+  track.append(packet);
+
+  const status = el('div', 'vibe-algo__mw-status', { text: '请求尚未进入管道…' });
+  stage.append(row, track, status);
   return { stage, layers, packet, status };
 }
 
 async function runMwChain(ui, speed, signal, log) {
+  const n = ui.layers.length;
   for (const b of ui.layers) b.classList.remove('is-active', 'is-done', 'is-block');
   ui.packet.classList.remove('is-move');
-  log('Web 框架共性：请求像传送带，中间件可改、可拦、可放行');
-  for (let i = 0; i < ui.layers.length; i++) {
+  ui.stage.style.setProperty('--mw-n', String(Math.max(n, 1)));
+  log('请求沿管道前进：每一层可放行、改写或直接结束');
+
+  for (let i = 0; i < n; i++) {
     const b = ui.layers[i];
     b.classList.add('is-active');
     ui.packet.style.setProperty('--mw-i', String(i));
     ui.packet.classList.add('is-move');
     const title = b.querySelector('.vibe-algo__mw-title')?.textContent || '';
-    ui.status.textContent = `经过：${title}`;
-    log(i === 0 ? '入口拿到原始请求' : i === ui.layers.length - 1 ? '写出响应' : `中间件可 next() 或直接结束`);
+    const sub = b.querySelector('.vibe-algo__mw-sub')?.textContent || '';
+    ui.status.textContent = sub ? `经过：${title}（${sub}）` : `经过：${title}`;
+    if (i === 0) log('入口：拿到原始请求');
+    else if (i === n - 1) log('出口：写出响应');
+    else log(`${title}：可放行下一层，或在此短路返回`);
     await sleep(speed * 0.9, signal);
     b.classList.remove('is-active');
     b.classList.add('is-done');
   }
-  ui.status.textContent = '对照本仓：主服用 Loader+HttpResponse，不必强套 Express/Nest 抢入口';
-  log('子服语言上的框架（Spring/Gin/Django…）落在 subserver，不进主服 src/');
+  ui.status.textContent = '对照本仓：主服用 Loader + HttpResponse；Java 链落在 jserver';
+  log('Spring Filter（Servlet）→ Interceptor（MVC）→ Controller；勿嵌进主服进程');
   await sleep(speed * 0.85, signal);
 }
 

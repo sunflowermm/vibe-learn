@@ -36,7 +36,6 @@ const text = computed(() => props.label || props.data?.label || '');
 const stroke = computed(() => props.data?.color || 'var(--edge-stroke)');
 const isSide = computed(() => props.data?.branch === 'side');
 const isPreview = computed(() => Boolean(props.data?.preview));
-const isChapterLit = computed(() => Boolean(props.data?.chapterLit));
 const isLit = computed(() => props.selected || isPreview.value);
 const routeOffset = computed(() => Number(props.data?.routeOffset) || 0);
 const pathKind = computed(() => props.data?.pathKind || 'smoothstep');
@@ -158,9 +157,8 @@ export default { inheritAttrs: false };
 <template>
   <g
     class="rel-edge"
-    :class="{ selected, animated, side: isSide, preview: isPreview, chapter: isChapterLit }"
+    :class="{ selected, animated, side: isSide, preview: isPreview }"
   >
-    <!-- 仅亮起时挂宽命中层，供跳转邻接；未亮不挡平移 -->
     <path
       v-if="isLit"
       class="rel-edge__hit"
@@ -173,7 +171,7 @@ export default { inheritAttrs: false };
       :id="id"
       :path="geometry.path"
       :style="pathStyle"
-      :class="{ selected, animated, side: isSide, preview: isPreview, chapter: isChapterLit }"
+      :class="{ selected, animated, side: isSide, preview: isPreview }"
     />
   </g>
   <EdgeLabelRenderer v-if="showLabel">

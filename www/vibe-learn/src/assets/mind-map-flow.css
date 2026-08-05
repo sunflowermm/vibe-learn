@@ -96,9 +96,7 @@
   transition: none !important;
 }
 
-/* 亮起边在平移中也关掉命中，避免扫过邻接边时抢手势 */
-.mm-flow.is-panning .vue-flow__edge.selected,
-.mm-flow.is-panning .vue-flow__edge.is-preview,
+/* 亮起边的命中由 .rel-edge__hit 承担；平移中关掉 */
 .mm-flow.is-panning .rel-edge__hit {
   pointer-events: none !important;
 }
@@ -182,15 +180,9 @@
   transition: none;
 }
 
-/* 未亮边不截获指针，空白拖动画布不被底层线挡住 */
+/* 未亮边不截获指针；亮起边由 RelationEdge 的 .rel-edge__hit 命中 */
 .mm-flow .vue-flow__edge {
   pointer-events: none;
-}
-
-.mm-flow .vue-flow__edge.selected,
-.mm-flow .vue-flow__edge.is-preview {
-  pointer-events: stroke;
-  cursor: pointer;
 }
 
 .mm-flow .vue-flow__edge.animated path {
