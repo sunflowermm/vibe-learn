@@ -25,23 +25,41 @@ for (const t of VIBEHUB_TERM_CARDS) {
   }
 }
 
-/** 手工高优：导图1 id → 导图2 ids */
+/** 手工高优：导图1 id → 导图2 ids；空数组 = 明确不挂 */
+const NO_BRIDGE = new Set([
+  'computer-system',
+  'hw-sw-link',
+  'chip-units',
+  'chapter-machine',
+  'chapter-esp',
+  'chapter-dsa',
+  'esp-mcu',
+  'esp-esp32',
+  'esp-toolchain',
+  'esp-link',
+  'dsa-complexity',
+  'dsa-linear',
+  'dsa-hash',
+  'dsa-tree',
+  'dsa-graph',
+  'dsa-sort',
+  'dsa-dp',
+  'dsa-hot',
+]);
+
 const MANUAL = {
   'knowledge-hub': ['vh-hub', 'vh-vibe-coding', 'vh-frame-ai'],
-  'computer-system': ['vh-tech-stack', 'vh-terminal'],
   'os-essence': ['vh-terminal', 'vh-env-var'],
-  'hw-sw-link': ['vh-tech-stack'],
-  'chip-units': ['vh-tech-stack'],
   'terminal-worlds': ['vh-terminal'],
   'linux-distros': ['vh-terminal', 'vh-env-var'],
-  'linux-cli': ['vh-terminal'],
+  'linux-cli': ['vh-terminal', 'vh-env-var'],
   'runtime-nodejs': ['vh-javascript', 'vh-npm', 'vh-env-var'],
   'installers-path': ['vh-env-var', 'vh-terminal', 'vh-npm'],
   'package-managers': ['vh-npm', 'vh-build', 'vh-ci'],
   'git-workspace': ['vh-git', 'vh-clone', 'vh-frame-git'],
   'git-forges': ['vh-pull-request', 'vh-git', 'vh-push'],
   'git-advanced': ['vh-branch', 'vh-merge', 'vh-pull-request', 'vh-stash', 'vh-worktree'],
-  'workbench-editor': ['vh-terminal', 'vh-vibe-coding'],
+  'workbench-editor': ['vh-terminal', 'vh-diff', 'vh-git'],
   'workbench-troubleshoot': ['vh-terminal', 'vh-server-log', 'vh-monitoring'],
   'xrk-first-run': ['vh-npm', 'vh-terminal', 'vh-env-var'],
   'lang-what-is-language': ['vh-javascript', 'vh-typescript', 'vh-python'],
@@ -79,7 +97,7 @@ const MANUAL = {
   'protocol-stack': ['vh-http', 'vh-https', 'vh-dns'],
   'ip-addressing': ['vh-dns', 'vh-domain', 'vh-port'],
   'tcp-udp': ['vh-http', 'vh-port'],
-  'routing-nat': ['vh-dns', 'vh-redirect'],
+  'routing-nat': ['vh-dns'],
   'http-web': ['vh-http', 'vh-https', 'vh-url', 'vh-redirect'],
   'dns-https': ['vh-dns', 'vh-https', 'vh-domain'],
   'reverse-proxy': ['vh-cdn', 'vh-redirect', 'vh-https'],
@@ -141,7 +159,7 @@ const MANUAL = {
   'ops-container': ['vh-deployment', 'vh-staging', 'vh-rollback'],
   'ops-compose': ['vh-deployment', 'vh-env-var'],
   'db-overview': ['vh-database', 'vh-sql'],
-  'db-redis': ['vh-database', 'vh-browser-storage'],
+  'db-redis': ['vh-database'],
   'db-sqlite': ['vh-database', 'vh-sql'],
   'db-postgres': ['vh-database', 'vh-sql'],
   clash: ['vh-http', 'vh-port', 'vh-url'],
@@ -160,7 +178,6 @@ const MANUAL = {
 };
 
 const FRAME_MANUAL = {
-  'chapter-machine': ['vh-hub', 'vh-tech-stack', 'vh-terminal'],
   'chapter-env': ['vh-frame-technology', 'vh-frame-git', 'vh-terminal'],
   'chapter-code': ['vh-javascript', 'vh-terminal', 'vh-frame-technology'],
   'chapter-languages': ['vh-frame-technology', 'vh-frame-frontend', 'vh-tech-stack'],
@@ -171,16 +188,13 @@ const FRAME_MANUAL = {
   'chapter-database': ['vh-database', 'vh-sql', 'vh-frame-backend'],
   'chapter-ops': ['vh-deployment', 'vh-ci', 'vh-cd', 'vh-staging'],
   'chapter-fs': ['vh-env-var', 'vh-terminal', 'vh-gitignore'],
-  'chapter-esp': ['vh-tech-stack', 'vh-backend'],
   'chapter-craft': ['vh-ci', 'vh-lint', 'vh-authentication'],
-  'chapter-dsa': ['vh-tech-stack', 'vh-javascript'],
   'chapter-panel': ['vh-deployment', 'vh-domain'],
   'chapter-host': ['vh-deployment', 'vh-https', 'vh-monitoring'],
   'chapter-adev': ['vh-vibe-coding', 'vh-frame-ai', 'vh-hub'],
 };
 
 const CHAPTER_FALLBACK = {
-  'chapter-machine': ['vh-tech-stack', 'vh-terminal'],
   'chapter-env': ['vh-terminal', 'vh-npm', 'vh-git'],
   'chapter-code': ['vh-javascript', 'vh-terminal'],
   'chapter-languages': ['vh-tech-stack', 'vh-javascript', 'vh-frontend'],
@@ -191,9 +205,7 @@ const CHAPTER_FALLBACK = {
   'chapter-database': ['vh-database', 'vh-sql'],
   'chapter-ops': ['vh-deployment', 'vh-ci'],
   'chapter-fs': ['vh-env-var', 'vh-terminal'],
-  'chapter-esp': ['vh-tech-stack'],
   'chapter-craft': ['vh-ci', 'vh-lint'],
-  'chapter-dsa': ['vh-javascript', 'vh-tech-stack'],
   'chapter-panel': ['vh-deployment'],
   'chapter-host': ['vh-deployment', 'vh-https'],
   'chapter-adev': ['vh-vibe-coding', 'vh-ai-agent'],
@@ -249,6 +261,7 @@ for (const [kid, vids] of Object.entries(FRAME_MANUAL)) addBridge(kid, vids);
 
 let auto = 0;
 for (const n of knowledgeNodes) {
+  if (NO_BRIDGE.has(n.id)) continue;
   if (K2M[n.id]) continue;
   const hits = [];
   for (const k of [norm(n.id), norm(n.label), norm(String(n.label).split('·')[0]), norm(n.subtitle)]) {
@@ -269,14 +282,20 @@ for (const n of knowledgeNodes) {
   if (n.id.startsWith('code-')) hits.push('vh-javascript');
   if (n.id.startsWith('panel-') || n.id.startsWith('host-')) hits.push('vh-deployment');
   if (n.id.startsWith('fs-')) hits.push('vh-env-var');
-  if (n.id.startsWith('esp-') || n.id.startsWith('dsa-')) hits.push('vh-tech-stack');
-  hits.push(...(CHAPTER_FALLBACK[n.parentId] || ['vh-hub']));
+  /* esp / dsa：不挂宽词条兜底 */
+  if (n.id.startsWith('esp-') || n.id.startsWith('dsa-')) continue;
+  hits.push(...(CHAPTER_FALLBACK[n.parentId] || []));
+  if (!hits.length) continue;
   addBridge(n.id, hits);
   auto += 1;
 }
 
 for (const f of graphFrames) {
-  if (!K2M[f.id]) addBridge(f.id, FRAME_MANUAL[f.id] || ['vh-hub']);
+  if (NO_BRIDGE.has(f.id)) continue;
+  if (!K2M[f.id]) {
+    const vids = FRAME_MANUAL[f.id];
+    if (vids?.length) addBridge(f.id, vids);
+  }
 }
 
 for (const id of Object.keys(M2K)) {
@@ -289,7 +308,10 @@ const out = `/**
  * 知识导图 ↔ 知识导图2 全量桥接
  * 生成：node scripts/gen-map-bridges.mjs
  * 覆盖课卡 ${covered}/${knowledgeNodes.length} · 章框 ${graphFrames.length} · 自动补全 ${auto}
+ * 手工校正见 map-bridges-overrides.js（gen 不覆盖）
  */
+
+import { KNOWLEDGE_MAP2_OVERRIDES } from './map-bridges-overrides.js';
 
 /** @typedef {{ id: string, label: string }} MapBridgeLink */
 
@@ -304,6 +326,9 @@ export const MAP2_TO_KNOWLEDGE = ${JSON.stringify(M2K, null, 2)};
  * @returns {MapBridgeLink[]}
  */
 export function bridgesForKnowledge(nodeId) {
+  if (Object.prototype.hasOwnProperty.call(KNOWLEDGE_MAP2_OVERRIDES, nodeId)) {
+    return KNOWLEDGE_MAP2_OVERRIDES[nodeId];
+  }
   return KNOWLEDGE_TO_MAP2[nodeId] || [];
 }
 
@@ -312,7 +337,19 @@ export function bridgesForKnowledge(nodeId) {
  * @returns {MapBridgeLink[]}
  */
 export function bridgesForMap2(nodeId) {
-  return MAP2_TO_KNOWLEDGE[nodeId] || [];
+  const base = MAP2_TO_KNOWLEDGE[nodeId] || [];
+  /** @type {MapBridgeLink[]} */
+  const extra = [];
+  for (const [kid, links] of Object.entries(KNOWLEDGE_MAP2_OVERRIDES)) {
+    if (
+      links.some((l) => l.id === nodeId) &&
+      !base.some((b) => b.id === kid) &&
+      !extra.some((b) => b.id === kid)
+    ) {
+      extra.push({ id: kid, label: kid });
+    }
+  }
+  return extra.length ? [...base, ...extra] : base;
 }
 `;
 
