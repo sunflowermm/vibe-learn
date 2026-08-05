@@ -111,18 +111,13 @@ function reflowFromMeasured() {
   if (!frames.length) return;
   reflowVibeFrames(frames, topics);
   try {
-    updateNodeInternals(nodes.value.map((n) => n.id));
+    updateNodeInternals([
+      ...frames.map((n) => n.id),
+      ...topics.map((n) => n.id),
+    ]);
   } catch {
     /* ignore */
   }
-}
-
-function onPaneReady() {
-  doFit(0);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => doFit(0));
-  });
-  setTimeout(() => doFit(0), 160);
 }
 
 onNodesInitialized(() => {
@@ -131,10 +126,6 @@ onNodesInitialized(() => {
   nextTick(() => {
     reflowFromMeasured();
     doFit(0);
-    setTimeout(() => {
-      reflowFromMeasured();
-      doFit(0);
-    }, 80);
   });
 });
 
@@ -152,7 +143,12 @@ watch(
 );
 
 watch(
-  () => [props.bookmarkedIds, props.notedIds, props.visitedIds, props.learnedIds],
+  () => [
+    (props.bookmarkedIds || []).join('\0'),
+    (props.notedIds || []).join('\0'),
+    (props.visitedIds || []).join('\0'),
+    (props.learnedIds || []).join('\0'),
+  ],
   () => {
     const bm = new Set(props.bookmarkedIds || []);
     const nt = new Set(props.notedIds || []);
@@ -174,7 +170,7 @@ watch(
       }
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 watch(
@@ -241,7 +237,6 @@ function onNodeMouseLeave({ node }) {
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
-      @pane-ready="onPaneReady"
     >
       <MindMapLayers
         :bg-color="bgColor"

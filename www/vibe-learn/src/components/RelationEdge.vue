@@ -38,6 +38,7 @@ const text = computed(() => props.label || props.data?.label || '');
 const stroke = computed(() => props.data?.color || 'var(--edge-stroke)');
 const isSide = computed(() => props.data?.branch === 'side');
 const isPreview = computed(() => Boolean(props.data?.preview));
+const isChapterLit = computed(() => Boolean(props.data?.chapterLit));
 const routeOffset = computed(() => Number(props.data?.routeOffset) || 0);
 const pathKind = computed(() => props.data?.pathKind || 'smoothstep');
 const showLabel = computed(

@@ -24,8 +24,6 @@ defineProps({
   <MiniMap
     class="mm-minimap"
     position="bottom-right"
-    pannable
-    zoomable
     :width="miniWidth"
     :height="miniHeight"
     :node-border-radius="6"

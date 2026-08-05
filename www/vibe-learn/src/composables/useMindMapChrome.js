@@ -62,7 +62,8 @@ export function mindMapVueFlowAttrs(overrides = {}) {
     zoomOnDoubleClick: false,
     preventScrolling: true,
     noPanClassName: MM_NO_PAN,
-    fitViewOnInit: true,
+    /* 各图在 reflow / pane-ready 后自行 fit，避免与 init 连发抢视口 */
+    fitViewOnInit: false,
     ...overrides,
   };
 }
@@ -83,11 +84,44 @@ export function applyNodeDragLock(nodes, nodesDraggable) {
 }
 
 /**
+ * 一次 O(N) 建索引，避免边循环里反复 find
+ * @param {object[] | import('vue').Ref<object[]>} nodesOrRef
+ */
+export function buildChapterIndex(nodesOrRef) {
+  const list = Array.isArray(nodesOrRef) ? nodesOrRef : nodesOrRef.value;
+  /** @type {Map<string, string>} id → chapterId */
+  const chapterOf = new Map();
+  /** @type {Map<string, object[]>} chapterId → topic nodes */
+  const membersOf = new Map();
+
+  for (const n of list) {
+    if (isChapterNode(n)) {
+      chapterOf.set(n.id, n.id);
+      if (!membersOf.has(n.id)) membersOf.set(n.id, []);
+      continue;
+    }
+    const ch = n.data?.chapterId;
+    if (!ch) continue;
+    chapterOf.set(n.id, ch);
+    let bag = membersOf.get(ch);
+    if (!bag) {
+      bag = [];
+      membersOf.set(ch, bag);
+    }
+    if (n.data?.kind === 'topic') bag.push(n);
+  }
+
+  return { chapterOf, membersOf };
+}
+
+/**
  * @param {import('vue').Ref<object[]>} nodes
  * @param {string | null | undefined} nodeId
+ * @param {Map<string, string>} [index]
  */
-export function chapterIdOf(nodes, nodeId) {
+export function chapterIdOf(nodes, nodeId, index) {
   if (!nodeId) return null;
+  if (index) return index.get(nodeId) || null;
   const n = nodes.value.find((x) => x.id === nodeId);
   if (!n) return null;
   if (isChapterNode(n)) return n.id;
@@ -97,10 +131,15 @@ export function chapterIdOf(nodes, nodeId) {
 /**
  * @param {import('vue').Ref<object[]>} nodes
  * @param {string | null | undefined} chapterId
+ * @param {Map<string, object[]>} [membersOf]
  */
-export function chapterMemberIds(nodes, chapterId) {
+export function chapterMemberIds(nodes, chapterId, membersOf) {
   const set = new Set();
   if (!chapterId) return set;
+  if (membersOf) {
+    for (const n of membersOf.get(chapterId) || []) set.add(n.id);
+    return set;
+  }
   for (const n of nodes.value) {
     if (n.data?.kind === 'topic' && n.data.chapterId === chapterId) {
       set.add(n.id);
@@ -125,7 +164,7 @@ export function neighborIds(edges, id) {
 
 /**
  * 焦点强调 / 非焦点弱化：同章 peer、跨章邻接、其余压暗
- * （保留 mm-nopan / mm-chapter-pass，避免盖掉画布穿透类）
+ * —— 全图压暗只跟 activeId；hover 只点亮邻接边预览（避免划过全图 O 更新）
  * @param {{
  *   nodes: import('vue').Ref<object[]>,
  *   edges: import('vue').Ref<object[]>,
@@ -135,9 +174,12 @@ export function neighborIds(edges, id) {
  */
 export function syncFocusHighlight(opts) {
   const { nodes, edges, activeId, hoverId = null } = opts;
-  const focusId = activeId || hoverId;
-  const chapterId = chapterIdOf(nodes, focusId);
-  const chapterMembers = chapterId ? chapterMemberIds(nodes, chapterId) : new Set();
+  const { chapterOf, membersOf } = buildChapterIndex(nodes);
+  const focusId = activeId || null;
+  const chapterId = focusId ? chapterOf.get(focusId) || null : null;
+  const chapterMembers = chapterId
+    ? chapterMemberIds(nodes, chapterId, membersOf)
+    : new Set();
   const adjacent = neighborIds(edges, focusId);
   const hasFocus = Boolean(focusId);
 
@@ -150,17 +192,17 @@ export function syncFocusHighlight(opts) {
     );
     if (e.selected !== onActive) e.selected = onActive;
     const preview = onHover && !onActive;
+    const srcCh = chapterOf.get(e.source);
+    const tgtCh = chapterOf.get(e.target);
     const chapterLit = Boolean(
-      chapterId &&
-        (chapterIdOf(nodes, e.source) === chapterId ||
-          chapterIdOf(nodes, e.target) === chapterId)
+      chapterId && (srcCh === chapterId || tgtCh === chapterId) && !onActive && !preview
     );
-    e.data = {
-      ...(e.data || {}),
-      preview,
-      chapterLit: chapterLit && !onActive && !preview,
-    };
-    const wantAnimated = onActive || preview;
+    const prev = e.data || {};
+    if (prev.preview !== preview || prev.chapterLit !== chapterLit) {
+      e.data = { ...prev, preview, chapterLit };
+    }
+    /* 仅选中边开 dash 动画，hover 预览不带动画（减合成压力） */
+    const wantAnimated = onActive;
     if (e.animated !== wantAnimated) e.animated = wantAnimated;
     const nextClass = preview ? 'is-preview' : '';
     if (e.class !== nextClass) e.class = nextClass;
@@ -223,7 +265,10 @@ export function useMindMapChrome(opts) {
 
   let dragMoved = false;
   let chapterDragOrigin = null;
+  /** @type {object[] | null} */
+  let chapterMemberCache = null;
   let mobileMq = null;
+  let clearDragTimer = 0;
 
   function syncDraggableFlag() {
     nodesDraggable.value = !isStackedLayout();
@@ -233,33 +278,39 @@ export function useMindMapChrome(opts) {
   function onNodeDragStart({ node }) {
     if (!nodesDraggable.value) return;
     dragMoved = false;
-    chapterDragOrigin = isChapterNode(node)
-      ? { x: node.position.x, y: node.position.y }
-      : null;
+    if (isChapterNode(node)) {
+      chapterDragOrigin = { x: node.position.x, y: node.position.y };
+      const { membersOf } = buildChapterIndex(nodes);
+      chapterMemberCache = membersOf.get(node.id) || [];
+    } else {
+      chapterDragOrigin = null;
+      chapterMemberCache = null;
+    }
   }
 
   function onNodeDrag({ node }) {
     if (!nodesDraggable.value) return;
     dragMoved = true;
-    if (!isChapterNode(node) || !chapterDragOrigin) return;
+    if (!isChapterNode(node) || !chapterDragOrigin || !chapterMemberCache) return;
     const dx = node.position.x - chapterDragOrigin.x;
     const dy = node.position.y - chapterDragOrigin.y;
     if (dx === 0 && dy === 0) return;
     chapterDragOrigin = { x: node.position.x, y: node.position.y };
-    const chapterId = node.id;
-    for (const n of nodes.value) {
-      if (n.data?.kind === 'topic' && n.data.chapterId === chapterId) {
-        n.position.x += dx;
-        n.position.y += dy;
-      }
+    for (const n of chapterMemberCache) {
+      n.position.x += dx;
+      n.position.y += dy;
     }
   }
 
   function onNodeDragStop() {
     chapterDragOrigin = null;
-    requestAnimationFrame(() => {
+    chapterMemberCache = null;
+    if (clearDragTimer) clearTimeout(clearDragTimer);
+    /* 略延迟清零，避免同一次 pointerup 触发的 click 被吞或误触 */
+    clearDragTimer = window.setTimeout(() => {
       dragMoved = false;
-    });
+      clearDragTimer = 0;
+    }, 40);
   }
 
   function wasDragMoved() {
@@ -299,7 +350,8 @@ export function useMindMapChrome(opts) {
   function flowAttrs(overrides = {}) {
     return mindMapVueFlowAttrs({
       nodesDraggable: nodesDraggable.value,
-      nodeDragThreshold: nodesDraggable.value ? 1 : 64,
+      /* 略提高阈值，减少「微移即进拖拽态」导致点选卡手 */
+      nodeDragThreshold: nodesDraggable.value ? 6 : 64,
       ...overrides,
     });
   }
@@ -315,6 +367,7 @@ export function useMindMapChrome(opts) {
   });
 
   onUnmounted(() => {
+    if (clearDragTimer) clearTimeout(clearDragTimer);
     try {
       mobileMq?.removeEventListener('change', syncDraggableFlag);
     } catch {

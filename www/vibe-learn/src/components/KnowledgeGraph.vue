@@ -110,7 +110,12 @@ watch(
 );
 
 watch(
-  () => [props.bookmarkedIds, props.notedIds, props.visitedIds, props.learnedIds],
+  () => [
+    (props.bookmarkedIds || []).join('\0'),
+    (props.notedIds || []).join('\0'),
+    (props.visitedIds || []).join('\0'),
+    (props.learnedIds || []).join('\0'),
+  ],
   () => {
     const bm = new Set(props.bookmarkedIds || []);
     const nt = new Set(props.notedIds || []);
@@ -132,7 +137,7 @@ watch(
       }
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 watch(
@@ -181,7 +186,7 @@ function onNodeMouseLeave({ node }) {
   if (hoverId.value === node.id) hoverId.value = null;
 }
 
-function doFit(duration = 450) {
+function doFit(duration = 0) {
   nextTick(() => fitView({ padding: 0.16, duration }));
 }
 
@@ -244,7 +249,7 @@ function fitNeighborhood() {
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
-      @pane-ready="() => doFit(600)"
+      @pane-ready="() => doFit(0)"
       @pane-double-click="resetLayout"
     >
       <MindMapLayers

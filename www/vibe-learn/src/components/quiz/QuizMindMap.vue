@@ -19,6 +19,7 @@ import {
 } from '../../data/quiz/graph.js';
 import {
   CHAPTER_DRAG_HANDLE,
+  buildChapterIndex,
   composeNodeClass,
   isChapterNode,
   nodePassClass,
@@ -102,6 +103,8 @@ function reflowFromMeasured() {
   const topics = nodes.value.filter((n) => n.type === 'knowledge');
   if (!frames.length) return;
 
+  const touched = [];
+
   for (const frame of frames) {
     const kids = topics
       .filter((n) => n.data?.chapterId === frame.id)
@@ -117,6 +120,7 @@ function reflowFromMeasured() {
       );
       kid.position = { x, y };
       y += h + QUIZ_STACK_GAP;
+      touched.push(kid.id);
     }
     const height = Math.ceil(
       y - QUIZ_STACK_GAP + FRAME_PAD_Y - frame.position.y
@@ -126,6 +130,7 @@ function reflowFromMeasured() {
       height: `${Math.max(height, FRAME_HEAD + 100)}px`,
       pointerEvents: 'none',
     };
+    touched.push(frame.id);
   }
 
   const hub = topics.find((n) => n.id === 'pool-random');
@@ -154,21 +159,14 @@ function reflowFromMeasured() {
       x: gloss.position.x,
       y: mid - stackH / 2 + hubH + 40,
     };
+    touched.push(hub.id, gloss.id);
   }
 
   try {
-    updateNodeInternals(nodes.value.map((n) => n.id));
+    updateNodeInternals(touched);
   } catch {
     /* ignore */
   }
-}
-
-function onPaneReady() {
-  doFit(0);
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => doFit(0));
-  });
-  setTimeout(() => doFit(0), 160);
 }
 
 onNodesInitialized(() => {
@@ -177,21 +175,13 @@ onNodesInitialized(() => {
   nextTick(() => {
     reflowFromMeasured();
     doFit(0);
-    setTimeout(() => {
-      reflowFromMeasured();
-      doFit(0);
-    }, 80);
   });
 });
 
-function chapterOf(nodeId) {
-  if (!nodeId) return null;
-  return nodes.value.find((n) => n.id === nodeId)?.data?.chapterId || null;
-}
-
 function applySelection() {
-  const ch = chapterOf(props.activeId);
   const active = props.activeId;
+  const { chapterOf } = buildChapterIndex(nodes);
+  const ch = active ? chapterOf.get(active) || null : null;
   const hubLit = active === 'pool-random';
   const glossLit = active === 'pool-glossary';
   const hasFocus = Boolean(active);
@@ -201,34 +191,39 @@ function applySelection() {
       if (n.selected) n.selected = false;
       const lit = Boolean(ch && n.id === ch);
       const focus = lit ? 'is-chapter-frame' : hasFocus ? 'is-chapter-dim' : '';
-      n.class = composeNodeClass(n, focus);
+      const next = composeNodeClass(n, focus);
+      if (n.class !== next) n.class = next;
       if (n.data?.lit !== lit) n.data = { ...n.data, lit };
       continue;
     }
     const on = n.id === active;
     if (n.selected !== on) n.selected = on;
     const focus = hasFocus && !on ? 'is-dimmed' : '';
-    n.class = composeNodeClass(n, focus);
+    const next = composeNodeClass(n, focus);
+    if (n.class !== next) n.class = next;
   }
 
   for (const e of edges.value) {
-    if (!e.data) e.data = {};
-    const srcCh = chapterOf(e.source);
-    const tgtCh = chapterOf(e.target);
+    const srcCh = chapterOf.get(e.source);
+    const tgtCh = chapterOf.get(e.target);
     const fromHub = e.source === 'pool-random';
     const toGloss = e.target === 'pool-glossary';
     const onActive = Boolean(
       active && (e.source === active || e.target === active)
     );
-    e.selected = onActive;
-    e.data.preview = onActive;
-    e.data.chapterLit = Boolean(
+    if (e.selected !== onActive) e.selected = onActive;
+    const chapterLit = Boolean(
       (ch && (srcCh === ch || tgtCh === ch || (fromHub && tgtCh === ch))) ||
         (hubLit && fromHub && !toGloss) ||
         (glossLit && toGloss)
     );
-    e.animated = onActive;
-    e.class = onActive ? 'is-preview' : '';
+    const prev = e.data || {};
+    if (prev.preview !== onActive || prev.chapterLit !== chapterLit) {
+      e.data = { ...prev, preview: onActive, chapterLit };
+    }
+    if (e.animated !== onActive) e.animated = onActive;
+    const nextClass = onActive ? 'is-preview' : '';
+    if (e.class !== nextClass) e.class = nextClass;
   }
 }
 
@@ -278,7 +273,6 @@ function onPaneClick() {
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
-      @pane-ready="onPaneReady"
     >
       <MindMapLayers
         :bg-color="bgColor"
