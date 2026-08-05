@@ -41,11 +41,11 @@ export default `# 子服务端
 
 \`\`\`mermaid
 sequenceDiagram
-  participant U as 用户
-  participant M as 主服 Node
-  participant S as 子服 runtime
-  U->>M: 消息 / HTTP
-  M->>S: callSubserver path + runtime
+  participant U as "用户"
+  participant M as "主服 Node"
+  participant S as "子服 runtime"
+  U->>M: 消息或 HTTP
+  M->>S: callSubserver(path, runtime)
   S-->>M: JSON 结果
   M-->>U: 回复
 \`\`\`

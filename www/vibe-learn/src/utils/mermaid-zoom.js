@@ -62,6 +62,7 @@ export function enhanceMermaidFrames(root) {
 
   const diagrams = [...root.querySelectorAll('pre.mermaid')].filter(
     (el) =>
+      el.classList.contains('mermaid--error') ||
       el.getAttribute('data-processed') === 'true' ||
       el.querySelector('svg') ||
       /Syntax error/i.test(el.textContent || '')
@@ -70,14 +71,17 @@ export function enhanceMermaidFrames(root) {
   for (const el of diagrams) {
     if (el.closest('.mermaid-frame')) continue;
 
-    const broken = /Syntax error/i.test(el.textContent || '');
+    const broken =
+      el.classList.contains('mermaid--error') ||
+      /Syntax error/i.test(el.textContent || '') ||
+      Boolean(el.querySelector('.mermaid-error'));
     const source =
       el.getAttribute('data-mermaid-source') ||
       el.dataset.mermaidSource ||
       '';
 
     const frame = document.createElement('div');
-    frame.className = 'mermaid-frame';
+    frame.className = broken ? 'mermaid-frame mermaid-frame--broken' : 'mermaid-frame';
     frame.dataset.scale = '1';
     frame.dataset.tx = '0';
     frame.dataset.ty = '0';

@@ -315,6 +315,46 @@
   overflow: hidden;
 }
 
+.md .mermaid-frame--broken {
+  border-color: color-mix(in srgb, #fb7185 35%, transparent);
+}
+
+.md .mermaid-error {
+  margin: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  text-align: left;
+  color: var(--mist);
+}
+
+.md .mermaid-error strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #e11d48;
+  font-size: 0.9rem;
+}
+
+.md .mermaid-error p {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  color: var(--mist-dim);
+  line-height: 1.45;
+}
+
+.md .mermaid-error__src {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  max-height: 10rem;
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px dashed color-mix(in srgb, var(--mist) 28%, transparent);
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  color: var(--mist-dim);
+}
+
 .md .mermaid-frame__bar {
   display: flex;
   align-items: center;

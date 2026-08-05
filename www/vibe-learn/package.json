@@ -23,7 +23,8 @@
     "vibehub:practice": "node scripts/rebuild-vibehub-practice.mjs",
     "vibehub:graph": "node scripts/gen-vibehub-graph.mjs",
     "map:qa": "node scripts/map-qa-gate.mjs",
-    "map:smoke-algo": "node scripts/_smoke-algo.mjs"
+    "map:smoke-algo": "node scripts/_smoke-algo.mjs",
+    "mermaid:qa": "node scripts/mermaid-qa.mjs"
   },
   "dependencies": {
     "@vue-flow/background": "^1.3.2",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.4",
+    "jsdom": "^30.0.1",
     "vite": "^6.3.5"
   }
 }

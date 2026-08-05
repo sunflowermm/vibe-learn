@@ -42,16 +42,16 @@ export default `# AgentRuntime
 
 \`\`\`mermaid
 sequenceDiagram
-  participant App as app.js
-  participant Boot as bootstrap-globals
-  participant Start as start.js
-  participant AR as AgentRuntime.run
-  participant Load as Loaders
+  participant App as "app.js"
+  participant Boot as "bootstrap-globals"
+  participant Start as "start.js"
+  participant AR as "AgentRuntime.run"
+  participant Load as "Loaders"
   App->>Start: bootstrap
-  Note over Boot: PluginBase / msgSegment
-  Start->>AR: setRuntimeGlobal AgentRuntime
+  Note over Boot: "PluginBase 与 msgSegment"
+  Start->>AR: setRuntimeGlobal
   AR->>Load: CommonConfig 先 load
-  AR->>Load: Stream / Plugins / Api / Tasker …
+  AR->>Load: Stream Plugins Api Tasker
 \`\`\`
 
 对齐 \`docs/runtime-surface.md\` 挂载时间线：配置在 \`CommonConfigRegistry.load()\` **完成前不可用**。  

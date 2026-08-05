@@ -5136,7 +5136,7 @@ export function mountAlgoViz(host, cfg) {
   root.append(el('div', 'vibe-algo__title', { text: cfg.title }));
   if (cfg.caption) root.append(el('p', 'vibe-algo__caption', { text: cfg.caption }));
 
-  const logEl = el('div', 'vibe-algo__log', { text: '点击「播放」开始' });
+  const logEl = el('div', 'vibe-algo__log', { text: '点击「播放」开始演示' });
   const controls = el('div', 'vibe-algo__controls');
   const btn = el('button', 'vibe-algo__btn', {
     type: 'button',
@@ -5147,10 +5147,13 @@ export function mountAlgoViz(host, cfg) {
 
   const kind = cfg.kind;
   let stageWrap = el('div', 'vibe-algo__stage');
-  const idle = el('div', 'vibe-algo__idle', {
-    text: '动画待命 · 点下方按钮播放',
-  });
-  stageWrap.append(idle);
+
+  function showIdle(msg = '动画待命 · 点下方按钮播放') {
+    const idle = el('div', 'vibe-algo__idle', { text: msg });
+    stageWrap.replaceChildren(idle);
+  }
+
+  showIdle();
   /** @type {AbortController | null} */
   let ac = null;
 
@@ -5165,6 +5168,7 @@ export function mountAlgoViz(host, cfg) {
     btn.disabled = true;
     btn.textContent = '播放中…';
     stageWrap.replaceChildren();
+    stageWrap.classList.add('is-playing');
     try {
       const reduced = prefersReducedMotion();
       const speed = reduced ? 0 : cfg.speed;
@@ -5733,11 +5737,18 @@ export function mountAlgoViz(host, cfg) {
         for (const c of cells) c.cell.classList.add('is-done');
         log('完成');
       } else {
+        showIdle(`未知动画类型：${kind}`);
         log(`未知 kind: ${kind}`);
       }
     } catch (e) {
-      if (e?.name !== 'AbortError') log(String(e?.message || e));
+      if (e?.name === 'AbortError') {
+        /* 重播打断：保留当前帧或回待命 */
+      } else {
+        log(String(e?.message || e));
+        if (!stageWrap.childElementCount) showIdle('播放出错 · 可重试');
+      }
     } finally {
+      stageWrap.classList.remove('is-playing');
       btn.disabled = false;
       btn.textContent = '重播';
     }

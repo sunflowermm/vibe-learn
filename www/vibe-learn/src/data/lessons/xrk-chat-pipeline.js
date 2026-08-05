@@ -68,7 +68,7 @@ flowchart TB
   Slash[斜杠展开] --> S[system：协议 + Workspace]
   S --> V[易变 user]
   V --> H[历史块]
-  H --> C["[当前消息]"]
+  H --> C["当前消息"]
   C --> Out[toolPair → compaction → trim]
   Out --> LLM[LLM + 工具环]
 \`\`\`
