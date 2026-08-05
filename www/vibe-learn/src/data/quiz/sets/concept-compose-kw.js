@@ -81,7 +81,7 @@ export default defineQuizSet({
     "q": "Compose 的 build 字段表示？",
     "choices": [
       {
-        "t": "从本地 Dockerfile/上下文构建镜像",
+        "t": "从本地 Dockerfile",
         "ok": true,
         "why": "build：按 Dockerfile（或上下文）本地构建镜像再运行；与直接 image 拉现成对照。"
       },

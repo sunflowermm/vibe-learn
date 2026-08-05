@@ -1,0 +1,1802 @@
+{
+  "concept-net-layers.js": [
+    {
+      "id": "concept-net-layers:q6",
+      "q": "调境外模型 API 时，本机「边缘与出口」应优先核对哪一类问题？",
+      "ok": "DNS 是否可达、代理出口是否生效、防火墙/安全组、证书挂在哪",
+      "others": [
+        "Git 分支命名是否带 feat 前缀",
+        "前端组件库的主题色是否统一",
+        "数据库索引是否覆盖所有列"
+      ],
+      "okLen": 31,
+      "maxOther": 19,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-net-layers:q8",
+      "q": "多数 LLM 的 HTTPS API 跑在 TCP 上，而不是裸 UDP，主要因为？",
+      "ok": "需要可靠、有序的字节流，完整 JSON 请求/响应不能赌丢一半",
+      "others": [
+        "公网禁止 TCP，只能先 UDP 再封装",
+        "UDP 保证永不丢包且严格有序",
+        "TCP 不使用端口号，更适合云厂商计费"
+      ],
+      "okLen": 31,
+      "maxOther": 20,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-net-layers:q9",
+      "q": "服务监听时选 127.0.0.1 与选 0.0.0.0，关键差别是？",
+      "ok": "127.0.0.1 仅本机回环可访；0.0.0.0 常表示监听本机所有网卡",
+      "others": [
+        "127.0.0.1 只能用于 UDP，不能用于 TCP",
+        "二者在任何部署场景都完全等价",
+        "0.0.0.0 是唯一合法的公网单播主机地址"
+      ],
+      "okLen": 37,
+      "maxOther": 27,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-net-layers:q10",
+      "q": "TLS/HTTPS 在传输上主要解决什么问题？",
+      "ok": "加密与身份校验，降低明文窃听与中间人篡改风险",
+      "others": [
+        "替代登录与权限校验",
+        "自动修复业务逻辑 bug",
+        "保证数据库事务一定提交成功"
+      ],
+      "okLen": 22,
+      "maxOther": 13,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-net-layers:q11",
+      "q": "本机 curl 接口通，公网访问同一服务不通。更合理的第一步是？",
+      "ok": "查安全组/防火墙是否放行，以及 DNS 是否指到这台机",
+      "others": [
+        "先重写全部业务代码",
+        "先把 TCP 改成 UDP 再试",
+        "先把数据库全部删掉重建"
+      ],
+      "okLen": 27,
+      "maxOther": 16,
+      "diff": 11,
+      "severe": true
+    }
+  ],
+  "concept-net-path.js": [
+    {
+      "id": "concept-net-path:q1",
+      "q": "连接跟踪、安全组、会话保持常按「五元组」匹配。五元组通常指哪五样？",
+      "ok": "源 IP、目的 IP、源端口、目的端口、传输层协议（TCP/UDP 等）",
+      "others": [
+        "域名、证书序列号、SNI、TLS 版本、HTTP 版本",
+        "URL、方法、状态码、Cookie、User-Agent",
+        "MAC、交换机端口、VLAN、光纤波长、机柜号"
+      ],
+      "okLen": 36,
+      "maxOther": 28,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q2",
+      "q": "工程排障时，OSI 七层与 TCP/IP 四层更准确的用法是？",
+      "ok": "OSI 偏对照教学；编程与排障心智多用 TCP/IP 四层",
+      "others": [
+        "TCP/IP 已废除网络层，只剩 HTTP",
+        "必须一一对应且层名完全相同才合法",
+        "只有物理层真实存在，其余是虚构"
+      ],
+      "okLen": 29,
+      "maxOther": 21,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q3",
+      "q": "主机发送数据时，「封装」的直觉顺序是？",
+      "ok": "应用数据 → 传输头 → IP 头 → 链路帧 → 比特发出；接收则反向剥头",
+      "others": [
+        "先写物理层帧，最后才写 HTTP 正文",
+        "封装等于压缩，体积一定变小",
+        "只有 UDP 需要封装，TCP 直接发应用字节"
+      ],
+      "okLen": 38,
+      "maxOther": 23,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q4",
+      "q": "IP 头里的 TTL（生存时间）主要防止什么？",
+      "ok": "包在路由环路中无限转圈：每跳减 1，到 0 丢弃",
+      "others": [
+        "标记链路带宽大小",
+        "限制域名在解析器里缓存多久",
+        "决定 HTTPS 是否加密"
+      ],
+      "okLen": 24,
+      "maxOther": 13,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q7",
+      "q": "为何常说 TCP 四次挥手而不是三次？",
+      "ok": "半关闭：一方 FIN 后对端发送方向可能还有数据，需各自关闭",
+      "others": [
+        "第四次是向 DNS 注销域名",
+        "四次挥手专门用于 UDP",
+        "路由器强制要求四次才能过 NAT"
+      ],
+      "okLen": 30,
+      "maxOther": 16,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q11",
+      "q": "SNAT 与 DNAT 的方向直觉分别是？",
+      "ok": "SNAT 改源（多为内网出网）；DNAT 改目的/端口（多为公网入站进内网）",
+      "others": [
+        "SNAT 专门加密 HTTPS，DNAT 专门做 DNS",
+        "两者完全同义，只是厂商叫法不同",
+        "只有 IPv6 需要 SNAT，IPv4 不需要"
+      ],
+      "okLen": 38,
+      "maxOther": 28,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q13",
+      "q": "浏览器能上网，但外网访问不到你家/云上的自建服务，优先怀疑什么？",
+      "ok": "入站未做端口转发/DNAT，或安全组/防火墙入站被拒",
+      "others": [
+        "一定是数据库事务死锁",
+        "DNS 成功就证明入站已放行",
+        "一定是前端 CSS 写错"
+      ],
+      "okLen": 26,
+      "maxOther": 14,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q14",
+      "q": "端口转发与反向代理最关键的层次差别是？",
+      "ok": "端口转发偏 L3/L4 映射 IP:端口；反代偏 L7，可按 Host/Path 分流",
+      "others": [
+        "有了端口转发就不再需要防火墙",
+        "两者完全等价，只是 GUI 不同",
+        "反代只能做 UDP，端口转发只能做 TCP"
+      ],
+      "okLen": 43,
+      "maxOther": 21,
+      "diff": 22,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q15",
+      "q": "正向代理与反向代理的位置直觉是？",
+      "ok": "正向靠近客户端（常需配置出网）；反向靠近服务器（客户端通常无感）",
+      "others": [
+        "反向代理会废除 DNS",
+        "正向一定在机房，反向一定在手机里",
+        "正向代理专门做 TLS 证书签发"
+      ],
+      "okLen": 32,
+      "maxOther": 16,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q16",
+      "q": "L4 与 L7 负载均衡最关键的能力差别是？",
+      "ok": "L4 按 IP/端口/协议转发；L7 能按 Host、URL、Header 等应用语义路由",
+      "others": [
+        "L4 能看 Cookie，L7 只能看 MAC",
+        "只有 UDP 能做 L7",
+        "L7 一定比 L4 慢一个数量级，禁止用于生产"
+      ],
+      "okLen": 45,
+      "maxOther": 23,
+      "diff": 22,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q17",
+      "q": "会话粘滞（sticky session）主要解决什么问题？",
+      "ok": "让同一客户端尽量落到同一后端，以迁就本地 Session",
+      "others": [
+        "粘滞等于负载均衡坏了，应立刻删除全部后端",
+        "有了粘滞就不必健康检查",
+        "粘滞只能用于 ICMP"
+      ],
+      "okLen": 28,
+      "maxOther": 20,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q18",
+      "q": "相对粘滞，多实例 Web 会话更稳妥的长期做法是？",
+      "ok": "把 Session 放 Redis 等共享存储，后端无状态可水平扩展",
+      "others": [
+        "用 DNS TTL=0 替代会话存储",
+        "关掉负载均衡，永远单机",
+        "把会话明文写进 URL 永久公开"
+      ],
+      "okLen": 34,
+      "maxOther": 18,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q19",
+      "q": "CDN 与源站反向代理的分工直觉是？",
+      "ok": "CDN 把可缓存副本放到近处；反代管应用入口、路由与防护——可叠加",
+      "others": [
+        "CDN 命中率必须 100%，否则架构非法",
+        "CDN 替代 DNS，反代替代 IP",
+        "有了 CDN 就必须关闭全部 HTTPS"
+      ],
+      "okLen": 33,
+      "maxOther": 21,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q20",
+      "q": "Cloudflare「橙云」相对「仅 DNS（灰云）」的关键差别是？",
+      "ok": "橙云：访客先到 CF 边缘再回源，源站 IP 不易直暴；灰云：解析直接给出源站 IP",
+      "others": [
+        "橙云只能用于 UDP 游戏端口",
+        "橙云关闭全部 DNS，灰云关闭全部 TLS",
+        "灰云会自动做 Anycast 隐藏源站"
+      ],
+      "okLen": 42,
+      "maxOther": 21,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q21",
+      "q": "「源站隐藏」配合回源白名单，工程上在说什么？",
+      "ok": "对外只暴露边缘 IP；源站防火墙只放行 CDN/边缘回源地址段",
+      "others": [
+        "删除全部 DNS 记录即可隐藏且仍可服务用户",
+        "回源白名单等于浏览器 CORS",
+        "源站必须对全世界开放 0.0.0.0:443"
+      ],
+      "okLen": 31,
+      "maxOther": 22,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-net-path:q22",
+      "q": "第三方 API 要求「报备出口 IP」时，工程上通常怎么办？",
+      "ok": "使用固定公网出口 / NAT 网关 EIP，把出站地址纳入对方白名单",
+      "others": [
+        "关闭 DNS 即可获得固定出口",
+        "只改前端主题色即可通过白名单",
+        "把私钥写进 URL 查询串代替白名单"
+      ],
+      "okLen": 34,
+      "maxOther": 18,
+      "diff": 16,
+      "severe": true
+    }
+  ],
+  "concept-net-addressing.js": [
+    {
+      "id": "concept-net-addressing:q1",
+      "q": "域名（如 api.example.com）与 IP 地址的正确关系是？",
+      "ok": "域名是人类可读名字；通常经 DNS 解析成 IP，通信按 IP（再加端口）送达",
+      "others": [
+        "合法通信可以完全跳过 IP，只靠域名字符串路由",
+        "域名就是 IP，只是书写格式不同",
+        "有了域名就不需要 IP"
+      ],
+      "okLen": 39,
+      "maxOther": 23,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q3",
+      "q": "URL https://a.com:8443/v1/x?y=1 里，8443 是什么？",
+      "ok": "显式端口；未写时 HTTPS 默认 443、HTTP 默认 80",
+      "others": [
+        "TLS 证书序列号",
+        "整段一定是 IPv6 地址",
+        "查询串本身（? 后面那一段）"
+      ],
+      "okLen": 32,
+      "maxOther": 14,
+      "diff": 18,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q6",
+      "q": "DNS 解析失败时，用户侧更常见的现象是？",
+      "ok": "报找不到服务器/DNS_PROBE 等，往往还没建起到业务端口的 TCP",
+      "others": [
+        "一定先返回业务 JSON 的 HTTP 200",
+        "一定是 TLS 证书品牌不被信任",
+        "一定是数据库事务死锁"
+      ],
+      "okLen": 36,
+      "maxOther": 23,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q7",
+      "q": "CIDR 写法 10.0.0.0/24 的直觉是？",
+      "ok": "前 24 位是网络前缀，其余为主机位——表示一个网段范围",
+      "others": [
+        "/24 表示必须串联 24 台路由器",
+        "CIDR 只允许用在电子邮件协议里",
+        "/24 永远表示单个主机且没有网段"
+      ],
+      "okLen": 28,
+      "maxOther": 18,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q8",
+      "q": "家庭多设备共用一个公网 IP 上网，主要靠什么？",
+      "ok": "NAT（常配合路由器）：改写地址/端口，让多内网主机共享出口",
+      "others": [
+        "DNS 会自动完成地址转换",
+        "禁止使用任何私有 IP",
+        "把所有设备改成同一个 MAC 地址"
+      ],
+      "okLen": 30,
+      "maxOther": 17,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q9",
+      "q": "MAC 地址相对 IP 地址，职责差别是？",
+      "ok": "链路层地址，主要用于同一局域网内帧投递；跨网靠 IP 路由",
+      "others": [
+        "MAC 等于域名",
+        "MAC 可以替代全球公网路由",
+        "只有打印机才有 MAC"
+      ],
+      "okLen": 29,
+      "maxOther": 14,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q10",
+      "q": "ping 通某 IP，但 https://该IP 打不开，说明什么？",
+      "ok": "ICMP 可达≠业务端口/TLS/HTTP 正常——还要查端口、证书与服务进程",
+      "others": [
+        "一定是域名写错",
+        "只能重装操作系统才能修好",
+        "ping 通则一切 Web 服务必通"
+      ],
+      "okLen": 39,
+      "maxOther": 18,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q11",
+      "q": "主机名 laptop、域名 www.example.com、FQDN 的层次直觉是？",
+      "ok": "主机名偏本机/内网短名；域名/FQDN 在 DNS 树中可被解析",
+      "others": [
+        "主机名必须写成公网 IP 才能合法",
+        "三者在任何系统里字节级必须完全相同",
+        "FQDN 按规定不能包含点号"
+      ],
+      "okLen": 32,
+      "maxOther": 17,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q12",
+      "q": "浏览器地址栏输入域名后到看到页面，最小链路更接近？",
+      "ok": "DNS→IP；TCP（常+TLS）；HTTP 请求/响应；再渲染",
+      "others": [
+        "浏览器直接挂载对方磁盘读源文件",
+        "只需数据库事务，无需网络",
+        "只需要 ARP，跨公网也不要 IP"
+      ],
+      "okLen": 32,
+      "maxOther": 17,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-net-addressing:q13",
+      "q": "安全组放行了 ICMP，同事仍打不开你的 HTTPS 站点。更合理的解释是？",
+      "ok": "ICMP 与 TCP/443 是不同规则；还要单独放行业务端口",
+      "others": [
+        "HTTPS 站点从不需要安全组",
+        "一定是 HTTP 方法必须改成 TRACE",
+        "放行 ICMP 会自动放行全部 TCP 端口"
+      ],
+      "okLen": 31,
+      "maxOther": 22,
+      "diff": 9,
+      "severe": true
+    }
+  ],
+  "concept-http-hands.js": [
+    {
+      "id": "concept-http-hands:q4",
+      "q": "前后端分离里说的「API」，通常指什么？",
+      "ok": "前后端约定好的 HTTP 接口：路径、方法、请求体与响应格式",
+      "others": [
+        "前端 CSS 类名的命名规范",
+        "仅指操作系统内核的系统调用，与 Web 无关",
+        "仅指数据库里的一张表结构"
+      ],
+      "okLen": 30,
+      "maxOther": 22,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-http-hands:cache-api-split",
+      "q": "静态 JS 被强缓存成旧版，但 API JSON 已是新契约。联调时优先抓什么？",
+      "ok": "静态资源与 API 的缓存策略要分开：版本化静态文件或缩短其缓存",
+      "others": [
+        "先把 TCP 改成 UDP",
+        "CORS 一开，缓存问题自动消失",
+        "一定是拆包丢了半个 JSON"
+      ],
+      "okLen": 32,
+      "maxOther": 16,
+      "diff": 16,
+      "severe": true
+    }
+  ],
+  "concept-http-status.js": [
+    {
+      "id": "concept-http-status:201",
+      "q": "HTTP 201 Created 更适合哪类结果？",
+      "ok": "成功创建了新资源（响应常带 Location）",
+      "others": [
+        "客户端未认证",
+        "永久重定向到新 URI",
+        "删除资源成功"
+      ],
+      "okLen": 23,
+      "maxOther": 11,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:301",
+      "q": "HTTP 301 Moved Permanently 表示？",
+      "ok": "资源永久换到新 URI，后续应更新书签/链接",
+      "others": [
+        "临时跳转，下次仍应打旧地址",
+        "请求体太大被拒",
+        "内容未变，用本地缓存即可"
+      ],
+      "okLen": 22,
+      "maxOther": 13,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:302",
+      "q": "HTTP 302 Found 的常见含义与联调坑是？",
+      "ok": "临时重定向；部分客户端会把 POST 改成 GET——要用 307 保方法",
+      "others": [
+        "永久迁移且永远不应再访问旧 URI",
+        "表示未修改，应走协商缓存",
+        "表示限流"
+      ],
+      "okLen": 37,
+      "maxOther": 17,
+      "diff": 20,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:304",
+      "q": "HTTP 304 Not Modified 表示？",
+      "ok": "协商缓存命中：资源未变，客户端用本地副本",
+      "others": [
+        "网关坏了",
+        "创建成功",
+        "永久重定向"
+      ],
+      "okLen": 20,
+      "maxOther": 5,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:307",
+      "q": "相对 302，HTTP 307 Temporary Redirect 更强调什么？",
+      "ok": "临时重定向，且不应把原方法改成 GET",
+      "others": [
+        "未授权",
+        "内容未修改",
+        "永久迁移"
+      ],
+      "okLen": 19,
+      "maxOther": 5,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:308",
+      "q": "相对 301，HTTP 308 Permanent Redirect 更强调什么？",
+      "ok": "永久重定向，且不应把原方法改成 GET",
+      "others": [
+        "临时跳转",
+        "协商缓存命中",
+        "负载过大"
+      ],
+      "okLen": 19,
+      "maxOther": 6,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:400",
+      "q": "HTTP 400 Bad Request 的典型场景是？",
+      "ok": "请求语法/参数不合法，服务器无法理解或处理",
+      "others": [
+        "服务器内部未捕获异常",
+        "资源不存在",
+        "身份正确但无权限"
+      ],
+      "okLen": 21,
+      "maxOther": 10,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:403",
+      "q": "HTTP 403 Forbidden 表示？",
+      "ok": "服务器理解请求，但拒绝执行（常因权限）",
+      "others": [
+        "未带任何凭证，必须登录",
+        "媒体类型不支持",
+        "方法不被允许"
+      ],
+      "okLen": 19,
+      "maxOther": 11,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:404",
+      "q": "HTTP 404 Not Found 表示？",
+      "ok": "目标资源当前找不到（或不对外暴露其存在）",
+      "others": [
+        "请求冲突",
+        "上游网关坏了",
+        "未认证"
+      ],
+      "okLen": 20,
+      "maxOther": 6,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:405",
+      "q": "HTTP 405 Method Not Allowed 表示？",
+      "ok": "该资源存在，但不支持当前 HTTP 方法",
+      "others": [
+        "限流",
+        "媒体类型不支持",
+        "资源不存在"
+      ],
+      "okLen": 20,
+      "maxOther": 7,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:408",
+      "q": "HTTP 408 Request Timeout 更接近？",
+      "ok": "服务器等客户端发送请求过久而超时",
+      "others": [
+        "协商缓存命中",
+        "网关等上游超时",
+        "创建成功"
+      ],
+      "okLen": 16,
+      "maxOther": 7,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:409",
+      "q": "HTTP 409 Conflict 的典型场景是？",
+      "ok": "与资源当前状态冲突，例如版本冲突或重复创建",
+      "others": [
+        "上游无效应答",
+        "未登录",
+        "请求体太大"
+      ],
+      "okLen": 21,
+      "maxOther": 6,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:415",
+      "q": "HTTP 415 Unsupported Media Type 表示？",
+      "ok": "服务器不支持请求的 Content-Type / 媒体格式",
+      "others": [
+        "请求体太大",
+        "资源不存在",
+        "限流"
+      ],
+      "okLen": 29,
+      "maxOther": 5,
+      "diff": 24,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:429",
+      "q": "HTTP 429 Too Many Requests 表示？",
+      "ok": "请求过于频繁，触发限流/配额",
+      "others": [
+        "创建成功",
+        "上游超时",
+        "未授权"
+      ],
+      "okLen": 14,
+      "maxOther": 4,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:500",
+      "q": "HTTP 500 Internal Server Error 表示？",
+      "ok": "服务器内部出错，未能完成看似合法的请求",
+      "others": [
+        "网关等上游超时",
+        "客户端参数写错",
+        "资源不存在"
+      ],
+      "okLen": 19,
+      "maxOther": 7,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-http-status:503",
+      "q": "相对 502，HTTP 503 Service Unavailable 更强调？",
+      "ok": "服务暂时不可用（过载、维护），稍后可能恢复",
+      "others": [
+        "上游应答格式非法",
+        "客户端未登录",
+        "永久重定向"
+      ],
+      "okLen": 21,
+      "maxOther": 8,
+      "diff": 13,
+      "severe": true
+    }
+  ],
+  "concept-http-method.js": [
+    {
+      "id": "concept-http-method:get",
+      "q": "HTTP GET 的语义约定是？",
+      "ok": "获取资源表示；按约定不应产生修改副作用，查询参数放 URL",
+      "others": [
+        "按 URI 整体替换资源且幂等",
+        "专门用来删除资源",
+        "提交处理并常用于创建资源"
+      ],
+      "okLen": 29,
+      "maxOther": 15,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-http-method:post",
+      "q": "HTTP POST 更适合哪类操作？",
+      "ok": "提交处理/常用于创建；重复提交可能产生多条结果（通常非幂等）",
+      "others": [
+        "永久重定向专用",
+        "只读获取且必须可缓存",
+        "部分更新资源（补丁）"
+      ],
+      "okLen": 30,
+      "maxOther": 10,
+      "diff": 20,
+      "severe": true
+    },
+    {
+      "id": "concept-http-method:put",
+      "q": "HTTP PUT 相对 POST，关键语义差别是？",
+      "ok": "按指定 URI 整体替换资源，语义上幂等",
+      "others": [
+        "只取响应头、不返回正文",
+        "永远非幂等",
+        "只能读不能写"
+      ],
+      "okLen": 20,
+      "maxOther": 11,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-http-method:patch",
+      "q": "HTTP PATCH 表示？",
+      "ok": "部分更新资源（补丁），不必整份替换",
+      "others": [
+        "获取响应头专用",
+        "删除目标资源",
+        "永久跳转"
+      ],
+      "okLen": 17,
+      "maxOther": 7,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-http-method:options",
+      "q": "HTTP OPTIONS 的常见用途是？",
+      "ok": "查询允许的方法；浏览器 CORS 预检也常用",
+      "others": [
+        "表示服务器内部错误",
+        "上传文件正文",
+        "永久重定向业务页"
+      ],
+      "okLen": 22,
+      "maxOther": 9,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-http-method:safe-vs-idempotent",
+      "q": "「安全方法」与「幂等方法」更容易搞混的一点是？",
+      "ok": "安全指不应改服务器状态（如 GET）；幂等指多次副作用与一次相同（PUT/DELETE 可写仍幂等）",
+      "others": [
+        "安全与幂等是完全同义词",
+        "只有 POST 既安全又幂等",
+        "TLS 开启后所有方法自动幂等"
+      ],
+      "okLen": 50,
+      "maxOther": 15,
+      "diff": 35,
+      "severe": true
+    }
+  ],
+  "concept-http-hdr.js": [
+    {
+      "id": "concept-http-hdr:authorization",
+      "q": "调需鉴权的 HTTPS API 时，Authorization 常见正确做法是？",
+      "ok": "Bearer + Token/API Key，且密钥勿暴露到浏览器打包产物",
+      "others": [
+        "有 Authorization 就不需要 TLS",
+        "把密钥写进 URL 查询串永久公开",
+        "用 Host 头代替凭证"
+      ],
+      "okLen": 37,
+      "maxOther": 24,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-http-hdr:accept",
+      "q": "Accept 头表达什么？",
+      "ok": "客户端希望接受哪些响应媒体类型（内容协商）",
+      "others": [
+        "等同 Set-Cookie",
+        "服务器磁盘剩余空间",
+        "请求正文的 MIME 类型"
+      ],
+      "okLen": 21,
+      "maxOther": 13,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-http-hdr:user_agent",
+      "q": "User-Agent 的正确定位是？",
+      "ok": "客户端自报身份，可伪造，不能当唯一鉴权",
+      "others": [
+        "服务器返回的状态码",
+        "不可伪造的硬件根密钥",
+        "替代 HTTPS"
+      ],
+      "okLen": 19,
+      "maxOther": 10,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-http-hdr:origin_hdr",
+      "q": "Origin 头在跨源场景下的作用是？",
+      "ok": "标明发起页面的协议+主机+端口，供服务器做 CORS 等判定",
+      "others": [
+        "替换 Host 且仅用于 FTP",
+        "表示服务器磁盘路径",
+        "存放 JWT 私钥"
+      ],
+      "okLen": 30,
+      "maxOther": 16,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-http-hdr:content_type_vs_accept",
+      "q": "联调时 Content-Type 与 Accept 最容易混的一点是？",
+      "ok": "Content-Type 描述「我发的正文是什么」；Accept 描述「我希望收到什么」",
+      "others": [
+        "Content-Type 只能出现在 GET 无 body 请求里",
+        "两者完全同义，填一个即可",
+        "Accept 只能出现在响应里"
+      ],
+      "okLen": 44,
+      "maxOther": 33,
+      "diff": 11,
+      "severe": true
+    }
+  ],
+  "concept-cookie-flag.js": [
+    {
+      "id": "concept-cookie-flag:cookie",
+      "q": "Cookie 主要存在哪里、谁会自动带上？",
+      "ok": "存在浏览器；符合 Domain/Path 等条件的请求会自动附带",
+      "others": [
+        "只存在服务器内存，浏览器永不保存",
+        "只能用 WebSocket 传递",
+        "等同数据库主键本身"
+      ],
+      "okLen": 32,
+      "maxOther": 16,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-cookie-flag:httponly",
+      "q": "Cookie 设 HttpOnly 的直接效果是？",
+      "ok": "前端 JS 读不到该 Cookie，降低 XSS 窃取会话风险",
+      "others": [
+        "自动防住所有 CSRF",
+        "禁止 HTTPS，只允许明文发送",
+        "让 Cookie 永不过期"
+      ],
+      "okLen": 31,
+      "maxOther": 16,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-cookie-flag:secure",
+      "q": "Cookie 的 Secure 标志表示？",
+      "ok": "只在 HTTPS 请求中发送该 Cookie",
+      "others": [
+        "等同 HttpOnly",
+        "只允许 HTTP 明文发送",
+        "表示 Cookie 永不发送"
+      ],
+      "okLen": 22,
+      "maxOther": 14,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-cookie-flag:samesite",
+      "q": "SameSite 主要用来缓解哪类问题？",
+      "ok": "跨站请求伪造（CSRF）：限制跨站请求是否附带 Cookie",
+      "others": [
+        "SQL 注入",
+        "DNS 污染",
+        "磁盘配额耗尽"
+      ],
+      "okLen": 30,
+      "maxOther": 6,
+      "diff": 24,
+      "severe": true
+    },
+    {
+      "id": "concept-cookie-flag:httponly-vs-samesite",
+      "q": "HttpOnly 与 SameSite 分工上最准确的说法是？",
+      "ok": "HttpOnly 防 XSS 读 Cookie；SameSite 限制跨站请求是否带 Cookie（偏 CSRF）",
+      "others": [
+        "有了 HttpOnly 就不必 HTTPS",
+        "两者完全同义",
+        "SameSite=None 且无 Secure 是现代浏览器推荐默认"
+      ],
+      "okLen": 57,
+      "maxOther": 34,
+      "diff": 23,
+      "severe": true
+    }
+  ],
+  "concept-cors-kw.js": [
+    {
+      "id": "concept-cors-kw:not-server-firewall",
+      "q": "服务器日志显示请求已 200，但前端仍报 CORS。更合理的理解是？",
+      "ok": "浏览器拦截了前端脚本读取跨源响应；服务端可能已处理完请求",
+      "others": [
+        "一定是 DNS 解析失败",
+        "CORS 错误等于进程崩溃重启中",
+        "一定是 TCP 三次握手失败"
+      ],
+      "okLen": 28,
+      "maxOther": 16,
+      "diff": 12,
+      "severe": true
+    }
+  ],
+  "concept-cache-hdr.js": [
+    {
+      "id": "concept-cache-hdr:cache_control",
+      "q": "现代 HTTP 强缓存更常看哪个响应头？",
+      "ok": "Cache-Control（如 max-age、no-store、private/public）",
+      "others": [
+        "仅 Set-Cookie",
+        "仅 Server 头",
+        "仅 ETag"
+      ],
+      "okLen": 48,
+      "maxOther": 12,
+      "diff": 36,
+      "severe": true
+    },
+    {
+      "id": "concept-cache-hdr:expires",
+      "q": "相对 Cache-Control，Expires 更像什么？",
+      "ok": "用绝对时间表达过期的较老机制，优先级通常更低",
+      "others": [
+        "表示永久删除资源",
+        "CORS 预检专用头",
+        "TLS 握手专用头"
+      ],
+      "okLen": 22,
+      "maxOther": 10,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-cache-hdr:etag",
+      "q": "ETag 在协商缓存里扮演什么角色？",
+      "ok": "内容指纹，配合 If-None-Match 判断是否返回 304",
+      "others": [
+        "强制每次必须下载全文，禁止 304",
+        "用户密码哈希存浏览器",
+        "仅表示 TCP 窗口大小"
+      ],
+      "okLen": 32,
+      "maxOther": 17,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-cache-hdr:strong_vs_revalidate",
+      "q": "强缓存与协商缓存的核心差别是？",
+      "ok": "强缓存未过期可不请求；协商要带验证头问服务器变了没",
+      "others": [
+        "强缓存等于必须每次下载全文",
+        "协商缓存只能用于 UDP",
+        "二者都禁止任何缓存"
+      ],
+      "okLen": 25,
+      "maxOther": 13,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-cache-hdr:no-store-api",
+      "q": "对含用户隐私的 API JSON，更稳妥的 Cache-Control 倾向是？",
+      "ok": "private / no-store（或短 max-age + 谨慎），避免被共享缓存乱存",
+      "others": [
+        "只用 Expires 写一个过去时间并忽略 Cache-Control",
+        "完全不设头，让所有中间盒随意缓存",
+        "public, max-age=31536000 且永不协商"
+      ],
+      "okLen": 45,
+      "maxOther": 35,
+      "diff": 10,
+      "severe": true
+    }
+  ],
+  "concept-well-known-ports.js": [
+    {
+      "id": "concept-well-known-ports:80",
+      "q": "浏览器访问 http://example.com（未写端口）时，默认连哪一端口？",
+      "ok": "TCP 80（HTTP 明文默认端口）",
+      "others": [
+        "UDP 53",
+        "TCP 22",
+        "TCP 443"
+      ],
+      "okLen": 19,
+      "maxOther": 7,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-well-known-ports:443",
+      "q": "浏览器访问 https://example.com（未写端口）时，默认连哪一端口？",
+      "ok": "TCP 443（HTTPS / HTTP over TLS 默认端口）",
+      "others": [
+        "TCP 80",
+        "TCP 22",
+        "TCP 8080（唯一标准 HTTPS 端口）"
+      ],
+      "okLen": 35,
+      "maxOther": 23,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-well-known-ports:53",
+      "q": "向解析器查询域名对应 IP 时，DNS 默认端口是？",
+      "ok": "53（UDP 常见，大响应/区传送也可用 TCP）",
+      "others": [
+        "TCP 443",
+        "TCP 80",
+        "TCP 22"
+      ],
+      "okLen": 25,
+      "maxOther": 7,
+      "diff": 18,
+      "severe": true
+    },
+    {
+      "id": "concept-well-known-ports:sg-match",
+      "q": "安全组放行了 TCP 443，但 Minecraft 基岩（UDP 19132）仍进不去。说明？",
+      "ok": "端口与协议都要匹配；放行 443 不等于放行游戏 UDP 口",
+      "others": [
+        "只要开过任意一个端口，全部协议自动放行",
+        "DNS 成功就证明游戏端口已开",
+        "游戏流量一定走 443"
+      ],
+      "okLen": 30,
+      "maxOther": 19,
+      "diff": 11,
+      "severe": true
+    }
+  ],
+  "concept-nginx-ops.js": [
+    {
+      "id": "concept-nginx-ops:q1",
+      "q": "反向代理相对「浏览器直接打到 Node 端口」的核心收益是？",
+      "ok": "统一入口：TLS、路由、静态与限流可放在边缘，上游专注业务",
+      "others": [
+        "反代只能用于 UDP 游戏",
+        "有了反代就不需要 HTTPS",
+        "Nginx 会替代数据库"
+      ],
+      "okLen": 29,
+      "maxOther": 14,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:q3",
+      "q": "浏览器报 502 Bad Gateway，反代场景下优先怀疑什么？",
+      "ok": "上游没起来、端口错、连不上或返回非法应答——先看上游与 error.log",
+      "others": [
+        "一定是前端 CSS 写错",
+        "一定是静态资源 304 缓存命中",
+        "502 表示资源创建成功"
+      ],
+      "okLen": 37,
+      "maxOther": 16,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:q5",
+      "q": "在 Nginx 上做 TLS 终结的常见意思是？",
+      "ok": "客户端到 Nginx 走 HTTPS；Nginx 解密后再转上游",
+      "others": [
+        "终结意味着禁止使用任何证书",
+        "TLS 只能配在浏览器扩展里",
+        "终结后所有 HTTP 状态码必须变成 100"
+      ],
+      "okLen": 32,
+      "maxOther": 22,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:q7",
+      "q": "静态资源与 API 同域部署时，Nginx 常如何分工？",
+      "ok": "静态目录用 root/alias 直接吐文件；/api 反代到 Node",
+      "others": [
+        "Node 不能放在反代后面",
+        "静态文件必须全部由数据库返回",
+        "禁止配置两个 location"
+      ],
+      "okLen": 36,
+      "maxOther": 15,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:q8",
+      "q": "面板（宝塔/1Panel）一点「反代」背后，你仍应理解什么？",
+      "ok": "生成的仍是 Nginx（或同类）配置：端口、证书、上游——排障要会读",
+      "others": [
+        "面板等于自动训练大模型",
+        "面板会消灭所有 502",
+        "有面板就不必再学端口与 DNS"
+      ],
+      "okLen": 34,
+      "maxOther": 15,
+      "diff": 19,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:headers",
+      "q": "反代到上游时，常要设 X-Forwarded-For / X-Forwarded-Proto，主要因为？",
+      "ok": "上游需要知道原始客户端 IP 与是否 HTTPS，否则日志与重定向易错",
+      "others": [
+        "只用于 UDP，HTTP 用不到",
+        "设置后就不需要 proxy_pass",
+        "这两个头可以替代 TLS 证书"
+      ],
+      "okLen": 35,
+      "maxOther": 18,
+      "diff": 17,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:websocket",
+      "q": "反代 WebSocket 时，比普通 HTTP 多要注意什么？",
+      "ok": "Upgrade/Connection 头与超时：长连接不能按短 HTTP 超时砍断",
+      "others": [
+        "有了反代就不需要 Upgrade",
+        "WebSocket 禁止走 443",
+        "WebSocket 只能用 UDP listen"
+      ],
+      "okLen": 41,
+      "maxOther": 24,
+      "diff": 17,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:buffer-body",
+      "q": "上传大文件经 Nginx 反代到 Node 时，413 更常先查什么？",
+      "ok": "client_max_body_size（以及上游自身的 body 限制）",
+      "others": [
+        "删除全部 TLS 证书",
+        "把 listen 改成 UDP",
+        "把状态码 413 改写成 200"
+      ],
+      "okLen": 37,
+      "maxOther": 16,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-ops:cert-name",
+      "q": "IP 直连源站 HTTPS 正常，域名经 Nginx 却证书报错。优先查？",
+      "ok": "证书 SAN/CN 是否覆盖该域名，以及 server_name 是否匹配",
+      "others": [
+        "关掉 DNS 即可修好证书",
+        "一定是 upstream 进程没启动（只会 502）",
+        "把 proxy_pass 改成 UDP"
+      ],
+      "okLen": 37,
+      "maxOther": 26,
+      "diff": 11,
+      "severe": true
+    }
+  ],
+  "concept-nginx-dir.js": [
+    {
+      "id": "concept-nginx-dir:server",
+      "q": "Nginx 的 server 块大致表示什么？",
+      "ok": "一个虚拟主机/站点的配置单元（监听、域名、location 等）",
+      "others": [
+        "按 URI 路径匹配的一条规则",
+        "把请求转发到上游的指令名",
+        "一组后端机器列表，专供负载均衡引用"
+      ],
+      "okLen": 32,
+      "maxOther": 17,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-dir:listen",
+      "q": "Nginx listen 443 ssl 表示？",
+      "ok": "该 server 在 443 端口接受 TLS 连接",
+      "others": [
+        "监听 Git 协议专用且不能改",
+        "声明一组后端 upstream",
+        "等同关闭防火墙"
+      ],
+      "okLen": 26,
+      "maxOther": 15,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-dir:upstream",
+      "q": "Nginx upstream 的用途是？",
+      "ok": "声明一组后端，供 proxy_pass 引用并可做简单负载",
+      "others": [
+        "替代 DNS 根服务器",
+        "测试 conf 语法",
+        "定义虚拟主机的 server_name"
+      ],
+      "okLen": 29,
+      "maxOther": 19,
+      "diff": 10,
+      "severe": true
+    },
+    {
+      "id": "concept-nginx-dir:reload",
+      "q": "Nginx reload 相对硬重启进程？",
+      "ok": "热载配置，通常比杀进程重启更平滑",
+      "others": [
+        "清空所有磁盘",
+        "只重载浏览器缓存",
+        "删除上游数据库"
+      ],
+      "okLen": 16,
+      "maxOther": 8,
+      "diff": 8,
+      "severe": true
+    }
+  ],
+  "concept-eng-api-contracts.js": [
+    {
+      "id": "concept-eng-api-contracts:q3",
+      "q": "错误响应设计，更专业的做法是？",
+      "ok": "稳定错误码 + 人类可读 message + 可选细节；堆栈留给服务端日志",
+      "others": [
+        "一律返回 200，把错误写在 HTML 注释里",
+        "错误时不返回任何 body，也不给稳定码",
+        "把数据库密码放进错误信息方便联调"
+      ],
+      "okLen": 37,
+      "maxOther": 23,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q4",
+      "q": "列表接口为什么常要分页/游标，而不是一次返回百万行？",
+      "ok": "控制延迟、内存与超时；契约里写清 page/cursor 与排序稳定性",
+      "others": [
+        "游标分页禁止用于 API",
+        "一次返回全部永远最优",
+        "分页只是为了 UI 动画好看"
+      ],
+      "okLen": 35,
+      "maxOther": 14,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q5",
+      "q": "Idempotency-Key（幂等键）常见用在哪？",
+      "ok": "客户端重试 POST 创建类请求时，服务端用键去重，避免双花",
+      "others": [
+        "有了幂等键就可以明文传密码",
+        "幂等键等于 JWT 签名算法名称",
+        "只用于静态 CSS 强缓存"
+      ],
+      "okLen": 30,
+      "maxOther": 16,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q6",
+      "q": "API 版本策略里，较务实的一种是？",
+      "ok": "URL 或头带版本；破坏性变更走新版本并给迁移窗，旧版有日落计划",
+      "others": [
+        "禁止任何版本，字段每周随机改",
+        "版本号只写在服务器主机名里即可",
+        "永不告知，直接改语义"
+      ],
+      "okLen": 32,
+      "maxOther": 15,
+      "diff": 17,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q8",
+      "q": "给 Agent 暴露「工具 API」时，契约上最该多约束什么？",
+      "ok": "参数 schema、权限边界、超时与失败语义——模型会乱调用",
+      "others": [
+        "工具应拥有生产库 root 且无审计",
+        "不必描述参数类型",
+        "工具失败可以静默当成功"
+      ],
+      "okLen": 30,
+      "maxOther": 18,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q10",
+      "q": "OpenAPI / JSON Schema 在工程协作里的价值是？",
+      "ok": "可生成文档/客户端/校验，减少口口相传的漂移",
+      "others": [
+        "只对前端有用，后端可无视",
+        "Schema 应包含生产密钥",
+        "有文档就可以不写实现"
+      ],
+      "okLen": 22,
+      "maxOther": 14,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-eng-api-contracts:q11",
+      "q": "前后端对同一字段：后端改名、前端未发版。最可能的结果是？",
+      "ok": "前端读到 undefined/异常分支——属于破坏性契约变更",
+      "others": [
+        "只要 HTTP 200，字段名可以随便变",
+        "DNS TTL 会缓冲字段重命名",
+        "浏览器会自动把旧字段名映射到新名"
+      ],
+      "okLen": 30,
+      "maxOther": 20,
+      "diff": 10,
+      "severe": true
+    }
+  ],
+  "concept-ai-llm.js": [
+    {
+      "id": "concept-ai-llm:q4",
+      "q": "现代大语言模型的 Transformer 骨干，通常由什么堆叠而成？",
+      "ok": "多层注意力块（Attention）与前馈网络（FFN）等模块交替堆叠",
+      "others": [
+        "仅一层全连接网络，没有序列间的交互计算",
+        "手工编写的 if-else 规则树，层数越多回答越准",
+        "与微调（finetune）同一概念，都指继续训练权重"
+      ],
+      "okLen": 34,
+      "maxOther": 26,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-llm:q6",
+      "q": "OpenAI 风格的 Chat Completions 接口，典型请求体应包含什么？",
+      "ok": "带 role 的 messages 数组（如 system/user/assistant），模型续写 assistant 内容",
+      "others": [
+        "禁止传 system 角色，否则接口返回 400",
+        "必须改用 GET 查询参数传整段 prompt，POST body 留空",
+        "只需传 model 名称，服务端自动读取本地聊天记录文件"
+      ],
+      "okLen": 63,
+      "maxOther": 36,
+      "diff": 27,
+      "severe": true
+    }
+  ],
+  "concept-ai-rag.js": [
+    {
+      "id": "concept-ai-rag:q3",
+      "q": "经典检索增强生成（RAG）的三步流水线是？",
+      "ok": "检索 → 把证据增强进提示 → 大模型生成",
+      "others": [
+        "微调 → 部署 → 删库",
+        "只生成不检索，靠预训练记忆",
+        "必须先从零训练万亿参数基座"
+      ],
+      "okLen": 21,
+      "maxOther": 13,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q4",
+      "q": "相对「每更新知识就微调」，经典 RAG 主要解决哪类痛点？",
+      "ok": "知识截止与私有文档未进权重，又要可追溯出处时，外挂证据更划算",
+      "others": [
+        "替代全部工具调用与写文件能力",
+        "把上下文窗口扩到无限",
+        "彻底消灭幻觉，使模型永不胡说"
+      ],
+      "okLen": 30,
+      "maxOther": 14,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q5",
+      "q": "固定长度硬切分块，最常见的风险是什么？",
+      "ok": "切断句子、表格或条款号，破坏可引用结构",
+      "others": [
+        "完全消除评测需求",
+        "自动把嵌入维度翻倍",
+        "保证永不超上下文窗口"
+      ],
+      "okLen": 19,
+      "maxOther": 10,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q8",
+      "q": "小语料工作区知识，是否必须先切块入库向量库？",
+      "ok": "不必；常可用 tools.read / 工作区直读进窗，大语料才谈 chunk+索引",
+      "others": [
+        "必须；没有向量库就不能做任何 RAG",
+        "小语料也应把 Top-K 开到最大并关闭权限过滤",
+        "必须先微调，才能读工作区文件"
+      ],
+      "okLen": 42,
+      "maxOther": 24,
+      "diff": 18,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q12",
+      "q": "重排序（rerank）相对宽召回，主要目标是什么？",
+      "ok": "从宽召回里挑出最值得写入提示的 Top-N，服务上下文预算",
+      "others": [
+        "把嵌入维度降下来以省存储",
+        "把 BM25 与向量原始分强制加到同一量纲",
+        "替换生成用的大语言模型"
+      ],
+      "okLen": 29,
+      "maxOther": 21,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q14",
+      "q": "交叉编码器精排相对双塔/向量近邻，直觉差异是？",
+      "ok": "问句+片段成对打分更准但更贵；适合短候选，不适合对全库暴力扫",
+      "others": [
+        "交叉编码器专门降低嵌入维度",
+        "交叉编码器可替代生成模型写最终答案",
+        "用了交叉编码器就不能做 ACL"
+      ],
+      "okLen": 30,
+      "maxOther": 17,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q15",
+      "q": "向量库里 ANN / HNSW 在工程上主要换什么？",
+      "ok": "用少许召回损失换查询速度；常吃内存，需与 metadata 过滤一起设计",
+      "others": [
+        "保证 100% 精确最近邻且零内存",
+        "自动完成嵌入模型跨厂商对齐",
+        "替代关系库的事务与报表"
+      ],
+      "okLen": 36,
+      "maxOther": 17,
+      "diff": 19,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q16",
+      "q": "已有 Postgres 时，向量检索的常见落地直觉？",
+      "ok": "可用 pgvector「一库两用」：结构化字段 + 向量；大规模再考虑专用向量服务",
+      "others": [
+        "有了 pgvector 就不必再做 ACL 过滤",
+        "Postgres 绝对不能存向量",
+        "换嵌入模型时只需改端口号"
+      ],
+      "okLen": 41,
+      "maxOther": 24,
+      "diff": 17,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q17",
+      "q": "多租户 RAG 为何不能只靠「提示里写不要看别的租户」？",
+      "ok": "提示不可靠；应在检索层用 metadata/ACL 过滤可见文档",
+      "others": [
+        "因为向量没有维度",
+        "因为向量库无法存文档 id",
+        "因为 HTTP 不支持 JSON"
+      ],
+      "okLen": 32,
+      "maxOther": 16,
+      "diff": 16,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q18",
+      "q": "RAG 评测最小闭环里，缺哪一步最危险？",
+      "ok": "没有黄金集（固定问题+可接受证据）就改分块/重排",
+      "others": [
+        "延迟没有降到 0",
+        "题干用了中文",
+        "使用了 HTTPS"
+      ],
+      "okLen": 24,
+      "maxOther": 9,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q20",
+      "q": "Agentic RAG 相对经典「一检索一生成」，核心差别是？",
+      "ok": "由智能体动态决定是否/如何多次检索、改写查询与校验证据",
+      "others": [
+        "必须换更大参数量基座",
+        "禁止关键词，只能纯向量",
+        "取消生成步骤，只检索不回答"
+      ],
+      "okLen": 27,
+      "maxOther": 13,
+      "diff": 14,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-rag:q21b",
+      "q": "上下文工程是否等于「凡 AI 必上向量库」？",
+      "ok": "否；小而稳语料可直塞/读文件，向量库是大而变/要引用时的手段之一",
+      "others": [
+        "否，因为向量库只能存图片",
+        "是；没有向量库就不算 LLM 应用",
+        "是；长上下文出现后向量库已非法"
+      ],
+      "okLen": 32,
+      "maxOther": 17,
+      "diff": 15,
+      "severe": true
+    }
+  ],
+  "concept-ai-agent-stack.js": [
+    {
+      "id": "concept-ai-agent-stack:q1",
+      "q": "启用工具调用后，模型侧通常输出什么、由谁真正执行？",
+      "ok": "结构化调用请求；Agent Runtime 或宿主程序按策略鉴权并执行",
+      "others": [
+        "只能输出 JSON，此后禁止任何自然语言回复",
+        "可执行二进制补丁；模型直接改操作系统内核",
+        "每次调用都会永久改写模型权重"
+      ],
+      "okLen": 35,
+      "maxOther": 22,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q4",
+      "q": "助手要「查库存→下单→再确认」才能完成时，Agent 控制循环相对单次 Chat 多了什么？",
+      "ok": "观察环境→决策下一步→执行工具或生成→再观察，直到完成或触达停止条件",
+      "others": [
+        "与 RAG 检索互斥，用了 Agent 就不能检索",
+        "只能做静态补全，禁止调用工具或多轮迭代",
+        "控制循环只发生在训练期，推理期不再出现"
+      ],
+      "okLen": 34,
+      "maxOther": 25,
+      "diff": 9,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q5",
+      "q": "本仓把检索做成智能体工具（Agentic RAG）时，更贴近哪条落地？",
+      "ok": "registerMCPTool / 知识类工作流 + 工厂 tool_calls 多轮回灌；小语料常直接 tools.read",
+      "others": [
+        "必须先关闭 maxToolRounds，只允许单轮 tool_calls",
+        "禁止工具调用，只把向量库连接串写进 system 提示",
+        "固定「检索→拼 prompt→生成」三件套，模型不得再决定读哪段"
+      ],
+      "okLen": 63,
+      "maxOther": 36,
+      "diff": 27,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q10",
+      "q": "仓库根目录 AGENTS.md 主要写给谁、解决什么问题？",
+      "ok": "给 coding Agent 的项目交底：工作区边界、放码位置与操作规范",
+      "others": [
+        "存放生产数据库密码，方便 Agent 自动连库",
+        "仅供离线训练语料，IDE 推理时不会读取",
+        "替代 pnpm-lock.yaml 锁定依赖版本"
+      ],
+      "okLen": 36,
+      "maxOther": 24,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q11",
+      "q": "本仓「智能体记忆」里，单次会话连贯主要靠什么？",
+      "ok": "消息组装与历史预算（三层消息 / agentWorkspace），不是当场改权重",
+      "others": [
+        "只调高 temperature 就能跨会话记住用户事实",
+        "每次对话强制全量微调基座模型",
+        "把全部工具 JSON 永久写进 package.json"
+      ],
+      "okLen": 40,
+      "maxOther": 28,
+      "diff": 12,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q13",
+      "q": "本仓协议分层里，默认对话入口与工具面分别更贴近哪一层？",
+      "ok": "L1：Chat Completions 兼容形状；L2：MCP / registerMCPTool 工具面",
+      "others": [
+        "L1 与 L2 都指 DNS 解析流程",
+        "L2 等于取消工具调用，只允许纯文本补全",
+        "L1 必须先实现完整 A2A 协作，否则不能调模型"
+      ],
+      "okLen": 53,
+      "maxOther": 25,
+      "diff": 28,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-agent-stack:q14",
+      "q": "本仓 registerMCPTool 相对「模型自己猜怎么调 HTTP」，主要补上什么？",
+      "ok": "运行时注册的工具 schema、鉴权与执行入口，供工厂 tool_calls 统一调度",
+      "others": [
+        "自动把每次对话写入向量库做永久记忆",
+        "替代 Rules，禁止在项目里写 .cursor/rules",
+        "只允许本地 stdio MCP，禁止 remote-mcp 走网络"
+      ],
+      "okLen": 43,
+      "maxOther": 33,
+      "diff": 10,
+      "severe": true
+    }
+  ],
+  "concept-ai-ops-bridge.js": [
+    {
+      "id": "concept-ai-ops-bridge:q1",
+      "q": "「对话产品化」（Chat 形态）相对「裸补全脚本」多了什么？",
+      "ok": "多轮会话心智、系统角色、安全与产品封装，把模型做成可天天打开的入口",
+      "others": [
+        "从此不再需要 HTTP API",
+        "等于完成了全部 RAG 工程",
+        "换了一套完全不同的物理定律"
+      ],
+      "okLen": 33,
+      "maxOther": 15,
+      "diff": 18,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q2",
+      "q": "选型时把「聊天模型」和「嵌入模型」当成同一个会怎样？",
+      "ok": "检索空间与生成能力错配：嵌入要向量近邻，聊天要生成；接口与计费也常分开",
+      "others": [
+        "只要维度数字相同就永远可互换",
+        "嵌入模型专门负责工具调用",
+        "完全无影响，因为名字都叫模型"
+      ],
+      "okLen": 35,
+      "maxOther": 14,
+      "diff": 21,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q4",
+      "q": "流式（streaming）返回相对一次性 JSON，对前端/运维的主要差别？",
+      "ok": "按块推送 token，首字更快、要处理半包与取消；失败也可能已吐出半截",
+      "others": [
+        "流式禁止使用 system 角色",
+        "流式等于微调已完成",
+        "流式会自动加密 API Key，明文 HTTP 也安全"
+      ],
+      "okLen": 35,
+      "maxOther": 27,
+      "diff": 8,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q5",
+      "q": "调云端 LLM API 时，HTTP 在协议栈上的位置直觉是？",
+      "ok": "应用层协议，常跑在 TCP（TLS）之上，承载 Chat/Completions 等 JSON 请求",
+      "others": [
+        "有了 HTTP 就不需要 DNS",
+        "HTTP 只能传 HTML，不能传 JSON",
+        "HTTP 就是网线的物理规格"
+      ],
+      "okLen": 50,
+      "maxOther": 22,
+      "diff": 28,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q7",
+      "q": "HTTPS 相对 HTTP，对调用云端 LLM 为什么几乎是默认？",
+      "ok": "TLS 加密与身份校验，降低窃听/篡改密钥与对话内容的风险",
+      "others": [
+        "HTTPS 禁止使用 JSON",
+        "内网调试也永远禁止任何明文 HTTP",
+        "HTTPS 能让模型更聪明"
+      ],
+      "okLen": 29,
+      "maxOther": 18,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q8",
+      "q": ".env 与「可提交的配置模板」应如何分工？",
+      "ok": ".env 放本机密钥与机器差且勿提交；.env.example 只列键名与假值",
+      "others": [
+        "把真实 API Key 写进 Git 方便协作",
+        "所有业务逻辑都必须只靠 .env，禁止 yaml",
+        "环境变量不能被 Node 读取"
+      ],
+      "okLen": 39,
+      "maxOther": 24,
+      "diff": 15,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q9",
+      "q": "本仓「MCP 挂载」课相对「MCP 概念」课，侧重点差在哪？",
+      "ok": "概念课讲协议与工具发现；挂载课讲主服如何注册、鉴权、看日志确认已挂上",
+      "others": [
+        "有概念课就不必再管鉴权",
+        "MCP 挂载等于关闭所有 HTTP",
+        "挂载课会重写 Transformer 公式"
+      ],
+      "okLen": 34,
+      "maxOther": 21,
+      "diff": 13,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q10",
+      "q": "提示安全里，「间接注入」指什么？",
+      "ok": "恶意指令藏在日后被检索到的文档/网页里，用户可能从未亲手输入",
+      "others": [
+        "只要用了向量库就不会注入",
+        "可用更大 temperature 消除",
+        "只会发生在 UDP 传输上"
+      ],
+      "okLen": 30,
+      "maxOther": 19,
+      "diff": 11,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q11",
+      "q": "调不通的 LLM 请求，较合理的第一刀是？",
+      "ok": "先分清：DNS/TLS/代理 → HTTP 状态 → 密钥与配额 → 请求体/模型名 → 业务提示",
+      "others": [
+        "先重装操作系统",
+        "先把 temperature 调到 2.0",
+        "先删掉全部向量库"
+      ],
+      "okLen": 49,
+      "maxOther": 21,
+      "diff": 28,
+      "severe": true
+    },
+    {
+      "id": "concept-ai-ops-bridge:q12",
+      "q": "Coding Agent / CLI 调外网模型 API 失败，但浏览器能开网页。更靠谱的处理是？",
+      "ok": "为进程显式设 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY（及 NO_PROXY）",
+      "others": [
+        "把代理端口写进业务仓库当默认密钥",
+        "关掉本机防火墙就等于配好了代理",
+        "只要开了系统代理，所有进程必然走代理"
+      ],
+      "okLen": 51,
+      "maxOther": 18,
+      "diff": 33,
+      "severe": true
+    }
+  ]
+}

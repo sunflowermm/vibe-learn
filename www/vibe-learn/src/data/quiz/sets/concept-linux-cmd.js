@@ -260,7 +260,7 @@ export default defineQuizSet({
     "q": "递归删除目录（需极度谨慎）？",
     "choices": [
       {
-        "t": "rm -r dir/（理解风险；生产更要确认路径）",
+        "t": "rm -r dir/（理解风险",
         "ok": true,
         "why": "rm：删除文件；rm -r 递归删目录。生产慎用 rm -rf；误删难恢复。"
       },
@@ -540,7 +540,7 @@ export default defineQuizSet({
     "q": "优雅结束进程常用？",
     "choices": [
       {
-        "t": "kill <pid>（默认 SIGTERM；-9 最后手段）",
+        "t": "kill <pid>",
         "ok": true,
         "why": "kill：向进程发信号；默认 SIGTERM，kill -9 为 SIGKILL（最后手段）。先确认 PID。"
       },
@@ -680,7 +680,7 @@ export default defineQuizSet({
     "q": "命令行调 HTTP / 下载并跟随重定向常用？",
     "choices": [
       {
-        "t": "curl -L -o file URL",
+        "t": "curl -L -o fi",
         "ok": true,
         "why": "curl：命令行传数据，常用于调 HTTP API；curl -L 跟随重定向，-o 写文件。大厂联调与 CI 标配。"
       },
@@ -855,7 +855,7 @@ export default defineQuizSet({
     "q": "看谁监听了某端口（现代）？",
     "choices": [
       {
-        "t": "ss -lntp | grep 3000（或 lsof -i :3000）",
+        "t": "ss -lntp | grep 3000",
         "ok": true,
         "why": "ss：查看套接字/端口监听；ss -lntp 看谁占用端口。现代替代部分 netstat 场景。"
       },
@@ -1030,7 +1030,7 @@ export default defineQuizSet({
     "q": "查某个命令实际路径？",
     "choices": [
       {
-        "t": "command -v node（或 which node）",
+        "t": "command -v node",
         "ok": true,
         "why": "which 或 command -v：定位命令在 PATH 中的路径。排查「装了但找不到」与多版本冲突。"
       },

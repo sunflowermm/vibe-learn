@@ -24,7 +24,13 @@ export const KNOWLEDGE_MAP2_OVERRIDES = {
   'dsa-tree': [],
   'dsa-graph': [],
   'dsa-sort': [],
+  'dsa-recurse': [],
+  'dsa-two-pointers': [],
+  'dsa-union-find': [],
+  'dsa-string': [],
+  'dsa-bitwise': [],
   'dsa-dp': [],
+  'dsa-ml': [],
   'dsa-hot': [],
   /* 收紧过宽挂接 */
   'routing-nat': [{ id: 'vh-dns', label: 'DNS' }],

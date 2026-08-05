@@ -45,7 +45,7 @@ export default defineQuizSet({
       q: 'HTTP 201 Created 更适合哪类结果？',
       choices: [
         {
-          t: '成功创建了新资源（响应常带 Location）',
+          t: '成功创建了新资源',
           ok: true,
           why: 'POST/PUT 创建场景的约定；勿与 200 混用掩盖「已创建」。',
         },
@@ -101,7 +101,7 @@ export default defineQuizSet({
       q: 'HTTP 301 Moved Permanently 表示？',
       choices: [
         {
-          t: '资源永久换到新 URI，后续应更新书签/链接',
+          t: '资源永久换到新 URI',
           ok: true,
           why: 'SEO/迁移常用；方法是否保留要看客户端与后续规范实践。',
         },
@@ -129,7 +129,7 @@ export default defineQuizSet({
       q: 'HTTP 302 Found 的常见含义与联调坑是？',
       choices: [
         {
-          t: '临时重定向；部分客户端会把 POST 改成 GET——要用 307 保方法',
+          t: '临时重定向；部分客户端会把 POST 改',
           ok: true,
           why: '历史兼容坑；需要严格保留方法时用 307/308。',
         },
@@ -157,7 +157,7 @@ export default defineQuizSet({
       q: 'HTTP 304 Not Modified 表示？',
       choices: [
         {
-          t: '协商缓存命中：资源未变，客户端用本地副本',
+          t: '协商缓存命中：资',
           ok: true,
           why: '配合 ETag/If-None-Match 或 Last-Modified。',
         },
@@ -185,7 +185,7 @@ export default defineQuizSet({
       q: '相对 302，HTTP 307 Temporary Redirect 更强调什么？',
       choices: [
         {
-          t: '临时重定向，且不应把原方法改成 GET',
+          t: '临时重定向，且不',
           ok: true,
           why: '需要保留 POST 等方法时用 307。',
         },
@@ -213,7 +213,7 @@ export default defineQuizSet({
       q: '相对 301，HTTP 308 Permanent Redirect 更强调什么？',
       choices: [
         {
-          t: '永久重定向，且不应把原方法改成 GET',
+          t: '永久重定向，且不应',
           ok: true,
           why: '与 301 的「方法可能被改写」历史坑相对。',
         },
@@ -241,7 +241,7 @@ export default defineQuizSet({
       q: 'HTTP 400 Bad Request 的典型场景是？',
       choices: [
         {
-          t: '请求语法/参数不合法，服务器无法理解或处理',
+          t: '请求语法/参数不合法',
           ok: true,
           why: '缺字段、JSON 坏掉、类型不对等；先修客户端请求。',
         },
@@ -297,7 +297,7 @@ export default defineQuizSet({
       q: 'HTTP 403 Forbidden 表示？',
       choices: [
         {
-          t: '服务器理解请求，但拒绝执行（常因权限）',
+          t: '服务器理解请求，但拒绝执行',
           ok: true,
           why: '身份可能已识别；不要与「未登录」的 401 混说。',
         },
@@ -325,7 +325,7 @@ export default defineQuizSet({
       q: 'HTTP 404 Not Found 表示？',
       choices: [
         {
-          t: '目标资源当前找不到（或不对外暴露其存在）',
+          t: '目标资源当前找不到',
           ok: true,
           why: '路径错、已删除、或故意用 404 隐藏存在性。',
         },
@@ -353,7 +353,7 @@ export default defineQuizSet({
       q: 'HTTP 405 Method Not Allowed 表示？',
       choices: [
         {
-          t: '该资源存在，但不支持当前 HTTP 方法',
+          t: '该资源存在，但不支持',
           ok: true,
           why: '响应可带 Allow；例如只许 GET 却发了 DELETE。',
         },
@@ -381,7 +381,7 @@ export default defineQuizSet({
       q: 'HTTP 408 Request Timeout 更接近？',
       choices: [
         {
-          t: '服务器等客户端发送请求过久而超时',
+          t: '服务器等客户端发送请',
           ok: true,
           why: '与网关等上游的 504 方向不同。',
         },
@@ -409,7 +409,7 @@ export default defineQuizSet({
       q: 'HTTP 409 Conflict 的典型场景是？',
       choices: [
         {
-          t: '与资源当前状态冲突，例如版本冲突或重复创建',
+          t: '与资源当前状态冲突',
           ok: true,
           why: '乐观锁失败、唯一键冲突等常映射到 409。',
         },
@@ -465,7 +465,7 @@ export default defineQuizSet({
       q: 'HTTP 415 Unsupported Media Type 表示？',
       choices: [
         {
-          t: '服务器不支持请求的 Content-Type / 媒体格式',
+          t: '服务器不支持请求',
           ok: true,
           why: '例如只收 JSON 却发了 form-urlencoded。',
         },
@@ -493,7 +493,7 @@ export default defineQuizSet({
       q: 'HTTP 429 Too Many Requests 表示？',
       choices: [
         {
-          t: '请求过于频繁，触发限流/配额',
+          t: '请求过于频繁，触',
           ok: true,
           why: '调用方应退避；可看 Retry-After。',
         },
@@ -521,7 +521,7 @@ export default defineQuizSet({
       q: 'HTTP 500 Internal Server Error 表示？',
       choices: [
         {
-          t: '服务器内部出错，未能完成看似合法的请求',
+          t: '服务器内部出错，未能',
           ok: true,
           why: '查服务端日志与未捕获异常；勿把 502 当 500。',
         },
@@ -577,7 +577,7 @@ export default defineQuizSet({
       q: '相对 502，HTTP 503 Service Unavailable 更强调？',
       choices: [
         {
-          t: '服务暂时不可用（过载、维护），稍后可能恢复',
+          t: '服务暂时不可用（过载、',
           ok: true,
           why: '可带 Retry-After；与「上游应答无效」的 502 不同。',
         },

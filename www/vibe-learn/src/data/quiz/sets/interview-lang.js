@@ -1,8 +1,7 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 语言运行时大厂开口：事件循环、闭包、异步、模块。
- * 语法细节见 js-async / code-basics；竞态见 eng-concurrency。
+ * 语言/运行时大厂开口（mcq-expert：完整选项、长度相近、似真干扰）
  */
 export default defineQuizSet({
   id: 'interview-lang-runtime',
@@ -11,83 +10,83 @@ export default defineQuizSet({
   domain: 'lang',
   tags: ['JS', '事件循环', '闭包', '异步', '模块'],
   relatedNodes: ['code-async', 'code-functions', 'code-modules'],
-  caption: '开口题：事件循环、闭包、Promise、模块边界——面试官能追问的那种。',
+  caption: '开口：事件循环、闭包、Promise、模块边界。',
   questions: [
     {
       id: 'interview-lang-runtime:timeout0',
-      q: '面试官问「JavaScript 里 setTimeout(fn, 0) 会不会立刻执行」，较好的回答是？',
+      q: 'setTimeout(fn, 0) 会立刻同步执行吗？',
       choices: [
         {
-          t: '不会立刻；它进入宏任务队列，等当前调用栈与微任务清空后再跑',
+          t: '不会；它进宏任务，等当前栈与微任务后再跑',
           ok: true,
-          why: '延迟 0 只是尽快排队，仍晚于同步代码与 Promise.then 等微任务。',
+          why: '延迟 0 只是尽快排队，不能插队同步代码。',
         },
         {
-          t: '会像同步代码一样插队，打断当前函数立刻执行',
+          t: '会；延迟写成 0 就能打断当前函数立刻执行',
           ok: false,
-          why: '定时器回调不能打断正在执行的同步代码。',
+          why: '定时器不能打断正在执行的同步栈。',
         },
         {
-          t: 'setTimeout 会创建新的操作系统进程来跑回调',
+          t: '会；运行时会另起操作系统进程来跑该回调',
           ok: false,
-          why: '在同一 JS 线程的事件循环里调度，不是另起进程。',
+          why: '仍在同一 JS 线程的事件循环里调度。',
         },
         {
-          t: '只要延迟写成 0，就保证比 Promise.then 更早执行',
+          t: '会；延迟 0 保证一定早于 Promise.then',
           ok: false,
-          why: '通常微任务（then）先于下一轮宏任务（timeout）。',
+          why: '通常微任务先于下一轮宏任务。',
         },
       ],
-      relatedNodes: ['code-async', 'lang-javascript'],
+      relatedNodes: ['code-async'],
     },
     {
       id: 'interview-lang-runtime:closure',
-      q: '被问「什么是闭包（Closure），举一个实际用途」，怎么答比较稳？',
+      q: '闭包是什么？举一个实际用途。',
       choices: [
         {
-          t: '函数能访问定义时外层作用域的变量；常用于封装私有状态或工厂函数',
+          t: '函数可访问定义时外层变量；常用来封装私有状态',
           ok: true,
-          why: '既给定义又给用途，方便追问内存与生命周期。',
+          why: '既给定义又给用途，方便追问生命周期。',
         },
         {
-          t: '闭包就是把代码压缩成一行，方便拷贝',
+          t: '把源码压成一行方便拷贝，与作用域无关',
           ok: false,
-          why: '那是压缩/混淆，与作用域闭包无关。',
+          why: '那是压缩/混淆，不是闭包。',
         },
         {
-          t: '闭包只存在于 TypeScript，纯 JavaScript 没有',
+          t: '只存在于 TypeScript，纯 JavaScript 没有',
           ok: false,
           why: '闭包是语言运行时概念，JS 本身就有。',
         },
         {
-          t: '闭包等于全局变量，任何函数都能随便改',
+          t: '等价于全局变量，任何函数都能随便改写',
           ok: false,
-          why: '闭包常用来避免污染全局、限制可见范围。',
+          why: '闭包常用来限制可见范围，而非污染全局。',
         },
       ],
-      relatedNodes: ['code-functions', 'lang-javascript'],
+      relatedNodes: ['code-functions'],
     },
     {
       id: 'interview-lang-runtime:async-await',
-      q: '「Promise 和 async/await 是什么关系」，一句话怎么说清楚？',
+      q: 'Promise 和 async/await 是什么关系？',
       choices: [
         {
-          t: 'async/await 是基于 Promise 的语法糖，让异步代码读起来像同步',
+          t: 'async/await 是基于 Promise 的语法糖',
           ok: true,
-          why: 'await 后面通常是 Promise；本质仍是微任务调度。',
+          why: 'await 通常跟 Promise；本质仍是微任务调度。',
         },
         {
-          t: '有了 async/await 就不需要事件循环了',
+          t: '有了 async/await 就不再需要事件循环',
           ok: false,
           why: '异步仍靠事件循环；语法糖不取消运行时模型。',
         },
         {
-          t: 'async 函数返回的一定是字符串，不是 Promise',
+          t: 'async 函数的返回值一定是普通字符串',
           ok: false,
-          why: 'async 函数返回 Promise；返回值会被包装。',
+          why: 'async 函数返回 Promise，返回值会被包装。',
         },
         {
-          t: 'Promise 只能用在浏览器，Node 不支持',
+          t: 'Promise 只能用在浏览器，Node 并不支持',
           ok: false,
           why: 'Node 长期支持 Promise 与 async/await。',
         },
@@ -96,84 +95,138 @@ export default defineQuizSet({
     },
     {
       id: 'interview-lang-runtime:modules',
-      q: '面试官问「为什么要用模块（ESM import/export）而不是一个大脚本」，重点说什么？',
+      q: '为什么用 ESM 模块，而不是一个大脚本？',
       choices: [
         {
-          t: '按文件拆分依赖与作用域，可复用、可缓存、避免全局污染与隐式顺序依赖',
+          t: '按文件拆分依赖与作用域，便于复用、少全局污染',
           ok: true,
-          why: '模块解决组织与边界问题，是工程化基础。',
+          why: '模块解决组织与边界，是工程化基础。',
         },
         {
-          t: '模块能让 JavaScript 自动变成多线程并行执行',
+          t: '模块能让 JavaScript 自动变成多线程并行',
           ok: false,
           why: '模块不改变单线程模型；并行要靠 Worker 等。',
         },
         {
-          t: '有了模块就不需要包管理器了',
+          t: '有了模块就完全不必再使用包管理器',
           ok: false,
           why: '第三方依赖仍常靠 npm/pnpm；模块只是加载格式。',
         },
         {
-          t: 'export 会把变量复制到每个导入方，改一处全部自动同步改内存',
+          t: 'export 会把变量复制到各导入方并自动同步内存',
           ok: false,
-          why: '核心价值是封装与依赖图；勿用「复制内存」糊弄过去。',
+          why: '核心价值是封装与依赖图，不是「复制内存」。',
         },
       ],
       relatedNodes: ['code-modules'],
     },
     {
       id: 'interview-lang-runtime:eq',
-      q: '「== 和 === 有什么区别」被追问时，更专业的答法是？',
+      q: '=== 和 == 在业务代码里怎么选？',
       choices: [
         {
-          t: '=== 严格相等不转类型；== 会做类型转换，容易踩坑，业务代码优先 ===',
+          t: '=== 不转类型；业务比较优先用严格相等',
           ok: true,
-          why: '大厂偏好明确、少隐式转换；可举字符串数字例子。',
+          why: '== 会做类型转换，容易踩坑。',
         },
         {
-          t: '两者完全一样，只是写法不同',
+          t: '== 更短，所以业务里应到处优先使用',
           ok: false,
-          why: '== 会触发强制转换，行为不同。',
+          why: '隐式转换才是主要风险。',
         },
         {
-          t: '=== 只能比较数字，== 才能比较字符串',
+          t: '二者语义完全相同，只是写法不一样',
           ok: false,
-          why: '=== 可比较任意类型，类型不同时直接为 false。',
+          why: '是否转换类型是关键差别。',
         },
         {
-          t: '线上环境会自动把 == 优化成 ===，所以随便写',
+          t: '=== 只在 TypeScript 里存在，JS 没有',
           ok: false,
-          why: '引擎不会改语义；混用 == 仍可能出逻辑 bug。',
+          why: '严格相等是 JavaScript 本身就有的运算。',
         },
       ],
-      relatedNodes: ['code-values-types', 'lang-javascript'],
+      relatedNodes: ['lang-javascript'],
     },
     {
-      id: 'interview-lang-runtime:callback-hell',
-      q: '被问「前端/Node 里如何避免回调地狱」，你可以说哪些手段？',
+      id: 'interview-lang-runtime:race',
+      q: '单线程 JavaScript 还会有数据竞态吗？',
       choices: [
         {
-          t: '用 Promise 链式或 async/await 扁平化控制流，并统一错误用 catch/try',
+          t: '会；异步交错写共享状态时仍要串行或版本控制',
           ok: true,
-          why: '标准演进路径；比继续嵌套回调更清晰。',
+          why: '事件循环不消灭交错覆盖。',
         },
         {
-          t: '把所有回调函数都命名成 a、b、c 就行',
+          t: '不会；单线程意味着绝不可能出现竞态',
           ok: false,
-          why: '命名不能解决嵌套与错误传播问题。',
+          why: '异步回调交错仍会造成覆盖写。',
         },
         {
-          t: '禁止使用任何异步，全部改成同步阻塞',
+          t: '不会；只有多核 CPU 上才会出现任何错误',
           ok: false,
-          why: 'I/O 同步阻塞会拖垮吞吐；应正确组织异步。',
+          why: '逻辑层的交错写与核数无关。',
         },
         {
-          t: '只在全局挂一个回调，所有结果都往那里丢',
+          t: '不会；用死循环空转等待即可永久消除竞态',
           ok: false,
-          why: '全局回调难追踪、易互相覆盖。',
+          why: '会卡死事件循环，也不是正确并发控制。',
         },
       ],
-      relatedNodes: ['code-async', 'code-functions'],
+      relatedNodes: ['code-async'],
+    },
+    {
+      id: 'interview-lang-runtime:ts',
+      q: 'TypeScript 类型信息上线到 Node 后还在吗？',
+      choices: [
+        {
+          t: '默认编译擦除，运行时仍按 JavaScript 执行',
+          ok: true,
+          why: '类型主要在编译期检查。',
+        },
+        {
+          t: '运行时仍完整保留类型并一直强制检查',
+          ok: false,
+          why: '默认产物会擦除类型。',
+        },
+        {
+          t: '上线后会自动变成 Java 字节码再执行',
+          ok: false,
+          why: '本仓主服仍是 JS/TS on Node。',
+        },
+        {
+          t: '有了 TypeScript 就不需要任何 JS 运行时',
+          ok: false,
+          why: '仍要 Node 等运行时执行。',
+        },
+      ],
+      relatedNodes: ['lang-typescript'],
+    },
+    {
+      id: 'interview-lang-runtime:lib-fw',
+      q: '库和框架的关键差别是什么？',
+      choices: [
+        {
+          t: '库是你调用它；框架是它回调你的代码',
+          ok: true,
+          why: '控制反转是最常用的分界。',
+        },
+        {
+          t: '框架等于一门新的编程语言，库只是语法糖',
+          ok: false,
+          why: '框架建立在语言与运行时之上。',
+        },
+        {
+          t: '库一定比框架慢，所以生产只能用框架',
+          ok: false,
+          why: '性能与库/框架身份无必然关系。',
+        },
+        {
+          t: '二者没有实质区别，只是营销用词不同',
+          ok: false,
+          why: '控制流归属不同，不是纯营销。',
+        },
+      ],
+      relatedNodes: ['lang-library-framework'],
     },
   ],
 });

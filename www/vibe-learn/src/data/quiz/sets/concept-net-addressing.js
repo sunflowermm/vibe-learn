@@ -18,7 +18,7 @@ export default defineQuizSet({
       q: '域名（如 api.example.com）与 IP 地址的正确关系是？',
       choices: [
         {
-          t: '域名是人类可读名字；通常经 DNS 解析成 IP，通信按 IP（再加端口）送达',
+          t: '域名是人类可读名字',
           ok: true,
           why: '名字层与网络层寻址分离：换 IP 可只改 DNS。',
         },
@@ -74,7 +74,7 @@ export default defineQuizSet({
       q: 'URL https://a.com:8443/v1/x?y=1 里，8443 是什么？',
       choices: [
         {
-          t: '显式端口；未写时 HTTPS 默认 443、HTTP 默认 80',
+          t: '显式端口；未写时 HTTPS 默认',
           ok: true,
           why: '写了端口就覆盖默认；排障时「默认以为 443」常踩坑。',
         },
@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: 'DNS 解析失败时，用户侧更常见的现象是？',
       choices: [
         {
-          t: '报找不到服务器/DNS_PROBE 等，往往还没建起到业务端口的 TCP',
+          t: '报找不到服务器/DNS_PROBE 等',
           ok: true,
           why: '先分清：解析失败 vs 端口不通 vs 应用 4xx/5xx。',
         },
@@ -186,7 +186,7 @@ export default defineQuizSet({
       q: 'CIDR 写法 10.0.0.0/24 的直觉是？',
       choices: [
         {
-          t: '前 24 位是网络前缀，其余为主机位——表示一个网段范围',
+          t: '前 24 位是网络前缀，其余为主机位',
           ok: true,
           why: '安全组、路由表、VPN 划分常用；约 256 个地址（含网络/广播等约定）。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '家庭多设备共用一个公网 IP 上网，主要靠什么？',
       choices: [
         {
-          t: 'NAT（常配合路由器）：改写地址/端口，让多内网主机共享出口',
+          t: 'NAT（常配合路由器）',
           ok: true,
           why: '出站靠 NAT/PAT；要从外网进内网服务，还要端口转发或反代。',
         },
@@ -242,7 +242,7 @@ export default defineQuizSet({
       q: 'MAC 地址相对 IP 地址，职责差别是？',
       choices: [
         {
-          t: '链路层地址，主要用于同一局域网内帧投递；跨网靠 IP 路由',
+          t: '链路层地址，主要用于同一局域网内帧投递',
           ok: true,
           why: '同网段常用 ARP 把 IP 解析成 MAC；出网关后下一跳又换 MAC。',
         },
@@ -270,7 +270,7 @@ export default defineQuizSet({
       q: 'ping 通某 IP，但 https://该IP 打不开，说明什么？',
       choices: [
         {
-          t: 'ICMP 可达≠业务端口/TLS/HTTP 正常——还要查端口、证书与服务进程',
+          t: 'ICMP 可达≠业务端口',
           ok: true,
           why: '安全组可能放行 ICMP 却禁 443；或进程没听、证书错。',
         },
@@ -298,7 +298,7 @@ export default defineQuizSet({
       q: '主机名 laptop、域名 www.example.com、FQDN 的层次直觉是？',
       choices: [
         {
-          t: '主机名偏本机/内网短名；域名/FQDN 在 DNS 树中可被解析',
+          t: '主机名偏本机/内网短名',
           ok: true,
           why: '排障时别把短主机名当成公网可解析的 FQDN。',
         },
@@ -326,7 +326,7 @@ export default defineQuizSet({
       q: '浏览器地址栏输入域名后到看到页面，最小链路更接近？',
       choices: [
         {
-          t: 'DNS→IP；TCP（常+TLS）；HTTP 请求/响应；再渲染',
+          t: 'DNS→IP；TCP',
           ok: true,
           why: '每环失败现象不同：解析失败、超时、证书警告、4xx/5xx、白屏脚本错。',
         },
@@ -354,7 +354,7 @@ export default defineQuizSet({
       q: '安全组放行了 ICMP，同事仍打不开你的 HTTPS 站点。更合理的解释是？',
       choices: [
         {
-          t: 'ICMP 与 TCP/443 是不同规则；还要单独放行业务端口',
+          t: 'ICMP 与 TCP/443 是不同规则',
           ok: true,
           why: 'ping 通只证明部分可达，不证明 443 与证书链路正常。',
         },

@@ -1,232 +1,126 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 开口：Agent / MCP / 上下文工程 / 工具安全。命题：mcq-expert。
+ * 大厂 · Agent / 工具 / 安全开口
  */
 export default defineQuizSet({
   id: 'interview-ai-stack',
-  title: '大厂 / 产品 · RAG 与 Agent 开口',
+  title: '大厂 · Agent / 工具 / 安全',
   kind: 'interview',
   domain: 'ai',
-  tags: ['RAG', 'Agent', 'MCP'],
-  relatedNodes: ['ai-rag', 'ai-agent-birth', 'ai-mcp', 'ai-tool-calling'],
-  caption: '把检索三步、工具环、MCP、上下文预算与安全讲成一条故事线。',
+  tags: ['AI', 'Agent', 'MCP', '安全', '一面'],
+  relatedNodes: ['ai-tool-calling', 'ai-mcp', 'ai-prompt-security'],
+  caption: '工具闭环 · 注入隔离 · 权限与编排克制。',
   questions: [
     {
-      id: 'interview-ai-stack:q1',
-      q: '向产品或面试官介绍「经典 RAG」，三步流水线应怎么说？',
+      id: 'interview-ai-stack:tool',
+      q: '模型说该查库存，系统无查库动作。缺？',
       choices: [
-        {
-          t: '检索 → 增强上下文 → 大语言模型生成',
-          ok: true,
-          why: '先找相关片段，再塞进 prompt，最后基于增强上下文回答。',
-        },
-        {
-          t: '必须先从零训练万亿参数底座',
-          ok: false,
-          why: '通常复用现有 LLM。',
-        },
-        {
-          t: '只能用手写 if-else，不能调用大语言模型',
-          ok: false,
-          why: 'G 步就是 LLM 生成。',
-        },
-        {
-          t: '微调→部署→删库',
-          ok: false,
-          why: '核心是检索增强。',
-        },
+        { t: '工具执行并回灌结果', ok: true, why: '提议→执行→回灌。' },
+        { t: '提示里重复十遍查库', ok: false, why: '无执行器无效。' },
+        { t: '有 Chat 就不需工具', ok: false, why: '多步靠编排。' },
+        { t: '用户原文当系统规则', ok: false, why: '不安全。' },
       ],
-      relatedNodes: ['ai-rag'],
+      relatedNodes: ['ai-tool-calling', 'ai-agent-birth'],
     },
     {
-      id: 'interview-ai-stack:q2',
-      q: 'Agent 相对「单次 Chat 一问一答」，开口时应强调什么差异？',
+      id: 'interview-ai-stack:inject',
+      q: '不可信用户文可能触发工具副作用。优先？',
       choices: [
-        {
-          t: '可多步调用工具、维护状态并循环，直到任务完成或停止',
-          ok: true,
-          why: '控制循环 + 工具环。',
-        },
-        {
-          t: '一定比单次 Chat 更省 token',
-          ok: false,
-          why: '多步常消耗更多 token。',
-        },
-        {
-          t: '禁止结合 RAG，两者互斥',
-          ok: false,
-          why: 'Agent 常把 RAG 当工具。',
-        },
-        {
-          t: 'Agent 等于 MCP 报文格式本身',
-          ok: false,
-          why: 'Agent 是运行模式；MCP 是工具协议。',
-        },
+        { t: '隔离规则并限制 ACL', ok: true, why: '边界与权限。' },
+        { t: '代理步数不设上限', ok: false, why: '空转爆炸。' },
+        { t: '用户文可覆盖系统规', ok: false, why: '注入面。' },
+        { t: '只关日志就算安全', ok: false, why: '不替 ACL。' },
       ],
-      relatedNodes: ['ai-agent-birth', 'ai-tool-calling'],
+      relatedNodes: ['ai-prompt-security', 'ai-agent-planning'],
     },
     {
-      id: 'interview-ai-stack:q3',
-      q: '什么场景下值得引入 MCP？',
+      id: 'interview-ai-stack:mcp',
+      q: '给 Agent 挂 MCP/工具，底线？',
       choices: [
-        {
-          t: '需要标准化插接多种外部工具/资源，且多客户端要复用同一套服务',
-          ok: true,
-          why: '统一 discover/call，避免各写私有协议。',
-        },
-        {
-          t: 'Hello World 打印也必须走 MCP',
-          ok: false,
-          why: '简单任务直接调 API 即可。',
-        },
-        {
-          t: 'MCP 用来替代 TLS 加密',
-          ok: false,
-          why: '传输加密仍靠 TLS。',
-        },
-        {
-          t: '只有向量库才能做 MCP 服务器',
-          ok: false,
-          why: '可暴露文件、DB、API 等。',
-        },
+        { t: '最小权限与可审计', ok: true, why: '默认拒绝越权。' },
+        { t: '默认开放全部工具', ok: false, why: '攻击面过大。' },
+        { t: '用户说就能提权', ok: false, why: '注入可接管。' },
+        { t: '不记日志更安全', ok: false, why: '失去审计。' },
       ],
       relatedNodes: ['ai-mcp', 'ai-tool-calling'],
     },
     {
-      id: 'interview-ai-stack:q4',
-      q: '「上下文工程」相对「只在 prompt 里堆长文字」，应怎么说？',
+      id: 'interview-ai-stack:rules',
+      q: '越权改生产时，rules 与 skills？',
       choices: [
-        {
-          t: '系统化管理检索片段、记忆、工具结果如何进入有限上下文窗口',
-          ok: true,
-          why: '窗口有限，要设计召回、摘要、优先级。',
-        },
-        {
-          t: '窗口越大就越不需要工程，全部原文塞进去即可',
-          ok: false,
-          why: '大窗口仍有限且贵。',
-        },
-        {
-          t: '删掉全部 system 提示只留 user',
-          ok: false,
-          why: 'System 定边界。',
-        },
-        {
-          t: '上下文工程等于 finetune',
-          ok: false,
-          why: '发生在推理期组装；微调是训练期。',
-        },
-      ],
-      relatedNodes: ['ai-rag-shift', 'ai-token-context'],
-    },
-    {
-      id: 'interview-ai-stack:q5',
-      q: 'Agent 调用外部工具返回不可信结果时，应强调哪些安全做法？',
-      choices: [
-        {
-          t: '校验输出、沙箱执行、最小权限、关键路径人工确认',
-          ok: true,
-          why: '不能盲执行工具结果。',
-        },
-        {
-          t: '模型选的 tool call 全部无检查直接执行',
-          ok: false,
-          why: 'LLM 可能幻觉错误参数。',
-        },
-        {
-          t: '关闭所有日志以免被审计',
-          ok: false,
-          why: '应结构化日志 + 脱敏。',
-        },
-        {
-          t: '不可信结果原样拼进 prompt 并自动触发 shell',
-          ok: false,
-          why: '可注入且危险。',
-        },
-      ],
-      relatedNodes: ['ai-tool-calling', 'ai-prompt-security', 'craft-security'],
-    },
-    {
-      id: 'interview-ai-stack:q6',
-      q: '模型说「该查库存」但系统没有任何查库动作，缺的是什么？',
-      choices: [
-        {
-          t: '工具调用闭环：提议 → 执行器执行 → 结果回灌',
-          ok: true,
-          why: '只写「请查库」不会自动连库。',
-        },
-        {
-          t: '再把「请查库」在提示里重复十遍',
-          ok: false,
-          why: '缺少执行器仍不会连库。',
-        },
-        {
-          t: '有 Chat Completions 就不需要工具协议',
-          ok: false,
-          why: '多步行动依赖工具与编排。',
-        },
-        {
-          t: '把用户原文直接当系统规则',
-          ok: false,
-          why: '既不安全也未形成工具闭环。',
-        },
-      ],
-      relatedNodes: ['ai-tool-calling', 'ai-openai-protocol'],
-    },
-    {
-      id: 'interview-ai-stack:q7',
-      q: 'Rules 与 Skills 开口时怎么分工？',
-      choices: [
-        {
-          t: 'Rules 短硬护栏；Skills 按需加载的操作细则',
-          ok: true,
-          why: '护栏与手册分离，避免一锅粥。',
-        },
-        {
-          t: '规则越长越好，技能可省略',
-          ok: false,
-          why: '长规则易淹没关键约束。',
-        },
-        {
-          t: '两者禁止共存',
-          ok: false,
-          why: '实践中常同时存在。',
-        },
-        {
-          t: '一律先全参微调替代规则与技能',
-          ok: false,
-          why: '成本高，多数场景非第一步。',
-        },
+        { t: '规则护栏，技能讲流程', ok: true, why: '红线与手册分离。' },
+        { t: '规则越长越好无技能', ok: false, why: '淹没关键约束。' },
+        { t: '两者混成无结构一锅', ok: false, why: '难维护。' },
+        { t: '一律先全参微调替代', ok: false, why: '非第一步。' },
       ],
       relatedNodes: ['ai-rules', 'ai-skills'],
     },
     {
-      id: 'interview-ai-stack:q8',
-      q: '限制 Agent「想太久、调太多次」开口讲什么？',
+      id: 'interview-ai-stack:agent',
+      q: '单次问答能搞定，还上多智能体？',
       choices: [
-        {
-          t: '工具轮次预算（如 maxToolRounds）+ 超时',
-          ok: true,
-          why: 'ReAct 要封顶步数与墙钟，防死循环。',
-        },
-        {
-          t: '删掉 package.json',
-          ok: false,
-          why: '不构成步数预算。',
-        },
-        {
-          t: '禁止注册任何工具',
-          ok: false,
-          why: '需要的是可控上限，不是零工具。',
-        },
-        {
-          t: '把密钥写进 README',
-          ok: false,
-          why: '泄露密钥，也不构成预算。',
-        },
+        { t: '通常不必，先单链', ok: true, why: '编排有成本。' },
+        { t: '智能体越多越好', ok: false, why: '失败面上升。' },
+        { t: '无工具也能改库存', ok: false, why: '缺执行闭环。' },
+        { t: '先微调再谈要不要', ok: false, why: '先检索工具。' },
       ],
-      relatedNodes: ['ai-agent-planning', 'ai-tool-calling'],
+      relatedNodes: ['ai-agent-birth', 'ai-agent-planning'],
+    },
+    {
+      id: 'interview-ai-stack:role',
+      q: '系统约束与用户输入，角色上应？',
+      choices: [
+        { t: '系统与用户内容分开', ok: true, why: '降注入与混淆。' },
+        { t: '全部塞进同一 user', ok: false, why: '易被覆盖。' },
+        { t: '用户内容写进 system', ok: false, why: '扩大注入。' },
+        { t: '取消 system 只用 tool', ok: false, why: '仍需系统约束。' },
+      ],
+      relatedNodes: ['ai-openai-protocol', 'ai-prompt-security'],
+    },
+    {
+      id: 'interview-ai-stack:stream',
+      q: '聊天要边生成边显示，接口侧常？',
+      choices: [
+        { t: '流式输出 chunk/SSE', ok: true, why: '降首字延迟。' },
+        { t: '必须同步一次返回', ok: false, why: '体感更慢。' },
+        { t: '改成 UDP 才流式', ok: false, why: '应用协议能力。' },
+        { t: '关掉 token 计数', ok: false, why: '无关。' },
+      ],
+      relatedNodes: ['ai-openai-protocol', 'ai-chat-era'],
+    },
+    {
+      id: 'interview-ai-stack:loop',
+      q: 'Agent 空转烧钱，工程上先加？',
+      choices: [
+        { t: '步数/预算硬上限', ok: true, why: '防无限循环。' },
+        { t: '取消全部超时', ok: false, why: '更易空转。' },
+        { t: '默认开放写生产', ok: false, why: '风险更大。' },
+        { t: '禁止一切日志', ok: false, why: '更难排障。' },
+      ],
+      relatedNodes: ['ai-agent-planning', 'ai-prompt-security'],
+    },
+    {
+      id: 'interview-ai-stack:memory',
+      q: '多轮助手要记住用户偏好，更稳？',
+      choices: [
+        { t: '结构化记忆+检索写入', ok: true, why: '可控可过期。' },
+        { t: '整段历史永不截断', ok: false, why: '易爆窗。' },
+        { t: '把密钥写进记忆', ok: false, why: '泄密。' },
+        { t: '禁止任何记忆机制', ok: false, why: '无法跨轮。' },
+      ],
+      relatedNodes: ['ai-agent-memory', 'ai-token-context'],
+    },
+    {
+      id: 'interview-ai-stack:demo',
+      q: '演示环境 Agent 误改生产，根因常是？',
+      choices: [
+        { t: '工具指向了生产凭据', ok: true, why: '环境隔离失败。' },
+        { t: '温度设置过低', ok: false, why: '与写库目标无关。' },
+        { t: '分块略大了一点', ok: false, why: '非主因。' },
+        { t: '用了流式输出', ok: false, why: '无关。' },
+      ],
+      relatedNodes: ['ai-mcp', 'ai-prompt-security', 'ai-tool-calling'],
     },
   ],
 });

@@ -17,7 +17,7 @@ export default defineQuizSet({
       q: '浏览器访问 http://example.com（未写端口）时，默认连哪一端口？',
       choices: [
         {
-          t: 'TCP 80（HTTP 明文默认端口）',
+          t: 'TCP 80（HTT',
           ok: true,
           why: '未写端口时 HTTP 默认 80。',
         },
@@ -45,7 +45,7 @@ export default defineQuizSet({
       q: '浏览器访问 https://example.com（未写端口）时，默认连哪一端口？',
       choices: [
         {
-          t: 'TCP 443（HTTPS / HTTP over TLS 默认端口）',
+          t: 'TCP 443（HTTPS',
           ok: true,
           why: '小锁站点默认走 443。',
         },
@@ -101,7 +101,7 @@ export default defineQuizSet({
       q: '向解析器查询域名对应 IP 时，DNS 默认端口是？',
       choices: [
         {
-          t: '53（UDP 常见，大响应/区传送也可用 TCP）',
+          t: '53（UDP 常见',
           ok: true,
           why: '排障时别把 DNS 当成 80/443。',
         },
@@ -269,7 +269,7 @@ export default defineQuizSet({
       q: '安全组放行了 TCP 443，但 Minecraft 基岩（UDP 19132）仍进不去。说明？',
       choices: [
         {
-          t: '端口与协议都要匹配；放行 443 不等于放行游戏 UDP 口',
+          t: '端口与协议都要匹配',
           ok: true,
           why: '规则按协议+端口；开错等于没开。',
         },

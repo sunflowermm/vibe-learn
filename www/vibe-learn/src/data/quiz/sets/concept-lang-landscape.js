@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: '你在写业务：调 lodash 是一种体验，搭 Vue/Express 又是另一种。库和框架差在谁主导调用？',
       choices: [
         {
-          t: '你主动调用库里的函数；框架定义流程，在合适时机回调你的代码',
+          t: '你主动调用库里的函数',
           ok: true,
           why: '控制反转（IoC）：用库是你主导，用框架是框架主导调用顺序。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: '本仓库（XRK-AGT）主服的技术语言契约更贴近哪一项？',
       choices: [
         {
-          t: 'Node.js 运行时上的 JavaScript 与 TypeScript',
+          t: 'Node.js 运行时上的 JavaScript 与 Ty',
           ok: true,
           why: '主服以 JS/TS + Node 编写；子服可另用 Python 等。',
         },

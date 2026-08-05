@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: 'Cookie 主要存在哪里、谁会自动带上？',
       choices: [
         {
-          t: '存在浏览器；符合 Domain/Path 等条件的请求会自动附带',
+          t: '存在浏览器；符合 Domain',
           ok: true,
           why: '经 Set-Cookie 写入；约 4KB 级，内容对客户端可见（除非 HttpOnly）。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: 'Cookie 设 HttpOnly 的直接效果是？',
       choices: [
         {
-          t: '前端 JS 读不到该 Cookie，降低 XSS 窃取会话风险',
+          t: '前端 JS 读不到该 Cookie',
           ok: true,
           why: '不防 CSRF；CSRF 要靠 SameSite/Token 等。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: 'Cookie 的 Secure 标志表示？',
       choices: [
         {
-          t: '只在 HTTPS 请求中发送该 Cookie',
+          t: '只在 HTTPS 请求中发送该 C',
           ok: true,
           why: '降低明文信道被窃听风险。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: 'SameSite 主要用来缓解哪类问题？',
       choices: [
         {
-          t: '跨站请求伪造（CSRF）：限制跨站请求是否附带 Cookie',
+          t: '跨站请求伪造（CS',
           ok: true,
           why: 'Lax/Strict/None；不能替代 XSS 防护。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: 'HttpOnly 与 SameSite 分工上最准确的说法是？',
       choices: [
         {
-          t: 'HttpOnly 防 XSS 读 Cookie；SameSite 限制跨站请求是否带 Cookie（偏 CSRF）',
+          t: 'HttpOnly 防 XSS 读 Cookie',
           ok: true,
           why: '两者互补，不能互相替代。',
         },

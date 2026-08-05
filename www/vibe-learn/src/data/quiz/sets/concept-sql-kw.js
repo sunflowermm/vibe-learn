@@ -47,7 +47,7 @@ export default defineQuizSet({
     "q": "SQL 插入新行用？",
     "choices": [
       {
-        "t": "INSERT INTO … VALUES …",
+        "t": "INSERT INTO …",
         "ok": true,
         "why": "INSERT INTO … VALUES …：插入新行。"
       },
@@ -344,7 +344,7 @@ export default defineQuizSet({
     "q": "SQL 开启事务用？",
     "choices": [
       {
-        "t": "BEGIN（或 START TRANSACTION）",
+        "t": "BEGIN（或 START TRANSAC",
         "ok": true,
         "why": "BEGIN（或 START TRANSACTION）：开启事务，后续语句可一并提交或回滚。"
       },

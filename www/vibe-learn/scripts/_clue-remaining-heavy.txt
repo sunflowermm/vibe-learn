@@ -1,0 +1,441 @@
+﻿\n==== concept-ai-rag
+concept-ai-rag:q3 |ok21|gap8
+Q: 经典检索增强生成（RAG）的三步流水线是？
+OK: 检索 → 把证据增强进提示 → 大模型生成
+W0: 微调 → 部署 → 删库
+W1: 必须先从零训练万亿参数基座
+W2: 只生成不检索，靠预训练记忆
+concept-ai-rag:q4 |ok30|gap16
+Q: 相对「每更新知识就微调」，经典 RAG 主要解决哪类痛点？
+OK: 知识截止与私有文档未进权重，又要可追溯出处时，外挂证据更划算
+W0: 彻底消灭幻觉，使模型永不胡说
+W1: 把上下文窗口扩到无限
+W2: 替代全部工具调用与写文件能力
+concept-ai-rag:q5 |ok19|gap9
+Q: 固定长度硬切分块，最常见的风险是什么？
+OK: 切断句子、表格或条款号，破坏可引用结构
+W0: 完全消除评测需求
+W1: 自动把嵌入维度翻倍
+W2: 保证永不超上下文窗口
+concept-ai-rag:q8 |ok42|gap18
+Q: 小语料工作区知识，是否必须先切块入库向量库？
+OK: 不必；常可用 tools.read / 工作区直读进窗，大语料才谈 chunk+索引
+W0: 必须；没有向量库就不能做任何 RAG
+W1: 必须先微调，才能读工作区文件
+W2: 小语料也应把 Top-K 开到最大并关闭权限过滤
+concept-ai-rag:q12 |ok29|gap8
+Q: 重排序（rerank）相对宽召回，主要目标是什么？
+OK: 从宽召回里挑出最值得写入提示的 Top-N，服务上下文预算
+W0: 替换生成用的大语言模型
+W1: 把嵌入维度降下来以省存储
+W2: 把 BM25 与向量原始分强制加到同一量纲
+concept-ai-rag:q14 |ok30|gap13
+Q: 交叉编码器精排相对双塔/向量近邻，直觉差异是？
+OK: 问句+片段成对打分更准但更贵；适合短候选，不适合对全库暴力扫
+W0: 交叉编码器专门降低嵌入维度
+W1: 交叉编码器可替代生成模型写最终答案
+W2: 用了交叉编码器就不能做 ACL
+concept-ai-rag:q15 |ok36|gap19
+Q: 向量库里 ANN / HNSW 在工程上主要换什么？
+OK: 用少许召回损失换查询速度；常吃内存，需与 metadata 过滤一起设计
+W0: 保证 100% 精确最近邻且零内存
+W1: 替代关系库的事务与报表
+W2: 自动完成嵌入模型跨厂商对齐
+concept-ai-rag:q16 |ok41|gap17
+Q: 已有 Postgres 时，向量检索的常见落地直觉？
+OK: 可用 pgvector「一库两用」：结构化字段 + 向量；大规模再考虑专用向量服务
+W0: Postgres 绝对不能存向量
+W1: 有了 pgvector 就不必再做 ACL 过滤
+W2: 换嵌入模型时只需改端口号
+concept-ai-rag:q17 |ok32|gap16
+Q: 多租户 RAG 为何不能只靠「提示里写不要看别的租户」？
+OK: 提示不可靠；应在检索层用 metadata/ACL 过滤可见文档
+W0: 因为向量库无法存文档 id
+W1: 因为 HTTP 不支持 JSON
+W2: 因为向量没有维度
+concept-ai-rag:q18 |ok24|gap15
+Q: RAG 评测最小闭环里，缺哪一步最危险？
+OK: 没有黄金集（固定问题+可接受证据）就改分块/重排
+W0: 使用了 HTTPS
+W1: 延迟没有降到 0
+W2: 题干用了中文
+concept-ai-rag:q20 |ok27|gap14
+Q: Agentic RAG 相对经典「一检索一生成」，核心差别是？
+OK: 由智能体动态决定是否/如何多次检索、改写查询与校验证据
+W0: 取消生成步骤，只检索不回答
+W1: 禁止关键词，只能纯向量
+W2: 必须换更大参数量基座
+concept-ai-rag:q21b |ok32|gap15
+Q: 上下文工程是否等于「凡 AI 必上向量库」？
+OK: 否；小而稳语料可直塞/读文件，向量库是大而变/要引用时的手段之一
+W0: 否，因为向量库只能存图片
+W1: 是；没有向量库就不算 LLM 应用
+W2: 是；长上下文出现后向量库已非法
+\n==== concept-container-scenarios
+concept-container-scenarios:xrk-redis |ok68|gap33
+Q: 本仓开发机用 Docker 起 Redis 给 XRK-AGT 用，较稳妥的心态？
+OK: Compose/run 起 Redis 并映射端口；主服连 localhost:映射口或配置里的主机，密钥与 yaml 仍走本仓配置体系
+W0: 有了 Redis 容器就不必再配 redis.yaml，框架会魔法发现
+W1: 必须把整个 XRK 主服也打进同一镜像才能连 Redis
+W2: Redis 数据应只写容器可写层，方便每次重建清空
+concept-container-scenarios:svc-dns |ok56|gap38
+Q: Compose 里 app 服务连 redis 服务，连接串主机名怎么写？
+OK: 同一 compose 网络内用服务名（如 redis）作主机名；在宿主机调试则常用 127.0.0.1:映射端口
+W0: 端口映射会改掉容器内监听端口号
+W1: 两边都必须写死同一个公网 IP
+W2: 服务名在宿主机上永远能 ping 通
+concept-container-scenarios:bind-vs-vol |ok51|gap30
+Q: 开发改代码 vs 数据库文件，挂载怎么选更贴？
+OK: 源码常用 bind mount 热更新；数据库文件偏好 named volume，避免绑宿主路径碎一地
+W0: 任何挂载都会把密钥自动加密
+W1: 有 volume 就禁止再做备份
+W2: 数据库也必须 bind 到桌面文件夹才安全
+concept-container-scenarios:secret-bake |ok58|gap35
+Q: 构建镜像时，API Key / 数据库密码应？
+OK: 运行时用环境变量或 secrets 注入；勿 COPY .env 进镜像层，也别写死在 Dockerfile ENV
+W0: 写进 Dockerfile ENV 最方便协作
+W1: 放进镜像根目录 README 即可
+W2: 多阶段构建会自动抹掉所有密钥，可随意 COPY
+concept-container-scenarios:restart-loop |ok52|gap17
+Q: Compose 起栈后某服务反复 Restarting，第一刀？
+OK: docker compose ps → logs 该服务 → 看退出码/健康检查/依赖是否就绪，再改配置
+W0: 立刻 docker system prune -a --volumes
+W1: 改 Git remote 再 push
+W2: 关掉宿主机网卡逼它恢复
+concept-container-scenarios:depends-healthy |ok67|gap44
+Q: Web 容器总比 DB 先起导致连库失败，Compose 侧更贴？
+OK: 给 DB 配健康检查，并对 Web 使用 depends_on + condition: service_healthy（或等价等待）
+W0: 去掉一切健康检查，靠 sleep 60 碰运气
+W1: 禁止使用卷，失败就会自动好
+W2: 把 Web 和 DB 打进同一个容器永远串行
+concept-container-scenarios:nginx-front |ok51|gap18
+Q: 生产「Nginx + 容器里的 Node」常见落法？
+OK: Nginx（或其它反代）在边缘做 TLS/路由；Node 容器只听内网/本机端口，不直接裸奔公网 80
+W0: 反代能让容器自动获得不同 Linux 内核
+W1: 有容器就不必反代，直接 -p 443:443 挂证书进每个业务容器
+W2: Nginx 必须装进每一个业务镜像才合法
+concept-container-scenarios:nonroot |ok38|gap10
+Q: Dockerfile 里长期以 root 跑业务进程，主要风险？
+OK: 容器被攻破时权限面更大；宜 USER 非特权用户，并配合只读根文件系统等加固
+W0: 只要镜像有 HEALTHCHECK 就可以永远 root
+W1: 非 root 用户无法使用 volume
+W2: root 一定更快，大厂容器都强制 root
+concept-container-scenarios:node-context |ok67|gap45
+Q: 给 Node 服务写 Dockerfile，构建慢且镜像巨大，优先查？
+OK: .dockerignore 是否排除 node_modules/.git；是否多阶段只拷产物；层缓存是否先拷 package 再装依赖
+W0: 必须把整个宿主机磁盘 COPY 进镜像才完整
+W1: 关掉多阶段，把编译器留在最终镜像更省事也更小
+W2: 用 :latest 标签可以自动减小体积
+concept-container-scenarios:compose-vs-k8s |ok60|gap34
+Q: 本机多容器开发栈 vs 多机生产调度，怎么开口选型？
+OK: Compose（或同类）适合本机/单机声明式编排；多机滚动、自愈、调度看 Kubernetes 等——别把名字说成同一层
+W0: 有了 K8s 就应删除一切 Dockerfile
+W1: 会写 compose 就等于会运维整个 K8s 集群
+W2: systemd 就是 Kubernetes 的别名
+concept-container-scenarios:port-clash |ok47|gap16
+Q: docker run -p 6379:6379 报端口已被占用，优先？
+OK: 查宿主谁占了 6379（本机 Redis/旧容器），改映射如 6380:6379 或停冲突进程
+W0: 删掉 Dockerfile 里所有 EXPOSE
+W1: 改 Git 分支名
+W2: 把映射写成 -p 6379:6379:6379:6379 即可
+concept-container-scenarios:one-process |ok40|gap18
+Q: 把 Nginx、Node、Redis 全塞进同一个容器的主要问题？
+OK: 难独立扩缩与排障，信号/健康检查含糊；宜一容器一主进程，用 Compose 组网
+W0: 同一容器一定更安全，因为攻击面更小
+W1: Compose 禁止定义多个 service
+W2: 单容器才能使用 volume
+\n==== concept-xrk-scenarios
+concept-xrk-scenarios:ai-api-billing |ok69|gap39
+Q: 想定：配好模型能力，包装成第三方 HTTP API 给别人用，并自己做用量/计费。主路径？
+OK: 工厂/ai-workflow 配模型 → core/*/http 暴露并鉴权 → 计费配额写在你的 Core，勿改 src/ 硬塞计费内核
+W0: 在 src/factory 写死计费与各客户密钥
+W1: 只改 www，让浏览器直连厂商 API 并前端扣费
+W2: 必须先改 AgentRuntime 源码才能对外提供 API
+concept-xrk-scenarios:where-config-ai |ok65|gap36
+Q: 「对话用哪家模型 / Key / 代理」配置主要落哪？
+OK: ai-workflow 与 *_llm 等（密钥走环境/密文）；产品开关再进自己的 default/ + commonconfig
+W0: 只能配在子服 Python，主服禁止
+W1: 全部硬编码进 plugin 顶部并提交仓库
+W2: 真实生产 Key 写进 default_config 模板
+concept-xrk-scenarios:write-tool |ok66|gap44
+Q: 给模型「可调用的工具」，更贴设计的做法？
+OK: 工作流 registerMCPTool / 挂 MCP；重活可 callSubserver；编排仍在 workflow/plugin
+W0: 在 prompt 里用自然语言假装已调过工具
+W1: 工具只能写在 www，由浏览器执行后贴回对话
+W2: 把工具打进 src/factory/llm
+concept-xrk-scenarios:dir-map |ok80|gap55
+Q: 新建产品 Core：「需求 → 目录」哪组对？
+OK: 指令→plugin/；对外 API→http/；页面→www/<应用>/；AI 编排→workflow/；配置→commonconfig/ + default/
+W0: API 写 www，页面写 http
+W1: 通道适配写 plugin，业务指令写 tasker
+W2: 全部塞进 src/infrastructure
+concept-xrk-scenarios:prompt-workspace |ok46|gap11
+Q: 给办事/对话 Agent 稳定交底，更贴近本仓？
+OK: AGENTS.md / skills（及办事工作区）版本化注入；密钥不进 prompt 文件
+W0: 改 src/agent-runtime.js 硬编码永久 system
+W1: 删光说明，只靠预训练猜约定
+W2: 生产库密码写进 AGENTS.md
+concept-xrk-scenarios:python-tool |ok51|gap23
+Q: 工具依赖 Python 生态时怎么接？
+OK: 子服 apis 实现；主服 callSubserver；配置编辑中枢仍在主服 CommonConfig
+W0: 把主服改成 Python，丢掉 Node Runtime
+W1: 子服命令必须从主服 stdin 转发
+W2: 只能在浏览器 WASM 重写，禁止子服
+concept-xrk-scenarios:www-supported |ok67|gap43
+Q: Core www「支持哪些前端形态」——框架实际约束的是？
+OK: 不绑死 Vue/React：零配置静态、sign 纯静态、build 挂 dist、或 enabled 反代开发服——产出能被挂载即可
+W0: 前端必须写进 src/factory 才能被访问
+W1: 只允许官方指定的某一个前端框架，其它一律拒挂
+W2: 禁止静态 HTML，必须上微服务前端集群
+concept-xrk-scenarios:www-where |ok66|gap45
+Q: 产品控制台/落地页应放哪？应用名要注意什么？
+OK: core/<core>/www/<应用名>/；勿用 api、core、media、uploads、File、shared 等保留根名
+W0: 仓库根目录建 shared/ 最短最好
+W1: 页面必须和 http 路由写在同一 .js
+W2: 只能外链 CDN，禁止进仓
+concept-xrk-scenarios:www-sign |ok58|gap24
+Q: 有 sign.json 时，纯静态 / 只编产物 / 反代开发，差别直觉？
+OK: 纯静态挂目录本体；enabled:false 常只 build 挂 dist；enabled:true 启进程+反代
+W0: 三种模式都必须启动前端 dev 进程
+W1: 有 sign 就必须每天手动改 src/infrastructure
+W2: sign 与主服 server 配置永远互斥、不能合并
+concept-xrk-scenarios:unwrap |ok45|gap12
+Q: 前端调本仓 HttpResponse.success(普通对象) 时？
+OK: 字段常拍平到顶层；用 unwrapSuccess 或读顶层，勿默认死读 json.data
+W0: 永远只有 json.data，业务字段一定在里面
+W1: success 响应可以没有 message
+W2: 混用裸 res.json 与 HttpResponse，前端各自猜
+concept-xrk-scenarios:agent-www |ok46|gap25
+Q: 用 Agent 加一个产品前端页时，验收更接近？
+OK: 落在 www/<应用>/；无保留名冲突；调 API 解包正确；兼容层内联；本机打开路径可访问
+W0: 页面可以占用 shared 根名，挂载更短
+W1: 密钥写进前端打包 JS 方便演示
+W2: 只改 README 宣称已上线控制台
+\n==== concept-lang-frameworks
+concept-lang-frameworks:q1 |ok42|gap31
+Q: React 在技术栈里更准确的定位是？
+OK: 建立在 JavaScript 上的 UI 库（生态常当框架用），不是一门独立编程语言
+W0: 与 HTTP 协议同层
+W1: 只能写数据库存储过程
+W2: 替代操作系统的内核
+concept-lang-frameworks:q2 |ok46|gap15
+Q: Angular 相对「只选一个 UI 库」的常见差异？
+OK: 更偏全家桶 Framework：路由、表单、依赖注入等约定更完整，TypeScript 优先
+W0: Angular 是一种 CPU 指令集
+W1: 没有 TypeScript 也能称 Angular 官方默认栈
+W2: Angular 等于 DNS
+concept-lang-frameworks:q3 |ok39|gap22
+Q: Next.js 与「纯客户端 React SPA」的关键差别？
+OK: Next 在 React 之上提供路由与服务端渲染/全栈能力，仍用 JS/TS
+W0: Next 只能跑在单片机
+W1: 有了 Next 就不需要 HTTP
+W2: Next 取代 TCP
+concept-lang-frameworks:q4 |ok45|gap36
+Q: Spring / Spring Boot 主要服务哪一类宿主语言生态？
+OK: Java（及 JVM 生态）应用框架，提供 IoC、自动配置等，不是「Spring 语言」
+W0: 只写 CSS 动画
+W1: 替代 IP 地址
+W2: 只能做嵌入式固件
+concept-lang-frameworks:q5 |ok40|gap23
+Q: Express / Nest 通常建立在什么运行时上？
+OK: Node.js（JavaScript/TypeScript）HTTP 服务框架层
+W0: 浏览器专用汇编
+W1: 与 Docker 镜像格式相同
+W2: 只能编译成机器码的 Fortran
+concept-lang-frameworks:q6 |ok49|gap36
+Q: Django / FastAPI 分别更贴近？
+OK: Python Web 框架：Django 偏全家桶，FastAPI 偏现代 API/类型注解与性能
+W0: 只能操作 Redis 协议
+W1: 二者都是以太网物理层标准
+W2: 与域名注册商 API 同义
+concept-lang-frameworks:q7 |ok43|gap28
+Q: Gin 与 ASP.NET Core、Laravel 的共同点？
+OK: 都是各自语言生态里的 Web/应用框架（Go / C# / PHP），不是独立操作系统
+W0: 只能跑在没有 CPU 的机器上
+W1: 都是 MAC 地址格式
+W2: 三者必须同时安装才能上网
+concept-lang-frameworks:q8 |ok35|gap20
+Q: HTML / CSS 在「语言版图」里应如何归类？
+OK: 标记与样式语言：描述结构与呈现，不是 Vue/React 那类应用框架
+W0: 替代包管理器 lockfile
+W1: 等于 TCP 三次握手
+W2: 只能写后端事务
+concept-lang-frameworks:q9 |ok32|gap12
+Q: Rust / C 相对托管运行时语言（如 JS）的常见工程直觉？
+OK: 更贴近系统与性能边界，内存/安全模型与心智成本不同；选型看问题域
+W0: 有了它们就不需要网络协议
+W1: 只能用于写小说
+W2: Rust 和 C 都是 CSS 预处理器
+concept-lang-frameworks:q10 |ok50|gap40
+Q: 「接到本仓运行时」时，语言选型最务实的第一问？
+OK: 主服能力用 Node；子服/工具链可用 Python 等——按扩展点与团队熟练度接，而不是追新潮名词
+W0: 必须先重写操作系统
+W1: 只能选已经停更的语言
+W2: 禁止使用任何框架
+\n==== concept-ai-agent-stack
+concept-ai-agent-stack:q1 |ok35|gap13
+Q: 启用工具调用后，模型侧通常输出什么、由谁真正执行？
+OK: 结构化调用请求；Agent Runtime 或宿主程序按策略鉴权并执行
+W0: 每次调用都会永久改写模型权重
+W1: 只能输出 JSON，此后禁止任何自然语言回复
+W2: 可执行二进制补丁；模型直接改操作系统内核
+concept-ai-agent-stack:q4 |ok34|gap9
+Q: 助手要「查库存→下单→再确认」才能完成时，Agent 控制循环相对单次 Chat 多了什么？
+OK: 观察环境→决策下一步→执行工具或生成→再观察，直到完成或触达停止条件
+W0: 控制循环只发生在训练期，推理期不再出现
+W1: 与 RAG 检索互斥，用了 Agent 就不能检索
+W2: 只能做静态补全，禁止调用工具或多轮迭代
+concept-ai-agent-stack:q5 |ok63|gap27
+Q: 本仓把检索做成智能体工具（Agentic RAG）时，更贴近哪条落地？
+OK: registerMCPTool / 知识类工作流 + 工厂 tool_calls 多轮回灌；小语料常直接 tools.read
+W0: 固定「检索→拼 prompt→生成」三件套，模型不得再决定读哪段
+W1: 禁止工具调用，只把向量库连接串写进 system 提示
+W2: 必须先关闭 maxToolRounds，只允许单轮 tool_calls
+concept-ai-agent-stack:q10 |ok36|gap12
+Q: 仓库根目录 AGENTS.md 主要写给谁、解决什么问题？
+OK: 给 coding Agent 的项目交底：工作区边界、放码位置与操作规范
+W0: 仅供离线训练语料，IDE 推理时不会读取
+W1: 替代 pnpm-lock.yaml 锁定依赖版本
+W2: 存放生产数据库密码，方便 Agent 自动连库
+concept-ai-agent-stack:q11 |ok40|gap12
+Q: 本仓「智能体记忆」里，单次会话连贯主要靠什么？
+OK: 消息组装与历史预算（三层消息 / agentWorkspace），不是当场改权重
+W0: 把全部工具 JSON 永久写进 package.json
+W1: 每次对话强制全量微调基座模型
+W2: 只调高 temperature 就能跨会话记住用户事实
+concept-ai-agent-stack:q13 |ok53|gap28
+Q: 本仓协议分层里，默认对话入口与工具面分别更贴近哪一层？
+OK: L1：Chat Completions 兼容形状；L2：MCP / registerMCPTool 工具面
+W0: L1 必须先实现完整 A2A 协作，否则不能调模型
+W1: L1 与 L2 都指 DNS 解析流程
+W2: L2 等于取消工具调用，只允许纯文本补全
+concept-ai-agent-stack:q14 |ok43|gap10
+Q: 本仓 registerMCPTool 相对「模型自己猜怎么调 HTTP」，主要补上什么？
+OK: 运行时注册的工具 schema、鉴权与执行入口，供工厂 tool_calls 统一调度
+W0: 自动把每次对话写入向量库做永久记忆
+W1: 只允许本地 stdio MCP，禁止 remote-mcp 走网络
+W2: 替代 Rules，禁止在项目里写 .cursor/rules
+\n==== concept-xrk-core
+concept-xrk-core:layout |ok44|gap15
+Q: 业务层全景里，插件 / HTTP / 工作流默认应放哪里？
+OK: core/<core名>/ 下对应子目录（plugin、http、workflow 等）
+W0: 只写在聊天窗口，由 Agent 注入运行中进程
+W1: 直接改 src/infrastructure 里的框架源码
+W2: 仓库根目录任意文件夹，文件名像插件即可
+concept-xrk-core:trisync |ok46|gap17
+Q: 独立产品改一项配置，为什么要「三同步」？
+OK: default 模板 + commonconfig schema + 消费代码字段一致才生效
+W0: 只改 data/<产品>/ 一份运行时 yaml 永远够用
+W1: 只改 README 说明，硬编码同名字符串即可替代配置系统
+W2: 三同步指 Git 的 add/commit/push
+concept-xrk-core:default-home |ok49|gap16
+Q: config/default_config/ 与独立产品模板各放什么？
+OK: 前者放 AGT/工厂/system-Core 模板；独立产品放 core/<名>/default/
+W0: 所有产品业务配置都应塞进 default_config/
+W1: 两处随便写，Loader 会合并任意路径
+W2: default_config 只放前端 CSS，服务端配置全硬编码
+concept-xrk-core:www |ok37|gap18
+Q: Core 静态页（www）放哪？为何不能用 shared 当应用名？
+OK: core/<core>/www/<应用名>/；shared 是框架保留根段
+W0: Core 禁止 HTML，必须全部外链
+W1: 静态页只能放 src/factory
+W2: 仓库根建 shared/ 最短路径最好
+concept-xrk-core:biz-map |ok64|gap41
+Q: 业务层全景课要建立的核心地图是什么？
+OK: Runtime / Core / 各扩展点（plugin·http·workflow·Tasker·events·配置）如何分工
+W0: 只背某一个文件的绝对路径，不必理解分工
+W1: 业务层全景只讲前端配色，不涉及服务端
+W2: 证明所有能力都应写进同一个 plugin 文件
+concept-xrk-core:config-ready |ok36|gap9
+Q: 业务代码何时才能稳定使用 runtimeConfig？
+OK: CommonConfigRegistry.load() 完成并挂全局之后
+W0: 只能在浏览器 www 里读 runtimeConfig
+W1: 永远禁止读配置，端口与密钥只能硬编码
+W2: 任意模块被 import 的瞬间即可假定配置齐全
+\n==== concept-xrk-extensions
+concept-xrk-extensions:events |ok31|gap11
+Q: events/ 监听器更适合什么？
+OK: 监听内部事件做副作用（日志、联动、审计），不替代对外 HTTP
+W0: 与 Tasker 同义
+W1: 取代全部 http 路由
+W2: 把全部用户聊天指令写进 Listener
+concept-xrk-extensions:tasker |ok32|gap17
+Q: Tasker 解决什么？
+OK: 把 QQ/OneBot/Stdin 等协议适配进 Runtime
+W0: 替代 plugin 堆领域逻辑
+W1: 有 Tasker 就不必鉴权
+W2: 等于 REST 网关
+concept-xrk-extensions:lang |ok30|gap12
+Q: 主服与子服语言栈？
+OK: 主服 Node 编排；子服可跑 Python 等，经门面协作
+W0: 禁止 Python
+W1: 主服跑在浏览器里
+W2: 子服命令必须从主服 stdin 转发
+concept-xrk-extensions:database |ok37|gap14
+Q: 本仓 Runtime 数据面里，Redis 与 SQLite 各自角色？
+OK: Redis 热缓存/会话类；SQLite 本地持久——二者互补，不互相替代
+W0: 两者都必须改成 Mongo 才能启动
+W1: 有 SQLite 就不必装 Redis
+W2: 数据库只能写在浏览器 localStorage
+concept-xrk-extensions:database-access |ok50|gap17
+Q: 业务 Core 访问 Redis/SQLite 更贴本仓？
+OK: 启动完成后用全局裸名（redis / sqlite）或封装在 Core；配置走 yaml，密钥勿进仓
+W0: 跨 Redis 与 SQLite 默认有统一分布式事务
+W1: 连接串写进 www 前端打包
+W2: 每个插件自己再装一份 sqlite3 npm 替代 Runtime
+\n==== interview-xrk-arch
+interview-xrk-arch:pitch |ok62|gap46
+Q: 面试官问「你们这套 Runtime 解决什么」时，怎么开口？
+OK: 多端消息进同一套扩展点（plugin/HTTP/工作流/Tasker/配置），业务按 Core 插拔，不必为每个通道重写底座
+W0: 必须绑某一朵云才能启动
+W1: 禁止第三方产品 Core
+W2: 就是一个纯前端脚手架，没有服务端
+interview-xrk-arch:api-product |ok60|gap39
+Q: 「在这套框架上卖 AI API」你会怎么分层讲？
+OK: 工厂出模型客户端 → Core http 鉴权暴露 → 计量/配额/账单在产品 Core，不改 Runtime 硬塞计费
+W0: 计费与客户密钥写进 src/factory
+W1: 只提供 QQ 指令，就算对外开放 API
+W2: 密钥放前端，按次在浏览器扣费
+interview-xrk-arch:boundary |ok43|gap17
+Q: 同事想「为了快，直接改 src/infrastructure」——你怎么挡？
+OK: 业务放 core/；缺能力先扩基类/提框架改动，禁止产品 PR 顺手改 Runtime
+W0: 所有产品配置都塞进 default_config/
+W1: 让他改浏览器 localStorage 代替配置系统
+W2: 同意改，反正热更新能救
+interview-xrk-arch:tools |ok36|gap15
+Q: 开口讲「模型工具面」时要强调什么？
+OK: MCP/工作流真调用；工厂只出客户端；禁止 prompt 里假装已调工具
+W0: 有 Factory 就自动拥有全部外部工具
+W1: 工具全部写进 LLM Factory 源码
+W2: 工具只能放浏览器扩展里执行
+interview-xrk-arch:trisync |ok39|gap12
+Q: 为什么强调配置「三同步」，而不是只改一份 data yaml？
+OK: 模板可引导新环境、schema 可校验、代码真消费——任一环缺就「改了不生效」
+W0: 只改 data yaml 在任何新 clone 上都够
+W1: 指一天必须提交三次
+W2: 把密钥写进默认模板最省事
+\n==== concept-xrk-zero
+concept-xrk-zero:pitch |ok35|gap19
+Q: XRK-AGT 一句话定位？
+OK: Node 上的 Agent Runtime：扩展点给 Core 装业务
+W0: 禁止扩展，只能用内置指令
+W1: 纯前端 UI 库，没有服务端进程
+W2: 必须绑定某云才能本机开发
+concept-xrk-zero:layers |ok33|gap19
+Q: Runtime 和 Core 怎么分？
+OK: Runtime（src/）底座与加载；Core（core/）写业务
+W0: 两者同义，改哪都行
+W1: Runtime 只在浏览器跑
+W2: Core 只能放图片
+concept-xrk-zero:plugin |ok33|gap10
+Q: 聊天指令类功能放哪？
+OK: core/<core>/plugin/，继承 PluginBase
+W0: 只用 yaml，无需可执行模块
+W1: 改 src/infrastructure 最快
+W2: 只写在 IDE 聊天记录
+concept-xrk-zero:min-path |ok35|gap17
+Q: 第一次贡献更稳妥的节奏？
+OK: 最小可复查一步：本机跑通 → 小 diff → 行为可验证，再谈大重构
+W0: 只改 README 也算完成贡献路径
+W1: 跳过本机跑通，直接大 PR
+W2: 一次重写全部 Core 与章节再提交

@@ -177,7 +177,7 @@ export default defineQuizSet({
       q: '「数据库当服务」时，应用连接 PG/MySQL 最少要关心？',
       choices: [
         {
-          t: '连接串、连接池、权限与备份——库是独立进程，不是普通文件读写',
+          t: '连接串、连接池、权限与备份',
           ok: true,
           why: '服务形态带来网络与运维面。',
         },
@@ -205,7 +205,7 @@ export default defineQuizSet({
       q: 'ORM / 连接池相对「每次手写一条 SQL+新建连接」解决什么？',
       choices: [
         {
-          t: '复用连接、映射对象、迁移版本化——仍要懂 SQL 与 N+1',
+          t: '复用连接、映射对象、迁移版本化',
           ok: true,
           why: '中间件不是魔法；慢查询与模型仍要会查。',
         },
@@ -233,7 +233,7 @@ export default defineQuizSet({
       q: 'Redis 与关系库如何分工更稳妥？',
       choices: [
         {
-          t: 'Redis 偏缓存/会话/限流等热数据；关系库偏权威持久与复杂查询',
+          t: 'Redis 偏缓存',
           ok: true,
           why: '缓存可丢可重建；权威数据要可恢复。',
         },
@@ -261,7 +261,7 @@ export default defineQuizSet({
       q: '迁移（migration）文件进仓库的意义？',
       choices: [
         {
-          t: 'schema 变更可复现、可审查，环境之间对齐',
+          t: 'schema 变更可复现、可审查',
           ok: true,
           why: '与代码一同演进；勿手改生产结构却不留痕迹。',
         },

@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: '调需鉴权的 HTTPS API 时，Authorization 常见正确做法是？',
       choices: [
         {
-          t: 'Bearer + Token/API Key，且密钥勿暴露到浏览器打包产物',
+          t: 'Bearer + Token/API Key',
           ok: true,
           why: '密钥放服务端环境变量；前端硬编码必泄。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: 'Accept 头表达什么？',
       choices: [
         {
-          t: '客户端希望接受哪些响应媒体类型（内容协商）',
+          t: '客户端希望接受哪些响应媒体类型',
           ok: true,
           why: '服务器可据此选型；与请求体 Content-Type 不同。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: 'User-Agent 的正确定位是？',
       choices: [
         {
-          t: '客户端自报身份，可伪造，不能当唯一鉴权',
+          t: '客户端自报身份，可伪造，不',
           ok: true,
           why: '统计与兼容用；勿当安全边界。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: 'Origin 头在跨源场景下的作用是？',
       choices: [
         {
-          t: '标明发起页面的协议+主机+端口，供服务器做 CORS 等判定',
+          t: '标明发起页面的协议+主机+端口',
           ok: true,
           why: '与 Cookie 策略、CSRF 讨论常对照。',
         },
@@ -239,7 +239,7 @@ export default defineQuizSet({
       q: '联调时 Content-Type 与 Accept 最容易混的一点是？',
       choices: [
         {
-          t: 'Content-Type 描述「我发的正文是什么」；Accept 描述「我希望收到什么」',
+          t: 'Content-Type 描述「我发的正文是什么」',
           ok: true,
           why: '一边管请求体，一边管响应协商。',
         },

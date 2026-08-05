@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: '让 Coding Agent 或 pnpm/npm 走本机代理时，最关键要对齐什么？',
       choices: [
         {
-          t: '系统或终端的 HTTP_PROXY/HTTPS_PROXY 与 Clash 监听端口一致',
+          t: '系统或终端的 HTTP_PROXY',
           ok: true,
           why: '工具读到正确代理变量，请求才会进 Clash。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: '本机调试「访问 GitHub/npm 外网失败」时，应该先检查什么？',
       choices: [
         {
-          t: '代理是否开启、NO_PROXY 是否误伤、端口与 DNS 是否正常',
+          t: '代理是否开启、NO_PROXY 是否误伤、端口与 DN',
           ok: true,
           why: '外网失败多半是出口或解析；先查代理再查业务代码。',
         },
@@ -123,7 +123,7 @@ export default defineQuizSet({
       q: '本机已开 Clash，但访问 127.0.0.1 上的开发服务却异常，常见原因？',
       choices: [
         {
-          t: '本地回环被误送进代理；应把 localhost/127.0.0.1 放进 NO_PROXY',
+          t: '本地回环被误送进代理',
           ok: true,
           why: '开发服务走环回，不应经出口节点绕一圈。',
         },

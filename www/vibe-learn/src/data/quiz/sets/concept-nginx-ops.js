@@ -18,7 +18,7 @@ export default defineQuizSet({
       q: '反向代理相对「浏览器直接打到 Node 端口」的核心收益是？',
       choices: [
         {
-          t: '统一入口：TLS、路由、静态与限流可放在边缘，上游专注业务',
+          t: '统一入口：TLS、路由、静态与限流',
           ok: true,
           why: '公网常只暴露 443，反代到 127.0.0.1:内部端口。',
         },
@@ -46,7 +46,7 @@ export default defineQuizSet({
       q: '浏览器报 502 Bad Gateway，反代场景下优先怀疑什么？',
       choices: [
         {
-          t: '上游没起来、端口错、连不上或返回非法应答——先看上游与 error.log',
+          t: '上游没起来、端口错、连不上或返回非法应答',
           ok: true,
           why: '502：网关活着，但与上游交互失败。',
         },
@@ -102,7 +102,7 @@ export default defineQuizSet({
       q: '在 Nginx 上做 TLS 终结的常见意思是？',
       choices: [
         {
-          t: '客户端到 Nginx 走 HTTPS；Nginx 解密后再转上游',
+          t: '客户端到 Nginx 走 HTTPS',
           ok: true,
           why: '证书挂在入口；上游可在内网明文或再加密。',
         },
@@ -130,7 +130,7 @@ export default defineQuizSet({
       q: '静态资源与 API 同域部署时，Nginx 常如何分工？',
       choices: [
         {
-          t: '静态目录用 root/alias 直接吐文件；/api 反代到 Node',
+          t: '静态目录用 root',
           ok: true,
           why: '同域还利于 Cookie/CORS；动态 API 走上游。',
         },
@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: '面板（宝塔/1Panel）一点「反代」背后，你仍应理解什么？',
       choices: [
         {
-          t: '生成的仍是 Nginx（或同类）配置：端口、证书、上游——排障要会读',
+          t: '生成的仍是 Nginx（或同类）配置',
           ok: true,
           why: 'GUI 是捷径；502/证书问题最终回到 conf 与日志。',
         },
@@ -186,7 +186,7 @@ export default defineQuizSet({
       q: '反代到上游时，常要设 X-Forwarded-For / X-Forwarded-Proto，主要因为？',
       choices: [
         {
-          t: '上游需要知道原始客户端 IP 与是否 HTTPS，否则日志与重定向易错',
+          t: '上游需要知道原始客户端 IP 与是否 HT',
           ok: true,
           why: '否则上游只看到反代本机地址，或生成 http:// 链接。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '反代 WebSocket 时，比普通 HTTP 多要注意什么？',
       choices: [
         {
-          t: 'Upgrade/Connection 头与超时：长连接不能按短 HTTP 超时砍断',
+          t: 'Upgrade/Connection 头与超时',
           ok: true,
           why: '缺升级头或超时过短会导致「能 HTTP 不能 WS」。',
         },
@@ -242,7 +242,7 @@ export default defineQuizSet({
       q: '上传大文件经 Nginx 反代到 Node 时，413 更常先查什么？',
       choices: [
         {
-          t: 'client_max_body_size（以及上游自身的 body 限制）',
+          t: 'client_max_body_size',
           ok: true,
           why: '默认 body 限制偏小是经典坑。',
         },
@@ -270,7 +270,7 @@ export default defineQuizSet({
       q: 'IP 直连源站 HTTPS 正常，域名经 Nginx 却证书报错。优先查？',
       choices: [
         {
-          t: '证书 SAN/CN 是否覆盖该域名，以及 server_name 是否匹配',
+          t: '证书 SAN/CN 是否覆盖该域名',
           ok: true,
           why: 'HTTPS 校验名字；IP 通不代表域名证书对。',
         },

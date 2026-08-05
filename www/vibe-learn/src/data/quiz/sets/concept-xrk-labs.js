@@ -125,7 +125,7 @@ export default defineQuizSet({
       q: '「实践 · 调子服」关键验收点？',
       choices: [
         {
-          t: '子服进程起来；主服经门面（如 callSubserver）打通约定路径',
+          t: '子服进程起来；主服经门面',
           ok: true,
           why: '独立进程 + 主服编排；不是同进程硬塞。',
         },

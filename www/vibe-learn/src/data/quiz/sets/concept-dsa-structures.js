@@ -1,126 +1,57 @@
 import { defineQuizSet } from '../schema.js';
 
-/** 选型/题型层：名词细节见 concept-dsa-*-kw；落地场景见 dsa-scenarios */
 export default defineQuizSet({
   id: 'concept-dsa-structures',
-  title: '概念 · DSA 题型选型',
+  title: '选型 · DSA 结构对照',
   kind: 'concept',
   domain: 'dsa',
-  tags: ['DSA', '选型', '题型'],
-  relatedNodes: ['dsa-graph', 'dsa-dp', 'dsa-hash'],
-  caption: '何时上图/DP/哈希/排序——与全表名词题分工，不重复背结构定义。',
+  tags: ['DSA', '选型'],
+  relatedNodes: ['dsa-linear', 'dsa-hash', 'dsa-tree'],
+  caption: '按操作代价选结构。',
   questions: [
     {
-      id: 'concept-dsa-structures:pick_graph',
-      q: '依赖、网格连通、无权最短层数——开口应先往哪类模型靠？',
+      id: 'concept-dsa-structures:lookup',
+      q: '高频「键 → 值」查询，首选？',
       choices: [
-        {
-          t: '图：建邻接关系后选 BFS/DFS/拓扑等模板',
-          ok: true,
-          why: '先识别「点+边」，再选遍历；细节见概念·图论全表。',
-        },
-        {
-          t: '只会冒泡排序就够',
-          ok: false,
-          why: '排序解决不了连通、依赖与最短层数。',
-        },
-        {
-          t: '必须先写四层 DP',
-          ok: false,
-          why: '未必是 DP；先判断是否图遍历更贴。',
-        },
-        {
-          t: '禁止使用队列或栈',
-          ok: false,
-          why: 'BFS 用队列、DFS 用栈/递归，正是图遍历工具。',
-        },
+        { t: '哈希表', ok: true, why: '平均 O(1) 查找。' },
+        { t: '无序数组线性扫', ok: false, why: '平均 O(n)。' },
+        { t: '只能用栈', ok: false, why: '栈不按键查。' },
+        { t: '只能用队列', ok: false, why: '队列不按键查。' },
       ],
-      relatedNodes: ['dsa-graph', 'dsa-hot'],
-      tags: ['选型'],
+      relatedNodes: ['dsa-hash'],
     },
     {
-      id: 'concept-dsa-structures:pick_dp',
-      q: '动态规划题起手通常先问什么？',
+      id: 'concept-dsa-structures:order',
+      q: '要有序区间/名次，更合适？',
       choices: [
-        {
-          t: '有无最优子结构；状态如何定义；转移是什么',
-          ok: true,
-          why: '状态与转移是 DP 核心。',
-        },
-        {
-          t: '循环层数越多越像 DP',
-          ok: false,
-          why: '层数不是 DP 标志；关键是状态与重叠子问题。',
-        },
-        {
-          t: '禁止记忆化',
-          ok: false,
-          why: '记忆化是自顶向下 DP，完全合法。',
-        },
-        {
-          t: '凡递归都自动是 DP',
-          ok: false,
-          why: '还要重叠子问题、最优子结构等条件。',
-        },
+        { t: '有序树或有序容器', ok: true, why: '保序才能区间操作。' },
+        { t: '纯哈希无序桶', ok: false, why: '哈希不保序。' },
+        { t: '只能 FIFO 队列', ok: false, why: '无全序检索。' },
+        { t: '只能括号栈', ok: false, why: '题型不对。' },
       ],
-      relatedNodes: ['dsa-dp'],
-      tags: ['选型'],
+      relatedNodes: ['dsa-tree', 'dsa-hash'],
     },
     {
-      id: 'concept-dsa-structures:pick_hash',
-      q: '要把 O(n²) 两层扫描压到近线性，最常见的空间换时间是？',
+      id: 'concept-dsa-structures:minmax',
+      q: '反复取当前最小任务，首选？',
       choices: [
-        {
-          t: '哈希表边扫边查（如两数之和记补数）',
-          ok: true,
-          why: '用 Map/字典降循环层数。',
-        },
-        {
-          t: '再套一层同长循环',
-          ok: false,
-          why: '复杂度更高，不是优化。',
-        },
-        {
-          t: '改成 O(2ⁿ) 回溯',
-          ok: false,
-          why: '指数级通常更差。',
-        },
-        {
-          t: '删除全部输入',
-          ok: false,
-          why: '改题不是算法优化。',
-        },
+        { t: '堆（优先队列）', ok: true, why: '取极值高效。' },
+        { t: '无序数组每次全扫', ok: false, why: '每次 O(n)。' },
+        { t: '哈希表按插入序', ok: false, why: '不保极值。' },
+        { t: '并查集按秩合并', ok: false, why: '不管优先级。' },
       ],
-      relatedNodes: ['dsa-hash', 'dsa-complexity'],
-      tags: ['选型'],
+      relatedNodes: ['dsa-tree'],
     },
     {
-      id: 'concept-dsa-structures:pick_sort',
-      q: '需要稳定排序或多关键字保序时，更稳妥的直觉？',
+      id: 'concept-dsa-structures:fifo',
+      q: '生产者消费者缓冲，语义常是？',
       choices: [
-        {
-          t: '优先考虑稳定算法（如归并）；快排/堆排通常不保证稳定',
-          ok: true,
-          why: '稳定性在多关键字时关键。',
-        },
-        {
-          t: '所有 O(n log n) 排序都稳定',
-          ok: false,
-          why: '快排、堆排通常不稳定。',
-        },
-        {
-          t: '稳定等于时间 O(1)',
-          ok: false,
-          why: '稳定性指相等元素相对顺序，与时间复杂度无关。',
-        },
-        {
-          t: '无序数组可直接二分',
-          ok: false,
-          why: '二分要求区间单调/有序。',
-        },
+        { t: '队列 FIFO', ok: true, why: '先入先出。' },
+        { t: '栈 LIFO', ok: false, why: '后进先出不合适。' },
+        { t: '只能 BST', ok: false, why: '过重。' },
+        { t: '只能并查集', ok: false, why: '题型不对。' },
       ],
-      relatedNodes: ['dsa-sort'],
-      tags: ['选型'],
+      relatedNodes: ['dsa-linear'],
     },
   ],
 });

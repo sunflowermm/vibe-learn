@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const nodes = fs.readFileSync('src/data/nodes.js', 'utf8');
+const i = nodes.indexOf("id: 'dsa-complexity'");
+console.log('idx', i);
+console.log(nodes.slice(i - 80, i + 1800));
+const j = nodes.indexOf("id: 'dsa-hot'");
+console.log('---hot---');
+console.log(nodes.slice(j - 40, j + 900));
+const e = nodes.indexOf("e-dsa-c-l");
+console.log('---edges---');
+console.log(nodes.slice(e - 100, e + 1200));
+const lay = fs.readFileSync('src/data/layout.js', 'utf8');
+const d = lay.indexOf('DSA_TOPICS');
+console.log('---layout---');
+console.log(lay.slice(d, d + 600));
+const f = lay.indexOf('frameDsa');
+console.log(lay.slice(Math.max(0, f - 200), f + 400));

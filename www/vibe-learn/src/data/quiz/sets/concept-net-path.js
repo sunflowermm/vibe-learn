@@ -24,7 +24,7 @@ export default defineQuizSet({
       q: '连接跟踪、安全组、会话保持常按「五元组」匹配。五元组通常指哪五样？',
       choices: [
         {
-          t: '源 IP、目的 IP、源端口、目的端口、传输层协议（TCP/UDP 等）',
+          t: '源 IP、目的 IP、源端口、目的端口、传输层协议（TCP',
           ok: true,
           why: 'NAT 会改其中 IP/端口；L7 的 URL/Cookie 不属于五元组。',
         },
@@ -51,7 +51,7 @@ export default defineQuizSet({
       q: '工程排障时，OSI 七层与 TCP/IP 四层更准确的用法是？',
       choices: [
         {
-          t: 'OSI 偏对照教学；编程与排障心智多用 TCP/IP 四层',
+          t: 'OSI 偏对照教学',
           ok: true,
           why: '表示/会话等常被应用侧「吞掉」，不必逐层死记硬套。',
         },
@@ -78,7 +78,7 @@ export default defineQuizSet({
       q: '主机发送数据时，「封装」的直觉顺序是？',
       choices: [
         {
-          t: '应用数据 → 传输头 → IP 头 → 链路帧 → 比特发出；接收则反向剥头',
+          t: '应用数据 → 传输头 → IP 头 → 链路帧 →',
           ok: true,
           why: '下行加信封，上行拆信封；下层眼里上层常是一串字节。',
         },
@@ -105,7 +105,7 @@ export default defineQuizSet({
       q: 'IP 头里的 TTL（生存时间）主要防止什么？',
       choices: [
         {
-          t: '包在路由环路中无限转圈：每跳减 1，到 0 丢弃',
+          t: '包在路由环路中无限转圈',
           ok: true,
           why: 'traceroute 正是利用递增 TTL 看路径。',
         },
@@ -186,7 +186,7 @@ export default defineQuizSet({
       q: '为何常说 TCP 四次挥手而不是三次？',
       choices: [
         {
-          t: '半关闭：一方 FIN 后对端发送方向可能还有数据，需各自关闭',
+          t: '半关闭：一方 FIN 后对端发送方向可',
           ok: true,
           why: 'FIN/ACK 与对端 FIN/ACK 分开；TIME_WAIT 在主动关闭方吸收迟到包。',
         },
@@ -294,7 +294,7 @@ export default defineQuizSet({
       q: 'SNAT 与 DNAT 的方向直觉分别是？',
       choices: [
         {
-          t: 'SNAT 改源（多为内网出网）；DNAT 改目的/端口（多为公网入站进内网）',
+          t: 'SNAT 改源（多为内网出网）',
           ok: true,
           why: '家用出网常见 SNAT/PAT；端口转发/LB 入站常见 DNAT。',
         },
@@ -348,7 +348,7 @@ export default defineQuizSet({
       q: '浏览器能上网，但外网访问不到你家/云上的自建服务，优先怀疑什么？',
       choices: [
         {
-          t: '入站未做端口转发/DNAT，或安全组/防火墙入站被拒',
+          t: '入站未做端口转发/DNAT',
           ok: true,
           why: '出站通不代表入站开；还要分清 refused 与 timed out。',
         },
@@ -375,7 +375,7 @@ export default defineQuizSet({
       q: '端口转发与反向代理最关键的层次差别是？',
       choices: [
         {
-          t: '端口转发偏 L3/L4 映射 IP:端口；反代偏 L7，可按 Host/Path 分流',
+          t: '端口转发偏 L3/L4 映射 IP:端口',
           ok: true,
           why: '临时暴露开发机常用转发；生产 API 门面更常用 Nginx 类反代。',
         },
@@ -402,7 +402,7 @@ export default defineQuizSet({
       q: '正向代理与反向代理的位置直觉是？',
       choices: [
         {
-          t: '正向靠近客户端（常需配置出网）；反向靠近服务器（客户端通常无感）',
+          t: '正向靠近客户端（常需配置出网）',
           ok: true,
           why: 'Clash 等属正向；Nginx 门面属反向。',
         },
@@ -429,7 +429,7 @@ export default defineQuizSet({
       q: 'L4 与 L7 负载均衡最关键的能力差别是？',
       choices: [
         {
-          t: 'L4 按 IP/端口/协议转发；L7 能按 Host、URL、Header 等应用语义路由',
+          t: 'L4 按 IP/端口/协议转发',
           ok: true,
           why: 'NLB/LVS 偏 L4；Nginx 按路径分流偏 L7。',
         },
@@ -456,7 +456,7 @@ export default defineQuizSet({
       q: '会话粘滞（sticky session）主要解决什么问题？',
       choices: [
         {
-          t: '让同一客户端尽量落到同一后端，以迁就本地 Session',
+          t: '让同一客户端尽量落到同一后端',
           ok: true,
           why: '粘滞是权宜；实例挂了仍要健康检查摘除。',
         },
@@ -483,7 +483,7 @@ export default defineQuizSet({
       q: '相对粘滞，多实例 Web 会话更稳妥的长期做法是？',
       choices: [
         {
-          t: '把 Session 放 Redis 等共享存储，后端无状态可水平扩展',
+          t: '把 Session 放 Redis 等共享存储',
           ok: true,
           why: '本地 Session + 粘滞脆弱；共享会话才是常见终局。',
         },
@@ -510,7 +510,7 @@ export default defineQuizSet({
       q: 'CDN 与源站反向代理的分工直觉是？',
       choices: [
         {
-          t: 'CDN 把可缓存副本放到近处；反代管应用入口、路由与防护——可叠加',
+          t: 'CDN 把可缓存副本放到近处',
           ok: true,
           why: '静态命中卸源站；动态 API 仍常回源或经反代。',
         },
@@ -537,7 +537,7 @@ export default defineQuizSet({
       q: 'Cloudflare「橙云」相对「仅 DNS（灰云）」的关键差别是？',
       choices: [
         {
-          t: '橙云：访客先到 CF 边缘再回源，源站 IP 不易直暴；灰云：解析直接给出源站 IP',
+          t: '橙云：访客先到 CF 边缘再回源',
           ok: true,
           why: '橙云 ≈ 托管全球反代+CDN+可选 WAF；灰云只做权威 DNS。',
         },
@@ -564,7 +564,7 @@ export default defineQuizSet({
       q: '「源站隐藏」配合回源白名单，工程上在说什么？',
       choices: [
         {
-          t: '对外只暴露边缘 IP；源站防火墙只放行 CDN/边缘回源地址段',
+          t: '对外只暴露边缘 IP',
           ok: true,
           why: '防绕过直打；隐藏≠绝对安全，但显著减小公网攻击面。',
         },
@@ -591,7 +591,7 @@ export default defineQuizSet({
       q: '第三方 API 要求「报备出口 IP」时，工程上通常怎么办？',
       choices: [
         {
-          t: '使用固定公网出口 / NAT 网关 EIP，把出站地址纳入对方白名单',
+          t: '使用固定公网出口 / NAT 网关 EIP',
           ok: true,
           why: '出口白名单是「你打出去对方认」；与入站安全组方向相反。',
         },

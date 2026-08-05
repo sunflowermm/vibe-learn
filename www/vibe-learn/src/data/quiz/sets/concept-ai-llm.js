@@ -103,22 +103,22 @@ export default defineQuizSet({
       q: '现代大语言模型的 Transformer 骨干，通常由什么堆叠而成？',
       choices: [
         {
-          t: '多层注意力块（Attention）与前馈网络（FFN）等模块交替堆叠',
+          t: '多层 Attention 块与 FFN 等模块交替堆叠',
           ok: true,
           why: 'Encoder/Decoder 变体都以 attention + FFN 块为核心重复堆叠。',
         },
         {
-          t: '手工编写的 if-else 规则树，层数越多回答越准',
+          t: '手工 if-else 规则树，层数越多回答越准',
           ok: false,
           why: 'LLM 靠可学习权重拟合分布，不是固定规则引擎。',
         },
         {
-          t: '仅一层全连接网络，没有序列间的交互计算',
+          t: '仅一层全连接网络，序列位置间无交互计算',
           ok: false,
           why: '缺少 Attention 就无法在序列位置间动态传递信息。',
         },
         {
-          t: '与微调（finetune）同一概念，都指继续训练权重',
+          t: '与微调同概念，都指在训练阶段继续更新权重',
           ok: false,
           why: 'Transformer 是网络架构；微调是在该架构上更新参数的训练步骤。',
         },
@@ -157,22 +157,22 @@ export default defineQuizSet({
       q: 'OpenAI 风格的 Chat Completions 接口，典型请求体应包含什么？',
       choices: [
         {
-          t: '带 role 的 messages 数组（如 system/user/assistant），模型续写 assistant 内容',
+          t: '带 role 的 messages 数组，模型续写 assistant',
           ok: true,
           why: '多轮对话用角色序列表达上下文；与单次 completion 字符串不同。',
         },
         {
-          t: '只需传 model 名称，服务端自动读取本地聊天记录文件',
+          t: '只传 model 名称，服务端自动读本地聊天记录',
           ok: false,
           why: '对话内容须由客户端在 messages 里显式提供。',
         },
         {
-          t: '必须改用 GET 查询参数传整段 prompt，POST body 留空',
+          t: '须用 GET 查询参数传整段 prompt，POST 留空',
           ok: false,
           why: '主流实现用 POST JSON；长 prompt 不适合全放 URL。',
         },
         {
-          t: '禁止传 system 角色，否则接口返回 400',
+          t: '禁止传 system 角色，否则接口固定返回 400',
           ok: false,
           why: '常见形态正是 system 定边界 + user 提问 + assistant 历史。',
         },

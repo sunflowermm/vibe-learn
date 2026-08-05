@@ -14,7 +14,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q1',
       q: '「程序」最朴素的理解是？',
       choices: [
-        { t: '按顺序给计算机执行的一组指令，用来完成某件事', ok: true, why: '先建立「指令→机器执行」的直觉，再学语法。' },
+        { t: '按顺序给计算机执行的一组指令', ok: true, why: '先建立「指令→机器执行」的直觉，再学语法。' },
         { t: '只能是游戏，不能是工具', ok: false, why: '浏览器、编辑器、服务端都是程序，不限于游戏。' },
         { t: '必须手写在纸上才能运行', ok: false, why: '程序存在文件里，由运行时/解释器执行。' },
         { t: '程序等于一张图片', ok: false, why: '图片是数据；程序是可执行逻辑（也可处理图片）。' },
@@ -26,7 +26,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q2',
       q: '操作系统（OS）对普通开发者最直观的作用？',
       choices: [
-        { t: '管理文件、进程、内存和网络，让应用不必直接操作硬件', ok: true, why: 'Windows/macOS/Linux 都是 OS；终端命令也走 OS。' },
+        { t: '管理文件、进程、内存和网络', ok: true, why: 'Windows/macOS/Linux 都是 OS；终端命令也走 OS。' },
         { t: '只负责壁纸和主题', ok: false, why: '那是外观；内核与系统服务才管资源。' },
         { t: '代替你写全部业务代码', ok: false, why: 'OS 提供平台，业务逻辑仍要你写。' },
         { t: 'OS 就是某一种编程语言', ok: false, why: '语言跑在 OS 之上，二者不是同一层。' },
@@ -50,7 +50,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q4',
       q: '终端（命令行）相对「只点鼠标」多了什么？',
       choices: [
-        { t: '用文字命令精确操作：进目录、跑程序、看日志——可脚本化', ok: true, why: '全栈/运维/AI 工程日常都在终端。' },
+        { t: '用文字命令精确操作', ok: true, why: '全栈/运维/AI 工程日常都在终端。' },
         { t: '终端只能用来聊天', ok: false, why: '终端是操作系统入口，不是聊天应用。' },
         { t: '有了终端就禁止使用图形界面', ok: false, why: '二者互补：GUI 做编辑，终端做脚本与排障。' },
         { t: '终端等于浏览器', ok: false, why: '浏览器访问网页；终端操作本机进程与文件。' },
@@ -74,7 +74,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q6',
       q: '终端刷出一屏红字，项目跑不起来。更有效的第一步是？',
       choices: [
-        { t: '当定位器：读错误类型、关键句，再看堆栈指向的文件行号', ok: true, why: '害怕报错会卡住；读报错是第一技能。' },
+        { t: '当定位器：读错误类型、关键句', ok: true, why: '害怕报错会卡住；读报错是第一技能。' },
         { t: '立刻重装操作系统', ok: false, why: '多数是代码/路径问题；重装掩盖根因且成本高。' },
         { t: '关掉所有输出以免心烦', ok: false, why: '输出里正是类型与行号线索。' },
         { t: '报错越长越可以忽略', ok: false, why: '长栈顶往往更有用，应从头读关键几行。' },
@@ -86,7 +86,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q7',
       q: '变量最直观的比喻？',
       choices: [
-        { t: '贴了名字的盒子，用来存放稍后要用的值', ok: true, why: '先会存取，再谈类型。' },
+        { t: '贴了名字的盒子，用来存放稍', ok: true, why: '先会存取，再谈类型。' },
         { t: '只能存密码', ok: false, why: '可存数字、文本、对象等任意业务数据。' },
         { t: '变量就是网络端口', ok: false, why: '端口是网络概念；变量是程序内的命名存储。' },
         { t: '声明变量会格式化磁盘', ok: false, why: '声明只占用内存（或绑定名字），不会抹盘。' },
@@ -98,7 +98,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q8',
       q: 'if / for 控制流在零基础阶段先记住？',
       choices: [
-        { t: 'if 做判断分支；for/while 做重复——程序因此能「应变」', ok: true, why: '逻辑骨架；语法细节后练。' },
+        { t: 'if 做判断分支', ok: true, why: '逻辑骨架；语法细节后练。' },
         { t: '它们是数据库品牌', ok: false, why: '那是 SQL 引擎；if/for 是语言里的控制结构。' },
         { t: '只能写在 YAML 里', ok: false, why: '控制流写在编程语言源码里，不是 YAML 专属。' },
         { t: '有了 if 就不需要函数', ok: false, why: '分支与封装各司其职，常一起用。' },
@@ -110,7 +110,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q9',
       q: '函数（function）对初学者最大的好处？',
       choices: [
-        { t: '给一段逻辑起名字，重复用、好读、好改', ok: true, why: '避免复制粘贴同一段。' },
+        { t: '给一段逻辑起名字', ok: true, why: '避免复制粘贴同一段。' },
         { t: '函数只能调用一次', ok: false, why: '设计目的就是反复调用、复用。' },
         { t: '函数替代操作系统', ok: false, why: '函数是代码组织单位，不能替代 OS。' },
         { t: '有函数就不必调试', ok: false, why: '封装后仍要调试；只是边界更清晰。' },
@@ -122,7 +122,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q10',
       q: '「依赖 / 包」是什么直觉？',
       choices: [
-        { t: '别人写好、你可以安装复用的代码库（如用 pnpm 安装）', ok: true, why: '现代项目很少从零造所有轮子。' },
+        { t: '别人写好、你可以安装复用的代码库', ok: true, why: '现代项目很少从零造所有轮子。' },
         { t: '依赖等于病毒', ok: false, why: '要甄别来源与版本，但概念本身是合法复用。' },
         { t: '安装依赖不需要网络与锁文件', ok: false, why: '常要出网；锁文件保证各环境版本一致。' },
         { t: '有了依赖就不用自己写任何逻辑', ok: false, why: '业务逻辑、胶水与边界仍要你写。' },
@@ -134,7 +134,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q11',
       q: '编辑器（VS Code / Cursor）在学习路径上的位置？',
       choices: [
-        { t: '改文件、看终端、看 diff 的工作台——不是魔法自动上线器', ok: true, why: 'Agent 辅助也要你审 diff。' },
+        { t: '改文件、看终端、看 diff 的工作台', ok: true, why: 'Agent 辅助也要你审 diff。' },
         { t: '编辑器会替代 Git 与服务器', ok: false, why: '版本与部署仍靠 Git/CI/服务器，编辑器只是工作台。' },
         { t: '只能看不能改', ok: false, why: '核心能力就是编辑与保存源码。' },
         { t: '必须手写机器码', ok: false, why: '现代开发写高级语言，由工具链编译/解释。' },
@@ -146,7 +146,7 @@ export default defineQuizSet({
       id: 'concept-zero-basics:q12',
       q: '零基础学全栈时，更稳妥的节奏是？',
       choices: [
-        { t: '小闭环：会跑→会改→会读报错→再叠 Git/HTTP/库——忌一上来造平台', ok: true, why: '与 XRK「最小贡献路径」同一精神。' },
+        { t: '小闭环：会跑→会改→会读报错→再叠 Git', ok: true, why: '与 XRK「最小贡献路径」同一精神。' },
         { t: '同时学完所有框架再动手', ok: false, why: '纸上谈兵；先跑通最小闭环再扩。' },
         { t: '跳过终端与报错，只看视频', ok: false, why: '不动手就不会排障，视频代替不了闭环。' },
         { t: '先提交所有密钥到 GitHub 方便练习', ok: false, why: '密钥进仓是安全事故；用 .env / Secrets。' },

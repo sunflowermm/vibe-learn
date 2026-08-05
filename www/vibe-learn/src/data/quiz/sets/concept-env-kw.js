@@ -81,7 +81,7 @@ export default defineQuizSet({
     "q": "Bash 里 export MY=1 的效果？",
     "choices": [
       {
-        "t": "写入当前 shell 环境，后续命令/子进程可见",
+        "t": "写入当前 shell 环境",
         "ok": true,
         "why": "export：把变量标进当前 shell 环境，供后续子进程继承；关终端会话通常即失效（除非写入配置文件）。"
       },
@@ -183,7 +183,7 @@ export default defineQuizSet({
     "q": "出网拉 GitHub/npm 失败时，环境侧常见设置？",
     "choices": [
       {
-        "t": "HTTP_PROXY / HTTPS_PROXY 指向本机或公司代理",
+        "t": "HTTP_PROXY",
         "ok": true,
         "why": "HTTP_PROXY / HTTPS_PROXY：告诉许多工具出网走哪个代理（如本机 7890）。国内拉 GitHub/npm 常见设置。"
       },
@@ -217,7 +217,7 @@ export default defineQuizSet({
     "q": "NO_PROXY 的典型用途？",
     "choices": [
       {
-        "t": "指定哪些主机不走 HTTP(S)_PROXY",
+        "t": "指定哪些主机不走 HTTP(",
         "ok": true,
         "why": "NO_PROXY：列出不走代理的主机（常含 127.0.0.1,localhost,::1），避免本机回环也被代理绕一圈。"
       },

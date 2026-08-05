@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '往 Core 加能力后协作上仍应？',
       choices: [
         {
-          t: '分支 → 本地跑通 → PR 写 why → CI 绿再合',
+          t: '分支 → 本地跑通 → PR 写 why',
           ok: true,
           why: '能加载 ≠ 可跳过审查与验收。',
         },
@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: 'HTTP 联调失败分层顺序？',
       choices: [
         {
-          t: '进程/端口 → 反代与路径 → 鉴权 → 响应形状与业务',
+          t: '进程/端口 → 反代',
           ok: true,
           why: '先确认入口通，再抠契约与业务。',
         },
@@ -69,7 +69,7 @@ export default defineQuizSet({
       q: '出网拉依赖/调模型失败，优先？',
       choices: [
         {
-          t: '查 HTTP_PROXY 等与 NO_PROXY，再查业务 yaml',
+          t: '查 HTTP_PROXY 等与 NO_PROXY',
           ok: true,
           why: '环境层优先；业务代理字段是第二刀。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: '配置三同步时，.env 扮演什么角色？',
       choices: [
         {
-          t: '偏密钥与机器差注入；不能替代 default / schema / 消费代码',
+          t: '偏密钥与机器差注入',
           ok: true,
           why: '业务字段仍要三同步；.env 只管机密与环境差。',
         },

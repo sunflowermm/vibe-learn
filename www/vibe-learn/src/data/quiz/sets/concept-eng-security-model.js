@@ -74,7 +74,7 @@ export default defineQuizSet({
       q: '注入类问题的共同本质？',
       choices: [
         {
-          t: '不信任的数据被当成代码/查询/命令执行——要参数化、转义、分层',
+          t: '不信任的数据被当成代码/查询/命令执行',
           ok: true,
           why: 'SQL/命令/模板/LLM 提示注入同构。',
         },
@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: '日志与错误回显中的敏感数据？',
       choices: [
         {
-          t: '脱敏：令牌、密码、证件、完整支付信息不应落明文日志或回给客户端',
+          t: '脱敏：令牌、密码、证件、完整支付信息不应',
           ok: true,
           why: '可观测与安全要同时设计。',
         },
@@ -186,7 +186,7 @@ export default defineQuizSet({
       q: 'SSR/代理把用户 URL 拿去服务端请求时，要防？',
       choices: [
         {
-          t: 'SSRF：限制协议与目标网段，防止打内网元数据/管理口',
+          t: 'SSRF：限制协议与目标网段',
           ok: true,
           why: '云上经典；爬虫/预览类功能高发。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '把不可信用户内容塞进 LLM 提示时？',
       choices: [
         {
-          t: '按提示注入设防：分隔、指令优先级、工具权限最小化、输出校验',
+          t: '按提示注入设防：分隔、指令优先级、工具',
           ok: true,
           why: '与经典注入同构，新增模型服从问题。',
         },
@@ -270,7 +270,7 @@ export default defineQuizSet({
       q: '威胁建模一句话方法？',
       choices: [
         {
-          t: '列出资产、入口、信任边界与可能滥用，再决定控制措施',
+          t: '列出资产、入口、信任边界与可能滥用',
           ok: true,
           why: 'STRIDE 等是工具；先有边界图。',
         },

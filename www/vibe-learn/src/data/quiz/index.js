@@ -18,8 +18,15 @@ import conceptJs from './sets/concept-js.js';
 import conceptDataFormats from './sets/concept-data-formats.js';
 import conceptLangLandscape from './sets/concept-lang-landscape.js';
 import conceptLangFrameworks from './sets/concept-lang-frameworks.js';
+import conceptLangRemember from './sets/concept-lang-remember.js';
+import conceptLangUnderstand from './sets/concept-lang-understand.js';
+import conceptLangScenarios from './sets/concept-lang-scenarios.js';
+import conceptLangAnalyze from './sets/concept-lang-analyze.js';
+import conceptLangEvaluate from './sets/concept-lang-evaluate.js';
+import conceptLangDesign from './sets/concept-lang-design.js';
 import conceptNetLayers from './sets/concept-net-layers.js';
 import conceptNetPath from './sets/concept-net-path.js';
+import conceptNetScenarios from './sets/concept-net-scenarios.js';
 import conceptHttpHands from './sets/concept-http-hands.js';
 import conceptHttpStatus from './sets/concept-http-status.js';
 import conceptHttpMethod from './sets/concept-http-method.js';
@@ -36,6 +43,7 @@ import conceptAdev from './sets/concept-adev.js';
 import conceptAiLlm from './sets/concept-ai-llm.js';
 import conceptAiRag from './sets/concept-ai-rag.js';
 import conceptAiAgentStack from './sets/concept-ai-agent-stack.js';
+import conceptAiScenarios from './sets/concept-ai-scenarios.js';
 import conceptCraftQuality from './sets/concept-craft-quality.js';
 import conceptGit from './sets/concept-git-security.js';
 import conceptDsaStructures from './sets/concept-dsa-structures.js';
@@ -46,9 +54,22 @@ import conceptDsaHashKw from './sets/concept-dsa-hash-kw.js';
 import conceptDsaTreeKw from './sets/concept-dsa-tree-kw.js';
 import conceptDsaSortKw from './sets/concept-dsa-sort-kw.js';
 import conceptDsaGraphKw from './sets/concept-dsa-graph-kw.js';
+import conceptDsaDpKw from './sets/concept-dsa-dp-kw.js';
+import conceptDsaRecurseKw from './sets/concept-dsa-recurse-kw.js';
+import conceptDsaTwoPointersKw from './sets/concept-dsa-two-pointers-kw.js';
+import conceptDsaUnionFindKw from './sets/concept-dsa-union-find-kw.js';
+import conceptDsaStringKw from './sets/concept-dsa-string-kw.js';
+import conceptDsaBitwiseKw from './sets/concept-dsa-bitwise-kw.js';
+import conceptDsaMlKw from './sets/concept-dsa-ml-kw.js';
 import conceptDbOps from './sets/concept-db-ops.js';
 import conceptContainer from './sets/concept-container.js';
 import conceptContainerScenarios from './sets/concept-container-scenarios.js';
+import conceptOpsRemember from './sets/concept-ops-remember.js';
+import conceptOpsUnderstand from './sets/concept-ops-understand.js';
+import conceptOpsScenarios from './sets/concept-ops-scenarios.js';
+import conceptOpsAnalyze from './sets/concept-ops-analyze.js';
+import conceptOpsEvaluate from './sets/concept-ops-evaluate.js';
+import conceptOpsDesign from './sets/concept-ops-design.js';
 import conceptPanel from './sets/concept-panel.js';
 import conceptClash from './sets/concept-clash.js';
 import conceptEsp from './sets/concept-esp.js';
@@ -130,11 +151,18 @@ const REGISTRY = [
   conceptShellOp,
   conceptLangLandscape,
   conceptLangFrameworks,
+  conceptLangRemember,
+  conceptLangUnderstand,
+  conceptLangScenarios,
+  conceptLangAnalyze,
+  conceptLangEvaluate,
+  conceptLangDesign,
   interviewLang,
 
   // 网络
   conceptNetLayers,
   conceptNetPath,
+  conceptNetScenarios,
   conceptNetAddressing,
   conceptHttpHands,
   conceptHttpStatus,
@@ -163,6 +191,7 @@ const REGISTRY = [
   conceptAiLlm,
   conceptAiRag,
   conceptAiAgentStack,
+  conceptAiScenarios,
   interviewAi,
   interviewAiExpand,
   // 工程 / DSA / 数据运维
@@ -188,6 +217,13 @@ const REGISTRY = [
   conceptDsaTreeKw,
   conceptDsaSortKw,
   conceptDsaGraphKw,
+  conceptDsaDpKw,
+  conceptDsaRecurseKw,
+  conceptDsaTwoPointersKw,
+  conceptDsaUnionFindKw,
+  conceptDsaStringKw,
+  conceptDsaBitwiseKw,
+  conceptDsaMlKw,
   interviewDsa,
   conceptGapNodes,
   conceptAiOpsBridge,
@@ -198,6 +234,12 @@ const REGISTRY = [
   interviewOsDb,
   conceptContainer,
   conceptContainerScenarios,
+  conceptOpsRemember,
+  conceptOpsUnderstand,
+  conceptOpsScenarios,
+  conceptOpsAnalyze,
+  conceptOpsEvaluate,
+  conceptOpsDesign,
   conceptDockerCli,
   conceptDockerCmd,
   conceptComposeKw,

@@ -1,7 +1,7 @@
 /**
  * 课文渲染：Markdown + HTML5/SVG 片段 + Mermaid + 交互围栏
  * （term / compare / shell / env / quiz / reveal / check / decide /
- *  match / flip / steps / ports / sort / diff / fill / pick）
+ *  match / flip / steps / ports / sort / diff / fill / pick / algo / viz）
  * 普通代码围栏带复制条；`prompt`/`agent` 或含「目标：…验收：」的无语言块标为 Agent 提问。
  * Mermaid 随 Vite/pnpm 打包，不依赖外网 CDN。
  */

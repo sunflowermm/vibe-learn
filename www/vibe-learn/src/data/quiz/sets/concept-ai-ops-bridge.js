@@ -24,7 +24,7 @@ export default defineQuizSet({
       q: '「对话产品化」（Chat 形态）相对「裸补全脚本」多了什么？',
       choices: [
         {
-          t: '多轮会话心智、系统角色、安全与产品封装，把模型做成可天天打开的入口',
+          t: '多轮会话心智、系统角色、安全与产品封装',
           ok: true,
           why: 'ChatGPT 时刻本质是产品形态变化，不只是模型更大。',
         },
@@ -52,7 +52,7 @@ export default defineQuizSet({
       q: '选型时把「聊天模型」和「嵌入模型」当成同一个会怎样？',
       choices: [
         {
-          t: '检索空间与生成能力错配：嵌入要向量近邻，聊天要生成；接口与计费也常分开',
+          t: '检索空间与生成能力错配',
           ok: true,
           why: '按任务切开：生成 vs embedding。',
         },
@@ -108,7 +108,7 @@ export default defineQuizSet({
       q: '流式（streaming）返回相对一次性 JSON，对前端/运维的主要差别？',
       choices: [
         {
-          t: '按块推送 token，首字更快、要处理半包与取消；失败也可能已吐出半截',
+          t: '按块推送 token，首字更快、要处理半包与取消',
           ok: true,
           why: '要看 SSE/chunk 边界，不能只等最终 body。',
         },
@@ -136,7 +136,7 @@ export default defineQuizSet({
       q: '调云端 LLM API 时，HTTP 在协议栈上的位置直觉是？',
       choices: [
         {
-          t: '应用层协议，常跑在 TCP（TLS）之上，承载 Chat/Completions 等 JSON 请求',
+          t: '应用层协议，常跑在 TCP',
           ok: true,
           why: 'IP 寻址 → TCP → HTTPS 交换资源。',
         },
@@ -220,7 +220,7 @@ export default defineQuizSet({
       q: 'HTTPS 相对 HTTP，对调用云端 LLM 为什么几乎是默认？',
       choices: [
         {
-          t: 'TLS 加密与身份校验，降低窃听/篡改密钥与对话内容的风险',
+          t: 'TLS 加密与身份校验',
           ok: true,
           why: 'API Key 场景更必须 HTTPS。',
         },
@@ -248,7 +248,7 @@ export default defineQuizSet({
       q: '.env 与「可提交的配置模板」应如何分工？',
       choices: [
         {
-          t: '.env 放本机密钥与机器差且勿提交；.env.example 只列键名与假值',
+          t: '.env 放本机密钥与机器差且勿提交',
           ok: true,
           why: '密钥进仓库是事故；模板帮助同事知道要设哪些键。',
         },
@@ -276,7 +276,7 @@ export default defineQuizSet({
       q: '本仓「MCP 挂载」课相对「MCP 概念」课，侧重点差在哪？',
       choices: [
         {
-          t: '概念课讲协议与工具发现；挂载课讲主服如何注册、鉴权、看日志确认已挂上',
+          t: '概念课讲协议与工具发现',
           ok: true,
           why: '懂协议 ≠ 会在本仓运维出口。',
         },
@@ -304,7 +304,7 @@ export default defineQuizSet({
       q: '提示安全里，「间接注入」指什么？',
       choices: [
         {
-          t: '恶意指令藏在日后被检索到的文档/网页里，用户可能从未亲手输入',
+          t: '恶意指令藏在日后被检索到的文档/网页里',
           ok: true,
           why: '检索正文必须当不可信数据。',
         },
@@ -360,7 +360,7 @@ export default defineQuizSet({
       q: '调不通的 LLM 请求，较合理的第一刀是？',
       choices: [
         {
-          t: '先分清：DNS/TLS/代理 → HTTP 状态 → 密钥与配额 → 请求体/模型名 → 业务提示',
+          t: '先分清：DNS/TLS/代理 → HTTP 状态',
           ok: true,
           why: '自外向内分层：连不上就别先改 temperature。',
         },
@@ -388,7 +388,7 @@ export default defineQuizSet({
       q: 'Coding Agent / CLI 调外网模型 API 失败，但浏览器能开网页。更靠谱的处理是？',
       choices: [
         {
-          t: '为进程显式设 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY（及 NO_PROXY）',
+          t: '为进程显式设 HTTP_PROXY',
           ok: true,
           why: '许多 CLI 不读系统代理。',
         },

@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '前台运行并映射端口 6379，较完整的是？',
       choices: [
         {
-          t: 'docker run --rm -p 6379:6379 redis:7',
+          t: 'docker run --rm -p 6379:6379',
           ok: true,
           why: '-p 宿主:容器；--rm 退出删容器（演示友好）。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '数据库数据要跨容器重建仍在，应？',
       choices: [
         {
-          t: '挂 volume / bind mount，勿只写容器可写层',
+          t: '挂 volume / bind mount',
           ok: true,
           why: '删容器默认可写层丢；库文件外挂。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: '镜像名与标签的稳妥习惯？',
       choices: [
         {
-          t: '生产钉具体标签或 digest，避免长期依赖 :latest 漂',
+          t: '生产钉具体标签或 digest',
           ok: true,
           why: '可复现；CI/CD 同理。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: '清理已停止容器、悬空镜像（小心）？',
       choices: [
         {
-          t: 'docker container prune / docker image prune（先看帮助，确认范围）',
+          t: 'docker container prune',
           ok: true,
           why: '释放磁盘；system prune 更猛要确认是否含卷。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: '容器反复重启，第一眼看？',
       choices: [
         {
-          t: 'docker ps -a 状态 → docker logs → 必要时 inspect 健康检查与退出码',
+          t: 'docker ps -a 状态 → docker logs → 必要时 in',
           ok: true,
           why: '分层排障：先状态与日志，再清理。',
         },
@@ -155,7 +155,7 @@ export default defineQuizSet({
       q: 'Dockerfile 里 COPY 与 RUN 的分工？',
       choices: [
         {
-          t: 'COPY 拷文件进镜像；RUN 在构建时执行命令（装依赖等）',
+          t: 'COPY 拷文件进镜像',
           ok: true,
           why: '层缓存友好：先依赖清单再 COPY 源码。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: '本机 Node 连「Compose 里的 Redis 服务名」时，正确网络直觉？',
       choices: [
         {
-          t: '同一 compose 网络内用服务名作主机名；在宿主机则常用 localhost:映射端口',
+          t: '同一 compose 网络内用服务名作主机名',
           ok: true,
           why: '网络命名空间不同：容器 DNS vs 宿主回环。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: '多阶段构建（multi-stage）主要图什么？',
       choices: [
         {
-          t: '构建阶段装编译器，最终镜像只留运行所需，体积与攻击面更小',
+          t: '构建阶段装编译器',
           ok: true,
           why: '现代 Dockerfile 经典手法。',
         },

@@ -14,7 +14,7 @@ export default defineQuizSet({
     "q": "防 SQL 注入的首要做法？",
     "choices": [
       {
-        "t": "参数化/预编译绑定，勿拼接用户输入进 SQL",
+        "t": "参数化/预编译绑定",
         "ok": true,
         "why": "SQL 注入：不可信输入改变了 SQL 结构。防御：参数化/预编译/ORM 绑定，禁止字符串拼接查询。"
       },
@@ -48,7 +48,7 @@ export default defineQuizSet({
     "q": "XSS 的核心风险？",
     "choices": [
       {
-        "t": "恶意脚本在受害者浏览器执行，可偷数据或冒充操作",
+        "t": "恶意脚本在受害者浏览器执行",
         "ok": true,
         "why": "XSS：不可信输入当脚本在别人浏览器执行。防御：按上下文输出编码；勿把未消毒 HTML 当可信；Cookie 可加 HttpOnly。"
       },
@@ -82,7 +82,7 @@ export default defineQuizSet({
     "q": "调用系统命令时更稳妥的是？",
     "choices": [
       {
-        "t": "避免经 shell 拼接；白名单参数，数组形式传参",
+        "t": "避免经 shell 拼接",
         "ok": true,
         "why": "命令注入：用户输入进了 shell/exec。防御：避免 shell；参数白名单；用数组形式传参而非字符串拼接命令行。"
       },

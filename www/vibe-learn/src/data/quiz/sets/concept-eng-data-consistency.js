@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '「缓存与数据库不一致」时，更稳妥的默认心智？',
       choices: [
         {
-          t: '数据库（或明确的权威源）说了算；缓存可重建，策略要定义失效',
+          t: '数据库（或明确的权威源）说了算',
           ok: true,
           why: 'Cache aside / TTL / 主动失效需显式设计。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '事务提交成功后，再发「副作用消息/邮件」失败，暴露什么？',
       choices: [
         {
-          t: '跨系统没有自动原子性；要用发件箱/重试/补偿或事务消息模式',
+          t: '跨系统没有自动原子性',
           ok: true,
           why: '分布式经典；Agent 工具调用同理。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: '读己之写（read-your-writes）对用户会话为何重要？',
       choices: [
         {
-          t: '用户刚写入却读到旧值会感觉「丢失」——路由/主从延迟要处理',
+          t: '用户刚写入却读到旧值会感觉「丢失」',
           ok: true,
           why: '主从复制延迟是常见根因。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: 'N+1 查询问题本质？',
       choices: [
         {
-          t: '循环里每次打库：1 次列表 + N 次详情——应用层或 ORM 使用不当',
+          t: '循环里每次打库：1 次列表 +',
           ok: true,
           why: '延迟与连接打满；要批量/join/dataloader。',
         },
@@ -155,7 +155,7 @@ export default defineQuizSet({
       q: '「最终一致」适合什么，不适合什么？',
       choices: [
         {
-          t: '适合可接受短暂滞后的计数/推荐；资金与库存关键路径常要更强保证或补偿',
+          t: '适合可接受短暂滞后的计数/推荐',
           ok: true,
           why: '按业务选模型，不是时髦词。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: 'Agent/会话状态该存在哪的决策框架？',
       choices: [
         {
-          t: '按寿命与权威性：瞬时用内存、可恢复用库/对象存储，密钥仍走密管',
+          t: '按寿命与权威性：瞬时用内存、可恢复用库/对象存储',
           ok: true,
           why: '别把一切塞进 prompt 或单一全局 Map。',
         },

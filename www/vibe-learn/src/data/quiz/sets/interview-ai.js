@@ -1,232 +1,127 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 开口：RAG 产品线。命题：mcq-expert。
+ * 大厂 · LLM 应用直觉（场景决策）
+ * mcq-expert：一题一事、选项等长
  */
 export default defineQuizSet({
   id: 'interview-ai-rag',
-  title: '大厂 / 产品 · LLM 应用直觉',
+  title: '大厂 · LLM / RAG 应用直觉',
   kind: 'interview',
   domain: 'ai',
-  tags: ['AI', 'RAG', 'Embedding'],
-  relatedNodes: ['ai-embedding', 'ai-rag', 'ai-rag-eval'],
-  caption: '开口对齐：同模型、经典边界、差答优先查检索层、演示权限。',
+  tags: ['AI', 'RAG', 'Embedding', '一面'],
+  relatedNodes: ['ai-rag', 'ai-embedding', 'ai-rag-eval'],
+  caption: '窗口 · 嵌入一致性 · 检索优先 · 评测定位。',
   questions: [
     {
-      id: 'interview-ai-rag:q1',
-      q: '开口讲 Embedding 向量库时，建库与查询必须先强调哪一句？',
+      id: 'interview-ai-rag:window',
+      q: '长规则贴进提示后前面约束丢失。常见因？',
       choices: [
-        {
-          t: '建库与查询用同一套嵌入模型，向量才在同一语义空间里可比较',
-          ok: true,
-          why: '维度相同也不等于空间一致；换模型通常要整库重嵌。',
-        },
-        {
-          t: '只要向量维度数字相同，就可以随意换不同厂商模型',
-          ok: false,
-          why: '维度相同不等于语义空间一致。',
-        },
-        {
-          t: '每次查询随机换一个嵌入模型，可以平均误差',
-          ok: false,
-          why: '随机换模型会让相似度失去意义。',
-        },
-        {
-          t: 'Embedding 建库不需要模型，直接把原文 MD5 当向量即可',
-          ok: false,
-          why: 'MD5 是摘要不是语义向量。',
-        },
+        { t: '上下文窗口被截断', ok: true, why: 'token 预算有限。' },
+        { t: '窗口工程可无限', ok: false, why: '有硬上限。' },
+        { t: '注意力永不丢规则', ok: false, why: '≠无限记忆。' },
+        { t: '温度 0 就不截断', ok: false, why: '温度不改长度。' },
+      ],
+      relatedNodes: ['ai-token-context', 'ai-what'],
+    },
+    {
+      id: 'interview-ai-rag:embed',
+      q: '向量库建库与查询，必须先强调？',
+      choices: [
+        { t: '同一套嵌入模型', ok: true, why: '同空间才可比较。' },
+        { t: '维度相同可换厂', ok: false, why: '空间未必一致。' },
+        { t: '每次查询随机换模', ok: false, why: '相似度失意义。' },
+        { t: 'MD5 当语义向量', ok: false, why: '摘要≠嵌入。' },
       ],
       relatedNodes: ['ai-embedding', 'ai-vector-store'],
     },
     {
-      id: 'interview-ai-rag:q2',
-      q: '经典 RAG 是否必须先搭好多步 Agent 循环？',
+      id: 'interview-ai-rag:rag',
+      q: '公司文档问答，比整库塞提示更稳？',
       choices: [
-        {
-          t: '不必；经典 RAG 是检索→增强→生成，可以没有 Agent 循环',
-          ok: true,
-          why: 'RAG 是知识增强流水线；Agent 是多步工具循环。',
-        },
-        {
-          t: '必须先部署 MCP，否则检索无法运行',
-          ok: false,
-          why: 'MCP 是工具插接；RAG 不依赖 MCP。',
-        },
-        {
-          t: '必须先刷完所有 DSA 题才能做 RAG',
-          ok: false,
-          why: '无此前置。',
-        },
-        {
-          t: 'RAG 等于 Agent 控制循环',
-          ok: false,
-          why: '可组合但非同义。',
-        },
+        { t: '分块索引再检索注入', ok: true, why: '经典 RAG。' },
+        { t: '整库一次塞进提示', ok: false, why: '易爆窗。' },
+        { t: '先全参微调永不检索', ok: false, why: '贵且难热更新。' },
+        { t: '禁止向量只靠手贴', ok: false, why: '无法规模化。' },
       ],
-      relatedNodes: ['ai-rag', 'ai-agentic-rag'],
+      relatedNodes: ['ai-rag', 'ai-chunking'],
     },
     {
-      id: 'interview-ai-rag:q3',
-      q: '本课程「路径 A（Agent 写代码）」与「路径 B（LLM 应用/RAG）」应如何理解？',
+      id: 'interview-ai-rag:chunk',
+      q: '分块过大或过小，典型代价？',
       choices: [
-        {
-          t: '勿混成一门课；路径 B 走 LLM 应用章节，目标与 A 不同',
-          ok: true,
-          why: 'A 重工程协作写码；B 重 RAG/Embedding 等产品能力。',
-        },
-        {
-          t: '两条路径完全等同，学 B 就不用审 diff',
-          ok: false,
-          why: '涉及代码改动时仍要工程卫生。',
-        },
-        {
-          t: '路径 A 只学 RAG，路径 B 只学 Git',
-          ok: false,
-          why: '主线目标不同，但有交叉。',
-        },
-        {
-          t: '路径 B 要求放弃所有编程基础，只背模型名',
-          ok: false,
-          why: '仍需要 API、配置、安全等工程概念。',
-        },
+        { t: '过大噪音，过小丢语境', ok: true, why: '块大小是关键旋钮。' },
+        { t: '块大小完全无影响', ok: false, why: '影响召回。' },
+        { t: '越大一定越好', ok: false, why: '易引入无关。' },
+        { t: '越小一定越好', ok: false, why: '易切断语义。' },
       ],
-      relatedNodes: ['ai-rag', 'ai-agent-birth'],
+      relatedNodes: ['ai-chunking', 'ai-rag'],
     },
     {
-      id: 'interview-ai-rag:q4',
-      q: 'RAG 系统答非所问时，应优先排查哪一层？',
+      id: 'interview-ai-rag:bad',
+      q: 'RAG 答非所问，优先先查？',
       choices: [
-        {
-          t: '检索层：切块、嵌入是否一致、召回数量与重排',
-          ok: true,
-          why: 'Many 差答在检索层；先查 chunk / embedding / topK / rerank。',
-        },
-        {
-          t: '只把前端字号调大',
-          ok: false,
-          why: 'UI 不影响召回。',
-        },
-        {
-          t: '删掉向量库全部文档',
-          ok: false,
-          why: '删光等于无知识。',
-        },
-        {
-          t: '一定是参数太少，必须先 finetune 万亿模型',
-          ok: false,
-          why: '应先查检索层。',
-        },
+        { t: '检索是否召回对文档', ok: true, why: '差答先查检索层。' },
+        { t: '先全参微调基座', ok: false, why: '常非根因。' },
+        { t: '先把温度调到 2', ok: false, why: '更随机。' },
+        { t: '先关掉所有评测', ok: false, why: '失去信号。' },
       ],
-      relatedNodes: ['ai-chunking', 'ai-hybrid-search', 'ai-rerank', 'ai-rag-eval'],
+      relatedNodes: ['ai-rag-eval', 'ai-rag'],
     },
     {
-      id: 'interview-ai-rag:q5',
-      q: '把含私密内容的文档塞进对外公开演示的 RAG，最大风险是？',
+      id: 'interview-ai-rag:hybrid',
+      q: '稀疏+向量召回很杂，下一步？',
       choices: [
-        {
-          t: '默认可被检索就等于可能暴露；需权限隔离与访问控制',
-          ok: true,
-          why: '演示访客提问可能召回私密 chunk。',
-        },
-        {
-          t: 'Embedding 会自动加密隐私，无需权限设计',
-          ok: false,
-          why: 'Embedding 不是加密。',
-        },
-        {
-          t: '向量不可逆向，入库即零泄漏',
-          ok: false,
-          why: '检索命中即可把机密拼进 prompt。',
-        },
-        {
-          t: '只要用大窗口模型，私密文档就不会被检索到',
-          ok: false,
-          why: '窗口大小与是否检索到无关。',
-        },
+        { t: '融合后重排 Top-N', ok: true, why: '混合+重排可控。' },
+        { t: 'BM25 禁止配向量', ok: false, why: '常互补。' },
+        { t: '换模后永不重建', ok: false, why: '要重建索引。' },
+        { t: '有 RAG 禁止引用', ok: false, why: '引用利于核对。' },
       ],
-      relatedNodes: ['ai-prompt-security', 'ai-vector-store', 'craft-security'],
+      relatedNodes: ['ai-hybrid-search', 'ai-rerank'],
     },
     {
-      id: 'interview-ai-rag:q6',
-      q: '面试被问「内部 Wiki 该用 RAG 还是微调？」最稳的开场是？',
+      id: 'interview-ai-rag:ft',
+      q: '知识常变的内部文档问答，更优先？',
       choices: [
-        {
-          t: '默认 RAG：保新鲜、可引用、可做权限；风格/固定技能再考虑微调',
-          ok: true,
-          why: '私有、常变知识更适合检索。',
-        },
-        {
-          t: '一律先全参微调，检索是过时技术',
-          ok: false,
-          why: '成本高且难以及时更新。',
-        },
-        {
-          t: '两者互斥，用了 RAG 就不能再微调',
-          ok: false,
-          why: '可组合。',
-        },
-        {
-          t: 'Wiki 应整库塞进 system 提示一次',
-          ok: false,
-          why: '易爆窗且难权限过滤。',
-        },
+        { t: 'RAG/检索增强优先', ok: true, why: '语料可热更新。' },
+        { t: '一上来全参微调', ok: false, why: '贵且慢。' },
+        { t: '禁止任何检索', ok: false, why: '缺依据。' },
+        { t: '只调温度不碰知识', ok: false, why: '温度不注事实。' },
       ],
-      relatedNodes: ['ai-rag', 'ai-finetune', 'ai-adaptation'],
+      relatedNodes: ['ai-finetune', 'ai-rag'],
     },
     {
-      id: 'interview-ai-rag:q7',
-      q: '用户搜精确错误码「E1042」，哪种检索最可靠？',
+      id: 'interview-ai-rag:hallu',
+      q: '模型编造不存在的接口。工程上？',
       choices: [
-        {
-          t: '关键词 / BM25（常放在混合检索里）',
-          ok: true,
-          why: '错误码是字面强信号。',
-        },
-        {
-          t: '只靠语义向量并删掉错误码',
-          ok: false,
-          why: '删掉最强字面信号。',
-        },
-        {
-          t: '只靠更大参数量模型的预训练记忆',
-          ok: false,
-          why: '内部错误码往往不在训练数据里。',
-        },
-        {
-          t: '关掉检索，调高 temperature',
-          ok: false,
-          why: '采样不替代检索。',
-        },
+        { t: '检索/工具约束再生成', ok: true, why: '靠依据降幻觉。' },
+        { t: '把温度调到最高', ok: false, why: '更发散。' },
+        { t: '禁止一切评测', ok: false, why: '无法量化。' },
+        { t: '认为窗口无限就好', ok: false, why: '不解决无依据。' },
       ],
-      relatedNodes: ['ai-hybrid-search', 'ai-embedding'],
+      relatedNodes: ['ai-what', 'ai-rag'],
     },
     {
-      id: 'interview-ai-rag:q8',
-      q: '开口讲「有据胡说」时，想表达什么？',
+      id: 'interview-ai-rag:attn',
+      q: '注意力机制主要在做什么？',
       choices: [
-        {
-          t: '检索已召回材料，但生成仍可能无视证据编造',
-          ok: true,
-          why: '所以要测忠实度与引用，不只看 Recall。',
-        },
-        {
-          t: '向量库磁盘坏了',
-          ok: false,
-          why: '是生成忠实度问题。',
-        },
-        {
-          t: 'HTTP 401',
-          ok: false,
-          why: '鉴权问题，不是「有据胡说」。',
-        },
-        {
-          t: '分块重叠设得太小',
-          ok: false,
-          why: '重叠影响边界，不是此术语本意。',
-        },
+        { t: '按相关性加权聚合', ok: true, why: '不保证事实正确。' },
+        { t: '保证输出永远正确', ok: false, why: '仍会幻觉。' },
+        { t: '证明只有它能 NLP', ok: false, why: '还有其他路线。' },
+        { t: '自动删除提示密钥', ok: false, why: '无此能力。' },
       ],
-      relatedNodes: ['ai-rag-eval', 'ai-rerank'],
+      relatedNodes: ['ai-attention', 'ai-transformer'],
+    },
+    {
+      id: 'interview-ai-rag:cite',
+      q: '对内知识问答要可核对，生成侧宜？',
+      choices: [
+        { t: '要求引用检索片段', ok: true, why: '可追溯、降瞎编。' },
+        { t: '禁止出现任何引用', ok: false, why: '更难核对。' },
+        { t: '只靠提高温度', ok: false, why: '不增加依据。' },
+        { t: '关掉检索只靠背', ok: false, why: '易幻觉。' },
+      ],
+      relatedNodes: ['ai-rag', 'ai-rag-eval'],
     },
   ],
 });

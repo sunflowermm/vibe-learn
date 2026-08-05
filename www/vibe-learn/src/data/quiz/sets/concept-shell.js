@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '脚本里要把「检索结果」交给下一命令继续处理，心智模型是？',
       choices: [
         {
-          t: '用管道把前一个命令的 stdout 接到后一个命令的 stdin，组成流水线',
+          t: '用管道把前一个命令的 stdout 接到后一个命令的 s',
           ok: true,
           why: '运算符细节见 shell-op；这里强调「数据在进程间流过」，不是建 TCP。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: 'PowerShell 相对经典 sh/Bash 的显著点？',
       choices: [
         {
-          t: '管道里常传 .NET 对象而非纯文本；Windows 系统管理面常见',
+          t: '管道里常传 .NET 对象而非纯文本',
           ok: true,
           why: '对象管道便于按属性筛选；与 Bash 文本管道对照着学。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: '为何脚本开头常写 shebang，且推荐 `#!/usr/bin/env bash` 这类形式？',
       choices: [
         {
-          t: '声明用哪个解释器执行；env 形式按 PATH 找 bash，移植更友好',
+          t: '声明用哪个解释器执行',
           ok: true,
           why: '缺执行位或 shebang 错会导致「权限不够」或跑错解释器——细节见 shell-op。',
         },
@@ -155,7 +155,7 @@ export default defineQuizSet({
       q: '为何要分清 stdout 与 stderr？',
       choices: [
         {
-          t: '正常结果走 stdout，诊断常走 stderr；管道默认主要带走 stdout',
+          t: '正常结果走 stdout，诊断常走 stderr',
           ok: true,
           why: '所以需要把报错一并进日志/管道时，才显式 `2>&1`（见 shell-op）。',
         },

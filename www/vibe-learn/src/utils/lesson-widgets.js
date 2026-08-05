@@ -18,6 +18,7 @@
  * - diff | pairfix     对错对照
  * - fill | blank         命令填空
  * - pick | classify      点选归类
+ * - algo | viz | animate 经典算法动画
  */
 
 import { createApp } from 'vue';
@@ -53,6 +54,7 @@ import {
   parseSortSource,
   parseStepsSource,
 } from './lesson-widget-play.js';
+import { mountAlgoViz, parseAlgoSource } from './lesson-algo-viz.js';
 
 const PROMPT_RE = /^(?<prompt>\$ |PS> |# |> )/;
 
@@ -464,6 +466,9 @@ const MOUNTERS = {
   blank: (host, src) => mountFill(host, parseFillSource(src)),
   pick: (host, src) => mountPick(host, parsePickSource(src)),
   classify: (host, src) => mountPick(host, parsePickSource(src)),
+  algo: (host, src) => mountAlgoViz(host, parseAlgoSource(src)),
+  viz: (host, src) => mountAlgoViz(host, parseAlgoSource(src)),
+  animate: (host, src) => mountAlgoViz(host, parseAlgoSource(src)),
 };
 
 /**

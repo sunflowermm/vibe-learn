@@ -74,7 +74,7 @@ export default defineQuizSet({
       q: '错误响应设计，更专业的做法是？',
       choices: [
         {
-          t: '稳定错误码 + 人类可读 message + 可选细节；堆栈留给服务端日志',
+          t: '稳定错误码 + 人类可读 message + 可选细节',
           ok: true,
           why: '客户端要可分支处理；勿把内部堆栈当合同。',
         },
@@ -102,7 +102,7 @@ export default defineQuizSet({
       q: '列表接口为什么常要分页/游标，而不是一次返回百万行？',
       choices: [
         {
-          t: '控制延迟、内存与超时；契约里写清 page/cursor 与排序稳定性',
+          t: '控制延迟、内存与超时',
           ok: true,
           why: '偶发大数据集会拖垮双方。',
         },
@@ -130,7 +130,7 @@ export default defineQuizSet({
       q: 'Idempotency-Key（幂等键）常见用在哪？',
       choices: [
         {
-          t: '客户端重试 POST 创建类请求时，服务端用键去重，避免双花',
+          t: '客户端重试 POST 创建类请求时',
           ok: true,
           why: '支付/下单/资源创建经典；Agent 工具调用同样需要。',
         },
@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: 'API 版本策略里，较务实的一种是？',
       choices: [
         {
-          t: 'URL 或头带版本；破坏性变更走新版本并给迁移窗，旧版有日落计划',
+          t: 'URL 或头带版本',
           ok: true,
           why: '避免静默破坏。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '给 Agent 暴露「工具 API」时，契约上最该多约束什么？',
       choices: [
         {
-          t: '参数 schema、权限边界、超时与失败语义——模型会乱调用',
+          t: '参数 schema、权限边界、超时与失败语义',
           ok: true,
           why: '工具环=不可信调用方之一。',
         },
@@ -270,7 +270,7 @@ export default defineQuizSet({
       q: 'OpenAPI / JSON Schema 在工程协作里的价值是？',
       choices: [
         {
-          t: '可生成文档/客户端/校验，减少口口相传的漂移',
+          t: '可生成文档/客户端/校验',
           ok: true,
           why: '契约可机器检查。',
         },
@@ -298,7 +298,7 @@ export default defineQuizSet({
       q: '前后端对同一字段：后端改名、前端未发版。最可能的结果是？',
       choices: [
         {
-          t: '前端读到 undefined/异常分支——属于破坏性契约变更',
+          t: '前端读到 undefined/异常分支',
           ok: true,
           why: '要版本化、双写或同步发版。',
         },

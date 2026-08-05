@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: 'AiWorkflow 代码与配置通常？',
       choices: [
         {
-          t: '代码在 core/*/workflow/；配置常对应 ai-workflow',
+          t: '代码在 core/*/workflow/',
           ok: true,
           why: 'Loader 按约定扫描 workflow；配置名别和目录搞反。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: 'Factory、MCP、工作流分工？',
       choices: [
         {
-          t: '工厂选模型客户端；MCP 挂工具；工作流编排步骤',
+          t: '工厂选模型客户端',
           ok: true,
           why: '三者正交：模型面 / 工具面 / 编排面。',
         },

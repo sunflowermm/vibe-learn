@@ -315,7 +315,7 @@ export default defineQuizSet({
     "q": "把本地提交同步到远程？",
     "choices": [
       {
-        "t": "git push（首次常 git push -u origin HEAD）",
+        "t": "git push",
         "ok": true,
         "why": "git push：把本地提交推到远程；首次常用 -u 设上游。"
       },

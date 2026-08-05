@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '「JS 是单线程」是否等于「不会有竞态」？',
       choices: [
         {
-          t: '否：异步交错仍会导致读改写乱序，共享对象会被并发逻辑踩踏',
+          t: '否：异步交错仍会导致读改写乱序',
           ok: true,
           why: 'await 间隙其它任务可插入，单线程≠无竞态。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '两个请求同时改同一内存里的会话对象，风险？',
       choices: [
         {
-          t: '丢失更新、读到半成品状态——要用隔离、队列或不可变快照',
+          t: '丢失更新、读到半成品状态',
           ok: true,
           why: 'Agent 会话/缓存里的高频坑。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: 'Promise.all 相对 allSettled，失败语义差在？',
       choices: [
         {
-          t: 'all：一失败就拒；allSettled：等全部结束并带各自状态——部分失败策略不同',
+          t: 'all：一失败就拒',
           ok: true,
           why: '批量调工具/API 时要显式选语义。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: '请求已取消/客户端断开，服务端仍继续跑重活，问题？',
       choices: [
         {
-          t: '浪费 CPU/配额/锁；应传播 AbortSignal/取消令牌并停止',
+          t: '浪费 CPU/配额/锁',
           ok: true,
           why: '流式对话与长任务必备。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: '缓存里的「读改写」无锁时？',
       choices: [
         {
-          t: '可能丢增量：应用层要用原子操作、版本号或单飞（singleflight）',
+          t: '可能丢增量：应用层要用原子操作',
           ok: true,
           why: 'Redis INCR/Lua、或互斥刷新。',
         },
@@ -155,7 +155,7 @@ export default defineQuizSet({
       q: 'async 函数里「先查后写」两段 await 之间？',
       choices: [
         {
-          t: '其它逻辑可能已改数据，TOCTOU 经典；关键路径要事务或条件写',
+          t: '其它逻辑可能已改数据，TOCTOU 经典',
           ok: true,
           why: 'Time-of-check to time-of-use。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: '限流器放在哪里更合理？',
       choices: [
         {
-          t: '入口与昂贵依赖前（网关/服务内）；按主体（IP/用户/API Key）计量',
+          t: '入口与昂贵依赖前（网关/服务内）',
           ok: true,
           why: '保护自己也保护下游。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: '日志里出现交错的同一 requestId 两段输出，说明？',
       choices: [
         {
-          t: '并发处理同一请求或复用了错误的上下文——要用正确的异步上下文传递',
+          t: '并发处理同一请求或复用了错误的上下文',
           ok: true,
           why: '可观测性与并发正确性交界。',
         },

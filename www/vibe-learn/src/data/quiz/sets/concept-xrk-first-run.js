@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: 'Node 不满足 engines 时？',
       choices: [
         {
-          t: '新语法/API 不可用或告警——升级到文档要求版本',
+          t: '新语法/API 不可用或告警',
           ok: true,
           why: '本仓面向较新 Node（Current/LTS 要求见 package）。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: '公网访问与反代的常见结构？',
       choices: [
         {
-          t: '公网 443 → Nginx 等 → 本机 Node 端口；证书挂在入口',
+          t: '公网 443 → Nginx',
           ok: true,
           why: '部署环境课与 nginx 课同一模式。',
         },
@@ -123,7 +123,7 @@ export default defineQuizSet({
       q: '出网拉依赖或调模型 API 失败，环境层先查？',
       choices: [
         {
-          t: 'HTTP(S)_PROXY / ALL_PROXY 与 NO_PROXY，再查业务 yaml 里的代理字段',
+          t: 'HTTP(S)_PROXY',
           ok: true,
           why: '境外源与模型 API 常卡在代理；先环境后业务。',
         },

@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '脚本里要「找到匹配文件再批量处理」，比手写循环更稳妥的常见模式？',
       choices: [
         {
-          t: 'find … -print0 | xargs -0 …（或 find -exec），注意空格/特殊字符',
+          t: 'find … -print0 | xargs',
           ok: true,
           why: '裸 for f in $(ls) 遇空格会拆词；-print0/-0 按 NUL 分隔更安全。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '查看进程并用名字过滤 node 时，更稳妥的说法？',
       choices: [
         {
-          t: 'ps … | grep node 可用，但要注意匹配到 grep 自身；也可用 pgrep -a node',
+          t: 'ps … | grep node 可用',
           ok: true,
           why: '经典组合；杀进程前先确认 PID，勿盲 kill -9。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: '看 systemd 服务近期日志？',
       choices: [
         {
-          t: 'journalctl -u my.service -n 100 --no-pager',
+          t: 'journalctl -u my.service -n',
           ok: true,
           why: '按单元过滤；排障比翻散落的 /var/log 文件更直接。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: '把命令放到后台跑、再拉回前台，经典作业控制？',
       choices: [
         {
-          t: '命令末尾 `&` 后台；`fg` 拉回；前台可用 Ctrl+C 打断',
+          t: '命令末尾 `&` 后台',
           ok: true,
           why: '与另开终端互补；jobs 可列后台任务。',
         },

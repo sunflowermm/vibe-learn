@@ -341,9 +341,10 @@ assertNoCardOverlap(CRAFT_TOPICS, 'frameCraft');
  * ═══════════════════════════════════════════ */
 const DSA_TOPICS = laneBlockPositions(
   [
-    ['dsa-complexity', 'dsa-linear', 'dsa-hash'],
-    ['dsa-tree', 'dsa-graph', 'dsa-sort'],
-    ['dsa-dp', 'dsa-hot'],
+    ['dsa-complexity', 'dsa-linear', 'dsa-hash', 'dsa-tree'],
+    ['dsa-graph', 'dsa-sort', 'dsa-recurse', 'dsa-two-pointers'],
+    ['dsa-union-find', 'dsa-string', 'dsa-bitwise', 'dsa-dp'],
+    ['dsa-ml', 'dsa-hot'],
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, laneGap: LANE_GAP }
 );

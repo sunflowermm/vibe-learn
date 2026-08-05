@@ -25,6 +25,22 @@ export default `# 排序与查找
 
 稳定 = 相等元素相对顺序不变（多关键字排序时重要）。
 
+\`\`\`algo
+{"title":"冒泡排序","kind":"bubble","data":[5,2,8,1,9,3],"speed":360,"caption":"相邻比较交换；教学最直观。"}
+\`\`\`
+
+\`\`\`algo
+{"title":"插入排序","kind":"insertion","data":[5,2,8,1,9,3],"speed":380,"caption":"把当前元素插入到左侧已排好的区间。"}
+\`\`\`
+
+\`\`\`algo
+{"title":"选择排序","kind":"selection","data":[5,2,8,1,9,3],"speed":380,"caption":"每轮选出剩余最小，换到前面。"}
+\`\`\`
+
+\`\`\`algo
+{"title":"快排划分（枢轴）","kind":"quick","data":[5,2,8,1,9,3,7,4],"speed":400,"caption":"枢轴就位后左右递归；平均 n log n。"}
+\`\`\`
+
 ## 二分查找
 
 前提：序列对答案**单调**（有序数组是特例）。
@@ -35,9 +51,8 @@ export default `# 排序与查找
 | 中点溢出 | \`l + ((r - l) >> 1)\` |
 | 找边界 | 「第一个 ≥ target」「最后一个 ≤ target」分清 |
 
-\`\`\`javascript
-// 概念：在有序 arr 中找 target 下标，没有返回 -1
-// while (l <= r) { mid = …; 比较后缩左或右半 }
+\`\`\`algo
+{"title":"二分查找","kind":"binsearch","data":[1,3,5,7,9,11,13,15],"speed":420,"caption":"每次丢掉一半；目标在演示里是 11。"}
 \`\`\`
 
 \`\`\`match

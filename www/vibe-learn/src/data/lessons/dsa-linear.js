@@ -34,6 +34,10 @@ export default `# 线性结构：数组 · 链表 · 栈 · 队列
 - **栈**：LIFO；递归可看成系统栈。  
 - **队列**：FIFO；环形数组实现常考。  
 
+\`\`\`algo
+{"title":"反转链表","kind":"ll-reverse","data":[1,2,3,4,5],"speed":420,"caption":"三指针：prev / cur / next；每次把 cur.next 扳向 prev。"}
+\`\`\`
+
 \`\`\`javascript
 // 栈 / 队列直觉（数组模拟）
 const stack = []

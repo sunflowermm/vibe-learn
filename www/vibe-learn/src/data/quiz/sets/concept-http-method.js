@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: 'HTTP GET 的语义约定是？',
       choices: [
         {
-          t: '获取资源表示；按约定不应产生修改副作用，查询参数放 URL',
+          t: '获取资源表示；按约定不应产生修改副作用',
           ok: true,
           why: '可缓存；大厂禁止用 GET 做删除/扣款。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: 'HTTP POST 更适合哪类操作？',
       choices: [
         {
-          t: '提交处理/常用于创建；重复提交可能产生多条结果（通常非幂等）',
+          t: '提交处理/常用于创建',
           ok: true,
           why: '表单提交与「创建」常用 POST。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: 'HTTP PUT 相对 POST，关键语义差别是？',
       choices: [
         {
-          t: '按指定 URI 整体替换资源，语义上幂等',
+          t: '按指定 URI 整体替换资源',
           ok: true,
           why: '同一 URL 多次 PUT 结果应一致；与 POST「由服务器分配 id」不同。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: 'HTTP PATCH 表示？',
       choices: [
         {
-          t: '部分更新资源（补丁），不必整份替换',
+          t: '部分更新资源（补丁）',
           ok: true,
           why: '与 PUT 全量替换区分。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: 'HTTP OPTIONS 的常见用途是？',
       choices: [
         {
-          t: '查询允许的方法；浏览器 CORS 预检也常用',
+          t: '查询允许的方法；浏览器',
           ok: true,
           why: '响应可含 Allow 与 CORS 相关头。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: '「安全方法」与「幂等方法」更容易搞混的一点是？',
       choices: [
         {
-          t: '安全指不应改服务器状态（如 GET）；幂等指多次副作用与一次相同（PUT/DELETE 可写仍幂等）',
+          t: '安全指不应改服务器状态（如 GET）',
           ok: true,
           why: 'DELETE 不「安全」但幂等；POST 通常既不安全也不幂等。',
         },

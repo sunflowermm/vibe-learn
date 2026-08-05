@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: 'Accept Agent 改动前？',
       choices: [
         {
-          t: '审 diff（防越界改 src/）+ 本机跑通相关路径',
+          t: '审 diff（防越界改 src',
           ok: true,
           why: '人机协作底线：看行为，不看语气。',
         },
@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: '项目交底优先维护？',
       choices: [
         {
-          t: 'AGENTS.md / skills 等版本化文件，事实对齐',
+          t: 'AGENTS.md',
           ok: true,
           why: '可移植、可 PR；不写密钥。',
         },

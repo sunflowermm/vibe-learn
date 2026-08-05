@@ -150,7 +150,7 @@ export default defineQuizSet({
       q: 'YAML 配置文件中缩进错一位，常见的后果是什么？',
       choices: [
         {
-          t: '层级结构被解析错误，可能导致服务启动失败或配置 silently 错位',
+          t: '层级结构被解析错误',
           ok: true,
           why: 'YAML 用缩进表达嵌套，空格错了会把子项挂到错误父节点。',
         },

@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '测试金字塔直觉（单位 → 集成 → E2E）图什么？',
       choices: [
         {
-          t: '越下层越快越稳、数量应更多；E2E 少而精锁关键用户路径',
+          t: '越下层越快越稳、数量应更多',
           ok: true,
           why: '全是 E2E 又慢又脆。',
         },
@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '什么最值得写成自动化回归？',
       choices: [
         {
-          t: '曾线上炸过的、钱/权限/数据损坏相关、核心不变量',
+          t: '曾线上炸过的、钱',
           ok: true,
           why: '用历史事故喂测试套件。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: '对外部 LLM/支付 API，单测里更合理的是？',
       choices: [
         {
-          t: '用假对象/录制回放锁住你的适配层；另设少量契约/沙箱集成',
+          t: '用假对象/录制回放锁住你的适配层',
           ok: true,
           why: '测你的边界，别把套件绑死在公网波动。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: '契约测试（consumer-driven / schema 校验）解决什么？',
       choices: [
         {
-          t: '提供方改破响应形状时尽早红灯，而不是等前端线上炸',
+          t: '提供方改破响应形状时尽',
           ok: true,
           why: '与 API 契约思维呼应。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: 'flaky 测试正确处置？',
       choices: [
         {
-          t: '隔离、修根因或删；禁止让团队学会「再点一次重跑」',
+          t: '隔离、修根因或删',
           ok: true,
           why: '红灯信任破产比少一个测试更糟。',
         },
@@ -155,7 +155,7 @@ export default defineQuizSet({
       q: '「测试通过」不能证明什么？',
       choices: [
         {
-          t: '需求理解正确、无性能塌陷、无安全漏洞、无未覆盖路径',
+          t: '需求理解正确、无性能塌陷、无安全漏洞、无',
           ok: true,
           why: '测试是抽样；要配合评审与观测。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: '修 bug 时配套测试的专业标准？',
       choices: [
         {
-          t: '先（或同时）有失败用例证明 bug，修好后变绿并留在套件里',
+          t: '先（或同时）有失败用例证明',
           ok: true,
           why: '防回归的最小闭环。',
         },
@@ -211,7 +211,7 @@ export default defineQuizSet({
       q: '对配置/特性开关，测试应注意？',
       choices: [
         {
-          t: '覆盖关键开关组合；默认安全；禁止「未测过的旗标直接全量」',
+          t: '覆盖关键开关组合',
           ok: true,
           why: '旗标组合会改行为路径；未测就全量等于盲飞。',
         },

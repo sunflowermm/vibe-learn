@@ -128,17 +128,17 @@ export default defineQuizSet({
           why: '工作台价值是加速，不是免审；与 vibe 课一致。',
         },
         {
-          t: '无脑全盘 Accept',
+          t: "无脑全盘 Accept，默认 Agent 不会越界改 Runtime 或密钥",
           ok: false,
           why: '易引入越界改动。',
         },
         {
-          t: '先把密钥写进仓库方便 Agent',
+          t: "先把密钥写进仓库，方便 Agent 下次自动读取继续改代码",
           ok: false,
           why: '密钥禁止进仓；应走环境变量或 Secrets。',
         },
         {
-          t: '只看语气是否友好',
+          t: "只看回复语气是否友好，不必阅读 diff 或本机跑通",
           ok: false,
           why: '看行为与可运行结果。',
         },

@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '从系统结构看，操作系统（Operating System）最核心的职责是什么？',
       choices: [
         {
-          t: '管理中央处理器（CPU）、内存、磁盘等硬件，并向应用提供进程、文件等抽象',
+          t: '管理中央处理器（CPU）、内存、磁盘等硬件',
           ok: true,
           why: 'OS 位于硬件与应用之间，负责资源调度与安全隔离。',
         },

@@ -1602,6 +1602,309 @@
   border-color: color-mix(in srgb, #fb7185 40%, transparent);
 }
 
+/* ───────── 经典算法动画 ───────── */
+
+.vibe-algo {
+  margin: 1.15rem 0 1.4rem;
+}
+
+.vibe-algo__card {
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--mist) 22%, transparent);
+  background:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 55%),
+    color-mix(in srgb, var(--ink) 42%, transparent);
+  padding: 0.85rem 1rem 1rem;
+  box-shadow: var(--shadow-sm, 0 1px 2px rgb(0 0 0 / 12%));
+}
+
+.vibe-algo__title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--node-title);
+  margin-bottom: 0.25rem;
+}
+
+.vibe-algo__caption {
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  color: var(--mist-dim);
+  line-height: 1.45;
+}
+
+.vibe-algo__stage {
+  min-height: 8.5rem;
+  margin: 0.35rem 0 0.55rem;
+  display: grid;
+  place-items: center;
+}
+
+.vibe-algo__bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  height: 8.5rem;
+  padding: 0.35rem 0.2rem 0;
+}
+
+.vibe-algo__bar-wrap {
+  flex: 1 1 0;
+  max-width: 2.4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.vibe-algo__bar-wrap.is-dim {
+  opacity: 0.38;
+}
+
+.vibe-algo__bar-wrap.is-active .vibe-algo__bar {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #38bdf8 45%, transparent);
+}
+
+.vibe-algo__bar-wrap.is-pivot .vibe-algo__bar {
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #fbbf24 45%, transparent);
+}
+
+.vibe-algo__bar-wrap.is-done .vibe-algo__bar {
+  background: linear-gradient(180deg, #34d399, #10b981);
+}
+
+.vibe-algo__bar {
+  width: 100%;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 55%, #94a3b8), color-mix(in srgb, var(--accent) 28%, #64748b));
+  transition:
+    height 0.28s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  min-height: 8px;
+}
+
+.vibe-algo__bar-lab {
+  font-size: 0.68rem;
+  font-weight: 650;
+  color: var(--mist-dim);
+}
+
+.vibe-algo__grid {
+  display: grid;
+  gap: 0.28rem;
+  width: min(100%, 16rem);
+}
+
+.vibe-algo__cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--mist) 22%, transparent);
+  background: color-mix(in srgb, var(--ink) 50%, transparent);
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--node-title);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.vibe-algo__cell.is-wall {
+  background: color-mix(in srgb, #64748b 55%, transparent);
+  border-color: transparent;
+}
+
+.vibe-algo__cell.is-start {
+  background: color-mix(in srgb, #38bdf8 45%, transparent);
+  border-color: #38bdf8;
+}
+
+.vibe-algo__cell.is-goal {
+  background: color-mix(in srgb, #34d399 40%, transparent);
+  border-color: #34d399;
+}
+
+.vibe-algo__cell.is-visit {
+  background: color-mix(in srgb, #a78bfa 38%, transparent);
+  border-color: color-mix(in srgb, #a78bfa 55%, transparent);
+  transform: scale(0.94);
+}
+
+.vibe-algo__cell.is-frontier {
+  background: color-mix(in srgb, #38bdf8 28%, transparent);
+  border-color: color-mix(in srgb, #38bdf8 50%, transparent);
+}
+
+.vibe-algo__cell.is-path {
+  background: color-mix(in srgb, #fbbf24 42%, transparent);
+  border-color: #fbbf24;
+}
+
+.vibe-algo__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.2rem;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.vibe-algo__node-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.vibe-algo__node {
+  min-width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--node-title);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.vibe-algo__node.is-active {
+  background: color-mix(in srgb, #38bdf8 35%, transparent);
+  border-color: #38bdf8;
+  transform: scale(1.08);
+}
+
+.vibe-algo__arrow {
+  color: var(--mist-dim);
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.vibe-algo__uf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+  padding: 0.6rem 0;
+}
+
+.vibe-algo__uf-item {
+  width: 3.2rem;
+  min-height: 2.8rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--uf, var(--mist)) 55%, transparent);
+  background: color-mix(in srgb, var(--uf, var(--ink)) 28%, transparent);
+  color: var(--node-title);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.vibe-algo__uf-item.is-active {
+  transform: scale(1.08);
+  border-color: #38bdf8;
+}
+
+.vibe-algo__uf-p {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--mist-dim);
+  line-height: 1.15;
+  margin-top: 0.1rem;
+}
+
+.vibe-algo__gd {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.vibe-algo__gd-svg {
+  width: 100%;
+  height: auto;
+  color: color-mix(in srgb, var(--accent) 70%, #94a3b8);
+}
+
+.vibe-algo__gd-dot {
+  fill: #fbbf24;
+  stroke: #0f172a;
+  stroke-width: 1.5;
+  transition: cx 0.2s ease, cy 0.2s ease;
+}
+
+.vibe-algo__log {
+  min-height: 1.4rem;
+  margin: 0.25rem 0 0.55rem;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--signal, #7dd3fc);
+  font-variant-numeric: tabular-nums;
+}
+
+.vibe-algo__controls {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.vibe-algo__btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--node-title);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.vibe-algo__btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.vibe-algo__btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.vibe-algo__btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.vibe-algo__btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vibe-env,
   .vibe-quiz,
@@ -1615,7 +1918,8 @@
   .vibe-sort,
   .vibe-diff,
   .vibe-fill,
-  .vibe-pick {
+  .vibe-pick,
+  .vibe-algo {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1628,5 +1932,12 @@
   .vibe-quiz__choice.is-pop,
   .vibe-quiz__choice.is-shake {
     animation: none;
+  }
+  .vibe-algo__bar,
+  .vibe-algo__bar-wrap,
+  .vibe-algo__cell,
+  .vibe-algo__node,
+  .vibe-algo__gd-dot {
+    transition: none;
   }
 }

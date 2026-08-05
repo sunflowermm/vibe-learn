@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: '调境外模型 API 时，本机「边缘与出口」应优先核对哪一类问题？',
       choices: [
         {
-          t: 'DNS 是否可达、代理出口是否生效、防火墙/安全组、证书挂在哪',
+          t: 'DNS 是否可达、代理出口是否生效、防火墙',
           ok: true,
           why: '上线与调境外 API 最先卡在链路与解析，而不是业务字段细节。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '多数 LLM 的 HTTPS API 跑在 TCP 上，而不是裸 UDP，主要因为？',
       choices: [
         {
-          t: '需要可靠、有序的字节流，完整 JSON 请求/响应不能赌丢一半',
+          t: '需要可靠、有序的字节流',
           ok: true,
           why: 'TCP 提供确认与重传；裸 UDP 是尽力投递（除非上层如 QUIC 另做可靠）。',
         },
@@ -242,7 +242,7 @@ export default defineQuizSet({
       q: '服务监听时选 127.0.0.1 与选 0.0.0.0，关键差别是？',
       choices: [
         {
-          t: '127.0.0.1 仅本机回环可访；0.0.0.0 常表示监听本机所有网卡',
+          t: '127.0.0.1 仅本机回环可访',
           ok: true,
           why: '乱开 0.0.0.0 等于扩大暴露面，要配防火墙/安全组。',
         },
@@ -270,7 +270,7 @@ export default defineQuizSet({
       q: 'TLS/HTTPS 在传输上主要解决什么问题？',
       choices: [
         {
-          t: '加密与身份校验，降低明文窃听与中间人篡改风险',
+          t: '加密与身份校验，降低明文窃听与中',
           ok: true,
           why: 'API Key、Cookie、用户数据应走 TLS；它不替代应用鉴权。',
         },
@@ -298,7 +298,7 @@ export default defineQuizSet({
       q: '本机 curl 接口通，公网访问同一服务不通。更合理的第一步是？',
       choices: [
         {
-          t: '查安全组/防火墙是否放行，以及 DNS 是否指到这台机',
+          t: '查安全组/防火墙是否放行',
           ok: true,
           why: '本机通说明进程多半活着；公网不通优先查入口网络与解析。',
         },

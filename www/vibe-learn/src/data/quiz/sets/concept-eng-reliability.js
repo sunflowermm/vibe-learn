@@ -18,7 +18,7 @@ export default defineQuizSet({
       q: '对外部 HTTP/LLM API 调用，没有超时限制时最常见的后果？',
       choices: [
         {
-          t: '线程/连接被挂死，故障在调用方堆积，最终拖垮整条链路',
+          t: '线程/连接被挂死',
           ok: true,
           why: '超时是责任边界：宁肯失败可重试，也不要无限等待。',
         },
@@ -46,7 +46,7 @@ export default defineQuizSet({
       q: '对写操作（下单、扣款、创建资源）盲目自动重试，危险在哪？',
       choices: [
         {
-          t: '可能重复执行副作用；除非接口幂等或带幂等键',
+          t: '可能重复执行副作用',
           ok: true,
           why: '网关/Agent 重试很常见；写路径必须可安全重放。',
         },
@@ -74,7 +74,7 @@ export default defineQuizSet({
       q: '指数退避 + 抖动（jitter）用在重试上，主要图什么？',
       choices: [
         {
-          t: '避免雪崩：别让所有客户端同一时刻打满已恢复的依赖',
+          t: '避免雪崩：别让所有客户',
           ok: true,
           why: '经典流量整形；LLM 429 场景同样适用。',
         },
@@ -102,7 +102,7 @@ export default defineQuizSet({
       q: '依赖持续 5xx 时，「熔断/快速失败」相对「死磕重试」？',
       choices: [
         {
-          t: '短时拒绝或走降级，给依赖恢复空间，保护本服务资源',
+          t: '短时拒绝或走降级',
           ok: true,
           why: '失败要可控；无限重试会自我 DDoS。',
         },
@@ -130,7 +130,7 @@ export default defineQuizSet({
       q: '优雅降级（degradation）更接近哪句？',
       choices: [
         {
-          t: '核心路径保可用；次要能力关掉或返回缓存/默认，而不是整站 500',
+          t: '核心路径保可用；次要能力关掉或返回缓存/默认',
           ok: true,
           why: '产品与工程共同设计「坏的时候还剩什么」。',
         },
@@ -158,7 +158,7 @@ export default defineQuizSet({
       q: '背压（backpressure）直觉？',
       choices: [
         {
-          t: '下游处理不过来时，上游应限速/排队/丢弃策略明确，而不是无限缓冲撑爆内存',
+          t: '下游处理不过来时',
           ok: true,
           why: '流式 LLM、消息队列、日志管道都要谈。',
         },
@@ -186,7 +186,7 @@ export default defineQuizSet({
       q: '线上故障处理顺序，专业工程师更认哪套？',
       choices: [
         {
-          t: '止血（回滚/限流/开关）→ 定位（日志/指标/追踪）→ 根因与防护 → 复盘',
+          t: '止血（回滚/限流/开关）→ 定',
           ok: true,
           why: '先保护用户，再追求完美根因。',
         },
@@ -214,7 +214,7 @@ export default defineQuizSet({
       q: '健康检查（liveness vs readiness）为何要分开想？',
       choices: [
         {
-          t: '进程活着≠能接流量；未就绪时应摘流，避免把请求打进半残实例',
+          t: '进程活着≠能接流量',
           ok: true,
           why: 'K8s/反代/容器编排经典；本机 Docker 同样适用。',
         },
@@ -242,7 +242,7 @@ export default defineQuizSet({
       q: 'SLO/错误预算对「要不要继续发版」的意义？',
       choices: [
         {
-          t: '用客观可用性预算约束发版节奏：烧完预算就优先稳定性',
+          t: '用客观可用性预算约束发版节奏',
           ok: true,
           why: '比「感觉还行」更专业。',
         },

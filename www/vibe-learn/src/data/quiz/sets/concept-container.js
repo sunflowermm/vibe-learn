@@ -69,7 +69,7 @@ export default defineQuizSet({
       q: 'Docker Compose 适合解决哪类日常问题？',
       choices: [
         {
-          t: '用一份 YAML 声明并启动多容器应用（如 Web + Redis + DB）',
+          t: '用一份 YAML 声明并启动多容器应用',
           ok: true,
           why: '编排本地或小规模多服务，比手写多条 docker run 省心。',
         },
@@ -178,7 +178,7 @@ export default defineQuizSet({
       q: '.dockerignore 的作用类似？',
       choices: [
         {
-          t: '减小 build 上下文：排除 node_modules、.git 等，加快构建并避免误拷密钥',
+          t: '减小 build 上下文',
           ok: true,
           why: '与 .gitignore 同思路：控制送进 daemon 的文件。',
         },
@@ -206,7 +206,7 @@ export default defineQuizSet({
       q: '容器与虚拟机选型时更贴切的说法？',
       choices: [
         {
-          t: '要强隔离/不同内核场景偏 VM；要轻量一致的应用分发偏容器',
+          t: '要强隔离/不同内核场景偏 VM',
           ok: true,
           why: '可组合：VM 里再跑容器也常见。',
         },

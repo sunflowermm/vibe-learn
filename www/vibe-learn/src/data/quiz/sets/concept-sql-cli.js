@@ -14,7 +14,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q1',
       q: '只取 users 表里 email 列，且限制 10 行，经典写法更接近？',
       choices: [
-        { t: 'SELECT email FROM users LIMIT 10;', ok: true, why: '投影列 + 限制行数；方言里也可能是 TOP/FETCH。' },
+        { t: 'SELECT email FROM users', ok: true, why: '投影列 + 限制行数；方言里也可能是 TOP/FETCH。' },
         { t: 'GET email FROM users;', ok: false, why: 'GET 是 HTTP 方法，不是 SQL。' },
         { t: 'PRINT users.email;', ok: false, why: '非标准 SQL，不能当日常查询写法。' },
         { t: 'FETCH * INTO users;', ok: false, why: '游标/过程语法，不是入门查询。' },
@@ -38,7 +38,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q3',
       q: '两表按 user_id 关联取订单与用户名，入门用？',
       choices: [
-        { t: 'JOIN ... ON orders.user_id = users.id', ok: true, why: '等值连接是经典；先 INNER 再学 LEFT。' },
+        { t: 'JOIN ... ON orders', ok: true, why: '等值连接是经典；先 INNER 再学 LEFT。' },
         { t: '把两张表用 + 号相加', ok: false, why: '不是 SQL 关联语义。' },
         { t: 'UNION 永远等于 JOIN', ok: false, why: 'UNION 拼行集；JOIN 按键拼列关系。' },
         { t: '只能用子查询，禁止 JOIN', ok: false, why: 'JOIN 是标准且常见做法。' },
@@ -50,7 +50,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q4',
       q: '插入一行后再查不到，最该先核对？',
       choices: [
-        { t: '是否在同一库/同一连接；事务是否未提交；WHERE 是否写错', ok: true, why: '环境与事务边界是高频坑。' },
+        { t: '是否在同一库/同一连接', ok: true, why: '环境与事务边界是高频坑。' },
         { t: '立刻 DROP DATABASE', ok: false, why: '破坏性操作，帮不上定位「插了但查不到」。' },
         { t: '改 Git remote', ok: false, why: '远程仓库与当前库连接/事务无关。' },
         { t: '把 temperature 调到 2', ok: false, why: '那是模型采样参数，与 SQL 落库无关。' },
@@ -62,7 +62,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q5',
       q: 'BEGIN … COMMIT 事务想表达的核心保证？',
       choices: [
-        { t: '一组语句要么都成功提交，要么失败回滚，避免半更新', ok: true, why: '原子性直觉；隔离级别另学。' },
+        { t: '一组语句要么都成功提交', ok: true, why: '原子性直觉；隔离级别另学。' },
         { t: '事务会自动备份到 GitHub', ok: false, why: '事务只管本次提交；备份是运维流程。' },
         { t: '事务禁止使用索引', ok: false, why: '事务内照样可用索引，二者不互斥。' },
         { t: 'COMMIT 会删除整张表', ok: false, why: 'COMMIT 提交变更；删表是 DROP/DELETE。' },
@@ -86,7 +86,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q7',
       q: '慢查询时，先用什么看执行计划（多数引擎）？',
       choices: [
-        { t: 'EXPLAIN（或 EXPLAIN ANALYZE）看是否全表扫描、索引是否命中', ok: true, why: '先证据再加索引。' },
+        { t: 'EXPLAIN（或 EXPLAIN ANA', ok: true, why: '先证据再加索引。' },
         { t: 'git blame 表名', ok: false, why: 'blame 看代码作者，不看查询计划。' },
         { t: 'docker login', ok: false, why: '登录镜像仓库与分析慢查询无关。' },
         { t: 'chmod 777 数据库文件必加速', ok: false, why: '权限过宽且不解决执行计划问题。' },
@@ -98,7 +98,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q8',
       q: 'SQLite 文件库相对「本机 docker 起 Postgres」选型直觉？',
       choices: [
-        { t: '单机原型/嵌入优先 SQLite；多连接写、多租户服务常上独立库服务', ok: true, why: '形态匹配场景，不是谁更高级。' },
+        { t: '单机原型/嵌入优先 SQLite', ok: true, why: '形态匹配场景，不是谁更高级。' },
         { t: 'SQLite 不能跑 SQL', ok: false, why: 'SQLite 完整支持 SQL，只是嵌入式形态。' },
         { t: 'Postgres 禁止用于生产', ok: false, why: 'Postgres 是常见生产级关系库。' },
         { t: '二者网络端口必须同为 80', ok: false, why: 'SQLite 通常无端口；PG 常见 5432。' },
@@ -122,7 +122,7 @@ export default defineQuizSet({
       id: 'concept-sql-cli:q10',
       q: 'COUNT(*) / GROUP BY 用来回答哪类问题？',
       choices: [
-        { t: '按维度聚合计数，如「每个状态有多少订单」', ok: true, why: '聚合是分析与后台报表基础。' },
+        { t: '按维度聚合计数，如「每个', ok: true, why: '聚合是分析与后台报表基础。' },
         { t: '加密整张表', ok: false, why: '聚合计数不提供加密能力。' },
         { t: '创建索引的唯一语法', ok: false, why: '建索引用 CREATE INDEX，不是 COUNT/GROUP BY。' },
         { t: '替代备份', ok: false, why: '统计结果不能代替数据备份。' },

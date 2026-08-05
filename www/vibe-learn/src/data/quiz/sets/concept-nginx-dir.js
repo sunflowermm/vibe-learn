@@ -17,7 +17,7 @@ export default defineQuizSet({
       q: 'Nginx 的 server 块大致表示什么？',
       choices: [
         {
-          t: '一个虚拟主机/站点的配置单元（监听、域名、location 等）',
+          t: '一个虚拟主机/站点的配置单元',
           ok: true,
           why: '一台 Nginx 可有多个 server，靠 server_name/listen 区分。',
         },
@@ -101,7 +101,7 @@ export default defineQuizSet({
       q: 'Nginx listen 443 ssl 表示？',
       choices: [
         {
-          t: '该 server 在 443 端口接受 TLS 连接',
+          t: '该 server 在 443 端口接',
           ok: true,
           why: '公网入口常见只暴露 443；证书另配。',
         },
@@ -129,7 +129,7 @@ export default defineQuizSet({
       q: 'Nginx upstream 的用途是？',
       choices: [
         {
-          t: '声明一组后端，供 proxy_pass 引用并可做简单负载',
+          t: '声明一组后端，供 proxy_pass 引用',
           ok: true,
           why: '不是容器专有词；健康检查与策略可再配。',
         },
@@ -185,7 +185,7 @@ export default defineQuizSet({
       q: 'Nginx reload 相对硬重启进程？',
       choices: [
         {
-          t: '热载配置，通常比杀进程重启更平滑',
+          t: '热载配置，通常比杀进程',
           ok: true,
           why: '如 nginx -s reload / systemctl reload nginx。',
         },

@@ -34,6 +34,14 @@ export default `# 图
 | 典型 | 无权最短**层数**、层序 | 连通分量、路径存在、拓扑前奏 |
 | 标记 | \`visited\` 防回头 | 同左；环检测另说 |
 
+\`\`\`algo
+{"title":"网格 BFS","kind":"bfs","data":{"rows":4,"cols":5,"walls":[[1,1],[1,2],[2,2]],"start":[0,0],"goal":[3,4]},"speed":320,"caption":"队列一层层扩；找到 G 后高亮无权最短路径。"}
+\`\`\`
+
+\`\`\`algo
+{"title":"网格 DFS","kind":"dfs","data":{"rows":4,"cols":5,"walls":[[1,1],[1,2],[2,2]],"start":[0,0],"goal":[3,4]},"speed":320,"caption":"栈：一条路走到黑再回溯（路径不一定最短）。"}
+\`\`\`
+
 \`\`\`steps
 {"title":"图题套路","steps":[{"title":"建图","body":"从边列表→邻接表；网格可隐式四邻"},{"title":"选 BFS/DFS","body":"最短层数偏 BFS；搜方案偏 DFS"},{"title":"访标记","body":"防回头；网格把陆地改海水也行"},{"title":"边界","body":"空图、单点、自环、双向边"}]}
 \`\`\`

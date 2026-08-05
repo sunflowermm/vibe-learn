@@ -43,7 +43,7 @@ export default defineQuizSet({
       q: '路径 `/home/u/proj` 与 `./src` 的关键差别？',
       choices: [
         {
-          t: '前者常为绝对路径；后者相对当前工作目录——cwd 一变，指向就变',
+          t: '前者常为绝对路径；后者相对当前工作目录',
           ok: true,
           why: '文档/脚本写相对路径是「我这边能跑」的高频原因。',
         },
@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: '只对「这一条命令」临时注入变量、不改当前 shell 会话？',
       choices: [
         {
-          t: 'FOO=1 node app.js 或 env FOO=1 node app.js',
+          t: 'FOO=1 node app.js 或 env F',
           ok: true,
           why: '仅该子进程可见；关终端或开新会话不受影响。',
         },
@@ -127,7 +127,7 @@ export default defineQuizSet({
       q: 'CI 里放模型 API Key，较稳妥？',
       choices: [
         {
-          t: 'CI Secrets / 密文变量注入环境，勿写进仓库 yaml 明文',
+          t: 'CI Secrets / 密文变量注入环境',
           ok: true,
           why: '与本地 .env 同一原则：密钥不进 Git。',
         },
@@ -183,7 +183,7 @@ export default defineQuizSet({
       q: 'NODE_ENV=production 的常见工程含义？',
       choices: [
         {
-          t: '框架/工具按生产模式优化或关掉开发中间件；密钥与日志级别仍要自己管',
+          t: '框架/工具按生产模式优化或关掉开发中间件',
           ok: true,
           why: '约定开关，不是魔法：不会自动给你无限 API 额度。',
         },

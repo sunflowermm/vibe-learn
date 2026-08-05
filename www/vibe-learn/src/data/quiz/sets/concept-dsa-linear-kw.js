@@ -1,212 +1,68 @@
 import { defineQuizSet } from '../schema.js';
 
 export default defineQuizSet({
-  id: "concept-dsa-linear-kw",
-  title: "基础 · 线性结构全表",
+  id: 'concept-dsa-linear-kw',
+  title: '基础 · 线性结构',
   kind: 'concept',
-  domain: "dsa",
-  tags: ["DSA","线性结构","基础"],
-  relatedNodes: ["dsa-linear","dsa-complexity"],
-  caption: "数组、链表、栈、队列、双端队列、哑节点——DSA 底座一物一题。",
+  domain: 'dsa',
+  tags: ['DSA', '线性', '基础'],
+  relatedNodes: ['dsa-linear'],
+  caption: '数组/链表/栈/队列选型。',
   questions: [
-  {
-    "id": "concept-dsa-linear-kw:array",
-    "q": "数组相对链表的突出优点？",
-    "choices": [
-      {
-        "t": "按下标随机访问快（常 O(1)）",
-        "ok": true,
-        "why": "数组：下标连续，随机访问 O(1)；中部插入删除常 O(n)。JS Array 日常当动态数组用。"
-      },
-      {
-        "t": "任意位置插入永远比链表便宜",
-        "ok": false,
-        "why": "与「数组 / 动态数组」不符。"
-      },
-      {
-        "t": "不能存引用类型",
-        "ok": false,
-        "why": "与「数组 / 动态数组」不符。"
-      },
-      {
-        "t": "只能用递归访问",
-        "ok": false,
-        "why": "与「数组 / 动态数组」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear"
-    ],
-    "tags": [
-      "基础",
-      "array"
-    ]
-  },
-  {
-    "id": "concept-dsa-linear-kw:linked_list",
-    "q": "链表相对数组的典型代价？",
-    "choices": [
-      {
-        "t": "按下标随机访问慢，常要 O(n) 遍历",
-        "ok": true,
-        "why": "链表：节点用指针/引用串联；已知节点时局部插入删除便宜，随机访问要 O(n)。常考反转、环、合并。"
-      },
-      {
-        "t": "永远不能插入",
-        "ok": false,
-        "why": "与「链表」不符。"
-      },
-      {
-        "t": "缓存一定更好",
-        "ok": false,
-        "why": "与「链表」不符。"
-      },
-      {
-        "t": "只能实现队列不能实现栈",
-        "ok": false,
-        "why": "与「链表」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear"
-    ],
-    "tags": [
-      "基础",
-      "linked_list"
-    ]
-  },
-  {
-    "id": "concept-dsa-linear-kw:stack",
-    "q": "栈（LIFO）更贴哪类场景？",
-    "choices": [
-      {
-        "t": "括号匹配、撤销、深度优先的回溯",
-        "ok": true,
-        "why": "栈：LIFO 后进先出；一端进出。典型：括号匹配、撤销、DFS/递归模拟。"
-      },
-      {
-        "t": "银行叫号先来先服务",
-        "ok": false,
-        "why": "与「栈（Stack）」不符。"
-      },
-      {
-        "t": "必须 O(1) 取第 k 大",
-        "ok": false,
-        "why": "与「栈（Stack）」不符。"
-      },
-      {
-        "t": "只能用队列实现且禁止数组",
-        "ok": false,
-        "why": "与「栈（Stack）」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear"
-    ],
-    "tags": [
-      "基础",
-      "stack"
-    ]
-  },
-  {
-    "id": "concept-dsa-linear-kw:queue",
-    "q": "队列（FIFO）更贴？",
-    "choices": [
-      {
-        "t": "广度优先、公平排队：先入先出",
-        "ok": true,
-        "why": "队列：FIFO 先进先出；典型 BFS、任务排队。JS 可用数组 push + shift 模拟（大数据量注意 shift 成本）。"
-      },
-      {
-        "t": "括号嵌套匹配的主结构",
-        "ok": false,
-        "why": "与「队列（Queue）」不符。"
-      },
-      {
-        "t": "只能后进先出",
-        "ok": false,
-        "why": "与「队列（Queue）」不符。"
-      },
-      {
-        "t": "必须哈希才能实现",
-        "ok": false,
-        "why": "与「队列（Queue）」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear"
-    ],
-    "tags": [
-      "基础",
-      "queue"
-    ]
-  },
-  {
-    "id": "concept-dsa-linear-kw:deque",
-    "q": "双端队列相对普通队列？",
-    "choices": [
-      {
-        "t": "两端都可插入/删除，适合窗口最值等题",
-        "ok": true,
-        "why": "双端队列：两头都能进出；滑动窗口最值等题常用单调双端队列。"
-      },
-      {
-        "t": "只能从一端操作",
-        "ok": false,
-        "why": "与「双端队列（Deque）」不符。"
-      },
-      {
-        "t": "等同二叉树",
-        "ok": false,
-        "why": "与「双端队列（Deque）」不符。"
-      },
-      {
-        "t": "禁止用于 BFS",
-        "ok": false,
-        "why": "与「双端队列（Deque）」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear",
-      "dsa-hot"
-    ],
-    "tags": [
-      "基础",
-      "deque"
-    ]
-  },
-  {
-    "id": "concept-dsa-linear-kw:dummy",
-    "q": "链表题里哑节点（dummy）的主要价值？",
-    "choices": [
-      {
-        "t": "简化头结点边界，少写空指针特判",
-        "ok": true,
-        "why": "哑节点：链表题里放在真头前的哨兵，简化头插/头删边界，少写空指针特判。"
-      },
-      {
-        "t": "提高 CPU 主频",
-        "ok": false,
-        "why": "与「哑节点（Dummy）」不符。"
-      },
-      {
-        "t": "替代哈希表",
-        "ok": false,
-        "why": "与「哑节点（Dummy）」不符。"
-      },
-      {
-        "t": "强制改成数组",
-        "ok": false,
-        "why": "与「哑节点（Dummy）」不符。"
-      }
-    ],
-    "relatedNodes": [
-      "dsa-linear"
-    ],
-    "tags": [
-      "基础",
-      "dummy"
-    ]
-  }
-],
+    {
+      id: 'concept-dsa-linear-kw:arr',
+      q: '需要按下标 O(1) 读写，首选？',
+      choices: [
+        { t: '数组（或动态数组）', ok: true, why: '连续下标随机访问。' },
+        { t: '单向链表', ok: false, why: '按下标要 O(n)。' },
+        { t: '只能用栈', ok: false, why: '栈不提供任意下标。' },
+        { t: '只能用队列', ok: false, why: '队列不提供任意下标。' },
+      ],
+      relatedNodes: ['dsa-linear'],
+    },
+    {
+      id: 'concept-dsa-linear-kw:list',
+      q: '已知节点指针，中间插入更便宜的是？',
+      choices: [
+        { t: '链表局部改指针', ok: true, why: '不必搬移后续元素。' },
+        { t: '数组中部插入', ok: false, why: '要搬移，O(n)。' },
+        { t: '哈希表按值排序', ok: false, why: '不是插入链表语义。' },
+        { t: '堆调整堆顶', ok: false, why: '题型不匹配。' },
+      ],
+      relatedNodes: ['dsa-linear'],
+    },
+    {
+      id: 'concept-dsa-linear-kw:stack',
+      q: '后进先出（LIFO）对应？',
+      choices: [
+        { t: '栈', ok: true, why: '括号、递归栈同构。' },
+        { t: '队列', ok: false, why: '队列是 FIFO。' },
+        { t: '优先队列', ok: false, why: '按优先级，不是 LIFO。' },
+        { t: '并查集', ok: false, why: '管连通不是进出序。' },
+      ],
+      relatedNodes: ['dsa-linear'],
+    },
+    {
+      id: 'concept-dsa-linear-kw:queue',
+      q: 'BFS 一层层扩展，配套结构是？',
+      choices: [
+        { t: '队列（FIFO）', ok: true, why: '先入先出对齐层序。' },
+        { t: '栈（LIFO）', ok: false, why: '栈更像 DFS。' },
+        { t: '只能平衡树', ok: false, why: '不是 BFS 标配。' },
+        { t: '只能并查集', ok: false, why: '题型不匹配。' },
+      ],
+      relatedNodes: ['dsa-linear', 'dsa-graph'],
+    },
+    {
+      id: 'concept-dsa-linear-kw:cycle',
+      q: '链表判环且要 O(1) 额外空间？',
+      choices: [
+        { t: '快慢指针相遇法', ok: true, why: 'Floyd 模板。' },
+        { t: '先排序再两两比', ok: false, why: '链表不便排序。' },
+        { t: '整表拷成数组', ok: false, why: '空间 O(n)。' },
+        { t: '层序队列扫表', ok: false, why: '层序概念不对口。' },
+      ],
+      relatedNodes: ['dsa-linear', 'dsa-two-pointers', 'dsa-hot'],
+    },
+  ],
 });

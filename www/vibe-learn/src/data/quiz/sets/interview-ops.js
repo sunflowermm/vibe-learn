@@ -1,8 +1,7 @@
 import { defineQuizSet } from '../schema.js';
 
 /**
- * 运维/面板大厂开口：容器、反代、进程守护、排障——对齐常见后端/运维一面。
- * 题源：公开运维实践共识，非爬取商业题库。
+ * 运维/托管大厂开口：容器、Compose、反代、守护、排障、权限——选项等长。
  */
 export default defineQuizSet({
   id: 'interview-ops-host',
@@ -15,192 +14,273 @@ export default defineQuizSet({
   questions: [
     {
       id: 'interview-ops-host:vs-vm',
-      q: '面试官问「容器和虚拟机差在哪」，比较稳妥的对比是？',
+      q: '容器和虚拟机差在哪？',
       choices: [
         {
-          t: '容器共享宿主机内核、更轻；虚拟机带完整客户机系统，隔离更重但边界更硬',
+          t: '容器共享内核更轻；VM 带完整客户机更重',
           ok: true,
-          why: '抓住内核共享 vs 完整 OS，方便继续聊安全与密度。',
+          why: '内核共享 vs 完整 OS。',
         },
         {
-          t: '容器一定比虚拟机更安全，因为名字听起来小',
+          t: '容器一定更安全因为名字小',
           ok: false,
-          why: '隔离强度与攻击面不同；不能用「小」代替安全论证。',
+          why: '隔离强度另论。',
         },
         {
-          t: '虚拟机不能跑 Linux，只能跑 Windows',
+          t: '虚拟机不能跑 Linux 系统',
           ok: false,
-          why: '虚拟机可跑多种客户机系统。',
+          why: '可跑多种客户机。',
         },
         {
-          t: '有了容器就不需要操作系统了',
+          t: '有了容器就不需要操作系统',
           ok: false,
-          why: '容器依赖宿主机内核；镜像里仍有用户态。',
+          why: '仍依赖宿主机内核。',
         },
       ],
       relatedNodes: ['ops-container'],
     },
     {
       id: 'interview-ops-host:compose',
-      q: '「docker compose 相对单条 docker run」面试时怎么强调价值？',
+      q: 'compose 相对单条 docker run 的价值？',
       choices: [
         {
-          t: '用声明式文件描述多容器、网络与卷，一键起停，环境可版本化',
+          t: '声明式描述多容器网络卷，可版本化',
           ok: true,
-          why: '可复现环境是协作与上线一致性的关键。',
+          why: '可复现协作环境。',
         },
         {
-          t: 'compose 能让镜像体积自动变成 0 字节',
+          t: '能让镜像体积自动变成零',
           ok: false,
-          why: '编排运行关系，不魔法压缩镜像。',
+          why: '不魔法压缩。',
         },
         {
-          t: '有了 compose 就不需要镜像了',
+          t: '有了 compose 就不需要镜像',
           ok: false,
-          why: '仍引用镜像；描述的是如何跑。',
+          why: '仍引用镜像。',
         },
         {
-          t: 'compose 只适合本机玩具，生产绝对不能用',
+          t: '只适合玩具，生产绝对不能用',
           ok: false,
-          why: '小规模生产也有人用；更大集群才更多转向 K8s。',
+          why: '小规模也可；大集群多转 K8s。',
         },
       ],
       relatedNodes: ['ops-compose'],
     },
     {
       id: 'interview-ops-host:ephemeral',
-      q: '被问「容器是易失的」时，数据与状态怎么开口？',
+      q: '「容器是易失的」状态怎么放？',
       choices: [
         {
-          t: '把容器当可丢弃计算单元；持久状态外挂卷/托管库，配置与密钥走注入而非 bake 进镜像',
+          t: '持久状态外挂卷/库，密钥运行时注入',
           ok: true,
-          why: '重建/扩缩才安全；状态与计算分离是核心话术。',
+          why: '计算与状态分离。',
         },
         {
-          t: '重要数据只写容器可写层，重建后靠 docker history 恢复',
+          t: '重要数据只写容器可写层',
           ok: false,
-          why: '可写层随容器丢；history 不是备份。',
+          why: '重建即丢。',
         },
         {
-          t: '易失意味着禁止使用任何数据库',
+          t: '易失意味着禁止使用数据库',
           ok: false,
-          why: '库跑在挂卷的容器或托管服务上即可。',
+          why: '库可挂卷或托管。',
         },
         {
-          t: '只要打了 tag 就不会丢运行时写入',
+          t: '打了 tag 就不会丢运行时写入',
           ok: false,
-          why: 'tag 钉的是镜像，不是容器可写层。',
+          why: 'tag 钉镜像非可写层。',
         },
       ],
       relatedNodes: ['ops-docker', 'ops-compose'],
     },
     {
       id: 'interview-ops-host:proxy',
-      q: '「为什么生产常用反向代理挡在 Node/容器前面」，怎么答？',
+      q: '为何生产常用反代挡在应用前？',
       choices: [
         {
-          t: '统一 TLS、静态与路由；应用只听本机/内网端口，减少公网直暴露',
+          t: '统一 TLS 与路由，应用少公网直暴露',
           ok: true,
-          why: '边缘处理证书与流量，应用专注业务。',
+          why: '边缘处理流量与证书。',
         },
         {
-          t: '反代能让 JavaScript 自动变成多线程',
+          t: '反代能让 JS 自动变多线程',
           ok: false,
-          why: '不改变 Node 线程模型。',
+          why: '不改线程模型。',
         },
         {
           t: '有了反代就不需要 DNS',
           ok: false,
-          why: '客户端仍靠 DNS 找入口。',
+          why: '客户端仍靠 DNS。',
         },
         {
-          t: '反代的唯一作用是让页面更好看',
+          t: '反代唯一作用是页面更好看',
           ok: false,
-          why: '处理连接与转发，与视觉无关。',
+          why: '与视觉无关。',
         },
       ],
       relatedNodes: ['net-nginx', 'ops-docker'],
     },
     {
       id: 'interview-ops-host:systemd',
-      q: '被问「服务挂了怎么自动拉起来」，systemd 相关怎么说？',
+      q: '服务挂了怎么自动拉起？',
       choices: [
         {
-          t: '用 unit 声明 Restart=on-failure 等策略，由 init 守护并记日志',
+          t: '用 systemd unit 声明重启并由 init 守护',
           ok: true,
-          why: '进程由系统托管；容器侧则谈 restart 策略，别混成一句话。',
+          why: '系统级托管与日志。',
         },
         {
-          t: '在代码里 while(true) 重启自己就够了',
+          t: '代码里 while true 自重启就算生产级',
           ok: false,
-          why: '被杀、开机自启、依赖顺序仍要系统级管理。',
+          why: '开机与被杀仍要系统管。',
         },
         {
-          t: 'systemd 只能管图形桌面',
+          t: 'systemd 只能管理图形桌面不能管服务',
           ok: false,
-          why: '正是现代 Linux 服务管理核心。',
+          why: '正是服务管理核心。',
         },
         {
-          t: '只要 Docker 在，宿主机重启后容器一定全自动恢复、无需配置',
+          t: '有 Docker 就一定自动恢复无需配置',
           ok: false,
-          why: '取决于 restart 策略与编排，不能默认「一定」。',
+          why: '取决于 restart 策略。',
         },
       ],
       relatedNodes: ['host-systemd', 'ops-docker'],
     },
     {
       id: 'interview-ops-host:timeout',
-      q: '线上接口超时，运维向第一步更可能？',
+      q: '线上接口超时，运维第一步更可能？',
       choices: [
         {
-          t: '看入口延迟与上游健康：反代/应用日志、CPU 内存、依赖（含容器）是否抖',
+          t: '看入口延迟与上游健康再定位',
           ok: true,
-          why: '先分层定位入口还是依赖，再改业务。',
+          why: '先分层再改业务。',
         },
         {
-          t: '立刻重写全部业务并强制推生产',
+          t: '立刻重写全部业务并强推',
           ok: false,
-          why: '未定位就大改风险极高。',
+          why: '未定位风险高。',
         },
         {
           t: '先关掉所有日志',
           ok: false,
-          why: '排障需要日志与指标。',
+          why: '排障需要观测。',
         },
         {
-          t: '只重启用户浏览器，服务端问题一定消失',
+          t: '只重启用户浏览器即可',
           ok: false,
-          why: '服务端超时通常与客户端刷新无关。',
+          why: '服务端超时常无关。',
         },
       ],
       relatedNodes: ['workbench-troubleshoot', 'ops-docker'],
     },
     {
       id: 'interview-ops-host:nonroot',
-      q: '「为什么不要让业务长期以 root 跑」——怎么答？',
+      q: '为何业务不要长期以 root 跑？',
       choices: [
         {
-          t: '缩小权限面：被攻破时非特权用户能限制破坏范围（容器里同理 USER）',
+          t: '缩小权限面，被攻破时限制破坏',
           ok: true,
-          why: '最小权限是托管与容器实践底线。',
+          why: '最小权限；容器同 USER。',
         },
         {
-          t: 'root 一定更快，大厂都这么干',
+          t: 'root 一定更快大厂都这么干',
           ok: false,
-          why: '性能与是否 root 无必然关系。',
+          why: '与性能无必然关系。',
         },
         {
-          t: '公网服务必须 root，否则 80/443 无法工作',
+          t: '公网服务必须 root 才能听 443',
           ok: false,
-          why: '可用反代听特权端口，后端非 root。',
+          why: '反代可听特权端口。',
         },
         {
-          t: '只要 HTTPS，用不用 root 都无所谓',
+          t: '只要 HTTPS 用不用 root 无所谓',
           ok: false,
-          why: 'TLS 管传输；进程权限是另一层。',
+          why: 'TLS 与进程权限分层。',
         },
       ],
       relatedNodes: ['craft-security', 'ops-docker'],
+    },
+    {
+      id: 'interview-ops-host:latest',
+      q: '生产镜像写 :latest 有何风险？',
+      choices: [
+        {
+          t: '标签漂移，构建与回滚不可复现',
+          ok: true,
+          why: '应钉 digest/具体 tag。',
+        },
+        {
+          t: 'latest 永远最安全无风险',
+          ok: false,
+          why: '指向会变。',
+        },
+        {
+          t: 'latest 等于完成签名校验',
+          ok: false,
+          why: '无关。',
+        },
+        {
+          t: '有 Compose 就不必钉版本',
+          ok: false,
+          why: '仍要钉镜像。',
+        },
+      ],
+      relatedNodes: ['ops-docker', 'ops-compose'],
+    },
+    {
+      id: 'interview-ops-host:backup',
+      q: '怎样证明备份有效？',
+      choices: [
+        {
+          t: '做过恢复演练能在目标时间还原',
+          ok: true,
+          why: '未演练只是安慰剂。',
+        },
+        {
+          t: '只要定时拷过文件即可',
+          ok: false,
+          why: '不知能否还原。',
+        },
+        {
+          t: '备份放进公开 Git 最安全',
+          ok: false,
+          why: '常含密钥数据。',
+        },
+        {
+          t: '面板自动备就永不必演练',
+          ok: false,
+          why: '仍要验证路径。',
+        },
+      ],
+      relatedNodes: ['host-backup'],
+    },
+    {
+      id: 'interview-ops-host:secret',
+      q: '含密钥配置如何对待 Git？',
+      choices: [
+        {
+          t: '不进仓，用示例文件与密钥管理分发',
+          ok: true,
+          why: '密钥勿进历史。',
+        },
+        {
+          t: '提交 .env 方便同事开箱',
+          ok: false,
+          why: '密钥不应进仓。',
+        },
+        {
+          t: '隐藏属性等于加密可进仓',
+          ok: false,
+          why: '隐藏≠加密。',
+        },
+        {
+          t: '改后缀伪装后再提交即可',
+          ok: false,
+          why: '改名不降风险。',
+        },
+      ],
+      relatedNodes: ['fs-dotfiles'],
     },
   ],
 });

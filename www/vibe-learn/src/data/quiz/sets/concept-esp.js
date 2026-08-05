@@ -123,7 +123,7 @@ export default defineQuizSet({
       q: '板子插上 USB 后「串口没输出 / 烧录失败」，较稳妥的第一步？',
       choices: [
         {
-          t: '核对驱动、正确 COM/tty 口、波特率，以及是否按住 BOOT 进下载模式',
+          t: '核对驱动、正确 COM/tty 口、波特率',
           ok: true,
           why: '工具链连错口或未进下载模式是高频坑。',
         },
@@ -151,7 +151,7 @@ export default defineQuizSet({
       q: '设备要把传感器数据交给本仓 Agent/HTTP 服务，更稳妥的边界？',
       choices: [
         {
-          t: '设备走受鉴权的 API/MQTT；密钥与证书在设备侧安全配置，服务端校验身份与配额',
+          t: '设备走受鉴权的 API/MQTT',
           ok: true,
           why: '与 esp-link 课一致：链路可通，权限要收。',
         },
