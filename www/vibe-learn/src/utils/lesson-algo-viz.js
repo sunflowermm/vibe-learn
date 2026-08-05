@@ -688,7 +688,8 @@ export function parseAlgoSource(text) {
     kind,
     data,
     speed: Math.max(80, Number(j.speed) || 420),
-    autoplay: j.autoplay !== false,
+    /* 面板侧栏一挂载就播完：默认等用户点「播放」；JSON 里的 autoplay 忽略 */
+    autoplay: false,
   };
 }
 
@@ -5135,13 +5136,21 @@ export function mountAlgoViz(host, cfg) {
   root.append(el('div', 'vibe-algo__title', { text: cfg.title }));
   if (cfg.caption) root.append(el('p', 'vibe-algo__caption', { text: cfg.caption }));
 
-  const logEl = el('div', 'vibe-algo__log', { text: '准备…' });
+  const logEl = el('div', 'vibe-algo__log', { text: '点击「播放」开始' });
   const controls = el('div', 'vibe-algo__controls');
-  const btn = el('button', 'vibe-algo__btn', { type: 'button', text: '播放' });
+  const btn = el('button', 'vibe-algo__btn', {
+    type: 'button',
+    text: '播放',
+    'aria-label': `播放：${cfg.title}`,
+  });
   controls.append(btn);
 
   const kind = cfg.kind;
   let stageWrap = el('div', 'vibe-algo__stage');
+  const idle = el('div', 'vibe-algo__idle', {
+    text: '动画待命 · 点下方按钮播放',
+  });
+  stageWrap.append(idle);
   /** @type {AbortController | null} */
   let ac = null;
 
@@ -5738,12 +5747,9 @@ export function mountAlgoViz(host, cfg) {
     play();
   });
 
-  root.append(stageWrap, logEl, controls);
+  /* 播放钮置前：待命时不用先滚过空舞台 */
+  root.append(controls, stageWrap, logEl);
   host.append(root);
-
-  if (cfg.autoplay) {
-    requestAnimationFrame(() => play());
-  }
 
   return () => {
     ac?.abort();
