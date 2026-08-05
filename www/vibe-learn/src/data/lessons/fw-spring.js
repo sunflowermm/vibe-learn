@@ -24,8 +24,8 @@ export default `# Spring / Spring Boot（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Spring · 翻卡","cards":[{"front":"Spring","back":"Java 企业级生态"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"Spring · Filter/Interceptor","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"HttpServletRequest","sub":"容器入口"},{"id":"mw1","name":"Filter","sub":"Servlet 层"},{"id":"mw2","name":"Interceptor","sub":"Spring MVC"},{"id":"h","name":"Controller","sub":"@RestController"},{"id":"res","name":"Response","sub":"视图/JSON"}]}}
 \`\`\`
 
 ### 1.1 Spring —— 什么时候用
@@ -212,15 +212,4 @@ AOP 基于 JDK 动态代理或 CGLIB；自调用绕过代理层。
 - DI 对照：**NestJS** · **ASP.NET Core** · **Angular**（前端 DI）  
 - Python 后端：**Django/FastAPI**  
 - 本仓：**子服务端** · **HTTP 与 www** · **语言栈**  
-- 可选：翻 Boot 自动配置入口，记住 **sign.json 不挂 Spring 进程**。
-## 导图2 · 后端 / 技术栈 × Spring
-
-> Java 上的框架；本仓能力在 jserver 一侧。勿说 Spring 语言。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | 企业级 Java 常见 | 宿主语言 Java + JVM |
-| **技术栈** | Spring Boot 等 | 框架轨；语言课是 Java |
-| **部署上线** | 子服/独立进程 | 不替代 Node 主服 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：翻 Boot 自动配置入口，记住 **sign.json 不挂 Spring 进程**。`;

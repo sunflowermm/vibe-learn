@@ -222,6 +222,27 @@ export function parseAlgoSource(text) {
       data = { ...userObj };
     } else if (kind === 'wsfive' || kind === 'workspace' || kind === 'inject5') {
       data = { ...userObj };
+    } else if (kind === 'uipatch' || kind === 'reactivity' || kind === 'vdom') {
+      data = {
+        mode: 'vue', // vue | react | angular
+        ...userObj,
+      };
+    } else if (kind === 'mwchain' || kind === 'middleware' || kind === 'reqpipe') {
+      data = {
+        layers: [
+          { id: 'req', name: 'Request', sub: '方法 · 路径 · 头' },
+          { id: 'mw1', name: '中间件 1', sub: '日志 / CORS' },
+          { id: 'mw2', name: '中间件 2', sub: '鉴权 / 校验' },
+          { id: 'h', name: 'Handler', sub: '业务处理' },
+          { id: 'res', name: 'Response', sub: '状态 · 体' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'ssrflow' || kind === 'hydrate' || kind === 'nextssr') {
+      data = {
+        mode: 'ssr', // ssr | spa
+        ...userObj,
+      };
     } else if (data == null) {
       data = [5, 2, 8, 1, 9, 3, 7, 4];
     }
@@ -1990,6 +2011,188 @@ async function runWsFive(ui, speed, signal, log) {
   await sleep(speed * 0.9, signal);
 }
 
+/** 老师级：前端状态 → 调度 → 虚拟树 → patch DOM */
+function uiPatchStage(spec) {
+  const stage = el('div', 'vibe-algo__ui');
+  const mode = String(spec.mode || 'vue');
+  const labels =
+    mode === 'react'
+      ? [
+          ['setState / hook', '写状态'],
+          ['调度器', '批量 · 优先级'],
+          ['Reconciler', 'Fiber 对树'],
+          ['commit', '改真实 DOM'],
+        ]
+      : mode === 'angular'
+        ? [
+            ['绑定变更', 'Zone / Signal'],
+            ['变更检测', '检查树'],
+            ['模板视图', '指令树'],
+            ['更新 DOM', '渲染器'],
+          ]
+        : [
+            ['写 ref/reactive', 'trigger'],
+            ['依赖队列', 'track 过的订阅'],
+            ['虚拟 DOM', '同层 diff'],
+            ['patch', '改真实 DOM'],
+          ];
+  const boxes = labels.map(([t, s]) => {
+    const b = el('div', 'vibe-algo__ui-box');
+    b.append(el('div', 'vibe-algo__ui-title', { text: t }), el('div', 'vibe-algo__ui-sub', { text: s }));
+    return b;
+  });
+  const arrows = [0, 1, 2].map(() => el('div', 'vibe-algo__ui-arrow', { text: '→' }));
+  const badge = el('div', 'vibe-algo__ui-badge', {
+    text: '宿主仍是 JS/TS · 框架只编排 DOM，不替代语言课',
+  });
+  const status = el('div', 'vibe-algo__ui-status', { text: '等待一次状态写入…' });
+  stage.append(boxes[0], arrows[0], boxes[1], arrows[1], boxes[2], arrows[2], boxes[3], badge, status);
+  return { stage, boxes, arrows, badge, status, mode };
+}
+
+async function runUiPatch(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done');
+  for (const a of ui.arrows) a.classList.remove('is-on');
+  ui.badge.classList.remove('is-on');
+  const tip =
+    ui.mode === 'react'
+      ? 'React：状态变更进调度，再 reconcile → commit'
+      : ui.mode === 'angular'
+        ? 'Angular：变更检测扫树，模板视图驱动渲染器'
+        : 'Vue：读时 track、写时 trigger，合并后再 patch';
+  log(tip);
+  ui.status.textContent = '① 状态被改写';
+  ui.boxes[0].classList.add('is-active');
+  await sleep(speed, signal);
+  ui.arrows[0].classList.add('is-on');
+  ui.boxes[0].classList.replace('is-active', 'is-done');
+  ui.boxes[1].classList.add('is-active');
+  ui.status.textContent = '② 进入更新调度（同 tick 可合并）';
+  log('别在每次写状态时同步狂刷 DOM——框架会排队');
+  await sleep(speed * 1.05, signal);
+  ui.arrows[1].classList.add('is-on');
+  ui.boxes[1].classList.replace('is-active', 'is-done');
+  ui.boxes[2].classList.add('is-active');
+  ui.status.textContent = '③ 算出「该变哪」';
+  log('列表要稳定 key；错用 index 会让输入框「串台」');
+  await sleep(speed * 1.05, signal);
+  ui.arrows[2].classList.add('is-on');
+  ui.boxes[2].classList.replace('is-active', 'is-done');
+  ui.boxes[3].classList.add('is-active');
+  ui.status.textContent = '④ 最小代价改真实 DOM';
+  await sleep(speed, signal);
+  ui.boxes[3].classList.replace('is-active', 'is-done');
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：Vue/React/Angular 都进 core/*/www/，构建后挂静态或反代';
+  log('禁区：不要把浏览器框架源码塞进主服 src/');
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：HTTP 请求穿过中间件链到 Handler */
+function mwChainStage(spec) {
+  const stage = el('div', 'vibe-algo__mw');
+  const raw = Array.isArray(spec.layers) ? spec.layers : [];
+  const layers = (raw.length
+    ? raw
+    : [
+        { id: 'req', name: 'Request', sub: '方法 · 路径 · 头' },
+        { id: 'mw1', name: '中间件 1', sub: '日志 / CORS' },
+        { id: 'mw2', name: '中间件 2', sub: '鉴权 / 校验' },
+        { id: 'h', name: 'Handler', sub: '业务处理' },
+        { id: 'res', name: 'Response', sub: '状态 · 体' },
+      ]
+  ).map((L) => {
+    const b = el('div', 'vibe-algo__mw-box');
+    b.dataset.id = String(L.id || '');
+    b.append(
+      el('div', 'vibe-algo__mw-title', { text: String(L.name || '?') }),
+      el('div', 'vibe-algo__mw-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const packet = el('div', 'vibe-algo__mw-pkt', { text: 'HTTP' });
+  const status = el('div', 'vibe-algo__mw-status', { text: '请求尚未进入管道…' });
+  const row = el('div', 'vibe-algo__mw-row');
+  for (const b of layers) row.append(b);
+  stage.append(row, packet, status);
+  return { stage, layers, packet, status };
+}
+
+async function runMwChain(ui, speed, signal, log) {
+  for (const b of ui.layers) b.classList.remove('is-active', 'is-done', 'is-block');
+  ui.packet.classList.remove('is-move');
+  log('Web 框架共性：请求像传送带，中间件可改、可拦、可放行');
+  for (let i = 0; i < ui.layers.length; i++) {
+    const b = ui.layers[i];
+    b.classList.add('is-active');
+    ui.packet.style.setProperty('--mw-i', String(i));
+    ui.packet.classList.add('is-move');
+    const title = b.querySelector('.vibe-algo__mw-title')?.textContent || '';
+    ui.status.textContent = `经过：${title}`;
+    log(i === 0 ? '入口拿到原始请求' : i === ui.layers.length - 1 ? '写出响应' : `中间件可 next() 或直接结束`);
+    await sleep(speed * 0.9, signal);
+    b.classList.remove('is-active');
+    b.classList.add('is-done');
+  }
+  ui.status.textContent = '对照本仓：主服用 Loader+HttpResponse，不必强套 Express/Nest 抢入口';
+  log('子服语言上的框架（Spring/Gin/Django…）落在 subserver，不进主服 src/');
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：SSR 先出 HTML，再 hydrate */
+function ssrFlowStage(spec) {
+  const stage = el('div', 'vibe-algo__ssr');
+  const mode = String(spec.mode || 'ssr');
+  const steps =
+    mode === 'spa'
+      ? [
+          ['浏览器', '要空壳 HTML'],
+          ['CDN/静态', '返回 index + JS'],
+          ['客户端框架', '在浏览器里建树'],
+          ['可交互', '事件挂上'],
+        ]
+      : [
+          ['浏览器', '请求页面'],
+          ['Node 渲染', '组件 → HTML 字符串'],
+          ['首屏 HTML', '带内容的文档'],
+          ['hydrate', '接手事件与状态'],
+        ];
+  const boxes = steps.map(([t, s]) => {
+    const b = el('div', 'vibe-algo__ssr-box');
+    b.append(el('div', 'vibe-algo__ssr-title', { text: t }), el('div', 'vibe-algo__ssr-sub', { text: s }));
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__ssr-badge', {
+    text: mode === 'spa' ? 'SPA：首屏常更空，SEO/首绘要另想' : 'SSR：首屏有字；成本在 Node 渲染与缓存',
+  });
+  const status = el('div', 'vibe-algo__ssr-status', { text: '选择渲染路径…' });
+  const row = el('div', 'vibe-algo__ssr-row');
+  for (let i = 0; i < boxes.length; i++) {
+    row.append(boxes[i]);
+    if (i < boxes.length - 1) row.append(el('div', 'vibe-algo__ssr-arrow', { text: '→' }));
+  }
+  stage.append(row, badge, status);
+  return { stage, boxes, badge, status, mode };
+}
+
+async function runSsrFlow(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log(ui.mode === 'spa' ? '纯 SPA：服务器几乎只吐壳' : 'SSR：服务器先画好字，再交给客户端接管');
+  for (let i = 0; i < ui.boxes.length; i++) {
+    ui.boxes[i].classList.add('is-active');
+    ui.status.textContent = `步骤 ${i + 1}/${ui.boxes.length}`;
+    await sleep(speed, signal);
+    ui.boxes[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent =
+    ui.mode === 'spa'
+      ? '本仓 www 多为 SPA 构建产物；需要 SEO 再评估 SSR/元框架'
+      : 'Next 等元框架：路由与渲染策略是框架约定，宿主仍是 JS';
+  await sleep(speed * 0.85, signal);
+}
+
 /**
  * @param {HTMLElement} host
  * @param {ReturnType<typeof parseAlgoSource>} cfg
@@ -2252,6 +2455,24 @@ export function mountAlgoViz(host, cfg) {
         const ui = wsFiveStage();
         stageWrap.append(ui.stage);
         await runWsFive(ui, speed, signal, log);
+      } else if (kind === 'uipatch' || kind === 'reactivity' || kind === 'vdom') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = uiPatchStage(spec);
+        stageWrap.append(ui.stage);
+        await runUiPatch(ui, speed, signal, log);
+      } else if (kind === 'mwchain' || kind === 'middleware' || kind === 'reqpipe') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = mwChainStage(spec);
+        stageWrap.append(ui.stage);
+        await runMwChain(ui, speed, signal, log);
+      } else if (kind === 'ssrflow' || kind === 'hydrate' || kind === 'nextssr') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = ssrFlowStage(spec);
+        stageWrap.append(ui.stage);
+        await runSsrFlow(ui, speed, signal, log);
       } else if (kind === 'twopointer' || kind === 'window') {
         const arr = Array.isArray(cfg.data) ? cfg.data.map(Number) : [1, 2, 3, 4, 5, 6, 7];
         const { stage, cells } = barStage(arr);

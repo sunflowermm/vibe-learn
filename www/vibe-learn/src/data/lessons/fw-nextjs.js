@@ -24,8 +24,8 @@ export default `# Next.js（元框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Next.js · 翻卡","cards":[{"front":"Next.js","back":"React 元框架；路由/SSR 等"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"ssrflow","title":"Next · SSR 再 hydrate","autoplay":true,"speed":820,"data":{"mode":"ssr"}}
 \`\`\`
 
 ### 1.1 Next.js —— 什么时候用
@@ -233,15 +233,4 @@ XRK 业务 API 仍推荐 \`core/*/http\`，勿用 Next Route Handler 替代 Core
 - Node 后端对照：**Express/Nest**  
 - 前端挂载：**HTTP 与 www** · **Vue**（静态挂载对照）  
 - 全栈语言栈：**语言栈**  
-- 可选：读 Next 的 \`basePath\` / \`output: 'export'\`，对照 \`sign.json\` 两种挂法。
-## 导图2 · 前端 / 后端 / 部署 × Next.js
-
-> React 生态全栈框架；可含服务端能力。与本仓「www 静态挂 + Node 主服」分层要分清。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **前端** | 页面与路由 | React 之上的约定 |
-| **后端** | Server Components/API routes 等 | 那是 Next 自己的服；≠ 本仓 AgentRuntime |
-| **部署上线** | 常专用托管 | 与本仓 \`www\` 静态挂载是不同交付模型 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：读 Next 的 \`basePath\` / \`output: 'export'\`，对照 \`sign.json\` 两种挂法。`;

@@ -24,8 +24,8 @@ export default `# Laravel（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Laravel · 翻卡","cards":[{"front":"Laravel","back":"PHP Web 框架"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"Laravel · 中间件管道","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"Request","sub":"Illuminate"},{"id":"mw1","name":"Middleware","sub":"web/api 组"},{"id":"mw2","name":"FormRequest","sub":"校验"},{"id":"h","name":"Controller","sub":"业务"},{"id":"res","name":"Response","sub":"视图/JSON"}]}}
 \`\`\`
 
 ### 1.1 Laravel —— 什么时候用
@@ -218,15 +218,4 @@ Laravel **IoC 容器**：绑定接口 → 实现，\`app()->make(Foo::class)\` �
 - 对照：**Django/FastAPI** · **Spring** · **Express/Nest**  
 - 前端：**HTTP 与 www** · **Vue** · **React**  
 - 本仓：**子服务端** · **语言栈**  
-- 可选：打开 Laravel \`routes/\`，对照 phpserver 如何暴露给主服。
-## 导图2 · 后端 / 技术栈 × Laravel
-
-> PHP 框架；本仓 PHP 子服场景。语言是 PHP。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | PHP Web 常见选择 | 宿主 PHP |
-| **技术栈** | Laravel 约定 | 路由/ORM/队列等是框架能力 |
-| **部署上线** | 子服进程 | 与主服分层 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：打开 Laravel \`routes/\`，对照 phpserver 如何暴露给主服。`;

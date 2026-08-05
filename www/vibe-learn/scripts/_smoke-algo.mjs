@@ -18,6 +18,9 @@ import auth from '../src/data/lessons/xrk-http-auth.js';
 import mcp from '../src/data/lessons/xrk-mcp-ops.js';
 import db from '../src/data/lessons/xrk-database.js';
 import ws from '../src/data/lessons/xrk-agent-workspace.js';
+import vue from '../src/data/lessons/fw-vue.js';
+import nest from '../src/data/lessons/fw-express-nest.js';
+import next from '../src/data/lessons/fw-nextjs.js';
 
 for (const k of [
   'merge',
@@ -39,6 +42,9 @@ for (const k of [
   'toolloop',
   'dbtier',
   'wsfive',
+  'uipatch',
+  'mwchain',
+  'ssrflow',
 ]) {
   const c = parseAlgoSource(JSON.stringify({ kind: k, title: k, autoplay: false }));
   console.log(k, c.kind);
@@ -60,5 +66,8 @@ console.log('authgate', auth.includes('authgate'));
 console.log('toolloop', mcp.includes('toolloop'));
 console.log('dbtier', db.includes('dbtier'));
 console.log('wsfive', ws.includes('wsfive'));
+console.log('vue uipatch', vue.includes('uipatch'));
+console.log('nest mwchain', nest.includes('mwchain'));
+console.log('next ssrflow', next.includes('ssrflow'));
 console.log('rt Current', rt.includes('Current'));
 console.log('inst pathfind', inst.includes('pathfind'));

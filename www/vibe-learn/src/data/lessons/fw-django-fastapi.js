@@ -24,8 +24,8 @@ export default `# Django / FastAPI（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Django / FastAPI · 翻卡","cards":[{"front":"Django / FastAPI","back":"Python Web 两路：全家桶 vs 高速 API"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"Django/FastAPI · 中间件/依赖","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"Request","sub":"ASGI/WSGI"},{"id":"mw1","name":"Middleware","sub":"Django / Starlette"},{"id":"mw2","name":"Depends","sub":"FastAPI 注入"},{"id":"h","name":"View/Route","sub":"业务"},{"id":"res","name":"Response","sub":"JSON/模板"}]}}
 \`\`\`
 
 ### 1.1 Django —— 什么时候用
@@ -231,15 +231,4 @@ flowchart LR
 - 对照后端：**Express/Nest** · **Spring** · **Gin**  
 - 前端：**HTTP 与 www** · **Vue**  
 - 本仓：**子服务端** · **语言栈**  
-- 可选：读 FastAPI 最小路由，对照主服 \`callSubserver\` → pyserver。
-## 导图2 · 后端 / HTTP × Django/FastAPI
-
-> Python Web 框架；本仓走 Python 子服插件/HTTP，不是主服。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | Python Web | Django 全能 vs FastAPI 偏 API |
-| **HTTP** | 路由与校验 | 子服 CONTRACT 与主服 callSubserver |
-| **技术栈** | 语言已是 Python | 框架再往上加 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：读 FastAPI 最小路由，对照主服 \`callSubserver\` → pyserver。`;

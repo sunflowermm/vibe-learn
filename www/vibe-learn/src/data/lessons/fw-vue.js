@@ -24,8 +24,8 @@ export default `# Vue（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Vue · 翻卡","cards":[{"front":"Vue","back":"渐进式前端框架；本仓 www 常见"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"uipatch","title":"Vue · 写状态到 patch","autoplay":true,"speed":820,"data":{"mode":"vue"}}
 \`\`\`
 
 ### 1.1 Vue —— 什么时候用
@@ -248,16 +248,4 @@ Vue 3 **Block tree** 跳过静态子树，减少 diff 范围。
 - 对照前端：**React** · **Angular** · **Next.js**  
 - 本仓挂载：**HTTP 与 www**  
 - 后端接口形态：**Express/Nest**（Node 对照，非 www）  
-- 可选：翻 Vite 的 \`base\` 配置说明，对照本仓 \`sign.json\` / mount 路径。
-## 导图2 · 前端 / 组件 / JavaScript × Vue
-
-> 导图2 前端区与本课同构。本仓 vibe-learn 即 Vue3+Vite 实例。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **前端** | 浏览器 UI | \`core/*/www/<应用>/\` 挂载；不进 \`src/\` |
-| **组件** | SFC / 组合式 | 框架特性；宿主仍是 JS/TS |
-| **JavaScript** | 宿主语言 | 拒绝「Vue 语言」 |
-| **构建** | Vite 等 | 开发服与产物；上线静态挂或反代 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：翻 Vite 的 \`base\` 配置说明，对照本仓 \`sign.json\` / mount 路径。`;

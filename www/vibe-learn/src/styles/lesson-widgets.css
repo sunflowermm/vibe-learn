@@ -3406,6 +3406,187 @@
   color: var(--signal, #7dd3fc);
 }
 
+.vibe-algo__ui {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 0.35rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.vibe-algo__ui-box {
+  padding: 0.4rem 0.45rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 34%, transparent);
+  background: color-mix(in srgb, var(--panel, #0f172a) 88%, transparent);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.vibe-algo__ui-box.is-active {
+  border-color: color-mix(in srgb, var(--signal, #7dd3fc) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--signal, #7dd3fc) 35%, transparent);
+  transform: translateY(-1px);
+}
+
+.vibe-algo__ui-box.is-done {
+  border-color: color-mix(in srgb, #86efac 55%, transparent);
+  opacity: 0.92;
+}
+
+.vibe-algo__ui-title {
+  font-size: 0.72rem;
+  font-weight: 650;
+  color: var(--ink, #e2e8f0);
+}
+
+.vibe-algo__ui-sub {
+  margin-top: 0.2rem;
+  font-size: 0.62rem;
+  color: var(--mist-dim);
+}
+
+.vibe-algo__ui-arrow {
+  align-self: center;
+  color: var(--mist-dim);
+  opacity: 0.35;
+  font-size: 0.85rem;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.vibe-algo__ui-arrow.is-on {
+  opacity: 1;
+  color: var(--signal, #7dd3fc);
+}
+
+.vibe-algo__ui-badge,
+.vibe-algo__ssr-badge {
+  grid-column: 1 / -1;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px dashed color-mix(in srgb, var(--mist-dim) 40%, transparent);
+  font-size: 0.68rem;
+  color: var(--mist-dim);
+  opacity: 0.4;
+  transition: opacity 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.vibe-algo__ui-badge.is-on,
+.vibe-algo__ssr-badge.is-on {
+  opacity: 1;
+  color: var(--signal, #7dd3fc);
+  border-color: color-mix(in srgb, var(--signal, #7dd3fc) 45%, transparent);
+}
+
+.vibe-algo__ui-status,
+.vibe-algo__mw-status,
+.vibe-algo__ssr-status {
+  grid-column: 1 / -1;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--ink, #e2e8f0);
+}
+
+.vibe-algo__mw {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  position: relative;
+}
+
+.vibe-algo__mw-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.vibe-algo__mw-box {
+  padding: 0.4rem 0.4rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 34%, transparent);
+  min-height: 3.2rem;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.vibe-algo__mw-box.is-active {
+  border-color: color-mix(in srgb, #fbbf24 65%, transparent);
+  background: color-mix(in srgb, #fbbf24 12%, transparent);
+}
+
+.vibe-algo__mw-box.is-done {
+  border-color: color-mix(in srgb, #86efac 50%, transparent);
+}
+
+.vibe-algo__mw-title {
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+
+.vibe-algo__mw-sub {
+  margin-top: 0.18rem;
+  font-size: 0.6rem;
+  color: var(--mist-dim);
+}
+
+.vibe-algo__mw-pkt {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #fbbf24 50%, transparent);
+  color: #fbbf24;
+  opacity: 0.35;
+  transition: opacity 0.2s ease, transform 0.35s ease;
+}
+
+.vibe-algo__mw-pkt.is-move {
+  opacity: 1;
+  transform: translateX(calc(var(--mw-i, 0) * 18%));
+}
+
+.vibe-algo__ssr-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+.vibe-algo__ssr-box {
+  flex: 1 1 5.5rem;
+  padding: 0.4rem 0.45rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 34%, transparent);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vibe-algo__ssr-box.is-active {
+  border-color: color-mix(in srgb, #c4b5fd 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, #c4b5fd 30%, transparent);
+}
+
+.vibe-algo__ssr-box.is-done {
+  border-color: color-mix(in srgb, #86efac 50%, transparent);
+}
+
+.vibe-algo__ssr-title {
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.vibe-algo__ssr-sub {
+  margin-top: 0.18rem;
+  font-size: 0.62rem;
+  color: var(--mist-dim);
+}
+
+.vibe-algo__ssr-arrow {
+  align-self: center;
+  color: var(--mist-dim);
+  opacity: 0.55;
+}
+
 .vibe-algo__ws {
   display: flex;
   flex-direction: column;

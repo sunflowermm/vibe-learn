@@ -24,8 +24,8 @@ export default `# ASP.NET Core（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"ASP.NET · 翻卡","cards":[{"front":"ASP.NET","back":".NET Web 框架"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"ASP.NET · Middleware 管道","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"HttpContext","sub":"请求"},{"id":"mw1","name":"Middleware","sub":"管道"},{"id":"mw2","name":"Filter","sub":"MVC/最小 API"},{"id":"h","name":"Endpoint","sub":"Controller"},{"id":"res","name":"Response","sub":"写出"}]}}
 \`\`\`
 
 ### 1.1 ASP.NET Core —— 什么时候用
@@ -216,15 +216,4 @@ Scoped 误当 Singleton → 并发请求共享 DbContext → 严重 bug。
 - 对照：**Spring** · **NestJS** · **Laravel**  
 - 前端：**HTTP 与 www** · **Angular**（企业前端常配）  
 - 本仓：**子服务端** · **语言栈**  
-- 可选：读 ASP.NET 中间件管道一页，对照 \`callSubserver\` → netserver。
-## 导图2 · 后端 / 技术栈 × ASP.NET
-
-> C#/.NET Web 框架；本仓对应子服。语言是 C#。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | .NET Web | 宿主 C# + .NET |
-| **技术栈** | ASP.NET Core 等 | 框架轨 |
-| **部署上线** | 子服边界 | 主服仍是 Node |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：读 ASP.NET 中间件管道一页，对照 \`callSubserver\` → netserver。`;

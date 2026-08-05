@@ -24,8 +24,8 @@ export default `# Gin（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Gin · 翻卡","cards":[{"front":"Gin","back":"Go HTTP 框架"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"Gin · Handler 链","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"gin.Context","sub":"请求上下文"},{"id":"mw1","name":"Logger","sub":"中间件"},{"id":"mw2","name":"Auth","sub":"中间件"},{"id":"h","name":"Handler","sub":"业务"},{"id":"res","name":"JSON","sub":"c.JSON"}]}}
 \`\`\`
 
 ### 1.1 Gin —— 什么时候用
@@ -209,15 +209,4 @@ Handler 内再开 goroutine 须监听 \`c.Request.Context().Done()\`；优雅退
 - Node 对照：**Express/Nest**  
 - 企业对照：**Spring** · **ASP.NET Core**  
 - 本仓：**子服务端** · **HTTP 与 www** · **语言栈**  
-- 可选：翻 Gin 中间件示例，记住 **sign.json 不挂 Gin 进程**。
-## 导图2 · 后端 / HTTP / 路由 × Gin
-
-> Go HTTP 框架；本仓 Go 子服常见。语言是 Go。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | 轻量 Go Web | 宿主 Go |
-| **HTTP / 路由** | 处理器 | 子服对外契约仍按本仓文档 |
-| **构建** | 编译部署 | 常打二进制 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：翻 Gin 中间件示例，记住 **sign.json 不挂 Gin 进程**。`;

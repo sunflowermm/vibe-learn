@@ -24,8 +24,8 @@ export default `# React（库 / 生态常当框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"React · 翻卡","cards":[{"front":"React","back":"UI 库/生态；组件与状态心智"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"uipatch","title":"React · setState 到 commit","autoplay":true,"speed":820,"data":{"mode":"react"}}
 \`\`\`
 
 ### 1.1 React —— 什么时候用
@@ -245,15 +245,4 @@ API 走 \`core/*/http\`；浏览器用 \`xrk-www-compat\`，**勿当 Node 26**�
 - 元框架：**Next.js**  
 - 对照：**Vue** · **Angular**  
 - 本仓：**HTTP 与 www** · **Express/Nest**（后端对照）  
-- 可选：打开 React 仓库「Docs」入口，再对照本仓 www 的 \`base\` / mount。
-## 导图2 · 前端 / 组件 / JavaScript × React
-
-> 与 Vue 同属前端 UI 库/框架层；宿主 JS/TS。本仓示例偏 Vue，概念对照即可。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **前端** | 组件化 UI | 可进 \`www/\`；同样不进 Runtime |
-| **组件** | 函数组件 / hooks | 生态习惯与 Vue 不同，层同 |
-| **JavaScript** | 宿主 | JSX 是语法扩展，不是新语言运行时 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：打开 React 仓库「Docs」入口，再对照本仓 www 的 \`base\` / mount。`;

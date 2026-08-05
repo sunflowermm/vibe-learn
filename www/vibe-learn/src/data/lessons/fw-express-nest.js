@@ -24,8 +24,8 @@ export default `# Express / NestJS（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Express / Nest · 翻卡","cards":[{"front":"Express / Nest","back":"Node HTTP 框架谱系"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"mwchain","title":"Express/Nest · 中间件链","autoplay":true,"speed":820,"data":{"layers":[{"id":"req","name":"Request","sub":"req / res"},{"id":"mw1","name":"middleware","sub":"app.use / Guard"},{"id":"mw2","name":"Pipe/校验","sub":"可选"},{"id":"h","name":"Handler","sub":"Controller"},{"id":"res","name":"Response","sub":"JSON / 流"}]}}
 \`\`\`
 
 ### 1.1 Express —— 什么时候用
@@ -222,15 +222,4 @@ Express/Nest 适合**独立 Node 微服务**或对照学习，不是第二套主
 - 同生态前端元框架：**Next.js**（别和 Nest 名字搞混）  
 - 企业后端对照：**Spring**  
 - 本仓落点：**HTTP 与 www** · **AgentRuntime** · **语言栈**  
-- 可选：读 Express 中间件一页，再对照本仓 HTTP handler 怎么写。
-## 导图2 · 后端 / HTTP / 路由 × Express/Nest
-
-> Node 上的 Web 框架层。本仓 HTTP 用自有 Loader + HttpResponse，不必强行套 Nest。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | Node HTTP 服务 | 框架帮你路由与中间件 |
-| **HTTP / 路由** | 端点 | 本仓：\`core/*/http\` + HttpResponse |
-| **JavaScript** | 宿主 | 跑在 Node；不是浏览器框架 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：读 Express 中间件一页，再对照本仓 HTTP handler 怎么写。`;

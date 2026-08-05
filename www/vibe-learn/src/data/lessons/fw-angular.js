@@ -24,8 +24,8 @@ export default `# Angular（框架）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Angular · 翻卡","cards":[{"front":"Angular","back":"完整前端框架，意见较多"},{"front":"框架边界","back":"不替代 DBMS / OS / 运行时"},{"front":"本仓 www","back":"静态前端挂 core/*/www/<应用名>"}]}
+\`\`\`algo
+{"kind":"uipatch","title":"Angular · 变更检测到 DOM","autoplay":true,"speed":820,"data":{"mode":"angular"}}
 \`\`\`
 
 ### 1.1 Angular —— 什么时候用
@@ -232,15 +232,4 @@ flowchart TB
 - 对照：**Vue** · **React** · **Next.js**  
 - 后端 DI 对照：**Spring** · **NestJS**  
 - 本仓：**HTTP 与 www**  
-- 可选：扫 Angular CLI 的 \`baseHref\` 文档，对照本仓静态挂载。
-## 导图2 · 前端 / 组件 / TypeScript × Angular
-
-> 偏完整前端框架；常见 TS。层仍是框架，不是语言。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **前端** | 大型应用框架 | 约定多；宿主 TS/JS |
-| **组件** | 强结构 | 与 Vue/React 同层不同风格 |
-| **TypeScript** | 常见标配 | 仍编译到 JS 再跑浏览器 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
-`;
+- 可选：扫 Angular CLI 的 \`baseHref\` 文档，对照本仓静态挂载。`;
