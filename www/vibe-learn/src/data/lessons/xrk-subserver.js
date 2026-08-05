@@ -1,9 +1,24 @@
-/** 子服务端 · 多语言进程族 */
 export default `# 子服务端
 
 > 子服务端是主服旁的**独立进程族**，各自以不同语言实现同一套 HTTP 契约。  
 > 内置六套 runtime（默认端口 8000–8005）：Python、Go、PHP、Java、.NET、Rust。  
 > **配置在主服编辑，子服只读。** LLM 与 AiWorkflow 仅运行于主服 Node。
+> **学会之后**：能说明子服多进程 HTTP 契约与配置只读原则。
+
+## 学会之后（验收）
+
+\`\`\`decide
+{"title":"能力放主服还是子服？","start":"start","steps":[{"id":"start","q":"你卡住的能力本质是？","options":[{"label":"JS/Node 就能做的业务扩展","next":"core"},{"label":"强依赖 Python/Java/… 生态","next":"sub"},{"label":"想改加载器/全局运行时","next":"rt"},{"label":"只是要调已有子服接口","next":"call"}]},{"id":"core","result":"放 core/<名>/ 对应扩展点（plugin/http/…）。","detail":"主服仍是 JS+Node。"},{"id":"sub","result":"放 subserver/<runtime>/；主服 HTTP 调用。","detail":"配置主服编辑、子服只读。"},{"id":"rt","result":"属框架任务；先读禁区，勿当业务捷径。","detail":"多数贡献不该进 src/。"},{"id":"call","result":"走 callSubserver + CONTRACT；先实践·子服调用。","detail":"对照端口与契约。"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| 进程 | 独立 runtime；端口分段 |
+| 配置 | 主服编辑；子服 load 只读 |
+| 调用 | 主服 callSubserver |
+| 文档 | CONTRACT / LANGUAGES.md |
+
 
 ## 与前面章节的对应
 \`\`\`match
@@ -90,6 +105,17 @@ pyserver **框架**在主仓 \`subserver/pyserver/\`（包名 \`xrk-agt-pyserver
 
 主仓白名单示例外设：\`apis/system\`、\`media-tools\`、\`doc-pipeline\`、\`web-fetch\`（见根 \`.gitignore\`）。  
 更多 Core / 通道仓库对照见 **业务层全景** §4。
+
+## 导图2 · 后端 / HTTP / 路由 × 子服
+
+> 导图2 后端/HTTP 口语；本课钉 **六 runtime 子服与 callSubserver**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **后端** | 另一进程服务 | \`subserver/<runtime>/\`；配置主服编辑、子服只读 |
+| **HTTP / 路由** | 调用契约 | \`callSubserver\` + CONTRACT；端口分段 |
+| **技术栈** | 多语言补短板 | 六 runtime；主服仍是 JS+Node |
+
 
 ## 下一步
 

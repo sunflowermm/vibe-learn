@@ -1,8 +1,17 @@
-/** 代码托管：GitHub · Gitee · 同类平台 */
 export default `# 代码托管：GitHub · Gitee · 同类平台
 
 > **Git** 管历史；**托管平台**管「远程仓库住在哪、和谁协作、CI 怎么跑」。  
 > GitHub、Gitee、GitCode、GitLab… 产品不同，**Git 协议与心智模型几乎同构**。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 托管 | 分清 Git 本身 vs GitHub/Gitee 等托管 |
+| 协作 | PR/MR 是审查入口 |
+| 本仓 | 远程事实以你的 remotes 为准 |
+| 跟 Agent | 贴仓库 URL 与当前分支 |
+
 
 ## 本课分块
 
@@ -88,15 +97,8 @@ flowchart LR
 {"preset":"clone-ghproxy"}
 \`\`\`
 
-\`\`\`bash
-# GitHub（本机 · 常需先设 HTTP(S)_PROXY）
-git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git
-
-# 无本机代理时的前缀写法（第三方；可用性会变）
-git clone --depth=1 https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git
-
-# Gitee（若项目提供镜像，换文档给出的 URL）
-git clone --depth=1 https://gitee.com/<owner>/<repo>.git
+\`\`\`env
+{"title":"按托管平台 clone","caption":"协议都是 Git；换的是主机与账号，不是另一套命令。","default":"github","tabs":[{"id":"github","label":"GitHub","os":"任意","shell":"bash/pwsh","note":"国内常需先设 HTTP(S)_PROXY","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"ghproxy","label":"ghproxy 前缀","os":"任意","shell":"bash/pwsh","warn":"第三方；可用性会变","lines":["git clone --depth=1 https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"gitee","label":"Gitee 镜像","os":"任意","shell":"bash/pwsh","note":"URL 以项目文档为准","lines":["git clone --depth=1 https://gitee.com/<owner>/<repo>.git"]}]}
 \`\`\`
 
 \`\`\`mermaid
@@ -168,10 +170,8 @@ flowchart TB
 - **登录**：两套账户互不相通，Token / SSH 密钥要分别配置  
 - **协议**：都是 Git；不要把「换平台」学成「换一套命令」
 
-\`\`\`bash
-# 一个本地仓可挂多个 remote（进阶，知道即可）
-git remote -v
-git remote add gitee https://gitee.com/<owner>/<repo>.git
+\`\`\`env
+{"title":"多 remote（进阶）","caption":"一个本地仓可挂多个远程；判断标准仍是文档写明的 URL。","default":"one","tabs":[{"id":"one","label":"查看 / 添加","os":"任意","shell":"bash","lines":["git remote -v","git remote add gitee https://gitee.com/<owner>/<repo>.git"]}]}
 \`\`\`
 
 ---
@@ -186,12 +186,14 @@ git remote add gitee https://gitee.com/<owner>/<repo>.git
 ## 下一步
 
 工作区就位后 → **首次跑通**；需要认清源码语言时 → 第二章 **计算机语言**。
+## 导图2 · Git / PR / 部署 × 代码托管
 
-## 结合知识导图2
+> 导图2 Git 协作；本课钉 forge 与 PR 心智。
 
-| 本课 | 导图2 | 钉死 |
-|------|-------|------|
-| GitHub / Gitee / PR | **Pull Request** · **Git** · **Push** | 托管平台 ≠ Git 本身 |
-| 国内通路 | Clone · 终端 | 代理问题回 Clash / PATH 课 |
-
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **Git** | 本地版本 | 托管是远程+协作产品 |
+| **合并请求（PR）** | 审查入口 | 小步、可验收说明 |
+| **部署上线** | 常从托管触发 | CI 词条见工程素养 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

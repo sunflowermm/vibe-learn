@@ -1,6 +1,7 @@
 /**
  * 扩展交互组件（非终端为主）：
  * env · quiz · reveal · check · decide · match · flip · steps · ports · sort
+ * · diff · fill · pick
  * 由 lesson-widgets.js 注册 hydrate。
  */
 import { copyWithButtonFeedback } from './copy-text.js';
@@ -943,6 +944,301 @@ export function mountSort(host, model) {
   });
   actions.append(check, reshuffle);
   render();
+  enterIn(root);
+  return () => {};
+}
+
+/** @param {string} text */
+export function parseDiffSource(text) {
+  const j = parseJson(text, null);
+  if (!j || typeof j !== 'object') {
+    return { title: '对照', bad: '', good: '', why: '', ask: '' };
+  }
+  return {
+    title: j.title ? String(j.title) : '对错对照',
+    caption: j.caption ? String(j.caption) : '',
+    badLabel: j.badLabel != null ? String(j.badLabel) : '常见错法',
+    goodLabel: j.goodLabel != null ? String(j.goodLabel) : '正确写法',
+    bad: String(j.bad || j.wrong || ''),
+    good: String(j.good || j.right || ''),
+    why: j.why != null ? String(j.why) : '',
+    ask: j.ask != null ? String(j.ask) : '哪边能过验收？',
+  };
+}
+
+/** @param {string} text */
+export function parseFillSource(text) {
+  const j = parseJson(text, null);
+  if (!j || typeof j !== 'object') {
+    return { title: '填空', template: '', answers: [], hint: '' };
+  }
+  const answers = Array.isArray(j.answers)
+    ? j.answers.map((a) => String(a).trim())
+    : typeof j.answer === 'string'
+      ? [String(j.answer).trim()]
+      : [];
+  return {
+    title: j.title ? String(j.title) : '补全命令',
+    caption: j.caption ? String(j.caption) : '空格用输入框填；大小写按真命令',
+    template: String(j.template || j.line || ''),
+    answers,
+    hint: j.hint != null ? String(j.hint) : '',
+    caseSensitive: Boolean(j.caseSensitive),
+  };
+}
+
+/** @param {string} text */
+export function parsePickSource(text) {
+  const j = parseJson(text, null);
+  if (!j || typeof j !== 'object') {
+    return { title: '归类', bins: [], items: [] };
+  }
+  const bins = Array.isArray(j.bins)
+    ? j.bins.map((b, i) => ({
+        id: String(b.id || `b${i}`),
+        label: String(b.label || b.name || b.id || `类 ${i + 1}`),
+      }))
+    : [];
+  const items = Array.isArray(j.items)
+    ? j.items.map((it, i) => ({
+        id: String(it.id || `i${i}`),
+        text: String(it.text || it.t || ''),
+        bin: String(it.bin || it.ok || ''),
+      }))
+    : [];
+  return {
+    title: j.title ? String(j.title) : '点选归类',
+    caption: j.caption ? String(j.caption) : '先点条目，再点所属类别',
+    bins,
+    items,
+  };
+}
+
+/**
+ * @param {HTMLElement} host
+ * @param {ReturnType<typeof parseDiffSource>} model
+ */
+export function mountDiff(host, model) {
+  const root = el('div', 'vibe-diff', { role: 'region', 'aria-label': model.title });
+  root.append(el('div', 'vibe-diff__title', { text: model.title }));
+  if (model.caption) root.append(el('p', 'vibe-diff__caption', { text: model.caption }));
+  if (model.ask) root.append(el('p', 'vibe-diff__ask', { text: model.ask }));
+
+  const grid = el('div', 'vibe-diff__grid');
+  const badBtn = el('button', 'vibe-diff__pane vibe-diff__pane--bad', { type: 'button' });
+  badBtn.append(
+    el('div', 'vibe-diff__label', { text: model.badLabel }),
+    el('pre', 'vibe-diff__code', { text: model.bad })
+  );
+  const goodBtn = el('button', 'vibe-diff__pane vibe-diff__pane--good', { type: 'button' });
+  goodBtn.append(
+    el('div', 'vibe-diff__label', { text: model.goodLabel }),
+    el('pre', 'vibe-diff__code', { text: model.good })
+  );
+  grid.append(badBtn, goodBtn);
+
+  const status = el('div', 'vibe-diff__status', { role: 'status', 'aria-live': 'polite' });
+  const why = el('p', 'vibe-diff__why');
+  why.hidden = true;
+  if (model.why) why.textContent = model.why;
+
+  root.append(grid, status, why);
+  host.replaceChildren(root);
+
+  function lock(ok, msg) {
+    badBtn.disabled = true;
+    goodBtn.disabled = true;
+    root.classList.toggle('is-ok', ok);
+    root.classList.toggle('is-bad', !ok);
+    status.textContent = msg;
+    if (ok && model.why) why.hidden = false;
+  }
+
+  badBtn.addEventListener('click', () => {
+    badBtn.classList.add('is-picked', 'is-wrong');
+    lock(false, '这是常见错法——对照另一侧');
+  });
+  goodBtn.addEventListener('click', () => {
+    goodBtn.classList.add('is-picked', 'is-right');
+    lock(true, '正确');
+  });
+
+  enterIn(root);
+  return () => {};
+}
+
+/**
+ * @param {HTMLElement} host
+ * @param {ReturnType<typeof parseFillSource>} model
+ */
+export function mountFill(host, model) {
+  const root = el('div', 'vibe-fill', { role: 'region', 'aria-label': model.title });
+  root.append(el('div', 'vibe-fill__title', { text: model.title }));
+  if (model.caption) root.append(el('p', 'vibe-fill__caption', { text: model.caption }));
+
+  const line = el('div', 'vibe-fill__line');
+  /** @type {HTMLInputElement[]} */
+  const inputs = [];
+  const parts = String(model.template).split(/(___+|\{\{\d*\}\})/g);
+  let blankIdx = 0;
+  for (const part of parts) {
+    if (!part) continue;
+    if (/^___+$/.test(part) || /^\{\{\d*\}\}$/.test(part)) {
+      const input = el('input', 'vibe-fill__input', {
+        type: 'text',
+        autocomplete: 'off',
+        spellcheck: 'false',
+        'aria-label': `填空 ${blankIdx + 1}`,
+      });
+      if (model.answers[blankIdx]) {
+        input.size = Math.max(6, Math.min(28, model.answers[blankIdx].length + 2));
+      }
+      inputs.push(input);
+      line.append(input);
+      blankIdx += 1;
+    } else {
+      line.append(el('span', 'vibe-fill__text', { text: part }));
+    }
+  }
+
+  const status = el('div', 'vibe-fill__status', { role: 'status', 'aria-live': 'polite' });
+  const actions = el('div', 'vibe-fill__actions');
+  const check = el('button', 'vibe-fill__btn', { type: 'button', text: '核对' });
+  const hintBtn = el('button', 'vibe-fill__btn vibe-fill__btn--ghost', {
+    type: 'button',
+    text: '提示',
+  });
+  if (!model.hint) hintBtn.hidden = true;
+
+  check.addEventListener('click', () => {
+    if (!model.answers.length || inputs.length !== model.answers.length) {
+      status.textContent = '本题答案未配置完整';
+      return;
+    }
+    let ok = true;
+    inputs.forEach((input, i) => {
+      const expect = model.answers[i];
+      const got = model.caseSensitive ? input.value.trim() : input.value.trim().toLowerCase();
+      const exp = model.caseSensitive ? expect : expect.toLowerCase();
+      const match = got === exp;
+      input.classList.toggle('is-ok', match);
+      input.classList.toggle('is-bad', !match);
+      if (!match) ok = false;
+    });
+    root.classList.toggle('is-ok', ok);
+    root.classList.toggle('is-bad', !ok);
+    status.textContent = ok ? '通过' : '还不对——对照课文里的真命令';
+  });
+
+  hintBtn.addEventListener('click', () => {
+    status.textContent = model.hint;
+  });
+
+  actions.append(check, hintBtn);
+  root.append(line, actions, status);
+  host.replaceChildren(root);
+  enterIn(root);
+  return () => {};
+}
+
+/**
+ * @param {HTMLElement} host
+ * @param {ReturnType<typeof parsePickSource>} model
+ */
+export function mountPick(host, model) {
+  const root = el('div', 'vibe-pick', { role: 'region', 'aria-label': model.title });
+  root.append(el('div', 'vibe-pick__title', { text: model.title }));
+  if (model.caption) root.append(el('p', 'vibe-pick__caption', { text: model.caption }));
+
+  const status = el('div', 'vibe-pick__status', { role: 'status', 'aria-live': 'polite' });
+  const itemsWrap = el('div', 'vibe-pick__items');
+  const binsWrap = el('div', 'vibe-pick__bins');
+
+  /** @type {string | null} */
+  let selected = null;
+  /** @type {Record<string, string>} */
+  const assigned = {};
+
+  const itemBtns = new Map();
+  for (const it of model.items) {
+    const btn = el('button', 'vibe-pick__item', { type: 'button', text: it.text });
+    btn.addEventListener('click', () => {
+      selected = it.id;
+      for (const [id, b] of itemBtns) b.classList.toggle('is-selected', id === it.id);
+      status.textContent = `已选：${it.text} → 再点下方类别`;
+    });
+    itemBtns.set(it.id, btn);
+    itemsWrap.append(btn);
+  }
+
+  for (const bin of model.bins) {
+    const col = el('div', 'vibe-pick__bin');
+    col.append(el('div', 'vibe-pick__bin-label', { text: bin.label }));
+    const drop = el('div', 'vibe-pick__bin-drop', { 'data-bin': bin.id });
+    col.append(drop);
+    col.addEventListener('click', () => {
+      if (!selected) {
+        status.textContent = '先点上方一条';
+        return;
+      }
+      const it = model.items.find((x) => x.id === selected);
+      if (!it) return;
+      assigned[it.id] = bin.id;
+      const btn = itemBtns.get(it.id);
+      if (btn) {
+        btn.classList.add('is-assigned');
+        btn.classList.remove('is-selected');
+        btn.disabled = true;
+      }
+      drop.append(el('div', 'vibe-pick__chip', { text: it.text }));
+      selected = null;
+      status.textContent = '';
+    });
+    binsWrap.append(col);
+  }
+
+  const actions = el('div', 'vibe-pick__actions');
+  const check = el('button', 'vibe-pick__btn', { type: 'button', text: '核对归类' });
+  const reset = el('button', 'vibe-pick__btn vibe-pick__btn--ghost', { type: 'button', text: '重来' });
+
+  check.addEventListener('click', () => {
+    let ok = true;
+    let done = 0;
+    for (const it of model.items) {
+      if (!assigned[it.id]) {
+        ok = false;
+        continue;
+      }
+      done += 1;
+      if (assigned[it.id] !== it.bin) ok = false;
+    }
+    if (done < model.items.length) {
+      status.textContent = `还有 ${model.items.length - done} 条未归类`;
+      root.classList.remove('is-ok', 'is-bad');
+      return;
+    }
+    root.classList.toggle('is-ok', ok);
+    root.classList.toggle('is-bad', !ok);
+    status.textContent = ok ? '全部正确' : '有归错的——对照课文分层再试';
+  });
+
+  reset.addEventListener('click', () => {
+    for (const key of Object.keys(assigned)) delete assigned[key];
+    selected = null;
+    status.textContent = '';
+    root.classList.remove('is-ok', 'is-bad');
+    for (const [id, btn] of itemBtns) {
+      btn.disabled = false;
+      btn.classList.remove('is-assigned', 'is-selected');
+    }
+    for (const drop of binsWrap.querySelectorAll('.vibe-pick__bin-drop')) {
+      drop.replaceChildren();
+    }
+  });
+
+  actions.append(check, reset);
+  root.append(itemsWrap, binsWrap, actions, status);
+  host.replaceChildren(root);
   enterIn(root);
   return () => {};
 }

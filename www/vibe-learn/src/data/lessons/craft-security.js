@@ -1,9 +1,19 @@
-/** 安全常识 */
 export default `# 安全常识（开发者向）
 
 > 不是安全工程师课表；是**别把脚打穿**的底线。  
 > 对照行业地图：[OWASP Top 10:2021](https://owasp.org/Top10/)（注入含 XSS；访问控制、加密失败等）。  
 > Vibe 场景：Agent 常把 Key 写进文件或日志——**你审 diff、守门**。
+> **学会之后**：能守密钥与注入底线，并在审 Agent diff 时抓住高危改动。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 密钥 | \`.env\` / Key 不进 Git、不进公开聊天 |
+| 注入 | 知 SQL/命令拼接风险；参数化优先 |
+| 鉴权 | 认证 ≠ 授权；默认拒绝越权路径 |
+| 跟 Agent | 审 diff：有无密钥、任意文件写、关掉校验 |
+
 
 ## 底线清单（每天用）
 
@@ -27,6 +37,10 @@ export default `# 安全常识（开发者向）
 | **SQL 注入** | 用户输入改了查询结构 | 参数化；永远别拼接 SQL |
 | **XSS** | 用户输入当脚本在别人浏览器跑 | 输出编码；CSP 进阶 |
 | **命令注入** | 用户输入进了 \`exec\` / shell | 避免 shell；白名单参数；用数组形式传参 |
+
+\`\`\`diff
+{"title":"SQL 哪边安全？","ask":"用户输入进查询时，点正确写法。","badLabel":"常见错法","goodLabel":"正确写法","bad":"db.query(\\"SELECT * FROM users WHERE id = '\\" + id + \\"'\\")","good":"db.query('SELECT * FROM users WHERE id = ?', [id])","why":"拼接让攻击者改查询结构；参数化把数据与语句分开。"}
+\`\`\`
 
 参考：[Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
 
@@ -62,4 +76,14 @@ export default `# 安全常识（开发者向）
 ## 下一步
 
 **测试入门**（用测试锁行为）· **HTTP 认证** · **CI 直觉**（Secrets 不进 YAML 明文）。
+## 导图2 · 环境变量 / HTTPS / 部署 × 安全卫生
+
+> 密钥、依赖、权限；与提示安全（第五章）分层。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **环境变量** | 密钥载体 | 不进 Git |
+| **HTTPS** | 传输保护 | 不替代鉴权与最小权限 |
+| **部署上线** | 暴露面 | 安全组协议+端口 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

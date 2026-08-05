@@ -1,9 +1,18 @@
-/** ASP.NET Core — 场景 + 特性 + 本仓 netserver 子服对照（加厚） */
 export default `# ASP.NET Core（框架）
 
 > **分类：.NET 跨平台 Web 框架。不是语言。**  
 > 宿主语言：**C#**；运行平台：**.NET / CLR**。  
 > 本仓经 **netserver 子服**暴露 .NET 能力；**不进 www**；浏览器 SPA 走 **Vue/React → www**。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | .NET Web 框架；语言是 C# |
+| 本仓 | 对应子服；主服 Node |
+| 对照 | ASP.NET ≠ C# |
+| 跟 Agent | 写清 .NET 版本与子服边界 |
+
 
 ## 本课你要带走什么
 
@@ -208,4 +217,14 @@ Scoped 误当 Singleton → 并发请求共享 DbContext → 严重 bug。
 - 前端：**HTTP 与 www** · **Angular**（企业前端常配）  
 - 本仓：**子服务端** · **语言栈**  
 - 可选：读 ASP.NET 中间件管道一页，对照 \`callSubserver\` → netserver。
+## 导图2 · 后端 / 技术栈 × ASP.NET
+
+> C#/.NET Web 框架；本仓对应子服。语言是 C#。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **后端** | .NET Web | 宿主 C# + .NET |
+| **技术栈** | ASP.NET Core 等 | 框架轨 |
+| **部署上线** | 子服边界 | 主服仍是 Node |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

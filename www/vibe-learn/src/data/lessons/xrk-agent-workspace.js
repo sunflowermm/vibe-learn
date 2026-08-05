@@ -1,10 +1,27 @@
-/** 办事助手 · agents/ 种子 · ai-workspace 注入 · 配方 / microagents */
 export default `# 办事助手 · Agent 工作区
 
 > 群聊 / 控制台里的**对话 Agent**靠工作区文件注入 system——不是靠改 \`src/agent-runtime.js\`。  
-> 真源：\`docs/agents.md\` · 种子 \`agents/\` · 运行时 \`data/ai-workspace/{id}/\` · 注入 \`agent-workspace.js\`。
+> 真源：\`docs/agents.md\` · 种子 \`agents/\` · 运行时 \`data/ai-workspace/{id}/\` · 注入 \`agent-workspace.js\`。  
+> 导图2 的 **AI Agent · 上下文工程 · Skill · Vibe Coding** 描述「怎么跟模型协作」；本课钉**文件进 system 的路径**。  
+> **学会之后**：能说明种子与注入关系、两张工牌，并能把 Agent/Skill/上下文工程对上本仓目录。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 种子 | agents/ → 运行时工作区 |
+| 注入 | 办事规则进 prompt（上下文工程落地） |
+| Skill | 目录卡按需加载；与 Rules/交底分工 |
+| 工牌 | 写代码 AGENTS ≠ 办事工作区 AGENTS |
+| 文档 | docs/agents.md |
+
 
 ## 设计巧思：两张工牌
+
+\`\`\`decide
+{"title":"该改哪张工牌？","start":"start","steps":[{"id":"start","q":"你要改的是？","options":[{"label":"群聊/办事助手语气或流程","next":"desk"},{"label":"写代码放码/禁区/技能路由","next":"dev"},{"label":"模型工具能不能调、门禁","next":"mcp"},{"label":"窗口太长/历史太胖","next":"pipe"}]},{"id":"desk","result":"改办事工作区：data/ai-workspace/{id}/ 或种子 agents/。","detail":"不是仓库根 AGENTS.md。"},{"id":"dev","result":"改根 AGENTS.md / .cursor/skills/xrk-*。","detail":"别把施工禁区写进办事手册。"},{"id":"mcp","result":"看 MCP 运维 + ai-workflow.security。","detail":"Skill≠MCP 工具。"},{"id":"pipe","result":"对话管线：裁剪/压缩/max*Chars。","detail":"上下文工程课。"}]}
+\`\`\`
+
 
 | 工牌 | 给谁戴 | 文件 |
 |------|--------|------|
@@ -106,6 +123,21 @@ flowchart LR
 ## 文档
 
 \`docs/agents.md\` · \`docs/agent-context.md\` · \`agents/README.md\` · 技能 \`agent-tools\` · 第五章 **AGENTS.md / 技能 / 规则 / 提示安全**。
+
+## 导图2 · Agent / Skill / 上下文工程 × 两张工牌
+
+> 导图2 Agent/Skill/上下文口语；本课钉 **写代码 vs 办事助手两张工牌**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **AI Agent** | 多步用工具完成目标的模型侧角色 | 群聊/stdin **办事助手**读工作区；Cursor **写代码**读根 AGENTS——不是同一个 Agent |
+| **上下文工程** | 精心挑选塞进窗口的内容 | 五段注入（AGENTS/SOUL/rules/Skills…）+ 对话管线出站压缩 |
+| **Skill** | 长流程、按需加载 | \`agents/skills/**\` 与 Cursor \`.cursor/skills\`；细则 tools.read |
+| **Vibe Coding** | 对话驱动试想法 | 改工作区文稿可用五拍；**勿**把施工队禁区写进办事手册或相反 |
+
+\`\`\`flip
+{"title":"工牌 × 词表","cards":[{"front":"Skill 写进 Always Rule？","back":"反模式；浪费窗口。Skill 按需，Rules 短约束。"},{"front":"一个 AGENTS.md 打天下？","back":"两张工牌：写代码 vs 办事注入，事实可对齐但读者不同。"},{"front":"上下文工程=越长越好？","back":"否；管线要压缩/裁窗，见对话管线课。"}]}
+\`\`\`
 
 ## 下一步
 

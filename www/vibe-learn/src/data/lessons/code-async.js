@@ -1,9 +1,24 @@
-/** 异步 · 事件循环 · 并发正确性（对齐题库 js-async / eng-concurrency / interview-lang） */
 export default `# 异步：Promise、事件循环与并发正确性
 
 > **异步** = 这件事要等（网络、磁盘），但等的时候程序还可以干别的。  
 > JS **单线程**跑你的代码，靠**事件循环**调度回调——**单线程 ≠ 没有竞态**。  
 > 插件 \`async run(e)\`、HTTP、\`fetch\`、Agent 工具调用都会碰到。
+
+## 学会之后（验收）
+
+
+\`\`\`term
+{"title":"未处理的 Promise 拒绝","prompt":"$ ","steps":[{"type":"in","text":"node reject-demo.js"},{"type":"out","text":"node:internal/process/promises:288\\n            triggerUncaughtException(err, true /* fromPromise */);\\n            ^\\n\\n[UnhandledPromiseRejection: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch().] {\\n  code: 'ERR_UNHANDLED_REJECTION'\\n}\\n\\nNode.js v26.0.0"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| async/await | 会写并理解返回 Promise |
+| 事件循环 | 知道不是「多线程魔法」 |
+| 竞态 | 能举并发改共享状态的风险 |
+| 跟 Agent | 异步报错贴完整堆栈 |
+
 
 ## 本课你要带走
 
@@ -120,4 +135,14 @@ for (const r of results) {
 
 **读懂报错** — 异步失败时堆栈怎么读。  
 配套刷题：\`概念 · JavaScript 与异步\`、\`工程 · 并发与异步正确性\`、\`大厂 · 语言与运行时\`。
+## 导图2 · JavaScript / 后端 / 流式 × 异步
+
+> Node 后端与流式体验的底座。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **JavaScript** | 单线程+事件循环 | 异步是日常 |
+| **后端** | I/O 密集 | 勿阻塞事件循环 |
+| **流式响应** | 边到边出 | 仍建立在异步 I/O |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

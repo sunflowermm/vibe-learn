@@ -1,9 +1,18 @@
-/** Django / FastAPI — 场景 + 特性 + 本仓子服对照（加厚） */
 export default `# Django / FastAPI（框架）
 
 > **分类：Python Web 框架（两个不同风格）。不是语言。**  
 > 宿主语言：**Python**；ASGI/WSGI 运行时：**Uvicorn/Gunicorn/uWSGI** 等。  
 > 本仓经 **pyserver 子服**使用 Python 能力；**不进 www**；浏览器 UI 仍走 **Vue/React → www**。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | Python Web 框架 |
+| 本仓 | pyserver；主服仍是 Node |
+| 对照 | Django 全能 vs FastAPI 偏 API |
+| 跟 Agent | 接口走子服契约，不是改 Runtime |
+
 
 ## 本课你要带走什么
 
@@ -223,4 +232,14 @@ flowchart LR
 - 前端：**HTTP 与 www** · **Vue**  
 - 本仓：**子服务端** · **语言栈**  
 - 可选：读 FastAPI 最小路由，对照主服 \`callSubserver\` → pyserver。
+## 导图2 · 后端 / HTTP × Django/FastAPI
+
+> Python Web 框架；本仓走 Python 子服插件/HTTP，不是主服。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **后端** | Python Web | Django 全能 vs FastAPI 偏 API |
+| **HTTP** | 路由与校验 | 子服 CONTRACT 与主服 callSubserver |
+| **技术栈** | 语言已是 Python | 框架再往上加 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

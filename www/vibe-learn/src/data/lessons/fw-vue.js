@@ -1,9 +1,18 @@
-/** Vue — 场景 + 特性 + 本仓 www 挂载（加厚） */
 export default `# Vue（框架）
 
 > **分类：渐进式前端 UI 框架。不是语言。**  
 > 宿主语言：**JavaScript / TypeScript**；运行环境：**浏览器**（源码经 Vite/Webpack 等打包）。  
-> 本仓 **vibe-learn** 即 **Vue 3 + Vite** 实例，路径 \`core/vibe-learn-Core/www/vibe-learn/\`，经 \`sign.json\` 构建后挂到主服 \`/vibe-learn/\`。
+> 本仓 **vibe-learn** 即 **Vue 3 + Vite** 实例，路径 \`core/vibe-learn-Core/www/vibe-learn/\`，经 \`sign.json\` 构建后挂到主服 \`/vibe-learn/\`。  
+> **学会之后**：能说「语言 JS，框架 Vue，跑在浏览器」；并指出本仓 www 挂载路径，不把 Vue 写进主服 \`src/\`。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | 拒绝「Vue 语言」；宿主是 JS/TS |
+| 本仓落点 | \`core/*/www/<应用>/\` + \`sign.json\` → 静态挂载 |
+| 边界 | 不把浏览器 API 当 Node 26；不把 Vue 塞进 Runtime \`src/\` |
+| 对照 | 能口述 Vue vs React 选型各一句 |
 
 ## 本课你要带走什么
 
@@ -240,15 +249,15 @@ Vue 3 **Block tree** 跳过静态子树，减少 diff 范围。
 - 本仓挂载：**HTTP 与 www**  
 - 后端接口形态：**Express/Nest**（Node 对照，非 www）  
 - 可选：翻 Vite 的 \`base\` 配置说明，对照本仓 \`sign.json\` / mount 路径。
+## 导图2 · 前端 / 组件 / JavaScript × Vue
 
-## 结合知识导图2
+> 导图2 前端区与本课同构。本仓 vibe-learn 即 Vue3+Vite 实例。
 
-| 本课 | 导图2 | 钉死 |
-|------|-------|------|
-| Vue 是框架，语言仍是 JS | **Vue** · **JavaScript** · **前端** | 不说「Vue 语言」 |
-| 响应式 / 组件 | Vue 词条「状态变化驱动画面」 | Vue 不自动持久化到服务器 |
-| 本仓 www | **前端** · 组件相关词 | 挂载与 \`base\` 仍看本仓 |
-
-跨导图打开 Vue 词条看演示与判断题；本仓路径与 Router \`base\` 以本课为准。
-
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **前端** | 浏览器 UI | \`core/*/www/<应用>/\` 挂载；不进 \`src/\` |
+| **组件** | SFC / 组合式 | 框架特性；宿主仍是 JS/TS |
+| **JavaScript** | 宿主语言 | 拒绝「Vue 语言」 |
+| **构建** | Vite 等 | 开发服与产物；上线静态挂或反代 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

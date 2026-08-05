@@ -1,9 +1,18 @@
-/** Express / NestJS — 场景 + 特性 + 本仓对照（加厚） */
 export default `# Express / NestJS（框架）
 
 > **分类：Node.js 上的 Web 框架。不是语言。**  
 > 宿主语言：**JavaScript / TypeScript**；运行时：**Node.js**。  
 > 本仓主服是自研 **AgentRuntime + Loader**（同样有「框架气质」），**不是** Express/Nest；但大厂面试、外包交付、对照选型几乎必谈这一对。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | Node Web 框架；宿主 JS |
+| 本仓 | HTTP 用 Loader + HttpResponse，不必强套 Nest |
+| 对照 | Express/Nest ≠ 语言 |
+| 跟 Agent | 新接口路径指到 core/*/http |
+
 
 ## 本课你要带走什么
 
@@ -214,4 +223,14 @@ Express/Nest 适合**独立 Node 微服务**或对照学习，不是第二套主
 - 企业后端对照：**Spring**  
 - 本仓落点：**HTTP 与 www** · **AgentRuntime** · **语言栈**  
 - 可选：读 Express 中间件一页，再对照本仓 HTTP handler 怎么写。
+## 导图2 · 后端 / HTTP / 路由 × Express/Nest
+
+> Node 上的 Web 框架层。本仓 HTTP 用自有 Loader + HttpResponse，不必强行套 Nest。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **后端** | Node HTTP 服务 | 框架帮你路由与中间件 |
+| **HTTP / 路由** | 端点 | 本仓：\`core/*/http\` + HttpResponse |
+| **JavaScript** | 宿主 | 跑在 Node；不是浏览器框架 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

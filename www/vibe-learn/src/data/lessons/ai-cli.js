@@ -1,8 +1,17 @@
-/** Agent CLI */
 export default `# Agent CLI
 
 > **时间线**：终端本就是工程师主场；模型够用后，出现 **在 CLI 里对话并改仓库** 的 Agent（Cursor CLI、Claude Code、各类 coding agent）。  
 > 本课区分 **传统 CLI** 与 **Agent CLI**。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 形态 | CLI Agent 与 IDE Agent 同属路径 A 工具形态 |
+| 边界 | 选 CLI ≠ 懂第五章循环原理 |
+| 对照 | 黄页在番外；本课概念位置在驯服段 |
+| 跟 Agent | 无头/CI 场景才强推 CLI |
+
 
 ## 时间线上的位置
 
@@ -69,4 +78,14 @@ Agent CLI：你说目的地，副驾（模型）接手换挡——但油门限�
 ## 接到下一站
 
 IDE 与 CLI 都要读懂「这是什么项目」——下一课 **AGENTS.md**。旁支可看 **Pi 脚手架**；产品选型进 **AI 编程工具**。
+## 导图2 · AI Agent / Harness / 终端 × Agent CLI
+
+> 导图2 Agent 与终端；形态细节见番外黄页。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **AI Agent** | 无头施工 | 脚本/CI 友好 |
+| **终端命令行** | 交互面 | 与 IDE Chat 不同 harness |
+| **Harness Engineering** | 工具+权限 | CLI 暴露面要更小心 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

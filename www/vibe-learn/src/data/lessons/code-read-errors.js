@@ -1,10 +1,25 @@
-/** 读懂报错 */
 export default `# 读懂报错
 
 > 报错是**定位器**：类型 · 信息 · 堆栈（文件:行号）。  
 > Vibe 时：把**完整堆栈**贴给 Agent，并要求「先指出第一帧自己的文件」，禁止上来重构。
 
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 堆栈 | 能落到自己的文件:行号 |
+| 复述 | 一句话说明错因 |
+| 分层 | 区分语法错/运行时/依赖 |
+| 跟 Agent | 贴完整报错，不要截半截 |
+
+
 ## 怎么读一行堆栈
+
+
+\`\`\`reveal
+{"title":"真机堆栈会长这样","prompt":"先盯第一行与第一帧自己的文件","tone":"warn","face":"TypeError: Cannot read properties of undefined (reading 'name')\\n    at render (C:\\\\proj\\\\app.js:12:18)\\n    at main (C:\\\\proj\\\\app.js:20:3)\\n    at Object.<anonymous> (C:\\\\proj\\\\app.js:25:1)\\n    at Module._compile (node:internal/modules/cjs/loader:1521:14)","body":"忽略 node:internal / node_modules。打开 app.js 第 12 行，查谁是 undefined。给 Agent 时贴完整原文，不要只截 TypeError 一行。"}
+\`\`\`
+
 
 \`\`\`
 TypeError: Cannot read properties of undefined (reading 'name')
@@ -22,6 +37,12 @@ TypeError: Cannot read properties of undefined (reading 'name')
 \`\`\`
 
 ## 常见错对照
+
+
+\`\`\`term
+{"title":"SyntaxError 终端形态","prompt":"$ ","steps":[{"type":"in","text":"node broken.js"},{"type":"out","text":"/home/alice/broken.js:2\\nconsole.log('hi'\\n            ^^^^^^^\\n\\nSyntaxError: missing ) after argument list\\n    at checkSyntax (node:internal/main/check_syntax:74:5)"}]}
+\`\`\`
+
 
 | 错 | 常见原因 | 第一反应 |
 |----|----------|----------|
@@ -50,8 +71,22 @@ TypeError: Cannot read properties of undefined (reading 'name')
 验收：我按你的改法跑通后，口述错因一句话。
 \`\`\`
 
+## 接到过关
+
+过关练习要求你**故意写错一次**，再按本课四步修好——比「听懂」更重要。
+
 ## 下一步
 
 **JSON** — 前后端交换数据的文字格式。  
-配套：**调试与日志**。
+配套：番外 **调试与日志**（若已开）。
+## 导图2 · 调试 / 终端 / JavaScript × 读报错
+
+> Vibe 验收关键能力。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **调试** | 读堆栈 | 先自己的帧 |
+| **终端命令行** | 看退出码与 stderr | 复现命令 |
+| **JavaScript** | Error 对象 | message+stack |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

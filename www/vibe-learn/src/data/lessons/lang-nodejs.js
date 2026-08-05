@@ -1,9 +1,18 @@
-/** Node.js — 语言章上的运行时分类（非语言本体） */
 export default `# Node.js（运行时 · 语言章分类）
 
 > **分类：运行时（Runtime），不是一门编程语言，也不是 Web 框架。**  
 > 语言是 **JavaScript**；框架是 Express / Nest / Vue 等；Node.js 是让 JS **在浏览器之外**执行的宿主（V8 + 系统 API）。  
-> 本仓主服固定跑在 **Node.js ≥ 26**；装机见第一章；本课钉**分类与关系**。
+> 本仓主服固定跑在 **Node.js ≥ 26**；装机见第一章；本课钉**分类与关系**。  
+> **学会之后**：能向面试官/Agent 钉死「语言 JS · 运行时 Node · 框架另说」，并区分浏览器与 Node API。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | 拒绝「Node 语言 / Node 框架」两种说法 |
+| 双宿主 | 说出浏览器有 DOM、Node 有 fs/进程；语言相同 |
+| 本仓 | \`engines\` ≥ 26；装依赖仅 pnpm；主服入口 \`node\` |
+| 对照 | 能类比 Java↔JVM、Python↔CPython |
 
 ## 本课你要带走什么
 
@@ -104,9 +113,21 @@ flowchart LR
 | **npm / pnpm / yarn** | Node 生态的包管理器 | 本仓 **只认 pnpm**；\`packageManager\` 字段约束 | 包管理器 ≠ 运行时；装依赖用 pnpm，执行仍靠 \`node\` |
 | **Express / NestJS** | 跑在 Node 上的 Web 框架（微框架 / 意见性框架） | 外包、对照学习常见；**不是**本仓主服入口 | 会 Node ≠ 会 Express；本仓主服是 AgentRuntime |
 
+
 ## 下一步
 
 - **JavaScript** — 语言本体与场景  
 - **接到本仓运行时** — 版本与包管理契约  
-- **部署环境** — Git · Node · Redis · 浏览器引擎清单  
+- **部署环境** — Git · Node · Redis · 浏览器引擎清单
+## 导图2 · JavaScript / 后端 / npm × Node 运行时
+
+> 导图2 常把 Node 与 JS 并列；本课钉 **Node=运行时**。本仓仅 pnpm。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **JavaScript** | 语言 | 语法与语义；可跑在浏览器或 Node |
+| **后端** | 服务端宿主 | 本仓主服=Node≥26；不是「Node 语言」 |
+| **npm** | 官方包入口 | 本仓装依赖只用 pnpm；勿混 |
+| **环境变量** | 进程配置 | Node 进程读 env；密钥不进 Git |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -1,9 +1,18 @@
-/** Linux 基础指令 */
 export default `# Linux 基础指令
 
 > 不求背诵手册，先建立 **空间感**：我在哪、有什么、怎么看、怎么动。  
 > 下列在 bash/zsh 下通用；PowerShell 有对应物但语法不同。  
 > 本课补上日常开发极高频的 **curl / wget** 等「从网上拿东西」的命令。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 导航 | 会 \`pwd\`/\`ls\`/\`cd\`，站对仓库根 |
+| 排障 | 会用 curl/wget 做连通性直觉检查 |
+| 进程 | 知道进程/权限与「命令失败」相关 |
+| 跟 Agent | 贴命令与完整报错，说明当前目录 |
+
 
 ## 知识串
 
@@ -107,17 +116,14 @@ flowchart LR
 | **wget** | WWW get | 偏「把远程文件下载到磁盘」；镜像站点也常用 |
 | **ping** | 发包探测 | 测主机是否大致可达（ICMP）；**不等于**「网站一定能开」 |
 
-\`\`\`bash
-# 看某个 URL 返回什么（常用排障）
-curl -I https://example.com
+模拟窗（假 HTTP · 可跟打）：
 
-# 下载文件到当前目录
-curl -LO https://example.com/file.tar.gz
-# 或
-wget https://example.com/file.tar.gz
+\`\`\`shell
+{"preset":"curl-get"}
+\`\`\`
 
-# 本机健康检查（主服起来后）
-curl -s http://127.0.0.1:端口/api/health
+\`\`\`env
+{"title":"curl 常用手顺 · 按壳","caption":"Windows 请用 curl.exe，避免被 Invoke-WebRequest 别名坑。","default":"bash","tabs":[{"id":"bash","label":"Git Bash / Linux / macOS","os":"Unix","shell":"bash","lines":["curl -I https://example.com","curl -LO https://example.com/file.tar.gz","# 主服起来后（端口按实际）","curl -sS http://127.0.0.1:8080/api/health"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["curl.exe -I https://example.com","curl.exe -LO https://example.com/file.tar.gz","curl.exe -sS http://127.0.0.1:8080/api/health"]}]}
 \`\`\`
 
 **curl 是什么？**  
@@ -128,13 +134,11 @@ curl -s http://127.0.0.1:端口/api/health
 
 ## 5. 和本仓库的关系
 
-\`\`\`bash
-cd XRK-AGT          # 进入工作区
-ls                  # 应能看到 package.json
-node -v && pnpm -v  # 验证工具链
+\`\`\`env
+{"title":"站到仓库根 · 按壳","caption":"先 pwd/ls 看见根 package.json，再谈 node/pnpm。路径按本机改。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["cd /c/Users/YOU/Desktop/XRKgrocery/XRK-AGT","pwd","ls","node -v && pnpm -v"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["cd $env:USERPROFILE\\\\Desktop\\\\XRKgrocery\\\\XRK-AGT","pwd","Get-ChildItem","node -v; pnpm -v"]},{"id":"unix","label":"Linux / macOS","os":"Unix","shell":"bash/zsh","lines":["cd ~/Desktop/XRKgrocery/XRK-AGT","pwd","ls","node -v && pnpm -v"]}]}
 \`\`\`
 
-指令是「手」；**第一章其它卡片**提供「装哪只手、站在哪片地」。
+指令是「手」；**第一章其它卡片**提供「装哪只手、站在哪片地」。完整起服见 **首次跑通**。
 
 ## Windows 用户怎么办？
 
@@ -160,5 +164,15 @@ node -v && pnpm -v  # 验证工具链
 **Git 与工作区** — 用 \`cd\` / \`ls\` 确认你站在仓库根，再谈 clone 与托管平台。  
 番外 **本机目录地图** — Users / AppData / \`/bin\` / \`/home\`；**点文件与隐藏项** — \`.env\` \`.git\`。  
 番外 **容器** — 容器端口映射后可用 curl 探测；  
-第三章 **Nginx** — 门面入口也常用 curl 验。  
+第三章 **Nginx** — 门面入口也常用 curl 验。
+## 导图2 · 终端 / HTTP / 环境变量 × 基础指令
+
+> 导图2 终端与排障口语；本课钉常用指令肌肉记忆。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **终端命令行** | 日常操作面 | 导航、查看、权限、管道 |
+| **HTTP** | curl 探活 | 排障时看状态码与能否连上 |
+| **环境变量** | 影响命令行为 | 代理、PATH、HOME |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

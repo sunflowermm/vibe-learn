@@ -1,8 +1,25 @@
-/** HTTPS 与 DNS — 对齐课件 */
 export default `# HTTPS 与 DNS
 
 > 打开一个网址时，你其实做了两件大事：  
 > **DNS** 把名字变成 IP；**HTTPS** 在加密通道里说 HTTP。
+> **学会之后**：能分清「名字解析」与「传输加密」，并口述证书链/SNI 直觉。
+
+## 学会之后（验收）
+
+
+\`\`\`reveal
+{"title":"证书不对会炸成这样","prompt":"先认报错，再点开分层","tone":"warn","face":"curl: (60) SSL certificate problem: unable to get local issuer certificate","body":"这是 TLS/证书链问题，不是「HTTP 写错了」。先对时间、系统根证书、是否被中间人代理；开发临时跳过校验只能当实验室手段，不能当生产习惯。"}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| DNS | 名字 → IP；懂 TTL 与缓存「改了还不生效」 |
+| HTTPS | TLS 上的 HTTP；先握手再应用数据 |
+| 证书 | 证明域名与公钥；过期/域名不匹配会报警 |
+| SNI | 一 IP 多站时靠名字选证书 |
+| 跟 Agent | 证书/解析问题贴域名、错误原文、是否 CDN 橙云 |
+
 
 ## 知识串（接在哪）
 
@@ -99,6 +116,12 @@ sequenceDiagram
 | **CNAME** | 别名 → 另一个域名 |
 | **MX** | 邮件服务器指向 |
 
+> 解析结果长什么样（假）；真机用 dig / nslookup。
+
+\`\`\`term
+{"title":"dig 一眼解析（假）","prompt":"$ ","env":"运维机（演示）","steps":[{"type":"in","text":"dig +short example.com A"},{"type":"out","text":"93.184.216.34"},{"type":"in","text":"dig +short example.com AAAA"},{"type":"out","text":"2606:2800:220:1:248:1893:25c8:1946"},{"type":"in","text":"curl -sSI https://example.com | head -n 5"},{"type":"out","text":"HTTP/2 200\\nserver: ECS (nyb/1D2A)\\ncontent-type: text/html"}]}
+\`\`\`
+
 ### 托管 DNS 与「解析对不对」
 
 许多站点把 **NS** 指到 Cloudflare 等托管 DNS：改记录、TTL、是否「代理到边缘」都在控制台完成。  
@@ -150,4 +173,15 @@ sequenceDiagram
 ## 下一步
 
 **HTTP 与 Web** 看请求方法与状态码；**反向代理** 常在入口做 TLS 终止；**边缘实务** 把 DNS 污染症状、CF 橙云与出口对照起来；番外 **Clash** 也会插手 DNS/选路。
+## 导图2 · DNS / HTTPS / 域名 × 名字与加密
+
+> 导图2 后端区与本课高度同构——适合对照定义。  
+> **TTL、证书链、SNI 排障以本课为准**；不要用「开了 HTTPS」一句带过。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **域名** | 站点身份 | 证书 CN/SAN 必须盖住你访问的名字 |
+| **DNS** | 名字找 IP | A/AAAA/CNAME；TTL 导致变更延迟 |
+| **HTTPS** | 小锁 | TLS 握手 + 证书校验；之上仍是 HTTP 语义 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -1,8 +1,18 @@
-/** 实践 · 最小 HTTP */
 export default `# 实践课 · 最小 HTTP API
 
 > 目标：在 Core 的 \`http/\` 下放一个最小接口，用 \`HttpResponse\` 返回 JSON，并会用 \`curl\` 验证。  
 > 真源：\`docs/base-classes.md\` · \`docs/http-api.md\` · skill \`xrk-http-api\`。
+> **学会之后**：能加一个最小 HTTP handler 并用 HttpResponse 返回。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 位置 | core/*/http/ |
+| 响应 | HttpResponse.success 拍平规则 |
+| 鉴权 | 敏感接口接 Auth 课 |
+| 验收 | curl 看到 success 与字段 |
+
 
 ## 本课你要带走什么
 
@@ -14,6 +24,11 @@ export default `# 实践课 · 最小 HTTP API
 ---
 
 ## 1. 通关清单
+
+\`\`\`check
+{"title":"最小 HTTP 通关","items":[{"id":"dir","text":"文件在 core/*/http/","hint":"HttpApiLoader 能扫到"},{"id":"export","text":"对象导出 name + routes","hint":"见 base-classes"},{"id":"flat","text":"success 对象字段在顶层（非默认 json.data）","hint":"HttpResponse 拍平"},{"id":"auth","text":"鉴权策略明确（Key 或 systemAuth:false）","hint":"/api 默认要 Key"},{"id":"curl","text":"curl 看到 success 与业务字段","hint":"本地可复制命令"}]}
+\`\`\`
+
 
 | # | 步骤 | 完成标准 |
 |---|------|----------|
@@ -88,6 +103,17 @@ curl -sS "http://127.0.0.1:<端口>/api/lab/hello"
 约束：勿改 src/；勿裸 res.json；说明拍平与鉴权；有 package.json 则用相对路径。
 验收：curl 见顶层 hello；口述为何不能默认读 json.data。
 \`\`\`
+
+## 导图2 · HTTP / 路由 / 前端 × 最小 HTTP 实践
+
+> 练习课：把导图2 HTTP/路由钉到 **HttpResponse 拍平验收**。
+
+| 导图2 | Vibe 口语 | 本练习落点 |
+|-------|-----------|------------|
+| **HTTP / 路由** | 接口与路径 | \`core/*/http\` handler + HttpResponse |
+| **前端** | 联调页面 | 拍平解包，勿默认 \`json.data\` |
+| **MVP** | 最小可验证 | curl 见顶层字段即过关 |
+
 
 ## 下一步
 

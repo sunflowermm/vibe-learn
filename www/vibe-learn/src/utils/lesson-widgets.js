@@ -15,6 +15,9 @@
  * - steps | timeline     逐步时间线
  * - ports                端口板
  * - sort                 排序核对
+ * - diff | pairfix     对错对照
+ * - fill | blank         命令填空
+ * - pick | classify      点选归类
  */
 
 import { createApp } from 'vue';
@@ -25,9 +28,12 @@ import { copyWithButtonFeedback } from './copy-text.js';
 import {
   mountCheck,
   mountDecide,
+  mountDiff,
   mountEnv,
+  mountFill,
   mountFlip,
   mountMatch,
+  mountPick,
   mountPorts,
   mountQuiz,
   mountReveal,
@@ -35,9 +41,12 @@ import {
   mountSteps,
   parseCheckSource,
   parseDecideSource,
+  parseDiffSource,
   parseEnvSource,
+  parseFillSource,
   parseFlipSource,
   parseMatchSource,
+  parsePickSource,
   parsePortsSource,
   parseQuizSource,
   parseRevealSource,
@@ -449,6 +458,12 @@ const MOUNTERS = {
   timeline: (host, src) => mountSteps(host, parseStepsSource(src)),
   ports: (host, src) => mountPorts(host, parsePortsSource(src)),
   sort: (host, src) => mountSort(host, parseSortSource(src)),
+  diff: (host, src) => mountDiff(host, parseDiffSource(src)),
+  pairfix: (host, src) => mountDiff(host, parseDiffSource(src)),
+  fill: (host, src) => mountFill(host, parseFillSource(src)),
+  blank: (host, src) => mountFill(host, parseFillSource(src)),
+  pick: (host, src) => mountPick(host, parsePickSource(src)),
+  classify: (host, src) => mountPick(host, parsePickSource(src)),
 };
 
 /**

@@ -901,7 +901,10 @@
 .vibe-flip,
 .vibe-steps,
 .vibe-ports,
-.vibe-sort {
+.vibe-sort,
+.vibe-diff,
+.vibe-fill,
+.vibe-pick {
   padding: 1rem 1.05rem 1.1rem;
   border-radius: 14px;
   border: 1px solid color-mix(in srgb, var(--mist) 18%, transparent);
@@ -918,7 +921,10 @@
 .vibe-flip.is-in,
 .vibe-steps.is-in,
 .vibe-ports.is-in,
-.vibe-sort.is-in {
+.vibe-sort.is-in,
+.vibe-diff.is-in,
+.vibe-fill.is-in,
+.vibe-pick.is-in {
   opacity: 1;
   transform: none;
 }
@@ -927,7 +933,10 @@
 .vibe-flip__title,
 .vibe-steps__title,
 .vibe-ports__title,
-.vibe-sort__title {
+.vibe-sort__title,
+.vibe-diff__title,
+.vibe-fill__title,
+.vibe-pick__title {
   font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 650;
@@ -937,6 +946,9 @@
 
 .vibe-match__caption,
 .vibe-flip__caption,
+.vibe-diff__caption,
+.vibe-fill__caption,
+.vibe-pick__caption,
 .vibe-steps__caption,
 .vibe-ports__caption,
 .vibe-sort__caption {
@@ -1325,6 +1337,271 @@
   border-color: color-mix(in srgb, #fb7185 40%, transparent);
 }
 
+/* ───────── 对错对照 ───────── */
+
+.vibe-diff__ask {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  color: var(--node-title);
+  font-weight: 600;
+}
+
+.vibe-diff__grid {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .vibe-diff__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.vibe-diff__pane {
+  appearance: none;
+  text-align: left;
+  margin: 0;
+  padding: 0.7rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--mist) 20%, transparent);
+  background: #0b1220;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.vibe-diff__pane:disabled {
+  cursor: default;
+}
+
+.vibe-diff__pane--bad.is-wrong {
+  border-color: color-mix(in srgb, #fb7185 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, #fb7185 25%, transparent);
+}
+
+.vibe-diff__pane--good.is-right {
+  border-color: color-mix(in srgb, #34d399 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, #34d399 25%, transparent);
+}
+
+.vibe-diff__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--mist-dim);
+  margin-bottom: 0.4rem;
+}
+
+.vibe-diff__pane--bad .vibe-diff__label {
+  color: #fda4af;
+}
+
+.vibe-diff__pane--good .vibe-diff__label {
+  color: #6ee7b7;
+}
+
+.vibe-diff__code {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+.vibe-diff__status,
+.vibe-fill__status,
+.vibe-pick__status {
+  min-height: 1.25em;
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  color: var(--mist-dim);
+}
+
+.vibe-diff.is-ok .vibe-diff__status,
+.vibe-fill.is-ok .vibe-fill__status,
+.vibe-pick.is-ok .vibe-pick__status {
+  color: #34d399;
+}
+
+.vibe-diff.is-bad .vibe-diff__status,
+.vibe-fill.is-bad .vibe-fill__status,
+.vibe-pick.is-bad .vibe-pick__status {
+  color: #fb7185;
+}
+
+.vibe-diff__why {
+  margin: 0.55rem 0 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--node-title);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ───────── 命令填空 ───────── */
+
+.vibe-fill__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.4rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: #0b1220;
+  border: 1px solid color-mix(in srgb, var(--mist) 16%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin-bottom: 0.7rem;
+}
+
+.vibe-fill__text {
+  white-space: pre-wrap;
+}
+
+.vibe-fill__input {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, #38bdf8 40%, transparent);
+  background: color-mix(in srgb, #0369a1 22%, #0b1220);
+  color: #e0f2fe;
+  border-radius: 8px;
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  min-width: 4.5rem;
+}
+
+.vibe-fill__input:focus {
+  outline: 2px solid color-mix(in srgb, #38bdf8 55%, transparent);
+  outline-offset: 1px;
+}
+
+.vibe-fill__input.is-ok {
+  border-color: color-mix(in srgb, #34d399 55%, transparent);
+  background: color-mix(in srgb, #059669 18%, #0b1220);
+}
+
+.vibe-fill__input.is-bad {
+  border-color: color-mix(in srgb, #fb7185 55%, transparent);
+  background: color-mix(in srgb, #e11d48 14%, #0b1220);
+}
+
+.vibe-fill__actions,
+.vibe-pick__actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.vibe-fill__btn,
+.vibe-pick__btn {
+  appearance: none;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--node-title);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+
+.vibe-fill__btn--ghost,
+.vibe-pick__btn--ghost {
+  background: transparent;
+  color: var(--mist-dim);
+  border-color: color-mix(in srgb, var(--mist) 28%, transparent);
+}
+
+/* ───────── 点选归类 ───────── */
+
+.vibe-pick__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.vibe-pick__item {
+  appearance: none;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mist) 24%, transparent);
+  background: color-mix(in srgb, var(--ink) 35%, transparent);
+  color: var(--node-title);
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+
+.vibe-pick__item.is-selected {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.vibe-pick__item.is-assigned {
+  opacity: 0.45;
+}
+
+.vibe-pick__bins {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  margin-bottom: 0.7rem;
+}
+
+.vibe-pick__bin {
+  border-radius: 12px;
+  border: 1px dashed color-mix(in srgb, var(--mist) 28%, transparent);
+  background: color-mix(in srgb, var(--ink) 28%, transparent);
+  padding: 0.55rem;
+  cursor: pointer;
+  min-height: 5.5rem;
+}
+
+.vibe-pick__bin-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mist-dim);
+  margin-bottom: 0.4rem;
+}
+
+.vibe-pick__bin-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-height: 2.5rem;
+}
+
+.vibe-pick__chip {
+  font-size: 0.74rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--node-title);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.vibe-diff.is-ok,
+.vibe-fill.is-ok,
+.vibe-pick.is-ok {
+  border-color: color-mix(in srgb, #34d399 40%, transparent);
+}
+
+.vibe-diff.is-bad,
+.vibe-fill.is-bad,
+.vibe-pick.is-bad {
+  border-color: color-mix(in srgb, #fb7185 40%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vibe-env,
   .vibe-quiz,
@@ -1335,7 +1612,10 @@
   .vibe-flip,
   .vibe-steps,
   .vibe-ports,
-  .vibe-sort {
+  .vibe-sort,
+  .vibe-diff,
+  .vibe-fill,
+  .vibe-pick {
     opacity: 1;
     transform: none;
     transition: none;

@@ -1,8 +1,23 @@
-/** 实践课 · 子服调用 */
 export default `# 实践课 · callSubserver
 
 > 目标：主服用 \`AgentRuntime.callSubserver\` 打通到 **pyserver**（或其它 runtime）的一次健康/系统调用，并认识配置只读与常见失败。  
 > 真源：\`docs/subserver-api.md\` · \`docs/subserver-commonconfig.md\` · \`docs/runtime-surface.md\`。
+> **学会之后**：能走通 callSubserver 最小调用并对照 CONTRACT。
+
+## 学会之后（验收）
+
+\`\`\`check
+{"title":"子服调用通关","items":[{"id":"where","text":"能力放对 subserver/<runtime>/","hint":"不是改主服语言"},{"id":"cfg","text":"配置在主服编辑；子服只读","hint":"见 subserver-commonconfig"},{"id":"call","text":"主服经 callSubserver / CONTRACT 调通","hint":"对照端口与路径"},{"id":"bound","text":"未把业务塞进 Runtime 禁区","hint":"短板走开子服"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| 调用 | 主服 → 子服 HTTP |
+| 契约 | 路径/方法/错误形状 |
+| 配置 | 子服只读 |
+| 验收 | 主服日志/返回可核对 |
+
 
 ## 本课你要带走什么
 \`\`\`flip
@@ -106,4 +121,15 @@ sequenceDiagram
 
 子服通了 → 回到 **Stream**（工具内可选 callSubserver）或 **实践·最小插件**（在指令里调一次 ping）。  
 配置归属有疑义 → **配置归属**课。
+
+## 导图2 · 后端 / HTTP / 路由 × 子服实践
+
+> 练习课：子服是另一后端进程；用 HTTP 契约验收，不是改主服语言。
+
+| 导图2 | Vibe 口语 | 本练习落点 |
+|-------|-----------|------------|
+| **后端** | 另一进程 | \`subserver/<runtime>/\`；配置主服编辑、子服只读 |
+| **HTTP / 路由** | 调用契约 | \`callSubserver\` 对照 CONTRACT 验收 |
+| **技术栈** | 多语言补短板 | 能力放对 runtime，勿塞进主服拼盘 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

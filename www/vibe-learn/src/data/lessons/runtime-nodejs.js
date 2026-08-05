@@ -1,8 +1,17 @@
-/** Node.js 运行时 */
 export default `# 运行时 · Node.js
 
 > **运行时（runtime）**：在操作系统中执行某类程序的引擎。  
 > **Node.js** 使 JavaScript 可在服务器与本机工具中运行，而非仅限浏览器。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 身份 | Node=运行时，不是语言；语言是 JS |
+| 本仓 | \`node -v\` ≥ 26，对齐 engines |
+| 对照 | 浏览器与 Node API 不同 |
+| 跟 Agent | 报版本；勿用 npm 装本仓依赖 |
+
 
 ## 本课分块
 
@@ -47,11 +56,11 @@ flowchart LR
 | **\`engines\`** | 项目声明的兼容版本契约 |
 | **PATH 上的 \`node\`** | Shell 实际调用的那一套安装 |
 
-\`\`\`bash
-node -v
+\`\`\`env
+{"title":"核对 Node 版本 · 按壳","caption":"本仓 engines：node ≥ 26。找不到命令 → 安装器与 PATH。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["node -v","which node"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["node -v","Get-Command node"]},{"id":"unix","label":"Linux / macOS","os":"Unix","shell":"bash/zsh","lines":["node -v","which node"]}]}
 \`\`\`
 
-模拟窗（假数据 · 自动演示）：
+模拟窗（假数据 · 自动演示 which / PATH）：
 
 \`\`\`shell
 {"preset":"path-check"}
@@ -115,15 +124,15 @@ node -v
 **包管理器** — 默认工具 vs pnpm / uv 等替代品，以及本仓为何钉死 pnpm；  
 **第二章 · Node.js** — 在语言版图上的**分类**（运行时 ≠ 语言）；  
 **部署环境** — 与 Git / Redis / 浏览器引擎一起看齐套清单。
+## 导图2 · JavaScript / npm / 环境变量 × Node 装机
 
-## 结合知识导图2
+> 导图2 常把 Node 与 JS 并列；本课钉装机与版本契约。分类深讲见第二章。
 
-| 本课 | 导图2 | 钉死 |
-|------|-------|------|
-| Node = 运行时 | **JavaScript** · **后端** · **npm** | Node ≠ 语言 ≠ 框架 |
-| 浏览器 JS vs Node | JavaScript 词条边界 | 同语言、不同宿主 |
-| engines | 环境变量 / 部署（版本契约对照） | \`node -v\` 要对齐 package.json |
-
-第二章 **Node.js** 专课继续钉分类；跨导图用 JS/npm 词条补「一句话」。
-
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **JavaScript** | 语言 | 由 Node 在本机执行 |
+| **npm** | 随 Node 常见 | 本仓装依赖只用 pnpm |
+| **环境变量** | PATH 找到 node | 多版本时尤要注意 |
+| **后端** | 主服宿主 | 本仓主服跑在 Node 上 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

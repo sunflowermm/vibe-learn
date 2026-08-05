@@ -90,8 +90,9 @@ const vueFlowBind = computed(() =>
   flowAttrs({
     connectionMode: ConnectionMode.Loose,
     defaultViewport: { zoom: 0.52 },
-    minZoom: 0.12,
-    maxZoom: 1.9,
+    /* 整图很大：min 过紧会感觉「缩不到更小」；max 过低会感觉「放不大」 */
+    minZoom: 0.04,
+    maxZoom: 2.8,
   })
 );
 

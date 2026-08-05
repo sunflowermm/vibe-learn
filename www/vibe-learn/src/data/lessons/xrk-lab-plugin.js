@@ -1,8 +1,17 @@
-/** 实践课 · 最小 Core 插件 */
 export default `# 实践课 · 最小 Core 插件
 
 > 目标：在**本地**新建（或临时）一个最小插件，走通「目录约定 → PluginBase → Loader 热加载 → 日志可见」。  
-> 不改 \`src/\`；不把娱乐插件加进 system-Core 白名单（见项目规则）。
+> 不改 \`src/\`；不把娱乐插件加进 system-Core 白名单（见项目规则）。  
+> **学会之后**：能按步骤落地一个最小 PluginBase 并验证热加载/触发。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 放码 | core/名/plugin/ |
+| 基类 | 继承 PluginBase |
+| 验收 | 触发事件有预期副作用 |
+| 禁区 | 不把逻辑写进 src/ |
 
 ## 本课你要带走什么
 \`\`\`steps
@@ -18,6 +27,11 @@ export default `# 实践课 · 最小 Core 插件
 ---
 
 ## 1. 通关清单（按序勾）
+
+\`\`\`check
+{"title":"最小插件通关","caption":"按序勾；与下表同验收","items":[{"id":"dir","text":"插件文件在 core/<名>/plugin/","hint":"勿写进 src/"},{"id":"base","text":"继承 PluginBase，constructor 只填固定元数据","hint":"不建 Map/缓存"},{"id":"rule","text":"规则能匹配（如 /^#lab$/）","hint":"event 名要对"},{"id":"load","text":"Loader 日志出现加载/热更成功","hint":"路径与导出形状"},{"id":"fire","text":"触发后收到 lab-ok（或等价副作用）","hint":"stdin / 通道"},{"id":"git","text":"实验切片可小步提交；密钥未进仓","hint":"娱乐插件默认不提交"}]}
+\`\`\`
+
 \`\`\`match
 {"title":"插件实验配对","pairs":[{"id":"base","left":"PluginBase","right":"继承基类填契约"},{"id":"dir","left":"plugin/","right":"被 PluginLoader 扫描"},{"id":"lab","left":"实验课","right":"动手最小插件，验证加载"}]}
 \`\`\`
@@ -128,6 +142,18 @@ export default class HelloLab extends PluginBase {
 \`\`\`
 
 安全节奏见 **Vibe 心智里的安全底线**；提问地图见 **Vibe Coding 心智**。
+
+## 导图2 · MVP / 组件 / Git / JS × 最小插件
+
+> 练习课：把导图2 MVP/组件钉到 **#lab → lab-ok**。
+
+| 导图2 | Vibe 口语 | 本练习落点 |
+|-------|-----------|------------|
+| **MVP** | 最小可验证切片 | \`#lab\` → \`lab-ok\` 即过关；先别扩功能 |
+| **组件** | 可插拔模块直觉 | PluginBase 实例 ≈ 运行时组件；目录在 \`plugin/\` |
+| **JavaScript** | 主服语言 | 插件就是 JS；Node≥26 语义 |
+| **Git** | 协作与回滚 | 通关后小步提交；审 Agent diff |
+
 
 ## 下一步
 

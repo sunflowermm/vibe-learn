@@ -1,8 +1,18 @@
-/** 业务层全景 · 扩展点地图 */
 export default `# 业务层全景 · 扩展点地图
 
 > 主服业务不是「随便塞进 \`src/\`」，而是落在一组**约定扩展点**上。  
 > 本课把 plugin / http / www / workflow / tasker / events / commonconfig / factory / 数据库 / auth / MCP / renderer·crawl / 子服调用画成一张地图，方便后文按节点深挖。
+> **学会之后**：能按扩展点地图指出 plugin/http/workflow/tasker/events/www 落点。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 地图 | 扩展点不是「随便写个文件」 |
+| Loader | 扫描 core/*/ 对应子目录 |
+| 调用 | 子服经 callSubserver / HTTP |
+| 索引 | 卡住回本课，细节进分课 |
+
 
 ## 本课你要带走什么
 \`\`\`steps
@@ -202,6 +212,18 @@ subserver/<runtime>/apis/<group>/
 | \`docs/mcp-guide.md\` | 主服 MCP |
 | \`docs/subserver-api.md\` | 子服契约与调用 |
 | [AGT-Cores-Tools-Index](https://github.com/sunflowermm/AGT-Cores-Tools-Index) | 生态仓库索引 |
+
+## 导图2 · 用户流程 / PRD / 组件 / 技术栈 × 扩展点地图
+
+> 导图2 用户流程/PRD/组件口语；本课钉 **扩展点地图格子**，勿写进 src/。
+
+| 导图2 | Vibe / 产品口语 | 本仓专业落点 |
+|-------|-----------------|--------------|
+| **用户流程（User Flow）** | 用户怎么走完一条路径 | 通道 Tasker → 插件/工作流 → 出站；画流时对扩展点 |
+| **PRD** | 需求说明书 | 落地时拆到 plugin/http/www/workflow… 格子，勿写进 src/ |
+| **组件** | 可拼装单元 | 每个扩展点目录 ≈ 可替换组件；边界见 Loader |
+| **技术栈** | 组合拳 | 地图告诉你「能力挂哪」；栈选型见语言章/鸟瞰 |
+
 
 ## 下一步
 

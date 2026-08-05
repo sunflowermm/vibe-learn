@@ -1,9 +1,17 @@
-/** Markdown */
 export default `# Markdown
 
 > **Markdown** = 用少量符号写文档的轻量标记（\`#\` 标题、\`-\` 列表、\`**加粗**\`）。  
 > 本仓 \`AGENTS.md\`、skills、\`README\`、办事助手文稿都在用——**给人读，也给 Agent 读**。  
 > 常见方言：GitHub Flavored Markdown（GFM：表格、任务列表、围栏代码块）。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 读写 | 会基本标题/列表/代码块 |
+| 本仓 | AGENTS/文档/办事文稿 |
+| 跟 Agent | 改文稿用精确替换，勿整文件糊墙 |
+
 
 ## 先认词
 
@@ -39,6 +47,8 @@ console.log('fence')
 {"title":"Markdown 翻卡","cards":[{"front":"和 Word 比？","back":"纯文本+符号；Git 友好、diff 清晰、Agent 好读"},{"front":"根 AGENTS.md","back":"框架/Core 禁区与放码约定"},{"front":"写太花？","back":"交底：短句、清单、表格够用"},{"front":"HTML 混写","back":"GFM 常允许少量 HTML；教学交底尽量少用"}]}
 \`\`\`
 
+Vibe Coding 时：给 Agent 的说明优先 **短句 + 清单 + 表格 + 围栏代码**；\`AGENTS.md\` / skills 就是这种文稿——你写得清楚，模型才少跑偏。
+
 ## 本仓哪些文件是 Markdown
 
 | 文件 | 读者 |
@@ -65,4 +75,14 @@ console.log('fence')
 
 **环境变量** — 密钥与机器相关值怎么进进程。  
 **项目记忆文件** — Markdown 交底落在哪。
+## 导图2 · 上下文工程 / Skill × Markdown
+
+> 交底与技能多为 Markdown。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **上下文工程** | 文稿进窗 | 结构清晰更好检索 |
+| **Skill** | 技能正文 | Markdown 手册 |
+| **系统提示词** | 可文件化 | 常 MD |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

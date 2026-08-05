@@ -1,8 +1,18 @@
-/** 主服 MCP 运维 */
 export default `# 主服 MCP 运维
 
 > 第五章讲 MCP **是什么**；本课讲本仓 **挂在哪、怎么验、挂了连不上怎么拆**。  
 > 真源：\`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\` · \`docs/ai-workflow.md\`。
+> **学会之后**：能说明 MCP 工具挂载与 handleToolCall 门禁心智。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 挂载 | 主服工具面 |
+| 门禁 | 不是模型想调就能调 |
+| 扩展 | tools 扩展面有文档 |
+| 对照 | 第五章 Tool Calling 概念 |
+
 
 ## 设计巧思：USB 口在主机上
 
@@ -67,7 +77,7 @@ flowchart LR
 | 检查项 | 正常时 |
 |--------|--------|
 | 启动日志 | MCP 已挂载类提示 |
-| 工作流 | 已 init，工具已注册（含 tools.\* 扩展面） |
+| 工作流 | 已 init，工具已注册（含 tools.* 扩展面） |
 | Client | URL / 协议版本 / Key 对齐 config-guide |
 | \`streams\` | 只含本轮需要的工作流名 |
 | 策略 / 安全 | \`policies\` · \`security.toolScan\`；\`approval\` 默认关 |
@@ -93,6 +103,17 @@ flowchart LR
 3. 对照 \`mcp-config-guide.md\` 填外部 Client。  
 4. 指认一个 \`registerMCPTool\` 名称出现在工具列表。  
 5. 回第五章 **ai-mcp**：用本仓路径说清 Server / 工具。
+
+## 导图2 · Skill / Agent / Harness × MCP 门禁
+
+> 导图2 Skill/Agent/Harness 口语；本课钉 **MCP 工具面与门禁**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **Skill** | 可复用长流程能力 | 办事/Cursor skills 是交底；**MCP 工具**是运行时可调函数——别混名 |
+| **AI Agent / Agent 循环** | 多步调工具 | \`registerMCPTool\` + handleToolCall；模型想调 ≠ 一定放行 |
+| **Harness Engineering** | 指令+工具+模型编排层 | Runtime 挂载 MCP；策略/审批在 ai-workflow.security |
+
 
 ## 下一步
 

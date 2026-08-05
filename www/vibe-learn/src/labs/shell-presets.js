@@ -379,6 +379,59 @@ export const SHELL_PRESETS = {
     ],
     autoPlay: ['curl -I https://httpbin.org/get', 'curl -sS https://httpbin.org/get'],
   },
+
+  'ci-local': {
+    environment: '仓库根 · bash（模拟 CI 等价命令）',
+    title: 'CI 本地等价 · pnpm',
+    badge: '模拟 · 不上网',
+    promptPrefix: 'alice@ci',
+    home: '/home/alice',
+    cwd: '/home/alice/projects/XRK-AGT',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      'CI 红叉时，先在本机用同一套命令复现：node -v → pnpm install → pnpm test',
+    ],
+    hintCommands: ['node -v', 'pnpm -v', 'pnpm install', 'pnpm test', 'pnpm run build', 'pwd'],
+    autoPlay: ['node -v', 'pnpm install', 'pnpm test'],
+    autoPlayDelay: 160,
+  },
+
+  'nginx-probe': {
+    environment: 'curl · bash（模拟门面探活）',
+    title: 'Nginx 门面 · curl -I',
+    badge: '模拟 · 假 HTTP',
+    promptPrefix: 'alice@edge',
+    home: '/home/alice',
+    cwd: '/home/alice',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '上线后先 curl -I 看门面状态行；502 再查 upstream',
+    ],
+    hintCommands: [
+      'curl -I https://example.com',
+      'curl -sS http://127.0.0.1:8080/api/health',
+      'help',
+    ],
+    autoPlay: ['curl -I https://example.com'],
+  },
+
+  'volume-ls': {
+    environment: 'Docker CLI · bash（模拟卷）',
+    title: '备份直觉 · docker volume',
+    badge: '模拟 · 假卷名',
+    promptPrefix: 'alice@bak',
+    home: '/home/alice',
+    cwd: '/home/alice',
+    tree: defaultLinuxTree(),
+    welcome: [
+      FAKE,
+      '持久数据常在 volume，不在可抛的容器层——先认 docker volume ls',
+    ],
+    hintCommands: ['docker volume ls', 'docker ps', 'docker images', 'help'],
+    autoPlay: ['docker volume ls', 'docker ps'],
+  },
 };
 
 export function resolveShellConfig(raw) {

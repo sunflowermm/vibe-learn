@@ -1,9 +1,20 @@
-/** HTTP 与 www — 场景 + 挂载规则加厚 */
 export default `# HTTP 与 www
 
 > 第三章的 HTTP / 反代 / 前后端，在本仓库落成两件事：  
 > **接口**（\`core/*/http\`）与 **页面**（\`core/*/www/<应用>\`）。  
-> **Vue / React / Angular / Next** 等前端框架，都是走 **www** 进项目——不是另起一门「框架语言」，也不是写进主服 \`src/\`。
+> **Vue / React / Angular / Next** 等前端框架，都是走 **www** 进项目——不是另起一门「框架语言」，也不是写进主服 \`src/\`。  
+> 导图2：**HTTP · HTTPS · 前端 · 路由与端点**——本课给本仓挂载与响应形状。  
+> **学会之后**：能说明 http/ 与 www 规则，能用前端/路由/HTTP 名词对上目录，并按 HttpResponse 拍平解包。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| http/ · 路由 | Core HTTP API；路径与 HttpResponse |
+| www/ · 前端 | 静态应用子目录挂 /应用名 |
+| HTTPS | 上线常网关终止 TLS；开发可本机 HTTP |
+| 解包 | success 对象拍平；勿默认 json.data |
+| 兼容 | www 内联 web-compat 语义 |
 
 ## 本课你要带走什么
 \`\`\`flip
@@ -20,6 +31,10 @@ export default `# HTTP 与 www
 ## 1. 使用场景：何时用哪种 www 形态
 \`\`\`match
 {"title":"HTTP / www 配对","pairs":[{"id":"http","left":"http/","right":"服务端 API（HttpResponse）"},{"id":"www","left":"www/<应用>/","right":"静态前端，挂到 /应用名"},{"id":"compat","left":"浏览器兼容","right":"web-compat / 内联，勿当 Node 26"},{"id":"res","left":"保留根名","right":"api|core|media|uploads|File|shared"}]}
+\`\`\`
+
+\`\`\`pick
+{"title":"这堆东西进哪？","caption":"先点条目，再点落点。","bins":[{"id":"http","label":"core/*/http"},{"id":"www","label":"core/*/www/<应用>"},{"id":"src","label":"勿塞进主服 src/ 业务"}],"items":[{"id":"api","text":"HttpResponse handler","bin":"http"},{"id":"vue","text":"Vue/React 页面","bin":"www"},{"id":"spa","text":"Vite 构建后的 dist","bin":"www"},{"id":"biz","text":"产品业务页面逻辑当 Runtime 改","bin":"src"}]}
 \`\`\`
 
 
@@ -165,7 +180,21 @@ core/<Core名>/www/<应用名>/
 
 ---
 
-## 6. 下一步
+## 导图2 · HTTP / 前端 / 路由 × 本仓挂载
+
+> 导图2 HTTP/前端/路由口语；本课钉 **HttpApi + www 挂载契约**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **HTTP / HTTPS** | 应用层说话 / 加密传输 | \`core/*/http\` 提供 API；上线常反代+TLS（第三章/主机 TLS） |
+| **路由与端点** | URL 路径对应能力 | HttpApi 注册路径；\`/api/\` 默认走 Auth 课门禁 |
+| **前端（Frontend）** | 浏览器里的 UI | \`core/*/www/<应用>/\` → 静态挂 \`/<应用>\`；宿主仍是 JS |
+
+\`\`\`flip
+{"title":"HTTP×www","cards":[{"front":"前端框架是语言？","back":"否；宿主 JS；产物 HTML/CSS/JS。"},{"front":"接口返回一定有 data？","back":"HttpResponse：对象拍平；数组才进 data。"},{"front":"www 能写进 src/？","back":"否；违反 Core 边界。"}]}
+\`\`\`
+
+## 7. 下一步
 
 **Vue** / **React** / **Angular** / **Next.js**（框架场景与特性）  
 **JavaScript** / **HTML/CSS**（产物语言）  

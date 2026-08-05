@@ -1,9 +1,18 @@
-/** 番外 · 端口服务 — 谁连上代理引擎；HTTP_PROXY 体系 */
 export default `# 端口服务 · 系统代理 · HTTP_PROXY · Coding Agent
 
 > 上一张把代理引擎拆成「入口 + 决策 + 出口」。  
 > 本课钉三件事：**本机入口端口**、**系统代理只管谁**、**环境变量 \`HTTP_PROXY\` 一族是什么**。  
-> 换位想——系统代理开了、浏览器通了、\`git clone\` / Agent 却超时：多半是它们**没读到**「走 \`127.0.0.1:端口\`」。
+> 换位想——系统代理开了、浏览器通了、\`git clone\` / Agent 却超时：多半是它们**没读到**「走 \`127.0.0.1:端口\`」。  
+> **学会之后**：能分清系统代理与 \`HTTP_PROXY\` 族，并给终端/Agent 配通同一入口。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 入口 | \`127.0.0.1\` + mixed-port（或文档端口） |
+| 双通道 | 系统代理 ≠ 环境变量；浏览器通≠终端通 |
+| 变量族 | HTTP(S)_PROXY / ALL_PROXY / NO_PROXY 各一句 |
+| 验收 | 终端里能复现「走代理或明确直连」 |
 
 ## 本课你要带走什么
 
@@ -97,6 +106,14 @@ flowchart TB
 
 大小写：多数工具认大写；有的也认 \`http_proxy\` 小写。为省事，**大写四个一起写**最稳。
 
+\`\`\`fill
+{"title":"补全会话代理变量","caption":"端口按你的 Mixed Port；这里用 7890 练习。","template":"export HTTPS_PROXY=http://127.0.0.1:___","answers":["7890"],"hint":"本机代理入口端口，不是 80/443。"}
+\`\`\`
+
+\`\`\`pick
+{"title":"这些变量各管什么？","caption":"先点条目，再点类别。","bins":[{"id":"out","label":"出网走代理"},{"id":"skip","label":"直连名单"},{"id":"find","label":"找可执行文件"}],"items":[{"id":"hp","text":"HTTP_PROXY","bin":"out"},{"id":"hsp","text":"HTTPS_PROXY","bin":"out"},{"id":"np","text":"NO_PROXY","bin":"skip"},{"id":"path","text":"PATH","bin":"find"}]}
+\`\`\`
+
 URL 形态常见两种（端口改成你的）：
 
 | 写法 | 何时 |
@@ -116,19 +133,9 @@ URL 形态常见两种（端口改成你的）：
 
 所以自检必须在**同一个**终端：
 
-\`\`\`bash
-# bash
-echo "$HTTP_PROXY"
-echo "$HTTPS_PROXY"
-echo "$NO_PROXY"
+\`\`\`env
+{"title":"同一会话里回显代理变量","caption":"在刚 export / 设过环境变量的窗口里查；新开终端看不到属正常。","default":"bash","tabs":[{"id":"bash","label":"Git Bash / Unix","os":"Win/Linux/mac","shell":"bash","lines":["echo $HTTP_PROXY","echo $HTTPS_PROXY","echo $NO_PROXY"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["echo $env:HTTP_PROXY","echo $env:HTTPS_PROXY","echo $env:NO_PROXY"]}]}
 \`\`\`
-
-\`\`\`powershell
-echo $env:HTTP_PROXY
-echo $env:HTTPS_PROXY
-echo $env:NO_PROXY
-\`\`\`
-
 ### 3.4 手顺（把 \`7890\` 换成你的端口）
 
 下列窗**全是假的**（自动打字演示）；对照第四章部署课的可复制命令。
@@ -168,30 +175,10 @@ echo $env:NO_PROXY
 \`\`\`
 
 
-\`\`\`bash
-export HTTP_PROXY=http://127.0.0.1:7890
-export HTTPS_PROXY=http://127.0.0.1:7890
-export ALL_PROXY=http://127.0.0.1:7890
-export NO_PROXY=127.0.0.1,localhost,::1
+设好变量后（用上表对应壳），再在同一窗口：
 
-git clone https://github.com/sunflowermm/XRK-AGT.git
-\`\`\`
-
-**Windows PowerShell（当前窗口）**
-
-\`\`\`powershell
-$env:HTTP_PROXY='http://127.0.0.1:7890'
-$env:HTTPS_PROXY='http://127.0.0.1:7890'
-$env:ALL_PROXY='http://127.0.0.1:7890'
-$env:NO_PROXY='127.0.0.1,localhost,::1'
-\`\`\`
-
-可选（Git 自己的配置，与环境变量二选一或并存，以你实际生效者为准）：
-
-\`\`\`bash
-git config --global http.proxy  http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
-# 不用时：git config --global --unset http.proxy
+\`\`\`env
+{"title":"代理就绪后 clone / 可选 git 代理","caption":"优先会话环境变量；git config 代理可选。端口改成你的 Mixed Port。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash · clone","os":"Windows","shell":"bash","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"pwsh","label":"PowerShell · clone","os":"Windows","shell":"pwsh","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"gitcfg","label":"可选 · git config 代理","os":"任意","shell":"bash","note":"与环境变量二选一或并存；不用时记得 unset","lines":["git config --global http.proxy http://127.0.0.1:7890","git config --global https.proxy http://127.0.0.1:7890","# 不用时：","git config --global --unset http.proxy","git config --global --unset https.proxy"]}]}
 \`\`\`
 
 Agent / IDE：设置里找 Proxy，填 \`http://127.0.0.1:<端口>\`；若只认环境变量，**先在已 export 的终端里启动它**。
@@ -251,5 +238,15 @@ Agent / IDE：设置里找 Proxy，填 \`http://127.0.0.1:<端口>\`；若只认
 
 **Verge / Android 配置** — 订阅与系统代理最小路径。  
 第四章 **部署环境 §0** — 把本课变量套进 clone GitHub 的实操。  
-环境变量地基（PATH 等）— 第一章 **安装器与 PATH**。  
+环境变量地基（PATH 等）— 第一章 **安装器与 PATH**。
+## 导图2 · 环境变量 / 端口 / HTTP × Clash 端口
+
+> 混合端口常见 7890；以你界面为准。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **端口** | 本地 listen | 应用代理指到此口 |
+| **环境变量** | 代理 URL | 含主机与端口 |
+| **HTTP** | 经代理出网 | HTTPS 同样走代理通道 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

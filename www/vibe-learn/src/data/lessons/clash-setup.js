@@ -1,8 +1,18 @@
-/** 番外 · Verge 最简上手 + 手机 + TUN 另述 */
 export default `# 最简上手：订阅就够（Clash Verge）
 
 > 换位思考：你刚拿到一串「订阅链接」，最怕打开客户端看到一堆 YAML、TUN、规则。  
 > **入门其实可以极简：填订阅 → 选节点 → 开系统代理。** 先让浏览器通，再管 Agent 端口；TUN 放到后面。
+> **学会之后**：能走通订阅→节点→系统代理最小路径，并知终端还要代理变量。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 最小路径 | 订阅更新 → 选节点 → 开系统代理 |
+| 终端 | 浏览器通 ≠ Agent 通；查 HTTP_PROXY |
+| 安全 | 订阅链接当敏感信息 |
+| 正章 | 正向代理概念回网络章 |
+
 
 电脑用 **Clash Verge**（或 Verge Rev）；手机用 **Clash for Android / Clash Meta for Android**。外壳不同，底下都是「本机开端口的代理服务」。
 
@@ -38,14 +48,13 @@ export default `# 最简上手：订阅就够（Clash Verge）
 
 ### 一分钟自检
 
-\`\`\`powershell
-# 7890 换成你界面上的端口
-curl.exe -I --proxy http://127.0.0.1:7890 https://www.cloudflare.com
+\`\`\`env
+{"title":"探针：本机代理是否出网","caption":"把 7890 换成你 Verge 界面上的 Mixed Port。","default":"pwsh","tabs":[{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["curl.exe -I --proxy http://127.0.0.1:7890 https://www.cloudflare.com"]},{"id":"bash","label":"Git Bash / Unix","os":"Win/Linux/mac","shell":"bash","lines":["curl -I --proxy http://127.0.0.1:7890 https://www.cloudflare.com","# 或先 export 再 curl","export HTTPS_PROXY=http://127.0.0.1:7890","export HTTP_PROXY=http://127.0.0.1:7890","curl -I https://www.cloudflare.com"]}]}
 \`\`\`
 
 有 HTTP 头返回 ≈ 「本机代理服务 → 出网」正常。
 
-> 模拟窗（假数据）：练习 \`export HTTPS_PROXY\`；真实 curl 请用上面命令。
+> 模拟窗（假数据）：练习 \`export HTTPS_PROXY\`；真实探针用上面分栏。
 
 \`\`\`shell
 {"preset":"env-proxy"}
@@ -114,5 +123,15 @@ TUN 可以理解为：不只「通知软件来连端口」，而是尽量在系�
 ## 下一步
 
 打通后回第四章 **部署环境 §0**：给终端设 \`HTTP(S)_PROXY\`，再 \`git clone\` 本仓。  
-没有可用订阅时，部署课写了**迫不得已**的门户备忘——**并非价格很便宜**，优先用已有合规通路。  
+没有可用订阅时，部署课写了**迫不得已**的门户备忘——**并非价格很便宜**，优先用已有合规通路。
+## 导图2 · 环境变量 / 部署 × Clash 搭建
+
+> 本机正向代理选路；境外资源才挂。≠ 反代门面。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **环境变量** | HTTP(S)_PROXY | 指到本地混合端口 |
+| **部署上线** | 出网选路 | 本机/国内直连 |
+| **终端命令行** | 会话级代理 | 与系统代理分清 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

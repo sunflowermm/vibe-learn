@@ -1,8 +1,22 @@
-/** 配置归属 */
 export default `# 配置归属
 
 > 配置位置错误会导致行为难排查。  
-> 基本原则：**框架级模板**与**产品级模板**分离。
+> 基本原则：**框架级模板**与**产品级模板**分离。  
+> **学会之后**：能判定配置进 default_config 还是 Core default/，并说出三同步。
+
+## 学会之后（验收）
+
+\`\`\`decide
+{"title":"配置写到哪？","start":"start","steps":[{"id":"start","q":"这份配置属于？","options":[{"label":"AGT 运行时 / LLM 工厂 / system-Core","next":"fw"},{"label":"独立产品 Core 业务","next":"prod"},{"label":"本机密钥与开关","next":"env"},{"label":"只想在本机改一下试试","next":"data"}]},{"id":"fw","result":"config/default_config/ + system-Core commonconfig + 消费代码。","detail":"三同步。"},{"id":"prod","result":"core/<名>/default/ + commonconfig/ + data/<产品>/。","detail":"禁止塞进 default_config。"},{"id":"env","result":"环境变量 / 密钥库；模板里不写真实值。","detail":".env 不进 Git。"},{"id":"data","result":"可改 data/，但缺模板则新环境无法引导——模板仍要齐。","detail":"实践·配置三同步。"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| 框架模板 | config/default_config/ |
+| 产品模板 | core/*/default/ + data/产品/ |
+| 三同步 | 模板 · schema · 消费代码 |
+| 禁止 | 产品业务 yaml 塞进 default_config |
 
 ## 归属判定
 
@@ -16,6 +30,10 @@ export default `# 配置归属
 | 独立产品 Core | \`core/<名>/default/\` + 运行时数据 \`data/<产品>/\` |
 
 独立产品业务配置不得写入 \`config/default_config/\`。
+
+\`\`\`pick
+{"title":"配置碎片归到哪？","caption":"先点条目，再点目录类。","bins":[{"id":"fw","label":"default_config/"},{"id":"prod","label":"core/*/default/"},{"id":"data","label":"data/<产品>/"},{"id":"env","label":"环境变量 / 密钥库"}],"items":[{"id":"llm","text":"通用 LLM 工厂模板","bin":"fw"},{"id":"feat","text":"独立产品业务开关模板","bin":"prod"},{"id":"rt","text":"某产品运行时落地 yaml","bin":"data"},{"id":"key","text":"API Key 真值","bin":"env"}]}
+\`\`\`
 
 ## 关键概念
 \`\`\`match
@@ -69,7 +87,19 @@ export default `# 配置归属
 
 - **端口、反代、CORS**：先对齐第三章，再判定框架或产品归属  
 - **子服地址与开关**：见上表；详解见 **子服务端**、**语言栈**  
-- **LLM / MCP**：主服 \`ai-workflow\`；通向 **Stream** 与第五章；LLM 不在子服运行  
+- **LLM / MCP**：主服 \`ai-workflow\`；通向 **Stream** 与第五章；LLM 不在子服运行
+
+## 导图2 · 环境变量 / 技术栈 / 部署 × 配置归属
+
+> 导图2 环境变量/部署口语；本课钉 **配置三同步与归属禁区**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **环境变量** | 进程级开关与密钥 | 运行时读取；模板在 yaml；密钥不进 Git |
+| **技术栈** | 组合拳 | 配置归属是栈契约的一部分：框架模板 ≠ 产品模板 |
+| **部署上线** | 交付环境 | 新环境靠 default 模板引导复制；三同步缺一不可 |
+| **持续集成** | 机器检查 | CI 也应按同一归属读配置，勿只改 data/ 应付本机 |
+
 
 ## 下一步
 

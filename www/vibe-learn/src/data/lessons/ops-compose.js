@@ -1,8 +1,23 @@
-/** Docker Compose */
 export default `# Compose（多容器编排入门）
 
 > **Docker Compose**：用一份 YAML（常名 \`compose.yaml\` / \`docker-compose.yml\`）描述 **多个容器** 如何一起启动、连哪几个网络、挂哪些卷。  
-> 一句话：\`docker run\` 管「一个」；Compose 管「一套」。
+> 一句话：\`docker run\` 管「一个」；Compose 管「一套」。  
+> **学会之后**：能读懂 services/ports/volumes 字段直觉，并明确 Compose ≠ Kubernetes。
+
+## 学会之后（验收）
+
+
+\`\`\`check
+{"title":"Compose 通关","items":[{"id":"file","text":"知道 compose 文件描述多容器"},{"id":"up","text":"理解 up / ps 在编排什么"},{"id":"bound","text":"Compose ≠ K8s；先会本地依赖再谈集群"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| 文件 | 说出 services、ports、volumes 各管什么 |
+| 边界 | depends_on ≠ 健康就绪；Compose ≠ K8s |
+| 数据 | 删容器不丢数据要靠卷 |
+| 本仓 | 开发栈一文件起 Redis 等；见 \`docs/docker.md\` |
 
 ## 本课分块
 
@@ -63,5 +78,15 @@ flowchart TB
 ## 下一步
 
 **其它容器工具** — Podman / K8s 索引；  
-本仓实操 → \`docs/docker.md\`；门面 → 第三章 **Nginx**。  
+本仓实操 → \`docs/docker.md\`；门面 → 第三章 **Nginx**。
+## 导图2 · 部署 / 后端 × Compose
+
+> 多容器声明式；本机依赖（如 Redis）常见。≠ Kubernetes。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **部署上线** | 一套服务编排 | compose.yml 定义依赖 |
+| **后端** | 多进程协作 | 网络与卷是关键 |
+| **环境变量** | 服务配置 | 勿把密钥提交进仓 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

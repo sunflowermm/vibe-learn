@@ -1,9 +1,19 @@
-/** 1Panel */
 export default `# 1Panel
 
 > 现代化、**开源**的 Linux 服务器运维面板（Go + 容器心智）。Web 管主机监控、文件、数据库、网站、证书，并深度集成 **Docker / 应用商店**。  
 > 文档：[1panel.cn/docs](https://1panel.cn/docs/) · 仓库：[1Panel-dev/1Panel](https://github.com/1Panel-dev/1Panel)  
 > 安装入口示例（以官网为准）：\`bash -c "$(curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_start.sh)"\`
+> **学会之后**：能说明 1Panel 偏容器/开源面板心智，且仅 Linux。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 系统 | 仅 Linux |
+| 心智 | Docker / 应用商店友好 |
+| 数据 | 注意卷与备份 |
+| 本仓 | 同样反代 + 证书 + 安全入口 |
+
 
 ## 事实钉
 
@@ -53,4 +63,14 @@ export default `# 1Panel
 ## 下一步
 
 **对照选型** · **面板上跑 Node**。
+## 导图2 · 部署 / 容器 × 1Panel
+
+> 另一常见面板；常与容器生态更近。分层仍同上。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **部署上线** | 面板交付 | 按钮→进程/容器 |
+| **构建** | 可能管镜像 | 与 Docker 课对照 |
+| **HTTPS** | 证书能力 | 回 TLS 课核对 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

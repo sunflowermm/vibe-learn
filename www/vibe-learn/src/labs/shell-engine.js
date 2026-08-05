@@ -62,7 +62,7 @@ export function defaultLinuxTree() {
                       },
                       'README.md': {
                         type: 'file',
-                        content: '# XRK-AGT\n模拟仓库根。试：cat package.json\n',
+                        content: '# XRK-AGT\n',
                       },
                     },
                   },
@@ -204,7 +204,7 @@ const GH_PROXY_HOST =
 function simulateGitClone(c, args, root, getCwd, setCwd) {
   const url = args.find((a) => /^(https?:\/\/|git@)/i.test(a) || a.endsWith('.git')) || '';
   if (!url) {
-    return 'fatal: You must specify a repository to clone.\n# [模拟] 用法：git clone <url>';
+    return 'fatal: You must specify a repository to clone.';
   }
 
   const hasProxy = Boolean(
@@ -220,22 +220,15 @@ function simulateGitClone(c, args, root, getCwd, setCwd) {
       .pop()
       ?.replace(/\.git$/i, '') || 'XRK-AGT';
 
-  /* 国内直连 GitHub：模拟超时 / 连不上 */
+  /* 未设代理直连 GitHub：只回真实形态报错（对策写在课文/welcome，不进 stdout） */
   if (hitsGithub && !viaGhProxy && !hasProxy) {
     return [
       `Cloning into '${repoName}'...`,
       `fatal: unable to access '${url}': Failed to connect to github.com port 443 after 21005 ms: Couldn't connect to server`,
-      '',
-      '[模拟 · 全程假数据] 国内直连 GitHub 常见报错 ↑',
-      '[模拟] 可能还会看到：Connection timed out / SSL / Recv failure / Empty reply',
-      '[模拟] 对策 A：先 export HTTPS_PROXY=http://127.0.0.1:端口',
-      '[模拟] 对策 B：经 ghproxy / gh-proxy 前缀，例如',
-      '         git clone https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git',
-      '[模拟] 对策 C：项目若提供 Gitee 镜像，换镜像 URL',
     ];
   }
 
-  /* 成功路径：代理会话 或 ghproxy URL */
+  /* 成功路径：代理会话 或 ghproxy URL —— stdout 贴近真 git */
   const parent = getNode(root, getCwd());
   if (parent && parent.type === 'dir' && !parent.children[repoName]) {
     parent.children[repoName] = {
@@ -247,7 +240,7 @@ function simulateGitClone(c, args, root, getCwd, setCwd) {
         },
         'README.md': {
           type: 'file',
-          content: '# XRK-AGT\n[模拟 clone 成功写入的虚拟文件]\n',
+          content: '# XRK-AGT\n',
         },
         '.git': {
           type: 'dir',
@@ -260,20 +253,14 @@ function simulateGitClone(c, args, root, getCwd, setCwd) {
     };
   }
 
-  const how = viaGhProxy
-    ? '经 ghproxy 类前缀（模拟成功）'
-    : `经会话代理 ${c.env.HTTPS_PROXY || c.env.HTTP_PROXY}（模拟成功）`;
-
   return [
     `Cloning into '${repoName}'...`,
     'remote: Enumerating objects: 128, done.',
     'remote: Counting objects: 100% (128/128), done.',
-    'Receiving objects: 100% (128/128), 1.02 MiB | 模拟速度, done.',
-    `Resolving deltas: 100% (42/42), done.`,
-    '',
-    `[模拟 · 全程假数据] ${how}`,
-    `[模拟] 虚拟目录已出现：./${repoName} （可用 ls / cd ${repoName}）`,
-    '[模拟] 真实电脑请在本机终端执行同等命令；本窗不会上网、不会落盘',
+    'remote: Compressing objects: 100% (80/80), done.',
+    'remote: Total 128 (delta 42), reused 128 (delta 42), pack-reused 0 (from 0)',
+    'Receiving objects: 100% (128/128), 1.02 MiB | 2.50 MiB/s, done.',
+    'Resolving deltas: 100% (42/42), done.',
   ];
 }
 
@@ -551,34 +538,37 @@ export function createShellSession(config = {}) {
       run(_c, args) {
         const url = args.find((a) => !a.startsWith('-')) || '';
         if (!url) {
-          return [
-            '用法直觉：',
-            '  curl -I https://example.com     # 只看响应头',
-            '  curl -sS https://httpbin.org/get  # 看 JSON 体（模拟）',
-            '# -s 安静 · -S 出错仍显示 · 本窗不上真网',
-          ];
+          return 'curl: try \'curl --help\' or \'curl --manual\' for more information';
         }
         if (args.includes('-I') || args.includes('-i') || args.includes('-D')) {
           return [
             'HTTP/1.1 200 OK',
-            'Content-Type: application/json',
-            'x-sim: vibe-learn',
-            `# 模拟响应头 · 目标 ${url}`,
-            '# 状态行第一段数字=状态码（200=成功一类）',
+            'Content-Type: text/html; charset=UTF-8',
+            'Content-Length: 1256',
+            'Connection: keep-alive',
           ];
         }
         if (/httpbin\.org\/get|\/api\/|application\/json/i.test(url) || args.includes('-s') || args.includes('-sS')) {
           return [
             '{',
-            '  "success": true,',
-            '  "message": "ok",',
-            '  "url": "' + url + '",',
-            '  "origin": "127.0.0.1"',
+            '  "args": {},',
+            '  "headers": {',
+            '    "Host": "httpbin.org",',
+            '    "User-Agent": "curl/8.7.1"',
+            '  },',
+            `  "url": "${url}"`,
             '}',
-            '# [模拟 JSON] 真机可对 httpbin.org 或本仓 API 再试',
           ];
         }
-        return `<html>模拟页面 · ${url}</html>\n# 试加 -I 看头，或对 httpbin.org/get 看 JSON`;
+        return [
+          '<!DOCTYPE html>',
+          '<html>',
+          '<head><title>Example Domain</title></head>',
+          '<body>',
+          '<h1>Example Domain</h1>',
+          '</body>',
+          '</html>',
+        ];
       },
     },
     ping: {
@@ -586,9 +576,12 @@ export function createShellSession(config = {}) {
       run(_c, args) {
         const host = args[0] || '127.0.0.1';
         return [
-          `PING ${host} (127.0.0.1): 56 data bytes`,
-          '64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.4 ms',
-          '# 模拟 · ping 通 ≠ 网站一定能开',
+          `PING ${host} (${host === '127.0.0.1' ? '127.0.0.1' : '93.184.216.34'}): 56 data bytes`,
+          `64 bytes from ${host === '127.0.0.1' ? '127.0.0.1' : '93.184.216.34'}: icmp_seq=0 ttl=64 time=0.412 ms`,
+          `64 bytes from ${host === '127.0.0.1' ? '127.0.0.1' : '93.184.216.34'}: icmp_seq=1 ttl=64 time=0.389 ms`,
+          '',
+          `--- ${host} ping statistics ---`,
+          '2 packets transmitted, 2 packets received, 0.0% packet loss',
         ];
       },
     },
@@ -617,59 +610,50 @@ export function createShellSession(config = {}) {
       help: '模拟 node -v；可跑极简 .js（只识别 console.log 字符串）',
       run(c, args) {
         if (!args.length || args[0] === '-v' || args[0] === '--version') {
-          return args[0] ? 'v26.0.0' : 'Welcome to Node.js v26.0.0.\n# 试 node -v 或 node hello.js';
+          return args[0] ? 'v26.0.0' : 'Welcome to Node.js v26.0.0.\nType ".help" for more information.';
         }
         if (args[0] === '-e' && args[1]) {
           const m = String(args[1]).match(/console\.log\(\s*['"]([^'"]*)['"]\s*\)/);
-          return m ? m[1] : '# 模拟 -e：本沙箱只演示 console.log("文字")';
+          return m ? m[1] : '';
         }
         const file = args[0];
         if (file && !file.startsWith('-')) {
           const { node } = c.resolve(file);
-          if (!node) return `Error: Cannot find module '${file}'\n# 先 cd 到文件所在目录，或写对相对路径`;
-          if (node.type !== 'file') return `Error: ${file} 不是文件`;
+          if (!node) return `Error: Cannot find module '${file}'`;
+          if (node.type !== 'file') return `Error: ${file} is a directory`;
           const logs = [...String(node.content).matchAll(/console\.log\(\s*['"]([^'"]*)['"]\s*\)/g)].map(
             (m) => m[1]
           );
           if (logs.length) return logs;
-          return [
-            '# 已「假装」执行，但文件里没有可识别的 console.log("…")',
-            '# 本沙箱不跑完整 JS；真机请用本机 node',
-          ];
+          return '';
         }
-        return '模拟 node：试 node -v · node hello.js · node -e "console.log(1+1)"（后者仅字符串演示）';
+        return 'Welcome to Node.js v26.0.0.\nType ".help" for more information.';
       },
     },
     npm: {
       help: '模拟 npm -v（本仓不用 npm 装依赖）',
       run(_c, args) {
         if (args[0] === '-v' || args[0] === '--version') return '10.9.0';
-        return '模拟 npm：本仓请用 pnpm；试 npm -v';
+        return 'npm <command>\n\nUsage:\n\nnpm install';
       },
     },
     corepack: {
       help: '模拟 corepack enable / prepare',
       run(_c, args) {
         if (!args.length || args[0] === 'enable') {
-          return '模拟 · Corepack enabled';
+          return '';
         }
         if (args[0] === 'prepare') {
-          return '模拟 · Preparing pnpm@latest for activation...';
+          return 'Preparing pnpm@latest for immediate activation...';
         }
-        return '模拟 corepack：试 corepack enable';
+        return 'Usage: corepack <command>';
       },
     },
     git: {
-      help: '模拟 git：clone / status / 分支 / add / commit（教学状态机）',
+      help: '模拟 git：clone / status / 分支 / add / commit',
       run(c, args) {
         if (!args.length || args[0] === '--help') {
-          return [
-            '用法（模拟）：',
-            '  git --version · git clone <url>',
-            '  git status · git diff · git add <文件> · git commit -m "说明"',
-            '  git switch -c feat/demo · git branch',
-            'clone 直连 github.com 常失败 → 设 HTTPS_PROXY 或 ghproxy 前缀',
-          ];
+          return 'usage: git [-v | --version] [-h | --help] [-C <path>] <command> [<args>]';
         }
         if (args[0] === '--version') return 'git version 2.45.2';
         if (args[0] === 'clone') {
@@ -679,42 +663,43 @@ export function createShellSession(config = {}) {
           });
         }
         if (args[0] === 'remote' && args[1] === '-v') {
-          return 'origin  https://github.com/sunflowermm/XRK-AGT.git (fetch)\norigin  https://github.com/sunflowermm/XRK-AGT.git (push)';
+          return 'origin\thttps://github.com/sunflowermm/XRK-AGT.git (fetch)\norigin\thttps://github.com/sunflowermm/XRK-AGT.git (push)';
         }
         if (args[0] === 'status') {
           const lines = [`On branch ${gitState.branch}`];
           if (gitState.staged.length) {
             lines.push('Changes to be committed:');
+            lines.push('  (use "git restore --staged <file>..." to unstage)');
             gitState.staged.forEach((f) => lines.push(`\tmodified:   ${f}`));
           }
           if (gitState.dirty.length) {
             lines.push('Changes not staged for commit:');
+            lines.push('  (use "git add <file>..." to update what will be committed)');
             gitState.dirty.forEach((f) => lines.push(`\tmodified:   ${f}`));
           }
           if (!gitState.staged.length && !gitState.dirty.length) {
             lines.push('nothing to commit, working tree clean');
           }
-          lines.push('# [模拟] 真机 git status 才看你仓库真实状态');
           return lines;
         }
         if (args[0] === 'diff') {
           if (!gitState.dirty.length && !gitState.staged.length) {
-            return '# [模拟] 无差异';
+            return '';
           }
           const file = gitState.dirty[0] || gitState.staged[0];
           return [
             `diff --git a/${file} b/${file}`,
-            '--- a/' + file,
-            '+++ b/' + file,
+            `index 1111111..2222222 100644`,
+            `--- a/${file}`,
+            `+++ b/${file}`,
             '@@ -1 +1 @@',
-            '-旧行（模拟）',
-            '+新行（模拟）',
-            '# 真机 diff 显示你改过的每一行',
+            '-old line',
+            '+new line',
           ];
         }
         if (args[0] === 'add') {
           const target = args[1];
-          if (!target) return 'Nothing specified, nothing added.\n# 试：git add README.md  或  git add .';
+          if (!target) return 'Nothing specified, nothing added.\nMaybe you wanted to say \'git add .\'?';
           const take =
             target === '.' || target === '-A'
               ? [...gitState.dirty]
@@ -727,21 +712,22 @@ export function createShellSession(config = {}) {
             });
             gitState.dirty = gitState.dirty.filter((f) => !gitState.staged.includes(f));
           }
-          return `# [模拟] 已暂存：${gitState.staged.join(', ') || '(空)'} → 再 git status`;
+          return '';
         }
         if (args[0] === 'commit') {
           const mi = args.indexOf('-m');
           const msg = mi >= 0 ? args[mi + 1] : '';
           if (!gitState.staged.length) {
-            return 'On branch ' + gitState.branch + '\nnothing to commit, working tree clean\n# 先 git add';
+            return `On branch ${gitState.branch}\nnothing to commit, working tree clean`;
           }
-          if (!msg) return 'error: 请用 git commit -m "说明为什么改"';
+          if (!msg) {
+            return 'error: switch `m\' requires a value';
+          }
           gitState.commits += 1;
+          const n = gitState.staged.length;
           gitState.staged = [];
-          return [
-            `[${gitState.branch} ${String(gitState.commits).padStart(7, '0')}] ${msg}`,
-            '# [模拟] 提交成功；推远程真机再 git push',
-          ];
+          const short = String(gitState.commits).padStart(7, '0');
+          return [`[${gitState.branch} ${short}] ${msg}`, ` ${n} file${n === 1 ? '' : 's'} changed`];
         }
         if (args[0] === 'branch') {
           if (gitState.branch === 'main') return '* main';
@@ -754,22 +740,14 @@ export function createShellSession(config = {}) {
             if (i === 0) return false;
             return true;
           });
-          if (!name) return 'fatal: 缺少分支名\n# 试：git switch -c feat/demo';
+          if (!name) return 'fatal: missing branch name';
           gitState.branch = name;
-          return create
-            ? `Switched to a new branch '${name}'\n# [模拟] 实验改动与 main 隔离`
-            : `Switched to branch '${name}'`;
+          return create ? `Switched to a new branch '${name}'` : `Switched to branch '${name}'`;
         }
         if (args[0] === 'pull' || args[0] === 'push' || args[0] === 'merge') {
-          return [
-            `# [模拟] git ${args[0]} 需要真远程；本窗不联网`,
-            '先在本机仓库练 status / add / commit / switch',
-          ];
+          return `fatal: unable to access 'https://github.com/sunflowermm/XRK-AGT.git/': Could not resolve host: github.com`;
         }
-        return [
-          `git ${args[0]}：可试 status · add · commit · switch -c · clone`,
-          '网络类重点：git clone（配合代理课）',
-        ];
+        return `git: '${args[0]}' is not a git command. See 'git --help'.`;
       },
     },
     pnpm: {
@@ -781,30 +759,41 @@ export function createShellSession(config = {}) {
         if (args[0] === 'install' || args[0] === 'i') {
           const pkg = c.resolve('package.json').node;
           if (!pkg || pkg.type !== 'file') {
-            return [
-              'ERR_PNPM_NO_PKG  No package.json found in current directory',
-              '# [模拟] 请先 cd 到仓库根（含 package.json）',
-            ];
+            return 'ERR_PNPM_NO_PKG  No package.json found in /home/alice';
           }
           return [
             'Lockfile is up to date, resolution step is skipped',
-            'Packages: +128',
-            'Progress: resolved 128, reused 128, downloaded 0, added 128, done',
-            'Done in 1.2s',
-            '# [模拟 · 假数据] 真实电脑请在本机仓库根执行 pnpm install',
+            'Already up to date',
+            '',
+            'Done in 1.2s using pnpm v10.12.0',
           ];
         }
-        return '模拟 pnpm：试 pnpm -v · pnpm install（需在含 package.json 的目录）';
+        if (args[0] === 'test') {
+          return [
+            '',
+            ' ✓ src/utils/http-utils.test.js (3)',
+            ' ✓ src/utils/normalize-error.test.js (2)',
+            '',
+            ' Test Files  2 passed (2)',
+            '      Tests  5 passed (5)',
+          ];
+        }
+        if (args[0] === 'run' && args[1] === 'build') {
+          return [
+            '> xrk-agt@0.0.0 build',
+            '> vite build',
+            '',
+            '✓ built in 1.84s',
+          ];
+        }
+        return ` ERR_PNPM_UNKNOWN_COMMAND  Unknown command '${args[0]}'`;
       },
     },
     docker: {
       help: '模拟 docker ps / images / run / compose',
       run(_c, args) {
         if (!args.length || args[0] === '--help') {
-          return [
-            '用法（模拟）：docker ps · docker images · docker run · docker compose ps',
-            '# 全程假数据，不会起真实容器',
-          ];
+          return 'Usage:  docker [OPTIONS] COMMAND\n\nA self-sufficient runtime for containers';
         }
         if (args[0] === 'ps') {
           const all = args.includes('-a');
@@ -814,7 +803,6 @@ export function createShellSession(config = {}) {
             all
               ? 'f6e5d4c3b2a1   nginx:alpine   "/docker-entrypoint.…"   1 day ago       Exited (0) 5 hours ago             demo-nginx'
               : '',
-            '# [模拟] 本机 docker ps 才看真实容器',
           ].filter(Boolean);
         }
         if (args[0] === 'images') {
@@ -822,15 +810,10 @@ export function createShellSession(config = {}) {
             'REPOSITORY   TAG       IMAGE ID       CREATED       SIZE',
             'redis        7         9c2b9c0aabb1   2 weeks ago   117MB',
             'nginx        alpine    7d1c3e2ff001   3 weeks ago   43.4MB',
-            '# [模拟]',
           ];
         }
         if (args[0] === 'run') {
-          return [
-            '模拟 · 假装已启动容器（不会真正占用端口）',
-            '用法直觉：docker run -d --name xrk-redis -p 6379:6379 redis:7',
-            '# 真实请在本机执行；本窗不上网、不起 daemon',
-          ];
+          return 'a1b2c3d4e5f6789012345678abcdef0123456789';
         }
         if (args[0] === 'compose') {
           const sub = args[1] || 'ps';
@@ -839,19 +822,20 @@ export function createShellSession(config = {}) {
               '[+] Running 2/2',
               ' ✔ Container xrk-redis  Started',
               ' ✔ Container xrk-app    Started',
-              '# [模拟] docker compose up -d · 不会真正创建容器',
             ];
           }
           return [
-            'NAME        IMAGE     STATUS         PORTS',
-            'xrk-redis   redis:7   Up 2 hours     0.0.0.0:6379->6379/tcp',
-            '# [模拟] docker compose ps',
+            'NAME        IMAGE     COMMAND                  SERVICE   CREATED       STATUS       PORTS',
+            'xrk-redis   redis:7   "docker-entrypoint.s…"   redis     2 hours ago   Up 2 hours   0.0.0.0:6379->6379/tcp',
           ];
         }
         if (args[0] === 'logs') {
-          return '1:M 01 Jan 12:00:00.000 * Ready to accept connections\n# [模拟] docker logs <name>';
+          return '1:M 01 Jan 12:00:00.000 * Ready to accept connections';
         }
-        return `docker ${args[0]}：试 docker ps · docker images · docker compose ps`;
+        if (args[0] === 'volume' && (args[1] === 'ls' || !args[1])) {
+          return ['DRIVER    VOLUME NAME', 'local     xrk-redis-data', 'local     xrk-uploads'];
+        }
+        return `docker: '${args[0]}' is not a docker command.\nSee 'docker --help'`;
       },
     },
     'redis-cli': {
@@ -862,18 +846,15 @@ export function createShellSession(config = {}) {
         }
         const op = args[0].toUpperCase();
         if (op === 'GET') {
-          return args[1] ? '(nil)' : '(error) ERR wrong number of arguments';
+          return args[1] ? '(nil)' : '(error) ERR wrong number of arguments for \'get\' command';
         }
         if (op === 'SET') {
           return 'OK';
         }
         if (op === 'INFO' || args[0] === 'info') {
-          return '# Server\nredis_version:7.2.0\n# [模拟]';
+          return '# Server\nredis_version:7.2.0\nredis_mode:standalone\n';
         }
-        return [
-          '模拟 redis-cli：试 ping · GET key · SET key value',
-          '# 需本机 redis-server 才有真数据；本窗假回复',
-        ];
+        return `(error) ERR unknown command '${args[0]}'`;
       },
     },
   };
@@ -902,7 +883,7 @@ export function createShellSession(config = {}) {
     const cmd = builtins[name];
     if (!cmd) {
       return {
-        lines: [`${name}: 命令未找到`, '输入 help 查看本课可用命令'],
+        lines: [`bash: ${name}: command not found`],
         cwd,
       };
     }

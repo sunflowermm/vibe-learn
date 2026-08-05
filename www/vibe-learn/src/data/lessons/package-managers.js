@@ -1,9 +1,18 @@
-/** 包管理器 · 默认工具与替代品 · 本仓 pnpm */
 export default `# 包管理器
 
 > **包管理器**依据清单文件解析依赖，从注册表下载模块，并落地为可 \`import\` / \`require\` 的目录结构。  
 > Node 安装通常自带 **npm / npx**；本仓库约定 **仅使用 pnpm**。  
 > 其它解释型（及部分编译型）语言同样存在「默认工具 + 替代实现」。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分层 | 系统包（brew/apt）≠ 项目包（pnpm） |
+| 本仓 | 仅 pnpm；有 pnpm-lock.yaml |
+| 复现 | \`pnpm install\` 在仓库根可复现依赖 |
+| 跟 Agent | 禁止建议 npm/yarn 装本仓 |
+
 
 ## 本课分块
 
@@ -122,13 +131,8 @@ flowchart TB
 {"preset":"pnpm-demo"}
 \`\`\`
 
-\`\`\`bash
-# 已有 Node，且 PATH 通
-corepack enable
-corepack prepare pnpm@latest --activate
-
-# 在仓库根（可见根 package.json）
-pnpm install
+\`\`\`env
+{"title":"启用 pnpm · 按壳复制","caption":"模拟窗只演示；真装依赖在本机仓库根执行。勿 npm install 本仓。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash / Unix","os":"Win/Linux/mac","shell":"bash","lines":["node -v","corepack enable","corepack prepare pnpm@latest --activate","pnpm -v","# 先 cd 到含根 package.json 的目录","pnpm install"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["node -v","corepack enable","corepack prepare pnpm@latest --activate","pnpm -v","# 先 cd 到含根 package.json 的目录","pnpm install"]}]}
 \`\`\`
 
 **Corepack**：Node 附带的包管理器版本助手，可按项目声明启用指定 pnpm，而无需长期依赖全局随意安装的 pnpm。
@@ -164,15 +168,18 @@ pnpm install
 
 **Git 与工作区** → **代码托管** → **首次跑通**。  
 **安装器与 PATH** — brew / apt / winget 展开。  
-番外 **容器** — 第三种「装环境」方式。  
+番外 **容器** — 第三种「装环境」方式。
 
-## 结合知识导图2
+> 导图2 的 **npm** 词条讲的是生态默认工具；**本仓库安装依赖只认 pnpm**，勿混用。
+## 导图2 · npm / 构建 / 技术栈 × 包管理
 
-| 本课 | 导图2 | 钉死 |
-|------|-------|------|
-| 默认 npm / 本仓 pnpm | **npm** · **构建** · **CI** | 有 Node ≠ 本仓允许用 npm install 装依赖 |
-| 三种「装东西」 | 环境变量 · 部署（容器对照） | brew ≠ pnpm ≠ Docker |
+> 导图2 npm 是口语入口；本仓硬契约是 pnpm。
 
-本仓契约：**仅 pnpm**（根目录 \`packageManager\`）。导图2 的 npm 词条解释的是生态**默认工具**，不是对本仓放行 npm install。面板 **跨导图** 可对照，验收以本课为准。
-
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **npm** | Node 生态常见入口 | 本仓不用它装依赖 |
+| **构建** | 装依赖是构建前一步 | 锁文件保证复现 |
+| **技术栈** | 工具链一层 | 包管理器选择是栈契约 |
+| **JavaScript** | 项目依赖语言包 | 与系统包管理器分层 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

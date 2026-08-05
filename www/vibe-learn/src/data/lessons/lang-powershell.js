@@ -1,8 +1,17 @@
-/** PowerShell — 场景 + 特性加厚 */
 export default `# PowerShell（语言）
 
 > **分类：脚本语言。** 对象管道，不是纯文本流。  
 > **Windows 本机**开发 XRK 常用（\`pnpm\`、\`node app\`）。本仓 **无 PowerShell 子服** — 主服仍是 Node JS。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 身份 | Windows 常见壳；与 Bash 语法不同 |
+| 环境 | 设置 env 的方式与 Unix 有别 |
+| 边界 | 不是 AgentRuntime 宿主 |
+| 跟 Agent | Windows 自动化注明 PowerShell 版本假设 |
+
 
 ## 本课你要带走什么
 
@@ -104,7 +113,7 @@ Get-Process | Where-Object { $_.CPU -gt 100 } | Select-Object Name, Id
 | 点 | 说明 |
 |----|------|
 | **执行策略** | 限制脚本；开发机常 \`RemoteSigned\` |
-| **\`.\script.ps1\`** | 当前目录要 \`.\\\` 前缀 |
+| **\`.script.ps1\`** | 当前目录要 \`.\\\` 前缀 |
 | **\`$env:PATH\`** | 环境变量 |
 | **Windows PS 5.1 vs pwsh 7+** | 7+ 跨平台、更现代 |
 
@@ -171,4 +180,14 @@ Get-Process | Where-Object { $_.CPU -gt 100 } | Select-Object Name, Id
 
 **Shell（Bash）** · **终端环境** · **PATH** · **首次跑通** · **Windows 开发备忘**。  
 可选：打开 PowerShell 仓库 README 的「Getting Started」，再在本机跑通 \`node app\`。
+## 导图2 · 终端 / 环境变量 × PowerShell
+
+> Windows 上常见壳；对象管道与 Bash 不同。本仓跨平台脚本宜谨慎假设。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **终端命令行** | Windows 默认壳之一 | 与 Git Bash/CMD 分清 |
+| **环境变量** | 进程环境 | 设置方式与 Unix export 不同 |
+| **后端** | 可自动化本机 | 不是 AgentRuntime 宿主语言 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -1,9 +1,18 @@
-/** Next.js — 场景 + 特性 + 本仓 www/反代挂载（加厚） */
 export default `# Next.js（元框架）
 
 > **分类：基于 React 的全栈 / SSR 元框架。不是语言。**  
 > 层次：**JavaScript/TypeScript（语言）→ React（UI 库）→ Next.js（路由、渲染、部署约定）**。  
 > 本仓挂载：仍在 \`core/*/www/<应用>/\`，但 SSR 场景常走 **sign.json 反代 Node 进程**，而非纯静态 dist。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 定位 | React 生态全栈框架；≠ 本仓 AgentRuntime |
+| 分层 | 前端路由 vs 自带服务端能力要分清 |
+| 交付 | 专用托管模型 ≠ www 静态挂载 |
+| 跟 Agent | 勿默认把本仓主服改成 Next |
+
 
 ## 本课你要带走什么
 
@@ -225,4 +234,14 @@ XRK 业务 API 仍推荐 \`core/*/http\`，勿用 Next Route Handler 替代 Core
 - 前端挂载：**HTTP 与 www** · **Vue**（静态挂载对照）  
 - 全栈语言栈：**语言栈**  
 - 可选：读 Next 的 \`basePath\` / \`output: 'export'\`，对照 \`sign.json\` 两种挂法。
+## 导图2 · 前端 / 后端 / 部署 × Next.js
+
+> React 生态全栈框架；可含服务端能力。与本仓「www 静态挂 + Node 主服」分层要分清。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **前端** | 页面与路由 | React 之上的约定 |
+| **后端** | Server Components/API routes 等 | 那是 Next 自己的服；≠ 本仓 AgentRuntime |
+| **部署上线** | 常专用托管 | 与本仓 \`www\` 静态挂载是不同交付模型 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

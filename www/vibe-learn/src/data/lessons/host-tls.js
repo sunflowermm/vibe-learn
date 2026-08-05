@@ -1,8 +1,17 @@
-/** TLS 证书实务 */
 export default `# TLS 证书实务
 
 > 浏览器地址栏的锁 = **TLS（HTTPS）**。证书证明「你连的大概是这个域名的服务端」，并加密传输。  
-> 概念层见第三章 **DNS 与 HTTPS**；本课钉**上机与续期**。
+> 概念层见第三章 **DNS 与 HTTPS**；本课钉**上机与续期**。  
+> **学会之后**：能按 DNS→80/443→ACME→网关终止检查清单排障申请失败。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 三角 | 域名解析、证书校验、网关终止 TLS |
+| 排障 | 申请失败先查 DNS 与 80 放行 |
+| 续期 | 知 LE 约 90 天；说明谁在自动续 |
+| 私钥 | 不进 Git、不进公开聊天 |
 
 ## 三角关系
 
@@ -36,6 +45,20 @@ flowchart LR
 {"title":"TLS 翻卡","cards":[{"front":"申请失败最多因？","back":"DNS 未指到本机 / 80 未放行"},{"front":"Node 要不要自己听 443？","back":"通常不必；网关终止 TLS 即可"},{"front":"面板一键证书","back":"本质仍是 ACME；失败看校验日志"},{"front":"私钥","back":"留在服务器；勿提交 Git、勿贴进公开聊天"}]}
 \`\`\`
 
+\`\`\`pick
+{"title":"TLS 三角归类","caption":"各环节该先确认什么。","bins":[{"id":"dns","label":"DNS"},{"id":"port","label":"端口放行"},{"id":"term","label":"网关终止"},{"id":"secret","label":"私钥保管"}],"items":[{"id":"a","text":"A/AAAA 指到这台机","bin":"dns"},{"id":"b","text":"安全组开 80/443","bin":"port"},{"id":"c","text":"Nginx/面板卸证书","bin":"term"},{"id":"d","text":"勿提交 Git / 勿贴公开聊天","bin":"secret"}]}
+\`\`\`
+
+> 申请前先看解析与证书形态（假输出；真机用 dig / curl）。
+
+\`\`\`term
+{"title":"DNS 与证书一眼（假）","prompt":"$ ","env":"运维机（演示）","steps":[{"type":"in","text":"dig +short example.com A"},{"type":"out","text":"93.184.216.34"},{"type":"in","text":"curl -sSI https://example.com | head -n 8"},{"type":"out","text":"HTTP/2 200\\nserver: nginx\\ndate: Wed, 05 Aug 2026 06:00:00 GMT\\ncontent-type: text/html"}]}
+\`\`\`
+
+\`\`\`shell
+{"preset":"nginx-probe"}
+\`\`\`
+
 ## 面板差异（直觉）
 
 | 路径 | 常见做法 |
@@ -56,4 +79,14 @@ flowchart LR
 ## 下一步
 
 **备份与恢复** · **面板上跑 Node**。
+## 导图2 · HTTPS / 部署 / 域名 × 主机 TLS
+
+> 证书申请与续期；与反代配合。概念接第三章 HTTPS。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **HTTPS** | 锁标志 | 证书链与域名匹配 |
+| **域名** | 证书身份 | SAN/CN 要盖住访问名 |
+| **部署上线** | 入口加密 | 终止常在 Nginx/面板 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

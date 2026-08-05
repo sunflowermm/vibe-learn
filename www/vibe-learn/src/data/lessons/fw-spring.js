@@ -1,9 +1,18 @@
-/** Spring — 场景 + 特性 + 本仓子服对照（加厚） */
 export default `# Spring / Spring Boot（框架）
 
 > **分类：Java 企业级应用框架。不是语言。**  
 > 宿主语言：**Java**；运行平台：**JVM**。  
 > 本仓主服是 **Node AgentRuntime**；Spring 能力经 **jserver 子服**暴露，**不进 www**，**不替换**主服入口。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | Java 框架；拒绝「Spring 语言」 |
+| 本仓 | jserver 侧；不替代 Node 主服 |
+| 对照 | 先 Java 语言课再框架 |
+| 跟 Agent | Spring 任务不写进主服 src/ |
+
 
 ## 本课你要带走什么
 
@@ -204,4 +213,14 @@ AOP 基于 JDK 动态代理或 CGLIB；自调用绕过代理层。
 - Python 后端：**Django/FastAPI**  
 - 本仓：**子服务端** · **HTTP 与 www** · **语言栈**  
 - 可选：翻 Boot 自动配置入口，记住 **sign.json 不挂 Spring 进程**。
+## 导图2 · 后端 / 技术栈 × Spring
+
+> Java 上的框架；本仓能力在 jserver 一侧。勿说 Spring 语言。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **后端** | 企业级 Java 常见 | 宿主语言 Java + JVM |
+| **技术栈** | Spring Boot 等 | 框架轨；语言课是 Java |
+| **部署上线** | 子服/独立进程 | 不替代 Node 主服 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

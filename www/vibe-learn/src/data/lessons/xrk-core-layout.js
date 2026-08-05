@@ -1,9 +1,19 @@
-/** Core 放码 · 子目录职责与最小清单 */
 export default `# Core 放码位置
 
 > 规则：**业务代码位于 \`core/<名>/\`，基础设施位于 \`src/\`。**  
 > 边界清晰，有利于热加载、配置归属与多产品并存。  
 > 此处 **Core** 指业务能力包（目录约定），而非 CPU 核心。
+> **学会之后**：能默写 Core 子目录职责表，并判断新文件该进哪一层。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 目录 | plugin/http/workflow/tasker/events/commonconfig/www |
+| www | 必须子目录；保留名勿占 |
+| 有包名 Core | 不用 # 别名，用相对路径指 src |
+| 文档 | README 给人；AGENTS/skills 给产品 Agent |
+
 
 ## 本课你要带走什么
 \`\`\`match
@@ -104,6 +114,17 @@ flowchart TB
 - \`docs/base-classes.md\` · \`docs/runtime-surface.md\`  
 - \`docs/www-mount.md\` · \`docs/框架可扩展性指南.md\`  
 - \`AGENTS.md\` · 规则 \`xrk-project.mdc\`
+
+## 导图2 · 组件 / 前端 / 技术栈 × Core 目录
+
+> 导图2 组件/前端口语；本课钉 **Core 子目录即扩展点组件**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **组件** | 可拼装单元 | plugin/http/workflow/… 各是一类可加载组件 |
+| **前端** | 浏览器 UI | 只进 \`www/<应用>/\`；保留名勿占 |
+| **技术栈** | 组合 | Core 决定产品能力拼装；Runtime 提供插座 |
+
 
 ## 下一步
 

@@ -1,9 +1,18 @@
-/** Angular — 场景 + 特性 + 本仓 www 挂载（加厚） */
 export default `# Angular（框架）
 
 > **分类：意见性强的前端应用框架。不是语言。**  
 > 宿主语言：**TypeScript**（一等公民；模板也可配合 TS）。  
 > 挂到 XRK：与 **Vue / React** 一样，放进 \`core/*/www/<应用>/\`，经 **sign.json** 静态挂载或反代 dev server。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 分类 | 前端框架；宿主 TS/JS；不是语言 |
+| 对照 | 与 Vue/React 同层不同风格 |
+| 前置 | 先 01.5 JS，再学框架 |
+| 本仓 | 可进 www；不进 Runtime src/ |
+
 
 ## 本课你要带走什么
 
@@ -89,7 +98,7 @@ flowchart LR
 | **事件** | \`(click)="save()"\` |
 | **双向** | \`[(ngModel)]\`（需 FormsModule） |
 | **结构指令** | \`*ngIf\` \`*ngFor\` \`*ngSwitch\` |
-| **管道 pipe** | \`{{ date \| date }}\` 纯/非纯管道 |
+| **管道 pipe** | \`{{ date | date }}\` 纯/非纯管道 |
 
 ### 2.3 表单
 
@@ -224,4 +233,14 @@ flowchart TB
 - 后端 DI 对照：**Spring** · **NestJS**  
 - 本仓：**HTTP 与 www**  
 - 可选：扫 Angular CLI 的 \`baseHref\` 文档，对照本仓静态挂载。
+## 导图2 · 前端 / 组件 / TypeScript × Angular
+
+> 偏完整前端框架；常见 TS。层仍是框架，不是语言。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **前端** | 大型应用框架 | 约定多；宿主 TS/JS |
+| **组件** | 强结构 | 与 Vue/React 同层不同风格 |
+| **TypeScript** | 常见标配 | 仍编译到 JS 再跑浏览器 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -1,10 +1,21 @@
-/** AiWorkflow / workflow · 对齐 ai-workflow · 链 factory/mcp/agentWorkspace */
 export default `# 工作流 · AiWorkflow
 
 > 对话型 AI 能力落在 **\`core/*/workflow/\`**：  
 > 收消息 → 组上下文 → 经 **LLMFactory** 调模型 →（可选）**MCP 工具**循环 → 返回结果。  
 > 真源：\`docs/ai-workflow.md\` · \`docs/agent-context.md\`；基类：\`docs/base-classes.md\`。  
-> **上下文三层 / mergeWorkflows** 见 **对话管线** 课；工作区注入见 **办事助手** · \`docs/agents.md\`。
+> **上下文三层 / mergeWorkflows** 见 **对话管线** 课；工作区注入见 **办事助手** · \`docs/agents.md\`。  
+> 导图2：**流式响应 · AI Agent · Agent 循环 · HTTP**——本课是编排入口，不是论文课表。  
+> **学会之后**：能说明 AiWorkflow 角色，并能用流式/Agent 循环名词指向 Factory/MCP/管线。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 位置 | core/*/workflow |
+| 组合 | Factory + MCP + 上下文 |
+| 流式 / 循环 | 知 delta 输出与 tool 多轮，门禁仍在 |
+| 细拆 | 对话管线 / 办事助手 |
+
 
 ## 本课你要带走什么
 \`\`\`steps
@@ -105,6 +116,18 @@ flowchart LR
 
 - \`docs/agent-context.md\` · \`docs/ai-workflow.md\` · \`docs/agents.md\`  
 - \`docs/base-classes.md\` · \`docs/mcp-guide.md\`
+
+## 导图2 · 流式 / Agent 循环 × 工作流
+
+> 导图2 流式/Agent 循环口语；本课钉 **AiWorkflow 入口与工具环**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **流式响应** | 边生成边推给通道/HTTP | AiWorkflow 可流式；通道/Tasker 消费 delta |
+| **AI Agent** | 带工具的多步施工 | 本课入口；细节在管线 + MCP |
+| **Agent 循环** | tool_calls → 执行 → 回灌 | maxToolRounds · finalize；门禁见 MCP/提示安全 |
+| **HTTP** | 也可用 HTTP chat 路由进同一套 | 与插件指令入口并列 |
+
 
 ## 下一步
 

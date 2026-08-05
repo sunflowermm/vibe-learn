@@ -1,9 +1,18 @@
-/** TypeScript 动手入门 */
 export default `# TypeScript 动手入门
 
 > **TypeScript（TS）** = JavaScript + **类型标注**；编译（\`tsc\`）或构建工具转译后，运行时仍是 JS。  
 > 本仓主服契约以 **JS** 为准；读开源示例、写更稳的工具/前端时，TS 很常见。  
 > 观光：**第二章 · TypeScript**；本课只练最小动手。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 定位 | TS 动手：类型如何帮审 Agent 产出 |
+| 边界 | 运行时仍是 JS |
+| 本仓 | 主服以 JS 为主；www 可选 |
+| 跟 Agent | 说明 strict 与是否允许 any |
+
 
 ## 为什么要类型
 
@@ -45,6 +54,10 @@ function label(u: User): string {
 }
 \`\`\`
 
+\`\`\`term
+{"title":"tsc 拦类型错形态（假）","prompt":"$ ","env":"练习目录（演示）","steps":[{"type":"in","text":"npx tsc --noEmit demo.ts"},{"type":"out","text":"demo.ts:2:9 - error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.\\n\\n2 add('1', 2)\\n      ~~~"}]}
+\`\`\`
+
 \`\`\`flip
 {"title":"TS 翻卡","cards":[{"front":"类型标注","back":"给编译器看的约束，运行时通常擦除"},{"front":"any","back":"放弃检查；能少则少"},{"front":"unknown","back":"先收着，用前要收窄类型"},{"front":"与本仓","back":"主服插件可用纯 JS；TS 需进构建链"}]}
 \`\`\`
@@ -82,4 +95,14 @@ function label(u: User): string {
 ## 下一步
 
 回 **语言版图 · TypeScript** · 或继续 **最小贡献路径**（写插件仍可用纯 JS）。
+## 导图2 · TypeScript / JavaScript / 构建 × TS 动手
+
+> 与语言章 TS 课对照；本课动手。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **TypeScript** | 类型层 | 构建期检查 |
+| **JavaScript** | 运行真相 | 擦除后执行 |
+| **构建** | tsc/Vite | 类型错要先修 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

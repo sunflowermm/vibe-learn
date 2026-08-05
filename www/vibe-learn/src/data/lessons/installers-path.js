@@ -1,9 +1,18 @@
-/** 安装器与 PATH */
 export default `# 安装器与 PATH
 
 > 软件要被 Shell 找到，通常需写入磁盘并进入 **PATH**（可执行文件搜索路径）。  
 > 安装 Node 时，除 \`node\` 外，常一并登记 \`npm\`、\`npx\`。  
 > 本课也钉清：**Homebrew / apt / winget** 这类「往系统里装软件」的工具是什么。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| PATH | 能解释 PATH 如何让壳找到可执行文件 |
+| 安装器 | 知道改 PATH 后要开新终端 |
+| 排障 | command not found 先查 PATH 与安装位置 |
+| 跟 Agent | 贴 \`where node\`/\`which node\` 与 PATH 片段 |
+
 
 ## 本课分块
 
@@ -106,14 +115,8 @@ flowchart LR
 | **winget** | Windows | 微软商店/清单式装软件 |
 | **Chocolatey / Scoop** | Windows | 社区向包管理；Scoop 偏用户目录 |
 
-\`\`\`bash
-# macOS 示例（需已装 Homebrew）
-brew install git
-brew install curl
-
-# Ubuntu 示例
-sudo apt update
-sudo apt install -y curl git
+\`\`\`env
+{"title":"系统包装 curl/git · 按平台","caption":"系统包管理器 ≠ pnpm。装完仍要新开终端核对 PATH。","default":"mac","tabs":[{"id":"mac","label":"macOS · brew","os":"macOS","shell":"zsh/bash","lines":["brew install git","brew install curl","which git","which curl"]},{"id":"ubuntu","label":"Ubuntu · apt","os":"Linux","shell":"bash","lines":["sudo apt update","sudo apt install -y curl git","which git","which curl"]},{"id":"win","label":"Windows · winget","os":"Windows","shell":"pwsh","note":"也可用官网安装器；装完新开终端","lines":["winget install --id Git.Git -e","winget install --id cURL.cURL -e","Get-Command git","Get-Command curl"]}]}
 \`\`\`
 
 **Homebrew 是什么？**  
@@ -132,14 +135,11 @@ Windows 上装 Git/Node 更常见 **官网安装器**；装完仍要确认 PATH�
 | \`npm\` | 官方默认包管理器 | 随多数官方安装附带 |
 | \`npx\` | 官方附带 | 临时执行包内命令 |
 
-\`\`\`bash
-node -v
-npm -v
-npx -v
+\`\`\`env
+{"title":"核对 node/npm/npx · 按壳","caption":"能输出版本只说明官方默认工具链在 PATH；本仓依赖仍用 pnpm。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["node -v","npm -v","npx -v","which node"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["node -v","npm -v","npx -v","Get-Command node"]},{"id":"unix","label":"Linux / macOS","os":"Unix","shell":"bash/zsh","lines":["node -v","npm -v","npx -v","which node"]}]}
 \`\`\`
 
-三者都在 PATH 中，只说明 **官方默认工具链可用**。  
-本仓库仍要求使用 **pnpm** 安装项目依赖（见包管理课）。
+也可回上文模拟窗 **path-check** 练习 \`which\` / \`Get-Command\`。
 
 ---
 
@@ -150,13 +150,7 @@ npx -v
 3. 多套 Node，PATH 顺序指向另一套  
 4. 只装了 brew/apt 里的包，但当前 Shell 不是加载了该前缀的会话  
 
-\`\`\`bash
-# Windows PowerShell
-Get-Command node, npm, npx
-
-# macOS / Linux / WSL
-which node npm npx
-\`\`\`
+核对命令：用上文 **「查看 PATH · 按壳」** 或 **「核对 node/npm/npx」** 分栏；旧终端找不到时先**新开窗口**。
 
 ---
 
@@ -181,16 +175,15 @@ which node npm npx
 **包管理器** — 系统包 vs 语言包；本仓为何钉 pnpm。  
 **Linux 基础指令** — \`curl\` 等网络命令是什么。  
 番外 **本机目录** — 家目录 / \`bin\` / 点文件，弄清 PATH 里那些路径从哪来。  
-需要给终端配置出网代理时 → 番外 **端口与 Coding Agent**（\`HTTP_PROXY\` 体系）。  
+需要给终端配置出网代理时 → 番外 **端口与 Coding Agent**（\`HTTP_PROXY\` 体系）。
+## 导图2 · 环境变量 / 终端 × 安装器与 PATH
 
-## 结合知识导图2
+> 导图2 环境变量核心课之一；本课钉「命令从哪来」。
 
-| 本课 | 导图2 | 钉死 |
-|------|-------|------|
-| 环境变量地基 | **环境变量** | \`名=值\`，常被子进程继承 |
-| PATH | 环境变量（PATH 特例） | 改完要**新开终端** |
-| 系统包管理器 | 与 **npm** 对照 | brew/apt ≠ 项目依赖工具 |
-
-跨导图读「环境变量」词条补直觉；本仓代理变量与 PATH 分层仍以本课 + 排障课为准。
-
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **环境变量** | PATH | 搜索可执行文件的目录列表 |
+| **终端命令行** | 读当前环境 | 新开终端才吃到安装器改动 |
+| **部署上线** | 机器上要有正确 PATH | 服务账号环境≠你的交互壳 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

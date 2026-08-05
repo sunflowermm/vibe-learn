@@ -1,8 +1,18 @@
-/** AgentRuntime · 启动链与全局面 */
 export default `# AgentRuntime
 
 > 进程启动后，核心逻辑由 **AgentRuntime** 实例承担：加载 Core、挂载扩展、接入消息与工作流。  
 > 业务包（Core）向该运行时报到；业务代码使用**裸名** \`AgentRuntime\`（全局单例 Proxy），勿 \`import\` 另建实例。
+> **学会之后**：能说明 AgentRuntime 启动链、裸名全局与热加载边界。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 入口 | node app → start → agent-runtime |
+| 裸名 | AgentRuntime / msgSegment 勿乱 import 新实例 |
+| 子服 | callSubserver 边界清晰 |
+| 热加载 | 知边界；constructor 勿堆易变缓存 |
+
 
 ## 本课你要带走什么
 
@@ -112,6 +122,17 @@ sequenceDiagram
 - \`docs/runtime-surface.md\`（本课真源）  
 - \`docs/startup.md\` · \`docs/base-classes.md\`  
 - \`docs/subserver-api.md\` · \`docs/AUTH.md\`
+
+## 导图2 · JavaScript / 后端 / Harness × Runtime
+
+> 导图2 JS/后端/Harness 口语；本课钉 **AgentRuntime 单例与 Loader 时间线**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **JavaScript** | 主语言 | Runtime 执行的就是 JS；\`engines\` ≥ 26 |
+| **后端** | 服务端宿主 | \`AgentRuntime\` 进程；裸名全局，勿 \`new\` 第二份 |
+| **Harness Engineering** | 编排层 | Loader 族 + 全局挂载时间线 = 本仓 harness 骨架 |
+
 
 ## 下一步
 

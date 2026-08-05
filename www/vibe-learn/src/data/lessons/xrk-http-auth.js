@@ -1,8 +1,17 @@
-/** HTTP Auth · API Key */
 export default `# HTTP Auth · API Key
 
 > 主服**不会**在 Server 层对全部 \`/api/*\` 做统一拦截；经 **HttpApi** 注册且路径以 \`/api/\` 开头时，基础设施**默认**校验系统 API Key。  
-> 权威：\`docs/AUTH.md\`；实现：\`runtime-auth.js\` / \`auth.js\` / \`http.js\`。
+> 权威：\`docs/AUTH.md\`；实现：\`runtime-auth.js\` / \`auth.js\` / \`http.js\`。  
+> **学会之后**：能说明 API Key / runtime-auth 心智，并避免把密钥写进仓。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 鉴权 | 敏感接口服务端再判 |
+| 密钥 | 环境/密钥库；不进 Git |
+| 文档 | docs/AUTH.md |
+| 跟 Agent | 审 diff 有无关掉鉴权 |
 
 ## 本课你要带走什么
 
@@ -55,7 +64,7 @@ WebSocket：\`AgentRuntime.wsf\` 经 \`runtime-ws\`；远程默认要 Key；\`sk
 | 项 | 说明 |
 |----|------|
 | **密钥文件** | \`server.auth.apiKey.file\`（如 \`config/server_config/api_key.json\` 的 \`key\`）；未配置则启动生成 |
-| **请求头** | \`X-API-Key\`；或 \`Authorization: Bearer\|Token\|ApiKey\`；或 \`X-Auth-Token\` / \`X-Access-Token\` / \`Api-Key\` |
+| **请求头** | \`X-API-Key\`；或 \`Authorization: Bearer|Token|ApiKey\`；或 \`X-Auth-Token\` / \`X-Access-Token\` / \`Api-Key\` |
 | **查询 / Body** | \`api_key\` 等兼容字段（见 AUTH.md 列表） |
 | **比对** | \`crypto.timingSafeEqual\` 常量时间比较 |
 
@@ -112,6 +121,16 @@ WebSocket：\`AgentRuntime.wsf\` 经 \`runtime-ws\`；远程默认要 Key；\`sk
 - \`docs/AUTH.md\`  
 - \`docs/http-api.md\` · \`docs/runtime-surface.md\`  
 - \`docs/ai-workflow.md\`（\`tools.file.runEnabled\`）
+
+## 导图2 · HTTP / HTTPS / 环境变量 × Auth
+
+> 导图2 HTTP/环境变量口语；本课钉 **/api/ 鉴权默认与 Key 落点**。
+
+| 导图2 | Vibe 口语 | 本仓专业落点 |
+|-------|-----------|--------------|
+| **HTTP / HTTPS** | 接口传输 | \`/api/\` 默认校验系统 API Key（见 docs/AUTH.md） |
+| **环境变量** | 密钥载体 | Key 进环境/密钥库；审 Agent diff 防关掉鉴权 |
+
 
 ## 下一步
 

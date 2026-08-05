@@ -1,8 +1,17 @@
-/** 值与类型 */
 export default `# 值与类型
 
 > 程序操作的是**值**；类型告诉你这个值能干什么、不能干什么。  
 > JS 是**动态类型**：变量可以先后装不同种类的值——更要小心 \`typeof\` 与 \`===\`。
+
+## 学会之后（验收）
+
+| 能力 | 成功信号 |
+|------|----------|
+| 类型 | 能口述原始类型与引用差异直觉 |
+| 相等 | === 与 == 有别 |
+| const/let | 知道为何少用 var |
+| 跟 Agent | 类型报错贴完整信息 |
+
 
 ## 本课你要带走
 
@@ -30,6 +39,10 @@ export default `# 值与类型
 | **object / array** | \`{}\` / \`[]\` | \`typeof [] === 'object'\`；用 \`Array.isArray\` |
 
 真假值（进 \`if\` 当假）：\`false\` \`0\` \`''\` \`null\` \`undefined\` \`NaN\`。
+
+\`\`\`term
+{"title":"typeof 一眼（假）","prompt":"$ ","env":"练习目录（演示）","steps":[{"type":"in","text":"node -e \\"console.log(typeof 42, typeof 'xrk', typeof null, Array.isArray([]))\\""},{"type":"out","text":"number string object true"}]}
+\`\`\`
 
 ### 严格相等（题库高频）
 
@@ -64,7 +77,21 @@ console.log(name, count, typeof count, typeof null, Array.isArray([]))
 {"title":"值与类型","questions":[{"q":"多数时候优先用？","choices":[{"t":"var","ok":false,"why":"现代代码少用。"},{"t":"const，必要时再 let","ok":true,"why":"减少意外重绑。"},{"t":"全部不用声明","ok":false,"why":"会变成隐式全局，危险。"}]},{"q":"判断是不是数组？","choices":[{"t":"typeof x === 'array'","ok":false,"why":"typeof 数组是 object。"},{"t":"Array.isArray(x)","ok":true,"why":"正确做法。"},{"t":"x instanceof String","ok":false,"why":"不对口。"}]}]}
 \`\`\`
 
+## Agent 改代码时你会用到
+
+模型常吐 \`==\`、误判 \`null\`、把数组当非 object 处理。你要能一眼看出：该不该改成 \`===\`、该不该 \`Array.isArray\`。  
+验收：对本课示例文件跑一遍 \`node\`，打印结果符合预期。
+
 ## 下一步
 
 **控制流** — 用 boolean 决定走哪条路。
+## 导图2 · JavaScript × 值与类型
+
+> 审 Agent 代码的底座。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **JavaScript** | 动态类型 | 仍要理解类型转换坑 |
+| **调试** | typeof/打印 | 先确认值再怪框架 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

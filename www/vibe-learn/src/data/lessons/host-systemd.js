@@ -1,9 +1,25 @@
-/** systemd 直觉 */
 export default `# systemd 直觉
 
 > **systemd**：多数现代 Linux 发行版用来管服务的 init 系统——**开机拉起、挂了再拉、看日志**。  
 > 你写一份 \`某某.service\`（unit），告诉它：在哪个目录、用哪个用户、跑哪条命令。  
 > 面板（宝塔/1Panel）的「进程守护」常是同类能力的图形封装；Docker 则是另一套生命周期。
+> **学会之后**：能读懂最小 unit 字段，并用 systemctl/journalctl 排障保活。
+
+## 学会之后（验收）
+
+
+\`\`\`check
+{"title":"systemd 通关","items":[{"id":"unit","text":"知道 unit 文件管常驻服务"},{"id":"log","text":"会 journalctl / 日志落点直觉"},{"id":"boot","text":"分得清 enable 与 start"}]}
+\`\`\`
+
+
+| 能力 | 成功信号 |
+|------|----------|
+| 字段 | WorkingDirectory + ExecStart + User |
+| 生命周期 | daemon-reload / enable / restart |
+| 日志 | journalctl -u 服务名 |
+| 跟 Agent | 草稿可以；enable/restart 你确认 |
+
 
 ## 先认词
 
@@ -88,4 +104,14 @@ WantedBy=multi-user.target
 ## 下一步
 
 **TLS 证书** · **备份** · **面板上跑 Node**。
+## 导图2 · 部署 / 后端 / 监控 × systemd
+
+> 常驻服务单元；开机自启与日志落点。
+
+| 导图2 | Vibe 口语 | 本课专业落点 |
+|-------|-----------|--------------|
+| **部署上线** | 机器上常驻 | unit 文件定义进程 |
+| **后端** | 主服进程 | EnvironmentFile 管环境 |
+| **监控** | 看是否活着 | journalctl / 健康检查 |
+短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;
