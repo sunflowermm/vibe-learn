@@ -1,9 +1,9 @@
 <script setup>
 /**
- * 连线：正交折线为主；标签仅在选中边 / 悬停预览 / 悬停线段时显示
- * 避障靠「方块迁就连线」的布局（layout.js / layout-from-edges），不在此绕线。
+ * 连线：正交折线为主；标签仅在选中 / 预览亮起时显示。
+ * 未亮边不挂命中层，避免挡画布拖动。避障靠布局，不在此绕线。
  */
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -32,32 +32,23 @@ const props = defineProps({
   animated: { type: Boolean, default: false },
 });
 
-const hovered = ref(false);
-
 const text = computed(() => props.label || props.data?.label || '');
 const stroke = computed(() => props.data?.color || 'var(--edge-stroke)');
 const isSide = computed(() => props.data?.branch === 'side');
 const isPreview = computed(() => Boolean(props.data?.preview));
 const isChapterLit = computed(() => Boolean(props.data?.chapterLit));
+const isLit = computed(() => props.selected || isPreview.value);
 const routeOffset = computed(() => Number(props.data?.routeOffset) || 0);
 const pathKind = computed(() => props.data?.pathKind || 'smoothstep');
-const showLabel = computed(
-  () =>
-    Boolean(text.value) &&
-    (props.selected || isPreview.value || hovered.value)
-);
+const showLabel = computed(() => Boolean(text.value) && isLit.value);
 
 const pathStyle = computed(() => ({
   stroke: stroke.value,
-  strokeWidth: props.selected
-    ? 2.75
-    : isPreview.value || hovered.value
-      ? 2.25
-      : 'var(--edge-width)',
+  strokeWidth: isLit.value ? 2.75 : 'var(--edge-width)',
   strokeDasharray: isSide.value ? '4 6' : '7 5',
   strokeOpacity: props.selected
     ? 1
-    : isPreview.value || hovered.value
+    : isPreview.value
       ? 0.92
       : isSide.value
         ? 'calc(var(--edge-opacity) * 0.65)'
@@ -167,16 +158,16 @@ export default { inheritAttrs: false };
 <template>
   <g
     class="rel-edge"
-    :class="{ selected, animated, side: isSide, preview: isPreview, hovered, chapter: isChapterLit }"
-    @mouseenter="hovered = true"
-    @mouseleave="hovered = false"
+    :class="{ selected, animated, side: isSide, preview: isPreview, chapter: isChapterLit }"
   >
+    <!-- 仅亮起时挂宽命中层，供跳转邻接；未亮不挡平移 -->
     <path
+      v-if="isLit"
       class="rel-edge__hit"
       :d="geometry.path"
       fill="none"
       stroke="transparent"
-      stroke-width="20"
+      stroke-width="16"
     />
     <BaseEdge
       :id="id"
