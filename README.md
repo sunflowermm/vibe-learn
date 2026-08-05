@@ -78,4 +78,5 @@ AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专�
 | 番外 | **AI 编程工具** | **Vibe 心智 · 形态黄页 · 项目记忆**（3 卡） |
 
 数据入口：`www/vibe-learn/src/data/nodes.js`。  
+Cursor 精工约定：本仓 `.cursor/rules/vibe-learn-craft.mdc`（独立 git；挂主仓时主仓仅 globs 路由）。  
 XRK Agent 真源：主仓 [`docs/agent-context.md`](../../docs/agent-context.md) · [`docs/agents.md`](../../docs/agents.md) · [`docs/ai-workflow.md`](../../docs/ai-workflow.md) · 根 `AGENTS.md`。

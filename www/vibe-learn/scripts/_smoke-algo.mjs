@@ -21,6 +21,9 @@ import ws from '../src/data/lessons/xrk-agent-workspace.js';
 import vue from '../src/data/lessons/fw-vue.js';
 import nest from '../src/data/lessons/fw-express-nest.js';
 import next from '../src/data/lessons/fw-nextjs.js';
+import tok from '../src/data/lessons/ai-token-context.js';
+import attn from '../src/data/lessons/ai-attention.js';
+import tf from '../src/data/lessons/ai-transformer.js';
 
 for (const k of [
   'merge',
@@ -45,6 +48,9 @@ for (const k of [
   'uipatch',
   'mwchain',
   'ssrflow',
+  'tokbudget',
+  'attnmap',
+  'tfstack',
 ]) {
   const c = parseAlgoSource(JSON.stringify({ kind: k, title: k, autoplay: false }));
   console.log(k, c.kind);
@@ -69,5 +75,8 @@ console.log('wsfive', ws.includes('wsfive'));
 console.log('vue uipatch', vue.includes('uipatch'));
 console.log('nest mwchain', nest.includes('mwchain'));
 console.log('next ssrflow', next.includes('ssrflow'));
+console.log('tok tokbudget', tok.includes('tokbudget'));
+console.log('attn attnmap', attn.includes('attnmap'));
+console.log('tf tfstack', tf.includes('tfstack'));
 console.log('rt Current', rt.includes('Current'));
 console.log('inst pathfind', inst.includes('pathfind'));

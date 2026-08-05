@@ -3696,6 +3696,183 @@
   box-shadow: var(--focus-ring);
 }
 
+.vibe-algo__tok {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.vibe-algo__tok-bar {
+  display: flex;
+  min-height: 3.2rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 36%, transparent);
+  background: color-mix(in srgb, var(--mist-dim) 8%, transparent);
+}
+
+.vibe-algo__tok-seg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.12rem;
+  min-width: 0;
+  padding: 0.28rem 0.35rem;
+  border-right: 1px solid color-mix(in srgb, var(--mist-dim) 28%, transparent);
+  transition: flex-grow 0.35s ease, background 0.25s ease;
+}
+
+.vibe-algo__tok-seg:last-child {
+  border-right: none;
+}
+
+.vibe-algo__tok-seg.is-active {
+  background: color-mix(in srgb, #fbbf24 18%, transparent);
+}
+
+.vibe-algo__tok-seg.is-done {
+  background: color-mix(in srgb, #86efac 14%, transparent);
+}
+
+.vibe-algo__tok-seg.is-overflow {
+  background: color-mix(in srgb, #f87171 22%, transparent);
+}
+
+.vibe-algo__tok-seg-lab {
+  font-size: 0.62rem;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vibe-algo__tok-seg-n {
+  font-size: 0.58rem;
+  color: var(--mist-dim);
+}
+
+.vibe-algo__tok-meter,
+.vibe-algo__tok-status,
+.vibe-algo__attn-status,
+.vibe-algo__tfs-status {
+  font-size: 0.72rem;
+  color: var(--ink, #e2e8f0);
+}
+
+.vibe-algo__tok-badge,
+.vibe-algo__tfs-badge {
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px dashed color-mix(in srgb, var(--mist-dim) 40%, transparent);
+  font-size: 0.68rem;
+  color: var(--mist-dim);
+  opacity: 0.4;
+  transition: opacity 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.vibe-algo__tok-badge.is-on,
+.vibe-algo__tfs-badge.is-on {
+  opacity: 1;
+  color: var(--signal, #7dd3fc);
+  border-color: color-mix(in srgb, var(--signal, #7dd3fc) 45%, transparent);
+}
+
+.vibe-algo__attn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.vibe-algo__attn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+}
+
+.vibe-algo__attn-tok {
+  flex: 1 1 3.2rem;
+  min-width: 2.8rem;
+  padding: 0.35rem 0.3rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 34%, transparent);
+  text-align: center;
+  transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+}
+
+.vibe-algo__attn-tok.is-query {
+  border-color: color-mix(in srgb, #c4b5fd 70%, transparent);
+  background: color-mix(in srgb, #c4b5fd 16%, transparent);
+}
+
+.vibe-algo__attn-tok.is-hit {
+  border-color: color-mix(in srgb, #fbbf24 70%, transparent);
+  background: color-mix(in srgb, #fbbf24 16%, transparent);
+}
+
+.vibe-algo__attn-tok.is-dim {
+  opacity: 0.55;
+}
+
+.vibe-algo__attn-lab {
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.vibe-algo__attn-w {
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  color: var(--mist-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.vibe-algo__attn-formula {
+  font-size: 0.66rem;
+  color: var(--mist-dim);
+  line-height: 1.35;
+}
+
+.vibe-algo__tfs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.vibe-algo__tfs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.vibe-algo__tfs-box {
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--mist-dim) 34%, transparent);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.vibe-algo__tfs-box.is-active {
+  border-color: color-mix(in srgb, var(--accent, #38bdf8) 60%, transparent);
+  background: color-mix(in srgb, var(--accent, #38bdf8) 12%, transparent);
+}
+
+.vibe-algo__tfs-box.is-done {
+  border-color: color-mix(in srgb, #86efac 50%, transparent);
+}
+
+.vibe-algo__tfs-title {
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.vibe-algo__tfs-sub {
+  margin-top: 0.15rem;
+  font-size: 0.62rem;
+  color: var(--mist-dim);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vibe-env,
   .vibe-quiz,

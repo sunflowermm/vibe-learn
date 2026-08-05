@@ -3,7 +3,9 @@ export default `# 第五章 · 人工智能
 > **定位**：这是 **大语言模型应用与本仓对照** 的概念图，**不是**人工智能学位课表。  
 > 刻意不展开：预训练目标与缩放律、系统评测专课、对齐安全专课——缺了不等于「五步=学科全貌」。嵌入只给**应用直觉课**（见 Embedding），不上公式专课。  
 > **怎么读**：按下面路径的因果走；每课先给**中文全称**。旁支案例（如 Pi）**不进**主干先修。  
-> 第四章已讲本仓怎么跑；本章补共用概念。真源：\`docs/agent-context.md\` · \`docs/agents.md\` · \`docs/ai-workflow.md\`。
+> **计算段章专属动画**：\`tokbudget\`（窗口预算）· \`attnmap\`（自注意力打分）· \`tfstack\`（变换器积木）。  
+> 第四章已讲本仓怎么跑；本章补共用概念。真源：\`docs/agent-context.md\` · \`docs/agents.md\` · \`docs/ai-workflow.md\`。  
+> 文献主轴：Vaswani et al. 2017 · OpenAI tokens/tiktoken · Hugging Face Transformer Architectures。
 
 ## 学会之后（验收）
 
@@ -109,21 +111,19 @@ flowchart TB
 
 从 **令牌与窗口** 进入计算段（导读可先快扫）。
 
-## 导图2 · Token / Agent / MCP / Skill × 应用概念
+## 口语词表速查（与本框对照）
 
-> 导图2 **AI 区**与本章高度同构——适合对照定义与判断题。  
-> **假依赖反例、本仓对照表、缩写全称仍以本框为准**。
+> 面板词条可跳转；**假依赖反例、本仓对照表、缩写全称仍以本框为准**。
 
-| 导图2 | Vibe 口语 | 本框专业落点 |
-|-------|-----------|--------------|
-| **Token / 上下文窗口** | 计费与能塞多少 | 令牌与窗口课；本仓 Provider \`contextWindow\` + 管线裁剪 |
-| **工具调用 / MCP** | 模型点菜 / 标准插座 | 紧跟工具调用；本仓 \`registerMCPTool\` / 远程 MCP |
-| **AI Agent / Agent 循环** | 多步施工 | 操作定义=控制循环；本仓多轮 tool_calls |
-| **Skill / 系统提示词** | 长流程手册 / 人设 | 规则全文 vs 技能按需；\`AGENTS.md\` 两张工牌 |
-| **上下文工程** | 窗内一切怎么拼 | 汇合段；真源 \`docs/agent-context.md\` |
-| **RAG** | 外挂知识再生成 | **不依赖**智能体；勿当成 Agent 下一形态 |
+| 口语 | 本框专业落点 |
+|------|--------------|
+| **Token / 上下文窗口** | 令牌与窗口课；Provider \`contextWindow\` + 管线裁剪 |
+| **工具调用 / MCP** | 紧跟工具调用；\`registerMCPTool\` / 远程 MCP |
+| **AI Agent / Agent 循环** | 操作定义=控制循环；本仓多轮 tool_calls |
+| **Skill / 系统提示词** | 规则全文 vs 技能按需；\`AGENTS.md\` 两张工牌 |
+| **上下文工程** | 汇合段；真源 \`docs/agent-context.md\` |
+| **RAG** | 外挂知识再生成；**不依赖**智能体 |
 
-操作：面板 **跨导图** 打开上表词条 → 回本框核对「本仓怎么做」。  
 路径 A（写代码）仍回番外 **AI 编程工具**。
 
 `;

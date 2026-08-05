@@ -1,0 +1,52 @@
+---
+description: vibe-learn 内容精工与大型任务拆分约定（长 todo、不派子代理、精工出细活）
+alwaysApply: true
+---
+
+# vibe-learn · 大型内容任务工作方式
+
+本仓为独立 git 产品 Core（可挂在 XRK-AGT 的 `core/vibe-learn-Core/` 下本地运行）。适用于 `www/vibe-learn/` 的课核、思维导图、题库与相关脚本；同类「内容精工」任务同遵。
+
+## 硬约定
+
+1. **禁止子代理**  
+   不使用 Task / 并行子 Agent 批量改课核或题库。主对话亲自扫、改、验收。
+
+2. **大型任务必须写长 Todo 再动手**  
+   章 / 区 / 包级拆分；一题一事、一节点一验收。Todo 要可勾选、可断点续作，禁止「整库随便改一波」。
+
+3. **精工出细活**  
+   - 先读触及文件与真实调用链，再改。  
+   - 最短正确 diff；不砍正解、不灌水、不加过程旁白进源码/文档。  
+   - 似真误判优于荒唐干扰；题库遵 `mcq-expert`（IWF-08 只加厚 wrong，不截 ok）。  
+   - 导图课文：验收段清晰、与 `relatedNodes` / 边 / 题库挂钩可辩护。
+
+4. **内容三柱（导图 / 课核优化必过）**  
+   - **专业度**：改课前对照大厂 / 经典教材口径（如 OSTEP、Microsoft Learn、Tech Interview Handbook、VisuAlgo、MDN、各语言官方 docs）；术语与复杂度表述可辩护，禁止臆造。  
+   - **体系**：先问「够不够 / 要不要加 / 要不要合并」；加减合并要有对照表再动 `nodes.js`，禁止为填空而灌水新节点。  
+   - **章专属组件与动画**：通用 `flip` / `match` / `steps` / 课内 `quiz` 只作辅佐；每章优先做能讲清该章核心机制的专属块（例：排序对比动画、OS 调度时间片、TCP 握手）。禁止整课堆叠一眼脚本生成的同构 JSON 围栏。
+
+5. **闸门先于宣称完成**  
+   每批后跑可复现扫描（截断、荒唐项、IWF-08、洗衣单题干、薄课、无验收段等）。产品包默认排除 `adapted/*`、`vibehub-*`（用户点名再做）。
+
+## 导图放码（现行）
+
+路径均相对 `www/vibe-learn/`：
+
+| 内容 | 路径 |
+|------|------|
+| 导图清单 | `src/data/maps.js` |
+| 节点 / 边 / 章框 | `src/data/nodes.js` |
+| 课文 markdown | `src/data/lessons/<id>.js` |
+| 布局 | `src/data/layout.js` · `src/utils/layout-from-edges.js` |
+| 跨导图桥 | `src/data/map-bridges.js` · `map-bridges-overrides.js` |
+| 导图2 词表 | vibehub / map2 相关数据 |
+| 题库 | `src/data/quiz/sets/*.js` |
+
+改节点文案优先改 `lessons/<id>.js`；改拓扑再动 `nodes.js` / `layout.js`。
+
+## 与宿主 / 全局规则关系
+
+- 爬梯：`ponytail` · 协作：`senior-engineer`  
+- 挂在 XRK-AGT 下时：宿主边界见主仓 `xrk-agent-behavior` · `xrk-project`；**本文件随本仓版本管理**，主仓不 alwaysApply 本细则。  
+- 冲突时：本文件的「禁子代理 / 长 todo」优先于「可并行子代理」的泛化建议。

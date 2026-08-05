@@ -2340,7 +2340,7 @@ async function runAttnMap(ui, speed, signal, log) {
 
 /** 老师级：Transformer 积木堆叠 */
 function tfStackStage(spec) {
-  const stage = el('div', 'vibe-algo__tf');
+  const stage = el('div', 'vibe-algo__tfs');
   const mode = String(spec.mode || 'decoder');
   const steps =
     mode === 'encdec'
@@ -2359,18 +2359,18 @@ function tfStackStage(spec) {
           ['下一令牌分布', '自回归写出'],
         ];
   const boxes = steps.map(([t, s]) => {
-    const b = el('div', 'vibe-algo__tf-box');
-    b.append(el('div', 'vibe-algo__tf-title', { text: t }), el('div', 'vibe-algo__tf-sub', { text: s }));
+    const b = el('div', 'vibe-algo__tfs-box');
+    b.append(el('div', 'vibe-algo__tfs-title', { text: t }), el('div', 'vibe-algo__tfs-sub', { text: s }));
     return b;
   });
-  const badge = el('div', 'vibe-algo__tf-badge', {
+  const badge = el('div', 'vibe-algo__tfs-badge', {
     text:
       mode === 'encdec'
         ? '原论文机器翻译：Encoder–Decoder；当代对话 LLM 多为 Decoder-only'
         : 'Decoder-only（GPT 族）：因果掩码 + 下一令牌预测',
   });
-  const status = el('div', 'vibe-algo__tf-status', { text: '装机…' });
-  const col = el('div', 'vibe-algo__tf-col');
+  const status = el('div', 'vibe-algo__tfs-status', { text: '装机…' });
+  const col = el('div', 'vibe-algo__tfs-col');
   for (const b of boxes) col.append(b);
   stage.append(col, badge, status);
   return { stage, boxes, badge, status, mode };
