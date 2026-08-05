@@ -218,8 +218,9 @@ const NET_TOPICS = pipelineColumnsPositions(
 assertNoCardOverlap(NET_TOPICS, 'frameNet');
 
 /* ═══════════════════════════════════════════
- * 第四章 · 纵向泳道（循序渐进）
- * 鸟瞰 → 结构 → 暴露/通道 → 横切 → 实践 → Stream 收束
+ * 第四章 · 纵向泳道（中心枢紐）
+ * L0 入口 → L1 结构 → L2 通道/暴露 → L3 横切 → L4 实践 → L5 工作流收束→第五章
+ * 跨章边在 nodes.js：语言/网络/Clash/数据库/AI（branch: bridge|side|c5）
  * ═══════════════════════════════════════════ */
 const XRK_TOPICS = laneBlockPositions(
   [

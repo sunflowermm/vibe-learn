@@ -4,7 +4,7 @@ export default `# 第四章 · XRK-AGT（项目实践）
 > 主服固定为 **Node.js ≥ 26**；包管理 **仅 pnpm**；子服提供 Python、Go、PHP、Java、.NET、Rust 六套 runtime。  
 > 人工智能概念见 **第五章**；**工作流 → 对话管线 → 办事助手** 桥接工程与 Agent 能力（LLM 仅在主服运行）。  
 > 扩展点索引见 **业务层全景**。部署 / 数据课末有八股表；产品概念回番外 **数据库**。  
-> **章专属动画**：\`xrklayers\`（入口 → Runtime → Core → 可选子服）。  
+> **章专属动画**（按读法点开）：\`xrklayers\` · \`httpresp\` · \`msgpipe\` · \`taskerflow\` · \`authgate\` · \`toolloop\` · \`dbtier\` · \`wsfive\`。  
 > **学会之后**：能指出改动落在 Runtime / Core / 子服哪一层，并沿最小路径完成一次可验收贡献。
 
 ## 学会之后（验收）
@@ -103,16 +103,16 @@ flowchart TB
 | AgentRuntime | 启动链、裸名、热加载 | 序章·进程 |
 | Core 放码 | 子目录职责 | 模块边界 |
 | 插件架构 | Loader · 热更边界 | 可扩展性 |
-| Tasker / events | 通道与钩子 | 多端 / 观测 |
+| Tasker / events | 通道与钩子 · \`taskerflow\` | 多端 / 观测 |
 | 语言栈 / 子服 | 主服 Node；六 runtime | 第二章 |
-| HTTP / www / Auth | 接口、静态、鉴权 | 第三章 |
-| 数据库 | Redis/SQLite 契约 | 番外数据库 |
-| Factory / MCP | 模型插座 · 工具门禁 | 第五章概念 |
+| HTTP / www / Auth | \`httpresp\` · \`authgate\` | 第三章 |
+| 数据库 | Redis/SQLite · \`dbtier\` | 番外数据库 |
+| Factory / MCP | 模型插座 · \`toolloop\` | 第五章概念 |
 | 配置归属 | 框架 vs 产品模板 | 契约 |
 | **工作流** | AiWorkflow 编排 | Agent 入口 |
-| **对话管线** | 三层消息 · 出站 · 策略 | agent-context |
-| **办事助手** | agents/ · 工作区注入 | agents.md |
-| **实践课** | 插件 / HTTP / 子服 / 配置 | 动手 |
+| **对话管线** | 三层消息 · \`msgpipe\` | agent-context |
+| **办事助手** | agents/ · \`wsfive\` | agents.md |
+| **实践课** | 插件 / HTTP / 子服 / 配置 | 动手复盘动画 |
 
 ## 建议读法
 
