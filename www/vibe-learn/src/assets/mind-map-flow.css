@@ -89,6 +89,31 @@
   filter: none;
 }
 
+/* 平移中：关掉悬停反馈与边命中，避免指针扫过密布卡片时狂刷样式 */
+.mm-flow.is-panning .vue-flow__node,
+.mm-flow.is-panning .vue-flow__node .card,
+.mm-flow.is-panning .vue-flow__node-chapter .chapter__head {
+  transition: none !important;
+}
+
+.mm-flow.is-panning .vue-flow__edge,
+.mm-flow.is-panning .rel-edge__hit {
+  pointer-events: none !important;
+}
+
+.mm-flow.is-panning .vue-flow__node.is-dimmed:hover {
+  opacity: 0.52;
+  filter: grayscale(0.18);
+}
+
+.mm-flow.is-panning .vue-flow__node .card:hover {
+  box-shadow: var(--shadow-node);
+}
+
+.mm-flow.is-panning .vue-flow__node-chapter .chapter__head:hover {
+  transform: none;
+}
+
 .mm-flow .vue-flow__node.is-chapter-peer .card {
   box-shadow:
     0 0 0 2px rgba(255, 255, 255, 0.32),

@@ -50,7 +50,7 @@ const nodes = ref(
         ...n,
         selected: n.id === props.activeId,
         class: nodePassClass(n),
-        draggable: true,
+        draggable: isChapter,
         dragHandle: isChapter ? CHAPTER_DRAG_HANDLE : undefined,
         data: n.data ? { ...n.data, quizCount } : n.data,
       };
@@ -81,6 +81,7 @@ const {
   onMoveStart,
   onMoveEnd,
   wasDragMoved,
+  isPanning,
   flowAttrs,
 } = chrome;
 
@@ -229,6 +230,7 @@ function fitNeighborhood() {
       'has-focus': Boolean(activeId),
       'is-mobile-graph': isMobileGraph,
       'is-viewport-ready': viewportReady,
+      'is-panning': isPanning,
     }"
   >
     <VueFlow
@@ -281,7 +283,7 @@ function fitNeighborhood() {
     </div>
     <p class="mm-hint" aria-hidden="true">
       <template v-if="nodesDraggable">
-        空白拖动画布 · 蓝条拖整章 · 点选强调同章
+        空白或卡片上拖动画布 · 蓝条拖整章 · 点选强调邻接
       </template>
       <template v-else>
         点选 · 拖动画布 · 双指缩放

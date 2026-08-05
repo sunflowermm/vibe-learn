@@ -18,7 +18,7 @@ const toneStyle = computed(() => ({
 
 <template>
   <div
-    class="card mm-nopan"
+    class="card"
     :class="{ selected, stub: isStub }"
     :style="toneStyle"
     data-blobity
@@ -113,9 +113,8 @@ const toneStyle = computed(() => ({
   transform: translateZ(0);
   box-sizing: border-box;
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    filter 0.3s ease;
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
 .card.stub {
@@ -124,15 +123,13 @@ const toneStyle = computed(() => ({
 }
 
 .card:hover {
-  transform: scale(1.02) translateY(-2px);
   box-shadow:
     0 0 0 2px rgba(255, 255, 255, 0.35),
-    0 16px 40px rgba(0, 0, 0, 0.35);
+    0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
 @media (max-width: 960px) {
   .card:hover {
-    transform: none;
     box-shadow: var(--shadow-node);
   }
 }

@@ -3421,9 +3421,9 @@ export function buildFlowNodes() {
         chapterId: n.parentId,
         tone,
       },
-      class: 'mm-nopan',
+      class: '',
       selectable: true,
-      draggable: true,
+      draggable: false,
       zIndex: 10,
     };
   });

@@ -17,7 +17,8 @@ export function isChapterNode(n) {
 
 /** @param {object} n */
 export function nodePassClass(n) {
-  return isChapterNode(n) ? MM_CHAPTER_PASS : MM_NO_PAN;
+  /* 章框穿透；词条允许在卡片上起手平移画布（勿 mm-nopan，否则密布区只能拖卡/点不动） */
+  return isChapterNode(n) ? MM_CHAPTER_PASS : '';
 }
 
 /**
@@ -64,6 +65,8 @@ export function mindMapVueFlowAttrs(overrides = {}) {
     noPanClassName: MM_NO_PAN,
     /* 各图在 reflow / pane-ready 后自行 fit，避免与 init 连发抢视口 */
     fitViewOnInit: false,
+    /* 仅章框蓝条可拖整章；词条固定，避免「想平移却拖走卡片」 */
+    nodesDraggable: true,
     ...overrides,
   };
 }
@@ -75,10 +78,16 @@ export function mindMapVueFlowAttrs(overrides = {}) {
 export function applyNodeDragLock(nodes, nodesDraggable) {
   const ok = nodesDraggable.value;
   for (const n of nodes.value) {
-    if (n.draggable !== ok) n.draggable = ok;
     if (isChapterNode(n)) {
-      const handle = ok ? CHAPTER_DRAG_HANDLE : undefined;
+      /* 章框：窄屏锁拖；桌面仅蓝条可拖 */
+      const want = ok;
+      if (n.draggable !== want) n.draggable = want;
+      const handle = want ? CHAPTER_DRAG_HANDLE : undefined;
       if (n.dragHandle !== handle) n.dragHandle = handle;
+    } else {
+      /* 词条永不拖，保证在卡片上按下是平移画布 */
+      if (n.draggable !== false) n.draggable = false;
+      if (n.dragHandle != null) n.dragHandle = undefined;
     }
   }
 }
@@ -191,7 +200,8 @@ export function syncFocusHighlight(opts) {
     if (prev.preview || prev.chapterLit) {
       e.data = { ...prev, preview: false, chapterLit: false };
     }
-    if (e.animated !== onActive) e.animated = onActive;
+    /* 不用 animated dash：持续重绘边会让平移发粘 */
+    if (e.animated) e.animated = false;
     if (e.class) e.class = '';
   }
 
@@ -209,11 +219,11 @@ export function syncFocusHighlight(opts) {
     if (n.selected !== on) n.selected = on;
     let focus = '';
     if (hasFocus) {
-      if (n.id === focusId) focus = '';
-      else if (adjacent.has(n.id)) {
+      if (n.id === focusId) {
+        focus = '';
+      } else if (adjacent.has(n.id)) {
+        /* 只亮邻接，不整章 peer 全亮（大章几十张一起发光很卡） */
         focus = chapterMembers.has(n.id) ? 'is-chapter-peer' : 'is-bridge-peer';
-      } else if (chapterMembers.has(n.id)) {
-        focus = 'is-chapter-peer';
       } else {
         focus = 'is-dimmed';
       }
@@ -257,6 +267,7 @@ export function useMindMapChrome(opts) {
   let chapterMemberCache = null;
   let mobileMq = null;
   let clearDragTimer = 0;
+  const isPanning = ref(false);
 
   function syncDraggableFlag() {
     nodesDraggable.value = !isStackedLayout();
@@ -296,14 +307,22 @@ export function useMindMapChrome(opts) {
     scheduleClearDragFlag();
   }
 
-  /** 画布平移（空白拖动）——与节点拖区分，用于吞掉松手后的误 click */
-  function onMoveStart() {
+  /**
+   * 画布平移 / 缩放。
+   * fitView 等程序化改视口时 event 常为 null——勿标成用户拖拽，否则会吞掉随后点击。
+   * @param {{ event?: Event | null }} [payload]
+   */
+  function onMoveStart(payload) {
+    if (!payload?.event) return;
     viewportMoving = true;
     dragMoved = true;
+    isPanning.value = true;
   }
 
-  function onMoveEnd() {
+  function onMoveEnd(payload) {
+    if (!payload?.event && !viewportMoving) return;
     viewportMoving = false;
+    isPanning.value = false;
     scheduleClearDragFlag();
   }
 
@@ -312,7 +331,7 @@ export function useMindMapChrome(opts) {
     clearDragTimer = window.setTimeout(() => {
       if (!viewportMoving) dragMoved = false;
       clearDragTimer = 0;
-    }, 80);
+    }, 50);
   }
 
   function wasDragMoved() {
@@ -356,8 +375,8 @@ export function useMindMapChrome(opts) {
   function flowAttrs(overrides = {}) {
     return mindMapVueFlowAttrs({
       nodesDraggable: nodesDraggable.value,
-      /* 略提高阈值，减少「微移即进拖拽态」导致点选卡手 */
-      nodeDragThreshold: nodesDraggable.value ? 6 : 64,
+      /* 章框拖拽阈值；词条本身不可拖 */
+      nodeDragThreshold: nodesDraggable.value ? 8 : 64,
       ...overrides,
     });
   }
@@ -385,6 +404,7 @@ export function useMindMapChrome(opts) {
     nodesDraggable,
     isMobileGraph,
     isLight,
+    isPanning,
     miniWidth,
     miniHeight,
     bgColor,

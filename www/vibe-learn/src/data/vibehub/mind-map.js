@@ -436,10 +436,10 @@ export function buildVibeFlowNodes() {
       id: c.id,
       type: 'knowledge',
       position: { ...c.position },
-      draggable: true,
+      draggable: false,
       zIndex: 2,
       style: { width: `${VIBE_CARD_W}px` },
-      class: 'mm-nopan',
+      class: '',
       data: {
         kind: 'topic',
         label: c.label,

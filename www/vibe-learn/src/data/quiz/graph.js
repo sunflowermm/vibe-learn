@@ -319,9 +319,9 @@ export function buildQuizFlowNodes() {
       id: c.id,
       type: 'knowledge',
       position: c.position,
-      draggable: true,
+      draggable: false,
       zIndex: 2,
-      class: 'mm-nopan',
+      class: '',
       style: {
         width: `${QUIZ_CARD_W}px`,
       },
