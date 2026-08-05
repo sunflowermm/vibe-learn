@@ -265,6 +265,11 @@ function navigateNode(id) {
 }
 
 function clearSelection() {
+  try {
+    window.getSelection()?.removeAllRanges();
+  } catch {
+    /* ignore */
+  }
   if (isKnowledge2Map.value) {
     vibeActiveId.value = null;
     return;
@@ -297,8 +302,54 @@ function openQuizForNode(nodeId) {
   quizFocusNonce.value += 1;
 }
 
+function clearDomTextSelection() {
+  try {
+    window.getSelection()?.removeAllRanges();
+  } catch {
+    /* ignore */
+  }
+}
+
+function blurPanelFocusables() {
+  const ae = document.activeElement;
+  if (!(ae instanceof HTMLElement)) return;
+  if (ae.closest?.('#learn-panel, .mermaid-frame, .panel, .lesson-host')) {
+    ae.blur();
+  }
+}
+
 function onKey(e) {
   if (e.key !== 'Escape') return;
+
+  /* 输入框内不抢 Esc */
+  const t = e.target;
+  if (t instanceof HTMLElement) {
+    if (
+      t.closest('input, textarea, select, [contenteditable="true"]') ||
+      t.isContentEditable
+    ) {
+      return;
+    }
+  }
+
+  /*
+   * 先清文本选区并 preventDefault。
+   * 复制降级（textarea.select）或示意图拖拽后常残留选区；
+   * Esc 若直接清节点，选区会「粘」到课文块上，看起来像全选。
+   */
+  const sel = window.getSelection?.();
+  const hadTextSel = Boolean(sel && !sel.isCollapsed && String(sel).length > 0);
+  if (hadTextSel) {
+    e.preventDefault();
+    clearDomTextSelection();
+    blurPanelFocusables();
+    return;
+  }
+
+  e.preventDefault();
+  clearDomTextSelection();
+  blurPanelFocusables();
+
   if (glossaryOpen.value) {
     closeGlossary();
     return;

@@ -73,6 +73,11 @@ watch(
   () => props.node?.id,
   async () => {
     await nextTick();
+    try {
+      window.getSelection()?.removeAllRanges();
+    } catch {
+      /* ignore */
+    }
     if (scrollEl.value) scrollEl.value.scrollTop = 0;
     titleEl.value?.focus({ preventScroll: true });
   }

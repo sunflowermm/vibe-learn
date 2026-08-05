@@ -234,6 +234,16 @@ export function bindMermaidZoomInteractions(root) {
     }
   }
 
+  function onKeydown(e) {
+    if (e.key !== 'Escape') return;
+    const view = e.target.closest?.('.mermaid-frame__view');
+    if (!view || !root.contains(view)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    clearTextSelection();
+    view.blur();
+  }
+
   root.addEventListener('click', onClick);
   root.addEventListener('wheel', onWheel, { passive: false });
   root.addEventListener('pointerdown', onPointerDown);
@@ -242,6 +252,7 @@ export function bindMermaidZoomInteractions(root) {
   root.addEventListener('pointercancel', onPointerUp);
   root.addEventListener('dblclick', onDblClick);
   root.addEventListener('selectstart', onSelectStart);
+  root.addEventListener('keydown', onKeydown);
 
   return () => {
     root.removeEventListener('click', onClick);
@@ -252,6 +263,7 @@ export function bindMermaidZoomInteractions(root) {
     root.removeEventListener('pointercancel', onPointerUp);
     root.removeEventListener('dblclick', onDblClick);
     root.removeEventListener('selectstart', onSelectStart);
+    root.removeEventListener('keydown', onKeydown);
     delete root.dataset.mzBound;
   };
 }
