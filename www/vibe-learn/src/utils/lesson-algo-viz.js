@@ -243,6 +243,30 @@ export function parseAlgoSource(text) {
         mode: 'ssr', // ssr | spa
         ...userObj,
       };
+    } else if (kind === 'tokbudget' || kind === 'ctxwin' || kind === 'tokenwin') {
+      data = {
+        limit: 16,
+        chunks: [
+          { id: 'sys', name: '系统说明', n: 3 },
+          { id: 'hist', name: '历史', n: 4 },
+          { id: 'user', name: '本轮用户', n: 2 },
+          { id: 'tool', name: '工具结果', n: 3 },
+          { id: 'out', name: '预留生成', n: 4 },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'attnmap' || kind === 'attention' || kind === 'qkv') {
+      data = {
+        tokens: ['小明', '把', '书', '放', '桌上', '，', '它', '很重'],
+        query: 6, // 「它」
+        scores: [0.55, 0.02, 0.08, 0.03, 0.18, 0.02, 0.05, 0.07],
+        ...userObj,
+      };
+    } else if (kind === 'tfstack' || kind === 'transformer' || kind === 'tfblock') {
+      data = {
+        mode: 'decoder', // decoder | encdec
+        ...userObj,
+      };
     } else if (data == null) {
       data = [5, 2, 8, 1, 9, 3, 7, 4];
     }
@@ -2193,6 +2217,180 @@ async function runSsrFlow(ui, speed, signal, log) {
   await sleep(speed * 0.85, signal);
 }
 
+/** 老师级：上下文窗口预算条 */
+function tokBudgetStage(spec) {
+  const stage = el('div', 'vibe-algo__tok');
+  const limit = Math.max(4, Number(spec.limit) || 16);
+  const chunks = Array.isArray(spec.chunks) ? spec.chunks : [];
+  const bar = el('div', 'vibe-algo__tok-bar');
+  const segs = chunks.map((c) => {
+    const s = el('div', 'vibe-algo__tok-seg');
+    s.style.flexGrow = '0';
+    s.style.flexBasis = '0';
+    s.dataset.n = String(c.n || 0);
+    s.append(
+      el('span', 'vibe-algo__tok-seg-lab', { text: String(c.name || c.id || '?') }),
+      el('span', 'vibe-algo__tok-seg-n', { text: `0/${c.n}` })
+    );
+    return s;
+  });
+  for (const s of segs) bar.append(s);
+  const meter = el('div', 'vibe-algo__tok-meter', { text: `预算 0 / ${limit} tokens` });
+  const badge = el('div', 'vibe-algo__tok-badge', {
+    text: '窗外内容 = 0 注意力；计费与截断都按 token，不是按「字数感觉」',
+  });
+  const status = el('div', 'vibe-algo__tok-status', { text: '准备装填上下文…' });
+  stage.append(bar, meter, badge, status);
+  return { stage, segs, meter, badge, status, limit, chunks };
+}
+
+async function runTokBudget(ui, speed, signal, log) {
+  for (const s of ui.segs) {
+    s.classList.remove('is-active', 'is-done', 'is-overflow');
+    s.style.flexGrow = '0';
+    const nEl = s.querySelector('.vibe-algo__tok-seg-n');
+    if (nEl) nEl.textContent = '0';
+  }
+  ui.badge.classList.remove('is-on');
+  log('OpenAI：token 是模型读写的基本单位；窗口含输入+输出（帮助中心 / tiktoken）');
+  let used = 0;
+  for (let i = 0; i < ui.segs.length; i++) {
+    const s = ui.segs[i];
+    const n = Math.max(0, Number(ui.chunks[i]?.n) || 0);
+    s.classList.add('is-active');
+    ui.status.textContent = `装入：${ui.chunks[i]?.name || ''}（+${n}）`;
+    await sleep(speed * 0.55, signal);
+    used += n;
+    s.style.flexGrow = String(n);
+    const nEl = s.querySelector('.vibe-algo__tok-seg-n');
+    if (nEl) nEl.textContent = String(n);
+    ui.meter.textContent = `预算 ${Math.min(used, ui.limit)} / ${ui.limit} tokens`;
+    if (used > ui.limit) {
+      s.classList.add('is-overflow');
+      ui.status.textContent = '超窗：截断 / 报错 / 压缩——模型看不见被裁掉的字';
+      log('本仓：toolPair → compaction → Provider contextWindow 裁剪（agent-context）');
+      await sleep(speed, signal);
+      break;
+    }
+    s.classList.replace('is-active', 'is-done');
+    await sleep(speed * 0.45, signal);
+  }
+  ui.badge.classList.add('is-on');
+  if (used <= ui.limit) {
+    ui.status.textContent = '窗内排满：系统宜稳、历史可裁、工具结果别整段回灌';
+  }
+  await sleep(speed * 0.7, signal);
+}
+
+/** 老师级：自注意力——「它」看向谁 */
+function attnMapStage(spec) {
+  const stage = el('div', 'vibe-algo__attn');
+  const tokens = Array.isArray(spec.tokens) ? spec.tokens.map(String) : ['小明', '书', '它'];
+  const query = Math.min(tokens.length - 1, Math.max(0, Number(spec.query) || 0));
+  const scores = Array.isArray(spec.scores)
+    ? spec.scores.map(Number)
+    : tokens.map((_, i) => (i === 0 ? 0.7 : 0.3 / Math.max(1, tokens.length - 1)));
+  const row = el('div', 'vibe-algo__attn-row');
+  const cells = tokens.map((t, i) => {
+    const c = el('div', 'vibe-algo__attn-tok');
+    c.append(el('div', 'vibe-algo__attn-lab', { text: t }));
+    const w = el('div', 'vibe-algo__attn-w', { text: '·' });
+    c.append(w);
+    return { c, w, i };
+  });
+  for (const x of cells) row.append(x.c);
+  const formula = el('div', 'vibe-algo__attn-formula', {
+    text: 'Attention(Q,K,V)=softmax(QKᵀ/√dₖ)V　·　Vaswani et al. 2017',
+  });
+  const status = el('div', 'vibe-algo__attn-status', { text: '选一个查询令牌…' });
+  stage.append(row, formula, status);
+  return { stage, cells, status, tokens, query, scores };
+}
+
+async function runAttnMap(ui, speed, signal, log) {
+  for (const x of ui.cells) {
+    x.c.classList.remove('is-query', 'is-hit', 'is-dim');
+    x.w.textContent = '·';
+    x.w.style.opacity = '0.25';
+  }
+  log('缩放点积注意力：相似度 / √dₖ 再 softmax，避免维度一大就梯度消失');
+  const q = ui.cells[ui.query];
+  q.c.classList.add('is-query');
+  ui.status.textContent = `查询 Q =「${ui.tokens[ui.query]}」——要找指代对象`;
+  await sleep(speed, signal);
+  let maxI = 0;
+  let maxS = -1;
+  for (let i = 0; i < ui.cells.length; i++) {
+    const s = Number(ui.scores[i]) || 0;
+    if (s > maxS) {
+      maxS = s;
+      maxI = i;
+    }
+    ui.cells[i].w.textContent = s.toFixed(2);
+    ui.cells[i].w.style.opacity = String(0.25 + Math.min(1, s) * 0.75);
+    if (i !== ui.query) ui.cells[i].c.classList.add('is-dim');
+    await sleep(speed * 0.35, signal);
+  }
+  ui.cells[maxI].c.classList.remove('is-dim');
+  ui.cells[maxI].c.classList.add('is-hit');
+  ui.status.textContent = `权重最高 →「${ui.tokens[maxI]}」；再对 V 加权混合（多头可并行多组关系）`;
+  log('因果掩码：生成时不能看未来令牌；窗外令牌根本不在矩阵里');
+  await sleep(speed * 1.1, signal);
+}
+
+/** 老师级：Transformer 积木堆叠 */
+function tfStackStage(spec) {
+  const stage = el('div', 'vibe-algo__tf');
+  const mode = String(spec.mode || 'decoder');
+  const steps =
+    mode === 'encdec'
+      ? [
+          ['输入嵌入+位置', 'Encoder 侧'],
+          ['双向自注意力', '读全句'],
+          ['交叉注意力', 'Decoder 看 Encoder'],
+          ['前馈 + 残差', '逐位置'],
+          ['输出序列', '翻译/摘要…'],
+        ]
+      : [
+          ['令牌嵌入+位置', '顺序信号'],
+          ['因果自注意力', '只看过去'],
+          ['前馈网络', '逐位置非线性'],
+          ['堆 N 层', '残差+归一化'],
+          ['下一令牌分布', '自回归写出'],
+        ];
+  const boxes = steps.map(([t, s]) => {
+    const b = el('div', 'vibe-algo__tf-box');
+    b.append(el('div', 'vibe-algo__tf-title', { text: t }), el('div', 'vibe-algo__tf-sub', { text: s }));
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__tf-badge', {
+    text:
+      mode === 'encdec'
+        ? '原论文机器翻译：Encoder–Decoder；当代对话 LLM 多为 Decoder-only'
+        : 'Decoder-only（GPT 族）：因果掩码 + 下一令牌预测',
+  });
+  const status = el('div', 'vibe-algo__tf-status', { text: '装机…' });
+  const col = el('div', 'vibe-algo__tf-col');
+  for (const b of boxes) col.append(b);
+  stage.append(col, badge, status);
+  return { stage, boxes, badge, status, mode };
+}
+
+async function runTfStack(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('Attention Is All You Need（NeurIPS 2017）：去掉循环与卷积，只靠注意力');
+  for (let i = 0; i < ui.boxes.length; i++) {
+    ui.boxes[i].classList.add('is-active');
+    ui.status.textContent = `积木 ${i + 1}/${ui.boxes.length}`;
+    await sleep(speed * 0.9, signal);
+    ui.boxes[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓不改层数公式；改的是窗内消息与工具白名单';
+  await sleep(speed * 0.85, signal);
+}
+
 /**
  * @param {HTMLElement} host
  * @param {ReturnType<typeof parseAlgoSource>} cfg
@@ -2473,6 +2671,24 @@ export function mountAlgoViz(host, cfg) {
         const ui = ssrFlowStage(spec);
         stageWrap.append(ui.stage);
         await runSsrFlow(ui, speed, signal, log);
+      } else if (kind === 'tokbudget' || kind === 'ctxwin' || kind === 'tokenwin') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = tokBudgetStage(spec);
+        stageWrap.append(ui.stage);
+        await runTokBudget(ui, speed, signal, log);
+      } else if (kind === 'attnmap' || kind === 'attention' || kind === 'qkv') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = attnMapStage(spec);
+        stageWrap.append(ui.stage);
+        await runAttnMap(ui, speed, signal, log);
+      } else if (kind === 'tfstack' || kind === 'transformer' || kind === 'tfblock') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = tfStackStage(spec);
+        stageWrap.append(ui.stage);
+        await runTfStack(ui, speed, signal, log);
       } else if (kind === 'twopointer' || kind === 'window') {
         const arr = Array.isArray(cfg.data) ? cfg.data.map(Number) : [1, 2, 3, 4, 5, 6, 7];
         const { stage, cells } = barStage(arr);

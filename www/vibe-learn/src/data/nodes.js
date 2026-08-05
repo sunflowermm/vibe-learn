@@ -705,6 +705,9 @@ export const knowledgeNodes = [
     role: '渐进式前端框架；不是语言。产物挂 www（本仓 vibe-learn）。',
     prereqs: ['lang-library-framework', 'lang-javascript', 'lang-html-css'],
     next: ['fw-react', 'fw-angular', 'fw-nextjs', 'api-frontend', 'xrk-http-www'],
+    position: LAYOUT.topics['fw-vue'],
+    markdown: fwVue,
+    chapterOut: ['xrk-http-www'],
   },
   {
     id: 'fw-react',
