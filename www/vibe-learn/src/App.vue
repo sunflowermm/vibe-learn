@@ -116,7 +116,7 @@ const activeNode = computed(() => {
   }
   const n = activeId.value ? getNodeById(activeId.value) : null;
   if (!n) return null;
-  /* 导图1 全量：原文 + 导图2 对照正文 + 跨导图芯片 */
+  /* 导图1：挂 mapLinks，跨导图由面板芯片跳转 */
   return combineKnowledgeWithMap2(n);
 });
 const libraryOpen = ref(false);

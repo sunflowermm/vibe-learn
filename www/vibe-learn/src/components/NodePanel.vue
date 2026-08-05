@@ -250,6 +250,28 @@ function openRelatedQuiz() {
         <p class="panel__shell-lab-label">动手沙箱</p>
         <LessonShell :config="shellLabConfig" />
       </div>
+
+      <section
+        v-if="mapLinks.length"
+        class="panel__map2-foot"
+        aria-label="跨导图对照"
+      >
+        <h3 class="panel__map2-foot-title">跨导图 · 对照入口</h3>
+        <p class="panel__map2-foot-hint">
+          点芯片跳到另一张导图的对应节点；面板上方「跨导图」同样可点。
+        </p>
+        <div class="panel__map2-foot-chips">
+          <button
+            v-for="n in mapLinks"
+            :key="`map-foot-${n.id}`"
+            type="button"
+            class="panel__chip bridge"
+            @click="emit('navigate', n.id)"
+          >
+            {{ n.label }}
+          </button>
+        </div>
+      </section>
     </div>
 
     <footer class="panel__foot">
@@ -569,6 +591,34 @@ function openRelatedQuiz() {
 .panel__chip.bridge:hover {
   border-color: #7c3aed;
   background: color-mix(in srgb, #7c3aed 16%, transparent);
+}
+
+.panel__map2-foot {
+  margin: 1.25rem 0 0.5rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, #7c3aed 28%, var(--line));
+  background: color-mix(in srgb, #7c3aed 6%, var(--panel-bg));
+}
+
+.panel__map2-foot-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--node-title);
+}
+
+.panel__map2-foot-hint {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--mist-dim);
+}
+
+.panel__map2-foot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .panel__chip.is-learned::after {
