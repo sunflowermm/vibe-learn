@@ -17,6 +17,16 @@
   background: transparent;
 }
 
+/* 首帧 fit 完成前不显示，避免「从角落闪到正确位置」 */
+.mm-wrap:not(.is-viewport-ready) .vue-flow {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mm-wrap.is-viewport-ready .vue-flow {
+  opacity: 1;
+}
+
 /* —— 章框：整节点 + 子树不截获；仅蓝条可点可拖 —— */
 .mm-flow .vue-flow__node-chapter,
 .mm-flow .vue-flow__node.mm-chapter-pass {

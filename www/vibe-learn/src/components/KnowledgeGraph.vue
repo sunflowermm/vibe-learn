@@ -78,33 +78,30 @@ const {
   onNodeDragStart,
   onNodeDrag,
   onNodeDragStop,
+  onMoveStart,
+  onMoveEnd,
   wasDragMoved,
   flowAttrs,
 } = chrome;
 
 const nodeTypes = { knowledge: GraphCard, chapter: ChapterFrame };
 const edgeTypes = { relation: RelationEdge };
-const hoverId = ref(null);
+const viewportReady = ref(false);
 
 const vueFlowBind = computed(() =>
   flowAttrs({
     connectionMode: ConnectionMode.Loose,
-    defaultViewport: { zoom: 0.52 },
-    /* 整图很大：min 过紧会感觉「缩不到更小」；max 过低会感觉「放不大」 */
+    /* 先给一个偏小 zoom，真正位置由 fitView(0) 决定；配合 is-viewport-ready 避免闪跳 */
+    defaultViewport: { x: 0, y: 0, zoom: 0.2 },
     minZoom: 0.04,
     maxZoom: 2.8,
   })
 );
 
 watch(
-  () => [props.activeId, hoverId.value],
-  ([active, hover]) => {
-    syncFocusHighlight({
-      nodes,
-      edges,
-      activeId: active,
-      hoverId: hover,
-    });
+  () => props.activeId,
+  (active) => {
+    syncFocusHighlight({ nodes, edges, activeId: active });
   },
   { immediate: true }
 );
@@ -165,7 +162,6 @@ function onNodeClick({ node }) {
 
 function onPaneClick() {
   if (wasDragMoved()) return;
-  hoverId.value = null;
   emit('clear');
 }
 
@@ -177,17 +173,17 @@ function onEdgeClick({ edge }) {
   else emit('select', edge.target);
 }
 
-function onNodeMouseEnter({ node }) {
-  if (isChapterNode(node)) return;
-  hoverId.value = node.id;
-}
-
-function onNodeMouseLeave({ node }) {
-  if (hoverId.value === node.id) hoverId.value = null;
-}
-
 function doFit(duration = 0) {
-  nextTick(() => fitView({ padding: 0.16, duration }));
+  nextTick(() => {
+    try {
+      fitView({ padding: 0.16, duration });
+    } catch {
+      /* ignore */
+    }
+    requestAnimationFrame(() => {
+      viewportReady.value = true;
+    });
+  });
 }
 
 function resetLayout() {
@@ -199,14 +195,13 @@ function resetLayout() {
       n.position.y = p.y;
     }
   }
-  hoverId.value = null;
-  doFit(450);
+  doFit(0);
 }
 
 function fitNeighborhood() {
-  const id = props.activeId || hoverId.value;
+  const id = props.activeId;
   if (!id) {
-    doFit(400);
+    doFit(0);
     return;
   }
   const ch = chapterIdOf(nodes, id);
@@ -231,8 +226,9 @@ function fitNeighborhood() {
   <div
     class="mm-wrap mm-flow"
     :class="{
-      'has-focus': Boolean(activeId || hoverId),
+      'has-focus': Boolean(activeId),
       'is-mobile-graph': isMobileGraph,
+      'is-viewport-ready': viewportReady,
     }"
   >
     <VueFlow
@@ -244,11 +240,11 @@ function fitNeighborhood() {
       @node-click="onNodeClick"
       @edge-click="onEdgeClick"
       @pane-click="onPaneClick"
-      @node-mouse-enter="onNodeMouseEnter"
-      @node-mouse-leave="onNodeMouseLeave"
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
+      @move-start="onMoveStart"
+      @move-end="onMoveEnd"
       @pane-ready="() => doFit(0)"
       @pane-double-click="resetLayout"
     >

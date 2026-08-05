@@ -164,16 +164,15 @@ export function neighborIds(edges, id) {
 
 /**
  * 焦点强调 / 非焦点弱化：同章 peer、跨章邻接、其余压暗
- * —— 全图压暗只跟 activeId；hover 只点亮邻接边预览（避免划过全图 O 更新）
+ * —— 只跟 activeId；不跟 hover（平移时卡片滑过指针会狂刷，卡且「全亮」）
  * @param {{
  *   nodes: import('vue').Ref<object[]>,
  *   edges: import('vue').Ref<object[]>,
  *   activeId: string | null | undefined,
- *   hoverId?: string | null,
  * }} opts
  */
 export function syncFocusHighlight(opts) {
-  const { nodes, edges, activeId, hoverId = null } = opts;
+  const { nodes, edges, activeId } = opts;
   const { chapterOf, membersOf } = buildChapterIndex(nodes);
   const focusId = activeId || null;
   const chapterId = focusId ? chapterOf.get(focusId) || null : null;
@@ -187,25 +186,13 @@ export function syncFocusHighlight(opts) {
     const onActive = Boolean(
       activeId && (e.source === activeId || e.target === activeId)
     );
-    const onHover = Boolean(
-      hoverId && (e.source === hoverId || e.target === hoverId)
-    );
     if (e.selected !== onActive) e.selected = onActive;
-    const preview = onHover && !onActive;
-    const srcCh = chapterOf.get(e.source);
-    const tgtCh = chapterOf.get(e.target);
-    const chapterLit = Boolean(
-      chapterId && (srcCh === chapterId || tgtCh === chapterId) && !onActive && !preview
-    );
     const prev = e.data || {};
-    if (prev.preview !== preview || prev.chapterLit !== chapterLit) {
-      e.data = { ...prev, preview, chapterLit };
+    if (prev.preview || prev.chapterLit) {
+      e.data = { ...prev, preview: false, chapterLit: false };
     }
-    /* 仅选中边开 dash 动画，hover 预览不带动画（减合成压力） */
-    const wantAnimated = onActive;
-    if (e.animated !== wantAnimated) e.animated = wantAnimated;
-    const nextClass = preview ? 'is-preview' : '';
-    if (e.class !== nextClass) e.class = nextClass;
+    if (e.animated !== onActive) e.animated = onActive;
+    if (e.class) e.class = '';
   }
 
   for (const n of nodes.value) {
@@ -264,6 +251,7 @@ export function useMindMapChrome(opts) {
   );
 
   let dragMoved = false;
+  let viewportMoving = false;
   let chapterDragOrigin = null;
   /** @type {object[] | null} */
   let chapterMemberCache = null;
@@ -305,16 +293,34 @@ export function useMindMapChrome(opts) {
   function onNodeDragStop() {
     chapterDragOrigin = null;
     chapterMemberCache = null;
+    scheduleClearDragFlag();
+  }
+
+  /** 画布平移（空白拖动）——与节点拖区分，用于吞掉松手后的误 click */
+  function onMoveStart() {
+    viewportMoving = true;
+    dragMoved = true;
+  }
+
+  function onMoveEnd() {
+    viewportMoving = false;
+    scheduleClearDragFlag();
+  }
+
+  function scheduleClearDragFlag() {
     if (clearDragTimer) clearTimeout(clearDragTimer);
-    /* 略延迟清零，避免同一次 pointerup 触发的 click 被吞或误触 */
     clearDragTimer = window.setTimeout(() => {
-      dragMoved = false;
+      if (!viewportMoving) dragMoved = false;
       clearDragTimer = 0;
-    }, 40);
+    }, 80);
   }
 
   function wasDragMoved() {
-    return dragMoved;
+    return dragMoved || viewportMoving;
+  }
+
+  function isViewportMoving() {
+    return viewportMoving;
   }
 
   function miniNodeColor(n) {
@@ -390,7 +396,10 @@ export function useMindMapChrome(opts) {
     onNodeDragStart,
     onNodeDrag,
     onNodeDragStop,
+    onMoveStart,
+    onMoveEnd,
     wasDragMoved,
+    isViewportMoving,
     syncDraggableFlag,
     flowAttrs,
     applyNodeDragLock: () => applyNodeDragLock(nodes, nodesDraggable),

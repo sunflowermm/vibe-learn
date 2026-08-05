@@ -70,18 +70,21 @@ const {
   onNodeDragStart,
   onNodeDrag,
   onNodeDragStop,
+  onMoveStart,
+  onMoveEnd,
   wasDragMoved,
   flowAttrs,
 } = chrome;
 
 const nodeTypes = { knowledge: GraphCard, chapter: ChapterFrame };
 const edgeTypes = { relation: RelationEdge };
+const viewportReady = ref(false);
 let didMeasureReflow = false;
 
 const vueFlowBind = computed(() =>
   flowAttrs({
     connectionMode: ConnectionMode.Loose,
-    defaultViewport: { zoom: 0.38 },
+    defaultViewport: { x: 0, y: 0, zoom: 0.18 },
     minZoom: 0.08,
     maxZoom: 1.4,
   })
@@ -94,6 +97,9 @@ function doFit(duration = 0) {
     } catch {
       /* ignore */
     }
+    requestAnimationFrame(() => {
+      viewportReady.value = true;
+    });
   });
 }
 
@@ -260,6 +266,7 @@ function onPaneClick() {
     :class="{
       'has-focus': Boolean(activeId),
       'is-mobile-graph': isMobileGraph,
+      'is-viewport-ready': viewportReady,
     }"
   >
     <VueFlow
@@ -273,6 +280,8 @@ function onPaneClick() {
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
+      @move-start="onMoveStart"
+      @move-end="onMoveEnd"
     >
       <MindMapLayers
         :bg-color="bgColor"

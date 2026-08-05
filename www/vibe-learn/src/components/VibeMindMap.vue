@@ -75,21 +75,21 @@ const {
   onNodeDragStart,
   onNodeDrag,
   onNodeDragStop,
+  onMoveStart,
+  onMoveEnd,
   wasDragMoved,
   flowAttrs,
 } = chrome;
 
 const nodeTypes = { knowledge: GraphCard, chapter: ChapterFrame };
 const edgeTypes = { relation: RelationEdge };
-const hoverId = ref(null);
+const viewportReady = ref(false);
 let didMeasureReflow = false;
-
-const hasFocus = computed(() => Boolean(props.activeId || hoverId.value));
 
 const vueFlowBind = computed(() =>
   flowAttrs({
     connectionMode: ConnectionMode.Loose,
-    defaultViewport: { zoom: 0.32 },
+    defaultViewport: { x: 0, y: 0, zoom: 0.15 },
     minZoom: 0.08,
     maxZoom: 1.4,
   })
@@ -102,6 +102,9 @@ function doFit(duration = 0) {
     } catch {
       /* ignore */
     }
+    requestAnimationFrame(() => {
+      viewportReady.value = true;
+    });
   });
 }
 
@@ -130,14 +133,9 @@ onNodesInitialized(() => {
 });
 
 watch(
-  () => [props.activeId, hoverId.value],
-  ([active, hover]) => {
-    syncFocusHighlight({
-      nodes,
-      edges,
-      activeId: active,
-      hoverId: hover,
-    });
+  () => props.activeId,
+  (active) => {
+    syncFocusHighlight({ nodes, edges, activeId: active });
   },
   { immediate: true }
 );
@@ -193,7 +191,6 @@ function onNodeClick({ node }) {
 
 function onPaneClick() {
   if (wasDragMoved()) return;
-  hoverId.value = null;
   emit('clear');
 }
 
@@ -204,23 +201,15 @@ function onEdgeClick({ edge }) {
   else if (a === edge.target) emit('select', edge.source);
   else emit('select', edge.target);
 }
-
-function onNodeMouseEnter({ node }) {
-  if (isChapterNode(node)) return;
-  hoverId.value = node.id;
-}
-
-function onNodeMouseLeave({ node }) {
-  if (hoverId.value === node.id) hoverId.value = null;
-}
 </script>
 
 <template>
   <div
     class="mm-wrap mm-flow"
     :class="{
-      'has-focus': hasFocus,
+      'has-focus': Boolean(activeId),
       'is-mobile-graph': isMobileGraph,
+      'is-viewport-ready': viewportReady,
     }"
   >
     <VueFlow
@@ -232,11 +221,11 @@ function onNodeMouseLeave({ node }) {
       @node-click="onNodeClick"
       @edge-click="onEdgeClick"
       @pane-click="onPaneClick"
-      @node-mouse-enter="onNodeMouseEnter"
-      @node-mouse-leave="onNodeMouseLeave"
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
+      @move-start="onMoveStart"
+      @move-end="onMoveEnd"
     >
       <MindMapLayers
         :bg-color="bgColor"
