@@ -1,160 +1,65 @@
 {
-  "generatedAt": "2026-08-05T10:25:35.044Z",
+  "generatedAt": "2026-08-05T16:36:24.765Z",
   "totals": {
     "lessons": 203,
     "topics": 186,
     "chapters": 17,
-    "medianChars": 3264,
+    "medianChars": 3280,
     "noAccept": 0,
-    "thinUnder1800": 21,
-    "noInteractive": 1,
+    "thinUnder1800": 14,
+    "noInteractive": 3,
     "noQuizLink": 6,
-    "genericOnlyWidgets": 24
+    "genericOnlyWidgets": 4
   },
   "widgetFenceCounts": {
-    "mermaid": 168,
-    "quiz": 115,
-    "flip": 101,
-    "steps": 62,
-    "match": 55,
-    "shell": 50,
-    "prompt": 34,
-    "check": 28,
-    "javascript": 28,
+    "mermaid": 167,
+    "algo": 154,
+    "quiz": 112,
+    "check": 106,
+    "steps": 47,
+    "match": 45,
+    "shell": 38,
+    "prompt": 38,
+    "javascript": 29,
     "term": 27,
-    "algo": 21,
+    "decide": 23,
     "env": 20,
-    "decide": 17,
-    "bash": 11,
-    "reveal": 10,
+    "flip": 17,
+    "bash": 13,
     "compare": 9,
+    "reveal": 9,
     "pick": 4,
     "diff": 4,
     "fill": 3,
     "ports": 3,
     "sql": 3,
     "powershell": 3,
-    "text": 3,
     "yaml": 2,
     "json": 2,
     "ts": 2,
-    "html5": 2,
-    "sort": 2,
+    "text": 2,
     "html": 1,
     "typescript": 1,
     "dotenv": 1,
     "markdown": 1,
-    "js": 1,
-    "ini": 1
+    "ini": 1,
+    "sort": 1,
+    "html5": 1
   },
   "thinnest25": [
     {
-      "id": "dsa-bitwise",
+      "id": "workbench-editor",
       "isChapter": false,
-      "chars": 956,
-      "hasAccept": true,
-      "iw": 2,
-      "algo": 1,
-      "kinds": [
-        "algo",
-        "flip"
-      ]
-    },
-    {
-      "id": "dsa-recurse",
-      "isChapter": false,
-      "chars": 992,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 2,
-      "kinds": [
-        "steps",
-        "algo"
-      ]
-    },
-    {
-      "id": "dsa-string",
-      "isChapter": false,
-      "chars": 1032,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 2,
-      "kinds": [
-        "algo",
-        "match"
-      ]
-    },
-    {
-      "id": "dsa-union-find",
-      "isChapter": false,
-      "chars": 1043,
-      "hasAccept": true,
-      "iw": 2,
-      "algo": 1,
-      "kinds": [
-        "algo",
-        "flip"
-      ]
-    },
-    {
-      "id": "dsa-two-pointers",
-      "isChapter": false,
-      "chars": 1060,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 2,
-      "kinds": [
-        "algo",
-        "match"
-      ]
-    },
-    {
-      "id": "dsa-tree",
-      "isChapter": false,
-      "chars": 1218,
-      "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
-      "kinds": [
-        "flip"
-      ]
-    },
-    {
-      "id": "ai-arch-beyond",
-      "isChapter": false,
-      "chars": 1345,
+      "chars": 994,
       "hasAccept": true,
       "iw": 0,
       "algo": 0,
       "kinds": []
     },
     {
-      "id": "esp-esp32",
+      "id": "ai-arch-beyond",
       "isChapter": false,
-      "chars": 1355,
-      "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
-      "kinds": [
-        "flip"
-      ]
-    },
-    {
-      "id": "dsa-hash",
-      "isChapter": false,
-      "chars": 1439,
-      "hasAccept": true,
-      "iw": 2,
-      "algo": 0,
-      "kinds": [
-        "match",
-        "flip"
-      ]
-    },
-    {
-      "id": "esp-toolchain",
-      "isChapter": false,
-      "chars": 1452,
+      "chars": 1278,
       "hasAccept": true,
       "iw": 1,
       "algo": 0,
@@ -163,188 +68,300 @@
       ]
     },
     {
-      "id": "ai-llm-era",
+      "id": "dsa-union-find",
       "isChapter": false,
-      "chars": 1497,
+      "chars": 1394,
       "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
+      "iw": 2,
+      "algo": 1,
       "kinds": [
-        "steps"
+        "check",
+        "algo"
       ]
     },
     {
-      "id": "dsa-dp",
+      "id": "workbench-troubleshoot",
       "isChapter": false,
-      "chars": 1501,
+      "chars": 1434,
       "hasAccept": true,
       "iw": 3,
       "algo": 0,
       "kinds": [
-        "steps",
-        "flip",
+        "decide",
+        "shell",
+        "reveal"
+      ]
+    },
+    {
+      "id": "dsa-bitwise",
+      "isChapter": false,
+      "chars": 1477,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-recurse",
+      "isChapter": false,
+      "chars": 1478,
+      "hasAccept": true,
+      "iw": 5,
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
+        "steps"
+      ]
+    },
+    {
+      "id": "dsa-two-pointers",
+      "isChapter": false,
+      "chars": 1486,
+      "hasAccept": true,
+      "iw": 4,
+      "algo": 2,
+      "kinds": [
+        "check",
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "git-advanced",
+      "isChapter": false,
+      "chars": 1563,
+      "hasAccept": true,
+      "iw": 4,
+      "algo": 2,
+      "kinds": [
+        "check",
+        "algo",
+        "shell"
+      ]
+    },
+    {
+      "id": "dsa-string",
+      "isChapter": false,
+      "chars": 1566,
+      "hasAccept": true,
+      "iw": 5,
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "ai-llm-era",
+      "isChapter": false,
+      "chars": 1616,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "check",
+        "steps"
+      ]
+    },
+    {
+      "id": "data-markdown",
+      "isChapter": false,
+      "chars": 1618,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
         "quiz"
+      ]
+    },
+    {
+      "id": "ai-chat-era",
+      "isChapter": false,
+      "chars": 1662,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "code-first-program",
+      "isChapter": false,
+      "chars": 1754,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "shell",
+        "check"
+      ]
+    },
+    {
+      "id": "dsa-hash",
+      "isChapter": false,
+      "chars": 1757,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "match"
       ]
     },
     {
       "id": "dsa-graph",
       "isChapter": false,
-      "chars": 1535,
+      "chars": 1867,
       "hasAccept": true,
-      "iw": 4,
-      "algo": 2,
+      "iw": 5,
+      "algo": 3,
       "kinds": [
+        "check",
         "algo",
-        "steps",
-        "flip"
-      ]
-    },
-    {
-      "id": "dsa-complexity",
-      "isChapter": false,
-      "chars": 1561,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 0,
-      "kinds": [
-        "match",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "esp-mcu",
-      "isChapter": false,
-      "chars": 1573,
-      "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
-      "kinds": [
-        "match"
-      ]
-    },
-    {
-      "id": "dsa-ml",
-      "isChapter": false,
-      "chars": 1581,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 1,
-      "kinds": [
-        "algo",
-        "steps",
-        "match"
-      ]
-    },
-    {
-      "id": "ai-model-types",
-      "isChapter": false,
-      "chars": 1652,
-      "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
-      "kinds": [
-        "match"
-      ]
-    },
-    {
-      "id": "dsa-linear",
-      "isChapter": false,
-      "chars": 1701,
-      "hasAccept": true,
-      "iw": 3,
-      "algo": 1,
-      "kinds": [
-        "flip",
-        "algo",
-        "quiz"
-      ]
-    },
-    {
-      "id": "dsa-sort",
-      "isChapter": false,
-      "chars": 1739,
-      "hasAccept": true,
-      "iw": 6,
-      "algo": 5,
-      "kinds": [
-        "algo",
-        "match"
-      ]
-    },
-    {
-      "id": "ai-agent-planning",
-      "isChapter": false,
-      "chars": 1785,
-      "hasAccept": true,
-      "iw": 1,
-      "algo": 0,
-      "kinds": [
-        "quiz"
-      ]
-    },
-    {
-      "id": "ai-rules",
-      "isChapter": false,
-      "chars": 1791,
-      "hasAccept": true,
-      "iw": 2,
-      "algo": 0,
-      "kinds": [
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "ai-openai-protocol",
-      "isChapter": false,
-      "chars": 1817,
-      "hasAccept": true,
-      "iw": 2,
-      "algo": 0,
-      "kinds": [
-        "match",
-        "quiz"
+        "steps"
       ]
     },
     {
       "id": "ai-what",
       "isChapter": false,
-      "chars": 1821,
+      "chars": 1897,
       "hasAccept": true,
       "iw": 1,
       "algo": 0,
       "kinds": [
+        "check"
+      ]
+    },
+    {
+      "id": "dsa-dp",
+      "isChapter": false,
+      "chars": 1940,
+      "hasAccept": true,
+      "iw": 5,
+      "algo": 2,
+      "kinds": [
+        "check",
+        "algo",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-tree",
+      "isChapter": false,
+      "chars": 1940,
+      "hasAccept": true,
+      "iw": 5,
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
         "match"
       ]
     },
     {
-      "id": "ai-agent-memory",
+      "id": "git-forges",
       "isChapter": false,
-      "chars": 1857,
+      "chars": 1997,
       "hasAccept": true,
       "iw": 2,
       "algo": 0,
       "kinds": [
-        "flip",
+        "env"
+      ]
+    },
+    {
+      "id": "ai-rules",
+      "isChapter": false,
+      "chars": 2022,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
         "quiz"
       ]
     },
     {
       "id": "ai-rerank",
       "isChapter": false,
-      "chars": 1927,
+      "chars": 2030,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-hybrid-search",
+      "isChapter": false,
+      "chars": 2033,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-linear",
+      "isChapter": false,
+      "chars": 2102,
+      "hasAccept": true,
+      "iw": 4,
+      "algo": 2,
+      "kinds": [
+        "check",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "db-mongodb",
+      "isChapter": false,
+      "chars": 2133,
       "hasAccept": true,
       "iw": 1,
       "algo": 0,
       "kinds": [
+        "check"
+      ]
+    },
+    {
+      "id": "dsa-complexity",
+      "isChapter": false,
+      "chars": 2150,
+      "hasAccept": true,
+      "iw": 4,
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "match",
         "quiz"
       ]
     }
   ],
   "noAcceptIds": [],
   "noInteractiveIds": [
-    "ai-arch-beyond"
+    "workbench-editor",
+    "lang-python",
+    "lang-html-css"
   ],
   "noQuizIds": [
     "ai-arch-beyond",
@@ -356,69 +373,26 @@
   ],
   "genericHeavyIds": [
     {
-      "id": "dsa-dp",
-      "chars": 1501,
+      "id": "ai-rag-eval",
+      "chars": 2239,
       "kinds": [
+        "check",
         "steps",
-        "flip",
         "quiz"
       ]
     },
     {
-      "id": "dsa-complexity",
-      "chars": 1561,
+      "id": "ai-protocol-forks",
+      "chars": 2381,
       "kinds": [
+        "check",
         "match",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "craft-testing",
-      "chars": 2314,
-      "kinds": [
-        "flip",
-        "steps",
-        "quiz"
-      ]
-    },
-    {
-      "id": "craft-observability",
-      "chars": 2323,
-      "kinds": [
-        "steps",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "panel-run-node",
-      "chars": 2390,
-      "kinds": [
-        "steps",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "ai-attention",
-      "chars": 2502,
-      "kinds": [
-        "match",
-        "steps",
-        "quiz"
-      ]
-    },
-    {
-      "id": "ai-subagent",
-      "chars": 2621,
-      "kinds": [
         "quiz"
       ]
     },
     {
       "id": "xrk-min-path",
-      "chars": 2778,
+      "chars": 2582,
       "kinds": [
         "check",
         "steps",
@@ -426,231 +400,772 @@
       ]
     },
     {
-      "id": "db-sql-hands-on",
-      "chars": 2978,
+      "id": "ai-subagent",
+      "chars": 2692,
       "kinds": [
         "check",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-events",
-      "chars": 3158,
-      "kinds": [
-        "steps",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "lang-compiled-runtime",
-      "chars": 3193,
-      "kinds": [
-        "flip",
-        "match",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-tasker-channels",
-      "chars": 3753,
-      "kinds": [
-        "steps",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "db-essence",
-      "chars": 3784,
-      "kinds": [
-        "match",
-        "quiz"
-      ]
-    },
-    {
-      "id": "ai-agent-birth",
-      "chars": 4101,
-      "kinds": [
-        "steps",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "hw-sw-link",
-      "chars": 4145,
-      "kinds": [
-        "steps",
-        "match",
-        "flip"
-      ]
-    },
-    {
-      "id": "xrk-lab-subserver",
-      "chars": 4161,
-      "kinds": [
-        "check",
-        "flip",
-        "match"
-      ]
-    },
-    {
-      "id": "xrk-lab-http",
-      "chars": 4173,
-      "kinds": [
-        "check",
-        "steps",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-factory-llm",
-      "chars": 4229,
-      "kinds": [
-        "steps",
-        "match",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-lab-plugin",
-      "chars": 4457,
-      "kinds": [
-        "steps",
-        "check",
-        "match"
-      ]
-    },
-    {
-      "id": "lang-what-is-language",
-      "chars": 4479,
-      "kinds": [
-        "match",
-        "flip",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-plugin-arch",
-      "chars": 4483,
-      "kinds": [
-        "match",
-        "steps",
-        "quiz"
-      ]
-    },
-    {
-      "id": "xrk-stream",
-      "chars": 4549,
-      "kinds": [
-        "steps",
-        "quiz",
-        "match"
-      ]
-    },
-    {
-      "id": "xrk-runtime",
-      "chars": 4831,
-      "kinds": [
-        "quiz",
-        "match"
-      ]
-    },
-    {
-      "id": "xrk-chat-pipeline",
-      "chars": 5771,
-      "kinds": [
-        "steps",
-        "match",
         "quiz"
       ]
     }
   ],
   "algoLessons": [
     {
-      "id": "dsa-bitwise",
+      "id": "dsa-union-find",
       "algo": 1,
       "kinds": [
-        "algo",
-        "flip"
-      ]
-    },
-    {
-      "id": "dsa-recurse",
-      "algo": 2,
-      "kinds": [
-        "steps",
+        "check",
         "algo"
       ]
     },
     {
-      "id": "dsa-string",
-      "algo": 2,
+      "id": "dsa-bitwise",
+      "algo": 1,
       "kinds": [
+        "check",
         "algo",
         "match"
       ]
     },
     {
-      "id": "dsa-union-find",
-      "algo": 1,
+      "id": "dsa-recurse",
+      "algo": 3,
       "kinds": [
+        "check",
         "algo",
-        "flip"
+        "steps"
       ]
     },
     {
       "id": "dsa-two-pointers",
       "algo": 2,
       "kinds": [
+        "check",
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "git-advanced",
+      "algo": 2,
+      "kinds": [
+        "check",
+        "algo",
+        "shell"
+      ]
+    },
+    {
+      "id": "dsa-string",
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-hash",
+      "algo": 1,
+      "kinds": [
+        "check",
         "algo",
         "match"
       ]
     },
     {
       "id": "dsa-graph",
-      "algo": 2,
+      "algo": 3,
       "kinds": [
+        "check",
         "algo",
-        "steps",
-        "flip"
+        "steps"
       ]
     },
     {
-      "id": "dsa-ml",
-      "algo": 1,
+      "id": "dsa-dp",
+      "algo": 2,
       "kinds": [
+        "check",
         "algo",
         "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-tree",
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
         "match"
       ]
     },
     {
-      "id": "dsa-linear",
+      "id": "ai-rules",
       "algo": 1,
       "kinds": [
-        "flip",
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-rerank",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-hybrid-search",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-linear",
+      "algo": 2,
+      "kinds": [
+        "check",
         "algo",
         "quiz"
       ]
     },
     {
-      "id": "dsa-sort",
-      "algo": 5,
+      "id": "dsa-complexity",
+      "algo": 1,
       "kinds": [
+        "check",
+        "algo",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-1panel",
+      "algo": 1,
+      "kinds": [
+        "check",
         "algo",
         "match"
       ]
     },
     {
-      "id": "dsa-hot",
-      "algo": 2,
+      "id": "esp-esp32",
+      "algo": 1,
       "kinds": [
         "algo",
+        "check"
+      ]
+    },
+    {
+      "id": "dsa-ml",
+      "algo": 3,
+      "kinds": [
+        "check",
+        "algo",
         "steps",
-        "flip"
+        "match"
+      ]
+    },
+    {
+      "id": "ai-skills",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-essence",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "decide"
+      ]
+    },
+    {
+      "id": "ai-finetune",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-debug",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "reveal",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-baota",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-observability",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-testing",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "git-workspace",
+      "algo": 3,
+      "kinds": [
+        "algo",
+        "env"
+      ]
+    },
+    {
+      "id": "ai-agent-memory",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "db-sqlite",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check"
+      ]
+    },
+    {
+      "id": "ai-chunking",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-transformer",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-rag-shift",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-run-node",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "host-backup",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-adaptation",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-embedding",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-rag",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-mcp",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-agent-planning",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-openai-protocol",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-hot",
+      "algo": 4,
+      "kinds": [
+        "check",
+        "algo",
+        "steps"
+      ]
+    },
+    {
+      "id": "db-sql-hands-on",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "esp-mcu",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match"
+      ]
+    },
+    {
+      "id": "ai-agents-md",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-vector-store",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-prompt-security",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-sort",
+      "algo": 7,
+      "kinds": [
+        "check",
+        "algo"
+      ]
+    },
+    {
+      "id": "xrk-events",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "db-redis",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "shell"
+      ]
+    },
+    {
+      "id": "ai-agentic-rag",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-security",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-tool-calling",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-compare",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "decide",
+        "quiz"
+      ]
+    },
+    {
+      "id": "lang-to-runtime",
+      "algo": 1,
+      "kinds": [
+        "steps",
+        "algo"
+      ]
+    },
+    {
+      "id": "host-tls",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "steps",
+        "pick",
+        "term"
+      ]
+    },
+    {
+      "id": "db-landscape",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check"
+      ]
+    },
+    {
+      "id": "ai-attention",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "esp-link",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "esp-toolchain",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check"
+      ]
+    },
+    {
+      "id": "ai-token-context",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-agent-graph",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ops-compose",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "shell"
+      ]
+    },
+    {
+      "id": "ops-container",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "shell",
+        "compare"
+      ]
+    },
+    {
+      "id": "db-as-service",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-ci",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "shell",
+        "term",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-core-layout",
+      "algo": 1,
+      "kinds": [
+        "match",
+        "quiz",
+        "algo"
+      ]
+    },
+    {
+      "id": "clash-setup",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "env",
+        "shell",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-tasker-channels",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "decide",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-mcp-ops",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "adev-project-memory",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "host-systemd",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "term",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-lab-subserver",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "flip",
+        "match",
+        "algo"
+      ]
+    },
+    {
+      "id": "xrk-factory-llm",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "db-essence",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-lab-http",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "steps",
+        "quiz",
+        "algo"
+      ]
+    },
+    {
+      "id": "ops-others",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "compare",
+        "shell",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ops-docker",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "shell"
+      ]
+    },
+    {
+      "id": "xrk-subserver",
+      "algo": 1,
+      "kinds": [
+        "decide",
+        "algo",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "lang-nodejs",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "clash",
+      "algo": 2,
+      "kinds": [
+        "decide",
+        "algo",
+        "ports",
+        "shell"
+      ]
+    },
+    {
+      "id": "xrk-http-auth",
+      "algo": 3,
+      "kinds": [
+        "algo",
+        "quiz",
+        "match",
+        "shell"
+      ]
+    },
+    {
+      "id": "xrk-lab-plugin",
+      "algo": 1,
+      "kinds": [
+        "steps",
+        "check",
+        "match",
+        "algo"
       ]
     },
     {
@@ -664,6 +1179,266 @@
       ]
     },
     {
+      "id": "xrk-stream",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "steps",
+        "quiz",
+        "match"
+      ]
+    },
+    {
+      "id": "ai-agent-birth",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "api-frontend",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "xrk-plugin-arch",
+      "algo": 1,
+      "kinds": [
+        "match",
+        "algo",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-runtime",
+      "algo": 1,
+      "kinds": [
+        "quiz",
+        "match",
+        "algo"
+      ]
+    },
+    {
+      "id": "xrk-language-stack",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-agent-workspace",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "decide",
+        "quiz"
+      ]
+    },
+    {
+      "id": "lang-typescript",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "xrk-overview",
+      "algo": 2,
+      "kinds": [
+        "decide",
+        "algo",
+        "match",
+        "steps",
+        "check"
+      ]
+    },
+    {
+      "id": "xrk-chat-pipeline",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "steps",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "fw-gin",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "xrk-database",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "quiz",
+        "match"
+      ]
+    },
+    {
+      "id": "adev-compare",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "compare",
+        "decide",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "fw-aspnet",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "fw-laravel",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "adev-vibe-coding",
+      "algo": 1,
+      "kinds": [
+        "check",
+        "algo",
+        "flip",
+        "steps",
+        "decide",
+        "quiz"
+      ]
+    },
+    {
+      "id": "lang-javascript",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "fw-angular",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "dns-https",
+      "algo": 1,
+      "kinds": [
+        "reveal",
+        "algo",
+        "term",
+        "quiz"
+      ]
+    },
+    {
+      "id": "fw-express-nest",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "fw-spring",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "reverse-proxy",
+      "algo": 2,
+      "kinds": [
+        "term",
+        "match",
+        "decide",
+        "algo",
+        "fill",
+        "quiz"
+      ]
+    },
+    {
+      "id": "net-nginx",
+      "algo": 2,
+      "kinds": [
+        "check",
+        "reveal",
+        "match",
+        "algo",
+        "term",
+        "shell",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-http-www",
+      "algo": 3,
+      "kinds": [
+        "algo",
+        "match",
+        "pick"
+      ]
+    },
+    {
+      "id": "fs-dotfiles",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "shell",
+        "term"
+      ]
+    },
+    {
+      "id": "fw-django-fastapi",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "tcp-udp",
+      "algo": 1,
+      "kinds": [
+        "ports",
+        "term",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "fw-nextjs",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "fw-react",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
       "id": "os-essence",
       "algo": 1,
       "kinds": [
@@ -671,6 +1446,79 @@
         "algo",
         "quiz",
         "reveal"
+      ]
+    },
+    {
+      "id": "net-edge-practice",
+      "algo": 1,
+      "kinds": [
+        "quiz",
+        "algo",
+        "decide",
+        "term",
+        "shell"
+      ]
+    },
+    {
+      "id": "installers-path",
+      "algo": 1,
+      "kinds": [
+        "shell",
+        "env",
+        "term",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "clash-port",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "decide",
+        "fill",
+        "pick",
+        "env",
+        "shell",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-biz-map",
+      "algo": 1,
+      "kinds": [
+        "steps",
+        "match",
+        "algo"
+      ]
+    },
+    {
+      "id": "fw-vue",
+      "algo": 1,
+      "kinds": [
+        "algo"
+      ]
+    },
+    {
+      "id": "fs-layout",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "check",
+        "compare",
+        "shell"
+      ]
+    },
+    {
+      "id": "terminal-worlds",
+      "algo": 1,
+      "kinds": [
+        "env",
+        "quiz",
+        "algo",
+        "term",
+        "compare",
+        "shell"
       ]
     }
   ],
@@ -711,44 +1559,131 @@
         "decide"
       ],
       "algoLessonsOnly": [
+        "dsa-union-find",
         "dsa-bitwise",
         "dsa-recurse",
-        "dsa-string",
-        "dsa-union-find",
         "dsa-two-pointers",
+        "git-advanced",
+        "dsa-string",
+        "dsa-hash",
         "dsa-graph",
-        "dsa-ml",
+        "dsa-dp",
+        "dsa-tree",
+        "ai-rules",
+        "ai-rerank",
+        "ai-hybrid-search",
         "dsa-linear",
-        "dsa-sort",
+        "dsa-complexity",
+        "panel-1panel",
+        "esp-esp32",
+        "dsa-ml",
+        "ai-skills",
+        "panel-essence",
+        "ai-finetune",
+        "craft-debug",
+        "panel-baota",
+        "craft-observability",
+        "craft-testing",
+        "git-workspace",
+        "ai-agent-memory",
+        "db-sqlite",
+        "ai-chunking",
+        "ai-transformer",
+        "ai-rag-shift",
+        "panel-run-node",
+        "host-backup",
+        "ai-adaptation",
+        "ai-embedding",
+        "ai-rag",
+        "ai-mcp",
+        "ai-agent-planning",
+        "ai-openai-protocol",
         "dsa-hot",
+        "db-sql-hands-on",
+        "esp-mcu",
+        "ai-agents-md",
+        "ai-vector-store",
+        "ai-prompt-security",
+        "dsa-sort",
+        "xrk-events",
+        "db-redis",
+        "ai-agentic-rag",
+        "craft-security",
+        "ai-tool-calling",
+        "panel-compare",
+        "lang-to-runtime",
+        "host-tls",
+        "db-landscape",
+        "ai-attention",
+        "esp-link",
+        "esp-toolchain",
+        "ai-token-context",
+        "ai-agent-graph",
+        "ops-compose",
+        "ops-container",
+        "db-as-service",
+        "craft-ci",
+        "xrk-core-layout",
+        "clash-setup",
+        "xrk-tasker-channels",
+        "xrk-mcp-ops",
+        "adev-project-memory",
+        "host-systemd",
+        "xrk-lab-subserver",
+        "xrk-factory-llm",
+        "db-essence",
+        "xrk-lab-http",
+        "ops-others",
+        "ops-docker",
+        "xrk-subserver",
+        "lang-nodejs",
+        "clash",
+        "xrk-http-auth",
+        "xrk-lab-plugin",
         "chip-units",
-        "os-essence"
+        "xrk-stream",
+        "ai-agent-birth",
+        "api-frontend",
+        "xrk-plugin-arch",
+        "xrk-runtime",
+        "xrk-language-stack",
+        "xrk-agent-workspace",
+        "lang-typescript",
+        "xrk-overview",
+        "xrk-chat-pipeline",
+        "fw-gin",
+        "xrk-database",
+        "adev-compare",
+        "fw-aspnet",
+        "fw-laravel",
+        "adev-vibe-coding",
+        "lang-javascript",
+        "fw-angular",
+        "dns-https",
+        "fw-express-nest",
+        "fw-spring",
+        "reverse-proxy",
+        "net-nginx",
+        "xrk-http-www",
+        "fs-dotfiles",
+        "fw-django-fastapi",
+        "tcp-udp",
+        "fw-nextjs",
+        "fw-react",
+        "os-essence",
+        "net-edge-practice",
+        "installers-path",
+        "clash-port",
+        "xrk-biz-map",
+        "fw-vue",
+        "fs-layout",
+        "terminal-worlds"
       ],
       "genericHeavyIds": [
-        "dsa-dp",
-        "dsa-complexity",
-        "craft-testing",
-        "craft-observability",
-        "panel-run-node",
-        "ai-attention",
-        "ai-subagent",
+        "ai-rag-eval",
+        "ai-protocol-forks",
         "xrk-min-path",
-        "db-sql-hands-on",
-        "xrk-events",
-        "lang-compiled-runtime",
-        "xrk-tasker-channels",
-        "db-essence",
-        "ai-agent-birth",
-        "hw-sw-link",
-        "xrk-lab-subserver",
-        "xrk-lab-http",
-        "xrk-factory-llm",
-        "xrk-lab-plugin",
-        "lang-what-is-language",
-        "xrk-plugin-arch",
-        "xrk-stream",
-        "xrk-runtime",
-        "xrk-chat-pipeline"
+        "ai-subagent"
       ]
     }
   }

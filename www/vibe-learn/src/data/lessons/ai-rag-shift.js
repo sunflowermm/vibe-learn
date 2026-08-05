@@ -14,6 +14,13 @@ export default `# 上下文工程
 | 本仓 | assemble 三层、工作区注入；真源 agent-context |
 | 跟 Agent | 超长任务先画「谁进窗」清单 |
 
+\`\`\`algo
+{"kind":"tokbudget","title":"窗内预算 · 谁与谁抢 token","autoplay":true,"speed":780}
+\`\`\`
+
+\`\`\`check
+{"title":"上下文工程通关","items":[{"id":"def","text":"能复述：预算内决定看见什么、顺序、各块占比","hint":"定义"},{"id":"route","text":"能举例何时直塞 / 何时 RAG / 何时工具再检索","hint":"路由"},{"id":"xrk","text":"能指到 assembleChatLlmMessages 与 agentWorkspace","hint":"本仓"}]}
+\`\`\`
 
 ## 定义
 
@@ -61,6 +68,7 @@ flowchart TB
 |------|------|
 | 谁进窗、占多少 | \`agentWorkspace\` 预算；历史条数；技能目录压缩 |
 | 三层消息顺序 | \`assembleChatLlmMessages\`（对话管线） |
+| 省窗 | \`toolPair\` / \`compaction\` / Provider \`contextWindow\` |
 | 检索类能力 | 按已加载的记忆/知识库工作流 |
 | 直接读工作区 | \`tools.read\`（小知识库时常足够） |
 | 文档 | \`docs/agent-context.md\` |
@@ -72,15 +80,4 @@ flowchart TB
 ## 下一课
 
 窗内拼装清楚之后——进入**驯服**段：**规则**（常驻硬约束）。模型上下文协议已在行动段讲过。
-## 导图2 · 上下文工程 / Token / RAG × 窗内编排
-
-> 导图2 上下文工程与本课同构；是汇合段主课。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **上下文工程** | 窗内拼装 | 稳定前缀 vs 易变层 |
-| **Token** | 预算分配 | 工具结果与检索争窗口 |
-| **RAG** | 外挂材料一种 | 还有规则、技能目录、历史 |
-| **系统提示词** | 稳定人设 | 宜放前缀；勿与每轮脏数据混 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

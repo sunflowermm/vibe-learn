@@ -1,8 +1,12 @@
 {
-  "generatedAt": "2026-08-05T10:05:54.710Z",
-  "scope": "product sets excluding adapted/vibehub",
-  "files": 107,
-  "questions": 924,
-  "iwf08": 0,
-  "clues": []
+  "generatedAt": "2026-08-05T16:36:00.000Z",
+  "mapQaGate": "green",
+  "map2Cards": 246,
+  "quizTotal": 3035,
+  "glossaryKeys": 749,
+  "notes": [
+    "vh-api 已补拉；SKIP_PATHS 不再误伤 api",
+    "DSA 6 课 NODE_TERMS + 词典键已补",
+    "布局/边/桥/题库闸门见 scripts/map-qa-gate.mjs（pnpm map:qa）"
+  ]
 }

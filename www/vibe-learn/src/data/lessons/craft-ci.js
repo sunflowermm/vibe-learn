@@ -14,6 +14,13 @@ export default `# CI 直觉
 | 本仓 | CI 用 pnpm；优先 frozen lockfile |
 | Secrets | 密钥进平台密钥库，不进仓库 |
 
+\`\`\`algo
+{"kind":"cipipe","title":"CI 流水线：checkout → install → test → build","autoplay":true,"speed":780}
+\`\`\`
+
+\`\`\`check
+{"title":"CI 通关","items":[{"id":"def","text":"能说明推送/PR 后机器自动检查","hint":"定义"},{"id":"red","text":"红叉先读失败步骤日志再让 Agent 猜","hint":"红叉"},{"id":"pnpm","text":"CI 用 pnpm + frozen-lockfile；Node≥26","hint":"本仓"},{"id":"sec","text":"Secrets 不进 YAML 明文","hint":"密钥"}]}
+\`\`\`
 
 ## 你在平台上看到什么
 
@@ -73,19 +80,18 @@ export default `# CI 直觉
 | \`GITHUB_TOKEN\` | 默认权限尽量收窄（\`permissions\`） |
 | 依赖 | PR 改 lockfile 要人审；防投毒包进锁文件 |
 
-\`\`\`flip
-{"title":"CI 翻卡","cards":[{"front":"红叉怎么办","back":"先读 Job 日志，本地复现同一命令"},{"front":"只有我能跑","back":"缺依赖/Node 版本/环境变量未进 CI"},{"front":"CD","back":"Continuous Deploy：绿了再自动发布；本课先 CI"},{"front":"与测试课","back":"没有测试脚本，CI 只能做 install/build"}]}
-\`\`\`
-
 \`\`\`quiz
 {"title":"CI","questions":[{"q":"API Token 写进 workflow YAML 明文？","choices":[{"t":"方便，反正只有维护者能看","ok":false,"why":"进 Git 即泄漏面。"},{"t":"应放到 GitHub Secrets 再引用","ok":true,"why":"平台侧保管。"},{"t":"写进 README 说明怎么配","ok":false,"why":"文档也会传密钥。"}]}]}
 \`\`\`
 
-## 和本仓 / Vibe
+## 本仓怎么做
 
-- 开 PR 前：本地至少跑通你改动的路径；有 CI 则**红叉先读日志**再催合并  
-- Agent 改完：让它给出「CI 会跑的等价命令」，你本地先跑  
-- www 课：\`pnpm run build\` 常应成为检查一步  
+| 概念 | 落点 |
+|------|------|
+| 工具链 | \`pnpm\` + Node ≥ 26；与本地同一套命令 |
+| 锁文件 | \`--frozen-lockfile\`；不一致就失败 |
+| PR | 红叉先读日志；Agent 给出等价本地命令你先跑 |
+| www | \`pnpm run build\` 常应成为检查一步 |
 
 ## Coding Agent
 
@@ -99,14 +105,4 @@ export default `# CI 直觉
 ## 下一步
 
 **测试入门**（先有断言）· **Git 进阶**（PR 流）· **安全常识**（Secrets 与泄漏应急）。
-## 导图2 · CI / CD / Git × 持续集成
-
-> 锁文件与 pnpm 在 CI 同样生效。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **持续集成** | 每次推送检查 | 勿只在本机绿 |
-| **持续交付** | 可重复发布 | 不缩短清单 |
-| **Git** | 触发源 | PR 门禁 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

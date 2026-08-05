@@ -24,7 +24,7 @@ const SKIP_PATHS = new Set([
   '',
   'en',
   'zh',
-  'api',
+  /* 勿跳过词条 id「api」：页面路径也是 /api，与站内 Agent REST 前缀不同 */
   'assets',
   'topics',
   'vibehub-skill',
@@ -32,6 +32,8 @@ const SKIP_PATHS = new Set([
   'anti-ai-flavor',
   'icon.png',
 ]);
+/** sitemap 偶发漏收时强制补拉（历史：api 曾被误列入 SKIP） */
+const FORCE_LESSON_IDS = ['api'];
 const CONCURRENCY = 8;
 const TIMEOUT_MS = 20000;
 
@@ -331,6 +333,10 @@ async function main() {
   console.log('→ sitemap');
   const sitemapXml = await (await fetch(`${SITE}/sitemap.xml`)).text();
   const ids = parseSitemapIds(sitemapXml);
+  for (const id of FORCE_LESSON_IDS) {
+    if (!ids.includes(id)) ids.push(id);
+  }
+  ids.sort((a, b) => a.localeCompare(b));
   console.log(`  ids: ${ids.length}`);
   if (!ids.length) throw new Error('sitemap 未解析到词条 id');
 

@@ -14,11 +14,11 @@ export default `# MongoDB
 | 适合 | 灵活文档、少强 JOIN |
 | 本仓 | 可选；不替代 Redis/SQLite |
 
-## 本课你要带走什么
-\`\`\`flip
-{"title":"MongoDB · 翻卡","cards":[{"front":"MongoDB","back":"文档模型，JSON 样文档集合"},{"front":"别混成","back":"编程语言 / Web 框架"}]}
+\`\`\`check
+{"title":"MongoDB 通关","items":[{"id":"doc","text":"能说明文档模型（集合·BSON）与关系表差异","hint":"模型"},{"id":"svc","text":"知道是独立服务（常 27017），不是语言/框架","hint":"形态"},{"id":"xrk","text":"知道本仓可选 mongodb-Core，不替代 Redis/SQLite","hint":"本仓"}]}
 \`\`\`
 
+## 本课你要带走什么
 
 1. 文档模型 vs 关系表  
 2. 为何仍是「服务 / 中间件」那一层  
@@ -67,18 +67,15 @@ flowchart LR
 | **mongod（MongoDB Daemon）** | MongoDB 服务端守护进程 | 默认 27017；多 App 共享 | 别和 **mongosh** 混：后者是客户端 shell |
 | **$lookup（聚合关联）** | 类似 JOIN 的聚合阶段 | 跨集合拉关联文档 | 性能与关系库 JOIN 不同；能嵌套优先嵌套 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 文档库 | 可选 \`mongodb-Core\`；soft-skip 见第四章 |
+| 热路径 | 仍是 **Redis + SQLite**；勿用 Mongo 顶替缓存 |
+| 契约 | \`docs/database.md\` · 第四章 **数据与缓存** |
+
 ## 下一步
 
-**其它常见库** — 索引卡收尾；关系库对照见 **PostgreSQL / MySQL**。  
-本仓若要用文档库：第四章 **数据与缓存** 里的可选 Core / soft-skip（图谱主桥仍是 Redis / SQLite）。
-## 导图2 · 后端 / 数据库 × MongoDB
-
-> 文档模型；本仓可选 Core。勿与「不用 schema」神话绑定。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 文档库 | JSON 类文档存储 |
-| **后端** | 灵活文档场景 | 仍要索引与数据治理 |
-| **技术栈** | 常配 Node 口语 | 本仓主服用不用看产品，非契约必需 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**其它常见库** — 索引卡收尾；关系库对照见 **PostgreSQL / MySQL**。
 `;

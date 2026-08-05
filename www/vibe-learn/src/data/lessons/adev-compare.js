@@ -7,16 +7,6 @@ export default `# 形态与黄页
 
 ## 学会之后（验收）
 
-
-\`\`\`compare
-{"title":"形态对照（角色）","caption":"选工具前先对齐「它替你站哪一层」。","items":[{"role":"对话改代码","win":"Cursor Agent / Copilot Edits","linux":"同左（跨平台客户端）","mac":"同左","note":"路径 A；要审 diff"},{"role":"终端里 Agent","win":"CLI 类工具","linux":"CLI 类工具","mac":"CLI 类工具","note":"cwd/权限即现场"},{"role":"云端开发机","win":"浏览器 IDE","linux":"远程 Workspace","mac":"同左","note":"环境在云上"}]}
-\`\`\`
-
-\`\`\`decide
-{"title":"我该用哪种形态？","start":"start","steps":[{"id":"start","q":"任务？","options":[{"label":"在本仓改 plugin/http","next":"cursor"},{"label":"服务器上排障、看日志","next":"cli"},{"label":"只想对比产品名词","next":"map2"}]},{"id":"cursor","result":"对话改代码 + 本仓 AGENTS/禁区。","detail":"Accept 前看 diff。"},{"id":"cli","result":"终端 Agent / 自己 SSH；权限即边界。","detail":"别把密钥打进历史。"},{"id":"map2","result":"导图2 黄页；验收仍回本机路径。","detail":"词表≠会做。"}]}
-\`\`\`
-
-
 | 能力 | 成功信号 |
 |------|----------|
 | Harness | 能口述 指令 + 工具 + 模型 三件套 |
@@ -25,6 +15,21 @@ export default `# 形态与黄页
 | 本仓 | 禁区与 pnpm、Node≥26 写进 AGENTS.md |
 | 跟 Agent | 先问形态再比品牌；上生产前看隐私与配额 |
 
+\`\`\`check
+{"title":"形态通关","items":[{"id":"har","text":"能口述 Instructions + Tools + Model","hint":"Harness"},{"id":"form","text":"能按场景指出 IDE/CLI/云端/开源之一","hint":"形态"},{"id":"brand","text":"知道换品牌换壳、交底要对齐","hint":"换壳"},{"id":"xrk","text":"禁区与 pnpm 写进 AGENTS 而非广告页","hint":"本仓"}]}
+\`\`\`
+
+\`\`\`algo
+{"kind":"adevform","title":"四形态：IDE · CLI · 云端 · 开源 Harness","autoplay":true,"speed":820}
+\`\`\`
+
+\`\`\`compare
+{"title":"形态对照（角色）","caption":"选工具前先对齐「它替你站哪一层」。","items":[{"role":"对话改代码","win":"Cursor Agent / Copilot Edits","linux":"同左（跨平台客户端）","mac":"同左","note":"路径 A；要审 diff"},{"role":"终端里 Agent","win":"CLI 类工具","linux":"CLI 类工具","mac":"CLI 类工具","note":"cwd/权限即现场"},{"role":"云端开发机","win":"浏览器 IDE","linux":"远程 Workspace","mac":"同左","note":"环境在云上"}]}
+\`\`\`
+
+\`\`\`decide
+{"title":"我该用哪种形态？","start":"start","steps":[{"id":"start","q":"任务？","options":[{"label":"在本仓改 plugin/http","next":"cursor"},{"label":"服务器上排障、看日志","next":"cli"},{"label":"只想对比产品名词","next":"map2"}]},{"id":"cursor","result":"对话改代码 + 本仓 AGENTS/禁区。","detail":"Accept 前看 diff。"},{"id":"cli","result":"终端 Agent / 自己 SSH；权限即边界。","detail":"别把密钥打进历史。"},{"id":"map2","result":"导图2 黄页；验收仍回本机路径。","detail":"词表≠会做。"}]}
+\`\`\`
 
 ## 1. 先认「Agent Harness」
 
@@ -129,21 +134,17 @@ GitHub Copilot、Windsurf、Aider、各类「Pi」脚手架……**先认形态�
 | \`.cursor/rules\`、\`.cursor/skills\` | Cursor |
 | （可选）\`CLAUDE.md\` | 若团队主力 Claude Code，可与 AGENTS **事实对齐**，勿两套打架 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 日常 | Cursor（或其它 AI IDE）+ 审 diff |
+| SSH | CLI Agent；cwd/权限即边界 |
+| 交底 | 根 \`AGENTS.md\` 事实对齐各产品私有文件 |
+| 禁区 | 写进交底，不跟品牌广告 |
+
 ## 下一步
 
 **项目记忆文件** — 把禁区与命令写进仓。  
 回主脊：**排障 → 首次跑通 → 最小路径**。路径 B → **第五章**。
-
-## 导图2 · AI Agent / Harness × 形态与黄页
-
-> 导图2 的 Agent / Harness 帮你对齐口语；本课钉 **形态选型与可核对黄页**。  
-> **品牌事实以官网为准**；五拍与禁区仍以心智课 + 本仓 AGENTS 为准。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **AI Agent** | 多步施工壳 | 先认 IDE/CLI/无头形态，再选品牌 |
-| **Harness Engineering** | 指令+工具+模型 | 换品牌≈换壳；交底文件要事实对齐 |
-| **Vibe Coding** | 对话驱动 | 形态再强也要审 diff 与验收 |
-| **终端命令行** | CLI 形态入口 | 无头/CI 场景；权限面更大 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

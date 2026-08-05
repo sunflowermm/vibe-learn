@@ -2,7 +2,7 @@ export default `# Pi 智能体脚手架
 
 > **本课位置**：**旁支**（挂在命令行课下）；**不是**主干先修环。  
 > **先修建议**：已学 **智能体与控制循环**、**智能体命令行**（懂工具环与终端面即可对照）。  
-> **工程锚点**：[pi.dev](https://pi.dev/) · [earendil-works/pi](https://github.com/earendil-works/pi)（\`pi-agent-core\` / \`pi-coding-agent\`）。  
+> **工程锚点**：[pi.dev](https://pi.dev/) · [badlogic/pi-mono](https://github.com/badlogic/pi-mono)（\`pi-agent-core\` / \`pi-coding-agent\`）。  
 > **下一课**：无强制下一课；主干驯服收束见 **AGENTS.md**。
 
 ## 学会之后（验收）
@@ -14,6 +14,9 @@ export default `# Pi 智能体脚手架
 | 读法 | 不会 Pi 照样学 RAG/工具/循环 |
 | 跟 Agent | 勿把案例 API 当成本仓必会 |
 
+\`\`\`check
+{"title":"Pi 旁支通关","items":[{"id":"side","text":"能说明 Pi 是 harness 案例，不是学科原语","hint":"定位"},{"id":"mcp","text":"能对照：Pi 默认不内置 MCP，本仓 MCP 一等公民","hint":"哲学"},{"id":"loop","text":"能指出共通点仍是工具调用控制循环","hint":"不变式"}]}
+\`\`\`
 
 ## 它是什么
 
@@ -49,10 +52,6 @@ flowchart TB
 | **模型上下文协议** | **刻意不内置**；可用扩展自接 |
 | **上下文工程** | 极简系统提示 + 压缩 + 扩展注入 |
 
-\`\`\`flip
-{"title":"Pi 翻卡","cards":[{"front":"Pi 是什么","back":"最小智能体脚手架：循环核心 + 可扩展外壳"},{"front":"刻意不做啥","back":"默认无子代理、无计划模式、无内置 MCP、无权限弹窗"},{"front":"在课径里的位置","back":"旁支案例；不会 Pi 照样学 RAG / 工具 / 循环"}]}
-\`\`\`
-
 ---
 
 ## 「原语，不是功能清单」
@@ -67,30 +66,22 @@ flowchart TB
 
 ---
 
-## 本仓怎么对照（不是「要用 Pi」）
+## 本仓怎么做
+
+旁支对照（不是「要用 Pi」）：
 
 | 维度 | Pi（典型） | 本仓 |
 |------|------------|------|
 | 循环核心 | \`pi-agent-core\` | 工厂多轮 \`tool_calls\`（\`maxToolRounds\`） |
 | 工具面 | 编码工具 + 扩展 / 技能包 | \`mergeWorkflows\` + 框架面 + **远程 MCP** |
 | 默认 MCP | **刻意不内置** | **一等公民** |
-| 真源 | pi.dev | \`docs/agent-context.md\` · \`docs/ai-workflow.md\` |
+| 真源 | pi.dev / 上游仓库 | \`docs/agent-context.md\` · \`docs/ai-workflow.md\` |
 
 \`\`\`quiz
-{"title":"Pi 脚手架","questions":[{"q":"Pi 在本课径中的正确位置是？","choices":[{"t":"学完图编排后的必经主干，否则无法学 RAG","ok":false,"why":"假依赖；Pi 是旁支。"},{"t":"旁支 harness 案例，用来对照循环与扩展哲学","ok":true,"why":"案例不是原语。"},{"t":"替代模型上下文协议的标准","ok":false,"why":"Pi 默认甚至不内置 MCP。"}]}]}
+{"title":"Pi 脚手架","questions":[{"q":"Pi 在本课径中的正确位置是？","choices":[{"t":"学完图编排后的必经主干，否则无法学 RAG","ok":false,"why":"假依赖；Pi 是旁支。"},{"t":"旁支 harness 案例，用来对照循环与扩展哲学","ok":true,"why":"案例不是原语。"},{"t":"替代模型上下文协议的标准","ok":false,"why":"Pi 默认甚至不内置 MCP。"}]},{"q":"相对本仓，Pi 默认叙事更强调？","choices":[{"t":"MCP 必须焊进内核","ok":false,"why":"正相反。"},{"t":"最小循环核心 + 可扩展外壳","ok":true,"why":"harness 哲学。"},{"t":"取消工具调用，只做纯聊天","ok":false,"why":"核心仍是工具环。"}]}]}
 \`\`\`
 
 ## 回到主干
 
 驯服收束：**AGENTS.md**；工程契约：\`docs/agent-context.md\`。
-## 导图2 · Harness / Agent 循环 / MCP × Pi 案例
-
-> 导图2 Harness；本课是对照案例，不是升级课。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **Harness Engineering** | 脚手架差异 | Pi 与本仓默认工具面不同 |
-| **Agent 循环** | 共通 | 都是观察-行动环 |
-| **MCP** | 本仓一等公民 | 对照：Pi 默认叙事不同 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

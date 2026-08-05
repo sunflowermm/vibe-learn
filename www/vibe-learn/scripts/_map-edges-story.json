@@ -1,0 +1,119 @@
+{
+  "generatedAt": "2026-08-05T16:34:36.589Z",
+  "edgeCount": 371,
+  "topicCount": 186,
+  "isolated": [],
+  "selfLoops": [],
+  "reversePrereq": [],
+  "missingEdgeForPrereqCount": 30,
+  "missingEdgeForPrereqSample": [
+    {
+      "node": "git-workspace",
+      "prereq": "installers-path"
+    },
+    {
+      "node": "fw-react",
+      "prereq": "lang-html-css"
+    },
+    {
+      "node": "lang-compiled-runtime",
+      "prereq": "chip-units"
+    },
+    {
+      "node": "lang-powershell",
+      "prereq": "terminal-worlds"
+    },
+    {
+      "node": "lang-c",
+      "prereq": "lang-compiled-runtime"
+    },
+    {
+      "node": "lang-to-runtime",
+      "prereq": "runtime-nodejs"
+    },
+    {
+      "node": "xrk-overview",
+      "prereq": "os-essence"
+    },
+    {
+      "node": "xrk-core-layout",
+      "prereq": "xrk-biz-map"
+    },
+    {
+      "node": "xrk-chat-pipeline",
+      "prereq": "xrk-factory-llm"
+    },
+    {
+      "node": "xrk-lab-plugin",
+      "prereq": "xrk-runtime"
+    },
+    {
+      "node": "xrk-lab-subserver",
+      "prereq": "xrk-runtime"
+    },
+    {
+      "node": "ai-rag",
+      "prereq": "ai-openai-protocol"
+    },
+    {
+      "node": "ai-chunking",
+      "prereq": "ai-embedding"
+    },
+    {
+      "node": "ai-hybrid-search",
+      "prereq": "ai-embedding"
+    },
+    {
+      "node": "ai-vector-store",
+      "prereq": "ai-embedding"
+    },
+    {
+      "node": "ai-rag-eval",
+      "prereq": "ai-rag"
+    },
+    {
+      "node": "ai-tool-calling",
+      "prereq": "ai-openai-protocol"
+    },
+    {
+      "node": "ai-agent-birth",
+      "prereq": "ai-tool-calling"
+    },
+    {
+      "node": "ai-agent-memory",
+      "prereq": "ai-token-context"
+    },
+    {
+      "node": "ai-agent-planning",
+      "prereq": "ai-tool-calling"
+    },
+    {
+      "node": "ai-prompt-security",
+      "prereq": "ai-rag"
+    },
+    {
+      "node": "ai-agentic-rag",
+      "prereq": "ai-rag"
+    },
+    {
+      "node": "ai-rules",
+      "prereq": "ai-agent-birth"
+    },
+    {
+      "node": "ai-pi-agent",
+      "prereq": "ai-agent-birth"
+    },
+    {
+      "node": "fs-layout",
+      "prereq": "os-essence"
+    }
+  ],
+  "shortSameChapterCycles": [],
+  "crossChapterCycleCount": 15,
+  "verdict": {
+    "isolatedOk": true,
+    "reverseOk": true,
+    "shortCycleOk": true,
+    "note": "跨章大环为故事亲和边常见现象；面板 prereqs 可不强制有直连边"
+  }
+}

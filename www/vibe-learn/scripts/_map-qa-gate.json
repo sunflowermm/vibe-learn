@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-08-05T16:36:24.667Z",
+  "ok": true,
+  "fails": [],
+  "warns": [],
+  "thinLessonCount": 14,
+  "thinSample": [
+    {
+      "id": "ai-arch-beyond",
+      "chars": 1278
+    },
+    {
+      "id": "ai-chat-era",
+      "chars": 1662
+    },
+    {
+      "id": "ai-llm-era",
+      "chars": 1616
+    },
+    {
+      "id": "code-first-program",
+      "chars": 1754
+    },
+    {
+      "id": "data-markdown",
+      "chars": 1618
+    },
+    {
+      "id": "dsa-bitwise",
+      "chars": 1477
+    },
+    {
+      "id": "dsa-hash",
+      "chars": 1757
+    },
+    {
+      "id": "dsa-recurse",
+      "chars": 1478
+    },
+    {
+      "id": "dsa-string",
+      "chars": 1566
+    },
+    {
+      "id": "dsa-two-pointers",
+      "chars": 1486
+    }
+  ],
+  "quizTotal": 3035,
+  "map2Cards": 246,
+  "glossaryKeys": 749
+}

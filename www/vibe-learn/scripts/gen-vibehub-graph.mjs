@@ -5,6 +5,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { matchLocalGlossaryId, buildLocalIndex } from '../src/data/vibehub/merge-glossary.js';
+import { GLOSSARY as LOCAL_GLOSSARY } from '../src/data/glossary.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -13,6 +15,8 @@ const lessonsPath = path.join(outDir, 'lessons.json');
 const metaPath = path.join(outDir, 'meta.json');
 
 const SITE = 'https://vibe-hub.org';
+
+const localGlossaryIndex = buildLocalIndex(LOCAL_GLOSSARY);
 
 /** @type {{ id: string, title: string, slug: string, blurb: string }[]} */
 const MACRO_ORDER = [
@@ -335,7 +339,17 @@ function renderGraphPack(lessons, revision) {
       const tid = termNodeId(l.id);
       childIds.push(tid);
       bodies[tid] = buildTermMarkdown(l, revision);
-      const gid = `vh_${String(l.id).replace(/-/g, '_')}`;
+      const vhGid = `vh_${String(l.id).replace(/-/g, '_')}`;
+      const localGid = matchLocalGlossaryId(
+        l.id,
+        {
+          term: termLabel(l),
+          aliases: l.aliases,
+          secondaryTitle: l.secondaryTitle,
+        },
+        localGlossaryIndex
+      );
+      const gid = localGid || vhGid;
       nodeTerms[tid] = [gid];
       termCards.push({
         id: tid,
@@ -450,7 +464,7 @@ export function getVibeEntryById(id) {
       label: frame.label,
       subtitle: frame.subtitle,
       tag: zoneBySlug[frame.slug] || frame.tag,
-      role: `${frame.categoryCount} 分类 · ${frame.termCount} 术语`,
+      role: \`\${frame.categoryCount} 分类 · \${frame.termCount} 术语\`,
       markdown: VIBEHUB_BODIES[id],
       glossaryIds: [],
     };

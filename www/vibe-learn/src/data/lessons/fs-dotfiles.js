@@ -3,6 +3,7 @@ export default `# 点文件与隐藏项 · .xxx 是什么
 > 上一张用**角色**对齐了 Users / \`/home\` / \`/bin\`。  
 > 本课钉另一层跨系统本质：**「不想天天看见」的文件，各系统用不同机制藏起来**——目的相同，开关不同。  
 > 换位想——\`ls\` 看不到 \`.env\`，克隆仓库却「缺配置」：多半是隐藏约定，不是文件丢了。  
+> 真源：FHS（home 下 dot file）· [XDG Base Directory](https://specifications.freedesktop.org/basedir-spec/latest/) · Git \`gitignore\`  
 > **学会之后**：能解释隐藏机制差异，并坚持隐藏 ≠ 安全、\`.env\` 勿提交。
 
 ## 学会之后（验收）
@@ -13,6 +14,14 @@ export default `# 点文件与隐藏项 · .xxx 是什么
 | 机制 | Unix 点前缀 vs Win 隐藏属性 |
 | 安全 | 隐藏 ≠ 加密；密钥仍要 gitignore |
 | 接到 | shell 点文件常持久化代理/PATH |
+
+\`\`\`algo
+{"kind":"dothide","title":"两套隐藏开关 · 常见点名","autoplay":true,"speed":800}
+\`\`\`
+
+\`\`\`check
+{"title":"点文件通关","items":[{"id":"mech","text":"能说明 Unix 点前缀与 Win Hidden 是两套开关","hint":"机制"},{"id":"ls","text":"知道用 ls -la / Get-ChildItem -Force 才看得见","hint":"看见"},{"id":"sec","text":"坚持 .env / 私钥不进 Git；隐藏≠加密","hint":"安全"},{"id":"shell","text":"知道 .bashrc 等可持久化 PATH/代理","hint":"接到"}]}
+\`\`\`
 
 ## 本课你要带走什么
 
@@ -174,20 +183,19 @@ flowchart LR
 | **Dotfiles 管理** | 把家目录配置用 Git 同步的做法 | 新机器恢复 \`.bashrc\` | 勿把密钥同步进**公开**仓库 |
 | **XDG Base Directory**（了解） | Linux 上配置/缓存/数据目录约定 | \`~/.config\` \`~/.cache\` \`~/.local\` | 老程序仍可能只用 \`~/.某名字\` |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 机密 | \`.env\` / 私钥 / PAT → \`gitignore\`；用 \`.env.example\` 只留键名 |
+| 规则 | 仓库内 \`.cursor/rules\`、\`AGENTS.md\` 可提交；密钥仍本机 |
+| Shell 持久化 | 代理 / PATH 写入 \`.bashrc\` 等前先确认公司策略 |
+| 站对根 | \`pwd\` + \`ls -la\` 确认看见 \`.git\` 再动手 |
+
 ## 下一步
 
 第一章 **安装器与 PATH** — PATH 与环境变量地基。  
 番外 **端口与 Coding Agent** — \`HTTP_PROXY\` 族；可对照「写进 \`.bashrc\`」的持久化。  
 **Git 与工作区** — \`.git\` 与三区；勿提交机密。  
 第四章 **部署环境** — 本机齐套后再 clone。
-## 导图2 · 环境变量 / Git × 点文件
-
-> .env、壳配置等；密钥不进 Git。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **环境变量** | 点文件常提供 | .env 不进仓 |
-| **Git** | 忽略规则 | 防泄露 |
-| **终端命令行** | 默认可能看不见点文件 | ls -a |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -2,7 +2,8 @@ export default `# 番外 · 容器
 
 > 第一章讲「怎么把软件装进这台电脑」；本框讲另一种交付：**把运行环境打成可搬运的容器**。  
 > 本框只钉：**容器是什么、Docker / Compose、相关编排索引**。  
-> **Nginx / 反向代理** 在 **第三章**（概念课 + **Nginx** 产品课）——和容器不是同一层，勿混记。
+> **Nginx / 反向代理** 在 **第三章**（概念课 + **Nginx** 产品课）——和容器不是同一层，勿混记。  
+> 文献锚点：Docker Docs（container / image / layers）· Compose Spec · OCI Image Spec · 本仓 \`docs/docker.md\`。
 
 ## 学会之后（验收）
 
@@ -10,6 +11,7 @@ export default `# 番外 · 容器
 |------|----------|
 | 三件套 | 镜像（配方）≠ 容器（实例）≠ 仓库（分发） |
 | 边界 | 容器 ≠ VM；容器 ≠ Nginx；Compose ≠ Kubernetes |
+| 层 | 镜像层只读；容器可写层临时；持久化靠卷 |
 | 装环境三层 | apt/brew · pnpm · 镜像——各装到哪说得清 |
 | 本仓 | 开发机可用 Compose 起 Redis；主服仍是宿主机 Node + pnpm |
 
@@ -33,12 +35,21 @@ flowchart TB
   D --> XRK[第四章 · 部署 / docs.docker]
 \`\`\`
 
+## 章专属动画（分镜）
+
+| 课 | kind | 钉什么 |
+|----|------|--------|
+| 容器是什么 | \`ctrvm\` | 共享内核 vs Guest 内核 |
+| Docker | \`imglayer\` | 只读层叠 + 可写层 |
+| Compose | \`composestack\` | services · 网络 · 卷 |
+| 其它工具 | \`opstier\` | 引擎 / Compose / K8s / systemd |
+
 ## 节点速查
 
 | 节点 | 钉什么 |
 |------|--------|
 | **容器是什么** | 镜像 / 隔离；≠ 完整虚拟机；≠ apt/pnpm |
-| **Docker** | 最常见容器引擎 |
+| **Docker** | 最常见容器引擎 + 层直觉 |
 | **Compose** | 多容器一文件；≠ Kubernetes |
 | **其它工具** | Podman、containerd、K8s、systemd 边界 |
 
@@ -50,9 +61,8 @@ flowchart TB
 {"preset":"docker-basics"}
 \`\`\`
 
-
 1. **容器是什么** → **Docker** → **Compose** → **其它工具**  
-2. 回第四章 **部署环境** / \`docs/docker.md\`  
+2. 回第四章 **部署环境** / \`docs/docker.md\`（\`pnpm docker:up\`）  
 3. 需要门面时再去第三章 **反向代理 → Nginx**
 
 ## 与正章关系
@@ -60,20 +70,15 @@ flowchart TB
 | 章 | 关系 |
 |----|------|
 | **环境** | brew/apt 装宿主机软件；容器装「可搬运环境」 |
-| **数据库** | \`docker run redis\` 是起 DBMS 服务的一种方式 |
+| **数据库** | \`docker run redis\` / Compose 是起 DBMS 服务的一种方式 |
 | **网络** | 容器要映射端口；**反代/Nginx 另线** |
-| **XRK** | 开发机可用 Compose 起 Redis |
+| **XRK** | 开发机可用 Compose 起 Redis；全栈见 \`docs/docker.md\` |
 
-## 导图2 · 部署 / 构建 / 后端 × 容器交付
+## 本仓怎么做
 
-> 导图2 部署/构建口语；本框钉 **容器交付三件套**，≠ Nginx 门面。
-
-| 导图2 | Vibe 口语 | 本框专业落点 |
-|-------|-----------|--------------|
-| **部署上线** | 同样环境可搬运 | 镜像/容器/仓库三件套；≠ 反代门面 |
-| **构建** | 打出可运行产物 | Dockerfile / 构建上下文；与 pnpm build 分层 |
-| **后端** | 服务怎么跑 | Compose 起依赖（如 Redis）；主服仍可宿主机 Node |
-
-边界：容器 ≠ Nginx（门面在第三章）；Compose ≠ Kubernetes。
-
+| 概念 | 落点 |
+|------|------|
+| 文档 | \`docs/docker.md\` · \`docker-compose.yml\` · \`src/utils/docker-stack.mjs\` |
+| 命令 | \`pnpm docker:build\` / \`up\` / \`status\` / \`down\` |
+| 边界 | 会 Docker ≠ 会 K8s；主服可仍宿主机 Node |
 `;

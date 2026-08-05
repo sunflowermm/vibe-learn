@@ -13,11 +13,11 @@ export default `# PostgreSQL
 | 本仓 | 可选 \`postgres-Core\`；**不**进 Runtime fail-fast；不替代 Redis/SQLite |
 | 对照 | vs MySQL（生态/扩展）、vs Redis（模型）、vs SQLite（嵌入） |
 
-## 1. 它是什么
-
-\`\`\`flip
-{"title":"PostgreSQL · 翻卡","cards":[{"front":"PostgreSQL","back":"强大的开源关系库，扩展与 SQL 能力突出"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`check
+{"title":"PostgreSQL 通关","items":[{"id":"what","text":"能说明：关系型 C/S DBMS（可扩展），不是语言","hint":"分类"},{"id":"port","text":"默认 5432；应用用驱动连","hint":"形态"},{"id":"xrk","text":"知道 postgres-Core 可选，不进 Runtime fail-fast","hint":"本仓"}]}
 \`\`\`
+
+## 1. 它是什么
 
 | 点 | 说明 |
 |----|------|
@@ -66,6 +66,14 @@ flowchart LR
 {"title":"PostgreSQL","questions":[{"q":"本仓主服没装 PostgreSQL 能否启动？","choices":[{"t":"不能，PG 是 Runtime 必需","ok":false,"why":"必需是 Redis + SQLite；PG 可选。"},{"t":"能；PG 走可选 Core，不进 fail-fast","ok":true,"why":"契约在第四章数据与缓存。"},{"t":"能，因为 PostgreSQL 是编程语言","ok":false,"why":"它是 DBMS。"}]}]}
 \`\`\`
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 关系业务库 | 可选 \`postgres-Core\`；自管连接与备份 |
+| 热路径 | **不**替代 Redis；本地轻量状态仍看 SQLite |
+| 契约 | 第四章 **数据与缓存** · \`docs/database.md\` |
+
 ## Coding Agent
 
 \`\`\`prompt
@@ -77,16 +85,5 @@ flowchart LR
 
 ## 下一步
 
-**MySQL** — 另一关系巨头；**MongoDB** — 文档对照。  
-可选 \`postgres-Core\` 落点仍在第四章 **数据与缓存**。
-## 导图2 · 后端 / 数据库 / 技术栈 × PostgreSQL
-
-> 关系库强项；本仓走可选 Core，非 Runtime 必需。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 对象-关系全能 | SQL + 扩展生态 |
-| **后端** | 主存常见选择 | 本仓：可选产品 Core，勿塞进 default_config 乱放 |
-| **技术栈** | 常与后端框架绑定 | 框架≠ DBMS |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**MySQL** — 另一关系巨头；**MongoDB** — 文档对照。
 `;

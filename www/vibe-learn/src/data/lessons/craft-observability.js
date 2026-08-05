@@ -13,6 +13,13 @@ export default `# 日志与观测直觉
 | 指标 | 延迟、错误率、饱和度直觉 |
 | 边界 | 观测 ≠ 调试单个 bug 的全过程 |
 
+\`\`\`algo
+{"kind":"obspillar","title":"三支柱 + SRE 金信号","autoplay":true,"speed":840}
+\`\`\`
+
+\`\`\`check
+{"title":"观测通关","items":[{"id":"three","text":"Logs / Metrics / Traces 各一句","hint":"三件套"},{"id":"gold","text":"能口述延迟/流量/错误/饱和四金信号","hint":"SRE"},{"id":"log","text":"结构化 + requestId + 脱敏","hint":"日志"},{"id":"xrk","text":"知道本仓用 HttpResponse.error 统一错误可见性","hint":"本仓"}]}
+\`\`\`
 
 ## 三件套
 
@@ -44,11 +51,9 @@ flowchart LR
 | 每个循环一行 debug 刷屏 | 采样或聚合；热点才打开 |
 | 吞掉异常只 \`log\` 不返回 | 本仓优先 \`HttpResponse.error\` / \`normalizeError\` |
 
-\`\`\`flip
-{"title":"观测翻卡","cards":[{"front":"P99","back":"99% 请求比这更快；看尾延迟"},{"front":"错误率","back":"5xx / 业务失败占比；告警常用"},{"front":"日志里打密码","back":"等于把密钥写进可被多人读的文件"},{"front":"无 requestId","back":"并发下很难把多行日志拼成一次请求"}]}
-\`\`\`
+> 金信号真源：[Google SRE · Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/)。
 
-## 接到本仓
+## 本仓怎么做
 
 | 做法 | 说明 |
 |------|------|
@@ -73,14 +78,4 @@ flowchart LR
 ## 下一步
 
 **CI 直觉**（机器替你跑检查）· 回 **调试与日志**（本地复现）。
-## 导图2 · 监控 / 调试 / 部署 × 可观测
-
-> 日志/指标/追踪；能回答系统是否还活着。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **监控** | 看见状态 | 健康检查与告警 |
-| **调试** | 出问题定位 | 先有信号再深挖 |
-| **部署上线** | 上线后仍要看见 | 不是部署完就瞎 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

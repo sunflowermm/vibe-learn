@@ -14,6 +14,14 @@ export default `# 项目记忆文件
 | 本仓 | 禁区、pnpm、Node 版本、配置三同步优先写进交底 |
 | 反模式 | 密钥进仓；CLAUDE.md 与 AGENTS.md 事实相反 |
 
+\`\`\`check
+{"title":"项目记忆通关","items":[{"id":"why","text":"能说明会话会忘、文件可审可复用","hint":"为何"},{"id":"split","text":"分清 Rules 短约束 vs Skills 长流程","hint":"分工"},{"id":"xrk","text":"能指出本仓 AGENTS / rules 落点","hint":"本仓"},{"id":"anti","text":"拒绝密钥进仓与两套文件事实打架","hint":"反模式"}]}
+\`\`\`
+
+\`\`\`algo
+{"kind":"memfiles","title":"交底分层：AGENTS · Rules · Skills · 产品私有","autoplay":true,"speed":800}
+\`\`\`
+
 ## 1. 为什么要「文件交底」
 
 | 只靠聊天 | 写进仓库 |
@@ -84,20 +92,16 @@ Rules · Skills · Subagents · \`AGENTS.md\` **机制**在第五章展开；本
 
 > **先写文件，再换工具；一套真相，多套表面。**
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 根 \`AGENTS.md\` | 放码、禁区、pnpm、Node≥26 |
+| \`.cursor/rules\` | 短约束；\`alwaysApply\` / globs |
+| skills | 长流程按需；勿整本塞进 Always Rule |
+| 产品 \`AGENTS.md\` | 若有，与根交底事实对齐 |
+
 ## 下一步
 
 回 **Vibe Coding 心智** 主脊，或 **最小贡献路径**。
-
-## 导图2 · Skill / 系统提示词 / 上下文工程 × 项目记忆
-
-> 导图2 交底词条与本课同构；**运营事实（写什么、两套勿打架）以本课为准**。  
-> 机制深挖（Rules/Skills/Subagent）在第五章驯服段。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **系统提示词** | 人设与硬约束 | 文件化进 AGENTS/Rules；可审、可版本 |
-| **Skill** | 长流程手册 | 按需加载；勿整本塞进 Rules |
-| **上下文工程** | 交底如何进窗 | 根 AGENTS vs 产品工作区两张工牌要对齐 |
-| **Vibe Coding** | 对话试想法 | 无文件交底则会话一换就忘 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

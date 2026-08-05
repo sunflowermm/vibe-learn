@@ -94,6 +94,7 @@ export const KNOWLEDGE_MAP2_OVERRIDES = {
   ],
   'xrk-http-www': [
     { id: 'vh-http', label: 'HTTP' },
+    { id: 'vh-api', label: 'API' },
     { id: 'vh-https', label: 'HTTPS' },
     { id: 'vh-frontend', label: '前端' },
     { id: 'vh-route', label: '路由与端点' },
@@ -105,6 +106,7 @@ export const KNOWLEDGE_MAP2_OVERRIDES = {
   ],
   'xrk-subserver': [
     { id: 'vh-backend', label: '后端' },
+    { id: 'vh-api', label: 'API' },
     { id: 'vh-route', label: '路由与端点' },
     { id: 'vh-http', label: 'HTTP' },
   ],

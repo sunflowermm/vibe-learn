@@ -6,6 +6,16 @@ export default `# 调试与日志
 
 ## 学会之后（验收）
 
+| 能力 | 成功信号 |
+|------|----------|
+| 复现 | 步骤可写清；输入固定 |
+| 堆栈 | 落到自己代码行，不在 node:internal 空转 |
+| 探针 | 入口/出口关键字段可核对 |
+| 跟 Agent | 先贴完整报错与复现，再要补丁 |
+
+\`\`\`algo
+{"kind":"debugloop","title":"调试环：复现 → 探针 → 单点 → 回归","autoplay":true,"speed":820}
+\`\`\`
 
 \`\`\`reveal
 {"title":"日志里定位自己的帧","prompt":"完整堆栈 > 猜","tone":"info","face":"Error: lab boom\\n    at HelloLab.run (file:///.../core/my-lab-Core/plugin/hello-lab.js:14:11)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","body":"第一帧自己的 plugin 文件:行号就是切口。复现命令 + 完整堆栈交给 Agent；不要只说「又报错了」。"}
@@ -14,14 +24,6 @@ export default `# 调试与日志
 \`\`\`check
 {"title":"调试卫生","items":[{"id":"repro","text":"有可重复的最小复现步骤"},{"id":"log","text":"日志/堆栈指向自己的文件"},{"id":"one","text":"一次只验证一个假设"}]}
 \`\`\`
-
-
-| 能力 | 成功信号 |
-|------|----------|
-| 复现 | 步骤可写清；输入固定 |
-| 堆栈 | 落到自己代码行，不在 node:internal 空转 |
-| 探针 | 入口/出口关键字段可核对 |
-| 跟 Agent | 先贴完整报错与复现，再要补丁 |
 
 ## 三板斧
 
@@ -62,10 +64,6 @@ TypeError: Cannot read properties of undefined (reading 'x')
 
 密钥与隐私字段**不要**打进日志。上线后怎么看系统：见 **日志与观测**。
 
-\`\`\`flip
-{"title":"调试翻卡","cards":[{"front":"先复现","back":"不稳定的 bug 无法科学验证修复"},{"front":"一次一假设","back":"同时改五处无法归因"},{"front":"贴给 Agent","back":"复现步骤 + 堆栈原文 + 已尝试"},{"front":"吞异常","back":"catch 后只 log 不返回 = 排障噩梦"}]}
-\`\`\`
-
 \`\`\`quiz
 {"title":"调试","questions":[{"q":"最有效的 Agent 排障输入？","choices":[{"t":"「坏了，你看着办」","ok":false,"why":"无现场。"},{"t":"复现步骤 + 堆栈/日志原文 + 约束","ok":true,"why":"可对症。"},{"t":"只发一张表情包","ok":false,"why":"无效。"}]}]}
 \`\`\`
@@ -81,21 +79,15 @@ TypeError: Cannot read properties of undefined (reading 'x')
 
 心智：**Vibe Coding 心智**。
 
-## 接到本仓
+## 本仓怎么做
 
-插件/HTTP 异常优先走统一错误处理（\`HttpResponse.error\` / \`normalizeError\`），避免只 \`console.log\` 就吞掉。
+| 概念 | 落点 |
+|------|------|
+| 错误形状 | \`HttpResponse.error\` / \`normalizeError\`；勿吞异常 |
+| 插件/HTTP | 统一错误处理；堆栈落到 \`core/…\` 自己的行 |
+| Agent | 复现步骤 + 堆栈原文进 prompt |
 
 ## 下一步
 
 **安全常识** · **日志与观测** · **读报错**。
-## 导图2 · 调试 / 终端 / Git Diff × 调试素养
-
-> 与分层排障、五拍同一套卫生。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **调试** | 可复现再改 | 一次一假设 |
-| **终端命令行** | 最小复现 | 贴命令与输出 |
-| **Git Diff** | 改动范围 | 避免顺手大重构 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

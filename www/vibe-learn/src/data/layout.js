@@ -248,8 +248,9 @@ const XRK_TOPICS = laneBlockPositions(
 assertNoCardOverlap(XRK_TOPICS, 'frameXrk');
 
 /* ═══════════════════════════════════════════
- * 第五章 · 循序渐进蛇形
- * 导读 → 计算基础 → 产品与行动 → 知识 → 协议与驯服
+ * 第五章 · 循序渐进蛇形（与 chapter-ai 因果段对齐）
+ * R0 导读+计算 → R1 改参/接口+知识 → R2 知识收尾+行动 → R3 汇合+驯服
+ * 奇数行 RTL；同行边注意 left/right 句柄方向（见 nodes.js branch:c5）
  * ═══════════════════════════════════════════ */
 const AI_SNAKE = snakeRowPositions(
   [
@@ -269,12 +270,22 @@ const AI_SNAKE = snakeRowPositions(
       'ai-openai-protocol',
       'ai-embedding',
       'ai-rag',
+      'ai-chunking',
+      'ai-hybrid-search',
+      'ai-rerank',
+    ],
+    [
+      'ai-vector-store',
+      'ai-rag-eval',
       'ai-tool-calling',
       'ai-mcp',
       'ai-protocol-forks',
+      'ai-agent-birth',
+      'ai-agent-memory',
+      'ai-agent-planning',
     ],
     [
-      'ai-agent-birth',
+      'ai-prompt-security',
       'ai-agent-graph',
       'ai-agentic-rag',
       'ai-rag-shift',
@@ -284,24 +295,13 @@ const AI_SNAKE = snakeRowPositions(
       'ai-cli',
       'ai-agents-md',
     ],
-    /* 工程细化：面经高频、经典 RAG/Agent 主干未展开的课 */
-    [
-      'ai-chunking',
-      'ai-hybrid-search',
-      'ai-rerank',
-      'ai-vector-store',
-      'ai-rag-eval',
-      'ai-agent-memory',
-      'ai-agent-planning',
-      'ai-prompt-security',
-    ],
   ],
   { originX: ORIGIN_X, originY: TOP, colGap: CARD_COL, rowGap: LANE_GAP + 40 }
 );
-/* 旁支：Pi 脚手架——挂在第 4 行下方，避免与知识工程行重叠 */
+/* 旁支：Pi 挂在命令行正下方（非主干先修） */
 AI_SNAKE['ai-pi-agent'] = {
   x: AI_SNAKE['ai-cli'].x,
-  y: AI_SNAKE['ai-prompt-security'].y + CARD_ROW + 48,
+  y: AI_SNAKE['ai-cli'].y + CARD_ROW + 48,
 };
 assertNoCardOverlap(AI_SNAKE, 'frameAi');
 /* ═══════════════════════════════════════════

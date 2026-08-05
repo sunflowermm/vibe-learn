@@ -2,6 +2,7 @@ export default `# 模型上下文协议
 
 > **本课位置**：学习路径**行动**段；**紧跟工具调用**。  
 > **先修**：**工具调用**（已分清「点菜语法」）。  
+> **文献 / 规范锚点**：[Model Context Protocol](https://modelcontextprotocol.io/)（开放协议）；本仓运维真源 \`docs/mcp-guide.md\`。  
 > **下一课**：**协议分层**；再后是 **智能体与控制循环**。
 
 ## 学会之后（验收）
@@ -10,9 +11,16 @@ export default `# 模型上下文协议
 |------|----------|
 | 定义 | 统一发现/调用工具与资源的开放协议 |
 | 比喻 | 能说「工具 USB-C」且不把它说成聊天 API |
-| 本仓 | 一等公民工具面；远程 remote-mcp.* |
+| 本仓 | 一等公民工具面；远程 remote-mcp.*；门禁 handleToolCall |
 | 跟 Agent | 加工具走 MCP/注册，勿只改提示词假装 |
 
+\`\`\`algo
+{"kind":"toolloop","title":"MCP：提议 → 门禁 → 执行","autoplay":true,"speed":820}
+\`\`\`
+
+\`\`\`check
+{"title":"MCP 通关","items":[{"id":"def","text":"能说明 MCP=发现/调用外部能力的标准方言","hint":"定义"},{"id":"vs","text":"能对照工具调用=点菜语法 vs MCP=统一插座","hint":"分工"},{"id":"xrk","text":"能指到 registerMCPTool / remote-mcp / handleToolCall","hint":"本仓"}]}
+\`\`\`
 
 ## 定义
 
@@ -63,26 +71,11 @@ flowchart LR
 | 执行门禁 | \`MCPServer.handleToolCall\`（策略 / toolScan / 审批）；远程连 \`mcp.connect\` |
 | 运维与排错 | 第四章 **MCP 运维** · \`docs/mcp-guide.md\` · 技能 \`agent-tools\` |
 
-\`\`\`flip
-{"title":"模型上下文协议","cards":[{"front":"协议本身","back":"发现与调用外部能力的标准方言"},{"front":"工具调用","back":"模型侧如何说出「要调谁」"},{"front":"本仓","back":"registerMCPTool + 白名单 + handleToolCall 门禁"},{"front":"陌生仓起步","back":"tools.repo_map → grep/read，勿盲 list 整仓"}]}
-\`\`\`
-
 \`\`\`quiz
-{"title":"模型上下文协议","questions":[{"q":"协议主要想减少什么？","choices":[{"t":"每个客户端对接每个数据源的手写连接器","ok":true,"why":"N×M 问题。"},{"t":"上下文窗口的物理上限","ok":false,"why":"窗口是模型侧预算，不是协议能取消的。"},{"t":"令牌化算法","ok":false,"why":"无关。"}]}]}
+{"title":"模型上下文协议","questions":[{"q":"协议主要想减少什么？","choices":[{"t":"每个客户端对接每个数据源的手写连接器","ok":true,"why":"N×M 问题。"},{"t":"上下文窗口的物理上限","ok":false,"why":"窗口是模型侧预算，不是协议能取消的。"},{"t":"令牌化算法","ok":false,"why":"无关。"}]},{"q":"本仓工具真正执行前统一经过？","choices":[{"t":"任意插件各自解析正文里的 Action:","ok":false,"why":"禁止文本假协议。"},{"t":"MCPServer.handleToolCall（策略/扫描/审批）","ok":true,"why":"一条门禁路径。"},{"t":"只改 system 提示即可放行一切","ok":false,"why":"提示不是 ACL。"}]}]}
 \`\`\`
 
 ## 下一课
 
 插座之外还有厂商自有接口与多智能体协作——**协议分层**；然后进入 **智能体与控制循环**。
-
-## 导图2 · MCP / 工具调用 / Harness × 插座
-
-> 导图2 MCP 与本课同构。Harness=宿主如何挂协议。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **MCP** | 标准插座 | 发现 tools/resources；多客户端 |
-| **工具调用** | 用电器 | 模型点菜；MCP 描述可点的菜 |
-| **Harness Engineering** | 宿主编排 | Runtime 注册、门禁、日志 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

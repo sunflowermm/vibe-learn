@@ -14,7 +14,11 @@ export default `# 并查集（Union-Find）
 | 题型 | 连通性、多余边、Kruskal |
 | 对比 | 静态连通也可用 DFS；动态加边偏 UF |
 
-## 动画
+\`\`\`check
+{"title":"并查集通关","items":[{"id":"api","text":"能说明 find 与 union","hint":"API"},{"id":"pc","text":"知道路径压缩把链压扁","hint":"压缩"},{"id":"rank","text":"知道小树挂大树","hint":"按秩"},{"id":"vs","text":"能对比 UF vs 一次性 DFS","hint":"对比"}]}
+\`\`\`
+
+## 标志动画
 
 \`\`\`algo
 {"title":"并查集合并连通分量","kind":"union-find","data":{"n":6,"unions":[[0,1],[1,2],[3,4],[2,3]]},"speed":480,"caption":"同色（同代表元）= 已连通；union 后分量合并。"}
@@ -35,13 +39,26 @@ export default `# 并查集（Union-Find）
 // union(a,b): 把 find(b) 挂到 find(a)（或按秩）
 \`\`\`
 
-\`\`\`flip
-{"title":"并查集翻卡","cards":[{"front":"代表元","back":"每个连通分量选一个根"},{"front":"路径压缩","back":"find 时把链压扁"},{"front":"vs DFS","back":"边动态加入时 UF 更省事"}]}
+\`\`\`mermaid
+flowchart TB
+  U[union a,b] --> F1[find a]
+  U --> F2[find b]
+  F1 --> L[链接两根]
+  F2 --> L
+  L --> C[同一连通分量]
 \`\`\`
 
 ## 与图课
 
 图课讲 BFS/DFS **遍历**；本课讲 **动态连通** 数据结构。岛屿题两者都能做，看输入是「一次性网格」还是「不断加边」。
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 连通 | 多账号/多设备「同一用户」合并心智 |
+| 冗余边 | 配置依赖成环检测的另一种说法 |
+| 选型 | 边动态到达 → UF；静态网格 → DFS/BFS |
 
 ## 下一步
 

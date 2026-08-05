@@ -1,7 +1,8 @@
 /**
  * 知识导图 ↔ 知识导图2 全量桥接
  * 生成：node scripts/gen-map-bridges.mjs
- * 手工校正见 map-bridges-overrides.js（gen 勿覆盖该文件）
+ * 覆盖课卡 165/186 · 章框 17 · 自动补全 39
+ * 手工校正见 map-bridges-overrides.js（gen 不覆盖）
  */
 
 import { KNOWLEDGE_MAP2_OVERRIDES } from './map-bridges-overrides.js';
@@ -24,16 +25,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "导图2 · AI"
     }
   ],
-  "computer-system": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-terminal",
-      "label": "终端命令行"
-    }
-  ],
   "os-essence": [
     {
       "id": "vh-terminal",
@@ -42,18 +33,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-env-var",
       "label": "环境变量"
-    }
-  ],
-  "hw-sw-link": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    }
-  ],
-  "chip-units": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
     }
   ],
   "terminal-worlds": [
@@ -80,10 +59,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-env-var",
       "label": "环境变量"
-    },
-    {
-      "id": "vh-server-log",
-      "label": "服务端日志"
     }
   ],
   "runtime-nodejs": [
@@ -146,14 +121,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "差异对比"
     },
     {
-      "id": "vh-gitignore",
-      "label": "忽略文件"
-    },
-    {
-      "id": "vh-pull",
-      "label": "拉取"
-    },
-    {
       "id": "vh-frame-git",
       "label": "导图2 · Git"
     }
@@ -168,10 +135,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "Git"
     },
     {
-      "id": "vh-clone",
-      "label": "克隆"
-    },
-    {
       "id": "vh-push",
       "label": "推送"
     },
@@ -184,14 +147,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-branch",
       "label": "分支"
-    },
-    {
-      "id": "vh-commit",
-      "label": "提交"
-    },
-    {
-      "id": "vh-diff",
-      "label": "差异对比"
     },
     {
       "id": "vh-merge",
@@ -222,10 +177,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-git",
       "label": "Git"
-    },
-    {
-      "id": "vh-vibe-coding",
-      "label": "Vibe Coding"
     }
   ],
   "workbench-troubleshoot": [
@@ -234,20 +185,12 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "终端命令行"
     },
     {
-      "id": "vh-env-var",
-      "label": "环境变量"
-    },
-    {
       "id": "vh-server-log",
       "label": "服务端日志"
     },
     {
       "id": "vh-monitoring",
       "label": "监控"
-    },
-    {
-      "id": "vh-deployment",
-      "label": "部署上线"
     }
   ],
   "xrk-first-run": [
@@ -262,18 +205,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-env-var",
       "label": "环境变量"
-    },
-    {
-      "id": "vh-git",
-      "label": "Git"
-    },
-    {
-      "id": "vh-deployment",
-      "label": "部署上线"
-    },
-    {
-      "id": "vh-ci",
-      "label": "持续集成"
     }
   ],
   "lang-what-is-language": [
@@ -618,6 +549,10 @@ export const KNOWLEDGE_TO_MAP2 = {
   ],
   "api-frontend": [
     {
+      "id": "vh-api",
+      "label": "API"
+    },
+    {
       "id": "vh-http",
       "label": "HTTP"
     },
@@ -632,10 +567,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-route",
       "label": "路由与端点"
-    },
-    {
-      "id": "vh-frontend",
-      "label": "前端"
     }
   ],
   "network-basics": [
@@ -694,10 +625,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-dns",
       "label": "DNS"
-    },
-    {
-      "id": "vh-redirect",
-      "label": "重定向"
     }
   ],
   "http-web": [
@@ -710,12 +637,12 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "HTTPS"
     },
     {
-      "id": "vh-url",
-      "label": "URL"
+      "id": "vh-api",
+      "label": "API"
     },
     {
-      "id": "vh-redirect",
-      "label": "重定向"
+      "id": "vh-url",
+      "label": "URL"
     }
   ],
   "dns-https": [
@@ -848,6 +775,10 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "HTTP"
     },
     {
+      "id": "vh-api",
+      "label": "API"
+    },
+    {
       "id": "vh-frontend",
       "label": "前端"
     },
@@ -860,6 +791,10 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-backend",
       "label": "后端"
+    },
+    {
+      "id": "vh-api",
+      "label": "API"
     },
     {
       "id": "vh-route",
@@ -934,6 +869,46 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-skill",
       "label": "Skill"
+    }
+  ],
+  "craft-testing": [
+    {
+      "id": "vh-unit-test",
+      "label": "单元测试"
+    },
+    {
+      "id": "vh-integration-test",
+      "label": "集成测试"
+    },
+    {
+      "id": "vh-e2e-test",
+      "label": "端到端测试"
+    },
+    {
+      "id": "vh-test-coverage",
+      "label": "测试覆盖率"
+    },
+    {
+      "id": "vh-flaky-test",
+      "label": "不稳定测试"
+    }
+  ],
+  "craft-ci": [
+    {
+      "id": "vh-ci",
+      "label": "持续集成"
+    },
+    {
+      "id": "vh-cd",
+      "label": "持续交付 / 持续部署"
+    },
+    {
+      "id": "vh-lint",
+      "label": "代码规范检查"
+    },
+    {
+      "id": "vh-test-case",
+      "label": "测试用例"
     }
   ],
   "ai-what": [
@@ -1326,24 +1301,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "环境变量"
     }
   ],
-  "craft-ci": [
-    {
-      "id": "vh-ci",
-      "label": "持续集成"
-    },
-    {
-      "id": "vh-cd",
-      "label": "持续交付 / 持续部署"
-    },
-    {
-      "id": "vh-lint",
-      "label": "代码规范检查"
-    },
-    {
-      "id": "vh-test-case",
-      "label": "测试用例"
-    }
-  ],
   "ops-container": [
     {
       "id": "vh-deployment",
@@ -1382,10 +1339,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-database",
       "label": "数据库"
-    },
-    {
-      "id": "vh-browser-storage",
-      "label": "浏览器存储"
     }
   ],
   "db-sqlite": [
@@ -1542,20 +1495,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "JavaScript"
     }
   ],
-  "chapter-machine": [
-    {
-      "id": "vh-hub",
-      "label": "导图2 · 枢纽"
-    },
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-terminal",
-      "label": "终端命令行"
-    }
-  ],
   "chapter-env": [
     {
       "id": "vh-frame-technology",
@@ -1568,22 +1507,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-terminal",
       "label": "终端命令行"
-    },
-    {
-      "id": "vh-env-var",
-      "label": "环境变量"
-    },
-    {
-      "id": "vh-npm",
-      "label": "npm"
-    },
-    {
-      "id": "vh-git",
-      "label": "Git"
-    },
-    {
-      "id": "vh-deployment",
-      "label": "部署上线"
     }
   ],
   "chapter-code": [
@@ -1732,16 +1655,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "忽略文件"
     }
   ],
-  "chapter-esp": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-backend",
-      "label": "后端"
-    }
-  ],
   "chapter-craft": [
     {
       "id": "vh-ci",
@@ -1754,16 +1667,6 @@ export const KNOWLEDGE_TO_MAP2 = {
     {
       "id": "vh-authentication",
       "label": "身份认证"
-    }
-  ],
-  "chapter-dsa": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
     }
   ],
   "chapter-panel": [
@@ -2190,86 +2093,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "label": "SQL"
     }
   ],
-  "craft-testing": [
-    {
-      "id": "vh-ci",
-      "label": "持续集成"
-    },
-    {
-      "id": "vh-lint",
-      "label": "代码规范检查"
-    }
-  ],
-  "dsa-complexity": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-linear": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-hash": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-tree": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-graph": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-sort": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "dsa-dp": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
   "code-regex": [
     {
       "id": "vh-javascript",
@@ -2341,40 +2164,6 @@ export const KNOWLEDGE_TO_MAP2 = {
       "id": "vh-deployment",
       "label": "部署上线"
     }
-  ],
-  "dsa-hot": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "vh-javascript",
-      "label": "JavaScript"
-    }
-  ],
-  "esp-mcu": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    }
-  ],
-  "esp-esp32": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    }
-  ],
-  "esp-toolchain": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    }
-  ],
-  "esp-link": [
-    {
-      "id": "vh-tech-stack",
-      "label": "技术栈"
-    }
   ]
 };
 
@@ -2398,10 +2187,6 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "形态与黄页"
     },
     {
-      "id": "chapter-machine",
-      "label": "序章 · 认识计算机"
-    },
-    {
       "id": "chapter-ai",
       "label": "第五章 · 人工智能"
     },
@@ -2414,10 +2199,6 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "knowledge-hub",
       "label": "知识导图"
-    },
-    {
-      "id": "workbench-editor",
-      "label": "工作台 · 编辑器"
     },
     {
       "id": "ai-cli",
@@ -2446,45 +2227,7 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "番外 · AI 编程工具"
     }
   ],
-  "vh-tech-stack": [
-    {
-      "id": "computer-system",
-      "label": "计算机系统"
-    },
-    {
-      "id": "hw-sw-link",
-      "label": "软硬件联动"
-    },
-    {
-      "id": "chip-units",
-      "label": "处理单元与存储"
-    },
-    {
-      "id": "lang-library-framework",
-      "label": "库 · 框架 · 运行时 · 中间件"
-    },
-    {
-      "id": "lang-tech-stack",
-      "label": "技术栈"
-    },
-    {
-      "id": "lang-tech-selection",
-      "label": "技术选型"
-    },
-    {
-      "id": "lang-landscape",
-      "label": "语言版图"
-    },
-    {
-      "id": "lang-go",
-      "label": "Go"
-    }
-  ],
   "vh-terminal": [
-    {
-      "id": "computer-system",
-      "label": "计算机系统"
-    },
     {
       "id": "os-essence",
       "label": "系统的本质"
@@ -2512,6 +2255,10 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "workbench-troubleshoot",
       "label": "工作台 · 分层排障"
+    },
+    {
+      "id": "xrk-first-run",
+      "label": "首次跑通"
     }
   ],
   "vh-env-var": [
@@ -2522,6 +2269,10 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "linux-distros",
       "label": "Linux 发行版"
+    },
+    {
+      "id": "linux-cli",
+      "label": "Linux 基础指令"
     },
     {
       "id": "runtime-nodejs",
@@ -2542,10 +2293,6 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "craft-security",
       "label": "安全常识"
-    },
-    {
-      "id": "ops-compose",
-      "label": "Compose"
     }
   ],
   "vh-javascript": [
@@ -2644,8 +2391,8 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "其它容器工具"
     },
     {
-      "id": "craft-testing",
-      "label": "测试入门"
+      "id": "craft-observability",
+      "label": "日志与观测"
     }
   ],
   "vh-git": [
@@ -2658,6 +2405,10 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "代码托管"
     },
     {
+      "id": "workbench-editor",
+      "label": "工作台 · 编辑器"
+    },
+    {
       "id": "xrk-min-path",
       "label": "最小贡献路径"
     }
@@ -2666,6 +2417,22 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "git-workspace",
       "label": "Git 与工作区"
+    }
+  ],
+  "vh-commit": [
+    {
+      "id": "git-workspace",
+      "label": "Git 与工作区"
+    }
+  ],
+  "vh-diff": [
+    {
+      "id": "git-workspace",
+      "label": "Git 与工作区"
+    },
+    {
+      "id": "workbench-editor",
+      "label": "工作台 · 编辑器"
     }
   ],
   "vh-frame-git": [
@@ -2693,6 +2460,12 @@ export const MAP2_TO_KNOWLEDGE = {
     }
   ],
   "vh-push": [
+    {
+      "id": "git-forges",
+      "label": "代码托管"
+    }
+  ],
+  "vh-pull": [
     {
       "id": "git-forges",
       "label": "代码托管"
@@ -2818,6 +2591,40 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "Next.js"
     }
   ],
+  "vh-tech-stack": [
+    {
+      "id": "lang-library-framework",
+      "label": "库 · 框架 · 运行时 · 中间件"
+    },
+    {
+      "id": "lang-tech-stack",
+      "label": "技术栈"
+    },
+    {
+      "id": "lang-tech-selection",
+      "label": "技术选型"
+    },
+    {
+      "id": "lang-landscape",
+      "label": "语言版图"
+    },
+    {
+      "id": "lang-go",
+      "label": "Go"
+    },
+    {
+      "id": "lang-rust",
+      "label": "Rust"
+    },
+    {
+      "id": "lang-c",
+      "label": "C 语言"
+    },
+    {
+      "id": "lang-to-runtime",
+      "label": "接到本仓运行时"
+    }
+  ],
   "vh-backend-framework": [
     {
       "id": "lang-library-framework",
@@ -2872,10 +2679,6 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "fw-angular",
       "label": "Angular"
-    },
-    {
-      "id": "api-frontend",
-      "label": "API 与前后端"
     },
     {
       "id": "xrk-http-www",
@@ -2974,6 +2777,24 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "api-frontend",
       "label": "API 与前后端"
+    },
+    {
+      "id": "xrk-http-www",
+      "label": "HTTP 与 www"
+    },
+    {
+      "id": "xrk-subserver",
+      "label": "子服务端"
+    }
+  ],
+  "vh-api": [
+    {
+      "id": "api-frontend",
+      "label": "API 与前后端"
+    },
+    {
+      "id": "http-web",
+      "label": "HTTP 与 Web"
     },
     {
       "id": "xrk-http-www",
@@ -3176,24 +2997,6 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "Verge / Android 配置"
     }
   ],
-  "vh-redirect": [
-    {
-      "id": "routing-nat",
-      "label": "路由与 NAT"
-    },
-    {
-      "id": "http-web",
-      "label": "HTTP 与 Web"
-    },
-    {
-      "id": "reverse-proxy",
-      "label": "反向代理与 CDN"
-    },
-    {
-      "id": "net-nginx",
-      "label": "Nginx"
-    }
-  ],
   "vh-cdn": [
     {
       "id": "reverse-proxy",
@@ -3210,6 +3013,16 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "chapter-computer-network",
       "label": "第三章 · 计算机网络"
+    }
+  ],
+  "vh-redirect": [
+    {
+      "id": "reverse-proxy",
+      "label": "反向代理与 CDN"
+    },
+    {
+      "id": "net-nginx",
+      "label": "Nginx"
     }
   ],
   "vh-deployment": [
@@ -3376,6 +3189,64 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "adev-project-memory",
       "label": "项目记忆文件"
+    }
+  ],
+  "vh-unit-test": [
+    {
+      "id": "craft-testing",
+      "label": "测试入门"
+    }
+  ],
+  "vh-integration-test": [
+    {
+      "id": "craft-testing",
+      "label": "测试入门"
+    }
+  ],
+  "vh-e2e-test": [
+    {
+      "id": "craft-testing",
+      "label": "测试入门"
+    }
+  ],
+  "vh-test-coverage": [
+    {
+      "id": "craft-testing",
+      "label": "测试入门"
+    }
+  ],
+  "vh-flaky-test": [
+    {
+      "id": "craft-testing",
+      "label": "测试入门"
+    }
+  ],
+  "vh-lint": [
+    {
+      "id": "craft-ci",
+      "label": "CI 直觉"
+    },
+    {
+      "id": "chapter-craft",
+      "label": "番外 · 工程素养"
+    },
+    {
+      "id": "craft-observability",
+      "label": "日志与观测"
+    }
+  ],
+  "vh-test-case": [
+    {
+      "id": "craft-ci",
+      "label": "CI 直觉"
+    },
+    {
+      "id": "ai-rag-eval",
+      "label": "RAG 评测"
+    },
+    {
+      "id": "code-checkpoint",
+      "label": "过关练习"
     }
   ],
   "vh-ai-basics": [
@@ -3570,20 +3441,6 @@ export const MAP2_TO_KNOWLEDGE = {
       "label": "数据库服务"
     }
   ],
-  "vh-test-case": [
-    {
-      "id": "ai-rag-eval",
-      "label": "RAG 评测"
-    },
-    {
-      "id": "craft-ci",
-      "label": "CI 直觉"
-    },
-    {
-      "id": "code-checkpoint",
-      "label": "过关练习"
-    }
-  ],
   "vh-structured-output": [
     {
       "id": "ai-openai-protocol",
@@ -3630,24 +3487,6 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "craft-security",
       "label": "安全常识"
-    }
-  ],
-  "vh-lint": [
-    {
-      "id": "craft-ci",
-      "label": "CI 直觉"
-    },
-    {
-      "id": "chapter-craft",
-      "label": "番外 · 工程素养"
-    },
-    {
-      "id": "craft-testing",
-      "label": "测试入门"
-    },
-    {
-      "id": "craft-observability",
-      "label": "日志与观测"
     }
   ],
   "vh-staging": [
@@ -3702,12 +3541,6 @@ export const MAP2_TO_KNOWLEDGE = {
     {
       "id": "db-landscape",
       "label": "版图与流行度"
-    }
-  ],
-  "vh-browser-storage": [
-    {
-      "id": "db-redis",
-      "label": "Redis"
     }
   ],
   "vh-gitignore": [

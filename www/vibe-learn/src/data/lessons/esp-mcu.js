@@ -2,6 +2,7 @@ export default `# MCU 是什么
 
 > **MCU（Microcontroller Unit，微控制器 / 单片机）**：把 CPU 核、内存、常用外设（GPIO、UART、ADC…）集成在一颗芯片上，专为 **嵌入式控制** 设计。  
 > 对比你天天用的 **PC / 服务器**：MCU 通常更小、更省电、实时性要求不同，**不跑完整桌面 OS**（或只跑很薄的 RTOS）。  
+> 真源对照：序章芯片单元直觉 + 厂商数据手册；交付模型是 **固件烧录**，不是装 Node。  
 > **学会之后**：能对照 MCU 与 PC 的资源/外设差异，并说出固件含义。
 
 ## 学会之后（验收）
@@ -13,11 +14,15 @@ export default `# MCU 是什么
 | 固件 | 烧进片上跑的程序 |
 | 边界 | 别把 Docker/Node 主服思维硬套板子 |
 
-## 本课分块
-\`\`\`match
-{"title":"MCU 配对","pairs":[{"id":"mcu","left":"MCU","right":"微控制器：算+外设一体"},{"id":"gpio","left":"GPIO","right":"通用输入输出脚"},{"id":"fw","left":"固件","right":"跑在片上的程序"}]}
+\`\`\`algo
+{"kind":"mcuvspc","title":"MCU vs PC：交付模型不同","autoplay":true,"speed":880}
 \`\`\`
 
+\`\`\`check
+{"title":"MCU 通关","items":[{"id":"what","text":"能说明 MCU=算力+外设一体，资源远小于 PC","hint":"定义"},{"id":"io","text":"GPIO/UART/I2C/SPI 各能一句白话","hint":"外设"},{"id":"fw","text":"知道改逻辑要重新编译烧录，不是改完重启 node","hint":"固件"},{"id":"bound","text":"拒绝把主服/Docker 默认塞进板子","hint":"边界"}]}
+\`\`\`
+
+## 本课分块
 
 | 块 | 目标 |
 |----|------|
@@ -25,6 +30,10 @@ export default `# MCU 是什么
 | **常见外设名** | GPIO / UART / I2C / SPI |
 | **固件** | 烧进芯片里跑的程序 |
 | **和容器/云的边界** | 别把 Docker 思维硬套板子 |
+
+\`\`\`match
+{"title":"MCU 配对","pairs":[{"id":"mcu","left":"MCU","right":"微控制器：算+外设一体"},{"id":"gpio","left":"GPIO","right":"通用输入输出脚"},{"id":"fw","left":"固件","right":"跑在片上的程序"},{"id":"rtos","left":"RTOS","right":"薄实时调度，不是桌面 Linux"}]}
+\`\`\`
 
 ---
 
@@ -65,7 +74,24 @@ flowchart LR
 改逻辑 → 重新编译 → **烧录（flash）** → 复位。  
 这和 PC 上 \`pnpm install && node app\` 的「改完重启进程」节奏不同。
 
+## 八股 × 业务串联
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **MCU** | 集成 CPU+内存+外设的控制芯片 | ESP32、STM32 | ≠ 整台 PC；≠ Docker 主机 |
+| **Firmware（固件）** | 烧在非易失存储里、上电执行的程序 | \`idf.py flash\` 写入的镜像 | ≠ 网页前端热更新 |
+| **RTOS** | 面向实时任务的薄操作系统 | FreeRTOS 常见于 ESP | ≠ 桌面 Linux；≠ 容器编排 |
+| **GPIO** | 通用数字脚 | 点灯、读按键 | ≠ 网络端口号 |
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 进程世界 | XRK 主服 = Node ≥ 26；MCU = 另一设备 |
+| 学习站 | vibe-learn 讲概念；**不在浏览器里仿真整颗芯片** |
+| 画板 | KiCad / 打板走本机硬件技能，不进业务 \`core/\` |
+
 ## 下一步
 
-**ESP32** — 一颗具体、极火的 Wi-Fi MCU 家族。
+**ESP32** — 一颗具体、极火的 Wi-Fi SoC 家族。
 `;

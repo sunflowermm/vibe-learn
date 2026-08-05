@@ -1,7 +1,8 @@
 export default `# 与云端 / Agent 的关系
 
 > ESP32 跑 **固件**；XRK-AGT 跑 **Node 主服**。  
-> 二者是 **两台机器（两个进程世界）经网络协作**，不是「把 AgentRuntime 塞进 ESP32」。
+> 二者是 **两台机器（两个进程世界）经网络协作**，不是「把 AgentRuntime 塞进 ESP32」。  
+> 协议仍是第三章的 TCP/HTTP 等，只是设备侧资源更紧、常选 MQTT。  
 > **学会之后**：能画出设备固件 ↔ 云侧 Agent 分层，并强调主服不在 ESP32。
 
 ## 学会之后（验收）
@@ -13,12 +14,19 @@ export default `# 与云端 / Agent 的关系
 | 本仓 | 主服仍是 Node≥26；板子是边缘 |
 | 安全 | 设备密钥与云凭证分开管 |
 
+\`\`\`algo
+{"kind":"edgelink","title":"边缘 → 协议 → 云侧 Agent","autoplay":true,"speed":860}
+\`\`\`
 
-## 本课分块
+\`\`\`check
+{"title":"设备联网通关","items":[{"id":"layer","text":"能画出固件 ↔ 协议 ↔ 云/Agent 分层","hint":"分层"},{"id":"proto","text":"能举 HTTP 或 MQTT 一条最小契约","hint":"协议"},{"id":"xrk","text":"坚持主服不在 ESP32；离线是业务态","hint":"本仓"},{"id":"sec","text":"设备密钥与云 API Key 分开管","hint":"安全"}]}
+\`\`\`
+
 \`\`\`quiz
 {"title":"设备联网自测","questions":[{"q":"设备「连上 Wi-Fi」之后通常还缺什么？","choices":[{"t":"应用层协议与云/网关地址","ok":true,"why":"有链路不等于业务互通。"},{"t":"必须改用机械硬盘","ok":false,"why":"无关。"},{"t":"卸载 TCP","ok":false,"why":"仍常用 IP/TCP。"},{"t":"把 AgentRuntime 编译进 Flash 才能工作","ok":false,"why":"两进程世界经网络协作，不是塞进 MCU。"}]}]}
 \`\`\`
 
+## 本课分块
 
 | 块 | 目标 |
 |----|------|
@@ -78,15 +86,29 @@ flowchart TB
 
 ## 八股 × 业务串联
 
-> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
-
 | 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
 |--------------|----------------|----------------|------------|
-| **MCU**（Microcontroller Unit，微控制器） | 集成 CPU+外设的控制芯片 | ESP32、STM32 | 别和 **MPU**/应用处理器或整台 PC 混 |
-| **SoC**（System on Chip） | 单芯片上集成更多功能块 | ESP32 含无线等 | SoC 范围比「纯 MCU」营销词更宽，看具体芯片 |
-| **RTOS**（Real-Time Operating System，实时操作系统） | 面向实时任务调度的薄 OS | FreeRTOS 常见于 ESP | 不是 Linux 桌面；也不是 Docker |
-| **MQTT**（Message Queuing Telemetry Transport） | 轻量发布/订阅消息协议 | 物联网遥测常用 | 别和 HTTP 完全等同；模式不同 |
-| **OTA**（Over-The-Air，空中升级） | 联网更新固件 | 量产设备远程升级 | 不是「网页热更新前端」那套 |
+| **MQTT** | 轻量发布/订阅消息协议 | 物联网遥测常用 | 别和 HTTP 完全等同；模式不同 |
+| **OTA** | 联网更新固件 | 量产设备远程升级 | 不是「网页热更新前端」那套 |
+| **Telemetry（遥测）** | 设备上报状态/传感数据 | \`device/id/telemetry\` | ≠ 下行控制命令 |
+| **边缘（Edge）** | 靠近现场的计算节点 | ESP32 节点 | ≠ 把整台云搬到板子上 |
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 接入 | Core \`http/\` + 鉴权（第四章）；设备凭证单独轮换 |
+| 离线 | 业务态；**不要**写进 Runtime fail-fast（对比 Redis 必需） |
+| Agent | 云侧办事/推理；板子只执行采控与上报 |
+
+## Coding Agent
+
+\`\`\`prompt
+目标：设计一条「ESP32 → 本仓 HTTP」最小上报契约（路径、字段、鉴权）。
+现场：板子能否出网=…；本仓是否已有 API Key 机制=…
+约束：主服保持 Node；不把 AgentRuntime 塞进固件；给出失败重试与功耗各一句。
+验收：我能在串口看到发送成功日志，并在主服日志看到请求。
+\`\`\`
 
 ## 下一步
 

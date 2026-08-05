@@ -2,6 +2,7 @@ export default `# 工具调用
 
 > **本课位置**：学习路径**行动**段。  
 > **先修**：会话补全接口；**检索增强生成**（知识可外挂，与「点菜」正交）。  
+> **文献 / 产品锚点**：OpenAI [function calling / tools](https://platform.openai.com/docs/guides/function-calling)（结构化 \`tool_calls\`）；本仓禁止文本假协议——\`docs/ai-workflow.md\` · \`docs/agent-context.md\` §5。  
 > **下一课**：**模型上下文协议**（标准插座；紧跟本课，再谈智能体）。
 
 ## 学会之后（验收）
@@ -13,6 +14,13 @@ export default `# 工具调用
 | 本仓 | Factory + registerMCPTool；finalize；门禁 handleToolCall |
 | 跟 Agent | 联调贴工具图式与一轮真实 tool 消息 |
 
+\`\`\`algo
+{"kind":"toolloop","title":"提议 → 门禁 → 回灌","autoplay":true,"speed":820}
+\`\`\`
+
+\`\`\`check
+{"title":"工具调用通关","items":[{"id":"def","text":"能复述：模型点菜，运行时下厨并回灌","hint":"执行权"},{"id":"shape","text":"能区分 tools 菜单 vs tool_calls 点菜 vs tool 结果消息","hint":"三件套"},{"id":"xrk","text":"能指到 registerMCPTool / handleToolCall / finalize","hint":"本仓"}]}
+\`\`\`
 
 ## 定义
 
@@ -22,8 +30,8 @@ export default `# 工具调用
 | 名词 | 含义 |
 |------|------|
 | **工具定义（tools）** | 菜单：名称、说明、参数的 JSON Schema |
-| **工具调用（tool_calls）** | 模型点的菜 |
-| **工具结果消息** | 后厨上菜：\`role\` 为 tool（或等价）的回传 |
+| **工具调用（tool_calls）** | 模型点的菜（常挂在 assistant 消息上） |
+| **工具结果消息** | 后厨上菜：\`role\` 为 tool（或等价）的回传，常带 \`tool_call_id\` |
 
 \`\`\`mermaid
 sequenceDiagram
@@ -32,7 +40,7 @@ sequenceDiagram
   participant F as 真实工具
   App->>M: 消息列表 + 工具定义
   M-->>App: 工具调用
-  App->>F: 执行
+  App->>F: 执行（经门禁）
   F-->>App: 结果
   App->>M: 工具结果消息
   M-->>App: 自然语言或下一轮调用
@@ -47,6 +55,8 @@ sequenceDiagram
 | 胡编外部事实 | 模型不知道此刻库存、天气、你的私有库 |
 | 「请输出 JSON」太脆 | 自由文本再正则解析失败率高 |
 | 要接真实系统 | 改文件、发消息、查库必须走你控制的代码 |
+
+**禁区**：让模型在正文里写 \`Thought:/Action:\` 再靠正则「假装」调工具——脆、难观测、难鉴权。现代路径用结构化 \`tool_calls\`；本仓**禁止**文本假 ReAct。
 
 ---
 
@@ -79,15 +89,4 @@ sequenceDiagram
 ## 下一课
 
 点菜语法之后——**模型上下文协议**（统一发现与复用工具的插座）。智能体循环在插座之后。
-
-## 导图2 · 工具调用 / MCP / Agent 循环 × 点菜
-
-> 导图2 工具调用与本课同构；MCP 是插座，循环在下一档。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **工具调用** | 点菜语法 | name + arguments → 运行时执行 |
-| **MCP** | 标准插接 | 紧跟本课后的协议课 |
-| **Agent 循环** | 多轮点菜 | 本课先会单轮工具消息形状 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

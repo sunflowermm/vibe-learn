@@ -14,6 +14,14 @@ export default `# Redis
 | 对照 | 热数据→Redis；本机落盘→SQLite；复杂 SQL→PG/MySQL |
 | 本仓 | 契约与 fail-fast 在第四章；本课不讲 yaml 路径 |
 
+\`\`\`algo
+{"kind":"dbtier","title":"热数据 Redis · 落盘 SQLite","autoplay":true,"speed":860}
+\`\`\`
+
+\`\`\`check
+{"title":"Redis 通关","items":[{"id":"what","text":"能说明：内存数据结构服务器 / 键值 DBMS，不是语言","hint":"分类"},{"id":"use","text":"能举缓存/会话/限流/锁中至少两项","hint":"用途"},{"id":"vs","text":"能对照：热→Redis；落盘→SQLite；复杂 SQL→PG/MySQL","hint":"职责"}]}
+\`\`\`
+
 ## 本课你要带走什么
 
 1. Redis 存的是什么（结构类型）  
@@ -23,10 +31,6 @@ export default `# Redis
 ---
 
 ## 1. 它是什么
-
-\`\`\`flip
-{"title":"Redis 再钉 · 翻卡","cards":[{"front":"Redis 再钉","back":"内存数据结构服务器；常作缓存/协调"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
-\`\`\`
 
 | 点 | 说明 |
 |----|------|
@@ -86,19 +90,16 @@ flowchart LR
 | **缓存雪崩（Cache Avalanche）** | 大量 key 同时过期或 Redis 宕机 | 流量洪峰打垮 DB | 需要 TTL 随机化、集群高可用 |
 | **键值模型（Key-Value Model）** | key → 字符串/哈希/列表等结构 | \`SET user:1 session\` | 别当关系表用：复杂 JOIN 不擅长 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 热缓存 / 会话 / 限流 | Runtime **必需** Redis；fail-fast |
+| 对照 | 落盘 → SQLite；复杂 SQL → 可选 PG/MySQL Core |
+| 契约 | 第四章 **数据与缓存** · \`docs/database.md\`；装机 → **部署环境** |
+
 ## 下一步
 
 **SQLite** — 嵌入式对照；  
-第四章 **数据与缓存** — 本仓必需与用法；  
-**部署环境** — 本机装上并能 \`ping\`。
-
-## 导图2 · 数据库 × Redis
-
-> 本仓热路径必需。导图2「数据库」含缓存库口语；装机见部署环境。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 键值内存库 | 常作缓存/会话/队列材料 |
-
-面板「跨导图」可查词条；验收以本课与第四章部署清单为准。
+第四章 **数据与缓存** — 本仓必需与用法。
 `;

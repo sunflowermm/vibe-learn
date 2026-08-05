@@ -187,6 +187,23 @@ export default defineQuizSet({
       attributionUrl: "https://vibe-hub.org/animation",
     },
     {
+      id: "vh-practice:api",
+      q: "点保存没有结果，怎样先判断是不是 API 出了问题？",
+      choices: [
+        { t: "在 Network 中核对地址、方法、请求数据、状态码、响应内容，以及页面是否按结果更新", ok: true, why: "对。这些证据能说明请求是否遵守约定、服务端实际返回什么，以及界面是否把这个结果正确显示出来。" },
+        { t: "按接口文档重写一遍请求参数，然后直接重试", ok: false, why: "文档可能与实际调用不同；应先看浏览器真正发出的请求和收到的响应。" },
+        { t: "先重启 API 服务，再用原来的页面操作重试", ok: false, why: "重启可能暂时恢复服务，但不能定位地址、方法、数据或响应约定是否出错。" },
+        { t: "把「API」与无关功能混为一谈，不做边界判断", ok: false, why: "这是相邻或无关概念，不是本题对「API」场景的正确安排。" },
+      ],
+      kind: "concept",
+      domain: "vibe",
+      tags: ["VibeHub","后端","接口与数据","api","lessonPractice"],
+      relatedNodes: ["vh-api"],
+      origin: "adapted",
+      attribution: "VibeHub · API",
+      attributionUrl: "https://vibe-hub.org/api",
+    },
+    {
       id: "vh-practice:authentication",
       q: "有人带着有效登录态访问“我的订单”。系统首先该确认什么？",
       choices: [

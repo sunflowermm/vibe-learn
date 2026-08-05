@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-08-05T16:29:30.853Z",
+  "totals": {
+    "nodes": 203,
+    "withBridge": 179,
+    "emptyIntentional": 24,
+    "emptySurprise": 0,
+    "dead": 0,
+    "overrideKeys": 52,
+    "overrideEmptyMissingInFile": 0
+  },
+  "dead": [],
+  "emptySurprise": [],
+  "emptyIntentional": [
+    "chapter-dsa",
+    "chapter-esp",
+    "chapter-machine",
+    "chip-units",
+    "computer-system",
+    "dsa-bitwise",
+    "dsa-complexity",
+    "dsa-dp",
+    "dsa-graph",
+    "dsa-hash",
+    "dsa-hot",
+    "dsa-linear",
+    "dsa-ml",
+    "dsa-recurse",
+    "dsa-sort",
+    "dsa-string",
+    "dsa-tree",
+    "dsa-two-pointers",
+    "dsa-union-find",
+    "esp-esp32",
+    "esp-link",
+    "esp-mcu",
+    "esp-toolchain",
+    "hw-sw-link"
+  ],
+  "overrideEmptyMissing": [],
+  "expectNotInGenNoBridge": [],
+  "genNoBridgeExtra": [],
+  "overrideNonEmptySample": [
+    {
+      "id": "linux-cli",
+      "n": 2
+    },
+    {
+      "id": "routing-nat",
+      "n": 1
+    },
+    {
+      "id": "xrk-deploy-env",
+      "n": 6
+    },
+    {
+      "id": "xrk-overview",
+      "n": 4
+    },
+    {
+      "id": "xrk-biz-map",
+      "n": 4
+    },
+    {
+      "id": "xrk-runtime",
+      "n": 3
+    },
+    {
+      "id": "xrk-core-layout",
+      "n": 3
+    },
+    {
+      "id": "xrk-plugin-arch",
+      "n": 3
+    },
+    {
+      "id": "xrk-language-stack",
+      "n": 3
+    },
+    {
+      "id": "xrk-http-www",
+      "n": 5
+    },
+    {
+      "id": "xrk-subserver",
+      "n": 4
+    },
+    {
+      "id": "xrk-config",
+      "n": 3
+    },
+    {
+      "id": "xrk-http-auth",
+      "n": 3
+    },
+    {
+      "id": "xrk-tasker-channels",
+      "n": 3
+    },
+    {
+      "id": "xrk-events",
+      "n": 2
+    },
+    {
+      "id": "xrk-factory-llm",
+      "n": 3
+    },
+    {
+      "id": "xrk-database",
+      "n": 3
+    },
+    {
+      "id": "xrk-mcp-ops",
+      "n": 4
+    },
+    {
+      "id": "xrk-stream",
+      "n": 4
+    },
+    {
+      "id": "xrk-chat-pipeline",
+      "n": 5
+    }
+  ]
+}

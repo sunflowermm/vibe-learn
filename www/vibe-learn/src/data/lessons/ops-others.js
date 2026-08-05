@@ -13,6 +13,14 @@ export default `# 其它容器相关工具
 | 本机进程 | systemd 管宿主机守护进程，**不是**容器编排 |
 | 本仓 | 开发常「宿主机 Node +（可选）Docker Redis」；勿把会写 Dockerfile 当成会运维 K8s |
 
+\`\`\`algo
+{"kind":"opstier","title":"容器生态四层（别串台）","autoplay":true,"speed":860}
+\`\`\`
+
+\`\`\`check
+{"title":"容器生态通关","items":[{"id":"engine","text":"能区分引擎层（Docker/Podman/containerd）与网关","hint":"引擎"},{"id":"orch","text":"Compose=本机多容器；K8s=集群调度","hint":"编排"},{"id":"sysd","text":"systemd 是宿主机保活，不是容器编排","hint":"进程"},{"id":"xrk","text":"知道本仓最小路径不必上 K8s","hint":"本仓"}]}
+\`\`\`
+
 ## 1. 容器引擎与运行时
 
 | 产品 | 直觉 | 别混 |
@@ -21,9 +29,7 @@ export default `# 其它容器相关工具
 | **Podman** | 常作 Docker CLI 兼容替代；daemon 模型等差异查当前文档 | 不是「另一个 K8s」 |
 | **containerd** | 更底层的容器运行时；K8s 等会用到 | 日常开发很少直接 \`containerd\` 命令 |
 
-\`\`\`flip
-{"title":"引擎翻卡","cards":[{"front":"Docker Desktop 起不来？","back":"Win/mac 常查虚拟化 / WSL2；本仓 Redis 可改本机发行版。"},{"front":"Podman 兼容 docker？","back":"很多命令像；细节与权限模型以当前文档为准。"},{"front":"containerd 要学吗？","back":"先会 Docker/Compose；碰 K8s 再深入。"}]}
-\`\`\`
+---
 
 ## 2. 编排舞台对照
 
@@ -44,6 +50,8 @@ flowchart TB
   Host[宿主机保活] --> SD[systemd / 面板 / PM2]
 \`\`\`
 
+---
+
 ## 3. Kubernetes 一句话（够面试开门）
 
 **Kubernetes** 把容器当成可调度的工作负载：副本、滚动更新、健康探针、Service 暴露。  
@@ -53,6 +61,8 @@ flowchart TB
 |------|-----|
 | 「我们用 Compose 上生产集群」 | 「开发用 Compose；生产若多机再评估 K8s/托管」 |
 | 「systemd 就是容器编排」 | 「systemd 保活本机进程；容器另有引擎」 |
+
+---
 
 ## 4. 和本仓
 
@@ -77,6 +87,24 @@ flowchart TB
 {"title":"容器生态分层","questions":[{"q":"要把本机 Redis + 以后可能的第二中间件一文件起停，首选？","choices":[{"t":"先上完整 Kubernetes","ok":false,"why":"单机开发用 Compose 更合适。"},{"t":"Docker Compose（或兼容实现）","ok":true,"why":"单机多容器配方。"},{"t":"只用 systemd 写镜像层","ok":false,"why":"systemd 不管镜像构建与容器网络那一套。"}]},{"q":"containerd 更贴近哪一层？","choices":[{"t":"反向代理","ok":false,"why":"网关在第三章。"},{"t":"底层容器运行时","ok":true,"why":"K8s 等会用到。"},{"t":"关系型 DBMS","ok":false,"why":"那是数据库番外。"}]}]}
 \`\`\`
 
+## 八股 × 业务串联
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **Podman** | 常兼容 docker CLI 的另一容器引擎 | 无 root / 不同 daemon 模型（以当前文档为准） | 不是 K8s |
+| **containerd** | 行业常用的底层容器运行时 | K8s 节点上跑容器 | 不是给新手日常敲的主 CLI |
+| **Kubernetes（K8s）** | 集群级容器编排与调度 | Deployment / Service / Ingress | ≠ Compose；舞台是多机 |
+| **systemd** | Linux 上的服务与进程管理器 | \`systemctl start xrk-agt\` | 管宿主机单元，不替代镜像/网络那套 |
+| **OCI Runtime** | 如何真正创建容器进程的标准接口 | runc 等实现 | 引擎产品名 ≠ 运行时规范名 |
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 最小贡献 | 宿主机 Node + pnpm；Redis 可选 Docker（\`docs/docker.md\`） |
+| 不要默认 | 把「学会 Docker」升级成「生产必须 K8s」 |
+| 门面 / TLS | 第三章 Nginx · 主机运维番外 |
+
 ## Coding Agent
 
 \`\`\`prompt
@@ -90,13 +118,4 @@ flowchart TB
 
 回 **Compose** 巩固本机编排；门面 → 第三章 **Nginx**。  
 要用容器起 Redis：从 **Docker** 桥回第四章 **部署环境** / \`docs/docker.md\`。
-## 导图2 · 部署 / 技术栈 × 其它容器工具
-
-> 索引向；用到再深挖。主线 Docker/Compose 足够起步。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **部署上线** | 引擎可替换 | 概念仍是镜像/容器 |
-| **技术栈** | 按需 | 不挡最小贡献路径 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

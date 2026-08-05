@@ -1,8 +1,9 @@
+/** 番外 · 主机面板 · 面板上跑 Node */
 export default `# 面板上跑 Node / XRK
 
 > 本仓主服是 **Node 进程监听一个端口**（程序在本机某个数字门牌上等人来连）。  
 > **面板**（宝塔 / 1Panel）负责：**进程别挂 + 反向代理 + 证书**。  
-> 业务逻辑仍按本仓契约放 Core——不要只堆在面板插件里完事。
+> 业务逻辑仍按本仓契约放 Core——不要只堆在面板插件里完事。  
 > **学会之后**：能画出只暴露 80/443、反代到本机 Node 的最小上线路径。
 
 ## 学会之后（验收）
@@ -14,6 +15,15 @@ export default `# 面板上跑 Node / XRK
 | 保活 | 面板守护或 systemd |
 | 验收 | 外网 HTTPS 通；本机端口不裸奔公网 |
 
+\`\`\`check
+{"title":"面板跑 Node 通关","items":[{"id":"flow","text":"能画 HTTPS → 反代 → 127.0.0.1:PORT","hint":"链路"},{"id":"list","text":"能复述 Node≥26 / pnpm / Redis 仍要齐","hint":"清单"},{"id":"keep","text":"知道用面板守护或 systemd 保活","hint":"保活"},{"id":"expose","text":"坚持业务口不对公网裸奔","hint":"暴露面"}]}
+\`\`\`
+
+## 标志动画：反代链路
+
+\`\`\`algo
+{"kind":"noderproxy","title":"用户 HTTPS → 面板反代 → 本机 Node","autoplay":true,"speed":800}
+\`\`\`
 
 ## 先认词
 
@@ -44,10 +54,6 @@ flowchart LR
 {"title":"面板部署检查","steps":[{"title":"本机先跑通","body":"SSH 下 node app 成功"},{"title":"固定端口","body":"与反代 upstream 一致"},{"title":"进程守护","body":"面板 Node 管理 / systemd / Docker"},{"title":"只暴露 80/443","body":"主服端口勿对公网裸奔"}]}
 \`\`\`
 
-\`\`\`flip
-{"title":"面板部署翻卡","cards":[{"front":"upstream","back":"反代背后的真实服务地址，常是 127.0.0.1:端口"},{"front":"先面板还是先 node app？","back":"先 SSH 跑通，再配反代"},{"front":"静态目录反代错了","back":"会打开文件列表/空白，而不是接口"}]}
-\`\`\`
-
 ## 常见坑
 
 - 反代了静态目录却没指到 Node 端口  
@@ -58,9 +64,16 @@ flowchart LR
 {"title":"面板跑 Node","questions":[{"q":"主服已在 127.0.0.1:3000 监听，对外应优先？","choices":[{"t":"防火墙放行 3000 给全世界","ok":false,"why":"裸奔应用端口风险高。"},{"t":"面板/Nginx 反代 443 → 3000，只暴露 80/443","ok":true,"why":"标准分层。"},{"t":"关掉 Node 只放静态页","ok":false,"why":"本仓主服是 Node。"}]}]}
 \`\`\`
 
-## Coding Agent 协作
+## 本仓怎么做
 
-可复制：
+| 概念 | 落点 |
+|------|------|
+| 主服 | \`node app\`；Node ≥ 26；包管理仅 pnpm |
+| 反代 | upstream = \`127.0.0.1:配置端口\` |
+| 保活 | 面板守护 **或** 下一框 systemd |
+| 密钥 | 环境变量 / 面板密钥位；勿进 Git |
+
+## Coding Agent 协作
 
 \`\`\`prompt
 目标：服务器已用宝塔/1Panel；SSH 下 node app 已在 127.0.0.1:PORT 监听。请给出反代到该端口、只暴露 80/443、申请证书的步骤清单。
@@ -71,16 +84,5 @@ flowchart LR
 
 ## 下一步
 
-**部署环境** · **Nginx** · **HTTP 认证**。
-## 导图2 · 部署 / JavaScript / 环境变量 × 面板跑 Node
-
-> 面板里跑本仓时仍要 Node≥26、pnpm、Redis。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 主服语言 | 进程是 node |
-| **部署上线** | 面板守护进程 | 等价 systemd/nohup 心智 |
-| **环境变量** | 面板填写 | PATH、密钥、代理 |
-| **npm** | 口语 | 本仓仍仅 pnpm |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**主机运维（systemd / TLS / 备份）** · **Nginx** · **HTTP 认证**。
 `;

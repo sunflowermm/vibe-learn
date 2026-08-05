@@ -1,0 +1,890 @@
+{
+  "generatedAt": "2026-08-05T16:27:50.544Z",
+  "source": "https://vibe-hub.org",
+  "revision": "c62f93379218ef6d",
+  "hubId": "vh-hub",
+  "totals": {
+    "frames": 7,
+    "cards": 246,
+    "bodies": 254,
+    "entryIds": 254,
+    "knowledgeNodes": 186,
+    "knowledgeWithBridge": 165,
+    "knowledgeNoBridge": 21,
+    "emptyOverrideCleared": 21,
+    "deadBridgeTargets": 0,
+    "orphanMap2Cards": 162,
+    "missingBody": 0,
+    "shortRole": 0,
+    "noPractice": 22,
+    "bodyMedian": 1751,
+    "bodyMin": 1059,
+    "bodyMax": 2561
+  },
+  "zoneSummary": [
+    {
+      "slug": "frontend",
+      "frameId": "vh-frame-frontend",
+      "label": "前端",
+      "subtitle": "120 条 · 组件、布局、交互与视觉表达",
+      "cardCount": 120,
+      "frameChildCount": 120,
+      "categoryCount": 13,
+      "categories": {
+        "按钮与链接": 2,
+        "表单": 18,
+        "弹窗与提示": 12,
+        "导航": 9,
+        "动画": 5,
+        "官网区块": 9,
+        "内容展示": 23,
+        "鼠标": 7,
+        "外观": 9,
+        "网页基础": 5,
+        "文字": 3,
+        "页面布局": 7,
+        "CSS 布局": 11
+      },
+      "bodyMedian": 1696,
+      "bodyMin": 1413,
+      "bodyMax": 2036,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "backend",
+      "frameId": "vh-frame-backend",
+      "label": "后端",
+      "subtitle": "32 条 · 网络、接口、数据、上线排错",
+      "cardCount": 32,
+      "frameChildCount": 32,
+      "categoryCount": 6,
+      "categories": {
+        "后端开发": 3,
+        "接口与数据": 4,
+        "上线与排错": 12,
+        "数据库": 3,
+        "网络与地址": 8,
+        "账号与权限": 2
+      },
+      "bodyMedian": 1853,
+      "bodyMin": 1589,
+      "bodyMax": 2206,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "product",
+      "frameId": "vh-frame-product",
+      "label": "产品",
+      "subtitle": "11 条 · 需求、规划与验证",
+      "cardCount": 11,
+      "frameChildCount": 11,
+      "categoryCount": 3,
+      "categories": {
+        "产品规划": 5,
+        "数据与验证": 2,
+        "用户与需求": 4
+      },
+      "bodyMedian": 2013,
+      "bodyMin": 1858,
+      "bodyMax": 2081,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "technology",
+      "frameId": "vh-frame-technology",
+      "label": "技术栈",
+      "subtitle": "25 条 · 语言、框架、工具与测试",
+      "cardCount": 25,
+      "frameChildCount": 25,
+      "categoryCount": 6,
+      "categories": {
+        "编程语言": 3,
+        "测试": 11,
+        "技术栈": 1,
+        "开发工具": 5,
+        "前端框架": 3,
+        "CSS 与组件": 2
+      },
+      "bodyMedian": 1841,
+      "bodyMin": 1521,
+      "bodyMax": 2043,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "ai",
+      "frameId": "vh-frame-ai",
+      "label": "AI",
+      "subtitle": "24 条 · 模型应用、Agent 与工具",
+      "cardCount": 24,
+      "frameChildCount": 24,
+      "categoryCount": 5,
+      "categories": {
+        "请求与输出": 3,
+        "上下文": 5,
+        "性能与成本": 3,
+        "Agent 与工具": 9,
+        "AI 基础": 4
+      },
+      "bodyMedian": 1909,
+      "bodyMin": 1548,
+      "bodyMax": 2561,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "git",
+      "frameId": "vh-frame-git",
+      "label": "Git",
+      "subtitle": "12 条 · 版本协作与工作流",
+      "cardCount": 12,
+      "frameChildCount": 12,
+      "categoryCount": 1,
+      "categories": {
+        "Git": 12
+      },
+      "bodyMedian": 1729,
+      "bodyMin": 1622,
+      "bodyMax": 1803,
+      "noPractice": 0,
+      "missingBody": 0
+    },
+    {
+      "slug": "design",
+      "frameId": "vh-frame-design",
+      "label": "设计风格",
+      "subtitle": "22 条 · 风格与气质关键词",
+      "cardCount": 22,
+      "frameChildCount": 22,
+      "categoryCount": 1,
+      "categories": {
+        "设计风格": 22
+      },
+      "bodyMedian": 1205,
+      "bodyMin": 1059,
+      "bodyMax": 1350,
+      "noPractice": 22,
+      "missingBody": 0
+    }
+  ],
+  "frameGaps": [],
+  "emptyOverrideCleared": [
+    "computer-system",
+    "hw-sw-link",
+    "chip-units",
+    "dsa-complexity",
+    "dsa-linear",
+    "dsa-hash",
+    "dsa-tree",
+    "dsa-graph",
+    "dsa-sort",
+    "dsa-recurse",
+    "dsa-two-pointers",
+    "dsa-union-find",
+    "dsa-string",
+    "dsa-bitwise",
+    "dsa-dp",
+    "dsa-ml",
+    "dsa-hot",
+    "esp-mcu",
+    "esp-esp32",
+    "esp-toolchain",
+    "esp-link"
+  ],
+  "knowledgeNoBridge": [
+    "chip-units",
+    "computer-system",
+    "dsa-bitwise",
+    "dsa-complexity",
+    "dsa-dp",
+    "dsa-graph",
+    "dsa-hash",
+    "dsa-hot",
+    "dsa-linear",
+    "dsa-ml",
+    "dsa-recurse",
+    "dsa-sort",
+    "dsa-string",
+    "dsa-tree",
+    "dsa-two-pointers",
+    "dsa-union-find",
+    "esp-esp32",
+    "esp-link",
+    "esp-mcu",
+    "esp-toolchain",
+    "hw-sw-link"
+  ],
+  "deadBridgeTargets": [],
+  "orphanMap2CardsSample": [
+    "vh-button",
+    "vh-link",
+    "vh-auto-complete",
+    "vh-cascader",
+    "vh-checkbox",
+    "vh-color-picker",
+    "vh-date-picker",
+    "vh-form",
+    "vh-input",
+    "vh-input-number",
+    "vh-label",
+    "vh-radio",
+    "vh-rate",
+    "vh-select",
+    "vh-slider",
+    "vh-switch",
+    "vh-textarea",
+    "vh-time-picker",
+    "vh-tree-select",
+    "vh-upload",
+    "vh-alert",
+    "vh-drawer",
+    "vh-modal",
+    "vh-notification",
+    "vh-popconfirm",
+    "vh-popover",
+    "vh-progress",
+    "vh-result",
+    "vh-skeleton",
+    "vh-spinner",
+    "vh-toast",
+    "vh-tooltip",
+    "vh-anchor",
+    "vh-back-top",
+    "vh-breadcrumb",
+    "vh-dropdown",
+    "vh-menu",
+    "vh-pagination",
+    "vh-search",
+    "vh-skip-link",
+    "vh-steps",
+    "vh-animation",
+    "vh-easing",
+    "vh-fade",
+    "vh-spring",
+    "vh-transition",
+    "vh-cta",
+    "vh-faq",
+    "vh-footer",
+    "vh-header",
+    "vh-hero",
+    "vh-navbar",
+    "vh-pricing",
+    "vh-social-proof",
+    "vh-user-voice",
+    "vh-avatar",
+    "vh-badge",
+    "vh-card",
+    "vh-carousel",
+    "vh-chart"
+  ],
+  "orphanMap2ByZone": {
+    "frontend": [
+      "vh-button",
+      "vh-link",
+      "vh-auto-complete",
+      "vh-cascader",
+      "vh-checkbox",
+      "vh-color-picker",
+      "vh-date-picker",
+      "vh-form",
+      "vh-input",
+      "vh-input-number",
+      "vh-label",
+      "vh-radio",
+      "vh-rate",
+      "vh-select",
+      "vh-slider",
+      "vh-switch",
+      "vh-textarea",
+      "vh-time-picker",
+      "vh-tree-select",
+      "vh-upload",
+      "vh-alert",
+      "vh-drawer",
+      "vh-modal",
+      "vh-notification",
+      "vh-popconfirm",
+      "vh-popover",
+      "vh-progress",
+      "vh-result",
+      "vh-skeleton",
+      "vh-spinner",
+      "vh-toast",
+      "vh-tooltip",
+      "vh-anchor",
+      "vh-back-top",
+      "vh-breadcrumb",
+      "vh-dropdown",
+      "vh-menu",
+      "vh-pagination",
+      "vh-search",
+      "vh-skip-link",
+      "vh-steps",
+      "vh-animation",
+      "vh-easing",
+      "vh-fade",
+      "vh-spring",
+      "vh-transition",
+      "vh-cta",
+      "vh-faq",
+      "vh-footer",
+      "vh-header",
+      "vh-hero",
+      "vh-navbar",
+      "vh-pricing",
+      "vh-social-proof",
+      "vh-user-voice",
+      "vh-avatar",
+      "vh-badge",
+      "vh-card",
+      "vh-carousel",
+      "vh-chart",
+      "vh-collapse",
+      "vh-descriptions",
+      "vh-empty",
+      "vh-file",
+      "vh-filter",
+      "vh-icon",
+      "vh-image",
+      "vh-list",
+      "vh-quote",
+      "vh-segmented",
+      "vh-statistic",
+      "vh-table",
+      "vh-tabs",
+      "vh-tag",
+      "vh-timeline",
+      "vh-tree",
+      "vh-video",
+      "vh-active",
+      "vh-cursor",
+      "vh-disabled",
+      "vh-drag",
+      "vh-focus",
+      "vh-hover",
+      "vh-selection",
+      "vh-backdrop-blur",
+      "vh-border-radius",
+      "vh-corner-feel",
+      "vh-dark-mode",
+      "vh-design-token",
+      "vh-divider",
+      "vh-gradient",
+      "vh-opacity",
+      "vh-shadow",
+      "vh-state",
+      "vh-serif-sans",
+      "vh-text-truncate",
+      "vh-card-grid-layout",
+      "vh-centered-layout",
+      "vh-doc-layout",
+      "vh-responsive-design",
+      "vh-sidebar-layout",
+      "vh-single-page-layout",
+      "vh-top-nav-layout",
+      "vh-box-model",
+      "vh-centering",
+      "vh-flex",
+      "vh-grid",
+      "vh-margin",
+      "vh-overflow",
+      "vh-padding",
+      "vh-position",
+      "vh-space",
+      "vh-sticky",
+      "vh-z-index"
+    ],
+    "backend": [
+      "vh-data-validation",
+      "vh-blue-green-deployment",
+      "vh-canary-release",
+      "vh-feature-flag",
+      "vh-seo",
+      "vh-serverless",
+      "vh-browser-storage"
+    ],
+    "product": [
+      "vh-gantt-chart",
+      "vh-product-backlog",
+      "vh-product-roadmap",
+      "vh-ab-test",
+      "vh-conversion-funnel",
+      "vh-use-case",
+      "vh-user-journey",
+      "vh-user-story"
+    ],
+    "technology": [
+      "vh-acceptance-criteria",
+      "vh-regression-test",
+      "vh-smoke-test",
+      "vh-test-double",
+      "vh-test-fixture",
+      "vh-shadcn-ui",
+      "vh-tailwind-css"
+    ],
+    "ai": [
+      "vh-rate-limit",
+      "vh-response-speed",
+      "vh-token-cost",
+      "vh-human-in-the-loop"
+    ],
+    "git": [],
+    "design": [
+      "vh-style-apple",
+      "vh-style-bento",
+      "vh-style-brutalism",
+      "vh-style-commerce",
+      "vh-style-dark-tech",
+      "vh-style-editorial",
+      "vh-style-enterprise",
+      "vh-style-flat",
+      "vh-style-glass",
+      "vh-style-material",
+      "vh-style-memphis",
+      "vh-style-minimal",
+      "vh-style-neumorphism",
+      "vh-style-notion",
+      "vh-style-organic",
+      "vh-style-playful",
+      "vh-style-saas",
+      "vh-style-skeuomorphism",
+      "vh-style-swiss",
+      "vh-style-terminal",
+      "vh-style-wabisabi",
+      "vh-style-y2k"
+    ]
+  },
+  "noPractice": [
+    "vh-style-apple",
+    "vh-style-bento",
+    "vh-style-brutalism",
+    "vh-style-commerce",
+    "vh-style-dark-tech",
+    "vh-style-editorial",
+    "vh-style-enterprise",
+    "vh-style-flat",
+    "vh-style-glass",
+    "vh-style-material",
+    "vh-style-memphis",
+    "vh-style-minimal",
+    "vh-style-neumorphism",
+    "vh-style-notion",
+    "vh-style-organic",
+    "vh-style-playful",
+    "vh-style-saas",
+    "vh-style-skeuomorphism",
+    "vh-style-swiss",
+    "vh-style-terminal",
+    "vh-style-wabisabi",
+    "vh-style-y2k"
+  ],
+  "missingBody": [],
+  "shortRole": [],
+  "thinnestBodies": [
+    {
+      "id": "vh-style-y2k",
+      "bodyLen": 1059,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-memphis",
+      "bodyLen": 1087,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-swiss",
+      "bodyLen": 1095,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-wabisabi",
+      "bodyLen": 1107,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-notion",
+      "bodyLen": 1130,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-neumorphism",
+      "bodyLen": 1133,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-terminal",
+      "bodyLen": 1167,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-playful",
+      "bodyLen": 1178,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-skeuomorphism",
+      "bodyLen": 1188,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-flat",
+      "bodyLen": 1189,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-glass",
+      "bodyLen": 1200,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-brutalism",
+      "bodyLen": 1205,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-organic",
+      "bodyLen": 1212,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-apple",
+      "bodyLen": 1223,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-minimal",
+      "bodyLen": 1230,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-editorial",
+      "bodyLen": 1269,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-material",
+      "bodyLen": 1284,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-enterprise",
+      "bodyLen": 1289,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-bento",
+      "bodyLen": 1296,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-saas",
+      "bodyLen": 1324,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-dark-tech",
+      "bodyLen": 1325,
+      "macro": "design"
+    },
+    {
+      "id": "vh-style-commerce",
+      "bodyLen": 1350,
+      "macro": "design"
+    },
+    {
+      "id": "vh-avatar",
+      "bodyLen": 1413,
+      "macro": "frontend"
+    },
+    {
+      "id": "vh-drawer",
+      "bodyLen": 1430,
+      "macro": "frontend"
+    },
+    {
+      "id": "vh-rate",
+      "bodyLen": 1446,
+      "macro": "frontend"
+    }
+  ],
+  "thickestBodies": [
+    {
+      "id": "vh-harness-engineering",
+      "bodyLen": 2561,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-blue-green-deployment",
+      "bodyLen": 2206,
+      "macro": "backend"
+    },
+    {
+      "id": "vh-human-in-the-loop",
+      "bodyLen": 2195,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-context-engineering",
+      "bodyLen": 2192,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-multimodal",
+      "bodyLen": 2148,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-sub-agent",
+      "bodyLen": 2125,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-mcp",
+      "bodyLen": 2096,
+      "macro": "ai"
+    },
+    {
+      "id": "vh-ab-test",
+      "bodyLen": 2081,
+      "macro": "product"
+    },
+    {
+      "id": "vh-mvp",
+      "bodyLen": 2066,
+      "macro": "product"
+    },
+    {
+      "id": "vh-cors",
+      "bodyLen": 2057,
+      "macro": "backend"
+    }
+  ],
+  "contentPassPriority": [
+    {
+      "zone": "ai",
+      "why": "与导图1 AI 章概念重叠；词条需准、可跳、勿复述课全文",
+      "cards": [
+        "vh-stateless-request",
+        "vh-streaming-response",
+        "vh-structured-output",
+        "vh-context-engineering",
+        "vh-context-window",
+        "vh-conversation-history",
+        "vh-system-prompt",
+        "vh-token",
+        "vh-rate-limit",
+        "vh-response-speed",
+        "vh-token-cost",
+        "vh-agent-loop",
+        "vh-ai-agent",
+        "vh-harness-engineering",
+        "vh-human-in-the-loop",
+        "vh-mcp",
+        "vh-react-pattern",
+        "vh-skill",
+        "vh-sub-agent",
+        "vh-tool-calling",
+        "vh-ai-basics",
+        "vh-ai-hallucination",
+        "vh-multimodal",
+        "vh-vibe-coding"
+      ]
+    },
+    {
+      "zone": "git",
+      "why": "与导图1 环境章 Git 课重叠",
+      "cards": [
+        "vh-branch",
+        "vh-clone",
+        "vh-commit",
+        "vh-diff",
+        "vh-git",
+        "vh-gitignore",
+        "vh-merge",
+        "vh-pull",
+        "vh-pull-request",
+        "vh-push",
+        "vh-stash",
+        "vh-worktree"
+      ]
+    },
+    {
+      "zone": "technology",
+      "why": "语言/框架/测试与导图1 语言章重叠",
+      "cards": [
+        "vh-javascript",
+        "vh-python",
+        "vh-typescript",
+        "vh-acceptance-criteria",
+        "vh-e2e-test",
+        "vh-flaky-test",
+        "vh-integration-test",
+        "vh-regression-test",
+        "vh-smoke-test",
+        "vh-test-case",
+        "vh-test-coverage",
+        "vh-test-double",
+        "vh-test-fixture",
+        "vh-unit-test",
+        "vh-tech-stack",
+        "vh-build",
+        "vh-ci",
+        "vh-lint",
+        "vh-npm",
+        "vh-terminal",
+        "vh-nextjs",
+        "vh-react",
+        "vh-vue",
+        "vh-shadcn-ui",
+        "vh-tailwind-css"
+      ]
+    },
+    {
+      "zone": "backend",
+      "why": "网络/部署与导图1 网络·运维重叠",
+      "cards": [
+        "vh-backend",
+        "vh-backend-framework",
+        "vh-route",
+        "vh-api",
+        "vh-cors",
+        "vh-data-validation",
+        "vh-json",
+        "vh-blue-green-deployment",
+        "vh-canary-release",
+        "vh-cd",
+        "vh-deployment",
+        "vh-env-var",
+        "vh-feature-flag",
+        "vh-monitoring",
+        "vh-rollback",
+        "vh-seo",
+        "vh-server-log",
+        "vh-serverless",
+        "vh-staging",
+        "vh-browser-storage",
+        "vh-database",
+        "vh-sql",
+        "vh-cdn",
+        "vh-dns",
+        "vh-domain",
+        "vh-http",
+        "vh-https",
+        "vh-port",
+        "vh-redirect",
+        "vh-url",
+        "vh-authentication",
+        "vh-authorization"
+      ]
+    },
+    {
+      "zone": "frontend",
+      "why": "体量大；组件名词以词典准度为先，少扩课",
+      "cardCount": 120
+    },
+    {
+      "zone": "product",
+      "why": "产品词表；核对一句话与用法边界",
+      "cards": [
+        "vh-gantt-chart",
+        "vh-mvp",
+        "vh-prd",
+        "vh-product-backlog",
+        "vh-product-roadmap",
+        "vh-ab-test",
+        "vh-conversion-funnel",
+        "vh-use-case",
+        "vh-user-flow",
+        "vh-user-journey",
+        "vh-user-story"
+      ]
+    },
+    {
+      "zone": "design",
+      "why": "无练习 22 课；释义准即可，勿硬补题",
+      "cards": [
+        "vh-style-apple",
+        "vh-style-bento",
+        "vh-style-brutalism",
+        "vh-style-commerce",
+        "vh-style-dark-tech",
+        "vh-style-editorial",
+        "vh-style-enterprise",
+        "vh-style-flat",
+        "vh-style-glass",
+        "vh-style-material",
+        "vh-style-memphis",
+        "vh-style-minimal",
+        "vh-style-neumorphism",
+        "vh-style-notion",
+        "vh-style-organic",
+        "vh-style-playful",
+        "vh-style-saas",
+        "vh-style-skeuomorphism",
+        "vh-style-swiss",
+        "vh-style-terminal",
+        "vh-style-wabisabi",
+        "vh-style-y2k"
+      ]
+    }
+  ],
+  "contentPass": {
+    "at": "2026-08-05T16:29:05.177Z",
+    "fixedMissingApiLesson": true,
+    "cardsNow": 246,
+    "hasVhApi": true,
+    "danglingInternalRefs": 0,
+    "danglingSample": [],
+    "noLearningOutcome": {
+      "count": 165,
+      "note": "源站无 learningOutcome 的组件/设计/Git 用法型词条；不硬灌「学会之后」",
+      "byZone": {
+        "frontend": 109,
+        "backend": 20,
+        "product": 0,
+        "technology": 2,
+        "ai": 0,
+        "git": 12,
+        "design": 22
+      }
+    },
+    "bridgeTweaks": {
+      "addedApiTo": [
+        "api-frontend",
+        "http-web",
+        "xrk-http-www",
+        "xrk-subserver"
+      ],
+      "addedGitAtoms": [
+        "git-workspace→commit/diff",
+        "git-forges→pull"
+      ],
+      "addedTesting": [
+        "craft-testing",
+        "craft-ci"
+      ]
+    },
+    "syncFix": "SKIP_PATHS 去掉 api；FORCE_LESSON_IDS 含 api",
+    "policy": {
+      "noMap1Watering": "导图2 保持 VibeHub 词典体；本仓落点靠跨导图芯片，不往词条正文塞课全文",
+      "designNoPractice": 22
+    },
+    "sampleBackBridges": {
+      "vh-api": [
+        "api-frontend",
+        "http-web",
+        "xrk-http-www",
+        "xrk-subserver"
+      ],
+      "vh-commit": [
+        "git-workspace"
+      ],
+      "vh-unit-test": [
+        "craft-testing"
+      ]
+    }
+  }
+}

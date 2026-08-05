@@ -2,6 +2,7 @@ export default `# 番外 · 工程素养
 
 > 调试、安全、测试、观测、CI——写功能之外的**职业卫生**。  
 > **Vibe Coding 时代更重要**：Agent 改得越快，你越要会看见、会验证、会守密钥。  
+> 真源锚点：OWASP Top 10 · [Google SWE Testing](https://abseil.io/resources/swe-book/html/ch11.html) · [SRE 金信号](https://sre.google/sre-book/monitoring-distributed-systems/) · [pnpm CI](https://pnpm.io/continuous-integration)。  
 > 可与第四章并行；建议在最小插件实验前后各读一遍。
 
 ## 学会之后（验收）
@@ -21,8 +22,18 @@ export default `# 番外 · 工程素养
 1. **调试与日志** — 怎么看见程序在干什么（也给 Agent 贴日志）  
 2. **安全常识** — 密钥、注入、信任边界（OWASP 向）  
 3. **测试入门** — 最小断言 → 再谈框架  
-4. **日志观测** — Metrics / Logs（Traces 进阶）  
+4. **日志观测** — Metrics / Logs（Traces 进阶）+ 金信号  
 5. **CI** — pnpm frozen、Secrets、红叉读日志  
+
+## 章专属动画（分镜）
+
+| 课 | kind | 钉什么 |
+|----|------|--------|
+| 调试 | \`debugloop\` | 复现 → 探针 → 单点 → 回归 |
+| 安全 | \`secbase\` | 密钥 · 注入 · 鉴权 · 审 diff |
+| 测试 | \`testpyra\` | 单测 / 集成 / E2E 金字塔 |
+| 观测 | \`obspillar\` | Logs · Metrics · Traces + 金信号 |
+| CI | \`cipipe\` | checkout → install → test → build |
 
 ## 与 Vibe 的关系
 
@@ -36,22 +47,18 @@ export default `# 番外 · 工程素养
 
 心智课：**Vibe Coding 心智**。
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 错误 | \`HttpResponse.error\` / \`normalizeError\` |
+| 鉴权 | 第四章 **HTTP 认证**；勿关鉴权上生产 |
+| 包管理 | 仅 **pnpm**；CI frozen-lockfile；Node ≥ 26 |
+| Secrets | 平台密钥库 / \`.env\`；永不进 Git |
+
 ## 学完应能
 
 - 用日志/断点复现问题，并读堆栈到自己的行  
 - 不把密钥提交进 Git；知注入与参数化  
 - 说清「至少测什么」；理解 CI 绿/红含义  
-
-## 导图2 · Git / CI / 部署 × 工程素养
-
-> 导图2 的 Git/CI/部署口语；本框钉 **工程卫生与可回滚交付**。
-
-| 导图2 | Vibe 口语 | 本框专业落点 |
-|-------|-----------|--------------|
-| **Git / PR** | 协作与审查 | 小步提交、审 diff、密钥永不进仓 |
-| **持续集成** | 机器替你检查 | 锁文件、脚本与本地同一套工具链 |
-| **部署上线 / 回滚** | 交付与退回 | 备份与回滚演练；与「能跑」不是同一验收 |
-
-与五拍同一套卫生：目标清楚、约束写明、验收可观察。
-
 `;

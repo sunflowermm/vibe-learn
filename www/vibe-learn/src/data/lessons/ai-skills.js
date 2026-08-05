@@ -2,6 +2,7 @@ export default `# 技能
 
 > **本课位置**：学习路径**驯服**段。  
 > **先修**：**规则**（护栏 vs 手册）。  
+> **真源**：\`docs/agent-context.md\` §4 · \`docs/agents.md\`。  
 > **下一课**：**子代理**——单个对话上下文仍不够时的隔离委派。
 
 ## 学会之后（验收）
@@ -13,6 +14,13 @@ export default `# 技能
 | 本仓 | agents/skills/；Coding 的 .cursor/skills 不进办事链 |
 | 跟 Agent | 大流程写成 skill，勿塞进每轮聊天 |
 
+\`\`\`algo
+{"kind":"tameinj","title":"渐进披露：目录卡 → 全文","autoplay":true,"speed":800}
+\`\`\`
+
+\`\`\`check
+{"title":"技能通关","items":[{"id":"layers","text":"能说出目录卡 → SKILL.md → 附件三层","hint":"渐进"},{"id":"vs","text":"能对照技能按需 vs 规则常驻","hint":"边界"},{"id":"xrk","text":"知道注入的是 available_skills 目录，全文靠 tools.read","hint":"本仓"}]}
+\`\`\`
 
 ## 定义
 
@@ -57,20 +65,10 @@ export default `# 技能
 开发者用的 \`.cursor/skills/xrk-*\` 是**另一舞台**，不进办事助手注入链。
 
 \`\`\`quiz
-{"title":"技能","questions":[{"q":"本仓默认注入技能时，优先进窗口的是？","choices":[{"t":"每个技能的全部 SKILL.md 正文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露。"},{"t":"只有 Cursor 的 xrk 技能","ok":false,"why":"那是开发舞台。"}]}]}
+{"title":"技能","questions":[{"q":"本仓默认注入技能时，优先进窗口的是？","choices":[{"t":"每个技能的全部 SKILL.md 正文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露。"},{"t":"只有 Cursor 的 xrk 技能","ok":false,"why":"那是开发舞台。"}]},{"q":"技能相对规则，更适合承载？","choices":[{"t":"三千字部署与排障流程","ok":true,"why":"长流程按需加载。"},{"t":"「禁止提交密钥」一类一句话红线","ok":false,"why":"红线宜放规则常驻。"},{"t":"替代 maxToolRounds","ok":false,"why":"步数预算是运行时配置。"}]}]}
 \`\`\`
 
 ## 下一课
 
 主对话被搜索/审查噪音填满时——**子代理**。
-## 导图2 · Skill / 系统提示词 / Agent × 技能
-
-> 导图2 Skill 与本课同构；和 Rules 分工是驯服段关键。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **Skill** | 可加载长流程 | 用到再读，省窗口 |
-| **系统提示词** | 常驻 | 短硬约束放规则/系统层 |
-| **AI Agent** | 按需装备 | 技能是工具箱说明书 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -220,6 +220,150 @@ export function parseAlgoSource(text) {
       };
     } else if (kind === 'dbtier' || kind === 'redisql' || kind === 'hotdisk') {
       data = { ...userObj };
+    } else if (kind === 'sqlcrud' || kind === 'sqlfour' || kind === 'crud') {
+      data = {
+        ops: [
+          { id: 's', name: 'SELECT', sub: '读' },
+          { id: 'i', name: 'INSERT', sub: '增' },
+          { id: 'u', name: 'UPDATE', sub: '改 · 必带 WHERE' },
+          { id: 'd', name: 'DELETE', sub: '删 · 必带 WHERE' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'dbserve' || kind === 'embedvs' || kind === 'csvsemb') {
+      data = { ...userObj };
+    } else if (kind === 'ctrvm' || kind === 'containervm' || kind === 'vsvm') {
+      data = { ...userObj };
+    } else if (kind === 'imglayer' || kind === 'dockerlayer' || kind === 'layers') {
+      data = {
+        layers: [
+          { id: 'base', name: 'base OS 层', sub: '只读' },
+          { id: 'pkg', name: '依赖层', sub: '只读' },
+          { id: 'app', name: '应用层', sub: '只读' },
+          { id: 'rw', name: '容器可写层', sub: '运行时 · 删容器即丢' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'composestack' || kind === 'composeup' || kind === 'svcstack') {
+      data = {
+        services: [
+          { id: 'redis', name: 'redis', sub: ':6379' },
+          { id: 'app', name: 'app（可选）', sub: '连 redis' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'opstier' || kind === 'containertier' || kind === 'runtier') {
+      data = {
+        tiers: [
+          { id: 'engine', name: '引擎 / 运行时', sub: 'Docker · Podman · containerd' },
+          { id: 'compose', name: '本机多容器', sub: 'Compose' },
+          { id: 'k8s', name: '集群调度', sub: 'Kubernetes' },
+          { id: 'host', name: '宿主机保活', sub: 'systemd · 面板' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'dirrole' || kind === 'fhsmap' || kind === 'pathrole') {
+      data = {
+        roles: [
+          { id: 'home', name: '家目录 Home', sub: 'Users · /home · /Users' },
+          { id: 'bin', name: 'bin（可执行）', sub: 'PATH 去哪找命令' },
+          { id: 'cfg', name: '用户配置/缓存', sub: 'AppData · ~/.config' },
+          { id: 'tmp', name: '临时区', sub: 'TEMP · /tmp' },
+          { id: 'inst', name: '程序安装', sub: 'Program Files · /usr · /opt' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'dothide' || kind === 'dotfiles' || kind === 'hideviz') {
+      data = {
+        dots: [
+          { id: 'env', name: '.env', sub: '本地机密 · 勿提交' },
+          { id: 'git', name: '.git/', sub: '仓库元数据' },
+          { id: 'ssh', name: '.ssh/', sub: '密钥 · 权限要紧' },
+          { id: 'rc', name: '.bashrc', sub: 'Shell 持久化 PATH/代理' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'mcuvspc' || kind === 'mcuhost' || kind === 'mcupc') {
+      data = { ...userObj };
+    } else if (kind === 'espboard' || kind === 'espmod' || kind === 'socboard') {
+      data = {
+        layers: [
+          { id: 'usb', name: 'USB 线', sub: '供电 · 串口' },
+          { id: 'board', name: '开发板', sub: '转串口 · 天线 · 排针' },
+          { id: 'chip', name: 'ESP32 SoC/模组', sub: '算力 · 无线 · 外设' },
+          { id: 'io', name: 'Wi-Fi/BT · GPIO', sub: '联网 · 采控' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'flashpipe' || kind === 'idfflash' || kind === 'burnfw') {
+      data = {
+        steps: [
+          { id: 'code', name: 'PC 写代码', sub: 'Arduino / IDF / PIO' },
+          { id: 'xcomp', name: '交叉编译', sub: '生成板子二进制' },
+          { id: 'port', name: '选串口', sub: 'COM / ttyUSB / cu.*' },
+          { id: 'flash', name: 'idf.py flash', sub: '写入 Flash' },
+          { id: 'mon', name: 'monitor', sub: '串口日志验收' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'edgelink' || kind === 'espcloud' || kind === 'devagent') {
+      data = {
+        hops: [
+          { id: 'dev', name: 'ESP32 固件', sub: '采数 · 控脚 · 联网' },
+          { id: 'proto', name: 'MQTT / HTTP', sub: '应用层对话' },
+          { id: 'cloud', name: '云 / 本机 XRK', sub: 'Node ≥ 26 主服' },
+          { id: 'agent', name: 'Agent / Core', sub: '推理 · 鉴权 · 落库' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'debugloop' || kind === 'reprobe' || kind === 'dbgloop') {
+      data = {
+        steps: [
+          { id: 'repro', name: '稳定复现', sub: '步骤 · 固定输入' },
+          { id: 'probe', name: '加探针', sub: '入口/出口关键字段' },
+          { id: 'one', name: '单点假设', sub: '一次只改一处' },
+          { id: 'reg', name: '回归', sub: '相关路径再跑' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'secbase' || kind === 'owaspbase' || kind === 'craftsec') {
+      data = {
+        items: [
+          { id: 'secret', name: '密钥', sub: '.env / Secrets · 勿进仓' },
+          { id: 'inject', name: '注入', sub: 'SQL / XSS / 命令 · 参数化' },
+          { id: 'authz', name: '鉴权', sub: '认证 ≠ 授权 · 服务端再判' },
+          { id: 'diff', name: '审 Agent diff', sub: 'Key · 任意写 · 关校验' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'testpyra' || kind === 'pyramid' || kind === 'testtiers') {
+      data = {
+        tiers: [
+          { id: 'unit', name: '单元 ~80%', sub: '纯函数 · 快稳' },
+          { id: 'int', name: '集成 ~15%', sub: '模块协作' },
+          { id: 'e2e', name: 'E2E ~5%', sub: '真路径 · 少而精' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'obspillar' || kind === 'lmt' || kind === 'threeobs') {
+      data = {
+        pillars: [
+          { id: 'logs', name: 'Logs 日志', sub: '刚才发生了什么' },
+          { id: 'metrics', name: 'Metrics 指标', sub: '延迟 · 流量 · 错误 · 饱和' },
+          { id: 'traces', name: 'Traces 追踪', sub: '一次请求跨服务' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'cipipe' || kind === 'cigreen' || kind === 'workflow') {
+      data = {
+        steps: [
+          { id: 'co', name: 'checkout', sub: '拉代码' },
+          { id: 'inst', name: 'pnpm install', sub: 'frozen-lockfile' },
+          { id: 'test', name: 'pnpm test', sub: '断言门禁' },
+          { id: 'build', name: 'pnpm build', sub: '可选构建' },
+        ],
+        ...userObj,
+      };
     } else if (kind === 'wsfive' || kind === 'workspace' || kind === 'inject5') {
       data = { ...userObj };
     } else if (kind === 'uipatch' || kind === 'reactivity' || kind === 'vdom') {
@@ -265,6 +409,273 @@ export function parseAlgoSource(text) {
     } else if (kind === 'tfstack' || kind === 'transformer' || kind === 'tfblock') {
       data = {
         mode: 'decoder', // decoder | encdec
+        ...userObj,
+      };
+    } else if (kind === 'iclpath' || kind === 'fewshot' || kind === 'adaptladder') {
+      data = {
+        mode: 'icl', // icl | compare
+        ...userObj,
+      };
+    } else if (kind === 'msgroles' || kind === 'chatmsg' || kind === 'roles') {
+      data = {
+        roles: [
+          { id: 'system', name: 'system', sub: '开发者说明 / 人设' },
+          { id: 'user', name: 'user', sub: '本轮用户' },
+          { id: 'assistant', name: 'assistant', sub: '模型回复' },
+          { id: 'tool', name: 'tool', sub: '工具结果回灌' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'dagflow' || kind === 'agentgraph' || kind === 'plandag') {
+      data = {
+        nodes: [
+          { id: 's', name: '开始' },
+          { id: 'a', name: '检索' },
+          { id: 'b', name: '读工作区' },
+          { id: 'c', name: '汇总' },
+          { id: 'e', name: '结束' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'ragpipe' || kind === 'ragflow' || kind === 'retrieve') {
+      data = { steps: ['Retrieve', 'Augment', 'Generate'], ...userObj };
+    } else if (kind === 'embnear' || kind === 'vecnear' || kind === 'knn') {
+      data = {
+        query: '报错 ECONNRESET',
+        hits: [
+          { id: 'A', label: '网络超时 FAQ', score: 0.91 },
+          { id: 'B', label: '同义：连接被重置', score: 0.84 },
+          { id: 'C', label: '无关：密码策略', score: 0.41 },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'chunksplit' || kind === 'chunking' || kind === 'splitdoc') {
+      data = {
+        chunks: [
+          { id: '1', label: '§1 范围…' },
+          { id: '2', label: '…重叠…§2' },
+          { id: '3', label: '§2 义务…' },
+          { id: '4', label: '§3 罚则…' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'hybridret' || kind === 'hybrid' || kind === 'rrfuse') {
+      data = {
+        sparse: ['ECONNRESET 手册', '错误码表'],
+        dense: ['连接失败说明', '同义网络抖动'],
+        fused: ['ECONNRESET 手册', '连接失败说明', '错误码表'],
+        ...userObj,
+      };
+    } else if (kind === 'tameinj' || kind === 'ruleskill' || kind === 'tameface') {
+      data = {
+        lanes: [
+          { id: 'rules', name: 'Rules', sub: '全文常驻护栏' },
+          { id: 'skills', name: 'Skills', sub: '目录卡 → 按需读' },
+          { id: 'agents', name: 'AGENTS.md', sub: '项目交底 / 人设' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'secgate' || kind === 'promptsec' || kind === 'injectgate') {
+      data = {
+        stages: [
+          { id: 'doc', name: '不可信正文', sub: '文档 / 网页 / 用户' },
+          { id: 'sys', name: '系统 / 规则', sub: '开发者指令层' },
+          { id: 'gate', name: 'handleToolCall', sub: '策略 · 扫描 · 审批' },
+          { id: 'tool', name: '真实工具', sub: '有副作用' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'bigo' || kind === 'big-o' || kind === 'complexity') {
+      data = {
+        nMax: 16,
+        curves: [
+          { id: '1', name: 'O(1)', color: '#94a3b8' },
+          { id: 'log', name: 'O(log n)', color: '#38bdf8' },
+          { id: 'n', name: 'O(n)', color: '#34d399' },
+          { id: 'nlog', name: 'O(n log n)', color: '#a78bfa' },
+          { id: 'n2', name: 'O(n²)', color: '#f472b6' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'stackq' || kind === 'stackqueue' || kind === 'lifofifo') {
+      data = {
+        tokens: ['A', 'B', 'C', 'D'],
+        ...userObj,
+      };
+    } else if (kind === 'hashslot' || kind === 'hashtable' || kind === 'hashviz') {
+      data = {
+        slots: 5,
+        puts: [
+          { key: 'cat', slot: 2 },
+          { key: 'dog', slot: 4 },
+          { key: 'cow', slot: 2 },
+          { key: 'bee', slot: 1 },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'bsttrav' || kind === 'bst' || kind === 'treetraverse') {
+      data = {
+        mode: 'inorder', // preorder | inorder | postorder | level
+        ...userObj,
+      };
+    } else if (kind === 'callstack' || kind === 'recurseviz' || kind === 'stackframes') {
+      data = {
+        target: 4,
+        ...userObj,
+      };
+    } else if (kind === 'dptable' || kind === 'climbstairs' || kind === 'dpfill') {
+      data = {
+        n: 6,
+        ...userObj,
+      };
+    } else if (kind === 'bitsop' || kind === 'bitclear' || kind === 'hamming') {
+      data = {
+        n: 29,
+        ...userObj,
+      };
+    } else if (kind === 'lrucache' || kind === 'lru' || kind === 'cacheevict') {
+      data = {
+        capacity: 2,
+        ops: [
+          { op: 'put', key: '1', val: 'A' },
+          { op: 'put', key: '2', val: 'B' },
+          { op: 'get', key: '1' },
+          { op: 'put', key: '3', val: 'C' },
+          { op: 'get', key: '2' },
+          { op: 'get', key: '3' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'topo' || kind === 'topsort' || kind === 'kahn') {
+      data = {
+        nodes: ['A', 'B', 'C', 'D'],
+        edges: [
+          ['A', 'B'],
+          ['A', 'C'],
+          ['B', 'D'],
+          ['C', 'D'],
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'strmatch' || kind === 'naivefind' || kind === 'strstr') {
+      data = {
+        text: 'ABABCABAB',
+        pattern: 'ABAB',
+        ...userObj,
+      };
+    } else if (kind === 'panellayer' || kind === 'paneltier' || kind === 'hostpanel') {
+      data = {
+        layers: [
+          { id: 'panel', name: '面板', sub: '按钮 / 表单 / 安全入口' },
+          { id: 'gw', name: '网关', sub: '反代 · TLS · 80/443' },
+          { id: 'proc', name: '进程', sub: 'node / PHP / 容器' },
+          { id: 'data', name: '数据', sub: '库 · 卷 · 上传目录' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'btpath' || kind === 'baotapath' || kind === 'btflow') {
+      data = {
+        steps: [
+          { id: 'inst', name: '安装面板', sub: '官方脚本' },
+          { id: 'sec', name: '改端口/强密', sub: '勿裸奔 8888' },
+          { id: 'fw', name: '安全组+防火墙', sub: '两边都放行' },
+          { id: 'site', name: '站点/反代', sub: '指到本机端口' },
+          { id: 'ssl', name: 'SSL', sub: 'HTTPS' },
+          { id: 'node', name: '跑 Node', sub: 'PM2/systemd' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'onepath' || kind === '1ppath' || kind === 'oneflow') {
+      data = {
+        steps: [
+          { id: 'inst', name: '安装 1Panel', sub: '仅 Linux' },
+          { id: 'entry', name: '端口+安全入口', sub: '1pctl 可查' },
+          { id: 'dock', name: 'Docker/应用', sub: '商店/Compose' },
+          { id: 'proxy', name: '网站反代', sub: '容器或本机口' },
+          { id: 'ssl', name: '证书', sub: '网关终止 TLS' },
+          { id: 'bak', name: '备份含卷', sub: '能恢复才算' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'panelpick' || kind === 'panelvs' || kind === 'btvs1p') {
+      data = {
+        picks: [
+          { id: 'bt', name: '宝塔', sub: '教程多 · LNMP · 可 Windows' },
+          { id: 'one', name: '1Panel', sub: '开源 · 容器友好 · 仅 Linux' },
+          { id: 'ssh', name: '不用面板', sub: 'Git+Compose · 可复现' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'noderproxy' || kind === 'panelnode' || kind === 'xrkproxy') {
+      data = {
+        hops: [
+          { id: 'user', name: '用户', sub: 'HTTPS' },
+          { id: 'edge', name: '面板反代', sub: ':443' },
+          { id: 'loop', name: '127.0.0.1:PORT', sub: '本机口' },
+          { id: 'app', name: 'node app', sub: 'XRK Runtime' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'sysdunit' || kind === 'systemd' || kind === 'unitlife') {
+      data = {
+        steps: [
+          { id: 'write', name: '写 unit', sub: 'WorkingDirectory · ExecStart' },
+          { id: 'reload', name: 'daemon-reload', sub: '重读配置' },
+          { id: 'enable', name: 'enable', sub: '开机自启' },
+          { id: 'start', name: 'start / --now', sub: '立刻拉起' },
+          { id: 'log', name: 'journalctl', sub: '看挂因' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'tlstri' || kind === 'acmeflow' || kind === 'certpath') {
+      data = {
+        hops: [
+          { id: 'dns', name: 'DNS', sub: 'A/AAAA 指到本机' },
+          { id: 'port', name: '80/443', sub: '安全组+防火墙' },
+          { id: 'acme', name: 'ACME', sub: 'Let\'s Encrypt 校验' },
+          { id: 'term', name: '网关终止', sub: '证书挂 Nginx/面板' },
+          { id: 'app', name: '回源', sub: '本机 HTTP → Node' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'bakdrill' || kind === 'backup3' || kind === 'restore') {
+      data = {
+        buckets: [
+          { id: 'code', name: '代码', sub: 'Git 远程' },
+          { id: 'cfg', name: '配置/密钥', sub: 'env · yaml' },
+          { id: 'data', name: '数据', sub: '卷 · 库 · 上传' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'vibefive' || kind === 'fivebeat' || kind === 'vibebeat') {
+      data = {
+        beats: [
+          { id: 'goal', name: '目标', sub: '一句话要完成什么' },
+          { id: 'ctx', name: '现场', sub: 'OS · 路径 · 报错原文' },
+          { id: 'rule', name: '约束', sub: 'pnpm · 禁区 · 勿交密钥' },
+          { id: 'ok', name: '验收', sub: '命令/页面/测试算过' },
+          { id: 'diff', name: '审 diff', sub: '跑通再 Accept' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'adevform' || kind === 'harness3' || kind === 'toolform') {
+      data = {
+        forms: [
+          { id: 'ide', name: 'AI IDE', sub: '看 diff · 多文件' },
+          { id: 'cli', name: 'Agent CLI', sub: 'SSH · 无头' },
+          { id: 'cloud', name: '云端 Agent', sub: '异步 · 出 PR' },
+          { id: 'oss', name: '开源 Harness', sub: '换模型 · 自托管' },
+        ],
+        ...userObj,
+      };
+    } else if (kind === 'memfiles' || kind === 'agentsmd' || kind === 'projmem') {
+      data = {
+        layers: [
+          { id: 'agents', name: 'AGENTS.md', sub: '便携说明书 · 多工具' },
+          { id: 'rules', name: 'Rules', sub: '短约束 · 常在' },
+          { id: 'skills', name: 'Skills', sub: '长流程 · 按需' },
+          { id: 'priv', name: '产品私有', sub: 'CLAUDE.md / .cursor…' },
+        ],
         ...userObj,
       };
     } else if (data == null) {
@@ -1996,6 +2407,771 @@ async function runDbTier(ui, speed, signal, log) {
   await sleep(speed * 0.95, signal);
 }
 
+/** 老师级：SQL CRUD 四句 + WHERE 红线 */
+function sqlCrudStage(spec) {
+  const stage = el('div', 'vibe-algo__sql');
+  const ops = (Array.isArray(spec.ops) ? spec.ops : []).map((o) => {
+    const b = el('div', 'vibe-algo__sql-box');
+    b.dataset.op = String(o.id || '');
+    b.append(
+      el('div', 'vibe-algo__sql-name', { text: String(o.name || '?') }),
+      el('div', 'vibe-algo__sql-sub', { text: String(o.sub || '') })
+    );
+    return b;
+  });
+  const warn = el('div', 'vibe-algo__sql-warn', {
+    text: 'UPDATE / DELETE 无 WHERE = 可能动全表',
+  });
+  const badge = el('div', 'vibe-algo__sql-badge', {
+    text: '值用占位符绑定；勿拼接用户输入（注入）',
+  });
+  const status = el('div', 'vibe-algo__sql-status', { text: 'CRUD…' });
+  const row = el('div', 'vibe-algo__sql-row');
+  row.append(...ops);
+  stage.append(row, warn, badge, status);
+  return { stage, ops, warn, badge, status };
+}
+
+async function runSqlCrud(ui, speed, signal, log) {
+  for (const b of ui.ops) b.classList.remove('is-active', 'is-done', 'is-danger');
+  ui.warn.classList.remove('is-on');
+  ui.badge.classList.remove('is-on');
+  log('关系表：SELECT 读 · INSERT 增 · UPDATE/DELETE 改删必带 WHERE');
+  const tips = [
+    '① SELECT：读行；可加 WHERE / ORDER BY / LIMIT',
+    '② INSERT：增行',
+    '③ UPDATE：改行 —— 无 WHERE 极危',
+    '④ DELETE：删行 —— 无 WHERE 极危',
+  ];
+  for (let i = 0; i < ui.ops.length; i++) {
+    const danger = ui.ops[i].dataset.op === 'u' || ui.ops[i].dataset.op === 'd';
+    ui.ops[i].classList.add(danger ? 'is-danger' : 'is-active');
+    if (danger) ui.warn.classList.add('is-on');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed, signal);
+    ui.ops[i].classList.remove('is-active', 'is-danger');
+    ui.ops[i].classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓落盘常见 SQLite；热缓存仍是 Redis（见 dbtier / 第四章）';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：C/S 服务 vs 嵌入式文件库 */
+function dbServeStage() {
+  const stage = el('div', 'vibe-algo__dbs');
+  const cs = el('div', 'vibe-algo__dbs-lane vibe-algo__dbs-lane--cs');
+  cs.append(
+    el('div', 'vibe-algo__dbs-title', { text: 'C/S 服务' }),
+    el('div', 'vibe-algo__dbs-flow', { text: 'App → TCP 端口 → DBMS 进程 → 存储' }),
+    el('div', 'vibe-algo__dbs-ex', { text: 'Redis · PG · MySQL · Mongo' })
+  );
+  const emb = el('div', 'vibe-algo__dbs-lane vibe-algo__dbs-lane--emb');
+  emb.append(
+    el('div', 'vibe-algo__dbs-title', { text: '嵌入式' }),
+    el('div', 'vibe-algo__dbs-flow', { text: 'App 进程内链库 → 读写 *.sqlite' }),
+    el('div', 'vibe-algo__dbs-ex', { text: 'SQLite（重要例外）' })
+  );
+  const badge = el('div', 'vibe-algo__dbs-badge', {
+    text: '两者都是 DBMS；差别在部署形态，不是「谁更像数据库」',
+  });
+  const status = el('div', 'vibe-algo__dbs-status', { text: '形态对照…' });
+  stage.append(cs, emb, badge, status);
+  return { stage, cs, emb, badge, status };
+}
+
+async function runDbServe(ui, speed, signal, log) {
+  ui.cs.classList.remove('is-active', 'is-done');
+  ui.emb.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('生产多数：独立服务 + 连接串；SQLite：无默认监听端口');
+  ui.cs.classList.add('is-active');
+  ui.status.textContent = '① C/S：装服务 → 听端口 → 客户端驱动连上';
+  await sleep(speed, signal);
+  ui.cs.classList.replace('is-active', 'is-done');
+  ui.emb.classList.add('is-active');
+  ui.status.textContent = '② 嵌入：库代码在应用内；备份要含库文件';
+  await sleep(speed, signal);
+  ui.emb.classList.replace('is-active', 'is-done');
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：Redis=C/S 热路径；SQLite=嵌入落盘；勿互相替代职责';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：容器 vs 虚拟机（共享内核） */
+function ctrVmStage() {
+  const stage = el('div', 'vibe-algo__ctr');
+  const host = el('div', 'vibe-algo__ctr-host', { text: '宿主机硬件' });
+  const row = el('div', 'vibe-algo__ctr-row');
+  const vm = el('div', 'vibe-algo__ctr-lane vibe-algo__ctr-lane--vm');
+  vm.append(
+    el('div', 'vibe-algo__ctr-title', { text: '虚拟机 VM' }),
+    el('div', 'vibe-algo__ctr-stack', { text: 'App → Guest OS（自带内核）→ Hypervisor' }),
+    el('div', 'vibe-algo__ctr-note', { text: '更重 · 整机隔离' })
+  );
+  const ct = el('div', 'vibe-algo__ctr-lane vibe-algo__ctr-lane--ct');
+  ct.append(
+    el('div', 'vibe-algo__ctr-title', { text: '容器 Container' }),
+    el('div', 'vibe-algo__ctr-stack', { text: 'App → 隔离进程（namespace/cgroup）' }),
+    el('div', 'vibe-algo__ctr-note', { text: '共享宿主机内核 · 更轻' })
+  );
+  row.append(vm, ct);
+  const badge = el('div', 'vibe-algo__ctr-badge', {
+    text: '云上常：VM 里再跑容器运行时（两者可并存）',
+  });
+  const status = el('div', 'vibe-algo__ctr-status', { text: '对照…' });
+  stage.append(host, row, badge, status);
+  return { stage, host, vm, ct, badge, status };
+}
+
+async function runCtrVm(ui, speed, signal, log) {
+  ui.vm.classList.remove('is-active', 'is-done');
+  ui.ct.classList.remove('is-active', 'is-done');
+  ui.host.classList.remove('is-on');
+  ui.badge.classList.remove('is-on');
+  log('真源：Docker Docs — container 是隔离进程；VM 常带客户机内核');
+  ui.host.classList.add('is-on');
+  ui.status.textContent = '① 底层都是宿主机硬件';
+  await sleep(speed * 0.75, signal);
+  ui.vm.classList.add('is-active');
+  ui.status.textContent = '② VM：客户机自带内核 + Hypervisor —— 更「整机」';
+  log('VM 重量：整套 Guest OS');
+  await sleep(speed, signal);
+  ui.vm.classList.replace('is-active', 'is-done');
+  ui.ct.classList.add('is-active');
+  ui.status.textContent = '③ 容器：共享宿主机内核；用 namespace/cgroup 隔离';
+  log('容器轻量：不另起一套内核');
+  await sleep(speed, signal);
+  ui.ct.classList.replace('is-active', 'is-done');
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓直觉：容器常起 Redis；主服仍可宿主机 Node';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：镜像层叠 + 容器可写层（OCI / Docker layers） */
+function imgLayerStage(spec) {
+  const stage = el('div', 'vibe-algo__iml');
+  const layers = (Array.isArray(spec.layers) ? spec.layers : []).map((L) => {
+    const b = el('div', 'vibe-algo__iml-layer');
+    if (L.id === 'rw') b.classList.add('vibe-algo__iml-layer--rw');
+    b.dataset.id = String(L.id || '');
+    b.append(
+      el('div', 'vibe-algo__iml-name', { text: String(L.name || '?') }),
+      el('div', 'vibe-algo__iml-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const stack = el('div', 'vibe-algo__iml-stack');
+  for (const L of layers) stack.append(L);
+  const badge = el('div', 'vibe-algo__iml-badge', {
+    text: '镜像层只读不可变；多容器可共享同一镜像栈（CoW）',
+  });
+  const status = el('div', 'vibe-algo__iml-status', { text: '叠层…' });
+  stage.append(stack, badge, status);
+  return { stage, layers, badge, status };
+}
+
+async function runImgLayer(ui, speed, signal, log) {
+  for (const L of ui.layers) L.classList.remove('is-active', 'is-done', 'is-pulse');
+  ui.badge.classList.remove('is-on');
+  log('真源：Docker Docs / OCI — image = 有序层叠；容器再加可写层');
+  for (let i = 0; i < ui.layers.length; i++) {
+    const L = ui.layers[i];
+    const rw = L.dataset.id === 'rw';
+    L.classList.add(rw ? 'is-pulse' : 'is-active');
+    ui.status.textContent = rw
+      ? '④ 启动容器：顶部可写层 —— 删容器即丢（持久化靠卷）'
+      : `①–③ 只读镜像层叠合（union / overlay）`;
+    log(rw ? '可写层 ≠ 镜像；数据要 volumes' : `层 ${i + 1}: ${L.querySelector('.vibe-algo__iml-name')?.textContent}`);
+    await sleep(speed, signal);
+    L.classList.remove('is-active', 'is-pulse');
+    L.classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：redis 镜像可多实例；主服 Node 不必塞进同一镜像';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：Compose 一文件起多服务 */
+function composeStackStage(spec) {
+  const stage = el('div', 'vibe-algo__cmp');
+  const file = el('div', 'vibe-algo__cmp-file', { text: 'compose.yaml' });
+  const svcs = (Array.isArray(spec.services) ? spec.services : []).map((s) => {
+    const b = el('div', 'vibe-algo__cmp-svc');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__cmp-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__cmp-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__cmp-row');
+  row.append(...svcs);
+  const net = el('div', 'vibe-algo__cmp-net', { text: 'Docker 网络 · 服务名互访' });
+  const vol = el('div', 'vibe-algo__cmp-vol', { text: 'volumes · 删容器不丢数据' });
+  const badge = el('div', 'vibe-algo__cmp-badge', {
+    text: 'depends_on ≈ 启动顺序提示 ≠ 健康就绪；Compose ≠ Kubernetes',
+  });
+  const status = el('div', 'vibe-algo__cmp-status', { text: 'docker compose up…' });
+  stage.append(file, row, net, vol, badge, status);
+  return { stage, file, svcs, net, vol, badge, status };
+}
+
+async function runComposeStack(ui, speed, signal, log) {
+  for (const s of ui.svcs) s.classList.remove('is-active', 'is-done');
+  ui.file.classList.remove('is-on');
+  ui.net.classList.remove('is-on');
+  ui.vol.classList.remove('is-on');
+  ui.badge.classList.remove('is-on');
+  log('真源：Compose Spec — services / networks / volumes 一文件声明');
+  ui.file.classList.add('is-on');
+  ui.status.textContent = '① 读 compose.yaml（或 docker-compose.yml）';
+  await sleep(speed * 0.75, signal);
+  for (let i = 0; i < ui.svcs.length; i++) {
+    ui.svcs[i].classList.add('is-active');
+    ui.status.textContent = `② 拉起服务：${ui.svcs[i].querySelector('.vibe-algo__cmp-name')?.textContent}`;
+    log(`up → ${ui.svcs[i].dataset.id}`);
+    await sleep(speed * 0.9, signal);
+    ui.svcs[i].classList.replace('is-active', 'is-done');
+  }
+  ui.net.classList.add('is-on');
+  ui.status.textContent = '③ 同网络：可用服务名连（如 redis:6379）';
+  await sleep(speed * 0.75, signal);
+  ui.vol.classList.add('is-on');
+  ui.status.textContent = '④ 卷挂载：中间件数据要持久化';
+  await sleep(speed * 0.75, signal);
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：pnpm docker:up · docs/docker.md；主服可宿主机 Node';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：容器生态分层（引擎 / Compose / K8s / systemd） */
+function opsTierStage(spec) {
+  const stage = el('div', 'vibe-algo__opt');
+  const tiers = (Array.isArray(spec.tiers) ? spec.tiers : []).map((t) => {
+    const b = el('div', 'vibe-algo__opt-tier');
+    b.dataset.id = String(t.id || '');
+    b.append(
+      el('div', 'vibe-algo__opt-name', { text: String(t.name || '?') }),
+      el('div', 'vibe-algo__opt-sub', { text: String(t.sub || '') })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__opt-badge', {
+    text: '会写 Dockerfile ≠ 会运维 K8s；网关（Nginx）另在第三章',
+  });
+  const status = el('div', 'vibe-algo__opt-status', { text: '分层…' });
+  for (const t of tiers) stage.append(t);
+  stage.append(badge, status);
+  return { stage, tiers, badge, status };
+}
+
+async function runOpsTier(ui, speed, signal, log) {
+  for (const t of ui.tiers) t.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('面试口诀：引擎跑容器 · Compose 管本机一套 · K8s 管集群 · systemd 管宿主机进程');
+  const tips = [
+    '① 引擎层：Docker / Podman / containerd',
+    '② 本机编排：Compose（开发栈）',
+    '③ 集群：Kubernetes（多机调度）',
+    '④ 宿主机保活：systemd / 面板 — 不是容器编排',
+  ];
+  for (let i = 0; i < ui.tiers.length; i++) {
+    ui.tiers[i].classList.add('is-active');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed, signal);
+    ui.tiers[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓最小：宿主机 Node +（可选）Docker Redis；先别上 K8s';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：跨系统目录角色（先角色后路径） */
+function dirRoleStage(spec) {
+  const stage = el('div', 'vibe-algo__dir');
+  const roles = (Array.isArray(spec.roles) ? spec.roles : []).map((r) => {
+    const b = el('div', 'vibe-algo__dir-role');
+    b.dataset.id = String(r.id || '');
+    b.append(
+      el('div', 'vibe-algo__dir-name', { text: String(r.name || '?') }),
+      el('div', 'vibe-algo__dir-sub', { text: String(r.sub || '') })
+    );
+    return b;
+  });
+  const grid = el('div', 'vibe-algo__dir-grid');
+  grid.append(...roles);
+  const badge = el('div', 'vibe-algo__dir-badge', {
+    text: '换系统只换写法：Users ↔ /home ↔ /Users；问题仍是「家 / bin / 配置」',
+  });
+  const status = el('div', 'vibe-algo__dir-status', { text: '先问角色…' });
+  stage.append(grid, badge, status);
+  return { stage, roles, badge, status };
+}
+
+async function runDirRole(ui, speed, signal, log) {
+  for (const r of ui.roles) r.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('真源：FHS（系统树职责）+ 跨平台同一套地盘分工');
+  const tips = [
+    '① 家目录：属于「我」的地盘（USERPROFILE / HOME / ~）',
+    '② bin：Shell 按 PATH 找可执行文件的地方',
+    '③ 用户配置/缓存：AppData · ~/.config · ~/.cache（XDG）',
+    '④ 临时区：可丢；别当永久盘',
+    '⑤ 程序安装：Program Files · /usr · /opt · /Applications',
+  ];
+  for (let i = 0; i < ui.roles.length; i++) {
+    ui.roles[i].classList.add('is-active');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed * 0.9, signal);
+    ui.roles[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：站对仓库根（pwd）；配置在 Core default/ 与 data/，勿乱扔系统盘根';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：点文件隐藏 vs Windows Hidden；再揭示常见点名 */
+function dotHideStage(spec) {
+  const stage = el('div', 'vibe-algo__dot');
+  const row = el('div', 'vibe-algo__dot-row');
+  const unix = el('div', 'vibe-algo__dot-lane vibe-algo__dot-lane--unix');
+  unix.append(
+    el('div', 'vibe-algo__dot-title', { text: 'Unix / Git Bash' }),
+    el('div', 'vibe-algo__dot-mech', { text: '文件名以 . 开头 → ls 默认隐藏' }),
+    el('div', 'vibe-algo__dot-see', { text: '看见：ls -la' })
+  );
+  const win = el('div', 'vibe-algo__dot-lane vibe-algo__dot-lane--win');
+  win.append(
+    el('div', 'vibe-algo__dot-title', { text: 'Windows 资源管理器' }),
+    el('div', 'vibe-algo__dot-mech', { text: 'Hidden 属性 / 隐藏文件夹' }),
+    el('div', 'vibe-algo__dot-see', { text: '看见：隐藏的项目 · -Force' })
+  );
+  row.append(unix, win);
+  const dots = (Array.isArray(spec.dots) ? spec.dots : []).map((d) => {
+    const b = el('div', 'vibe-algo__dot-chip');
+    b.dataset.id = String(d.id || '');
+    b.append(
+      el('div', 'vibe-algo__dot-chip-name', { text: String(d.name || '?') }),
+      el('div', 'vibe-algo__dot-chip-sub', { text: String(d.sub || '') })
+    );
+    return b;
+  });
+  const tray = el('div', 'vibe-algo__dot-tray');
+  tray.append(...dots);
+  const badge = el('div', 'vibe-algo__dot-badge', {
+    text: '隐藏 ≠ 加密；.env / 私钥必须 gitignore',
+  });
+  const status = el('div', 'vibe-algo__dot-status', { text: '可见性…' });
+  stage.append(row, tray, badge, status);
+  return { stage, unix, win, dots, badge, status };
+}
+
+async function runDotHide(ui, speed, signal, log) {
+  ui.unix.classList.remove('is-active', 'is-done');
+  ui.win.classList.remove('is-active', 'is-done');
+  for (const d of ui.dots) d.classList.remove('is-active', 'is-done', 'is-warn');
+  ui.badge.classList.remove('is-on');
+  log('真源：FHS 提到 home 下 dot file；XDG 把配置迁到 ~/.config 等');
+  ui.unix.classList.add('is-active');
+  ui.status.textContent = '① Unix：点前缀是命名约定，不是特殊二进制格式';
+  await sleep(speed, signal);
+  ui.unix.classList.replace('is-active', 'is-done');
+  ui.win.classList.add('is-active');
+  ui.status.textContent = '② Windows：另一套开关（属性）；AppData 也常被界面藏起';
+  await sleep(speed, signal);
+  ui.win.classList.replace('is-active', 'is-done');
+  for (const d of ui.dots) {
+    const warn = d.dataset.id === 'env' || d.dataset.id === 'ssh';
+    d.classList.add(warn ? 'is-warn' : 'is-active');
+    ui.status.textContent = `③ 常见点名：${d.querySelector('.vibe-algo__dot-chip-name')?.textContent}`;
+    log(d.querySelector('.vibe-algo__dot-chip-name')?.textContent || '');
+    await sleep(speed * 0.75, signal);
+    d.classList.remove('is-active', 'is-warn');
+    d.classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：密钥走本机/环境变量；项目规则可在 .cursor，机密仍勿提交';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：MCU vs PC（资源与交付模型） */
+function mcuVsPcStage() {
+  const stage = el('div', 'vibe-algo__mcu');
+  const row = el('div', 'vibe-algo__mcu-row');
+  const mcu = el('div', 'vibe-algo__mcu-lane vibe-algo__mcu-lane--mcu');
+  mcu.append(
+    el('div', 'vibe-algo__mcu-title', { text: 'MCU / 单片机' }),
+    el('div', 'vibe-algo__mcu-stack', { text: 'CPU+外设一体 · KB～MB · 固件烧录' }),
+    el('div', 'vibe-algo__mcu-note', { text: '读传感 · 控脚 · 可联网上报' })
+  );
+  const pc = el('div', 'vibe-algo__mcu-lane vibe-algo__mcu-lane--pc');
+  pc.append(
+    el('div', 'vibe-algo__mcu-title', { text: 'PC / 云主机' }),
+    el('div', 'vibe-algo__mcu-stack', { text: 'GB～TB · 完整 OS · 进程执行' }),
+    el('div', 'vibe-algo__mcu-note', { text: '浏览器 · DB · AgentRuntime' })
+  );
+  row.append(mcu, pc);
+  const badge = el('div', 'vibe-algo__mcu-badge', {
+    text: '别把 Docker / pnpm / Node 主服思维硬套板子',
+  });
+  const status = el('div', 'vibe-algo__mcu-status', { text: '对照…' });
+  stage.append(row, badge, status);
+  return { stage, mcu, pc, badge, status };
+}
+
+async function runMcuVsPc(ui, speed, signal, log) {
+  ui.mcu.classList.remove('is-active', 'is-done');
+  ui.pc.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('MCU = 微控制器：算力与外设一体；交付是固件，不是装运行时');
+  ui.pc.classList.add('is-active');
+  ui.status.textContent = '① PC/云：改代码 → 重启进程（node app）';
+  await sleep(speed, signal);
+  ui.pc.classList.replace('is-active', 'is-done');
+  ui.mcu.classList.add('is-active');
+  ui.status.textContent = '② MCU：交叉编译 → 烧 Flash → 复位才跑新逻辑';
+  await sleep(speed, signal);
+  ui.mcu.classList.replace('is-active', 'is-done');
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓主服在 Node；ESP32 是另一台边缘设备';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：ESP32 开发板分层（线→板→SoC→无线/IO） */
+function espBoardStage(spec) {
+  const stage = el('div', 'vibe-algo__esp');
+  const layers = (Array.isArray(spec.layers) ? spec.layers : []).map((L) => {
+    const b = el('div', 'vibe-algo__esp-layer');
+    b.dataset.id = String(L.id || '');
+    b.append(
+      el('div', 'vibe-algo__esp-name', { text: String(L.name || '?') }),
+      el('div', 'vibe-algo__esp-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const stack = el('div', 'vibe-algo__esp-stack');
+  for (const L of layers) stack.append(L);
+  const badge = el('div', 'vibe-algo__esp-badge', {
+    text: '口语「一块 ESP32」多半是开发板；≠ 裸片，更 ≠ 小服务器',
+  });
+  const status = el('div', 'vibe-algo__esp-status', { text: '拆开看…' });
+  stage.append(stack, badge, status);
+  return { stage, layers, badge, status };
+}
+
+async function runEspBoard(ui, speed, signal, log) {
+  for (const L of ui.layers) L.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('真源：Espressif SoC 家族；开发板带 USB-UART 桥接芯片');
+  const tips = [
+    '① USB：供电 + 虚拟串口（需驱动时装 CP210x/CH340/FTDI）',
+    '② 开发板：转串口、天线、排针、电源管理',
+    '③ SoC/模组：算力 + Wi-Fi/BT（型号有差）+ 外设',
+    '④ 对外：联网上报 · GPIO 采控',
+  ];
+  for (let i = 0; i < ui.layers.length; i++) {
+    ui.layers[i].classList.add('is-active');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed, signal);
+    ui.layers[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '主服仍在 PC/云；板子是边缘节点';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：交叉编译 → 烧录 → monitor（ESP-IDF 口径） */
+function flashPipeStage(spec) {
+  const stage = el('div', 'vibe-algo__flp');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__flp-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__flp-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__flp-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__flp-row');
+  row.append(...steps);
+  const badge = el('div', 'vibe-algo__flp-badge', {
+    text: '官方：idf.py -p PORT flash monitor（可合并一步）',
+  });
+  const status = el('div', 'vibe-algo__flp-status', { text: '烧录链…' });
+  stage.append(row, badge, status);
+  return { stage, steps, badge, status };
+}
+
+async function runFlashPipe(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done', 'is-hot');
+  ui.badge.classList.remove('is-on');
+  log('真源：ESP-IDF Programming Guide — build / flash / monitor');
+  for (let i = 0; i < ui.steps.length; i++) {
+    const hot = ui.steps[i].dataset.id === 'flash';
+    ui.steps[i].classList.add(hot ? 'is-hot' : 'is-active');
+    ui.status.textContent = `①–⑤ ${ui.steps[i].querySelector('.vibe-algo__flp-name')?.textContent}`;
+    log(ui.steps[i].querySelector('.vibe-algo__flp-name')?.textContent || '');
+    await sleep(speed * 0.85, signal);
+    ui.steps[i].classList.remove('is-active', 'is-hot');
+    ui.steps[i].classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '失败先查：线、口、驱动、BOOT、权限——不是改 pnpm';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：边缘设备 ↔ 协议 ↔ 云侧 Agent */
+function edgeLinkStage(spec) {
+  const stage = el('div', 'vibe-algo__edg');
+  const hops = (Array.isArray(spec.hops) ? spec.hops : []).map((h) => {
+    const b = el('div', 'vibe-algo__edg-hop');
+    b.dataset.id = String(h.id || '');
+    b.append(
+      el('div', 'vibe-algo__edg-name', { text: String(h.name || '?') }),
+      el('div', 'vibe-algo__edg-sub', { text: String(h.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__edg-row');
+  for (let i = 0; i < hops.length; i++) {
+    row.append(hops[i]);
+    if (i < hops.length - 1) row.append(el('div', 'vibe-algo__edg-arrow', { text: '→' }));
+  }
+  const badge = el('div', 'vibe-algo__edg-badge', {
+    text: '两进程世界经网络协作；禁止「把 AgentRuntime 塞进 Flash」',
+  });
+  const status = el('div', 'vibe-algo__edg-status', { text: '接线…' });
+  stage.append(row, badge, status);
+  return { stage, hops, badge, status };
+}
+
+async function runEdgeLink(ui, speed, signal, log) {
+  for (const h of ui.hops) h.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('设备侧采控；云侧鉴权/推理/落库；先通一条 HTTP 或 MQTT');
+  for (let i = 0; i < ui.hops.length; i++) {
+    ui.hops[i].classList.add('is-active');
+    ui.status.textContent = `分层 ${i + 1}/${ui.hops.length}`;
+    log(ui.hops[i].querySelector('.vibe-algo__edg-name')?.textContent || '');
+    await sleep(speed * 0.9, signal);
+    ui.hops[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：HTTP Core / 鉴权；设备离线是业务态，不是 Runtime fail-fast';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：调试环 — 复现 → 探针 → 单点假设 → 回归 */
+function debugLoopStage(spec) {
+  const stage = el('div', 'vibe-algo__dbg');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__dbg-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__dbg-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__dbg-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__dbg-row');
+  row.append(...steps);
+  const badge = el('div', 'vibe-algo__dbg-badge', {
+    text: '给 Agent：复现步骤 + 堆栈原文 + 已尝试；别只说「坏了」',
+  });
+  const status = el('div', 'vibe-algo__dbg-status', { text: '调试环…' });
+  stage.append(row, badge, status);
+  return { stage, steps, badge, status };
+}
+
+async function runDebugLoop(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('制造可见性：先复现，再探针，一次验证一个假设');
+  for (let i = 0; i < ui.steps.length; i++) {
+    ui.steps[i].classList.add('is-active');
+    ui.status.textContent = `${i + 1}/${ui.steps.length} ${ui.steps[i].querySelector('.vibe-algo__dbg-name')?.textContent}`;
+    log(ui.steps[i].querySelector('.vibe-algo__dbg-name')?.textContent || '');
+    await sleep(speed * 0.9, signal);
+    ui.steps[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：HttpResponse.error / normalizeError；勿吞异常只 console.log';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：开发者安全底线（密钥 · 注入 · 鉴权 · 审 diff） */
+function secBaseStage(spec) {
+  const stage = el('div', 'vibe-algo__scb');
+  const items = (Array.isArray(spec.items) ? spec.items : []).map((it) => {
+    const b = el('div', 'vibe-algo__scb-item');
+    b.dataset.id = String(it.id || '');
+    b.append(
+      el('div', 'vibe-algo__scb-name', { text: String(it.name || '?') }),
+      el('div', 'vibe-algo__scb-sub', { text: String(it.sub || '') })
+    );
+    return b;
+  });
+  const grid = el('div', 'vibe-algo__scb-grid');
+  grid.append(...items);
+  const badge = el('div', 'vibe-algo__scb-badge', {
+    text: '对照 OWASP Top 10：注入 / 访问控制 / 加密失败… 你守门审 Agent diff',
+  });
+  const status = el('div', 'vibe-algo__scb-status', { text: '底线…' });
+  stage.append(grid, badge, status);
+  return { stage, items, badge, status };
+}
+
+async function runSecBase(ui, speed, signal, log) {
+  for (const it of ui.items) it.classList.remove('is-active', 'is-done', 'is-warn');
+  ui.badge.classList.remove('is-on');
+  log('真源：OWASP Top 10 · Injection Prevention Cheat Sheet');
+  for (const it of ui.items) {
+    const warn = it.dataset.id === 'secret' || it.dataset.id === 'inject';
+    it.classList.add(warn ? 'is-warn' : 'is-active');
+    ui.status.textContent = it.querySelector('.vibe-algo__scb-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed * 0.85, signal);
+    it.classList.remove('is-active', 'is-warn');
+    it.classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '泄漏了 Key？先轮换吊销——删提交不能替代';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：测试金字塔（Google SWE 比例直觉） */
+function testPyraStage(spec) {
+  const stage = el('div', 'vibe-algo__pyr');
+  const tiers = (Array.isArray(spec.tiers) ? spec.tiers : []).map((t) => {
+    const b = el('div', 'vibe-algo__pyr-tier');
+    b.dataset.id = String(t.id || '');
+    b.append(
+      el('div', 'vibe-algo__pyr-name', { text: String(t.name || '?') }),
+      el('div', 'vibe-algo__pyr-sub', { text: String(t.sub || '') })
+    );
+    return b;
+  });
+  const stack = el('div', 'vibe-algo__pyr-stack');
+  // visual pyramid: e2e on top in DOM order first if we use column-reverse... keep unit at bottom via column-reverse
+  for (const t of tiers) stack.append(t);
+  const badge = el('div', 'vibe-algo__pyr-badge', {
+    text: 'Google SWE 粗比例：窄单测为主；E2E 少而精，别当主防线',
+  });
+  const status = el('div', 'vibe-algo__pyr-status', { text: '金字塔…' });
+  stage.append(stack, badge, status);
+  return { stage, tiers, badge, status };
+}
+
+async function runTestPyra(ui, speed, signal, log) {
+  for (const t of ui.tiers) t.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('真源：Software Engineering at Google — 测试范围与规模');
+  // light from base (unit) to tip: reverse iterate if unit is index 0
+  for (let i = 0; i < ui.tiers.length; i++) {
+    ui.tiers[i].classList.add('is-active');
+    ui.status.textContent = ui.tiers[i].querySelector('.vibe-algo__pyr-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    ui.tiers[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：纯工具函数先测；CI 用 pnpm 跑同一套命令';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：可观测三支柱 + 金信号提示 */
+function obsPillarStage(spec) {
+  const stage = el('div', 'vibe-algo__obs');
+  const pillars = (Array.isArray(spec.pillars) ? spec.pillars : []).map((p) => {
+    const b = el('div', 'vibe-algo__obs-pillar');
+    b.dataset.id = String(p.id || '');
+    b.append(
+      el('div', 'vibe-algo__obs-name', { text: String(p.name || '?') }),
+      el('div', 'vibe-algo__obs-sub', { text: String(p.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__obs-row');
+  row.append(...pillars);
+  const gold = el('div', 'vibe-algo__obs-gold', {
+    text: 'SRE 四大金信号：Latency · Traffic · Errors · Saturation',
+  });
+  const badge = el('div', 'vibe-algo__obs-badge', {
+    text: '结构化 + requestId + 脱敏；观测 ≠ 本地单点调试全过程',
+  });
+  const status = el('div', 'vibe-algo__obs-status', { text: '三支柱…' });
+  stage.append(row, gold, badge, status);
+  return { stage, pillars, gold, badge, status };
+}
+
+async function runObsPillar(ui, speed, signal, log) {
+  for (const p of ui.pillars) p.classList.remove('is-active', 'is-done');
+  ui.gold.classList.remove('is-on');
+  ui.badge.classList.remove('is-on');
+  log('真源：Google SRE — Monitoring Distributed Systems（金信号）');
+  for (const p of ui.pillars) {
+    p.classList.add('is-active');
+    ui.status.textContent = p.querySelector('.vibe-algo__obs-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    p.classList.replace('is-active', 'is-done');
+  }
+  ui.gold.classList.add('is-on');
+  ui.status.textContent = '指标优先看延迟 / 流量 / 错误 / 饱和';
+  await sleep(speed * 0.75, signal);
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：HttpResponse.error 统一形状；生产少打 debug';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：CI 流水线绿/红 */
+function ciPipeStage(spec) {
+  const stage = el('div', 'vibe-algo__cip');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__cip-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__cip-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__cip-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__cip-row');
+  row.append(...steps);
+  const result = el('div', 'vibe-algo__cip-result', { text: '等待检查…' });
+  const badge = el('div', 'vibe-algo__cip-badge', {
+    text: 'Secrets 不进 YAML；红叉先读 Job 日志，本机复现同一命令',
+  });
+  const status = el('div', 'vibe-algo__cip-status', { text: 'CI…' });
+  stage.append(row, result, badge, status);
+  return { stage, steps, result, badge, status };
+}
+
+async function runCiPipe(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done', 'is-fail');
+  ui.result.classList.remove('is-green', 'is-red');
+  ui.badge.classList.remove('is-on');
+  ui.result.textContent = '推送 / PR 触发 Runner…';
+  log('真源：pnpm Continuous Integration · frozen-lockfile');
+  for (let i = 0; i < ui.steps.length; i++) {
+    ui.steps[i].classList.add('is-active');
+    ui.status.textContent = ui.steps[i].querySelector('.vibe-algo__cip-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed * 0.8, signal);
+    ui.steps[i].classList.replace('is-active', 'is-done');
+  }
+  ui.result.classList.add('is-green');
+  ui.result.textContent = '✓ 全绿：可审合并（仍要人审 diff）';
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：Node ≥ 26 · pnpm · 锁文件冻结；密钥用 secrets.XXX';
+  await sleep(speed * 0.9, signal);
+}
+
 /** 老师级：办事工作区五段注入 */
 function wsFiveStage() {
   const stage = el('div', 'vibe-algo__ws');
@@ -2391,10 +3567,1566 @@ async function runTfStack(ui, speed, signal, log) {
   await sleep(speed * 0.85, signal);
 }
 
+/** 老师级：零/少样本 ICL vs 微调 */
+function iclPathStage(spec) {
+  const stage = el('div', 'vibe-algo__icl');
+  const mode = String(spec.mode || 'icl');
+  const steps =
+    mode === 'compare'
+      ? [
+          ['提示里塞示例', 'ICL · 不改权重'],
+          ['每次推理都重读示例', '占窗口 · 贵'],
+          ['权重继续训练', '微调 / LoRA'],
+          ['推理时可短提示', '成本摊到训练'],
+        ]
+      : [
+          ['Zero-shot', '只给任务说明'],
+          ['Few-shot', '窗内 K 个示范'],
+          ['仍不更新权重', 'GPT-3 论文设定'],
+          ['受窗口限制', '示例太多就塞不下'],
+        ];
+  const boxes = steps.map(([t, s]) => {
+    const b = el('div', 'vibe-algo__icl-box');
+    b.append(el('div', 'vibe-algo__icl-title', { text: t }), el('div', 'vibe-algo__icl-sub', { text: s }));
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__icl-badge', {
+    text:
+      mode === 'compare'
+        ? 'Brown et al. 2020：Few-shot = 推理时条件，不梯度更新；微调 = 改权重'
+        : '上下文内学习：示范写进 prompt，权重原封不动',
+  });
+  const status = el('div', 'vibe-algo__icl-status', { text: '自适应梯子…' });
+  const row = el('div', 'vibe-algo__icl-row');
+  for (const b of boxes) row.append(b);
+  stage.append(row, badge, status);
+  return { stage, boxes, badge, status, mode };
+}
+
+async function runIclPath(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log(
+    ui.mode === 'compare'
+      ? '先问：能否用提示/检索解决？再谈微调数据与评估成本'
+      : 'Language Models are Few-Shot Learners（GPT-3）：任务写进上下文'
+  );
+  for (let i = 0; i < ui.boxes.length; i++) {
+    ui.boxes[i].classList.add('is-active');
+    ui.status.textContent = `档 ${i + 1}/${ui.boxes.length}`;
+    await sleep(speed * 0.9, signal);
+    ui.boxes[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓默认：工作区注入 + 提示组装（ICL 档）；微调是另档产品成本';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：Chat Completions 角色栈 */
+function msgRolesStage(spec) {
+  const stage = el('div', 'vibe-algo__roles');
+  const raw = Array.isArray(spec.roles) ? spec.roles : [];
+  const roles = (raw.length
+    ? raw
+    : [
+        { id: 'system', name: 'system', sub: '开发者说明 / 人设' },
+        { id: 'user', name: 'user', sub: '本轮用户' },
+        { id: 'assistant', name: 'assistant', sub: '模型回复' },
+        { id: 'tool', name: 'tool', sub: '工具结果回灌' },
+      ]
+  ).map((r) => {
+    const b = el('div', 'vibe-algo__roles-box');
+    b.append(
+      el('div', 'vibe-algo__roles-title', { text: String(r.name || r.id || '?') }),
+      el('div', 'vibe-algo__roles-sub', { text: String(r.sub || '') })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__roles-badge', {
+    text: '事实标准：messages[] + role；OpenAI 兼容端点同形。较新模型也可见 developer 角色',
+  });
+  const status = el('div', 'vibe-algo__roles-status', { text: '组装会话…' });
+  for (const b of roles) stage.append(b);
+  stage.append(badge, status);
+  return { stage, roles, badge, status };
+}
+
+async function runMsgRoles(ui, speed, signal, log) {
+  for (const b of ui.roles) b.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('Chat Completions：POST …/chat/completions，输入是消息列表');
+  for (let i = 0; i < ui.roles.length; i++) {
+    ui.roles[i].classList.add('is-active');
+    ui.status.textContent = `角色 ${i + 1}/${ui.roles.length}`;
+    await sleep(speed * 0.85, signal);
+    ui.roles[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '本仓：assembleChatLlmMessages 分层；工具结果进 tool / 等价角色';
+  await sleep(speed * 0.85, signal);
+}
+
+/** 老师级：Agent 图 / DAG 依赖与并行 */
+function dagFlowStage(spec) {
+  const stage = el('div', 'vibe-algo__dag');
+  const names = Array.isArray(spec.nodes) ? spec.nodes : [];
+  const mk = (n) => {
+    const b = el('div', 'vibe-algo__dag-box');
+    b.append(el('div', 'vibe-algo__dag-title', { text: String(n.name || n.id || '?') }));
+    return b;
+  };
+  const start = mk(names[0] || { name: '开始' });
+  const a = mk(names[1] || { name: '检索' });
+  const b = mk(names[2] || { name: '读工作区' });
+  const c = mk(names[3] || { name: '汇总' });
+  const end = mk(names[4] || { name: '结束' });
+  const fork = el('div', 'vibe-algo__dag-hint', { text: '∥ 无依赖 → 可并行' });
+  const join = el('div', 'vibe-algo__dag-hint', { text: '汇总依赖两边' });
+  const badge = el('div', 'vibe-algo__dag-badge', {
+    text: '图 = 控制流；本仓主路径仍是消息三层 + tool_calls 环，不是通用图编辑器',
+  });
+  const status = el('div', 'vibe-algo__dag-status', { text: '拓扑执行…' });
+  const row1 = el('div', 'vibe-algo__dag-row');
+  row1.append(start);
+  const row2 = el('div', 'vibe-algo__dag-row');
+  row2.append(a, fork, b);
+  const row3 = el('div', 'vibe-algo__dag-row');
+  row3.append(c);
+  const row4 = el('div', 'vibe-algo__dag-row');
+  row4.append(end);
+  stage.append(row1, row2, join, row3, row4, badge, status);
+  return { stage, boxes: [start, a, b, c, end], badge, status };
+}
+
+async function runDagFlow(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done', 'is-parallel');
+  ui.badge.classList.remove('is-on');
+  log('先计划后执行常见形态：规划器出 DAG → 拓扑序执行（可并行）→ 汇总');
+  ui.boxes[0].classList.add('is-active');
+  ui.status.textContent = '① 开始';
+  await sleep(speed * 0.7, signal);
+  ui.boxes[0].classList.replace('is-active', 'is-done');
+  ui.boxes[1].classList.add('is-active', 'is-parallel');
+  ui.boxes[2].classList.add('is-active', 'is-parallel');
+  ui.status.textContent = '② 检索 ∥ 读工作区（无互相依赖）';
+  await sleep(speed, signal);
+  ui.boxes[1].classList.replace('is-active', 'is-done');
+  ui.boxes[2].classList.replace('is-active', 'is-done');
+  ui.boxes[1].classList.remove('is-parallel');
+  ui.boxes[2].classList.remove('is-parallel');
+  ui.boxes[3].classList.add('is-active');
+  ui.status.textContent = '③ 汇总（依赖两边完成）';
+  await sleep(speed * 0.9, signal);
+  ui.boxes[3].classList.replace('is-active', 'is-done');
+  ui.boxes[4].classList.add('is-active');
+  ui.status.textContent = '④ 结束 / 条件边可回到重试';
+  await sleep(speed * 0.8, signal);
+  ui.boxes[4].classList.replace('is-active', 'is-done');
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '复杂 DAG 放 Core/外挂；默认别为了「看起来高级」上重型编排框架';
+  await sleep(speed * 0.75, signal);
+}
+
+/** 老师级：经典 RAG 三步 */
+function ragPipeStage(spec) {
+  const stage = el('div', 'vibe-algo__rag');
+  const names = Array.isArray(spec.steps) ? spec.steps : ['Retrieve', 'Augment', 'Generate'];
+  const boxes = names.map((n, i) => {
+    const b = el('div', 'vibe-algo__rag-box');
+    const zh = i === 0 ? '检索' : i === 1 ? '增强进窗' : '生成';
+    b.append(
+      el('div', 'vibe-algo__rag-en', { text: String(n) }),
+      el('div', 'vibe-algo__rag-zh', { text: zh })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__rag-badge', {
+    text: '经典流水线固定管道即可 —— 不依赖智能体循环',
+  });
+  const status = el('div', 'vibe-algo__rag-status', { text: 'RAG 管线…' });
+  stage.append(...boxes, badge, status);
+  return { stage, boxes, badge, status };
+}
+
+async function runRagPipe(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('Lewis 等 2020：先检索外部知识，再增强提示，再生成');
+  const tips = [
+    '① Retrieve：按问题取 Top-K 片段',
+    '② Augment：片段写入 messages（占窗口）',
+    '③ Generate：模型基于材料作答（可带引用）',
+  ];
+  for (let i = 0; i < ui.boxes.length; i++) {
+    ui.boxes[i].classList.add('is-active');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed, signal);
+    ui.boxes[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '检错则答错；多轮再检索 = Agentic RAG（汇合段）';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：问句向量找近邻 */
+function embNearStage(spec) {
+  const stage = el('div', 'vibe-algo__emb');
+  const q = el('div', 'vibe-algo__emb-q');
+  q.append(
+    el('div', 'vibe-algo__emb-q-title', { text: '问句 → 向量' }),
+    el('div', 'vibe-algo__emb-q-sub', { text: String(spec.query || '用户问题') })
+  );
+  const hits = (Array.isArray(spec.hits) ? spec.hits : []).map((h) => {
+    const b = el('div', 'vibe-algo__emb-hit');
+    b.append(
+      el('div', 'vibe-algo__emb-hit-id', { text: String(h.id || '?') }),
+      el('div', 'vibe-algo__emb-hit-label', { text: String(h.label || '') }),
+      el('div', 'vibe-algo__emb-hit-score', { text: `≈ ${h.score ?? '?'}` })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__emb-badge', {
+    text: '建库与查询必须同一嵌入模型 · 同维度；近 ≠ 事实正确',
+  });
+  const status = el('div', 'vibe-algo__emb-status', { text: '近邻检索…' });
+  const row = el('div', 'vibe-algo__emb-row');
+  row.append(...hits);
+  stage.append(q, row, badge, status);
+  return { stage, q, hits, badge, status };
+}
+
+async function runEmbNear(ui, speed, signal, log) {
+  for (const h of ui.hits) h.classList.remove('is-active', 'is-done', 'is-noise');
+  ui.q.classList.remove('is-active');
+  ui.badge.classList.remove('is-on');
+  ui.q.classList.add('is-active');
+  ui.status.textContent = '① 同一嵌入模型把问句映到向量空间';
+  log('同模型同维度是近邻有意义的前提');
+  await sleep(speed * 0.85, signal);
+  for (let i = 0; i < ui.hits.length; i++) {
+    const h = ui.hits[i];
+    const noise = i === ui.hits.length - 1;
+    h.classList.add(noise ? 'is-noise' : 'is-active');
+    ui.status.textContent = noise
+      ? `③ 低分邻居：语义漂 / 噪声 —— 勿默认进窗`
+      : `② Top 命中 ${i + 1}：相似度高者优先`;
+    await sleep(speed * 0.75, signal);
+    h.classList.remove('is-active');
+    if (!noise) h.classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '换嵌入模型 → 通常整库重嵌；专名常还需关键词通道';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：长文分块 + 重叠 */
+function chunkSplitStage(spec) {
+  const stage = el('div', 'vibe-algo__chk');
+  const doc = el('div', 'vibe-algo__chk-doc', { text: '长文档 / 制度 PDF' });
+  const row = el('div', 'vibe-algo__chk-row');
+  const chunks = (Array.isArray(spec.chunks) ? spec.chunks : []).map((c) => {
+    const b = el('div', 'vibe-algo__chk-box');
+    b.append(
+      el('div', 'vibe-algo__chk-id', { text: `#${c.id || '?'}` }),
+      el('div', 'vibe-algo__chk-label', { text: String(c.label || '') })
+    );
+    return b;
+  });
+  row.append(...chunks);
+  const badge = el('div', 'vibe-algo__chk-badge', {
+    text: '过碎缺语境 · 过大噪声多；先结构切，再用评测集调长度',
+  });
+  const status = el('div', 'vibe-algo__chk-status', { text: '分块…' });
+  stage.append(doc, row, badge, status);
+  return { stage, doc, chunks, badge, status };
+}
+
+async function runChunkSplit(ui, speed, signal, log) {
+  for (const c of ui.chunks) c.classList.remove('is-active', 'is-done', 'is-overlap');
+  ui.doc.classList.remove('is-active');
+  ui.badge.classList.remove('is-on');
+  ui.doc.classList.add('is-active');
+  ui.status.textContent = '① 解析 / 清洗后再切（勿对脏 PDF 硬按字数）';
+  log('块 = 检索命中的常见粒度，也占进窗预算');
+  await sleep(speed * 0.8, signal);
+  for (let i = 0; i < ui.chunks.length; i++) {
+    ui.chunks[i].classList.add('is-active');
+    if (i === 1) ui.chunks[i].classList.add('is-overlap');
+    ui.status.textContent =
+      i === 1 ? '② 重叠窗：保留跨块主语 / 条款号' : `② 写入块 ${i + 1}/${ui.chunks.length}`;
+    await sleep(speed * 0.7, signal);
+    ui.chunks[i].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '改 chunk 后：固定问题集看召回，勿一次拧五个旋钮';
+  await sleep(speed * 0.75, signal);
+}
+
+/** 老师级：稀疏 + 稠密 → 融合（可接重排） */
+function hybridRetStage(spec) {
+  const stage = el('div', 'vibe-algo__hyb');
+  const mkLane = (title, items, mod) => {
+    const lane = el('div', `vibe-algo__hyb-lane vibe-algo__hyb-lane--${mod}`);
+    lane.append(el('div', 'vibe-algo__hyb-lane-title', { text: title }));
+    const list = el('div', 'vibe-algo__hyb-list');
+    const boxes = (Array.isArray(items) ? items : []).map((t) =>
+      el('div', 'vibe-algo__hyb-item', { text: String(t) })
+    );
+    list.append(...boxes);
+    lane.append(list);
+    return { lane, boxes };
+  };
+  const sparse = mkLane('BM25 / 关键词', spec.sparse, 'sparse');
+  const dense = mkLane('向量近邻', spec.dense, 'dense');
+  const fuse = mkLane('融合（如 RRF）→ 可选重排', spec.fused, 'fuse');
+  const badge = el('div', 'vibe-algo__hyb-badge', {
+    text: '召回求全 · 重排求准；专名靠稀疏，同义靠稠密',
+  });
+  const status = el('div', 'vibe-algo__hyb-status', { text: '混合检索…' });
+  const top = el('div', 'vibe-algo__hyb-top');
+  top.append(sparse.lane, dense.lane);
+  stage.append(top, fuse.lane, badge, status);
+  return {
+    stage,
+    sparse: sparse.boxes,
+    dense: dense.boxes,
+    fused: fuse.boxes,
+    badge,
+    status,
+  };
+}
+
+async function runHybridRet(ui, speed, signal, log) {
+  for (const b of [...ui.sparse, ...ui.dense, ...ui.fused]) {
+    b.classList.remove('is-active', 'is-done');
+  }
+  ui.badge.classList.remove('is-on');
+  log('生产 RAG 多数双通道；RRF 按排名融合，少做跨量纲校准');
+  ui.status.textContent = '① 稀疏通道锁住错误码 / 条款号';
+  for (const b of ui.sparse) {
+    b.classList.add('is-active');
+    await sleep(speed * 0.55, signal);
+    b.classList.replace('is-active', 'is-done');
+  }
+  ui.status.textContent = '② 稠密通道补同义改写';
+  for (const b of ui.dense) {
+    b.classList.add('is-active');
+    await sleep(speed * 0.55, signal);
+    b.classList.replace('is-active', 'is-done');
+  }
+  ui.status.textContent = '③ 融合候选；噪声多再交叉编码器精排进窗';
+  for (const b of ui.fused) {
+    b.classList.add('is-active');
+    await sleep(speed * 0.6, signal);
+    b.classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '改通道权重后仍要用黄金集回归（见 RAG 评测）';
+  await sleep(speed * 0.75, signal);
+}
+
+/** 老师级：Rules 全文 vs Skills 目录 vs AGENTS */
+function tameInjStage(spec) {
+  const stage = el('div', 'vibe-algo__tame');
+  const lanes = (Array.isArray(spec.lanes) ? spec.lanes : []).map((L) => {
+    const b = el('div', 'vibe-algo__tame-lane');
+    b.append(
+      el('div', 'vibe-algo__tame-name', { text: String(L.name || L.id || '?') }),
+      el('div', 'vibe-algo__tame-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__tame-badge', {
+    text: '规则是护栏；技能是导航；AGENTS 是交底 —— 勿三件互塞',
+  });
+  const status = el('div', 'vibe-algo__tame-status', { text: '驯服面…' });
+  const row = el('div', 'vibe-algo__tame-row');
+  row.append(...lanes);
+  stage.append(row, badge, status);
+  return { stage, lanes, badge, status };
+}
+
+async function runTameInj(ui, speed, signal, log) {
+  for (const b of ui.lanes) b.classList.remove('is-active', 'is-done', 'is-peek');
+  ui.badge.classList.remove('is-on');
+  log('本仓：agents/rules 全文；skills 目录 + tools.read；工作区 AGENTS.md');
+  const tips = [
+    '① Rules：短硬约束，宜稳定进 system（占预算）',
+    '② Skills：先注入目录卡；命中后再读 SKILL.md',
+    '③ AGENTS.md：项目/工作区说明书（两张工牌勿混）',
+  ];
+  for (let i = 0; i < ui.lanes.length; i++) {
+    ui.lanes[i].classList.add(i === 1 ? 'is-peek' : 'is-active');
+    ui.status.textContent = tips[i] || '';
+    log(tips[i] || '');
+    await sleep(speed, signal);
+    ui.lanes[i].classList.remove('is-active', 'is-peek');
+    ui.lanes[i].classList.add('is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = 'Coding 的 .cursor/rules·skills 是另一舞台，默认不进办事链';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 老师级：提示注入 vs 工具门禁 */
+function secGateStage(spec) {
+  const stage = el('div', 'vibe-algo__sec');
+  const boxes = (Array.isArray(spec.stages) ? spec.stages : []).map((s) => {
+    const b = el('div', 'vibe-algo__sec-box');
+    b.append(
+      el('div', 'vibe-algo__sec-title', { text: String(s.name || s.id || '?') }),
+      el('div', 'vibe-algo__sec-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const badge = el('div', 'vibe-algo__sec-badge', {
+    text: '正文 ≠ 系统指令；副作用工具必须经 handleToolCall',
+  });
+  const status = el('div', 'vibe-algo__sec-status', { text: '提示安全…' });
+  stage.append(...boxes, badge, status);
+  return { stage, boxes, badge, status };
+}
+
+async function runSecGate(ui, speed, signal, log) {
+  for (const b of ui.boxes) b.classList.remove('is-active', 'is-done', 'is-risk', 'is-block');
+  ui.badge.classList.remove('is-on');
+  log('间接注入：恶意字藏在日后被检索到的文档里');
+  if (ui.boxes[0]) {
+    ui.boxes[0].classList.add('is-risk', 'is-active');
+    ui.status.textContent = '① 不可信正文试图「忽略上文 / 外传密钥」';
+    await sleep(speed, signal);
+    ui.boxes[0].classList.remove('is-active');
+    ui.boxes[0].classList.add('is-done');
+  }
+  if (ui.boxes[1]) {
+    ui.boxes[1].classList.add('is-active');
+    ui.status.textContent = '② 系统/规则层应分区、更高优先级（勿与脏数据混同一条）';
+    await sleep(speed, signal);
+    ui.boxes[1].classList.replace('is-active', 'is-done');
+  }
+  if (ui.boxes[2]) {
+    ui.boxes[2].classList.add('is-active', 'is-block');
+    ui.status.textContent = '③ 门禁：policies / toolScan / 可选 #批准';
+    await sleep(speed, signal);
+    ui.boxes[2].classList.remove('is-active', 'is-block');
+    ui.boxes[2].classList.add('is-done');
+  }
+  if (ui.boxes[3]) {
+    ui.boxes[3].classList.add('is-active');
+    ui.status.textContent = '④ 放行后才执行真实工具（最小权限）';
+    await sleep(speed * 0.85, signal);
+    ui.boxes[3].classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '提示安全 ≠ HTTPS；传输层与提示层是同一张网的不同层';
+  await sleep(speed * 0.75, signal);
+}
+
 /**
  * @param {HTMLElement} host
  * @param {ReturnType<typeof parseAlgoSource>} cfg
  */
+
+/** DSA · 大 O 增长对比 */
+function bigOStage(spec) {
+  const stage = el('div', 'vibe-algo__bigo');
+  const curves = (Array.isArray(spec.curves) ? spec.curves : []).map((c) => {
+    const col = el('div', 'vibe-algo__bigo-col');
+    col.dataset.id = String(c.id || '');
+    const bar = el('div', 'vibe-algo__bigo-bar');
+    if (c.color) bar.style.setProperty('--bigo-c', String(c.color));
+    const name = el('div', 'vibe-algo__bigo-name', { text: String(c.name || '?') });
+    const val = el('div', 'vibe-algo__bigo-val', { text: '—' });
+    col.append(bar, name, val);
+    return { col, bar, val, id: String(c.id || ''), name: String(c.name || '?') };
+  });
+  const row = el('div', 'vibe-algo__bigo-row');
+  for (const c of curves) row.append(c.col);
+  const nlab = el('div', 'vibe-algo__bigo-n', { text: 'n = 1' });
+  const status = el('div', 'vibe-algo__bigo-status', { text: '增长趋势…' });
+  stage.append(nlab, row, status);
+  return { stage, curves, nlab, status };
+}
+
+function bigOOps(id, n) {
+  if (id === '1') return 1;
+  if (id === 'log') return Math.max(1, Math.ceil(Math.log2(n)));
+  if (id === 'n') return n;
+  if (id === 'nlog') return Math.round(n * Math.log2(n));
+  if (id === 'n2') return n * n;
+  return n;
+}
+
+async function runBigO(ui, spec, speed, signal, log) {
+  const nMax = Math.max(4, Number(spec.nMax) || 16);
+  const peak = nMax * nMax;
+  log('大 O：看随 n 增长的趋势，不是墙上秒数');
+  for (let n = 1; n <= nMax; n++) {
+    ui.nlab.textContent = `n = ${n}`;
+    for (const c of ui.curves) {
+      const ops = bigOOps(c.id, n);
+      const h = Math.max(4, Math.round((ops / peak) * 100));
+      c.bar.style.height = `${h}%`;
+      c.val.textContent = String(ops);
+      c.col.classList.toggle('is-hot', c.id === 'n2' && n >= nMax - 2);
+    }
+    ui.status.textContent = n === nMax ? 'n² 爆炸；面试先说瓶颈阶' : `规模 ${n}：对比各阶「操作次数」`;
+    log(ui.status.textContent);
+    await sleep(Math.max(60, speed * 0.45), signal);
+  }
+  ui.status.textContent = '开口：瓶颈循环/递归深度 → 平均 vs 最坏 → 可否空间换时间';
+  await sleep(speed * 0.7, signal);
+}
+
+/** DSA · 栈 LIFO / 队列 FIFO */
+function stackQStage(spec) {
+  const stage = el('div', 'vibe-algo__sq');
+  const tokens = Array.isArray(spec.tokens) ? spec.tokens.map(String) : ['A', 'B', 'C'];
+  const mkSide = (title, sub, cls) => {
+    const side = el('div', `vibe-algo__sq-side ${cls}`);
+    side.append(
+      el('div', 'vibe-algo__sq-title', { text: title }),
+      el('div', 'vibe-algo__sq-sub', { text: sub })
+    );
+    const well = el('div', 'vibe-algo__sq-well');
+    side.append(well);
+    return { side, well };
+  };
+  const st = mkSide('栈 Stack', 'LIFO · 后进先出', 'vibe-algo__sq-side--stack');
+  const qu = mkSide('队列 Queue', 'FIFO · 先进先出', 'vibe-algo__sq-side--queue');
+  const row = el('div', 'vibe-algo__sq-row');
+  row.append(st.side, qu.side);
+  const tray = el('div', 'vibe-algo__sq-tray');
+  const chips = tokens.map((t) => {
+    const chip = el('div', 'vibe-algo__sq-chip', { text: t });
+    chip.dataset.tok = t;
+    tray.append(chip);
+    return chip;
+  });
+  const status = el('div', 'vibe-algo__sq-status', { text: '入栈 / 入队…' });
+  stage.append(tray, row, status);
+  return { stage, chips, st, qu, status, tokens };
+}
+
+async function runStackQ(ui, speed, signal, log) {
+  ui.st.well.replaceChildren();
+  ui.qu.well.replaceChildren();
+  for (const c of ui.chips) {
+    c.classList.remove('is-gone');
+    ui.stage.querySelector('.vibe-algo__sq-tray')?.append(c);
+  }
+  log('同一批元素：栈与队列进出顺序不同');
+  const stack = [];
+  const queue = [];
+  for (const chip of ui.chips) {
+    chip.classList.add('is-active');
+    ui.status.textContent = `push / enqueue ${chip.dataset.tok}`;
+    log(ui.status.textContent);
+    await sleep(speed * 0.7, signal);
+    const sClone = chip.cloneNode(true);
+    sClone.classList.remove('is-active');
+    sClone.classList.add('is-in');
+    ui.st.well.prepend(sClone);
+    stack.push(chip.dataset.tok);
+    const qClone = chip.cloneNode(true);
+    qClone.classList.remove('is-active');
+    qClone.classList.add('is-in');
+    ui.qu.well.append(qClone);
+    queue.push(chip.dataset.tok);
+    chip.classList.add('is-gone');
+    chip.classList.remove('is-active');
+    await sleep(speed * 0.55, signal);
+  }
+  const outS = [];
+  const outQ = [];
+  while (ui.st.well.firstChild) {
+    const node = ui.st.well.firstChild;
+    outS.push(node.textContent);
+    node.classList.add('is-pop');
+    ui.status.textContent = `栈 pop → ${node.textContent}`;
+    log(ui.status.textContent);
+    await sleep(speed * 0.65, signal);
+    node.remove();
+  }
+  while (ui.qu.well.firstChild) {
+    const node = ui.qu.well.firstChild;
+    outQ.push(node.textContent);
+    node.classList.add('is-pop');
+    ui.status.textContent = `队列 dequeue → ${node.textContent}`;
+    log(ui.status.textContent);
+    await sleep(speed * 0.65, signal);
+    node.remove();
+  }
+  ui.status.textContent = `栈出 [${outS.join('')}] · 队列出 [${outQ.join('')}] — 括号匹配用栈；BFS 用队列`;
+  log(ui.status.textContent);
+  await sleep(speed * 0.8, signal);
+}
+
+/** DSA · 哈希桶 + 冲突链 */
+function hashSlotStage(spec) {
+  const stage = el('div', 'vibe-algo__hs');
+  const n = Math.max(3, Number(spec.slots) || 5);
+  const slots = [];
+  const row = el('div', 'vibe-algo__hs-row');
+  for (let i = 0; i < n; i++) {
+    const slot = el('div', 'vibe-algo__hs-slot');
+    slot.append(el('div', 'vibe-algo__hs-idx', { text: `#${i}` }));
+    const chain = el('div', 'vibe-algo__hs-chain');
+    slot.append(chain);
+    row.append(slot);
+    slots.push({ slot, chain });
+  }
+  const keyEl = el('div', 'vibe-algo__hs-key', { text: 'key…' });
+  const status = el('div', 'vibe-algo__hs-status', { text: '哈希…' });
+  stage.append(keyEl, row, status);
+  return { stage, slots, keyEl, status };
+}
+
+async function runHashSlot(ui, spec, speed, signal, log) {
+  for (const s of ui.slots) {
+    s.chain.replaceChildren();
+    s.slot.classList.remove('is-active', 'is-hit');
+  }
+  const puts = Array.isArray(spec.puts) ? spec.puts : [];
+  log('键 → 哈希 → 桶；冲突则链址');
+  for (const p of puts) {
+    const key = String(p.key ?? '?');
+    const slot = Math.abs(Number(p.slot) || 0) % ui.slots.length;
+    ui.keyEl.textContent = `hash("${key}") → 桶 ${slot}`;
+    for (const s of ui.slots) s.slot.classList.remove('is-active');
+    ui.slots[slot].slot.classList.add('is-active');
+    ui.status.textContent = ui.slots[slot].chain.children.length
+      ? `冲突：${key} 挂到桶 ${slot} 的链上`
+      : `写入桶 ${slot}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    const cell = el('div', 'vibe-algo__hs-cell', { text: key });
+    cell.classList.add('is-in');
+    ui.slots[slot].chain.append(cell);
+    ui.slots[slot].slot.classList.add('is-hit');
+    await sleep(speed * 0.7, signal);
+  }
+  ui.keyEl.textContent = '平均 O(1) · 最坏一条长链 O(n)';
+  ui.status.textContent = '负载因子过高 → 扩容；JS 用 Map / Set 即可开口';
+  log(ui.status.textContent);
+  await sleep(speed * 0.8, signal);
+}
+
+/** DSA · BST 遍历 */
+function bstTravStage(spec) {
+  const stage = el('div', 'vibe-algo__bst');
+  // fixed small BST:      4
+  //                   2     6
+  //                  1 3   5 7
+  const layout = [
+    { id: 4, x: 50, y: 8 },
+    { id: 2, x: 28, y: 38 },
+    { id: 6, x: 72, y: 38 },
+    { id: 1, x: 16, y: 68 },
+    { id: 3, x: 40, y: 68 },
+    { id: 5, x: 60, y: 68 },
+    { id: 7, x: 84, y: 68 },
+  ];
+  const canvas = el('div', 'vibe-algo__bst-canvas');
+  const nodes = new Map();
+  for (const n of layout) {
+    const node = el('div', 'vibe-algo__bst-node', { text: String(n.id) });
+    node.style.left = `${n.x}%`;
+    node.style.top = `${n.y}%`;
+    canvas.append(node);
+    nodes.set(n.id, node);
+  }
+  const orderEl = el('div', 'vibe-algo__bst-order', { text: '序：' });
+  const status = el('div', 'vibe-algo__bst-status', { text: '遍历…' });
+  const mode = String(spec.mode || 'inorder');
+  stage.append(
+    el('div', 'vibe-algo__bst-mode', { text: `模式：${mode}` }),
+    canvas,
+    orderEl,
+    status
+  );
+  return { stage, nodes, orderEl, status, mode };
+}
+
+function bstOrder(mode) {
+  const pre = [4, 2, 1, 3, 6, 5, 7];
+  const inn = [1, 2, 3, 4, 5, 6, 7];
+  const post = [1, 3, 2, 5, 7, 6, 4];
+  const level = [4, 2, 6, 1, 3, 5, 7];
+  if (mode === 'preorder' || mode === 'pre') return pre;
+  if (mode === 'postorder' || mode === 'post') return post;
+  if (mode === 'level' || mode === 'bfs') return level;
+  return inn;
+}
+
+async function runBstTrav(ui, speed, signal, log) {
+  for (const n of ui.nodes.values()) n.classList.remove('is-active', 'is-done');
+  const seq = bstOrder(ui.mode);
+  const seen = [];
+  ui.orderEl.textContent = '序：';
+  const label =
+    ui.mode === 'level' || ui.mode === 'bfs'
+      ? '层序 = 队列 BFS'
+      : ui.mode === 'preorder' || ui.mode === 'pre'
+        ? '前序：根左右'
+        : ui.mode === 'postorder' || ui.mode === 'post'
+          ? '后序：左右根'
+          : '中序：左根右（BST 有序）';
+  log(label);
+  ui.status.textContent = label;
+  await sleep(speed * 0.6, signal);
+  for (const id of seq) {
+    const node = ui.nodes.get(id);
+    node?.classList.add('is-active');
+    seen.push(id);
+    ui.orderEl.textContent = `序：${seen.join(' → ')}`;
+    ui.status.textContent = `访问 ${id}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    node?.classList.replace('is-active', 'is-done');
+  }
+  ui.status.textContent =
+    ui.mode === 'inorder' || !ui.mode || ui.mode === 'in'
+      ? 'BST 中序有序；层序题用队列'
+      : '对照改 mode 看四种序';
+  await sleep(speed * 0.7, signal);
+}
+
+/** DSA · 递归调用栈（阶乘示意） */
+function callStackStage() {
+  const stage = el('div', 'vibe-algo__cs');
+  const frames = el('div', 'vibe-algo__cs-frames');
+  const ret = el('div', 'vibe-algo__cs-ret', { text: '返回值…' });
+  const status = el('div', 'vibe-algo__cs-status', { text: '调用…' });
+  stage.append(
+    el('div', 'vibe-algo__cs-title', { text: '调用栈 · fact(n)' }),
+    frames,
+    ret,
+    status
+  );
+  return { stage, frames, ret, status };
+}
+
+async function runCallStack(ui, spec, speed, signal, log) {
+  ui.frames.replaceChildren();
+  const n = Math.min(6, Math.max(2, Number(spec.target) || 4));
+  log(`展开 fact(${n})：每层压栈，触底再弹栈相乘`);
+  const stack = [];
+  for (let i = n; i >= 1; i--) {
+    const fr = el('div', 'vibe-algo__cs-frame', {
+      text: i === 1 ? `fact(1) → 1` : `fact(${i}) 等 fact(${i - 1})`,
+    });
+    fr.classList.add('is-active');
+    ui.frames.prepend(fr);
+    stack.push(fr);
+    ui.status.textContent = `压栈 depth=${stack.length}`;
+    ui.ret.textContent = i === 1 ? '触底返回 1' : '等待子调用…';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    fr.classList.remove('is-active');
+  }
+  let acc = 1;
+  for (let i = 1; i <= n; i++) {
+    acc *= i;
+    const fr = stack[n - i];
+    fr?.classList.add('is-done');
+    ui.ret.textContent = `返回 ${acc}`;
+    ui.status.textContent = `弹栈 · 乘上 ${i} → ${acc}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    fr?.remove();
+  }
+  ui.status.textContent = `fact(${n})=${acc}；深层递归可改显式栈 / 迭代，防爆栈`;
+  log(ui.status.textContent);
+  await sleep(speed * 0.75, signal);
+}
+
+/** DSA · DP 填表（爬楼梯） */
+function dpTableStage(spec) {
+  const stage = el('div', 'vibe-algo__dp');
+  const n = Math.min(10, Math.max(3, Number(spec.n) || 6));
+  const cells = [];
+  const row = el('div', 'vibe-algo__dp-row');
+  for (let i = 0; i <= n; i++) {
+    const cell = el('div', 'vibe-algo__dp-cell');
+    cell.append(
+      el('div', 'vibe-algo__dp-i', { text: `dp[${i}]` }),
+      el('div', 'vibe-algo__dp-v', { text: '·' })
+    );
+    row.append(cell);
+    cells.push(cell);
+  }
+  const formula = el('div', 'vibe-algo__dp-formula', {
+    text: 'dp[i] = dp[i-1] + dp[i-2]（爬楼梯）',
+  });
+  const status = el('div', 'vibe-algo__dp-status', { text: '填表…' });
+  stage.append(formula, row, status);
+  return { stage, cells, status, n };
+}
+
+async function runDpTable(ui, speed, signal, log) {
+  const dp = Array(ui.n + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = 1;
+  for (const c of ui.cells) {
+    c.classList.remove('is-active', 'is-done', 'is-src');
+    c.querySelector('.vibe-algo__dp-v').textContent = '·';
+  }
+  log('状态含义：dp[i]=爬到第 i 阶的方案数');
+  for (const i of [0, 1]) {
+    ui.cells[i].classList.add('is-active');
+    ui.cells[i].querySelector('.vibe-algo__dp-v').textContent = String(dp[i]);
+    ui.status.textContent = `初始化 dp[${i}]=${dp[i]}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    ui.cells[i].classList.replace('is-active', 'is-done');
+  }
+  for (let i = 2; i <= ui.n; i++) {
+    ui.cells[i - 1]?.classList.add('is-src');
+    ui.cells[i - 2]?.classList.add('is-src');
+    dp[i] = dp[i - 1] + dp[i - 2];
+    ui.cells[i].classList.add('is-active');
+    ui.cells[i].querySelector('.vibe-algo__dp-v').textContent = String(dp[i]);
+    ui.status.textContent = `dp[${i}] = ${dp[i - 1]}+${dp[i - 2]} = ${dp[i]}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    for (const c of ui.cells) c.classList.remove('is-src', 'is-active');
+    ui.cells[i].classList.add('is-done');
+  }
+  ui.status.textContent = '开口三步：状态含义 → 转移 → 初始化/遍历顺序；贪心需证明';
+  await sleep(speed * 0.8, signal);
+}
+
+/** DSA · 位运算清最低 1 */
+function bitsOpStage(spec) {
+  const stage = el('div', 'vibe-algo__bits');
+  let n = Math.max(1, Number(spec.n) || 29);
+  const bitsEl = el('div', 'vibe-algo__bits-row');
+  const nlab = el('div', 'vibe-algo__bits-n', { text: `n = ${n}` });
+  const status = el('div', 'vibe-algo__bits-status', { text: 'n & (n-1)…' });
+  stage.append(nlab, bitsEl, status);
+  return { stage, bitsEl, nlab, status, start: n };
+}
+
+function renderBits(elRoot, n, highlightLowest = false) {
+  elRoot.replaceChildren();
+  const s = n.toString(2).padStart(8, '0');
+  [...s].forEach((b, i) => {
+    const cell = el('div', 'vibe-algo__bits-bit', { text: b });
+    if (b === '1') cell.classList.add('is-one');
+    elRoot.append(cell);
+  });
+  if (highlightLowest) {
+    const idx = s.lastIndexOf('1');
+    if (idx >= 0) elRoot.children[idx]?.classList.add('is-clear');
+  }
+  return s;
+}
+
+async function runBitsOp(ui, speed, signal, log) {
+  let n = ui.start;
+  let steps = 0;
+  log('每次 n = n&(n-1) 清掉最低位的 1；循环次数=1 的个数');
+  while (n > 0) {
+    renderBits(ui.bitsEl, n, true);
+    ui.nlab.textContent = `n = ${n} (${n.toString(2)})`;
+    ui.status.textContent = `清最低 1：${n} & ${n - 1} → ${n & (n - 1)}`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    n = n & (n - 1);
+    steps++;
+    renderBits(ui.bitsEl, n, false);
+    await sleep(speed * 0.55, signal);
+  }
+  ui.nlab.textContent = 'n = 0';
+  ui.status.textContent = `共 ${steps} 次 → Hamming 权重；异或 ^ 可抵消成对（只出现一次）`;
+  log(ui.status.textContent);
+  await sleep(speed * 0.8, signal);
+}
+
+/** DSA · LRU */
+function lruStage(spec) {
+  const stage = el('div', 'vibe-algo__lru');
+  const cap = Math.max(1, Number(spec.capacity) || 2);
+  const list = el('div', 'vibe-algo__lru-list');
+  const map = el('div', 'vibe-algo__lru-map');
+  const opEl = el('div', 'vibe-algo__lru-op', { text: 'op…' });
+  const status = el('div', 'vibe-algo__lru-status', { text: `容量 ${cap}` });
+  stage.append(
+    el('div', 'vibe-algo__lru-title', { text: `LRU · capacity=${cap}` }),
+    opEl,
+    el('div', 'vibe-algo__lru-lab', { text: '双向链表（左=新 · 右=旧）' }),
+    list,
+    el('div', 'vibe-algo__lru-lab', { text: 'HashMap key → 节点' }),
+    map,
+    status
+  );
+  return { stage, list, map, opEl, status, cap };
+}
+
+async function runLru(ui, spec, speed, signal, log) {
+  ui.list.replaceChildren();
+  ui.map.replaceChildren();
+  /** @type {{key:string,val:string}[]} */
+  const order = []; // index 0 = newest
+  const map = new Map();
+  const ops = Array.isArray(spec.ops) ? spec.ops : [];
+  const sync = () => {
+    ui.list.replaceChildren(
+      ...order.map((n) => {
+        const c = el('div', 'vibe-algo__lru-node', { text: `${n.key}:${n.val}` });
+        return c;
+      })
+    );
+    ui.map.replaceChildren(
+      ...[...map.keys()].map((k) => el('div', 'vibe-algo__lru-mk', { text: k }))
+    );
+  };
+  log('HashMap + 双向链表：get/put 均摊 O(1)');
+  for (const step of ops) {
+    const op = String(step.op || '');
+    const key = String(step.key ?? '');
+    const val = String(step.val ?? '');
+    ui.opEl.textContent = op === 'get' ? `get(${key})` : `put(${key}, ${val})`;
+    if (op === 'get') {
+      if (!map.has(key)) {
+        ui.status.textContent = '未命中';
+      } else {
+        const idx = order.findIndex((x) => x.key === key);
+        const [node] = order.splice(idx, 1);
+        order.unshift(node);
+        ui.status.textContent = `命中 ${key} → 挪到最新`;
+      }
+    } else {
+      if (map.has(key)) {
+        const idx = order.findIndex((x) => x.key === key);
+        order.splice(idx, 1);
+      } else if (order.length >= ui.cap) {
+        const old = order.pop();
+        if (old) {
+          map.delete(old.key);
+          ui.status.textContent = `容量满：淘汰最旧 ${old.key}`;
+          sync();
+          log(ui.status.textContent);
+          await sleep(speed, signal);
+        }
+      }
+      order.unshift({ key, val });
+      map.set(key, val);
+      ui.status.textContent = `写入 ${key}`;
+    }
+    sync();
+    ui.list.firstChild?.classList.add('is-active');
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    ui.list.firstChild?.classList.remove('is-active');
+  }
+  ui.status.textContent = '面试默写：Map 存节点指针；链表维护顺序；超容删尾';
+  await sleep(speed * 0.75, signal);
+}
+
+/** DSA · 拓扑排序 Kahn */
+function topoStage(spec) {
+  const stage = el('div', 'vibe-algo__topo');
+  const nodes = Array.isArray(spec.nodes) ? spec.nodes.map(String) : ['A', 'B', 'C'];
+  const edges = Array.isArray(spec.edges) ? spec.edges : [];
+  const indeg = Object.fromEntries(nodes.map((n) => [n, 0]));
+  const adj = Object.fromEntries(nodes.map((n) => [n, []]));
+  for (const e of edges) {
+    const [u, v] = e;
+    if (u == null || v == null) continue;
+    adj[String(u)]?.push(String(v));
+    indeg[String(v)] = (indeg[String(v)] || 0) + 1;
+  }
+  const nodeEls = new Map();
+  const row = el('div', 'vibe-algo__topo-nodes');
+  for (const n of nodes) {
+    const b = el('div', 'vibe-algo__topo-node');
+    b.append(
+      el('strong', '', { text: n }),
+      el('span', 'vibe-algo__topo-deg', { text: `入度 ${indeg[n]}` })
+    );
+    row.append(b);
+    nodeEls.set(n, b);
+  }
+  const qEl = el('div', 'vibe-algo__topo-q', { text: '队列：' });
+  const outEl = el('div', 'vibe-algo__topo-out', { text: '顺序：' });
+  const status = el('div', 'vibe-algo__topo-status', { text: 'Kahn…' });
+  stage.append(row, qEl, outEl, status);
+  return { stage, nodeEls, qEl, outEl, status, indeg: { ...indeg }, adj, nodes };
+}
+
+async function runTopo(ui, speed, signal, log) {
+  const indeg = { ...ui.indeg };
+  const adj = ui.adj;
+  const q = ui.nodes.filter((n) => indeg[n] === 0);
+  const out = [];
+  for (const b of ui.nodeEls.values()) b.classList.remove('is-active', 'is-done', 'is-ready');
+  log('拓扑：有向无环；入度为 0 入队');
+  while (true) {
+    ui.qEl.textContent = `队列：[${q.join(', ')}]`;
+    ui.outEl.textContent = `顺序：${out.join(' → ') || '…'}`;
+    for (const [id, eln] of ui.nodeEls) {
+      eln.classList.toggle('is-ready', q.includes(id) && !out.includes(id));
+      eln.querySelector('.vibe-algo__topo-deg').textContent = `入度 ${indeg[id]}`;
+    }
+    if (!q.length) break;
+    const u = q.shift();
+    out.push(u);
+    ui.nodeEls.get(u)?.classList.add('is-active');
+    ui.status.textContent = `取出 ${u}；邻接入度 -1`;
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    for (const v of adj[u] || []) {
+      indeg[v]--;
+      if (indeg[v] === 0) q.push(v);
+    }
+    ui.nodeEls.get(u)?.classList.replace('is-active', 'is-done');
+    await sleep(speed * 0.55, signal);
+  }
+  const ok = out.length === ui.nodes.length;
+  ui.outEl.textContent = `顺序：${out.join(' → ')}`;
+  ui.status.textContent = ok
+    ? '完成：课程表 / 依赖安装顺序同一套'
+    : '未能排完 → 有环';
+  log(ui.status.textContent);
+  await sleep(speed * 0.8, signal);
+}
+
+/** DSA · 朴素串匹配 */
+function strMatchStage(spec) {
+  const stage = el('div', 'vibe-algo__sm');
+  const text = String(spec.text || 'ABABCABAB');
+  const pattern = String(spec.pattern || 'ABAB');
+  const tRow = el('div', 'vibe-algo__sm-row');
+  const pRow = el('div', 'vibe-algo__sm-row vibe-algo__sm-row--pat');
+  const tCells = [...text].map((ch) => {
+    const c = el('div', 'vibe-algo__sm-cell', { text: ch });
+    tRow.append(c);
+    return c;
+  });
+  const pCells = [...pattern].map((ch) => {
+    const c = el('div', 'vibe-algo__sm-cell', { text: ch });
+    pRow.append(c);
+    return c;
+  });
+  const status = el('div', 'vibe-algo__sm-status', { text: '对齐…' });
+  stage.append(
+    el('div', 'vibe-algo__sm-lab', { text: '文本' }),
+    tRow,
+    el('div', 'vibe-algo__sm-lab', { text: '模式（朴素：失配则模式右移 1）' }),
+    pRow,
+    status
+  );
+  return { stage, tCells, pCells, status, text, pattern };
+}
+
+async function runStrMatch(ui, speed, signal, log) {
+  const t = ui.text;
+  const p = ui.pattern;
+  log('暴力匹配：最坏 O(nm)；KMP 用前缀表避免回退浪费');
+  let found = -1;
+  for (let i = 0; i <= t.length - p.length; i++) {
+    for (const c of ui.tCells) c.classList.remove('is-active', 'is-ok', 'is-bad');
+    for (const c of ui.pCells) c.classList.remove('is-active', 'is-ok', 'is-bad');
+    ui.status.textContent = `窗口起点 i=${i}`;
+    let ok = true;
+    for (let j = 0; j < p.length; j++) {
+      ui.tCells[i + j]?.classList.add('is-active');
+      ui.pCells[j]?.classList.add('is-active');
+      const match = t[i + j] === p[j];
+      ui.status.textContent = `比较 t[${i + j}]=${t[i + j]} 与 p[${j}]=${p[j]}`;
+      log(ui.status.textContent);
+      await sleep(speed * 0.7, signal);
+      if (!match) {
+        ui.tCells[i + j]?.classList.add('is-bad');
+        ui.pCells[j]?.classList.add('is-bad');
+        ok = false;
+        await sleep(speed * 0.5, signal);
+        break;
+      }
+      ui.tCells[i + j]?.classList.add('is-ok');
+      ui.pCells[j]?.classList.add('is-ok');
+    }
+    if (ok) {
+      found = i;
+      ui.status.textContent = `命中 @ ${i}；工程用 indexOf / includes，面试知 KMP 思想`;
+      break;
+    }
+  }
+  if (found < 0) ui.status.textContent = '未命中';
+  log(ui.status.textContent);
+  await sleep(speed * 0.8, signal);
+}
+
+
+
+/** 面板 · 四层心智 */
+function panelLayerStage(spec) {
+  const stage = el('div', 'vibe-algo__pl');
+  const layers = (Array.isArray(spec.layers) ? spec.layers : []).map((L) => {
+    const b = el('div', 'vibe-algo__pl-layer');
+    b.dataset.id = String(L.id || '');
+    b.append(
+      el('div', 'vibe-algo__pl-name', { text: String(L.name || '?') }),
+      el('div', 'vibe-algo__pl-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const stack = el('div', 'vibe-algo__pl-stack');
+  stack.append(...layers);
+  const badge = el('div', 'vibe-algo__pl-badge', {
+    text: '会点面板 ≠ 懂网关/进程；出问题按层排障',
+  });
+  const status = el('div', 'vibe-algo__pl-status', { text: '分层…' });
+  stage.append(stack, badge, status);
+  return { stage, layers, badge, status };
+}
+
+async function runPanelLayer(ui, speed, signal, log) {
+  for (const L of ui.layers) L.classList.remove('is-active', 'is-done');
+  ui.badge.classList.remove('is-on');
+  log('面板只是运维壳；底下仍是反代 / 进程 / 数据');
+  for (const L of ui.layers) {
+    L.classList.add('is-active');
+    ui.status.textContent = L.querySelector('.vibe-algo__pl-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    L.classList.replace('is-active', 'is-done');
+  }
+  ui.badge.classList.add('is-on');
+  ui.status.textContent = '安全底线：改端口、强密码、白名单；勿裸奔面板口';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 宝塔路径 */
+function btPathStage(spec) {
+  const stage = el('div', 'vibe-algo__bt');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__bt-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__bt-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__bt-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__bt-row');
+  row.append(...steps);
+  const tip = el('div', 'vibe-algo__bt-tip', {
+    text: '真源：docs.bt.cn · 默认常见 8888 · 立刻改端口/密码',
+  });
+  const status = el('div', 'vibe-algo__bt-status', { text: '宝塔路径…' });
+  stage.append(row, tip, status);
+  return { stage, steps, tip, status };
+}
+
+async function runBtPath(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('宝塔：LNMP/站点心智；面板入口是高危面');
+  for (const s of ui.steps) {
+    s.classList.add('is-active');
+    ui.status.textContent = s.querySelector('.vibe-algo__bt-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    s.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '本仓：反代到 127.0.0.1:PORT；业务仍在 Core';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 1Panel 路径 */
+function onePathStage(spec) {
+  const stage = el('div', 'vibe-algo__op');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__op-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__op-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__op-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__op-row');
+  row.append(...steps);
+  const tip = el('div', 'vibe-algo__op-tip', {
+    text: '真源：1panel.cn/docs · 安全入口 + 1pctl · 仅 Linux',
+  });
+  const status = el('div', 'vibe-algo__op-status', { text: '1Panel 路径…' });
+  stage.append(row, tip, status);
+  return { stage, steps, tip, status };
+}
+
+async function runOnePath(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('1Panel：容器/开源面板心智；入口路径降低扫描命中');
+  for (const s of ui.steps) {
+    s.classList.add('is-active');
+    ui.status.textContent = s.querySelector('.vibe-algo__op-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    s.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '备份必须含数据卷；Windows 主机别默认选 1Panel';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 面板选型三选一 */
+function panelPickStage(spec) {
+  const stage = el('div', 'vibe-algo__pk');
+  const picks = (Array.isArray(spec.picks) ? spec.picks : []).map((p) => {
+    const b = el('div', 'vibe-algo__pk-card');
+    b.dataset.id = String(p.id || '');
+    b.append(
+      el('div', 'vibe-algo__pk-name', { text: String(p.name || '?') }),
+      el('div', 'vibe-algo__pk-sub', { text: String(p.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__pk-row');
+  row.append(...picks);
+  const status = el('div', 'vibe-algo__pk-status', { text: '看约束选型…' });
+  stage.append(row, status);
+  return { stage, picks, status };
+}
+
+async function runPanelPick(ui, speed, signal, log) {
+  for (const p of ui.picks) p.classList.remove('is-active', 'is-done', 'is-dim');
+  const story = [
+    { id: 'bt', msg: '一人最快出站、海量教程 → 宝塔可行' },
+    { id: 'one', msg: 'Linux + 容器/开源可审计 → 1Panel 更贴' },
+    { id: 'ssh', msg: '多环境 GitOps / 团队协作 → 面板可选甚至不要' },
+  ];
+  log('选型看约束，不看广告星标');
+  for (const step of story) {
+    for (const p of ui.picks) {
+      p.classList.toggle('is-active', p.dataset.id === step.id);
+      p.classList.toggle('is-dim', p.dataset.id !== step.id);
+    }
+    ui.status.textContent = step.msg;
+    log(step.msg);
+    await sleep(speed, signal);
+  }
+  for (const p of ui.picks) {
+    p.classList.remove('is-dim', 'is-active');
+    p.classList.add('is-done');
+  }
+  ui.status.textContent = '面板不缩短清单：Node≥26、pnpm、Redis、反代、备份仍在';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 面板反代到 Node */
+function nodeRproxyStage(spec) {
+  const stage = el('div', 'vibe-algo__nr');
+  const hops = (Array.isArray(spec.hops) ? spec.hops : []).map((h) => {
+    const b = el('div', 'vibe-algo__nr-hop');
+    b.dataset.id = String(h.id || '');
+    b.append(
+      el('div', 'vibe-algo__nr-name', { text: String(h.name || '?') }),
+      el('div', 'vibe-algo__nr-sub', { text: String(h.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__nr-row');
+  for (let i = 0; i < hops.length; i++) {
+    row.append(hops[i]);
+    if (i < hops.length - 1) row.append(el('div', 'vibe-algo__nr-arrow', { text: '→' }));
+  }
+  const pkt = el('div', 'vibe-algo__nr-pkt', { text: 'REQ' });
+  pkt.hidden = true;
+  const warn = el('div', 'vibe-algo__nr-warn', {
+    text: '勿把业务端口对公网裸奔；只暴露 80/443',
+  });
+  const status = el('div', 'vibe-algo__nr-status', { text: '反代链路…' });
+  stage.append(row, pkt, warn, status);
+  return { stage, hops, pkt, warn, status };
+}
+
+async function runNodeRproxy(ui, speed, signal, log) {
+  for (const h of ui.hops) h.classList.remove('is-active', 'is-done');
+  ui.warn.classList.remove('is-on');
+  ui.pkt.hidden = false;
+  log('用户只打 HTTPS；面板/Nginx 转到本机 Node');
+  for (const h of ui.hops) {
+    h.classList.add('is-active');
+    ui.pkt.textContent = h.dataset.id === 'loop' ? '127.0.0.1' : h.dataset.id === 'app' ? 'XRK' : 'HTTPS';
+    ui.status.textContent = h.querySelector('.vibe-algo__nr-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    h.classList.replace('is-active', 'is-done');
+  }
+  ui.warn.classList.add('is-on');
+  ui.pkt.hidden = true;
+  ui.status.textContent = '先 SSH 跑通 node app，再配反代与证书';
+  await sleep(speed * 0.8, signal);
+}
+
+
+
+/** 主机运维 · systemd 生命周期 */
+function sysdUnitStage(spec) {
+  const stage = el('div', 'vibe-algo__sd');
+  const steps = (Array.isArray(spec.steps) ? spec.steps : []).map((s) => {
+    const b = el('div', 'vibe-algo__sd-step');
+    b.dataset.id = String(s.id || '');
+    b.append(
+      el('div', 'vibe-algo__sd-name', { text: String(s.name || '?') }),
+      el('div', 'vibe-algo__sd-sub', { text: String(s.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__sd-row');
+  row.append(...steps);
+  const tip = el('div', 'vibe-algo__sd-tip', {
+    text: '改 unit 后必须 daemon-reload；enable ≠ 已在跑',
+  });
+  const status = el('div', 'vibe-algo__sd-status', { text: 'systemd…' });
+  stage.append(row, tip, status);
+  return { stage, steps, tip, status };
+}
+
+async function runSysdUnit(ui, speed, signal, log) {
+  for (const s of ui.steps) s.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('真源：systemd.unit(5) / systemctl — 写 unit → reload → enable → start → 日志');
+  for (const s of ui.steps) {
+    s.classList.add('is-active');
+    ui.status.textContent = s.querySelector('.vibe-algo__sd-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    s.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '本仓：WorkingDirectory=仓库根；ExecStart=绝对路径 node app';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 主机运维 · TLS 三角路径 */
+function tlsTriStage(spec) {
+  const stage = el('div', 'vibe-algo__tt');
+  const hops = (Array.isArray(spec.hops) ? spec.hops : []).map((h) => {
+    const b = el('div', 'vibe-algo__tt-hop');
+    b.dataset.id = String(h.id || '');
+    b.append(
+      el('div', 'vibe-algo__tt-name', { text: String(h.name || '?') }),
+      el('div', 'vibe-algo__tt-sub', { text: String(h.sub || '') })
+    );
+    return b;
+  });
+  const row = el('div', 'vibe-algo__tt-row');
+  for (let i = 0; i < hops.length; i++) {
+    row.append(hops[i]);
+    if (i < hops.length - 1) row.append(el('div', 'vibe-algo__tt-arrow', { text: '→' }));
+  }
+  const tip = el('div', 'vibe-algo__tt-tip', {
+    text: '申请失败最多：DNS 未指到本机 / 80 未放行',
+  });
+  const status = el('div', 'vibe-algo__tt-status', { text: 'TLS…' });
+  stage.append(row, tip, status);
+  return { stage, hops, tip, status };
+}
+
+async function runTlsTri(ui, speed, signal, log) {
+  for (const h of ui.hops) h.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('DNS → 端口 → ACME → 网关终止 → 回源本机 Node');
+  for (const h of ui.hops) {
+    h.classList.add('is-active');
+    ui.status.textContent = h.querySelector('.vibe-algo__tt-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    h.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '私钥留服务器；续期记下面板自动还是 cron';
+  await sleep(speed * 0.8, signal);
+}
+
+/** 主机运维 · 备份三分法 + 演练 */
+function bakDrillStage(spec) {
+  const stage = el('div', 'vibe-algo__bk');
+  const buckets = (Array.isArray(spec.buckets) ? spec.buckets : []).map((b) => {
+    const elb = el('div', 'vibe-algo__bk-bucket');
+    elb.dataset.id = String(b.id || '');
+    elb.append(
+      el('div', 'vibe-algo__bk-name', { text: String(b.name || '?') }),
+      el('div', 'vibe-algo__bk-sub', { text: String(b.sub || '') })
+    );
+    return elb;
+  });
+  const row = el('div', 'vibe-algo__bk-row');
+  row.append(...buckets);
+  const path = el('div', 'vibe-algo__bk-path');
+  const local = el('div', 'vibe-algo__bk-dest', { text: '本机副本' });
+  const off = el('div', 'vibe-algo__bk-dest vibe-algo__bk-dest--off', { text: '异地副本' });
+  const drill = el('div', 'vibe-algo__bk-dest vibe-algo__bk-dest--drill', { text: '恢复演练' });
+  path.append(local, el('span', 'vibe-algo__bk-arrow', { text: '→' }), off, el('span', 'vibe-algo__bk-arrow', { text: '→' }), drill);
+  const tip = el('div', 'vibe-algo__bk-tip', {
+    text: '没测过恢复的备份 = 安慰剂；卷/库常被「网站备份」漏掉',
+  });
+  const status = el('div', 'vibe-algo__bk-status', { text: '备份…' });
+  stage.append(row, path, tip, status);
+  return { stage, buckets, local, off, drill, tip, status };
+}
+
+async function runBakDrill(ui, speed, signal, log) {
+  for (const b of ui.buckets) b.classList.remove('is-active', 'is-done');
+  for (const d of [ui.local, ui.off, ui.drill]) d.classList.remove('is-on');
+  ui.tip.classList.remove('is-on');
+  log('三分法：代码 / 配置密钥 / 数据');
+  for (const b of ui.buckets) {
+    b.classList.add('is-active');
+    ui.status.textContent = b.querySelector('.vibe-algo__bk-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    b.classList.replace('is-active', 'is-done');
+  }
+  ui.local.classList.add('is-on');
+  ui.status.textContent = '定时落到本机另一路径';
+  await sleep(speed * 0.7, signal);
+  ui.off.classList.add('is-on');
+  ui.status.textContent = '异地一份（对象存储/另一台机）';
+  await sleep(speed * 0.7, signal);
+  ui.drill.classList.add('is-on');
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '本仓：data/ · Redis · 上传 · ai-workspace 进清单';
+  await sleep(speed * 0.8, signal);
+}
+
+
+
+/** AI 编程工具 · Vibe 五拍 */
+function vibeFiveStage(spec) {
+  const stage = el('div', 'vibe-algo__vf');
+  const beats = (Array.isArray(spec.beats) ? spec.beats : []).map((b) => {
+    const elb = el('div', 'vibe-algo__vf-beat');
+    elb.dataset.id = String(b.id || '');
+    elb.append(
+      el('div', 'vibe-algo__vf-name', { text: String(b.name || '?') }),
+      el('div', 'vibe-algo__vf-sub', { text: String(b.sub || '') })
+    );
+    return elb;
+  });
+  const row = el('div', 'vibe-algo__vf-row');
+  row.append(...beats);
+  const tip = el('div', 'vibe-algo__vf-tip', {
+    text: '能跑 ≠ 可靠；Accept 前看 diff；高危命令你点头',
+  });
+  const status = el('div', 'vibe-algo__vf-status', { text: '五拍…' });
+  stage.append(row, tip, status);
+  return { stage, beats, tip, status };
+}
+
+async function runVibeFive(ui, speed, signal, log) {
+  for (const b of ui.beats) b.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('路径 A：目标 → 现场 → 约束 → 验收 → 审 diff');
+  for (const b of ui.beats) {
+    b.classList.add('is-active');
+    ui.status.textContent = b.querySelector('.vibe-algo__vf-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    b.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '造/懂 Agent 应用走第五章；本框只钉会用 Coding Agent';
+  await sleep(speed * 0.8, signal);
+}
+
+/** AI 编程工具 · 四形态 */
+function adevFormStage(spec) {
+  const stage = el('div', 'vibe-algo__af');
+  const forms = (Array.isArray(spec.forms) ? spec.forms : []).map((f) => {
+    const elb = el('div', 'vibe-algo__af-card');
+    elb.dataset.id = String(f.id || '');
+    elb.append(
+      el('div', 'vibe-algo__af-name', { text: String(f.name || '?') }),
+      el('div', 'vibe-algo__af-sub', { text: String(f.sub || '') })
+    );
+    return elb;
+  });
+  const row = el('div', 'vibe-algo__af-row');
+  row.append(...forms);
+  const harness = el('div', 'vibe-algo__af-harness', {
+    text: 'Harness = Instructions + Tools + Model（换品牌换壳，交底同一事实）',
+  });
+  const status = el('div', 'vibe-algo__af-status', { text: '形态…' });
+  stage.append(row, harness, status);
+  return { stage, forms, harness, status };
+}
+
+async function runAdevForm(ui, speed, signal, log) {
+  for (const f of ui.forms) f.classList.remove('is-active', 'is-done', 'is-dim');
+  ui.harness.classList.remove('is-on');
+  log('先分形态，再查品牌');
+  const story = [
+    { id: 'ide', msg: '本仓日常改代码 → AI IDE，Accept 前看 diff' },
+    { id: 'cli', msg: '纯 SSH / CI 一句 → Agent CLI' },
+    { id: 'cloud', msg: '异步出 PR → 云端 Agent' },
+    { id: 'oss', msg: '换模型 / 自托管 → 开源 Harness' },
+  ];
+  for (const step of story) {
+    for (const f of ui.forms) {
+      f.classList.toggle('is-active', f.dataset.id === step.id);
+      f.classList.toggle('is-dim', f.dataset.id !== step.id);
+    }
+    ui.status.textContent = step.msg;
+    log(step.msg);
+    await sleep(speed, signal);
+  }
+  for (const f of ui.forms) {
+    f.classList.remove('is-dim', 'is-active');
+    f.classList.add('is-done');
+  }
+  ui.harness.classList.add('is-on');
+  ui.status.textContent = '本仓禁区与 pnpm 写进 AGENTS.md，不跟广告走';
+  await sleep(speed * 0.8, signal);
+}
+
+/** AI 编程工具 · 项目记忆分层 */
+function memFilesStage(spec) {
+  const stage = el('div', 'vibe-algo__mf');
+  const layers = (Array.isArray(spec.layers) ? spec.layers : []).map((L) => {
+    const b = el('div', 'vibe-algo__mf-layer');
+    b.dataset.id = String(L.id || '');
+    b.append(
+      el('div', 'vibe-algo__mf-name', { text: String(L.name || '?') }),
+      el('div', 'vibe-algo__mf-sub', { text: String(L.sub || '') })
+    );
+    return b;
+  });
+  const stack = el('div', 'vibe-algo__mf-stack');
+  stack.append(...layers);
+  const tip = el('div', 'vibe-algo__mf-tip', {
+    text: '两套文件事实相反 = 灾难；密钥永不进仓',
+  });
+  const status = el('div', 'vibe-algo__mf-status', { text: '交底…' });
+  stage.append(stack, tip, status);
+  return { stage, layers, tip, status };
+}
+
+async function runMemFiles(ui, speed, signal, log) {
+  for (const L of ui.layers) L.classList.remove('is-active', 'is-done');
+  ui.tip.classList.remove('is-on');
+  log('会话会忘；Git 可审；换工具靠文件交底');
+  for (const L of ui.layers) {
+    L.classList.add('is-active');
+    ui.status.textContent = L.querySelector('.vibe-algo__mf-name')?.textContent || '';
+    log(ui.status.textContent);
+    await sleep(speed, signal);
+    L.classList.replace('is-active', 'is-done');
+  }
+  ui.tip.classList.add('is-on');
+  ui.status.textContent = '本仓：根 AGENTS.md + .cursor/rules；禁区与 Node≥26 优先写';
+  await sleep(speed * 0.8, signal);
+}
+
+
 export function mountAlgoViz(host, cfg) {
   host.textContent = '';
   host.classList.add('vibe-algo');
@@ -2649,6 +5381,102 @@ export function mountAlgoViz(host, cfg) {
         const ui = dbTierStage();
         stageWrap.append(ui.stage);
         await runDbTier(ui, speed, signal, log);
+      } else if (kind === 'sqlcrud' || kind === 'sqlfour' || kind === 'crud') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = sqlCrudStage(spec);
+        stageWrap.append(ui.stage);
+        await runSqlCrud(ui, speed, signal, log);
+      } else if (kind === 'dbserve' || kind === 'embedvs' || kind === 'csvsemb') {
+        const ui = dbServeStage();
+        stageWrap.append(ui.stage);
+        await runDbServe(ui, speed, signal, log);
+      } else if (kind === 'ctrvm' || kind === 'containervm' || kind === 'vsvm') {
+        const ui = ctrVmStage();
+        stageWrap.append(ui.stage);
+        await runCtrVm(ui, speed, signal, log);
+      } else if (kind === 'imglayer' || kind === 'dockerlayer' || kind === 'layers') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = imgLayerStage(spec);
+        stageWrap.append(ui.stage);
+        await runImgLayer(ui, speed, signal, log);
+      } else if (kind === 'composestack' || kind === 'composeup' || kind === 'svcstack') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = composeStackStage(spec);
+        stageWrap.append(ui.stage);
+        await runComposeStack(ui, speed, signal, log);
+      } else if (kind === 'opstier' || kind === 'containertier' || kind === 'runtier') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = opsTierStage(spec);
+        stageWrap.append(ui.stage);
+        await runOpsTier(ui, speed, signal, log);
+      } else if (kind === 'dirrole' || kind === 'fhsmap' || kind === 'pathrole') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = dirRoleStage(spec);
+        stageWrap.append(ui.stage);
+        await runDirRole(ui, speed, signal, log);
+      } else if (kind === 'dothide' || kind === 'dotfiles' || kind === 'hideviz') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = dotHideStage(spec);
+        stageWrap.append(ui.stage);
+        await runDotHide(ui, speed, signal, log);
+      } else if (kind === 'mcuvspc' || kind === 'mcuhost' || kind === 'mcupc') {
+        const ui = mcuVsPcStage();
+        stageWrap.append(ui.stage);
+        await runMcuVsPc(ui, speed, signal, log);
+      } else if (kind === 'espboard' || kind === 'espmod' || kind === 'socboard') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = espBoardStage(spec);
+        stageWrap.append(ui.stage);
+        await runEspBoard(ui, speed, signal, log);
+      } else if (kind === 'flashpipe' || kind === 'idfflash' || kind === 'burnfw') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = flashPipeStage(spec);
+        stageWrap.append(ui.stage);
+        await runFlashPipe(ui, speed, signal, log);
+      } else if (kind === 'edgelink' || kind === 'espcloud' || kind === 'devagent') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = edgeLinkStage(spec);
+        stageWrap.append(ui.stage);
+        await runEdgeLink(ui, speed, signal, log);
+      } else if (kind === 'debugloop' || kind === 'reprobe' || kind === 'dbgloop') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = debugLoopStage(spec);
+        stageWrap.append(ui.stage);
+        await runDebugLoop(ui, speed, signal, log);
+      } else if (kind === 'secbase' || kind === 'owaspbase' || kind === 'craftsec') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = secBaseStage(spec);
+        stageWrap.append(ui.stage);
+        await runSecBase(ui, speed, signal, log);
+      } else if (kind === 'testpyra' || kind === 'pyramid' || kind === 'testtiers') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = testPyraStage(spec);
+        stageWrap.append(ui.stage);
+        await runTestPyra(ui, speed, signal, log);
+      } else if (kind === 'obspillar' || kind === 'lmt' || kind === 'threeobs') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = obsPillarStage(spec);
+        stageWrap.append(ui.stage);
+        await runObsPillar(ui, speed, signal, log);
+      } else if (kind === 'cipipe' || kind === 'cigreen' || kind === 'workflow') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = ciPipeStage(spec);
+        stageWrap.append(ui.stage);
+        await runCiPipe(ui, speed, signal, log);
       } else if (kind === 'wsfive' || kind === 'workspace' || kind === 'inject5') {
         const ui = wsFiveStage();
         stageWrap.append(ui.stage);
@@ -2689,6 +5517,186 @@ export function mountAlgoViz(host, cfg) {
         const ui = tfStackStage(spec);
         stageWrap.append(ui.stage);
         await runTfStack(ui, speed, signal, log);
+      } else if (kind === 'iclpath' || kind === 'fewshot' || kind === 'adaptladder') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = iclPathStage(spec);
+        stageWrap.append(ui.stage);
+        await runIclPath(ui, speed, signal, log);
+      } else if (kind === 'msgroles' || kind === 'chatmsg' || kind === 'roles') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = msgRolesStage(spec);
+        stageWrap.append(ui.stage);
+        await runMsgRoles(ui, speed, signal, log);
+      } else if (kind === 'dagflow' || kind === 'agentgraph' || kind === 'plandag') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = dagFlowStage(spec);
+        stageWrap.append(ui.stage);
+        await runDagFlow(ui, speed, signal, log);
+      } else if (kind === 'ragpipe' || kind === 'ragflow' || kind === 'retrieve') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = ragPipeStage(spec);
+        stageWrap.append(ui.stage);
+        await runRagPipe(ui, speed, signal, log);
+      } else if (kind === 'embnear' || kind === 'vecnear' || kind === 'knn') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = embNearStage(spec);
+        stageWrap.append(ui.stage);
+        await runEmbNear(ui, speed, signal, log);
+      } else if (kind === 'chunksplit' || kind === 'chunking' || kind === 'splitdoc') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = chunkSplitStage(spec);
+        stageWrap.append(ui.stage);
+        await runChunkSplit(ui, speed, signal, log);
+      } else if (kind === 'hybridret' || kind === 'hybrid' || kind === 'rrfuse') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = hybridRetStage(spec);
+        stageWrap.append(ui.stage);
+        await runHybridRet(ui, speed, signal, log);
+      } else if (kind === 'tameinj' || kind === 'ruleskill' || kind === 'tameface') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = tameInjStage(spec);
+        stageWrap.append(ui.stage);
+        await runTameInj(ui, speed, signal, log);
+      } else if (kind === 'secgate' || kind === 'promptsec' || kind === 'injectgate') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = secGateStage(spec);
+        stageWrap.append(ui.stage);
+        await runSecGate(ui, speed, signal, log);
+      } else if (kind === 'bigo' || kind === 'big-o' || kind === 'complexity') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = bigOStage(spec);
+        stageWrap.append(ui.stage);
+        await runBigO(ui, spec, speed, signal, log);
+      } else if (kind === 'stackq' || kind === 'stackqueue' || kind === 'lifofifo') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = stackQStage(spec);
+        stageWrap.append(ui.stage);
+        await runStackQ(ui, speed, signal, log);
+      } else if (kind === 'hashslot' || kind === 'hashtable' || kind === 'hashviz') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = hashSlotStage(spec);
+        stageWrap.append(ui.stage);
+        await runHashSlot(ui, spec, speed, signal, log);
+      } else if (kind === 'bsttrav' || kind === 'bst' || kind === 'treetraverse') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = bstTravStage(spec);
+        stageWrap.append(ui.stage);
+        await runBstTrav(ui, speed, signal, log);
+      } else if (kind === 'callstack' || kind === 'recurseviz' || kind === 'stackframes') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = callStackStage();
+        stageWrap.append(ui.stage);
+        await runCallStack(ui, spec, speed, signal, log);
+      } else if (kind === 'dptable' || kind === 'climbstairs' || kind === 'dpfill') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = dpTableStage(spec);
+        stageWrap.append(ui.stage);
+        await runDpTable(ui, speed, signal, log);
+      } else if (kind === 'bitsop' || kind === 'bitclear' || kind === 'hamming') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = bitsOpStage(spec);
+        stageWrap.append(ui.stage);
+        await runBitsOp(ui, speed, signal, log);
+      } else if (kind === 'lrucache' || kind === 'lru' || kind === 'cacheevict') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = lruStage(spec);
+        stageWrap.append(ui.stage);
+        await runLru(ui, spec, speed, signal, log);
+      } else if (kind === 'topo' || kind === 'topsort' || kind === 'kahn') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = topoStage(spec);
+        stageWrap.append(ui.stage);
+        await runTopo(ui, speed, signal, log);
+      } else if (kind === 'strmatch' || kind === 'naivefind' || kind === 'strstr') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = strMatchStage(spec);
+        stageWrap.append(ui.stage);
+        await runStrMatch(ui, speed, signal, log);
+      } else if (kind === 'panellayer' || kind === 'paneltier' || kind === 'hostpanel') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = panelLayerStage(spec);
+        stageWrap.append(ui.stage);
+        await runPanelLayer(ui, speed, signal, log);
+      } else if (kind === 'btpath' || kind === 'baotapath' || kind === 'btflow') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = btPathStage(spec);
+        stageWrap.append(ui.stage);
+        await runBtPath(ui, speed, signal, log);
+      } else if (kind === 'onepath' || kind === '1ppath' || kind === 'oneflow') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = onePathStage(spec);
+        stageWrap.append(ui.stage);
+        await runOnePath(ui, speed, signal, log);
+      } else if (kind === 'panelpick' || kind === 'panelvs' || kind === 'btvs1p') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = panelPickStage(spec);
+        stageWrap.append(ui.stage);
+        await runPanelPick(ui, speed, signal, log);
+      } else if (kind === 'noderproxy' || kind === 'panelnode' || kind === 'xrkproxy') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = nodeRproxyStage(spec);
+        stageWrap.append(ui.stage);
+        await runNodeRproxy(ui, speed, signal, log);
+      } else if (kind === 'sysdunit' || kind === 'systemd' || kind === 'unitlife') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = sysdUnitStage(spec);
+        stageWrap.append(ui.stage);
+        await runSysdUnit(ui, speed, signal, log);
+      } else if (kind === 'tlstri' || kind === 'acmeflow' || kind === 'certpath') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = tlsTriStage(spec);
+        stageWrap.append(ui.stage);
+        await runTlsTri(ui, speed, signal, log);
+      } else if (kind === 'bakdrill' || kind === 'backup3' || kind === 'restore') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = bakDrillStage(spec);
+        stageWrap.append(ui.stage);
+        await runBakDrill(ui, speed, signal, log);
+      } else if (kind === 'vibefive' || kind === 'fivebeat' || kind === 'vibebeat') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = vibeFiveStage(spec);
+        stageWrap.append(ui.stage);
+        await runVibeFive(ui, speed, signal, log);
+      } else if (kind === 'adevform' || kind === 'harness3' || kind === 'toolform') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = adevFormStage(spec);
+        stageWrap.append(ui.stage);
+        await runAdevForm(ui, speed, signal, log);
+      } else if (kind === 'memfiles' || kind === 'agentsmd' || kind === 'projmem') {
+        const spec =
+          cfg.data && typeof cfg.data === 'object' && !Array.isArray(cfg.data) ? cfg.data : {};
+        const ui = memFilesStage(spec);
+        stageWrap.append(ui.stage);
+        await runMemFiles(ui, speed, signal, log);
       } else if (kind === 'twopointer' || kind === 'window') {
         const arr = Array.isArray(cfg.data) ? cfg.data.map(Number) : [1, 2, 3, 4, 5, 6, 7];
         const { stage, cells } = barStage(arr);

@@ -19,6 +19,7 @@ export const VIBEHUB_BODIES = {
   "vh-alert": "# 警告提示（Alert）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 弹窗与提示**\n\n## 警告提示（Alert）\n\n> 词典键 `vh_alert` · 快照 c62f93379218ef6d\n\n\n**一句话**：警告提示是嵌在页面内容中、持续说明状态、风险或异常的提示组件\n\n账号即将到期可在设置页相关位置显示警告提示。它不阻断当前操作，但重要程度不能只靠颜色，需同时使用标题、图标和文字。\n\n**用法**\n\n- **适合**：表单提交失败 ：把错误汇总钉在表单上方；系统维护 / 升级公告 ：全局生效，人人都得看到；危险操作区域 ：提前说清后果，而不是事后报错；页面状态提醒 ：草稿未发布、体验版、权限受限\n- **避免**：只是“保存成功”等瞬时反馈：使用 轻提示；需要用户做出选择：使用 弹窗 或 气泡确认框；持续提示过多：重要程度与阅读顺序会变得模糊；将营销广告伪装成警告：会削弱用户对提示的信任\n- **场景**：表单错误汇总；系统维护公告；危险操作前置警告；草稿未发布提醒\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"警告提示（Alert） 演示\" src=\"https://vibe-hub.org/alert\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · alert · 能力：preview · interactive-detail · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n```quiz\n{\"title\":\"警告提示（Alert） · 判断\",\"questions\":[{\"q\":\"账号将在 7 天后到期，用户仍可继续编辑设置，但需要持续看到续费提醒。怎样呈现？\",\"choices\":[{\"t\":\"在设置内容附近保留一条说明影响和续费入口的警告\",\"ok\":true,\"why\":\"这条信息需要持续可见，但不必阻断编辑；就近警告能同时说明风险和下一步。\"},{\"t\":\"进入页面时弹出两秒轻提示，然后自动消失\",\"ok\":false,\"why\":\"到期提醒需要用户记住并可能稍后处理，短暂消失的轻提示很容易被错过。\"},{\"t\":\"每次进入设置都弹窗，续费前不允许关闭\",\"ok\":false,\"why\":\"用户仍可继续使用和编辑，强制阻断超过了当前风险；持续但不阻断的提醒更合适。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请在账号设置附近增加持续可见的到期警告，说明剩余天数、影响和续费入口，但不要阻断编辑。不要只靠黄色表达重要性。请验证警告可读、续费入口可用，关闭后按产品规则处理。\n```\n\n**参考**\n\n- [警告提示模式](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)（WAI-ARIA APG）\n- [ARIA alert 角色](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/alert_role)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-anchor": "# 锚点（Anchor）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 导航**\n\n## 锚点（Anchor）\n\n> 词典键 `vh_anchor` · 快照 c62f93379218ef6d\n\n\n**一句话**：锚点是让用户在同一长页面内跳到指定章节位置的页内导航链接\n\n这里说的锚点是文档目录中用于跳到“安装”“API”等小节的页内链接。HTML 的链接元素本身也能前往其他页面或资源；在本词条中，跨页导航统一归入链接说明。\n\n**用法**\n\n- **适合**：长文档 / 帮助中心 的页内目录；滚动时 自动高亮 当前读到的章节；点击 平滑滚动 到对应位置，无需手动查找；产品长页 分节导航 ：特性、定价、FAQ\n- **避免**：页面内容较短且无需页内跳转时，通常不必加入锚点；跳转到 其他页面 ：使用 链接；章节名 含糊不清 ，用户无法判断链接对应哪段内容；锚点 过多且缺少分组 ，目录本身也会难以浏览\n- **场景**：帮助文档目录；产品官网长页；API 文档导航；活动规则长文\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"锚点（Anchor） 演示\" src=\"https://vibe-hub.org/anchor\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · anchor · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n```quiz\n{\"title\":\"锚点（Anchor） · 判断\",\"questions\":[{\"q\":\"安装文档很长，包含“准备环境、安装、配置、排错”四个章节，用户要快速跳转并知道当前读到哪里。怎样导航？\",\"choices\":[{\"t\":\"建立页内章节目录，链接到对应锚点，并随滚动高亮当前章节\",\"ok\":true,\"why\":\"锚点直接定位同一页面的内容，高亮还能保持目录与阅读位置同步。\"},{\"t\":\"把四个章节做成标签页，切换时卸载其他章节内容\",\"ok\":false,\"why\":\"标签会把连续文档拆成互斥状态，用户无法自然滚动阅读全文或使用页内地址定位。\"},{\"t\":\"只在每章末尾提供“回到顶部”，再让用户从头寻找下一章\",\"ok\":false,\"why\":\"回到顶部不能直接到达目标章节，也没有说明当前阅读位置，长文档查找仍然费力。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请为这篇长文档生成页内目录，每个目录项链接到稳定的章节锚点，滚动时高亮当前章节。处理固定顶部栏的遮挡，并验证复制带锚点的网址后能直接落到正确标题。\n```\n\n**参考**\n\n- [a 锚元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-animation": "# 动画（Animation）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 动画**\n\n## 动画（Animation）\n\n> 词典键 `vh_animation` · 快照 c62f93379218ef6d\n\n**亦称**：动效、CSS 动画、关键帧动画\n\n**一句话**：动画是一种用 @keyframes 定义多个阶段，并控制其播放方式的 CSS 动效\n\n加载指示、分步入场等连续变化可用 animation；简单的悬停和选中反馈通常用过渡就够了。循环和大幅移动容易干扰阅读，必须尊重 prefers-reduced-motion；结束后是否停在最后一帧也应由实际界面状态决定。\n\n**用法**\n\n- **适合**：加载类循环 ：进度条、骨架屏 的呼吸与转动；关键帧编排 ：把一段完整动作拆成节点，浏览器补齐中间；入场编排 ：多个元素用 delay 依次出场，有节奏感；状态切换用过渡，自主播放的多阶段动作再用动画\n- **避免**：过度使用循环动画 ：会分散注意力并影响阅读；简单悬停效果不必使用关键帧，过渡就能完成；未设置 fill-mode: forwards ：动画结束后会回到初始帧；响应 prefers-reduced-motion，减少用户不需要的动画\n- **场景**：骨架屏呼吸循环；加载指示器旋转；页面入场编排；一次性强调闪烁\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"动画（Animation） 演示\" src=\"https://vibe-hub.org/animation\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · animation · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：过渡\n\n```quiz\n{\"title\":\"动画（Animation） · 判断\",\"questions\":[{\"q\":\"加载图标需要持续旋转，完成后停止；用户开启“减少动态效果”时也不能持续刺激。怎样实现更合适？\",\"choices\":[{\"t\":\"用关键帧控制旋转，由加载状态启停，并为减少动态效果提供静态反馈\",\"ok\":true,\"why\":\"自主循环适合 Animation，界面状态决定播放范围，减弱方案保留信息而不强迫持续运动。\"},{\"t\":\"只设置 transition，让图标在没有属性变化时自动持续旋转\",\"ok\":false,\"why\":\"Transition 需要属性状态发生变化才能运行，不能独立定义连续循环。\"},{\"t\":\"让图标在加载结束后继续循环，作为页面保持活力的装饰\",\"ok\":false,\"why\":\"完成后持续运动不再表达加载状态，只会分散注意力并违背减少动态效果偏好。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请用 keyframes 实现加载图标旋转，只在 loading 状态播放，成功或失败后立即停止并显示对应结果。支持 prefers-reduced-motion，用静态图标或较弱反馈替代循环；不要把装饰动画永久留在页面。\n```\n\n**参考**\n\n- [animation 属性](https://developer.mozilla.org/en-US/docs/Web/CSS/animation)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
+  "vh-api": "# API\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **后端 / 接口与数据**\n\n## API\n\n> 词典键 `vh_api` · 快照 c62f93379218ef6d\n\n**亦称**：API 接口、应用程序编程接口\n\n**一句话**：两个软件互相请求数据或功能时共同遵守的约定\n\n比如天气 App 请求“深圳今天多少度”，天气服务会返回温度和天气状态。API 会说明请求需要带什么、结果长什么样；其中某一个具体请求地址才是端点。API 不是页面、后端代码或数据库。\n\n**边界说明**：收到 HTTP 200 只说明请求被正常响应；是否真的成功，还要按 API 约定检查响应数据和业务状态。\n\n```steps\n{\"title\":\"一次保存经过哪些部分？\",\"caption\":\"收到 HTTP 200 只说明请求被正常响应；是否真的成功，还要按 API 约定检查响应数据和业务状态。\",\"steps\":[{\"title\":\"填写并点击保存 · 前端\",\"body\":\"读取输入，显示保存中\"},{\"title\":\"发出保存请求 · 前端 ★\",\"body\":\"按 API 约定发送地址、方法和数据\"},{\"title\":\"接收、检查并处理 · 后端\",\"body\":\"接收请求，检查输入、身份和权限\"},{\"title\":\"写入记录 · 数据库\",\"body\":\"长期保存这次修改\"},{\"title\":\"返回保存结果 · 后端 ★\",\"body\":\"把状态码、结果数据或错误信息组成响应\"},{\"title\":\"显示结果 · 前端\",\"body\":\"根据真实响应更新页面\"}]}\n```\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"API 演示\" src=\"https://vibe-hub.org/api\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · api · 能力：preview · anatomy · variants · scenarios · flow-lesson · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：HTTP\n\n```quiz\n{\"title\":\"API · 判断\",\"questions\":[{\"q\":\"点保存没有结果，怎样先判断是不是 API 出了问题？\",\"choices\":[{\"t\":\"在 Network 中核对地址、方法、请求数据、状态码、响应内容，以及页面是否按结果更新\",\"ok\":true,\"why\":\"对。这些证据能说明请求是否遵守约定、服务端实际返回什么，以及界面是否把这个结果正确显示出来。\"},{\"t\":\"按接口文档重写一遍请求参数，然后直接重试\",\"ok\":false,\"why\":\"文档可能与实际调用不同；应先看浏览器真正发出的请求和收到的响应。\"},{\"t\":\"先重启 API 服务，再用原来的页面操作重试\",\"ok\":false,\"why\":\"重启可能暂时恢复服务，但不能定位地址、方法、数据或响应约定是否出错。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n点保存以后没有结果。先看这次 API 请求的地址、方法、提交数据、状态码和响应内容，确认问题发生在请求、返回还是页面处理。改完后重新保存，确认响应符合约定、页面显示正确结果；如果这是持久化操作，再刷新确认数据还在。\n```\n\n**参考**\n\n- [API 词汇表](https://developer.mozilla.org/en-US/docs/Glossary/API)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-authentication": "# 身份认证（Authentication）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **后端 / 账号与权限**\n\n## 身份认证（Authentication）\n\n> 词典键 `vh_authentication` · 快照 c62f93379218ef6d\n\n**亦称**：登录认证\n\n**一句话**：身份认证是确认当前用户是谁的过程。\n\n用户可以用密码、验证码或第三方登录证明身份；成功后，网站会保存一份登录凭证，让用户不必每个页面重新登录。密码不能直接保存为可读文字；确认身份后还要继续判断这个用户能做什么。\n\n**用法**\n\n- **适合**：优先采用成熟身份服务或框架方案，不自己发明密码系统；在 HTTPS 下为登录 Cookie 设置 Secure、HttpOnly，并按跨站需求选择 SameSite；登录失败使用模糊提示，避免泄露账号是否存在；退出登录时让服务端会话或令牌真正失效\n- **避免**：数据库明文保存密码：一旦数据泄露，受影响记录的密码会直接暴露；把 JWT 当加密保险箱：内容通常只是编码，仍可能被读到；只在前端 localStorage 里写 isLoggedIn=true；登录接口没有限速：容易被批量猜密码\n- **场景**：邮箱密码登录；短信或邮箱验证码；使用 GitHub / Google 登录；退出与登录过期\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"身份认证（Authentication） 演示\" src=\"https://vibe-hub.org/authentication\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · authentication · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：路由与端点、数据库、环境变量\n\n```quiz\n{\"title\":\"身份认证（Authentication） · 判断\",\"questions\":[{\"q\":\"有人带着有效登录态访问“我的订单”。系统首先该确认什么？\",\"choices\":[{\"t\":\"确认这次请求对应的是哪个已登录用户\",\"ok\":true,\"why\":\"对。身份认证回答“你是谁”；之后才能决定这个用户能看什么。\"},{\"t\":\"只要页面上显示了用户头像，就认为已经登录\",\"ok\":false,\"why\":\"头像是前端显示，不是服务端可验证的身份凭据。\"},{\"t\":\"先根据用户是管理员还是普通成员决定身份\",\"ok\":false,\"why\":\"角色属于权限判断，前提是已经可靠地识别出用户。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n订单页目前只根据前端传来的 userId 取数据。请改为从已验证的登录态取得当前用户，再查询其订单。分别用已登录和未登录状态访问：前者只能看到自己的订单，后者应被要求登录。\n```\n\n**参考**\n\n- [HTTP 认证](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)（MDN）\n- [登录表单最佳实践](https://web.dev/articles/sign-in-form-best-practices)（web.dev）\n- [身份认证安全清单](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)（OWASP）\n- [密码存储安全清单](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)（OWASP）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-authorization": "# 权限控制（Authorization）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **后端 / 账号与权限**\n\n## 权限控制（Authorization）\n\n> 词典键 `vh_authorization` · 快照 c62f93379218ef6d\n\n\n**一句话**：权限控制是在确认身份后判断用户能访问或操作哪些资源的机制\n\n例如，普通用户只能修改自己的资料，管理员可管理成员。敏感操作必须在服务端逐次检查；隐藏按钮只改善界面，不能代替权限判断。\n\n**用法**\n\n- **适合**：每次读取或修改敏感资源，都在服务端检查当前用户；同时检查角色和资源归属：是不是本人、是不是项目成员；默认拒绝，只明确开放真正需要的能力；为管理操作保留审计记录：谁在什么时候改了什么\n- **避免**：只把删除按钮隐藏：用户仍可以直接请求删除接口；相信前端传来的 userId 或 role=admin；登录后默认允许访问所有数据：认证不等于授权；权限规则散落在几十个文件里，改一处漏三处\n- **场景**：只能编辑自己的资料；项目成员可查看；管理员可以封禁账号；付费用户访问高级功能\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"权限控制（Authorization） 演示\" src=\"https://vibe-hub.org/authorization\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · authorization · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：身份认证、数据库\n\n```quiz\n{\"title\":\"权限控制（Authorization） · 判断\",\"questions\":[{\"q\":\"已登录的普通成员请求删除另一个团队的项目。下一步该判断什么？\",\"choices\":[{\"t\":\"该用户是否对这一个项目拥有删除权限\",\"ok\":true,\"why\":\"对。身份已知后，还要针对资源和动作判断是否允许。\"},{\"t\":\"让他重新输入一次密码，只要成功就允许删除\",\"ok\":false,\"why\":\"重新认证不能自动授予原本没有的项目权限。\"},{\"t\":\"只要前端没有显示删除按钮，就不需要服务端判断\",\"ok\":false,\"why\":\"用户仍可直接构造请求，服务端必须执行权限检查。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n删除项目接口只检查了用户是否登录。请增加项目归属或团队角色的服务端权限判断。先让同团队无删除权成员和其他团队成员分别请求同一个仍存在的测试项目，确认都被明确拒绝且项目未变化；最后再由项目所有者删除，并核对记录确实消失。\n```\n\n**参考**\n\n- [权限控制安全清单](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)（OWASP）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-auto-complete": "# 自动完成（AutoComplete）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 表单**\n\n## 自动完成（AutoComplete）\n\n> 词典键 `vh_auto_complete` · 快照 c62f93379218ef6d\n\n**亦称**：自动补全、输入建议\n\n**一句话**：自动完成是在用户输入时显示匹配建议、帮助更快完成输入的表单控件\n\n填写地址、联系人或标签时可从建议中点选，也可继续输入。最终能否提交未匹配内容取决于业务规则；只接受固定选项时要限制为选择建议，或改用 选择器，并处理无匹配和加载失败。\n\n**与相邻概念**\n\n- **与「选择器」**：自动完成 会根据输入内容给出建议；选择器 不需要输入，只能从固定列表中选择。\n- **与「组合框（Combobox）」**：组合框（Combobox）是“输入框加弹出选项”的完整控件；自动完成（AutoComplete）更强调输入后自动出现匹配建议的行为，两者在很多组件库里会被混用。\n\n**用法**\n\n- **适合**：搜索框联想 ：输入关键词，实时给出候选；固定后缀补全 ：邮箱、网址这类「半自由」输入；提交时仍按业务规则校验；历史记录快速重选 ：最近搜过、用过的直接点；命令面板 ：输入指令名快速执行操作\n- **避免**：选项是固定枚举 ：使用 选择器，或限制组合框只能选择建议；数据有层级关系 ：使用 级联选择器 逐级选择；选项较少且需要直接比较 ：使用 单选框 平铺展示；业务只接受已有数据 ，却允许未匹配内容提交\n- **场景**：全局搜索框；登录邮箱输入；地址联想；命令面板\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"自动完成（AutoComplete） 演示\" src=\"https://vibe-hub.org/auto-complete\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · auto-complete · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：输入框、选择器\n\n**相关**：选择器\n\n```quiz\n{\"title\":\"自动完成（AutoComplete） · 判断\",\"questions\":[{\"q\":\"邀请成员时，用户可能从几千名员工里找“王小明”。哪种交互更合适？\",\"choices\":[{\"t\":\"输入后给出匹配建议，选中一位已有员工再加入\",\"ok\":true,\"why\":\"对。候选集很大且已有规范数据时，自动完成能帮助搜索并避免拼错。\"},{\"t\":\"把所有员工放进一个很长的 Select\",\"ok\":false,\"why\":\"大量选项难以浏览，也不适合按名字快速缩小范围。\"},{\"t\":\"允许任意输入并直接创建一个同名新员工\",\"ok\":false,\"why\":\"邀请目标应匹配已有账号，任意新建会产生重复或错误对象。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n成员邀请框请在输入至少两个字符后查询匹配员工，选择建议项后再发送邀请。测试无结果、同名候选和键盘选择：无结果要说明原因，同名项要有可区分信息，选中后提交的必须是员工 id。\n```\n\n**参考**\n\n- [Combobox 组合框模式](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)（WAI-ARIA APG）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
@@ -93,7 +94,7 @@ export const VIBEHUB_BODIES = {
   "vh-footer": "# 页脚（Footer）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 官网区块**\n\n## 页脚（Footer）\n\n> 词典键 `vh_footer` · 快照 c62f93379218ef6d\n\n\n**一句话**：页脚是网页底部集中放置补充链接、版权和联系方式的页面区域\n\n隐私政策、服务条款、联系方式和社交账号常放在 Footer，并按用途分组。它适合补充入口；不要把顶部已经清楚展示的所有链接原样重复，也不能把用户必须在提交前看到的关键规则只放在页脚。\n\n**用法**\n\n- **适合**：链接 按主题分组 ：产品 / 资源 / 公司各一列；用户需要咨询或反馈时，提供 联系方式或社媒入口；外部 链接 应有可理解的名称；是否加外链图标取决于产品规范；当阅读结尾仍有明确下一步时，可在页脚上方再次提供 CTA\n- **避免**：大量链接没有分组，会增加浏览和查找成本；用版权年份判断维护状态并不准确；需要表达维护状态时，应单独标注 更新时间；页面需要用户咨询或反馈，却没有提供任何合适的联系入口；在页脚堆砌 SEO 关键词会损害 可读性和可信度\n- **场景**：官网多列页脚；博客极简版权行；带订阅的页脚；文档站链接页脚\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"页脚（Footer） 演示\" src=\"https://vibe-hub.org/footer\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · footer · 能力：preview · interactive-detail · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n```quiz\n{\"title\":\"页脚（Footer） · 判断\",\"questions\":[{\"q\":\"官网页脚需要放隐私、条款、帮助和联系方式，但 7 天退款期限会直接影响购买。怎样组织？\",\"choices\":[{\"t\":\"按用途分组补充链接和联系入口，退款期限仍在购买区域显示\",\"ok\":true,\"why\":\"页脚适合集中补充信息，影响决定的规则则应在用户行动前就能看到。\"},{\"t\":\"把顶部所有导航和按钮原样复制到底部，再追加法律链接\",\"ok\":false,\"why\":\"机械重复会形成难以扫描的链接堆，页脚应围绕结尾阶段的补充需求组织。\"},{\"t\":\"只在页脚条款链接中说明退款期限，购买卡片保持简洁\",\"ok\":false,\"why\":\"退款限制影响购买判断，藏在页面底部会让用户在行动前无法得到关键信息。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请把页脚链接按产品、资源、公司和法律分组，补充可用的联系入口，不要机械复制整个页头。退款期限等购买条件仍放在定价和 CTA 附近；检查手机端分组、外链名称和空链接。\n```\n\n**参考**\n\n- [页脚 101：设计模式与适用场景](https://www.nngroup.com/articles/footers/)（NN/g）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-form": "# 表单（Form）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 表单**\n\n## 表单（Form）\n\n> 词典键 `vh_form` · 快照 c62f93379218ef6d\n\n\n**一句话**：网页或软件里让用户填写并提交一组信息的区域，比如注册、下单或修改资料\n\n例如注册账号时，用户会填写手机号、验证码和密码，再点“注册”。填错的内容要在对应输入框附近说明；提交后还要明确账号是否真的创建成功。\n\n**与相邻概念**\n\n- **与「字段组（Fieldset）」**：表单（Form）收集并提交整项任务；字段组（Fieldset）只把表单里相互相关的几个字段分成一组，通常会用图例标题（legend）写出组名。\n\n**用法**\n\n- **适合**：登录注册 ：账号 + 密码 + 提交；资料设置 ：一排字段，改完保存；提交前校验 ：格式不对当场指出；组合多种控件 ：输入框、选择器、开关混编\n- **避免**：只有独立搜索字段 ：直接使用 输入框，无需增加表单框架；大量字段集中在一页 ：按任务分组或分步填写；校验规则藏起来 ：提交失败才告诉用户哪错了；只是展示信息 ：使用 描述列表，不要使用禁用输入框\n- **场景**：登录注册；个人资料设置；新建项目；筛选条件组合\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"表单（Form） 演示\" src=\"https://vibe-hub.org/form\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · form · 能力：preview · interactive-detail · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：输入框、按钮\n\n```quiz\n{\"title\":\"表单（Form） · 判断\",\"questions\":[{\"q\":\"注册页要收集邮箱、验证码和密码，并一次创建账号。怎样组织这项任务更合适？\",\"choices\":[{\"t\":\"每个输入框旁放一个保存按钮，三个字段分别提交\",\"ok\":false,\"why\":\"三个字段共同完成注册，分开提交会产生不完整状态，用户也无法确认账号何时真正创建。\"},{\"t\":\"把字段放进一个表单，就近提示错误，并统一提交\",\"ok\":true,\"why\":\"这些字段属于同一项注册任务；统一提交能一起校验，并明确显示创建成功或失败。\"},{\"t\":\"统一提交，但只在页面顶部显示“信息有误”\",\"ok\":false,\"why\":\"统一提交是对的，但笼统提示没有指出哪个字段需要修改，用户仍要逐项猜测。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请把邮箱、验证码和密码整理成一次提交的注册表单。错误放在对应字段附近，提交时显示处理中并防止重复点击，最后分别显示成功或失败。请验证空值、格式错误和注册成功三种情况。\n```\n\n**参考**\n\n- [form：表单元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form)（MDN）\n- [学习表单](https://web.dev/learn/forms)（web.dev）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-frame-ai": "# AI\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 模型应用、Agent 与工具\n\n本区 **24** 条术语、**5** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| 请求与输出 | 3 |\n| 上下文 | 5 |\n| 性能与成本 | 3 |\n| Agent 与工具 | 9 |\n| AI 基础 | 4 |\n",
-  "vh-frame-backend": "# 后端\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 网络、接口、数据、上线排错\n\n本区 **31** 条术语、**6** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| 后端开发 | 3 |\n| 接口与数据 | 3 |\n| 上线与排错 | 12 |\n| 数据库 | 3 |\n| 网络与地址 | 8 |\n| 账号与权限 | 2 |\n",
+  "vh-frame-backend": "# 后端\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 网络、接口、数据、上线排错\n\n本区 **32** 条术语、**6** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| 后端开发 | 3 |\n| 接口与数据 | 4 |\n| 上线与排错 | 12 |\n| 数据库 | 3 |\n| 网络与地址 | 8 |\n| 账号与权限 | 2 |\n",
   "vh-frame-design": "# 设计风格\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 风格与气质关键词\n\n本区 **22** 条术语、**1** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| 设计风格 | 22 |\n",
   "vh-frame-frontend": "# 前端\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 组件、布局、交互与视觉表达\n\n本区 **120** 条术语、**13** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| 按钮与链接 | 2 |\n| 表单 | 18 |\n| 弹窗与提示 | 12 |\n| 导航 | 9 |\n| 动画 | 5 |\n| 官网区块 | 9 |\n| 内容展示 | 23 |\n| 鼠标 | 7 |\n| 外观 | 9 |\n| 网页基础 | 5 |\n| 文字 | 3 |\n| 页面布局 | 7 |\n| CSS 布局 | 11 |\n",
   "vh-frame-git": "# Git\n\n> **来源**：VibeHub · revision `c62f93379218ef6d` · 版本协作与工作流\n\n本区 **12** 条术语、**1** 个分类。框内**每卡一条术语**（Vibe Coding 独立体系）。\n\n| 分类 | 条数 |\n|------|------|\n| Git | 12 |\n",
@@ -112,7 +113,7 @@ export const VIBEHUB_BODIES = {
   "vh-html": "# HTML\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 网页基础**\n\n## HTML\n\n> 词典键 `vh_html` · 快照 c62f93379218ef6d\n\n**亦称**：HTML 页面结构、超文本标记语言\n\n**一句话**：HTML 是用标签描述网页内容结构、供浏览器渲染页面的标记语言\n\n它用标签标出标题、段落、图片、链接和按钮。例如，产品页面的内容层级由 HTML 组织；视觉样式通常交给 CSS，复杂交互需要 JavaScript。\n\n**用法**\n\n- **适合**：把标题、图片和章节组织成清楚的网页结构；制作可直接分享的页面 ：官网、落地页、图文文章和报告，发一个网址就能在浏览器打开；加入图片、链接和交互 ：页面可以跳转、填写表单、播放媒体或触发操作；把 Markdown 内容转成需要正式呈现的网页\n- **避免**：标签打开后没有正确关闭，容易破坏后续结构；标签交叉嵌套，浏览器难以得到预期结构；不要把页面正文放进文档元数据区域（head）；正常可见内容应组织在 body 中；不要用文字处理软件另存 HTML，以免破坏标签结构\n- **场景**：AI 给你的 index.html；浏览器「查看源代码」；DevTools 检查元素；常见标签速认小抄\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"HTML 演示\" src=\"https://vibe-hub.org/html\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · html · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n```quiz\n{\"title\":\"HTML · 判断\",\"questions\":[{\"q\":\"文章页的大标题只是放大的普通文字，“查看原文”也是可点击的普通容器。应该怎样修改？\",\"choices\":[{\"t\":\"用合适的 HTML 标题和链接元素表达结构与跳转\",\"ok\":true,\"why\":\"HTML 元素会把标题层级和链接角色交给浏览器识别，页面外观仍可继续由 CSS 控制。\"},{\"t\":\"保留现有容器，只继续加大字号并换成更醒目的颜色\",\"ok\":false,\"why\":\"视觉样式能改变外观，却不会让浏览器、键盘和辅助技术识别标题结构或链接角色。\"},{\"t\":\"把标题和原文入口做进一张图片，再给整张图绑定点击\",\"ok\":false,\"why\":\"图片会丢失可选择文字和清楚的内容结构，入口范围与含义也难以被正确识别。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请先检查这篇文章的 HTML 结构：页面主标题使用正确的标题元素，“查看原文”使用真实链接，普通操作使用按钮。保留现有视觉样式，并用键盘确认链接和按钮都能正常访问。\n```\n\n**参考**\n\n- [用 HTML 组织内容](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content)（MDN）\n- [HTML：超文本标记语言](https://developer.mozilla.org/en-US/docs/Web/HTML)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-http": "# HTTP\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **后端 / 网络与地址**\n\n## HTTP\n\n> 词典键 `vh_http` · 快照 c62f93379218ef6d\n\n**亦称**：HTTP 请求、超文本传输协议\n\n**一句话**：浏览器或 App 向服务器提出请求、再接收结果时遵守的通信规则\n\n例如，用户在资料页修改昵称并点击保存后，页面会通过 HTTP 发出请求，服务器再返回成功、失败和具体内容。开发者可以在浏览器的 Network 面板里看到这次通信。\n\n**用法**\n\n- **适合**：地址栏回车、普通链接导航通常发 GET ：接口通常把它设计为读取，不应借此改变业务状态；表单 默认会发 GET ；配置 method=\"post\" 才发 POST。登录、注册等操作常按接口约定把数据放在请求体里；调 API 出问题，先开 Network 面板 看请求长什么样；可按常见约定用 PUT / PATCH / DELETE 表达更新或删除；也有接口因兼容性或动作语义使用 POST，先遵循接口契约\n- **避免**：用 GET 传密码 ：明文留在浏览器历史和服务器日志里；给 GET 依赖请求体 ：规范没有为它定义通用语义，许多实现会忽略或拒绝；把参数按接口约定放进 URL；下单按钮 只靠前端防重复点击 ：网络重试和并发仍可能重复到达；服务端要按幂等键、订单号或唯一约束保证同一操作只生效一次；接口报错时先检查实际请求，不要直接猜测前端问题\n- **场景**：地址栏回车发 GET；登录表单发 POST；Network 面板看请求；curl 手动发请求\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"HTTP 演示\" src=\"https://vibe-hub.org/http\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · http · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：URL\n\n```quiz\n{\"title\":\"HTTP · 判断\",\"questions\":[{\"q\":\"修改昵称后页面没变化，Network 显示 POST /profile 返回 400。下一步最该检查什么？\",\"choices\":[{\"t\":\"查看这次请求带了什么，以及 400 响应具体说明了什么\",\"ok\":true,\"why\":\"HTTP 记录了浏览器实际发送和服务器实际返回的内容；400 表示请求未按约定被接受，应先读证据。\"},{\"t\":\"只根据 400 显示“网络错误”，不再查看请求和响应内容\",\"ok\":false,\"why\":\"400 已经说明服务器收到请求但不接受；忽略具体内容会丢掉字段或格式错误等可修复线索。\"},{\"t\":\"把 POST 改成 GET，并把昵称写进网址后重新发送\",\"ok\":false,\"why\":\"保存操作应遵循接口约定；随意换方法会改变请求语义，还没有解决原请求为何被拒绝。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n保存昵称返回 400。请先查看实际请求的方法、网址、请求体和响应内容，指出服务器拒绝的具体原因，再做最小修改。不要把失败统一写成网络错误，也不要随意更换请求方法。修复后重新发送并确认成功结果。\n```\n\n**参考**\n\n- [HTTP 概述](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)（MDN）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-https": "# HTTPS\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **后端 / 网络与地址**\n\n## HTTPS\n\n> 词典键 `vh_https` · 快照 c62f93379218ef6d\n\n**亦称**：安全连接、HTTPS 连接\n\n**一句话**：地址栏里以 https:// 开头、用于保护设备与网站之间数据的加密连接\n\n例如，用户登录时，HTTPS 会降低密码在传输途中被同一网络中的其他人读取或篡改的风险。它只保护连接，不代表网站内容、公司身份或交易一定可信。\n\n**用法**\n\n- **适合**：上线 默认开 HTTPS ：许多托管平台可自动申请和续期证书，仍要检查域名绑定、续期状态与重定向；小锁表示 到该域名的连接受 TLS 保护 ；它不评价网站内容、经营者或交易安全；页面是 https，里面的 图片、脚本也要 https 引入；涉及 登录、支付 的页面，https 是底线\n- **避免**：公开网站仍使用 HTTP ：传输未受 TLS 保护，浏览器也可能显示不安全提示；https 页面里引 http 资源 ：浏览器会拦截许多主动混合内容，其他资源也可能被升级或警告；应统一使用 HTTPS；证书过期未续期 ：浏览器会显示警告，并可能阻止用户继续访问；看到「不是私密连接」 还继续输密码 ：密码可能被窃取\n- **场景**：地址栏小锁与证书；托管平台自动开 HTTPS；http 站点的警告页；混合内容被拦截\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"HTTPS 演示\" src=\"https://vibe-hub.org/https\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · https · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：HTTP、域名\n\n```quiz\n{\"title\":\"HTTPS · 判断\",\"questions\":[{\"q\":\"登录页已改成 https://，但浏览器仍警告不安全，控制台显示脚本从 http:// 加载。下一步怎样处理？\",\"choices\":[{\"t\":\"检查证书和域名，并把页面内脚本、图片等资源统一改为 HTTPS\",\"ok\":true,\"why\":\"主页面和子资源都要通过受保护连接加载，混合内容会被警告或直接拦截。\"},{\"t\":\"保留 HTTP 脚本，在页面内增加“本站可信”说明覆盖提示\",\"ok\":false,\"why\":\"网页文案不能改变传输方式，也无法阻止浏览器拦截不安全资源。\"},{\"t\":\"只要地址栏出现小锁，就把网站标记为公司和交易都已认证\",\"ok\":false,\"why\":\"HTTPS 保护设备与域名之间的连接，不证明经营者、内容或交易本身可信。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请排查登录页 HTTPS：确认证书覆盖当前域名且未过期，HTTP 自动跳转 HTTPS，所有脚本、图片和接口都不再使用 HTTP。修复后检查浏览器安全面板和混合内容错误，不把小锁描述成业务认证。\n```\n\n**参考**\n\n- [HTTPS 词汇表](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS)（MDN）\n- [为什么 HTTPS 很重要](https://web.dev/articles/why-https-matters)（web.dev）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
-  "vh-hub": "# 知识导图2 · Vibe Coding\n\n> **定位**：第二张知识导图（不进主课程图）。VibeHub 快照 revision `c62f93379218ef6d` · 七大区 · **每条术语一张卡**。\n\n## 怎么逛\n\n1. 左枢纽 → 七个大区框 → **词条卡**。\n2. 面板 **跨导图** 可回 **知识导图**（Vibe 心智 / 第五章）。\n3. 词典与本仓同义去重；**本图词条全保留**。\n\n| 大区 | 术语 |\n|------|------|\n| **前端** | 120 |\n| **后端** | 31 |\n| **产品** | 11 |\n| **技术栈** | 25 |\n| **AI** | 24 |\n| **Git** | 12 |\n| **设计风格** | 22 |\n| **合计** | **245** |\n\n同步：`pnpm vibehub:sync`\n",
+  "vh-hub": "# 知识导图2 · Vibe Coding\n\n> **定位**：第二张知识导图（不进主课程图）。VibeHub 快照 revision `c62f93379218ef6d` · 七大区 · **每条术语一张卡**。\n\n## 怎么逛\n\n1. 左枢纽 → 七个大区框 → **词条卡**。\n2. 面板 **跨导图** 可回 **知识导图**（Vibe 心智 / 第五章）。\n3. 词典与本仓同义去重；**本图词条全保留**。\n\n| 大区 | 术语 |\n|------|------|\n| **前端** | 120 |\n| **后端** | 32 |\n| **产品** | 11 |\n| **技术栈** | 25 |\n| **AI** | 24 |\n| **Git** | 12 |\n| **设计风格** | 22 |\n| **合计** | **246** |\n\n同步：`pnpm vibehub:sync`\n",
   "vh-human-in-the-loop": "# 人在回路（Human-in-the-loop）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **AI / Agent 与工具**\n\n## 人在回路（Human-in-the-loop）\n\n> 词典键 `vh_human_in_the_loop` · 快照 c62f93379218ef6d\n\n**亦称**：HITL、Human in the Loop、人工介入、人类监督\n\n**一句话**：人在回路是在 AI 工作流的关键判断或高风险动作前暂停，让人审阅、批准、拒绝或修正后再继续的机制。\n\n**学会之后**：能找出工作流中需要人工决定的暂停点，并说明审批前必须展示哪些事实、批准或拒绝后怎样继续。\n\n**先具备**：知道 AI Agent 可以调用工具并执行多步骤任务。\n\n例如旅行 Agent 可以自动搜索并比较机票，但付款出票前要展示日期、乘机人、总价和退改规则，等你批准后才继续。它不是让人盯着每一步，而是把决定权放在真正重要的暂停点。\n\n**怎么理解**\n\n- **把暂停放在动作之前**：搜索和比较可以自动进行；扣款、出票、发布或删除等高风险动作必须先被拦住，而不是发生后再通知。\n- **给人足够的决定信息**：审批不能只有“是否继续”。界面要同时展示对象、范围、费用、规则和会造成的结果。\n- **把决定送回同一次运行**：批准后从暂停点继续，拒绝后停止；需要修改时带着人的意见回到前一步，不必让整个任务从头开始。\n\n**边界说明**：Guardrail 可以按规则自动拦截，人在回路则把关键判断交给人；Auth 决定谁有权限，HITL 决定什么时候必须由人作出决定。这个术语也用于数据标注和模型训练，本页只讲 Agent 运行中的审批与纠正。\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"人在回路（Human-in-the-loop） 演示\" src=\"https://vibe-hub.org/human-in-the-loop\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · human-in-the-loop · 能力：preview · concept-visual · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**前置**：AI Agent、工具调用\n\n**相关**：权限控制、身份认证、Agent 循环、Agent 运行框架工程\n\n**接着看**：权限控制、身份认证、Agent 循环、Agent 运行框架工程\n\n```quiz\n{\"title\":\"人在回路（Human-in-the-loop） · 判断\",\"questions\":[{\"q\":\"旅行 Agent 已经找到合适航班，下一步会直接使用已保存的支付方式出票。怎样设置人在回路最合适？\",\"choices\":[{\"t\":\"在扣款出票前暂停，展示日期、乘机人、总价和退改规则，批准后才继续\",\"ok\":true,\"why\":\"对。暂停发生在不可逆动作之前，人也拿到了足够信息，可以批准、拒绝或要求修改。\"},{\"t\":\"先自动扣款出票，完成后再通知用户检查订单\",\"ok\":false,\"why\":\"这时高风险动作已经发生，人工检查无法起到事前控制作用。\"},{\"t\":\"每次搜索一个航班都要求用户确认，连只读比较也暂停\",\"ok\":false,\"why\":\"人在回路不等于每一步都审批；低风险、可撤销的检索可以自动完成。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n你可以自动搜索和比较上海到东京的周末航班，但付款和出票前必须暂停。请先列出往返日期、乘机人、含税总价、行李和退改规则；只有收到我的明确批准才能继续，拒绝或信息变化时立即停止。\n```\n\n**参考**\n\n- [人在回路](https://openai.github.io/openai-agents-js/guides/human-in-the-loop/)（OpenAI Agents SDK）\n- [可信 Agent](https://www.anthropic.com/research/trustworthy-agents)（Anthropic Research）\n- [构建有效的 Agent](https://www.anthropic.com/engineering/building-effective-agents)（Anthropic）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-icon": "# 图标（Icon）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 内容展示**\n\n## 图标（Icon）\n\n> 词典键 `vh_icon` · 快照 c62f93379218ef6d\n\n**亦称**：界面图标、功能图标\n\n**一句话**：图标是用统一的小型视觉符号表示功能、对象或状态的界面元素\n\n搜索、下载和关闭可用熟悉图标帮助扫读。陌生或高风险操作不能只放图标，应补上文字或文字提示。\n\n**与相邻概念**\n\n- **与「图片」**：图标 是小而可复用的功能或概念符号；图片 用来展示照片、插画或内容本身。\n- **与「按钮」**：图标 只负责表达含义；把图标放进 按钮 并让它执行动作，才组成图标按钮。\n\n**用法**\n\n- **适合**：常见工具操作 ：搜索、关闭、下载；紧凑工具栏 ：在有限空间组织一组操作；状态提示 ：配合文字帮助浏览\n- **避免**：陌生操作只放图标：补充文字或 文字提示；将不相关的危险操作混入同一个“更多”菜单；用 Emoji 替代需要统一线条和语义的系统图标\n- **场景**：工具栏；带文字按钮；状态提示\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"图标（Icon） 演示\" src=\"https://vibe-hub.org/icon\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · icon · 能力：preview · interactive-detail · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**相关**：图片、按钮\n\n```quiz\n{\"title\":\"图标（Icon） · 判断\",\"questions\":[{\"q\":\"紧凑工具栏里有一个不可撤销的“永久删除项目”操作，新用户不一定认识当前图标。怎样表达更稳妥？\",\"choices\":[{\"t\":\"把统一图标放进操作按钮，并同时显示“永久删除”文字\",\"ok\":true,\"why\":\"图标帮助扫读，文字消除陌生和高风险操作的歧义，按钮则负责真实交互。\"},{\"t\":\"只保留垃圾桶图标，在鼠标悬停时显示“永久删除”说明\",\"ok\":false,\"why\":\"悬停说明在触屏上不可用，用户也必须先猜测图标；高风险操作应在点击前持续说明。\"},{\"t\":\"只显示垃圾桶图标，点击以后再在确认弹窗里解释不可撤销\",\"ok\":false,\"why\":\"确认弹窗能防止误提交，却不能解决入口本身含义不清；用户不应先触发才知道后果。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请检查项目工具栏：常见操作可以使用统一图标，高风险的永久删除必须同时显示明确文字，并由按钮承担交互。不要只靠红色或 Tooltip；用键盘和读屏名称确认操作含义完整。\n```\n\n**参考**\n\n- [图标可用性](https://www.nngroup.com/articles/icon-usability/)（NN/g）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
   "vh-image": "# 图片（Image）\n\n> **来源**：VibeHub（vibe-hub.org）· oil · revision `c62f93379218ef6d` · **前端 / 内容展示**\n\n## 图片（Image）\n\n> 词典键 `vh_image` · 快照 c62f93379218ef6d\n\n**亦称**：图像、图片组件\n\n**一句话**：在网页或软件里显示头像、商品图、文章配图等图片\n\n例如商品列表应先为封面留出固定位置，图片加载后再按比例裁切，避免页面突然跳动。图片本身承载信息时要填写文字说明，方便图片加载失败或使用读屏的人理解；纯装饰图片不需要朗读。\n\n**与相邻概念**\n\n- **与「图标」**：图片 展示照片、插画或内容本身；图标 用简短、重复的小符号表达功能或状态。\n- **与「视频」**：图片 是一张静态画面；视频 有播放、暂停、时长和声音等随时间变化的内容。\n\n**用法**\n\n- **适合**：封面、头像、商品图 等常见图片展示场景；需要 点击放大 看细节，自带预览交互；图片可能 加载失败 ，要有兜底占位；容器比例固定，图片 裁切填充不变形\n- **避免**：按指定宽高 强制拉伸 ，导致图片比例失真；大量图片 同时加载 ，明显阻塞页面响应；把 标题文字只做进图里 ，搜索和读屏无法读取；缺少 alt 描述 ，加载失败后无法说明图片内容\n- **场景**：商品封面；用户头像；点击放大预览；加载失败兜底\n\n**交互演示**（嵌入源站；本站 API 不含动画资源包）\n\n```html\n<figure class=\"vh-demo\"><iframe class=\"vh-demo__frame\" title=\"图片（Image） 演示\" src=\"https://vibe-hub.org/image\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" sandbox=\"allow-scripts allow-same-origin allow-forms allow-popups\"></iframe><figcaption class=\"vh-demo__cap\">源站预览 · image · 能力：preview · anatomy · variants · scenarios · judgment-practice · agent-dialogue</figcaption></figure>\n```\n\n**相关**：图标、视频\n\n```quiz\n{\"title\":\"图片（Image） · 判断\",\"questions\":[{\"q\":\"商品卡片的原图比例不同，图片加载后卡片会突然变高，部分图片还被拉伸。应该怎样处理？\",\"choices\":[{\"t\":\"先预留统一比例的图片区域，再按比例裁切，并为内容图提供文字说明\",\"ok\":true,\"why\":\"预留尺寸能减少加载跳动，按比例裁切避免变形，文字说明覆盖加载失败和非视觉阅读。\"},{\"t\":\"给所有原图写相同宽度和高度，让浏览器直接拉伸填满区域\",\"ok\":false,\"why\":\"尺寸统一了，但强制改变长宽比会让商品外观失真，影响用户判断。\"},{\"t\":\"不预留图片空间，等每张原图加载完成后按自然尺寸撑开卡片\",\"ok\":false,\"why\":\"保留原比例却会在加载过程中不断改变卡片高度，导致内容位置跳动。\"}]}]}\n```\n\n**可以对 Agent 说**\n\n```text\n请统一商品卡片的图片容器比例，加载前就预留空间，图片用等比裁切而不是拉伸。内容图片补充有意义的 alt，加载失败显示兜底；用横图、竖图和慢速网络检查不变形、不跳动。\n```\n\n**参考**\n\n- [img：图像嵌入元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img)（MDN）\n- [学习图片](https://web.dev/learn/images)（web.dev）\n\n\n整理自 [VibeHub](https://vibe-hub.org)；本站可学，署名归原作者。\n",
@@ -551,7 +552,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_component"
   ],
   "vh-frontend": [
-    "vh_frontend"
+    "frontend"
   ],
   "vh-html": [
     "vh_html"
@@ -626,7 +627,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_z_index"
   ],
   "vh-backend": [
-    "vh_backend"
+    "backend"
   ],
   "vh-backend-framework": [
     "vh_backend_framework"
@@ -634,8 +635,11 @@ export const VIBEHUB_NODE_TERMS = {
   "vh-route": [
     "vh_route"
   ],
+  "vh-api": [
+    "api"
+  ],
   "vh-cors": [
-    "vh_cors"
+    "cors"
   ],
   "vh-data-validation": [
     "vh_data_validation"
@@ -656,7 +660,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_deployment"
   ],
   "vh-env-var": [
-    "vh_env_var"
+    "env_var"
   ],
   "vh-feature-flag": [
     "vh_feature_flag"
@@ -689,28 +693,28 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_sql"
   ],
   "vh-cdn": [
-    "vh_cdn"
+    "cdn"
   ],
   "vh-dns": [
-    "vh_dns"
+    "dns"
   ],
   "vh-domain": [
-    "vh_domain"
+    "domain"
   ],
   "vh-http": [
-    "vh_http"
+    "http"
   ],
   "vh-https": [
-    "vh_https"
+    "https"
   ],
   "vh-port": [
-    "vh_port"
+    "port"
   ],
   "vh-redirect": [
     "vh_redirect"
   ],
   "vh-url": [
-    "vh_url"
+    "url"
   ],
   "vh-authentication": [
     "vh_authentication"
@@ -752,13 +756,13 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_user_story"
   ],
   "vh-javascript": [
-    "vh_javascript"
+    "javascript"
   ],
   "vh-python": [
-    "vh_python"
+    "python_lang"
   ],
   "vh-typescript": [
-    "vh_typescript"
+    "typescript"
   ],
   "vh-acceptance-criteria": [
     "vh_acceptance_criteria"
@@ -794,7 +798,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_unit_test"
   ],
   "vh-tech-stack": [
-    "vh_tech_stack"
+    "tech_stack"
   ],
   "vh-build": [
     "vh_build"
@@ -806,19 +810,19 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_lint"
   ],
   "vh-npm": [
-    "vh_npm"
+    "npm"
   ],
   "vh-terminal": [
     "vh_terminal"
   ],
   "vh-nextjs": [
-    "vh_nextjs"
+    "nextjs_fw"
   ],
   "vh-react": [
-    "vh_react"
+    "react_fw"
   ],
   "vh-vue": [
-    "vh_vue"
+    "vue_fw"
   ],
   "vh-shadcn-ui": [
     "vh_shadcn_ui"
@@ -839,7 +843,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_context_engineering"
   ],
   "vh-context-window": [
-    "vh_context_window"
+    "token_context"
   ],
   "vh-conversation-history": [
     "vh_conversation_history"
@@ -860,10 +864,10 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_token_cost"
   ],
   "vh-agent-loop": [
-    "vh_agent_loop"
+    "agent_loop"
   ],
   "vh-ai-agent": [
-    "vh_ai_agent"
+    "agent_concept"
   ],
   "vh-harness-engineering": [
     "vh_harness_engineering"
@@ -872,19 +876,19 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_human_in_the_loop"
   ],
   "vh-mcp": [
-    "vh_mcp"
+    "mcp"
   ],
   "vh-react-pattern": [
-    "vh_react_pattern"
+    "react_pattern"
   ],
   "vh-skill": [
-    "vh_skill"
+    "agent_skills"
   ],
   "vh-sub-agent": [
-    "vh_sub_agent"
+    "subagent"
   ],
   "vh-tool-calling": [
-    "vh_tool_calling"
+    "function_calling"
   ],
   "vh-ai-basics": [
     "vh_ai_basics"
@@ -893,7 +897,7 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_ai_hallucination"
   ],
   "vh-multimodal": [
-    "vh_multimodal"
+    "multimodal"
   ],
   "vh-vibe-coding": [
     "vh_vibe_coding"
@@ -902,19 +906,19 @@ export const VIBEHUB_NODE_TERMS = {
     "vh_branch"
   ],
   "vh-clone": [
-    "vh_clone"
+    "clone"
   ],
   "vh-commit": [
-    "vh_commit"
+    "commit"
   ],
   "vh-diff": [
     "vh_diff"
   ],
   "vh-git": [
-    "vh_git"
+    "git"
   ],
   "vh-gitignore": [
-    "vh_gitignore"
+    "git_cmd_gitignore"
   ],
   "vh-merge": [
     "vh_merge"
@@ -1008,7 +1012,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "frontend",
     "label": "前端",
     "subtitle": "120 条 · 组件、布局、交互与视觉表达",
-    "tag": "Vibe 大区",
+    "tag": "Zone 01",
     "childIds": [
       "vh-button",
       "vh-link",
@@ -1138,12 +1142,13 @@ export const VIBEHUB_MACRO_FRAMES = [
     "id": "vh-frame-backend",
     "slug": "backend",
     "label": "后端",
-    "subtitle": "31 条 · 网络、接口、数据、上线排错",
-    "tag": "Vibe 大区",
+    "subtitle": "32 条 · 网络、接口、数据、上线排错",
+    "tag": "Zone 02",
     "childIds": [
       "vh-backend",
       "vh-backend-framework",
       "vh-route",
+      "vh-api",
       "vh-cors",
       "vh-data-validation",
       "vh-json",
@@ -1173,7 +1178,7 @@ export const VIBEHUB_MACRO_FRAMES = [
       "vh-authentication",
       "vh-authorization"
     ],
-    "termCount": 31,
+    "termCount": 32,
     "categoryCount": 6
   },
   {
@@ -1181,7 +1186,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "product",
     "label": "产品",
     "subtitle": "11 条 · 需求、规划与验证",
-    "tag": "Vibe 大区",
+    "tag": "Zone 03",
     "childIds": [
       "vh-gantt-chart",
       "vh-mvp",
@@ -1203,7 +1208,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "technology",
     "label": "技术栈",
     "subtitle": "25 条 · 语言、框架、工具与测试",
-    "tag": "Vibe 大区",
+    "tag": "Zone 04",
     "childIds": [
       "vh-javascript",
       "vh-python",
@@ -1239,7 +1244,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "ai",
     "label": "AI",
     "subtitle": "24 条 · 模型应用、Agent 与工具",
-    "tag": "Vibe 大区",
+    "tag": "Zone 05",
     "childIds": [
       "vh-stateless-request",
       "vh-streaming-response",
@@ -1274,7 +1279,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "git",
     "label": "Git",
     "subtitle": "12 条 · 版本协作与工作流",
-    "tag": "Vibe 大区",
+    "tag": "Zone 06",
     "childIds": [
       "vh-branch",
       "vh-clone",
@@ -1297,7 +1302,7 @@ export const VIBEHUB_MACRO_FRAMES = [
     "slug": "design",
     "label": "设计风格",
     "subtitle": "22 条 · 风格与气质关键词",
-    "tag": "Vibe 大区",
+    "tag": "Zone 07",
     "childIds": [
       "vh-style-apple",
       "vh-style-bento",
@@ -2764,7 +2769,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 前端",
     "role": "用户在网页、小程序和软件里直接看到、点击和输入的那一层",
     "glossaryIds": [
-      "vh_frontend"
+      "frontend"
     ],
     "hasPractice": true
   },
@@ -3139,7 +3144,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "用户通常看不见、负责处理请求和数据的服务器端部分",
     "glossaryIds": [
-      "vh_backend"
+      "backend"
     ],
     "hasPractice": true
   },
@@ -3174,6 +3179,21 @@ export const VIBEHUB_TERM_CARDS = [
     "hasPractice": true
   },
   {
+    "id": "vh-api",
+    "lessonId": "api",
+    "macroSlug": "backend",
+    "macroTitle": "后端",
+    "category": "接口与数据",
+    "label": "API",
+    "subtitle": "接口与数据",
+    "tag": "Vibe · 后端",
+    "role": "两个软件互相请求数据或功能时共同遵守的约定",
+    "glossaryIds": [
+      "api"
+    ],
+    "hasPractice": true
+  },
+  {
     "id": "vh-cors",
     "lessonId": "cors",
     "macroSlug": "backend",
@@ -3184,7 +3204,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "CORS 是浏览器要求服务器明确同意后，网页才能跨源读取响应的安全机制。",
     "glossaryIds": [
-      "vh_cors"
+      "cors"
     ],
     "hasPractice": true
   },
@@ -3289,7 +3309,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "环境变量是在代码外保存设置值、让不同运行地点读取各自配置的方式。",
     "glossaryIds": [
-      "vh_env_var"
+      "env_var"
     ],
     "hasPractice": true
   },
@@ -3454,7 +3474,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "把图片和网页文件的副本放到多个地区，让用户从较近的位置加载",
     "glossaryIds": [
-      "vh_cdn"
+      "cdn"
     ],
     "hasPractice": true
   },
@@ -3469,7 +3489,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "互联网的地址簿，把域名查成浏览器能找到网站的地址",
     "glossaryIds": [
-      "vh_dns"
+      "dns"
     ],
     "hasPractice": true
   },
@@ -3484,7 +3504,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "域名是给网站、邮箱等网络服务使用的好记名称。",
     "glossaryIds": [
-      "vh_domain"
+      "domain"
     ],
     "hasPractice": true
   },
@@ -3499,7 +3519,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "浏览器或 App 向服务器提出请求、再接收结果时遵守的通信规则",
     "glossaryIds": [
-      "vh_http"
+      "http"
     ],
     "hasPractice": true
   },
@@ -3514,7 +3534,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "地址栏里以 https:// 开头、用于保护设备与网站之间数据的加密连接",
     "glossaryIds": [
-      "vh_https"
+      "https"
     ],
     "hasPractice": true
   },
@@ -3529,7 +3549,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "端口是同一台主机上区分不同网络服务的编号入口。",
     "glossaryIds": [
-      "vh_port"
+      "port"
     ],
     "hasPractice": true
   },
@@ -3559,7 +3579,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 后端",
     "role": "URL 是浏览器用来打开某个页面、文件或位置的完整地址。",
     "glossaryIds": [
-      "vh_url"
+      "url"
     ],
     "hasPractice": true
   },
@@ -3769,7 +3789,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "JavaScript 是让网页响应点击、输入等操作，也能处理程序逻辑的编程语言。",
     "glossaryIds": [
-      "vh_javascript"
+      "javascript"
     ],
     "hasPractice": true
   },
@@ -3784,7 +3804,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "Python 是常用于自动化、数据处理和服务器程序的通用编程语言",
     "glossaryIds": [
-      "vh_python"
+      "python_lang"
     ],
     "hasPractice": true
   },
@@ -3799,7 +3819,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "TypeScript 是在 JavaScript 上增加“数据应是什么样”检查的编程语言。",
     "glossaryIds": [
-      "vh_typescript"
+      "typescript"
     ],
     "hasPractice": true
   },
@@ -3979,7 +3999,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "技术栈是一套项目实际使用的编程语言、现成框架、数据服务和运行工具。",
     "glossaryIds": [
-      "vh_tech_stack"
+      "tech_stack"
     ],
     "hasPractice": true
   },
@@ -4039,7 +4059,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "npm 是给 JavaScript 项目下载所需工具、运行项目命令的工具。",
     "glossaryIds": [
-      "vh_npm"
+      "npm"
     ],
     "hasPractice": true
   },
@@ -4069,7 +4089,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "Next.js 是基于 React 搭建完整网站的工具，常用于官网、内容站和带登录的网站。",
     "glossaryIds": [
-      "vh_nextjs"
+      "nextjs_fw"
     ],
     "hasPractice": true
   },
@@ -4084,7 +4104,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "React 是把网页拆成可复用部分，并让画面跟随数据变化的工具。",
     "glossaryIds": [
-      "vh_react"
+      "react_fw"
     ],
     "hasPractice": true
   },
@@ -4099,7 +4119,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · 技术栈",
     "role": "Vue 是把网页拆成可复用部分，并让画面跟随数据变化的工具。",
     "glossaryIds": [
-      "vh_vue"
+      "vue_fw"
     ],
     "hasPractice": true
   },
@@ -4204,7 +4224,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "上下文窗口是 AI 一次回答时能够同时参考的资料和回答内容的总量上限。",
     "glossaryIds": [
-      "vh_context_window"
+      "token_context"
     ],
     "hasPractice": true
   },
@@ -4309,7 +4329,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "Agent 循环是应用反复调用 AI 和工具，并根据检查结果决定继续、暂停或结束的运行机制。",
     "glossaryIds": [
-      "vh_agent_loop"
+      "agent_loop"
     ],
     "hasPractice": true
   },
@@ -4324,7 +4344,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "AI Agent 是能围绕一个目标自己选择步骤并使用工具的 AI 系统，常见于改代码、整理资料和处理重复工作。",
     "glossaryIds": [
-      "vh_ai_agent"
+      "agent_concept"
     ],
     "hasPractice": true
   },
@@ -4369,7 +4389,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "MCP 是 AI 应用发现和调用外部工具、资料与提示词时使用的一套连接协议。",
     "glossaryIds": [
-      "vh_mcp"
+      "mcp"
     ],
     "hasPractice": true
   },
@@ -4384,7 +4404,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "ReAct 是让 AI 根据当前证据选择一个操作，读取真实结果，再据此选择下一步的任务方式。",
     "glossaryIds": [
-      "vh_react_pattern"
+      "react_pattern"
     ],
     "hasPractice": true
   },
@@ -4399,7 +4419,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "Skill 是一个有固定格式的文件夹，入口通常是 SKILL.md。",
     "glossaryIds": [
-      "vh_skill"
+      "agent_skills"
     ],
     "hasPractice": true
   },
@@ -4414,7 +4434,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "Sub-agent 是主 AI 临时安排来处理一部分工作的另一个 AI。",
     "glossaryIds": [
-      "vh_sub_agent"
+      "subagent"
     ],
     "hasPractice": true
   },
@@ -4429,7 +4449,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "工具调用是 AI 请求应用执行某项操作，再读取操作结果的方式。",
     "glossaryIds": [
-      "vh_tool_calling"
+      "function_calling"
     ],
     "hasPractice": true
   },
@@ -4474,7 +4494,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · AI",
     "role": "多模态 AI 能在同一个任务里结合文字、图片、音频或视频等不同形式的信息。",
     "glossaryIds": [
-      "vh_multimodal"
+      "multimodal"
     ],
     "hasPractice": true
   },
@@ -4519,7 +4539,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · Git",
     "role": "克隆是第一次把共享代码网站上的项目和版本记录完整下载到电脑的操作。",
     "glossaryIds": [
-      "vh_clone"
+      "clone"
     ],
     "hasPractice": true
   },
@@ -4534,7 +4554,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · Git",
     "role": "给当前项目保存一个可以回看、带说明的版本",
     "glossaryIds": [
-      "vh_commit"
+      "commit"
     ],
     "hasPractice": true
   },
@@ -4564,7 +4584,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · Git",
     "role": "Git 是在本地记录文件版本历史、比较改动并协作同步的版本控制工具",
     "glossaryIds": [
-      "vh_git"
+      "git"
     ],
     "hasPractice": true
   },
@@ -4579,7 +4599,7 @@ export const VIBEHUB_TERM_CARDS = [
     "tag": "Vibe · Git",
     "role": "告诉 Git 哪些本地文件不要加入版本记录的规则清单",
     "glossaryIds": [
-      "vh_gitignore"
+      "git_cmd_gitignore"
     ],
     "hasPractice": true
   },
@@ -5006,7 +5026,7 @@ export const VIBEHUB_TERM_CARDS = [
 ];
 
 /** @type {string[]} */
-export const VIBEHUB_ENTRY_IDS = ["vh-hub","vh-frame-frontend","vh-frame-backend","vh-frame-product","vh-frame-technology","vh-frame-ai","vh-frame-git","vh-frame-design","vh-button","vh-link","vh-auto-complete","vh-cascader","vh-checkbox","vh-color-picker","vh-date-picker","vh-form","vh-input","vh-input-number","vh-label","vh-radio","vh-rate","vh-select","vh-slider","vh-switch","vh-textarea","vh-time-picker","vh-tree-select","vh-upload","vh-alert","vh-drawer","vh-modal","vh-notification","vh-popconfirm","vh-popover","vh-progress","vh-result","vh-skeleton","vh-spinner","vh-toast","vh-tooltip","vh-anchor","vh-back-top","vh-breadcrumb","vh-dropdown","vh-menu","vh-pagination","vh-search","vh-skip-link","vh-steps","vh-animation","vh-easing","vh-fade","vh-spring","vh-transition","vh-cta","vh-faq","vh-footer","vh-header","vh-hero","vh-navbar","vh-pricing","vh-social-proof","vh-user-voice","vh-avatar","vh-badge","vh-card","vh-carousel","vh-chart","vh-chat-ui","vh-collapse","vh-descriptions","vh-empty","vh-file","vh-filter","vh-icon","vh-image","vh-list","vh-quote","vh-segmented","vh-statistic","vh-table","vh-tabs","vh-tag","vh-timeline","vh-tree","vh-video","vh-active","vh-cursor","vh-disabled","vh-drag","vh-focus","vh-hover","vh-selection","vh-backdrop-blur","vh-border-radius","vh-corner-feel","vh-dark-mode","vh-design-token","vh-divider","vh-gradient","vh-opacity","vh-shadow","vh-component","vh-frontend","vh-html","vh-markdown","vh-state","vh-serif-sans","vh-text-truncate","vh-typography","vh-card-grid-layout","vh-centered-layout","vh-doc-layout","vh-responsive-design","vh-sidebar-layout","vh-single-page-layout","vh-top-nav-layout","vh-box-model","vh-centering","vh-flex","vh-grid","vh-margin","vh-overflow","vh-padding","vh-position","vh-space","vh-sticky","vh-z-index","vh-backend","vh-backend-framework","vh-route","vh-cors","vh-data-validation","vh-json","vh-blue-green-deployment","vh-canary-release","vh-cd","vh-deployment","vh-env-var","vh-feature-flag","vh-monitoring","vh-rollback","vh-seo","vh-server-log","vh-serverless","vh-staging","vh-browser-storage","vh-database","vh-sql","vh-cdn","vh-dns","vh-domain","vh-http","vh-https","vh-port","vh-redirect","vh-url","vh-authentication","vh-authorization","vh-gantt-chart","vh-mvp","vh-prd","vh-product-backlog","vh-product-roadmap","vh-ab-test","vh-conversion-funnel","vh-use-case","vh-user-flow","vh-user-journey","vh-user-story","vh-javascript","vh-python","vh-typescript","vh-acceptance-criteria","vh-e2e-test","vh-flaky-test","vh-integration-test","vh-regression-test","vh-smoke-test","vh-test-case","vh-test-coverage","vh-test-double","vh-test-fixture","vh-unit-test","vh-tech-stack","vh-build","vh-ci","vh-lint","vh-npm","vh-terminal","vh-nextjs","vh-react","vh-vue","vh-shadcn-ui","vh-tailwind-css","vh-stateless-request","vh-streaming-response","vh-structured-output","vh-context-engineering","vh-context-window","vh-conversation-history","vh-system-prompt","vh-token","vh-rate-limit","vh-response-speed","vh-token-cost","vh-agent-loop","vh-ai-agent","vh-harness-engineering","vh-human-in-the-loop","vh-mcp","vh-react-pattern","vh-skill","vh-sub-agent","vh-tool-calling","vh-ai-basics","vh-ai-hallucination","vh-multimodal","vh-vibe-coding","vh-branch","vh-clone","vh-commit","vh-diff","vh-git","vh-gitignore","vh-merge","vh-pull","vh-pull-request","vh-push","vh-stash","vh-worktree","vh-style-apple","vh-style-bento","vh-style-brutalism","vh-style-commerce","vh-style-dark-tech","vh-style-editorial","vh-style-enterprise","vh-style-flat","vh-style-glass","vh-style-material","vh-style-memphis","vh-style-minimal","vh-style-neumorphism","vh-style-notion","vh-style-organic","vh-style-playful","vh-style-saas","vh-style-skeuomorphism","vh-style-swiss","vh-style-terminal","vh-style-wabisabi","vh-style-y2k"];
+export const VIBEHUB_ENTRY_IDS = ["vh-hub","vh-frame-frontend","vh-frame-backend","vh-frame-product","vh-frame-technology","vh-frame-ai","vh-frame-git","vh-frame-design","vh-button","vh-link","vh-auto-complete","vh-cascader","vh-checkbox","vh-color-picker","vh-date-picker","vh-form","vh-input","vh-input-number","vh-label","vh-radio","vh-rate","vh-select","vh-slider","vh-switch","vh-textarea","vh-time-picker","vh-tree-select","vh-upload","vh-alert","vh-drawer","vh-modal","vh-notification","vh-popconfirm","vh-popover","vh-progress","vh-result","vh-skeleton","vh-spinner","vh-toast","vh-tooltip","vh-anchor","vh-back-top","vh-breadcrumb","vh-dropdown","vh-menu","vh-pagination","vh-search","vh-skip-link","vh-steps","vh-animation","vh-easing","vh-fade","vh-spring","vh-transition","vh-cta","vh-faq","vh-footer","vh-header","vh-hero","vh-navbar","vh-pricing","vh-social-proof","vh-user-voice","vh-avatar","vh-badge","vh-card","vh-carousel","vh-chart","vh-chat-ui","vh-collapse","vh-descriptions","vh-empty","vh-file","vh-filter","vh-icon","vh-image","vh-list","vh-quote","vh-segmented","vh-statistic","vh-table","vh-tabs","vh-tag","vh-timeline","vh-tree","vh-video","vh-active","vh-cursor","vh-disabled","vh-drag","vh-focus","vh-hover","vh-selection","vh-backdrop-blur","vh-border-radius","vh-corner-feel","vh-dark-mode","vh-design-token","vh-divider","vh-gradient","vh-opacity","vh-shadow","vh-component","vh-frontend","vh-html","vh-markdown","vh-state","vh-serif-sans","vh-text-truncate","vh-typography","vh-card-grid-layout","vh-centered-layout","vh-doc-layout","vh-responsive-design","vh-sidebar-layout","vh-single-page-layout","vh-top-nav-layout","vh-box-model","vh-centering","vh-flex","vh-grid","vh-margin","vh-overflow","vh-padding","vh-position","vh-space","vh-sticky","vh-z-index","vh-backend","vh-backend-framework","vh-route","vh-api","vh-cors","vh-data-validation","vh-json","vh-blue-green-deployment","vh-canary-release","vh-cd","vh-deployment","vh-env-var","vh-feature-flag","vh-monitoring","vh-rollback","vh-seo","vh-server-log","vh-serverless","vh-staging","vh-browser-storage","vh-database","vh-sql","vh-cdn","vh-dns","vh-domain","vh-http","vh-https","vh-port","vh-redirect","vh-url","vh-authentication","vh-authorization","vh-gantt-chart","vh-mvp","vh-prd","vh-product-backlog","vh-product-roadmap","vh-ab-test","vh-conversion-funnel","vh-use-case","vh-user-flow","vh-user-journey","vh-user-story","vh-javascript","vh-python","vh-typescript","vh-acceptance-criteria","vh-e2e-test","vh-flaky-test","vh-integration-test","vh-regression-test","vh-smoke-test","vh-test-case","vh-test-coverage","vh-test-double","vh-test-fixture","vh-unit-test","vh-tech-stack","vh-build","vh-ci","vh-lint","vh-npm","vh-terminal","vh-nextjs","vh-react","vh-vue","vh-shadcn-ui","vh-tailwind-css","vh-stateless-request","vh-streaming-response","vh-structured-output","vh-context-engineering","vh-context-window","vh-conversation-history","vh-system-prompt","vh-token","vh-rate-limit","vh-response-speed","vh-token-cost","vh-agent-loop","vh-ai-agent","vh-harness-engineering","vh-human-in-the-loop","vh-mcp","vh-react-pattern","vh-skill","vh-sub-agent","vh-tool-calling","vh-ai-basics","vh-ai-hallucination","vh-multimodal","vh-vibe-coding","vh-branch","vh-clone","vh-commit","vh-diff","vh-git","vh-gitignore","vh-merge","vh-pull","vh-pull-request","vh-push","vh-stash","vh-worktree","vh-style-apple","vh-style-bento","vh-style-brutalism","vh-style-commerce","vh-style-dark-tech","vh-style-editorial","vh-style-enterprise","vh-style-flat","vh-style-glass","vh-style-material","vh-style-memphis","vh-style-minimal","vh-style-neumorphism","vh-style-notion","vh-style-organic","vh-style-playful","vh-style-saas","vh-style-skeuomorphism","vh-style-swiss","vh-style-terminal","vh-style-wabisabi","vh-style-y2k"];
 
 /**
  * @param {string} id
@@ -5027,7 +5047,7 @@ export function getVibeEntryById(id) {
   }
   const frame = VIBEHUB_MACRO_FRAMES.find((f) => f.id === id);
   if (frame) {
-    const zoneTag = {
+    const zoneBySlug = {
       frontend: 'Zone 01',
       backend: 'Zone 02',
       product: 'Zone 03',
@@ -5035,13 +5055,13 @@ export function getVibeEntryById(id) {
       ai: 'Zone 05',
       git: 'Zone 06',
       design: 'Zone 07',
-    }[frame.slug];
+    };
     return {
       id,
       kind: 'chapter',
       label: frame.label,
       subtitle: frame.subtitle,
-      tag: zoneTag || frame.tag,
+      tag: zoneBySlug[frame.slug] || frame.tag,
       role: `${frame.categoryCount} 分类 · ${frame.termCount} 术语`,
       markdown: VIBEHUB_BODIES[id],
       glossaryIds: [],

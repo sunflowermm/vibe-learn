@@ -2,10 +2,14 @@ export default `# 第五章 · 人工智能
 
 > **定位**：这是 **大语言模型应用与本仓对照** 的概念图，**不是**人工智能学位课表。  
 > 刻意不展开：预训练目标与缩放律、系统评测专课、对齐安全专课——缺了不等于「五步=学科全貌」。嵌入只给**应用直觉课**（见 Embedding），不上公式专课。  
-> **怎么读**：按下面路径的因果走；每课先给**中文全称**。旁支案例（如 Pi）**不进**主干先修。  
-> **计算段章专属动画**：\`tokbudget\`（窗口预算）· \`attnmap\`（自注意力打分）· \`tfstack\`（变换器积木）。  
+> **怎么读**：按下面路径的因果走；蛇形四行与下表段序同向（导读/计算 → 改参+知识 → 行动 → 汇合+驯服）；每课先给**中文全称**。旁支案例（如 Pi）**不进**主干先修。  
+> **计算段章专属动画**：\`tokbudget\` · \`attnmap\` · \`tfstack\`。  
+> **适配段章专属动画**：\`iclpath\`（零/少样本 vs 微调）· \`msgroles\`（Chat Completions 角色栈）。  
+> **行动段章专属动画**：\`toolloop\`（工具环）· \`dagflow\`（DAG 并行汇合）· \`wsfive\`（工作区注入 / 程序记忆面）。  
+> **知识 / 汇合段章专属动画**：\`ragpipe\`（经典 RAG 三步）· \`embnear\`（近邻）· \`chunksplit\`（分块）· \`hybridret\`（混合召回）；Agentic 复用 \`toolloop\`；上下文工程复用 \`tokbudget\`。  
+> **驯服段章专属动画**：\`tameinj\`（Rules / Skills / AGENTS）· \`secgate\`（提示注入门禁）；MCP 复用 \`toolloop\`。  
 > 第四章已讲本仓怎么跑；本章补共用概念。真源：\`docs/agent-context.md\` · \`docs/agents.md\` · \`docs/ai-workflow.md\`。  
-> 文献主轴：Vaswani et al. 2017 · OpenAI tokens/tiktoken · Hugging Face Transformer Architectures。
+> 文献主轴：Vaswani et al. 2017 · Brown et al. 2020（GPT-3 / ICL）· Lewis et al. 2020（RAG）· Yao et al. 2022（ReAct）· OpenAI tokens / Chat Completions / tools / embeddings · Model Context Protocol · Hugging Face Transformer Architectures。
 
 ## 学会之后（验收）
 
@@ -84,6 +88,8 @@ flowchart TB
 ---
 
 ## 本仓总对照（学完可回查）
+
+> 各课统一用小节「本仓怎么做」落具体路径；本表是全章索引。真源：\`docs/agent-context.md\` · \`docs/ai-workflow.md\` · \`docs/mcp-guide.md\` · \`docs/agents.md\`。
 
 | 概念 | 本仓落点（第四章 / 文档） |
 |------|---------------------------|

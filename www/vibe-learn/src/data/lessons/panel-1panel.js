@@ -1,8 +1,9 @@
+/** 番外 · 主机面板 · 1Panel */
 export default `# 1Panel
 
 > 现代化、**开源**的 Linux 服务器运维面板（Go + 容器心智）。Web 管主机监控、文件、数据库、网站、证书，并深度集成 **Docker / 应用商店**。  
 > 文档：[1panel.cn/docs](https://1panel.cn/docs/) · 仓库：[1Panel-dev/1Panel](https://github.com/1Panel-dev/1Panel)  
-> 安装入口示例（以官网为准）：\`bash -c "$(curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_start.sh)"\`
+> 安装入口以官网为准（脚本会变）。  
 > **学会之后**：能说明 1Panel 偏容器/开源面板心智，且仅 Linux。
 
 ## 学会之后（验收）
@@ -14,6 +15,15 @@ export default `# 1Panel
 | 数据 | 注意卷与备份 |
 | 本仓 | 同样反代 + 证书 + 安全入口 |
 
+\`\`\`check
+{"title":"1Panel 通关","items":[{"id":"os","text":"知道仅 Linux，Windows 不默认选它","hint":"系统"},{"id":"entry","text":"能说明端口 + 安全入口路径","hint":"入口"},{"id":"dock","text":"知道应用常走容器/商店，仍要懂卷","hint":"容器"},{"id":"bak","text":"备份清单含数据卷","hint":"备份"}]}
+\`\`\`
+
+## 标志动画：上线路径
+
+\`\`\`algo
+{"kind":"onepath","title":"1Panel：入口 → Docker → 反代 → 证书 → 备份","autoplay":true,"speed":780}
+\`\`\`
 
 ## 事实钉
 
@@ -24,10 +34,10 @@ export default `# 1Panel
 | **访问** | \`http://IP:端口/安全入口\`；云安全组需放行面板端口 |
 | **运维命令** | 安装后常用 \`1pctl\`（如 \`1pctl user-info\` 查入口，以文档为准） |
 | **非交互安装** | 可用 \`PANEL_PORT\` / \`PANEL_ENTRANCE\` / \`PANEL_USERNAME\` / \`PANEL_PASSWORD\` 等（见[在线安装](https://1panel.cn/docs/v2/installation/online_installation/)） |
-| **开源** | 社区版可自建审计；另有企业版增值（WAF 增强等，以官网为准） |
+| **开源** | 社区版可自建审计；另有企业版增值（以官网为准） |
 
-\`\`\`flip
-{"title":"1Panel 翻卡","cards":[{"front":"安全入口","back":"URL 路径里多一段，降低扫描命中"},{"front":"应用商店","back":"Compose/镜像一键起，仍要懂卷与端口"},{"front":"与宝塔差","back":"更偏容器；教程量通常少于宝塔"},{"front":"备份","back":"可对云存储；务必含数据卷"}]}
+\`\`\`match
+{"title":"1Panel 配对","pairs":[{"id":"d","left":"Docker","right":"常见运行与应用载体"},{"id":"e","left":"安全入口","right":"登录 URL 的额外路径段"},{"id":"p","left":"反代/证书","right":"仍落在网关层概念"},{"id":"s","left":"1pctl","right":"面板 CLI 维护入口"}]}
 \`\`\`
 
 ## 和宝塔的直觉差
@@ -40,16 +50,20 @@ export default `# 1Panel
 | 生态 | 插件/中文教程总量通常少于宝塔；成长快 |
 | Windows | 不覆盖；Windows 主机看宝塔/其它 |
 
-\`\`\`match
-{"title":"1Panel 配对","pairs":[{"id":"d","left":"Docker","right":"常见运行与应用载体"},{"id":"e","left":"安全入口","right":"登录 URL 的额外路径段"},{"id":"p","left":"反代/证书","right":"仍落在网关层概念"},{"id":"s","left":"1pctl","right":"面板 CLI 维护入口"}]}
-\`\`\`
-
 ## 建议你弄清的四件事
 
 1. 面板 **端口 + 安全入口 + 账号**（\`1pctl user-info\`）  
 2. 网站/应用如何指到 **容器端口或本机 Node 端口**  
 3. **数据卷**在哪；备份是否含卷  
 4. 云安全组与面板防火墙是否都放行了 80/443  
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 反代 | 指到本机 \`node app\` 或容器发布端口 |
+| 卷 | Redis/上传目录要进备份清单 |
+| 对照 | 容器细节回番外·容器 |
 
 ## Coding Agent
 
@@ -63,14 +77,4 @@ export default `# 1Panel
 ## 下一步
 
 **对照选型** · **面板上跑 Node**。
-## 导图2 · 部署 / 容器 × 1Panel
-
-> 另一常见面板；常与容器生态更近。分层仍同上。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **部署上线** | 面板交付 | 按钮→进程/容器 |
-| **构建** | 可能管镜像 | 与 Docker 课对照 |
-| **HTTPS** | 证书能力 | 回 TLS 课核对 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

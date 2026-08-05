@@ -13,11 +13,11 @@ export default `# MySQL
 | 本仓 | Runtime 不强制 MySQL；勿发明全局必需 \`mysql\` |
 | 对照 | vs PG（存量/扩展）、vs Redis/SQLite（模型/形态） |
 
-## 1. 要点
-
-\`\`\`flip
-{"title":"MySQL · 翻卡","cards":[{"front":"MySQL","back":"广泛部署的关系库，生态与托管极多"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`check
+{"title":"MySQL 通关","items":[{"id":"what","text":"能说明：关系型 C/S DBMS；InnoDB 常见","hint":"分类"},{"id":"port","text":"默认 3306；MariaDB 近亲但非 100% 同一产品","hint":"形态"},{"id":"xrk","text":"知道 Runtime 不强制 MySQL；勿发明全局必需","hint":"本仓"}]}
 \`\`\`
+
+## 1. 要点
 
 | 点 | 说明 |
 |----|------|
@@ -64,18 +64,16 @@ flowchart LR
 {"title":"MySQL","questions":[{"q":"面板装了 MySQL，是否等于本仓 Runtime 依赖 MySQL？","choices":[{"t":"是，主服启动会连 MySQL","ok":false,"why":"Runtime 必需是 Redis + SQLite。"},{"t":"否；面板数据库与本仓契约是两层","ok":true,"why":"业务 Core 才可能自管 MySQL。"},{"t":"是，因为 MySQL 是 Node 运行时","ok":false,"why":"完全不是一层。"}]}]}
 \`\`\`
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 面板 LNMP | 与本仓 Runtime **解耦**；装了 ≠ 主服依赖 |
+| 业务需要 | 产品 Core 自管；**勿**写进 Runtime fail-fast |
+| 契约真源 | 第四章 **数据与缓存** · \`docs/database.md\` |
+
 ## 下一步
 
 **其它常见库** — Oracle、SQL Server、搜索与向量；  
-**版图与流行度**；第四章 **数据与缓存**。
-## 导图2 · 后端 / 数据库 × MySQL
-
-> 关系库流行品；本仓可选，非热路径必需。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 关系服务 | 与 PG 同层不同产品 |
-| **后端** | LAMP 等栈常见 | 本仓不强制 |
-| **部署上线** | 独立服务 | 连接与权限是运维项 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+回 **版图与流行度**。
 `;

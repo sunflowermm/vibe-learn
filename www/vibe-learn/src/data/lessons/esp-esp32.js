@@ -2,6 +2,7 @@ export default `# ESP32
 
 > **ESP32**：乐鑫（Espressif）的系列 **SoC**（System on Chip），内置 Wi-Fi / 蓝牙（具体型号有差异），生态教程极多，是创客与物联网入门的「网红板」。  
 > 口语里「一块 ESP32」常指 **模组或开发板**（板载 USB 转串口、天线、电源）。  
+> 真源：[Espressif / ESP-IDF](https://docs.espressif.com/projects/esp-idf/) · 芯片系列文档（ESP32 / S3 / C3…）  
 > **学会之后**：能说明 ESP32 是 Wi-Fi/蓝牙 SoC 家族，开发板≠裸片；主服不在板子上。
 
 ## 学会之后（验收）
@@ -9,23 +10,27 @@ export default `# ESP32
 | 能力 | 成功信号 |
 |------|----------|
 | 定位 | 物联网常用 Wi-Fi/BT SoC |
-| 开发板 | 引出针脚与 USB 串口 |
+| 开发板 | 能拆：USB → 板 → 芯片 → 无线/IO |
 | 与 PC | 边缘设备，不是小服务器装本仓 |
 | 下一步 | 工具链烧录 |
+
+\`\`\`algo
+{"kind":"espboard","title":"开发板分层：线 → 板 → SoC → IO","autoplay":true,"speed":840}
+\`\`\`
+
+\`\`\`check
+{"title":"ESP32 通关","items":[{"id":"soc","text":"能说明 ESP32 是带无线的 SoC 家族，型号有差","hint":"定位"},{"id":"board","text":"分得清开发板 / 模组 / 裸片","hint":"形态"},{"id":"vs","text":"知道它不是用来跑本仓 Node 主服的","hint":"边界"},{"id":"next","text":"下一步要过工具链烧录与串口","hint":"路径"}]}
+\`\`\`
 
 ## 本课你要带走什么
 
 1. ESP32 在嵌入式地图上的位置  
-2. 常见能力：无线、GPIO、双核等（以系列为准）  
-3. 和 Arduino Uno 等「无网 MCU」的差别直觉  
+2. 开发板分层：线 / 板 / SoC / 无线·GPIO  
+3. 和「无网 MCU」的差别直觉  
 
 ---
 
 ## 1. 它是什么
-
-\`\`\`flip
-{"title":"ESP32 翻卡","cards":[{"front":"ESP32","back":"带 Wi-Fi/蓝牙的常见 MCU 平台"},{"front":"与学习站","back":"物联网边缘节点直觉；非本仓主服"}]}
-\`\`\`
 
 | 点 | 说明 |
 |----|------|
@@ -37,6 +42,7 @@ export default `# ESP32
 \`\`\`mermaid
 flowchart TB
   USB[USB 线] --> Board[ESP32 开发板]
+  Board --> Bridge[USB-UART 桥]
   Board --> Chip[ESP32 模组/芯片]
   Chip --> WiFi[Wi-Fi / BT]
   Chip --> IO[GPIO 外设]
@@ -61,6 +67,23 @@ flowchart TB
 - **vibe-learn** 讲概念；**不在浏览器里仿真整颗芯片**  
 - **XRK-AGT** 跑在 Node 服务器；ESP32 是 **另一台设备**  
 - 联调常见：板子 MQTT/HTTP 上报 → 云侧或本机服务处理（见 **与云端的关系**）
+
+## 八股 × 业务串联
+
+| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
+|--------------|----------------|----------------|------------|
+| **SoC** | 单芯片集成更多功能块 | ESP32 含无线射频等 | 营销词「MCU/SoC」以手册为准 |
+| **模组（Module）** | 芯片+天线等封装好的小板 | 可贴到产品 PCB | ≠ 整块开发板 |
+| **开发板（DevKit）** | 模组+USB 桥+排针的入门板 | 插线学习用 | 量产常裁掉调试外设 |
+| **USB-UART Bridge** | 把串口转到 USB 虚拟 COM | CP210x / CH340 / FTDI | 没驱动 = 电脑看不见口 |
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 角色 | 边缘节点；主服契约仍在第四章 HTTP / 鉴权 |
+| 联调 | 先串口点灯，再 HTTP/MQTT（下一课工具链 + 云端课） |
+| 硬件 | 原理图/打板不进 vibe-learn 主线 |
 
 ## 下一步
 

@@ -15,12 +15,15 @@ export default `# 版图与流行度
 | 本仓 | 热路径 Redis+SQLite；其它可选 |
 | 选型 | 热度辅助，不替代约束 |
 
-
-## 本课分块
-\`\`\`flip
-{"title":"版图 · 翻卡","cards":[{"front":"版图","back":"先认模型（关系/文档/键值），再认产品名"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
+\`\`\`algo
+{"kind":"dbtier","title":"本仓热路径：Redis vs SQLite","autoplay":true,"speed":880}
 \`\`\`
 
+\`\`\`check
+{"title":"版图通关","items":[{"id":"rank","text":"能说明 DB-Engines=相对热度，不是营收市占","hint":"读图"},{"id":"model","text":"能按关系/文档/键值对上代表产品","hint":"模型"},{"id":"xrk","text":"能复述本仓 Redis+SQLite 必需、其它可选 Core","hint":"本仓"}]}
+\`\`\`
+
+## 本课分块
 
 | 块 | 目标 |
 |----|------|
@@ -104,18 +107,16 @@ pie showData
 | **多模型（Multi-Model）** | 一个产品支持多种数据模型 | PG 带 JSON/向量扩展 | 别和「纯文档库」产品混为一谈 |
 | **选型 vs 排名（Selection vs Ranking）** | 排名反映热度，不替你做架构决策 | 本仓：Redis+SQLite 必需，Mongo 可选 | 热 ≠ 适合；SQLite 分数不高但嵌入海量 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 热路径 | **Redis + SQLite** 必需（动画 \`dbtier\`） |
+| 可选 | Mongo / Postgres / Vector → 独立 Core |
+| 契约 | 第四章 **数据与缓存** · \`docs/database.md\` |
+
 ## 下一步
 
 分课深挖：**Redis · SQLite · MongoDB · PostgreSQL · MySQL · 其它**。  
 装机与契约分别回 **部署环境** / **数据与缓存**。
-## 导图2 · 技术栈 / 数据库 × 版图与流行度
-
-> 观光对照；本仓主线 Redis+SQLite，其它按可选 Core。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 品类地图 | 关系/文档/键值… |
-| **技术栈** | 选型入口 | 先场景再产品；勿只追热度 |
-| **后端** | 常多库并存 | 缓存与主存职责不同 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

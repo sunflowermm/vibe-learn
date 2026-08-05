@@ -14,6 +14,14 @@ export default `# SQLite
 | 适用 | 本机状态、测试、边缘；高并发多写中心库慎用 |
 | 本仓 | Runtime 本地持久常见；热缓存仍归 Redis |
 
+\`\`\`algo
+{"kind":"dbserve","title":"嵌入式 vs C/S（SQLite 例外）","autoplay":true,"speed":820}
+\`\`\`
+
+\`\`\`check
+{"title":"SQLite 通关","items":[{"id":"emb","text":"能说明嵌入文件库、通常无监听端口","hint":"形态"},{"id":"dbms","text":"承认仍是完整 DBMS（SQL/事务/索引）","hint":"本质"},{"id":"not","text":"知道不能用它替代 Redis 热缓存","hint":"职责"}]}
+\`\`\`
+
 ## 本课你要带走什么
 
 1. 嵌入式 vs 客户端–服务器  
@@ -23,10 +31,6 @@ export default `# SQLite
 ---
 
 ## 1. 形态对比
-
-\`\`\`flip
-{"title":"SQLite · 翻卡","cards":[{"front":"SQLite","back":"文件型库，常嵌在进程里，少独立服务"},{"front":"别混成","back":"编程语言 / Web 框架"},{"front":"选型先问","back":"模型、一致性、运维与生态"}]}
-\`\`\`
 
 | | **SQLite** | **PostgreSQL / MySQL** |
 |--|------------|-------------------------|
@@ -72,19 +76,16 @@ flowchart LR
 | **零运维进程（Zero Server Process）** | 无需另起 \`sqlite-server\` | 本仓 Runtime 本地持久 | 别因此说「不是 DBMS」——仍是完整 DBMS |
 | **关系模型 + SQL** | 表、索引、事务一应俱全 | 单机工具、测试、边缘节点 | 别用来替代 Redis 热缓存职责 |
 
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 本地持久 | Runtime 常见 \`node:sqlite\` / 全局名；**不**替代 Redis |
+| 形态 | 嵌入例外；对照动画 \`dbserve\` |
+| 契约 | 第四章 **数据与缓存** · \`docs/database.md\` |
+
 ## 下一步
 
 **Redis** — 热数据对面；  
-**MongoDB / PostgreSQL** — 可选业务库形态；  
-第四章 **数据与缓存** — 本仓契约。
-## 导图2 · 后端 / 数据库 × SQLite
-
-> 嵌入式库；本仓热路径另一极。与「作为服务」对照。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **数据库** | 文件型嵌入式 | 常无独立服务器进程 |
-| **后端** | 同进程库 | 本仓 Runtime 使用场景见第四章 |
-| **部署上线** | 文件与权限 | 备份要含库文件 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**MongoDB / PostgreSQL** — 可选业务库形态。
 `;

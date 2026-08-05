@@ -3,7 +3,8 @@ export default `# 本机目录地图 · 跨系统同一套角色
 > 终端里你「站在」某个路径；本课先钉**本质**，再给 Windows / Linux / macOS 的地图。  
 > **树形不同、分隔符不同，角色往往相同**——先问「这是家、程序、配置还是临时」，再记具体路径。  
 > \`cd\` / \`ls\` 手感见第一章 **Linux 基础指令**；本课是地图与对照，不是命令手册。  
-> **学会之后**：先角色后路径，能把 Win/Linux/mac 家目录与 bin 对上号。
+> 真源：[FHS](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html) · [XDG Base Directory](https://specifications.freedesktop.org/basedir-spec/latest/) · Win Known Folders / \`USERPROFILE\`  
+> **学会之后**：先角色后路径，能把 Win/Linux/mac 家目录与 bin 对上号，并口述 XDG 四目录默认值。
 
 ## 学会之后（验收）
 
@@ -11,8 +12,17 @@ export default `# 本机目录地图 · 跨系统同一套角色
 |------|----------|
 | 角色 | 家 / 程序·bin / 配置 / 临时 分得清 |
 | 对照 | 三套系统各举一例路径 |
+| XDG | \`~/.config\` / \`share\` / \`cache\` / \`state\` 各一句 |
 | PATH | 理解 PATH 是若干 bin 角色拼接 |
 | 边界 | 本课是地图，不是命令手册 |
+
+\`\`\`algo
+{"kind":"dirrole","title":"先角色，后路径（跨系统同一套）","autoplay":true,"speed":820}
+\`\`\`
+
+\`\`\`check
+{"title":"目录地图通关","items":[{"id":"role","text":"能先说角色再举 Win/Linux/mac 路径","hint":"先角色"},{"id":"home","text":"能对上 USERPROFILE ↔ HOME ↔ ~","hint":"家目录"},{"id":"xdg","text":"能默写 XDG 配置/数据/缓存/状态默认路径","hint":"XDG"},{"id":"path","text":"知道「不是内部命令」多半是 bin 未进 PATH","hint":"PATH"}]}
+\`\`\`
 
 ## 本课你要带走什么
 
@@ -165,9 +175,23 @@ C:\\
 | **\`/tmp\`** | 临时区 | 不要当永久盘 |
 | **\`/opt\`** | 程序安装（整包） | 有的 IDE 套件装这里 |
 
+### 用户级「小 FHS」：XDG Base Directory
+
+家目录里别再堆一地 \`~/.乱应用名\` 时，现代桌面约定（[XDG Base Directory Spec](https://specifications.freedesktop.org/basedir-spec/latest/)）：
+
+| 变量 | 未设置时的默认 | 近似系统角色 |
+|------|----------------|--------------|
+| **\`\$XDG_CONFIG_HOME\`** | \`~/.config\` | 像用户级 \`/etc\` |
+| **\`\$XDG_DATA_HOME\`** | \`~/.local/share\` | 像用户级 \`/usr/share\` |
+| **\`\$XDG_CACHE_HOME\`** | \`~/.cache\` | 像用户级 \`/var/cache\`（可删） |
+| **\`\$XDG_STATE_HOME\`** | \`~/.local/state\` | 像用户级 \`/var/lib\`（状态，宜保留） |
+
+老程序仍可能只用 \`~/.某名字\`；排障时两套都要会找。Windows 上「用户配置/缓存」角色更多落在 \`AppData\\Roaming\` / \`Local\`（Known Folder），与 XDG **同角色、不同写法**。
+
 \`\`\`mermaid
 flowchart TB
   Home["家目录角色"] --> Dot[点文件 · 下一课]
+  Home --> Xdg["XDG：config / data / cache / state"]
   Bin["bin 角色"] --> Path[PATH 查找]
   Etc["系统配置角色"] --> Machine[影响整机]
 \`\`\`
@@ -211,20 +235,20 @@ flowchart TB
 | **\`/bin\` · \`/usr/bin\`** | 可执行命令目录（bin 角色） | 进 PATH；\`curl\` 常在此 | ≠ node_modules；≠ 回收站 |
 | **单根 \`/\` vs 盘符** | Unix 一棵树；Win 多卷 | Git Bash \`/c/…\` | 挂载点 ≠ 又一个「家目录」 |
 | **\`~\`（tilde）** | Shell 里家目录简写 | \`cd ~\`、\`~/.ssh\` | 非登录上下文可能不展开 |
+| **XDG Base Directory** | 用户级配置/数据/缓存/状态目录约定 | \`~/.config\` 等 | 老程序可能仍用 \`~/.appname\` |
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 站对根 | \`pwd\` 在仓库根再 \`node app\` / \`pnpm\`；别在错目录找 \`core/\` |
+| 配置归属 | 独立 Core：\`core/<名>/default/\` + \`data/<产品>/\`；勿塞进系统盘根 |
+| 用户级工具 | 本机 Cursor / Agent 规则常在家目录 \`.cursor\`；与仓库 \`AGENTS.md\` 分工见文档 |
+| PATH | Node ≥ 26 · pnpm 的 bin 必须在 PATH（第一章） |
 
 ## 下一步
 
 **点文件与隐藏项** — 同一「少打扰」目的，Unix 点前缀 vs Win 隐藏属性。  
 第一章 **Linux 基础指令** — 拿着**角色地图**去 \`cd\` / \`ls\`。  
 **安装器与 PATH** — bin 如何被找到。
-## 导图2 · 终端 / 环境变量 × 本机目录布局
-
-> 先角色后路径（Users ↔ /home）。站对仓库根。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **终端命令行** | 在目录活动 | pwd 验收 |
-| **环境变量** | HOME 等 | 决定家目录 |
-| **部署上线** | 路径约定 | 服务账号家目录可能不同 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

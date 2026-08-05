@@ -14,6 +14,7 @@ const MANUAL_LESSON_TO_LOCAL = {
   domain: 'domain',
   http: 'http',
   https: 'https',
+  api: 'api',
   url: 'url',
   port: 'port',
   'env-var': 'env_var',
@@ -72,7 +73,7 @@ function englishPart(term) {
  * @param {Record<string, { term: string, aliases?: string[] }>} localGlossary
  * @returns {Map<string, string>} norm → localId
  */
-function buildLocalIndex(localGlossary) {
+export function buildLocalIndex(localGlossary) {
   /** @type {Map<string, string>} */
   const index = new Map();
   for (const [id, e] of Object.entries(localGlossary)) {

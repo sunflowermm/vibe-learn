@@ -1,3 +1,4 @@
+/** 番外 · 主机面板 · 对照选型 */
 export default `# 面板对照选型
 
 > **宝塔** vs **1Panel** vs **不用面板**（纯 SSH + Nginx/Caddy + Docker/systemd）。  
@@ -13,6 +14,16 @@ export default `# 面板对照选型
 | 可复现 | 点按钮弱于 Git + Compose；团队协作优先可重复交付 |
 | 本仓 | Node≥26、pnpm、Redis 等清单不因换面板消失 |
 
+\`\`\`check
+{"title":"选型通关","items":[{"id":"tree","text":"能按约束指出宝塔/1Panel/不用面板之一","hint":"决策"},{"id":"win","text":"知道 Windows Server 不能默认 1Panel","hint":"系统"},{"id":"git","text":"能说明可复现交付为何偏 Compose/SSH","hint":"可复现"},{"id":"list","text":"换面板也不删本仓部署清单项","hint":"本仓"}]}
+\`\`\`
+
+## 标志动画：三选一
+
+\`\`\`algo
+{"kind":"panelpick","title":"宝塔 · 1Panel · 不用面板","autoplay":true,"speed":900}
+\`\`\`
+
 ## 对照表（稳定心智）
 
 | 维度 | 宝塔（BT / aaPanel） | 1Panel | 不用面板 |
@@ -27,20 +38,26 @@ export default `# 面板对照选型
 
 官方入口：宝塔 [docs.bt.cn](https://docs.bt.cn/) · 1Panel [1panel.cn/docs](https://1panel.cn/docs/) · 对照宣传页 [vsbt.1panel.cn](https://vsbt.1panel.cn/)（厂商视角，交叉验证）。
 
-\`\`\`quiz
-{"title":"选型","questions":[{"q":"团队要用 Git 推送 + Compose 一键多环境，首选心智？","choices":[{"t":"只学宝塔点按钮，不上 Git","ok":false,"why":"无法复现与协作。"},{"t":"容器/Compose 为主，面板可选","ok":true,"why":"交付可重复。"},{"t":"必须上商业云控制台替代一切","ok":false,"why":"与面板问题正交。"}]},{"q":"只有 Windows Server、要图形化管站？","choices":[{"t":"1Panel","ok":false,"why":"1Panel 仅 Linux。"},{"t":"宝塔 Windows 或其它 Windows 面板 / 纯 IIS 方案","ok":true,"why":"系统约束决定候选集。"},{"t":"必须先装 Docker Desktop 才能有面板","ok":false,"why":"不是前提。"}]}]}
-\`\`\`
-
-## 决策树
-
 \`\`\`decide
 {"title":"要不要面板","start":"start","steps":[{"id":"start","q":"你的主约束？","options":[{"label":"一个人、要最快出站、大量跟教程","next":"bt"},{"label":"Linux + 想容器化、开源可审计","next":"one"},{"label":"多环境一致、CI 部署、团队协作","next":"none"},{"label":"已有宝塔站要迁走","next":"migrate"}]},{"id":"bt","result":"宝塔可行；仍要学反代/证书/备份。","detail":"去：宝塔 → 面板上跑 Node。"},{"id":"one","result":"1Panel 更贴；弄清安全入口与数据卷。","detail":"去：1Panel → 面板上跑 Node。"},{"id":"none","result":"面板可选甚至不要；主脊走 Nginx/容器/systemd。","detail":"去：容器番外 · systemd · 部署环境。"},{"id":"migrate","result":"先列：站点反代、证书、数据库、cron、上传目录；再迁。","detail":"备份课必读；一次搬一层。"}]}
+\`\`\`
+
+\`\`\`quiz
+{"title":"选型","questions":[{"q":"团队要用 Git 推送 + Compose 一键多环境，首选心智？","choices":[{"t":"只学宝塔点按钮，不上 Git","ok":false,"why":"无法复现与协作。"},{"t":"容器/Compose 为主，面板可选","ok":true,"why":"交付可重复。"},{"t":"必须上商业云控制台替代一切","ok":false,"why":"与面板问题正交。"}]},{"q":"只有 Windows Server、要图形化管站？","choices":[{"t":"1Panel","ok":false,"why":"1Panel 仅 Linux。"},{"t":"宝塔 Windows 或其它 Windows 面板 / 纯 IIS 方案","ok":true,"why":"系统约束决定候选集。"},{"t":"必须先装 Docker Desktop 才能有面板","ok":false,"why":"不是前提。"}]}]}
 \`\`\`
 
 ## 记住
 
 面板降低的是**操作门槛**，不降低**理解端口 / 权限 / 备份 / 密钥**的必要性。  
 本仓部署清单（Node、Redis、配置三同步）**不因换面板而消失**。
+
+## 本仓怎么做
+
+| 概念 | 落点 |
+|------|------|
+| 选型 | 先约束后产品；广告页交叉验证 |
+| 清单 | Node≥26、pnpm、Redis、反代、备份 |
+| 迁站 | 一层一层搬；先备份课 |
 
 ## Coding Agent
 
@@ -54,13 +71,4 @@ export default `# 面板对照选型
 ## 下一步
 
 **面板上跑 Node** · 或回 **Nginx / 容器 / systemd**。
-## 导图2 · 部署 × 面板对照
-
-> 选型看生态与习惯；验收标准仍是分层翻译能力。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **部署上线** | 选哪块面板 | 稳定心智大于品牌 |
-| **技术栈** | 面板只是壳 | 底下仍是 Linux/反代/证书 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

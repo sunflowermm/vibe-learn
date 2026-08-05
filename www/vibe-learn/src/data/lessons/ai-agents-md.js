@@ -1,31 +1,28 @@
 export default `# AGENTS.md · 项目说明书
 
-> **时间线：多 Agent 工具并存之后** 出现的共识文件。  
-> **AGENTS.md** = 写在仓库或工作区里、给 Agent 读的 **说明书**（栈、命令、边界、怎么协作）。
+> **本课位置**：驯服段收束；多 Agent 工具并存后的**共识文件**。  
+> **先修**：规则 / 技能；可选 Agent CLI。  
+> **定义**：**AGENTS.md** = 写在仓库或工作区里、给 Agent 读的 **说明书**（栈、命令、边界、怎么协作）。  
+> **真源**：根 \`AGENTS.md\` · \`docs/agents.md\` · \`docs/agent-context.md\`。
 
 ## 学会之后（验收）
 
 | 能力 | 成功信号 |
 |------|----------|
 | 职责 | AGENTS.md=给 Agent 的项目说明书 |
-| 两张工牌 | 根说明 vs 产品工作区；事实对齐 |
-| 边界 | 不是微调；密钥不进仓 |
+| 两张工牌 | 根说明（Coding）vs 产品工作区（办事）；事实对齐、读者不同 |
+| 边界 | 不是微调；密钥不进仓；不是 Rules/Skills 的替代品 |
 | 本仓 | 办事助手工作区注入；见 docs/agents.md |
 
-
-## 时间线上的位置
-
-上一课：Agent 可以活在 CLI。  
-本课：无论 IDE 还是 CLI，都需要一份 **可移植的项目上下文**。  
-对本框而言：AI 概念链在此收束，并回扣 XRK **第四章** 的根 \`AGENTS.md\` 与 **办事助手** 工作区。
-
----
-
-## 为什么诞生
+\`\`\`algo
+{"kind":"tameinj","title":"交底文件族里的 AGENTS","autoplay":true,"speed":800}
+\`\`\`
 
 \`\`\`check
-{"title":"AGENTS.md 清单","items":[{"text":"写清工作区与边界","hint":"能改哪、路径在哪"},{"text":"写清工具与命令习惯","hint":"包管理器、测试入口"},{"text":"只写现行契约","hint":"路径、读者、任务路由"}]}
+{"title":"AGENTS.md 通关","items":[{"id":"role","text":"能说明 AGENTS=施工交底，README=给人看的大门","hint":"职责"},{"id":"two","text":"能分清根 AGENTS（开发）与工作区 AGENTS（办事模型）","hint":"工牌"},{"id":"split","text":"能对照 AGENTS 总览 / Rules 硬约束 / Skills 流程","hint":"分工"}]}
 \`\`\`
+
+## 为什么诞生
 
 | 痛点 | 说明 |
 |------|------|
@@ -49,7 +46,9 @@ export default `# AGENTS.md · 项目说明书
 
 ---
 
-## 本仓四层（现行）
+## 本仓怎么做
+
+四层文件（现行；读者不同，勿混成一份）：
 
 | 文件 | 读者 | 内容 |
 |------|------|------|
@@ -77,19 +76,12 @@ export default `# AGENTS.md · 项目说明书
 
 > 学科 → 大模型 → 对话产品 → 统一 API → 工具调用 → MCP → Rules → Skills → 子代理 → CLI → AGENTS.md。
 
+\`\`\`quiz
+{"title":"AGENTS.md","questions":[{"q":"仓库根 AGENTS.md 主要给谁读？","choices":[{"t":"办事助手群聊模型（与工作区 AGENTS 完全同一份）","ok":false,"why":"根文件给 Coding/维护者；办事读工作区副本。"},{"t":"Cursor / Core 开发：放码与 skill 路由","ok":true,"why":"两张工牌，读者不同。"},{"t":"只给搜索引擎爬虫","ok":false,"why":"给人与 Agent 的契约文件。"}]},{"q":"密钥应写进 AGENTS.md 吗？","choices":[{"t":"应，方便模型直接调用云 API","ok":false,"why":"密钥不进仓。"},{"t":"不应；放环境变量/密钥库","ok":true,"why":"安全红线。"},{"t":"应加密后写进 Rules 全文","ok":false,"why":"仍可能进提示与日志。"}]}]}
+\`\`\`
+
 ## 回到本仓实践
 
 \`AiWorkflow\` 在跑「会话 + 工具」；办事助手工作区经 \`agentWorkspace\` 注入；  
 你在 Cursor 里改 vibe-learn，读的是根 \`AGENTS.md\` 与 \`.cursor/skills\`。词汇可互译，落点不同。
-
-## 导图2 · 系统提示词 / Skill / 上下文工程 × AGENTS.md
-
-> 导图2 交底文件族；本课钉 AGENTS 这一张工牌。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **系统提示词** | 人设来源之一 | 文件化、可审、可版本 |
-| **Skill** | 分工 | 长流程 skill；总规约 AGENTS |
-| **上下文工程** | 注入策略 | 全文 vs 目录，看工作区实现 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

@@ -2644,6 +2644,51 @@ export const GLOSSARY = {
     brief: "拓扑排序：有向无环图（DAG）上的线性序。课程表、任务依赖；有环则无法完成。入度表+队列是经典。",
     also: ["dsa-graph","dsa-hot"],
   },
+  dsa_recur_callstack: {
+    term: "递归与调用栈",
+    brief: "递归：函数调用自身解决更小子问题；每次调用压栈帧，返回弹栈。深度过大可栈溢出；可用显式栈改迭代。",
+    also: ["dsa-recurse","dsa_o_space"],
+  },
+  dsa_recur_base: {
+    term: "递归基（Base case）",
+    brief: "递归基：不再继续递归的终止条件。缺基或条件写错会导致无限递归；分治也要先钉死最小规模。",
+    also: ["dsa-recurse"],
+  },
+  dsa_tp_two_pointers: {
+    term: "双指针",
+    brief: "双指针：同向或对撞扫线性结构，常把 O(n²) 降到 O(n)。对撞适合有序两端逼近；同向适合滑窗/快慢。",
+    also: ["dsa-two-pointers","dsa-linear"],
+  },
+  dsa_tp_window: {
+    term: "滑动窗口",
+    brief: "滑动窗口：维护区间 [L,R] 上的不变量，右扩左缩。子串/子数组最值、去重长度等模板。",
+    also: ["dsa-two-pointers","dsa_hash_set"],
+  },
+  dsa_uf_dsu: {
+    term: "并查集（DSU）",
+    brief: "并查集：维护不相交集合的合并与查询。路径压缩+按秩合并近均摊 O(α(n))；连通分量、最小生成树前置。",
+    also: ["dsa-union-find","dsa-graph"],
+  },
+  dsa_str_match: {
+    term: "字符串匹配",
+    brief: "字符串匹配：在文本中找模式。暴力 O(nm)；KMP/Z 等预处理模式降均摊；题面常先哈希或双指针。",
+    also: ["dsa-string"],
+  },
+  dsa_bit_ops: {
+    term: "位运算",
+    brief: "位运算：& | ^ ~ << >> 在整数位级操作。判奇偶、去最低置位、状态压缩常用；注意符号扩展与语言差异。",
+    also: ["dsa-bitwise"],
+  },
+  dsa_ml_knn: {
+    term: "近邻 / 距离直觉",
+    brief: "近邻：用距离（欧氏、余弦等）找最像的样本。嵌入检索、推荐粗排同源；维度灾难时需降维或近似。",
+    also: ["dsa-ml","ml","embedding_model"],
+  },
+  dsa_ml_gradient: {
+    term: "梯度下降直觉",
+    brief: "梯度下降：沿损失对参数的负梯度迭代更新。学习率过大震荡、过小过慢；深度学习训练的核心优化故事。",
+    also: ["dsa-ml","ml"],
+  },
   http_hdr_host: {
     term: "Host",
     brief: "Host：请求目标主机（及端口）。虚拟主机/反代按 Host 选站点；HTTP/1.1 必带。",
