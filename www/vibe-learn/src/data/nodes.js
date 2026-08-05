@@ -3421,7 +3421,6 @@ export function buildFlowNodes() {
         chapterId: n.parentId,
         tone,
       },
-      class: '',
       selectable: true,
       draggable: false,
       zIndex: 10,

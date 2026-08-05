@@ -17,7 +17,7 @@ export function isChapterNode(n) {
 
 /** @param {object} n */
 export function nodePassClass(n) {
-  /* 章框穿透；词条允许在卡片上起手平移画布（勿 mm-nopan，否则密布区只能拖卡/点不动） */
+  /* 章框穿透；词条 mm-nopan 在 GraphCard 上，保证点选不被平移抢走 */
   return isChapterNode(n) ? MM_CHAPTER_PASS : '';
 }
 
@@ -309,14 +309,20 @@ export function useMindMapChrome(opts) {
 
   /**
    * 画布平移 / 缩放。
-   * fitView 等程序化改视口时 event 常为 null——勿标成用户拖拽，否则会吞掉随后点击。
+   * fitView 等程序化改视口时 event 常为 null——勿介入点击守卫。
+   * move-start  alone 不标 dragMoved：纯点击也会先 start 再 end，否则点卡/点空白全失效。
    * @param {{ event?: Event | null }} [payload]
    */
   function onMoveStart(payload) {
     if (!payload?.event) return;
     viewportMoving = true;
-    dragMoved = true;
     isPanning.value = true;
+  }
+
+  /** 视口真正动了才吞随后的 click */
+  function onMove() {
+    if (!viewportMoving) return;
+    dragMoved = true;
   }
 
   function onMoveEnd(payload) {
@@ -335,7 +341,8 @@ export function useMindMapChrome(opts) {
   }
 
   function wasDragMoved() {
-    return dragMoved || viewportMoving;
+    /* 只认真实位移；viewportMoving 在纯点击的 start→end 间也会为 true，不能用来吞点选 */
+    return dragMoved;
   }
 
   function isViewportMoving() {
@@ -417,6 +424,7 @@ export function useMindMapChrome(opts) {
     onNodeDrag,
     onNodeDragStop,
     onMoveStart,
+    onMove,
     onMoveEnd,
     wasDragMoved,
     isViewportMoving,

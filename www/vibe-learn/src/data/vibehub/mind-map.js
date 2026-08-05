@@ -439,7 +439,6 @@ export function buildVibeFlowNodes() {
       draggable: false,
       zIndex: 2,
       style: { width: `${VIBE_CARD_W}px` },
-      class: '',
       data: {
         kind: 'topic',
         label: c.label,

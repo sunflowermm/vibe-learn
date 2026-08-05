@@ -71,6 +71,7 @@ const {
   onNodeDrag,
   onNodeDragStop,
   onMoveStart,
+  onMove,
   onMoveEnd,
   wasDragMoved,
   isPanning,
@@ -254,11 +255,6 @@ function onNodeClick({ node }) {
   if (isChapterNode(node)) return;
   emit('select', node.id);
 }
-
-function onPaneClick() {
-  if (wasDragMoved()) return;
-  emit('clear');
-}
 </script>
 
 <template>
@@ -278,11 +274,11 @@ function onPaneClick() {
       :node-types="nodeTypes"
       :edge-types="edgeTypes"
       @node-click="onNodeClick"
-      @pane-click="onPaneClick"
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
       @move-start="onMoveStart"
+      @move="onMove"
       @move-end="onMoveEnd"
     >
       <MindMapLayers
@@ -298,7 +294,7 @@ function onPaneClick() {
     </VueFlow>
     <p class="mm-hint" aria-hidden="true">
       <template v-if="nodesDraggable">
-        空白或卡片上拖动画布 · 蓝条拖整章 · 点选练习组
+        空白拖动画布 · 点选练习组 · 蓝条拖整章
       </template>
       <template v-else>
         点选 · 拖动画布 · 双指缩放

@@ -79,6 +79,7 @@ const {
   onNodeDrag,
   onNodeDragStop,
   onMoveStart,
+  onMove,
   onMoveEnd,
   wasDragMoved,
   isPanning,
@@ -161,11 +162,6 @@ function onNodeClick({ node }) {
   emit('select', node.id);
 }
 
-function onPaneClick() {
-  if (wasDragMoved()) return;
-  emit('clear');
-}
-
 function onEdgeClick({ edge }) {
   if (wasDragMoved()) return;
   const a = props.activeId;
@@ -241,11 +237,11 @@ function fitNeighborhood() {
       :edge-types="edgeTypes"
       @node-click="onNodeClick"
       @edge-click="onEdgeClick"
-      @pane-click="onPaneClick"
       @node-drag-start="onNodeDragStart"
       @node-drag="onNodeDrag"
       @node-drag-stop="onNodeDragStop"
       @move-start="onMoveStart"
+      @move="onMove"
       @move-end="onMoveEnd"
       @pane-ready="() => doFit(0)"
       @pane-double-click="resetLayout"
@@ -283,7 +279,7 @@ function fitNeighborhood() {
     </div>
     <p class="mm-hint" aria-hidden="true">
       <template v-if="nodesDraggable">
-        空白或卡片上拖动画布 · 蓝条拖整章 · 点选强调邻接
+        空白拖动画布 · 点选卡片 · 蓝条拖整章
       </template>
       <template v-else>
         点选 · 拖动画布 · 双指缩放

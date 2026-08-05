@@ -321,7 +321,6 @@ export function buildQuizFlowNodes() {
       position: c.position,
       draggable: false,
       zIndex: 2,
-      class: '',
       style: {
         width: `${QUIZ_CARD_W}px`,
       },

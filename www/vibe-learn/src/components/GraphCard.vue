@@ -18,7 +18,7 @@ const toneStyle = computed(() => ({
 
 <template>
   <div
-    class="card"
+    class="card mm-nopan"
     :class="{ selected, stub: isStub }"
     :style="toneStyle"
     data-blobity
