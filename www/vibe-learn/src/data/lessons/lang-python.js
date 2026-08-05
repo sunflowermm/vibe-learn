@@ -23,9 +23,7 @@ export default `# Python（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"Python · 身份翻卡","cards":[{"front":"Python","back":"胶水、数据、脚本；本仓常见 Python 子服"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
-\`\`\`
+> 本仓坐标：**主服 JS + Node**；Python 只在 **\`subserver/pyserver\`**。别把 Django 说成「Python 语言」。
 
 ### 1.1 适合用 Python 的场景
 
@@ -200,14 +198,4 @@ flowchart TB
 
 **Django / FastAPI** · **Go / Rust**（性能对照）· **语言栈** · **子服务端** · **技术选型**。  
 可选：读 FastAPI 一个最小路由示例，对照 \`callSubserver\` → pyserver 的调用链。
-## 导图2 · 后端 / 技术栈 × Python
-
-> Python 在导图2/业界常作数据与脚本；**本仓不进主服**，能力走 Python 子服。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **后端** | CPython 等运行时 | 本仓：\`subserver\` Python runtime，非改主服 |
-| **技术栈** | Django/FastAPI 等 | 框架在语言之上；本仓框架课另挂 |
-| **部署上线** | 另一进程 | 经 HTTP 契约调用；配置主服编辑 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

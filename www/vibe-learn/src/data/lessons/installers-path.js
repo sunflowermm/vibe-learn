@@ -100,6 +100,10 @@ flowchart LR
   C --> OK[找得到可执行文件]
 \`\`\`
 
+\`\`\`algo
+{"title":"PATH 按序查找可执行文件","kind":"pathfind","speed":400,"caption":"装完仍「不是内部命令」：多半是旧会话没吃到新 PATH，或顺序指到另一套。","data":{"cmd":"node","dirs":[{"path":"C:\\\\Program Files\\\\nodejs","hit":true},{"path":"C:\\\\Windows\\\\System32","hit":false},{"path":"C:\\\\Users\\\\you\\\\AppData\\\\Roaming\\\\npm","hit":false}]}}
+\`\`\`
+
 ---
 
 ## 2. 系统级包管理器（往「电脑里」装软件）

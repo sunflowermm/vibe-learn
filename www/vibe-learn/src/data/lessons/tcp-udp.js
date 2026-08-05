@@ -23,11 +23,9 @@ export default `# TCP 与 UDP
 
 记忆钩：**IP 找主机，端口找进程；TCP 挂号信，UDP 明信片。**
 
-
 \`\`\`ports
 {"title":"点端口看它常干什么","caption":"安全组要写协议+端口，不是只写数字。","ports":[{"port":22,"proto":"TCP","name":"SSH","note":"远程登录；只对受信源开放"},{"port":53,"proto":"UDP","name":"DNS","note":"查询常用 UDP；区传送才偏 TCP"},{"port":80,"proto":"TCP","name":"HTTP","note":"明文 Web；生产常 443"},{"port":443,"proto":"TCP","name":"HTTPS","note":"TLS + HTTP；调模型 API 常见"},{"port":6379,"proto":"TCP","name":"Redis","note":"本仓热路径；勿对公网裸奔"},{"port":7890,"proto":"TCP","name":"本地代理","note":"Clash Mixed Port 常见默认；以客户端为准"}]}
 \`\`\`
-
 
 ## 和调模型 API 的关系
 
@@ -44,18 +42,13 @@ export default `# TCP 与 UDP
 {"title":"本机谁在听端口（假）","prompt":"$ ","env":"Linux（演示）","steps":[{"type":"in","text":"ss -lntp | head -n 5"},{"type":"out","text":"State  Recv-Q Send-Q Local Address:Port  Peer Address:Port Process\\nLISTEN 0      128          0.0.0.0:22         0.0.0.0:*    users:((\\"sshd\\",pid=1,fd=3))\\nLISTEN 0      511        127.0.0.1:7890       0.0.0.0:*    users:((\\"clash\\",pid=88,fd=8))\\nLISTEN 0      511                *:443              *:*    users:((\\"nginx\\",pid=99,fd=6))"}]}
 \`\`\`
 
-\`\`\`match
-{"title":"TCP 与 UDP 对照配对","pairs":[{"id":"tcp","left":"TCP","right":"可靠、有序、面向连接（挂号信）"},{"id":"udp","left":"UDP","right":"尽力而为、无连接（明信片）"},{"id":"http","left":"多数 HTTP","right":"跑在 TCP 上"},{"id":"dns","left":"DNS 查询（常见）","right":"常用 UDP"}]}
-\`\`\`
-
-\`\`\`sort
-{"title":"排出三次握手顺序","caption":"从上到下应为第 1→3 步","items":[{"id":"a","text":"客户端 → 服务器：SYN","order":0},{"id":"b","text":"服务器 → 客户端：SYN-ACK","order":1},{"id":"c","text":"客户端 → 服务器：ACK","order":2}]}
-\`\`\`
-
-
 ## TCP（传输控制协议）
 
-特点可以记四条：
+口径对齐 [MDN · TCP handshake](https://developer.mozilla.org/en-US/docs/Glossary/TCP_handshake)：先三次握手，再传应用数据。
+
+\`\`\`algo
+{"title":"TCP 三次握手：SYN → SYN-ACK → ACK","kind":"tcphandshake","speed":520,"caption":"握手失败 ≠ HTTP 401；那是应用层鉴权","data":{"client":"浏览器 / curl","server":"源站 :443"}}
+\`\`\`
 
 | 特性 | 含义 |
 |------|------|
@@ -176,14 +169,4 @@ export default `# TCP 与 UDP
 ## 下一步
 
 **路由与 NAT**（出网关、安全组）· **DNS/HTTPS**（名字与加密）· **HTTP**（应用层说话）· 番外 **Clash 端口**（本机代理也在 listen）。
-## 导图2 · HTTP / 端口 × 传输层
-
-> 导图2 的 HTTP/端口是上线日用语；本课钉 **TCP vs UDP 选型与安全组协议字段**。  
-> **HTTP 多数跑在 TCP**；HTTP/3/QUIC 才常见 UDP 443——别默认「网站=只开 TCP」。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **端口** | 找哪个进程 | 0–65535 隔间；监听=服务占用；与协议绑定 |
-| **HTTP** | 应用层对话 | 经典站在 TCP 上；连不上先看握手与端口是否对协议 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

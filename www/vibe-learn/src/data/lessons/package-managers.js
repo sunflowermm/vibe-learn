@@ -75,22 +75,19 @@ export default `# 包管理器
 
 默认工具优先保证 **通用与兼容**；团队与大规模仓库常需要更严的磁盘、速度与依赖隔离策略，于是出现兼容同一清单、但实现不同的替代品。
 
+对照 [pnpm 设计说明](https://pnpm.io/motivation)：内容寻址存储 + 硬链接 / 符号链接，避免 npm 扁平化带来的幽灵依赖，并节省磁盘。
+
 | 替代品 | 面向生态 | 相对默认工具的典型动机 |
 |--------|----------|------------------------|
-| **pnpm** | Node（替代 npm / yarn） | 内容寻址存储、严格依赖树、节省磁盘、减少幽灵依赖 |
+| **pnpm** | Node（替代 npm / yarn） | 内容寻址、严格依赖树、省磁盘、减幽灵依赖 |
 | **Yarn** | Node | 早期锁定与并行安装体验（历史推动者） |
 | **uv** | Python（常替代 pip / pip-tools / venv 工作流） | 极快解析与安装、统一项目管理体验 |
 | **Poetry / PDM** | Python | 依赖解析与发布工作流 |
 | **Bun**（含包管理） | JS 运行时兼安装器 | 速度与一体工作流（另一条栈） |
 
-**共性原因（为何「不自带」却广泛使用）：**
-
-| 原因 | 说明 |
-|------|------|
-| **性能与磁盘** | 默认工具在超大 monorepo 上可能偏慢、占空间；pnpm / uv 针对此优化 |
-| **依赖正确性** | 更严格的提升/隔离策略，降低「能 import 却未声明」的幽灵依赖 |
-| **工作流产品化** | 锁文件、工作区、脚本约定与 CI 更易钉死 |
-| **生态允许竞争** | 清单格式公开；客户端可替换，只要能复现依赖树 |
+\`\`\`decide
+{"title":"本机该用哪套装依赖？","start":"start","steps":[{"id":"start","q":"你在装什么？","options":[{"label":"XRK-AGT / 本仓 Node 项目依赖","next":"pnpm"},{"label":"系统级 CLI（git / curl）","next":"sys"},{"label":"随便一个 npm 教程示例项目","next":"npm"},{"label":"Python 子服依赖","next":"uv"}]},{"id":"pnpm","result":"只用 pnpm（Corepack 启）。","detail":"看根 packageManager 与 pnpm-lock.yaml；禁止 npm/yarn 混装。"},{"id":"sys","result":"用 brew / apt / winget 等系统包管理器。","detail":"装完核对 PATH；与 pnpm 不是一层。"},{"id":"npm","result":"跟该项目文档；不要把习惯带进本仓。","detail":"本仓契约仍是 pnpm。"},{"id":"uv","result":"按子服文档用 uv / pip 工作流。","detail":"主仓 pnpm 不管 Python 树。"}]}
+\`\`\`
 
 **重要边界：**
 

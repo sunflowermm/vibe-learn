@@ -100,6 +100,10 @@ Ubuntu 可以装 GNOME；同一发行版也可以几乎无桌面、只当服务�
 
 边界细节见 **不同终端环境**「WSL vs 原生」。
 
+\`\`\`decide
+{"title":"WSL 选哪一系？","start":"start","steps":[{"id":"start","q":"你的目标？","options":[{"label":"跟多数云主机 / XRK apt 教程","next":"ubu"},{"label":"企业 RHEL 系文档","next":"fed"},{"label":"只要最小容器体感","next":"alp"},{"label":"还没装 WSL","next":"win"}]},{"id":"ubu","result":"WSL 选 Ubuntu（Debian 系）。","detail":"apt 与多数教程同方言。"},{"id":"fed","result":"选 Fedora 或相关镜像。","detail":"dnf 方言；确认教程是否也是 RHEL 系。"},{"id":"alp","result":"Alpine 更适合当容器基础镜像。","detail":"日常 WSL 开发仍建议 Ubuntu。"},{"id":"win","result":"先装 WSL2 + Ubuntu，再回本课认家族。","detail":"纯 PowerShell 硬抄 apt 会翻车。"}]}
+\`\`\`
+
 ---
 
 ## 5. 实践建议（给本仓）

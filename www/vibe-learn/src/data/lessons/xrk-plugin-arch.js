@@ -53,6 +53,10 @@ flowchart TB
   E --> Core
 \`\`\`
 
+\`\`\`algo
+{"kind":"xrklayers","title":"Loader 把 Core 挂上 Runtime","autoplay":true,"speed":850,"data":{"mode":"plugin"}}
+\`\`\`
+
 ---
 
 ## 2. Loader 族（本仓路径）
@@ -144,17 +148,6 @@ constructor 内禁止建易变缓存（\`Map\`/\`{}\` 当状态容器）——�
 ~~~
 
 心智：**Vibe Coding 心智** · 动手：**实践 · 最小插件**。
-
-## 导图2 · 组件 / 后端 / Harness × 插件架构
-
-> 导图2 组件/后端/Harness 口语；本课钉 **PluginBase + Loader 挂载**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **组件** | 可组合单元 | Loader 扫描的 plugin 实例；热更边界要心里有数 |
-| **后端** | 服务端能力 | 插件跑在主服进程；重活可卸子服 |
-| **Harness Engineering** | 编排指令/工具/模型 | Plugin + Tasker + events + MCP 共同组成可扩展面 |
-
 
 ## 下一步
 

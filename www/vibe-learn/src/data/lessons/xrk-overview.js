@@ -3,8 +3,7 @@ export default `# 项目鸟瞰 · XRK-AGT
 > XRK-AGT = **通用后端运行时** + **可插拔业务 Core** + **多语言子服务进程族**。  
 > \`src/\` 提供运行时基础设施；\`core/*/\` 承载产品能力；\`subserver/<runtime>/\` 按语言优势实现专用能力。  
 > 第四章将序章至第三章的概念收束到本仓库的工程坐标；**业务扩展点的详细地图**见 **业务层全景**。  
-> 导图2 的 **技术栈 / 后端 / JavaScript / MVP** 用来描述组合与切片；本课钉**改哪里**。  
-> **学会之后**：能用三层介绍本仓，并能把技术栈/后端名词对上落点。
+> **学会之后**：能用三层介绍本仓，并能指出请求大概走哪一层。
 
 ## 学会之后（验收）
 
@@ -21,6 +20,13 @@ export default `# 项目鸟瞰 · XRK-AGT
 | MVP | 最小贡献路径是切片入口 |
 | 禁区 | 业务不进 src；娱乐插件不进白名单 |
 
+\`\`\`algo
+{"kind":"xrklayers","title":"请求怎么穿过三层","autoplay":true,"speed":880,"data":{"mode":"http"}}
+\`\`\`
+
+\`\`\`algo
+{"kind":"xrklayers","title":"短板能力 → 子服","autoplay":false,"speed":880,"data":{"mode":"sub"}}
+\`\`\`
 
 ## 本课你要带走什么
 
@@ -136,15 +142,16 @@ flowchart TB
 
 \`docs/runtime-surface.md\` · \`docs/base-classes.md\` · \`docs/startup.md\` · \`AGENTS.md\`
 
-## 导图2 · 技术栈 / 后端 / JS × 三层坐标
+## 技术栈对照（本仓口径）
 
-> 导图2 技术栈/后端/JS 对齐口语；本课钉 **Runtime / Core / 子服** 三层坐标。
+| 口语 | 本仓落点 |
+|------|----------|
+| **技术栈** | 主服：**JavaScript + Node≥26 + pnpm + AgentRuntime**；热路径 Redis+SQLite；短板 → 子服 |
+| **后端** | \`src/\` + \`core/*/plugin\\|http\\|…\`；不是 Nginx 本身 |
+| **JavaScript** | 主服唯一宿主语言；浏览器 www 也是 JS，但是**另一运行时** |
+| **MVP** | 先走 **最小贡献路径**，再按需展开全景 |
 
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **技术栈** | 语言+运行时+框架+数据+交付 | 主服：**JavaScript + Node≥26 + pnpm + AgentRuntime**；热路径 Redis+SQLite；短板 → 子服 |
-| **后端** | 服务端与 API | \`src/\` + \`core/*/plugin\\|http\\|…\`；不是 Nginx 本身 |
-| **JavaScript** | 主语言 | 主服唯一宿主语言；浏览器 www 也是 JS，但是**另一运行时** |
-| **MVP** | 最小可验证 | 先走 **最小贡献路径**，再按需展开全景 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+## 下一步
+
+**业务层全景** — 扩展点索引；**AgentRuntime** — 启动与裸名；**Core 放码** — 目录职责。
 `;

@@ -2,8 +2,7 @@ export default `# 对话管线 · 上下文组成
 
 > **工程课**：一次完整 Agent 跑通时，消息怎么排、工具怎么合并、出站怎么省窗、安全怎么卡工具。  
 > 真源：\`docs/agent-context.md\`（含 §5 出站 / 策略）。概念侧见第五章 **Token/窗口 · 工具调用 · 提示安全**。  
-> 导图2：**聊天界面 · 流式响应 · AI Agent · 上下文工程 · 上下文窗口**——本课给这些词**工程落点**。  
-> **学会之后**：能对照消息三层与出站压缩/策略，能用上下文/流式/Agent 名词指向本仓文件。
+> **学会之后**：能对照消息三层与出站压缩/策略，并指向本仓文件与配置键。
 
 ## 学会之后（验收）
 
@@ -14,6 +13,10 @@ export default `# 对话管线 · 上下文组成
 | 窗口 | toolPair / compaction / contextWindow 各一句 |
 | 流式 | 知道响应可流式，但不等于「无门禁」 |
 | 勿混 | 根 AGENTS（写代码）≠ 工作区 AGENTS（注入） |
+
+\`\`\`algo
+{"kind":"msgpipe","title":"assemble → prepareOutbound","autoplay":true,"speed":880}
+\`\`\`
 
 ## 本课你要带走什么
 
@@ -144,19 +147,4 @@ flowchart TB
 - \`docs/agent-context.md\`（本课真源，含出站 §5）  
 - \`docs/agents.md\` · \`docs/ai-workflow.md\` · \`docs/mcp-guide.md\`  
 - 第四章 **工作流** · **办事助手** · **MCP 运维**；第五章 **Token** · **工具调用** · **提示安全**
-
-## 导图2 · 聊天 UI / 流式 / 上下文 × 管线
-
-> 导图2 聊天 UI/流式/上下文口语；本课钉 **assemble 三层与出站压缩**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **聊天界面（Chat UI）** | 用户看到的对话壳 | Tasker/通道进 \`e\`；出站 \`reply\`/\`sendMessages\`；www 另有管理台 |
-| **流式响应** | 边生成边显示 | Factory/工作流可流式；门禁与策略仍在工具环 |
-| **AI Agent** | 多步工具循环 | maxToolRounds · MCP handleToolCall · finalize |
-| **上下文工程** | 决定模型看见什么 | assemble 三层 + 工作区五段 + 出站压缩 |
-| **上下文窗口** | 能塞多少 token/字符 | contextWindow 裁剪 · max*Chars · sidecar |
-
-面板附上词条正文后，仍以 \`docs/agent-context.md\` 为真源做验收。
-
 `;

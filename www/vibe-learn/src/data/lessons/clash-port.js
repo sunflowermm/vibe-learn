@@ -1,33 +1,26 @@
 export default `# 端口服务 · 系统代理 · HTTP_PROXY · Coding Agent
 
 > 上一张把代理引擎拆成「入口 + 决策 + 出口」。  
-> 本课钉三件事：**本机入口端口**、**系统代理只管谁**、**环境变量 \`HTTP_PROXY\` 一族是什么**。  
-> 换位想——系统代理开了、浏览器通了、\`git clone\` / Agent 却超时：多半是它们**没读到**「走 \`127.0.0.1:端口\`」。  
+> 本课钉三件事：**本机入口端口**、**系统代理只管谁**、**环境变量 \`HTTP_PROXY\` 一族**。  
+> 口径：Clash \`mixed-port\` 单口收 HTTP+SOCKS；CLI 常用 \`http://127.0.0.1:端口\`，需要远端 DNS 时 \`ALL_PROXY=socks5h://…\`。  
 > **学会之后**：能分清系统代理与 \`HTTP_PROXY\` 族，并给终端/Agent 配通同一入口。
 
 ## 学会之后（验收）
 
 | 能力 | 成功信号 |
 |------|----------|
-| 入口 | \`127.0.0.1\` + mixed-port（或文档端口） |
+| 入口 | \`127.0.0.1\` + mixed-port（以界面为准） |
 | 双通道 | 系统代理 ≠ 环境变量；浏览器通≠终端通 |
 | 变量族 | HTTP(S)_PROXY / ALL_PROXY / NO_PROXY 各一句 |
-| 验收 | 终端里能复现「走代理或明确直连」 |
+| 验收 | 同一会话里 echo 出变量再 clone / 开 Agent |
 
-## 本课你要带走什么
-
-1. 代理引擎入口 = \`127.0.0.1\` + 端口（常是 mixed-port）  
-2. **系统代理 ≠ 环境变量代理**：GUI 常吃前者，终端 / Git / CLI 常只吃后者  
-3. \`HTTP_PROXY\` / \`HTTPS_PROXY\` / \`ALL_PROXY\` / \`NO_PROXY\` 各管什么  
-4. 会话级设置只影响**当前终端**；子进程会继承  
-
-环境变量「是什么」的地基见第一章 **安装器与 PATH**（PATH 也是环境变量）。本课专讲**出网代理**这一族。
+\`\`\`algo
+{"kind":"proxyroute","title":"终端必须先连上本机入口","autoplay":true,"speed":850,"data":{"mode":"proxy","dest":"api.github.com","rule":"HTTPS_PROXY → 127.0.0.1:mixed-port → PROXY"}}
+\`\`\`
 
 ---
 
-## 1. 先记住：服务 = 地址 + 端口
-
-Clash（以及同类工具）本质是本机上的一个**代理应用服务**，例如：
+## 1. 服务 = 地址 + 端口
 
 \`\`\`
 http://127.0.0.1:7890
@@ -35,76 +28,63 @@ http://127.0.0.1:7890
 
 | 部分 | 含义 |
 |------|------|
-| \`127.0.0.1\` | 回环地址：只进本机协议栈，不出网卡 |
-| \`7890\` | 监听端口（**以 Verge / 手机端界面为准**，也可能是 7897 等） |
-| \`http://\` 前缀 | 告诉客户端「用 HTTP 代理协议连这个入口」（mixed-port 上通常也认） |
+| \`127.0.0.1\` | 回环：只进本机，不出网卡 |
+| \`7890\` | 监听端口（**以 Verge / 手机端为准**） |
+| \`http://\` | 用 HTTP 代理协议连入口（mixed-port 通常也认） |
 
-配置里可能叫 \`mixed-port\`（HTTP+SOCKS 合一）、\`port\`、\`socks-port\`——记界面上的数字即可。
-
-> **几乎所有要「走代理」的程序配置，填的都是这类本机服务地址**，不是机场节点域名。
+配置名可能叫 \`mixed-port\` / \`port\` / \`socks-port\`——记界面数字即可。  
+**要走代理的程序填的都是本机入口，不是节点域名。**
 
 ---
 
-## 2. 「系统代理」只是帮一部分程序填好了
+## 2. 系统代理只救一部分程序
 
-打开 **系统代理**，操作系统大致登记：
-
-\`\`\`
-HTTP/HTTPS 代理 → 127.0.0.1:<你的端口>
-\`\`\`
+打开 **系统代理**，OS 大致登记：\`HTTP/HTTPS → 127.0.0.1:<端口>\`。
 
 | 谁 | 行为 |
 |----|------|
-| 多数浏览器、不少桌面 GUI | 会去读系统代理 |
-| 终端、\`git\`、\`curl\`、\`pnpm\`、Docker CLI、**Coding Agent** | **常常不读**；要环境变量或各自配置项 |
-
-| 现象 | 含义 |
-|------|------|
-| 浏览器能上、Agent / \`git\` 不行 | 后者没连上本机代理端口 |
-| 托盘绿了、终端仍直连 | 服务在跑；当前 Shell **没有**代理类环境变量 |
+| 多数浏览器、不少 GUI | 常读系统代理 |
+| 终端、\`git\`、\`curl\`、\`pnpm\`、**Coding Agent** | **常常不读**；要环境变量或各自配置 |
 
 口诀：**系统代理救浏览器；\`HTTP_PROXY\` 救终端。**
 
+\`\`\`decide
+{"title":"浏览器通、git 不通？","start":"s","caption":"先分清谁读了代理。","steps":[{"id":"s","q":"同一台机，浏览器已开系统代理能上网，git clone 超时。优先？","options":[{"label":"查终端有没有 HTTPS_PROXY","next":"env"},{"label":"把 Mixed Port 改成 80","next":"bad"},{"label":"立刻开 TUN","next":"tun"}]},{"id":"env","result":"对。CLI 多半不吃系统代理。","detail":"同一会话 export 后再 clone；或给 git 配 http.proxy。"},{"id":"bad","result":"别乱改端口。","detail":"以客户端显示为准；乱改只让所有配置一起坏。"},{"id":"tun","result":"TUN 是进阶，不是第一步。","detail":"先把 HTTP_PROXY 打通；TUN 权限高、副作用大。"}]}
+\`\`\`
+
 ---
 
-## 3. 环境变量代理：\`HTTP_PROXY\` 是什么？
-
-### 3.1 它在知识体系里站哪一层
+## 3. \`HTTP_PROXY\` 族是什么？
 
 \`\`\`mermaid
 flowchart TB
-  EV[环境变量 Environment Variable<br/>进程启动时可见的键值配置]
+  EV[环境变量]
   EV --> PATH[PATH · 找可执行文件]
   EV --> PROXY[HTTP_PROXY 族 · 出网走哪]
   PROXY --> HP[HTTP_PROXY]
   PROXY --> HSP[HTTPS_PROXY]
   PROXY --> AP[ALL_PROXY]
   PROXY --> NP[NO_PROXY]
-  SP[系统代理 System Proxy] -.->|GUI 常读| Browser[浏览器]
-  PROXY -->|CLI 常读| Git[git / curl / pnpm / Agent]
+  SP[系统代理] -.->|GUI 常读| Browser[浏览器]
+  PROXY -->|CLI 常读| Git[git / curl / Agent]
 \`\`\`
 
-**定义：** \`HTTP_PROXY\` 是一条（跨工具广泛约定的）**环境变量**：值为代理服务的 URL。  
-支持该约定的程序在发起 HTTP 请求前，若发现该变量非空，就**先连代理**，再由代理去访问目标站。
-
-它不是：
+**定义：** \`HTTP_PROXY\` 是跨工具约定的环境变量，值为代理 URL；支持该约定的程序会先连代理再访目标。
 
 | 不是 | 那是什么 |
 |------|----------|
-| 操作系统里的「系统代理」开关 | 另一套登记处；变量不会自动等于系统代理 |
-| Clash / 机场本身 | 变量只是**路标**，指向本机已在 listen 的端口 |
-| PATH | PATH 管「命令在哪」；\`HTTP_PROXY\` 管「流量往哪拐」 |
+| 系统代理开关 | 另一套登记处 |
+| Clash / 机场本身 | 变量只是**路标**，指向本机已 listen 的口 |
+| PATH | PATH 管命令在哪；代理变量管流量往哪拐 |
 
-### 3.2 四个名字（建议一起设）
+| 变量 | 作用 |
+|------|------|
+| **\`HTTP_PROXY\`** | 明文 HTTP 出网 |
+| **\`HTTPS_PROXY\`** | HTTPS / \`git clone https://…\` **最常看它** |
+| **\`ALL_PROXY\`** | 其它协议兜底；可 \`socks5h://127.0.0.1:端口\`（远端 DNS） |
+| **\`NO_PROXY\`** | 直连名单：\`localhost\`、\`127.0.0.1\`、内网 |
 
-| 变量 | 全称直觉 | 作用 |
-|------|----------|------|
-| **\`HTTP_PROXY\`** | 明文 HTTP 请求走哪 | 访问 \`http://…\` 目标时常用 |
-| **\`HTTPS_PROXY\`** | TLS/HTTPS 请求走哪 | \`git clone https://github.com/…\`、多数 API **主要看它** |
-| **\`ALL_PROXY\`** | 其它协议的兜底代理 | 部分工具对 SOCKS/非 HTTP 也看它；可与上两者同指 HTTP 入口 |
-| **\`NO_PROXY\`** | 直连名单 | 匹配到的主机**不要**走代理（\`localhost\`、内网、\`127.0.0.1\`） |
-
-大小写：多数工具认大写；有的也认 \`http_proxy\` 小写。为省事，**大写四个一起写**最稳。
+大小写：多数认大写；稳妥做法是大小写一起设或只设大写四个。
 
 \`\`\`fill
 {"title":"补全会话代理变量","caption":"端口按你的 Mixed Port；这里用 7890 练习。","template":"export HTTPS_PROXY=http://127.0.0.1:___","answers":["7890"],"hint":"本机代理入口端口，不是 80/443。"}
@@ -114,102 +94,69 @@ flowchart TB
 {"title":"这些变量各管什么？","caption":"先点条目，再点类别。","bins":[{"id":"out","label":"出网走代理"},{"id":"skip","label":"直连名单"},{"id":"find","label":"找可执行文件"}],"items":[{"id":"hp","text":"HTTP_PROXY","bin":"out"},{"id":"hsp","text":"HTTPS_PROXY","bin":"out"},{"id":"np","text":"NO_PROXY","bin":"skip"},{"id":"path","text":"PATH","bin":"find"}]}
 \`\`\`
 
-URL 形态常见两种（端口改成你的）：
-
 | 写法 | 何时 |
 |------|------|
-| \`http://127.0.0.1:7890\` | mixed-port / HTTP 代理入口（**部署本仓、Git 最常用**） |
-| \`socks5://127.0.0.1:7890\` | 明确要求 SOCKS5 时；部分场景放进 \`ALL_PROXY\` |
+| \`http://127.0.0.1:7890\` | mixed-port HTTP 入口（**本仓部署最常用**） |
+| \`socks5h://127.0.0.1:7890\` | 要代理侧解析 DNS 时放进 \`ALL_PROXY\` |
 
-本仓部署示例统一用 \`http://127.0.0.1:<端口>\` 即可（见第四章 **部署环境 §0**）。
-
-### 3.3 作用范围：只影响「谁继承了它」
+### 作用范围
 
 | 范围 | 行为 |
 |------|------|
-| **当前终端会话** | \`export\` / \`$env:…=\` 只对**这个窗口**及它再拉起的子进程有效 |
-| **新开一个终端** | **不会**自动带上刚才的值（除非写入用户配置文件 / 系统环境变量） |
-| **子进程** | 在已设置的 Shell 里再跑 \`git\`、\`node\`、Agent，一般会**继承**这些变量 |
-
-所以自检必须在**同一个**终端：
+| **当前终端会话** | \`export\` / \`$env:\` 只影响本窗及子进程 |
+| **新开终端** | **不会**自动带上（除非写进用户配置） |
+| **子进程** | 已设的 Shell 里再跑 git / Agent 一般会继承 |
 
 \`\`\`env
-{"title":"同一会话里回显代理变量","caption":"在刚 export / 设过环境变量的窗口里查；新开终端看不到属正常。","default":"bash","tabs":[{"id":"bash","label":"Git Bash / Unix","os":"Win/Linux/mac","shell":"bash","lines":["echo $HTTP_PROXY","echo $HTTPS_PROXY","echo $NO_PROXY"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["echo $env:HTTP_PROXY","echo $env:HTTPS_PROXY","echo $env:NO_PROXY"]}]}
+{"title":"同一会话里回显代理变量","caption":"在刚设过的窗口里查；新开终端看不到属正常。","default":"bash","tabs":[{"id":"bash","label":"Git Bash / Unix","os":"Win/Linux/mac","shell":"bash","lines":["echo $HTTP_PROXY","echo $HTTPS_PROXY","echo $NO_PROXY"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["echo $env:HTTP_PROXY","echo $env:HTTPS_PROXY","echo $env:NO_PROXY"]}]}
 \`\`\`
-### 3.4 手顺（把 \`7890\` 换成你的端口）
 
-下列窗**全是假的**（自动打字演示）；对照第四章部署课的可复制命令。
+### 手顺（把 \`7890\` 换成你的端口）
 
-**① 未设代理 · clone 失败长什么样**
+下列窗是假演示；真机对照第四章部署课。
 
 \`\`\`shell
 {"preset":"clone-fail"}
 \`\`\`
 
-**② 会话里 export 代理变量**
-
 \`\`\`shell
 {"preset":"env-proxy"}
 \`\`\`
-
-**③ 已带代理 · clone 成功路径（仍假）**
 
 \`\`\`shell
 {"preset":"clone-proxy-ok"}
 \`\`\`
 
-**④ 无本机代理时 · ghproxy 前缀（仍假）**
-
-\`\`\`shell
-{"preset":"clone-ghproxy"}
-\`\`\`
-
-**Git Bash / macOS / Linux / WSL**（可复制到真实终端）
-
 \`\`\`env
-{"title":"同一意图 · 四种壳","caption":"端口 7890 请改成你的 Mixed Port。复制后只在对应环境粘贴。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["$env:HTTP_PROXY='http://127.0.0.1:7890'","$env:HTTPS_PROXY='http://127.0.0.1:7890'","$env:ALL_PROXY='http://127.0.0.1:7890'","$env:NO_PROXY='127.0.0.1,localhost,::1'"]},{"id":"linux","label":"Linux / WSL","os":"Linux","shell":"bash","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]},{"id":"macos","label":"macOS","os":"macOS","shell":"zsh","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]}]}
+{"title":"同一意图 · 四种壳","caption":"端口 7890 请改成你的 Mixed Port。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["$env:HTTP_PROXY='http://127.0.0.1:7890'","$env:HTTPS_PROXY='http://127.0.0.1:7890'","$env:ALL_PROXY='http://127.0.0.1:7890'","$env:NO_PROXY='127.0.0.1,localhost,::1'"]},{"id":"linux","label":"Linux / WSL","os":"Linux","shell":"bash","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]},{"id":"macos","label":"macOS","os":"macOS","shell":"zsh","lines":["export HTTP_PROXY=http://127.0.0.1:7890","export HTTPS_PROXY=http://127.0.0.1:7890","export ALL_PROXY=http://127.0.0.1:7890","export NO_PROXY=127.0.0.1,localhost,::1"]}]}
 \`\`\`
 
 \`\`\`quiz
-{"title":"端口与环境变量 · 自测","questions":[{"q":"Clash 开了系统代理，Coding Agent / Git 仍直连失败。优先查？","choices":[{"t":"Agent / 终端是否读取 HTTP(S)_PROXY","ok":true,"why":"多数 CLI 与 Agent 不自动吃系统代理。"},{"t":"是不是没装 pnpm","ok":false,"why":"包管理器与出网代理是两件事。"},{"t":"把端口改成 80","ok":false,"why":"端口以客户端显示的 Mixed Port 为准，乱改无效。"}]}]}
+{"title":"端口与环境变量 · 自测","questions":[{"q":"Clash 开了系统代理，Coding Agent / Git 仍直连失败。优先查？","choices":[{"t":"Agent / 终端是否读取 HTTP(S)_PROXY","ok":true,"why":"多数 CLI 与 Agent 不自动吃系统代理。"},{"t":"是不是没装 pnpm","ok":false,"why":"包管理器与出网代理是两件事。"},{"t":"把端口改成 80","ok":false,"why":"端口以客户端显示的 Mixed Port 为准。"}]},{"q":"mixed-port 的作用？","choices":[{"t":"单端口同时收 HTTP 与 SOCKS","ok":true,"why":"Clash Inbound：减少记两套端口。"},{"t":"机场节点的公网端口","ok":false,"why":"那是出口侧，不是本机入口。"},{"t":"替换 DNS","ok":false,"why":"DNS 另有配置。"}]}]}
 \`\`\`
-
-
-设好变量后（用上表对应壳），再在同一窗口：
 
 \`\`\`env
-{"title":"代理就绪后 clone / 可选 git 代理","caption":"优先会话环境变量；git config 代理可选。端口改成你的 Mixed Port。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash · clone","os":"Windows","shell":"bash","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"pwsh","label":"PowerShell · clone","os":"Windows","shell":"pwsh","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"gitcfg","label":"可选 · git config 代理","os":"任意","shell":"bash","note":"与环境变量二选一或并存；不用时记得 unset","lines":["git config --global http.proxy http://127.0.0.1:7890","git config --global https.proxy http://127.0.0.1:7890","# 不用时：","git config --global --unset http.proxy","git config --global --unset https.proxy"]}]}
+{"title":"代理就绪后 clone / 可选 git 代理","caption":"优先会话环境变量；git config 可选。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash · clone","os":"Windows","shell":"bash","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"pwsh","label":"PowerShell · clone","os":"Windows","shell":"pwsh","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git"]},{"id":"gitcfg","label":"可选 · git config 代理","os":"任意","shell":"bash","note":"不用时记得 unset","lines":["git config --global http.proxy http://127.0.0.1:7890","git config --global https.proxy http://127.0.0.1:7890","git config --global --unset http.proxy","git config --global --unset https.proxy"]}]}
 \`\`\`
 
-Agent / IDE：设置里找 Proxy，填 \`http://127.0.0.1:<端口>\`；若只认环境变量，**先在已 export 的终端里启动它**。
+Agent / IDE：设置里填 \`http://127.0.0.1:<端口>\`；若只认环境变量，**先在已 export 的终端里启动它**。
 
-### 3.5 和「正向代理 / 反向代理」怎么对齐
+### 自检清单
 
-| 词 | 本课落点 |
-|----|----------|
-| **正向代理** | Clash 引擎 + 你填的 \`HTTP_PROXY\`：替**客户端**出门 |
-| **反向代理** | 第三章 Nginx：替**服务器**收请求 | 
-| **系统代理** | OS 给 GUI 的默认正向代理地址 |
-| **\`HTTP_PROXY\`** | 给 CLI 的默认正向代理地址（约定变量名） |
-
-### 3.6 自检清单
-
-1. Verge 已运行，节点可用，浏览器经**系统代理**正常。  
+1. 客户端已运行，节点可用，浏览器经系统代理正常。  
 2. 界面确认端口，没有抄错截图。  
 3. **同一终端** \`echo\` 出 \`HTTPS_PROXY\`，再 \`git clone\` / 开 Agent。  
-4. 访问本机服务失败时，检查 \`NO_PROXY\` 是否包含 \`localhost\` / \`127.0.0.1\`。
+4. 访问本机服务失败时，查 \`NO_PROXY\` 是否含 \`localhost\` / \`127.0.0.1\`。
 
 ---
 
-## 4. TUN：另开一章说的「不想每个软件手填」
-
-**TUN** 建虚拟网卡，尽量把流量截进代理服务——适合死活不读代理设置的程序。权限更高，也可能误伤局域网。
+## 4. TUN：进阶再开
 
 | 路径 | 适用 |
 |------|------|
-| 订阅 → 节点 → **系统代理** | 浏览器最小路径（下一张 Verge） |
-| **\`HTTP_PROXY\` 族** | 终端 / Git / pnpm / Coding Agent |
-| **TUN** | 进阶全局；熟悉上面两步再开 |
+| 订阅 → 节点 → **系统代理** | 浏览器最小路径 |
+| **\`HTTP_PROXY\` 族** | 终端 / Git / pnpm / Agent |
+| **TUN** | 顽固进程；熟悉上面两步再开 |
 
 口诀：**系统代理救浏览器；\`HTTP_PROXY\` 救终端；TUN 不是入门必点。**
 
@@ -217,36 +164,20 @@ Agent / IDE：设置里找 Proxy，填 \`http://127.0.0.1:<端口>\`；若只认
 
 ## 5. 八股 × 业务串联
 
-> 面试/自学常考名词。**缩写一律展开**；先懂白话再记英文。
-
-| 名词（全称） | 白话（是什么） | 业务里长什么样 | 别和谁搞混 |
-|--------------|----------------|----------------|------------|
-| **Environment Variable（环境变量）** | 进程可见的 \`名字=值\` 配置；子进程默认可继承 | PATH、\`HTTP_PROXY\`、\`NODE_ENV\` | 不是「某个软件私有 ini」；是 OS/Shell 层约定 |
-| **listen / 绑定地址** | 进程在哪个 IP:端口等连接 | \`127.0.0.1\` 仅本机；\`0.0.0.0\` 可被局域网访问（慎开） | 别和「节点公网 IP」混：填的是本机入口 |
-| **HTTP Proxy（HTTP 代理）** | 用 HTTP 代理协议转发请求（常含 CONNECT） | \`HTTP_PROXY=http://127.0.0.1:7890\` | 别和 **反向代理**、也别和 SOCKS5 混名 |
-| **SOCKS5（Socket Secure 5）** | 更通用的代理协议，可代理 TCP（及部分 UDP） | \`ALL_PROXY=socks5://…\` | 不是 \`http://\` URL 的同义词 |
-| **mixed-port（混合端口）** | 单端口同时收 HTTP 与 SOCKS | Verge 常见 7890 | 不是机场节点端口 |
-| **\`HTTP_PROXY\` / \`HTTPS_PROXY\`** | 告诉进程「HTTP / HTTPS 出网走哪个代理 URL」 | \`git clone https://…\` 卡死时优先查 \`HTTPS_PROXY\` | **≠** 系统代理开关；写了变量不等于 Clash 已启动 |
-| **\`ALL_PROXY\`** | 其它协议的代理兜底 | 与 HTTP(S)_PROXY 常设成同一入口 | 有的工具忽略它；不能只设这一个指望覆盖一切 |
-| **\`NO_PROXY\`（No Proxy）** | 列出的主机直连、不进代理 | \`localhost\`、内网 API、公司域名 | 漏配则本机 \`node app\` 控制台请求也可能被错误代理 |
-| **System Proxy（系统代理）** | OS 登记的默认 HTTP(S) 代理 | 救浏览器 | 别和 TUN、也别和 \`HTTP_PROXY\` 当成同一开关 |
-| **TUN（Network TUNnel）** | 虚拟网卡尽量截流 | 顽固进程；权限高 | 入门优先手填端口 / 环境变量 |
-
-业务对照：公司办公网强制代理时，开发机既要 \`HTTPS_PROXY\` 出外网，也要 \`NO_PROXY\` 保住内网 Jenkins——和本课是同一套词。
+| 名词（全称） | 白话 | 业务里长什么样 | 别和谁搞混 |
+|--------------|------|----------------|------------|
+| **Environment Variable** | 进程可见的 \`名=值\` | PATH、\`HTTP_PROXY\` | ≠ 某软件私有 ini |
+| **listen / 绑定** | 在哪个 IP:端口等连接 | \`127.0.0.1\` 仅本机 | ≠ 节点公网 IP |
+| **HTTP Proxy** | HTTP 代理协议（常含 CONNECT） | \`HTTP_PROXY=http://127.0.0.1:7890\` | ≠ 反向代理 |
+| **SOCKS5 / socks5h** | 更通用代理；\`h\`=远端 DNS | \`ALL_PROXY=socks5h://…\` | ≠ \`http://\` 同义词 |
+| **mixed-port** | 单口 HTTP+SOCKS | Verge 常见 7890 | ≠ 机场端口 |
+| **\`NO_PROXY\`** | 直连名单 | 保本机与内网 | 漏配则本机请求被误代理 |
+| **System Proxy** | OS 默认 HTTP(S) 代理 | 救浏览器 | ≠ TUN、≠ 环境变量 |
+| **TUN** | 虚拟网卡截流 | 进阶全局 | 入门优先手填变量 |
 
 ## 下一步
 
 **Verge / Android 配置** — 订阅与系统代理最小路径。  
-第四章 **部署环境 §0** — 把本课变量套进 clone GitHub 的实操。  
-环境变量地基（PATH 等）— 第一章 **安装器与 PATH**。
-## 导图2 · 环境变量 / 端口 / HTTP × Clash 端口
-
-> 混合端口常见 7890；以你界面为准。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **端口** | 本地 listen | 应用代理指到此口 |
-| **环境变量** | 代理 URL | 含主机与端口 |
-| **HTTP** | 经代理出网 | HTTPS 同样走代理通道 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+第四章 **部署环境** — 把本课变量套进 clone GitHub。  
+第一章 **安装器与 PATH** — 环境变量地基。
 `;

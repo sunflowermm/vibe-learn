@@ -143,20 +143,12 @@ export default class HelloLab extends PluginBase {
 
 安全节奏见 **Vibe 心智里的安全底线**；提问地图见 **Vibe Coding 心智**。
 
-## 导图2 · MVP / 组件 / Git / JS × 最小插件
-
-> 练习课：把导图2 MVP/组件钉到 **#lab → lab-ok**。
-
-| 导图2 | Vibe 口语 | 本练习落点 |
-|-------|-----------|------------|
-| **MVP** | 最小可验证切片 | \`#lab\` → \`lab-ok\` 即过关；先别扩功能 |
-| **组件** | 可插拔模块直觉 | PluginBase 实例 ≈ 运行时组件；目录在 \`plugin/\` |
-| **JavaScript** | 主服语言 | 插件就是 JS；Node≥26 语义 |
-| **Git** | 协作与回滚 | 通关后小步提交；审 Agent diff |
-
+\`\`\`algo
+{"kind":"taskerflow","title":"验收时：消息从哪进插件","autoplay":false,"speed":850}
+\`\`\`
 
 ## 下一步
 
-插件通了 → **HTTP / www** 或 **Stream**；要多语言能力 → **实践·子服调用**。  
+插件通了 → **HTTP / www** 或 **工作流**；要多语言能力 → **实践·子服调用**。  
 回看 **业务层全景** 确认自己改的是地图上的哪一格。
 `;

@@ -104,16 +104,9 @@ curl -sS "http://127.0.0.1:<端口>/api/lab/hello"
 验收：curl 见顶层 hello；口述为何不能默认读 json.data。
 \`\`\`
 
-## 导图2 · HTTP / 路由 / 前端 × 最小 HTTP 实践
-
-> 练习课：把导图2 HTTP/路由钉到 **HttpResponse 拍平验收**。
-
-| 导图2 | Vibe 口语 | 本练习落点 |
-|-------|-----------|------------|
-| **HTTP / 路由** | 接口与路径 | \`core/*/http\` handler + HttpResponse |
-| **前端** | 联调页面 | 拍平解包，勿默认 \`json.data\` |
-| **MVP** | 最小可验证 | curl 见顶层字段即过关 |
-
+\`\`\`algo
+{"kind":"httpresp","title":"验收：对象拍平（再看一眼）","autoplay":false,"speed":850,"data":{"mode":"object"}}
+\`\`\`
 
 ## 下一步
 

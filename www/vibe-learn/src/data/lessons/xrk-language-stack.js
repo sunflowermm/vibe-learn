@@ -2,7 +2,7 @@ export default `# 语言栈 · 主服与多语言子服
 
 > **主服**：Node.js（JavaScript），负责 Runtime、Core 加载、HTTP/www、AiWorkflow 与 LLM。  
 > **子服**：独立进程族，覆盖 Python、Go、PHP、Java、.NET、Rust，经 \`callSubserver\` 以 HTTP JSON 调用。  
-> 目录与端口：\`src/utils/subserver-runtimes.js\`；选型依据：\`subserver/LANGUAGES.md\`。
+> 目录与端口：\`src/utils/subserver-runtimes.js\`；选型依据：\`subserver/LANGUAGES.md\`。  
 > **学会之后**：能复述主服 JS/Node 与六子服边界，并指向 LANGUAGES.md。
 
 ## 学会之后（验收）
@@ -14,6 +14,9 @@ export default `# 语言栈 · 主服与多语言子服
 | 选型 | 短板进子服，勿主服拼盘 |
 | 包管理 | 主仓仅 pnpm |
 
+\`\`\`algo
+{"kind":"xrklayers","title":"短板能力离开主服事件循环","autoplay":true,"speed":850,"data":{"mode":"sub"}}
+\`\`\`
 
 ## 与第二章的对应
 \`\`\`match
@@ -106,16 +109,6 @@ flowchart TB
 ## 下一步
 
 **子服务端** — 进程模型、端口、配置读写边界与主服协作方式。  
-可选：从上表挑一个与你当前子服 runtime 对应的仓库，对照 \`subserver/CONTRACT.md\` 读一页入口代码。
-
-## 导图2 · 技术栈 / JavaScript / 后端 × 语言栈
-
-> 导图2 技术栈口语；本课钉 **主服 JS+Node，六子服补短板**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **技术栈** | 组合 | 主服 JS+Node；六子服补短板，不是主服语言拼盘 |
-| **JavaScript** | 主语言 | 无独立 JS 子服——主服就是它 |
-| **后端** | 服务端 | 子服也是后端进程；经 HTTP 调用 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+可选：从上表挑一个与你当前子服 runtime 对应的仓库，对照 \`subserver/CONTRACT.md\` 读一页入口代码。  
+HTTP/www 前端产物挂载 → **HTTP 与 www**；主服编排 LLM → **工作流**。
 `;

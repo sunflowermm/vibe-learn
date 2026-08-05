@@ -1,24 +1,21 @@
 export default `# JSON
 
 > **JSON** = JavaScript Object Notation（「JS 对象记号」）。  
-> 它是一种**纯文字**格式：用 \`{}\` \`[]\` 描述数据，很多语言都能读写。  
-> 聊天接口、HTTP 响应、配置片段里你都会反复遇见它。
+> 纯文字数据交换格式：[json.org](https://www.json.org/json-zh.html) / [MDN · JSON](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON)。  
+> 聊天接口、HTTP 响应、配置片段里你会反复遇见它。
 
 ## 学会之后（验收）
 
+| 能力 | 成功信号 |
+|------|----------|
+| 读写 | 能手改合法 JSON；\`JSON.parse\` / \`stringify\` 跑通 |
+| 边界 | 知道 JSON ≠ JS 对象字面量（更严：双引号、无注释、无尾逗号） |
+| 本仓 | 能口述 \`HttpResponse.success\` 对象拍平 vs 数组进 \`data\` |
+| 跟 Agent | 贴 JSON 时保持合法；parse 失败连同原始字符串一起贴 |
 
 \`\`\`reveal
 {"title":"JSON.parse 炸了会长这样","prompt":"先认 SyntaxError，再查逗号/引号","tone":"warn","face":"SyntaxError: Unexpected token } in JSON at position 8\\n    at JSON.parse (<anonymous>)\\n    at Object.<anonymous> (/home/alice/parse.js:2:27)","body":"多半是尾逗号、单引号、或注释——标准 JSON 都不允许。修好字符串再 parse；给 Agent 时连同原始字符串一起贴。"}
 \`\`\`
-
-
-| 能力 | 成功信号 |
-|------|----------|
-| 读写 | 能手改合法 JSON |
-| 边界 | JSON≠JS 对象字面量全部特性 |
-| 本仓 | 配置与 API 身体常见 |
-| 跟 Agent | 贴 JSON 时保持合法逗号 |
-
 
 ## 先认词
 
@@ -58,13 +55,12 @@ try {
 }
 \`\`\`
 
-\`\`\`flip
-{"title":"JSON 翻卡","cards":[{"front":"为什么要文字？","back":"网络和文件只认字节/文字；对象要先变成文字再传"},{"front":"parse 失败？","back":"多半少引号、尾逗号、或根本不是 JSON"},{"front":"和 JS 对象字面量","back":"长得像，但 JSON 更严（键必须双引号）"},{"front":"美化","back":"JSON.stringify(obj, null, 2) 缩进两格"}]}
-\`\`\`
-
-\`\`\`match
-{"title":"JSON 配对","pairs":[{"id":"s","left":"stringify","right":"对象 → 字符串"},{"id":"p","left":"parse","right":"字符串 → 对象"},{"id":"h","left":"HTTP JSON","right":"Content-Type: application/json"},{"id":"flat","left":"本仓 success 对象","right":"字段常拍平到顶层"}]}
-\`\`\`
+| 对照 | 说明 |
+|------|------|
+| 为什么要文字 | 网络/文件认字节；对象要先 \`stringify\` |
+| parse 失败 | 少引号、尾逗号、注释、根本不是 JSON |
+| 与 JS 字面量 | 长得像，JSON 更严 |
+| 美化 | \`JSON.stringify(obj, null, 2)\` |
 
 ## 接到本仓
 
@@ -78,14 +74,4 @@ try {
 ## 下一步
 
 **YAML** — 本仓配置模板主文字（更靠缩进）。
-## 导图2 · JSON / JavaScript / HTTP × JSON
-
-> 前后端交换常见格式。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JSON** | 文本格式 | parse/stringify |
-| **HTTP** | API 身体 | Content-Type |
-| **JavaScript** | 对象映射 | 注意 undefined 等差异 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

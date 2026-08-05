@@ -13,11 +13,19 @@ export default `# HTTP Auth · API Key
 | 文档 | docs/AUTH.md |
 | 跟 Agent | 审 diff 有无关掉鉴权 |
 
-## 本课你要带走什么
-
-\`\`\`steps
-{"title":"鉴权怎么过","steps":[{"title":"请求进站","body":"先过静态资源与限流；静态扩展名直接放行。"},{"title":"是否 /api","body":"HttpApi 且路径以 /api/ 开头时默认走系统鉴权。"},{"title":"比对 Key","body":"runtime-auth 校验 X-API-Key（或约定头）；失败 401。"},{"title":"进 handler","body":"业务 handler 一般不必重复鉴权；例外见 AUTH.md。"}]}
+\`\`\`algo
+{"kind":"authgate","title":"带 Key 过门 · 成功","autoplay":true,"speed":900,"data":{"mode":"ok"}}
 \`\`\`
+
+\`\`\`algo
+{"kind":"authgate","title":"缺 Key / 错 Key · 401","autoplay":false,"speed":900,"data":{"mode":"fail"}}
+\`\`\`
+
+\`\`\`algo
+{"kind":"authgate","title":"本机 loopback 常见免鉴权","autoplay":false,"speed":900,"data":{"mode":"loopback"}}
+\`\`\`
+
+## 本课你要带走什么
 
 \`\`\`quiz
 {"title":"鉴权快测","questions":[{"q":"多数 /api/* 业务路由的鉴权默认在哪一层？","choices":[{"t":"Server 对全部路径统一拦截","ok":false,"why":"Server 不做全盘 /api 拒答。"},{"t":"HttpApi 注册且 /api/ 时默认校验","ok":true,"why":"ensureSystemCoreAuth → checkApiAuthorization。"},{"t":"每个 Core handler 必须手写","ok":false,"why":"一般不必在 handler 里重复。"},{"t":"只校验 www 静态文件扩展名","ok":false,"why":"静态常放行；鉴权针对 /api 业务路由。"}]}]}
@@ -121,16 +129,6 @@ WebSocket：\`AgentRuntime.wsf\` 经 \`runtime-ws\`；远程默认要 Key；\`sk
 - \`docs/AUTH.md\`  
 - \`docs/http-api.md\` · \`docs/runtime-surface.md\`  
 - \`docs/ai-workflow.md\`（\`tools.file.runEnabled\`）
-
-## 导图2 · HTTP / HTTPS / 环境变量 × Auth
-
-> 导图2 HTTP/环境变量口语；本课钉 **/api/ 鉴权默认与 Key 落点**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **HTTP / HTTPS** | 接口传输 | \`/api/\` 默认校验系统 API Key（见 docs/AUTH.md） |
-| **环境变量** | 密钥载体 | Key 进环境/密钥库；审 Agent diff 防关掉鉴权 |
-
 
 ## 下一步
 

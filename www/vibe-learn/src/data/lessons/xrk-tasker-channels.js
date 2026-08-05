@@ -1,7 +1,8 @@
 export default `# Tasker 通道层
 
 > Tasker = **协议适配层**：把 OneBot / stdin / QQBot / 飞书等平台报文，变成 Runtime 能理解的统一事件 \`e\`。  
-> **不是**店铺柜员（业务在 \`plugin/\`）；它是**收发室**。
+> **不是**店铺柜员（业务在 \`plugin/\`）；它是**收发室**。  
+> 真源：\`docs/tasker-base-spec.md\` · \`docs/tasker-loader.md\` · \`docs/runtime-surface.md\`。  
 > **学会之后**：能说明 Tasker 造事件 e、msgSegment 出站，与插件业务分工。
 
 ## 学会之后（验收）
@@ -13,6 +14,9 @@ export default `# Tasker 通道层
 | 出站 | msgSegment 拼消息 |
 | 多端 | QQ/OneBot/stdin/设备 |
 
+\`\`\`algo
+{"kind":"taskerflow","title":"一条消息怎么进仓（老师演示）","autoplay":true,"speed":900}
+\`\`\`
 
 ## 设计巧思：为何单独一层？
 
@@ -23,10 +27,6 @@ export default `# Tasker 通道层
 | 调试只能等真机器人上线 | **stdin** 通道本机就能验 |
 
 口诀：**通道造 \`e\`，插件吃 \`e\`，Listener 挂横切。**
-
-\`\`\`steps
-{"title":"一条消息怎么进仓","steps":[{"title":"平台推送","body":"WS / HTTP / 终端键入。"},{"title":"Tasker 适配","body":"解包 → 统一事件 e（含 e.bot）。"},{"title":"总线","body":"AgentRuntime.em → plugin / events。"},{"title":"出站","body":"e.reply / msgSegment 回通道。"}]}
-\`\`\`
 
 ---
 
@@ -40,8 +40,8 @@ export default `# Tasker 通道层
 | **插件架构** | \`tasker/\` 与 \`plugin/\` 目录分家 |
 | **第五章 · Tool Calling** | 通道只送人话；工具环在 workflow，不在 Tasker |
 
-\`\`\`flip
-{"title":"通道翻卡","cards":[{"front":"e.bot","back":"通道账号：回消息、uin；不是全局 AgentRuntime"},{"front":"AgentRuntime","back":"编排：Loader、HTTP、callSubserver"},{"front":"msgSegment","back":"拼图/文/段；bootstrap 挂裸名"},{"front":"stdin","back":"本机调试通道；命令不经「子服>」"}]}
+\`\`\`decide
+{"title":"这段改动该进哪？","start":"s","caption":"先问：协议、指令、还是横切。","steps":[{"id":"s","q":"你要改的是？","options":[{"label":"新 IM / WS 路径 / 造 e","next":"t"},{"label":"#指令回复文案 / 业务规则","next":"p"},{"label":"连接后常驻钩子、打点","next":"e"}]},{"id":"t","result":"改 core/*/tasker/。","detail":"收发室；别写产品业务。"},{"id":"p","result":"改 core/*/plugin/。","detail":"柜员；吃统一 e。"},{"id":"e","result":"改 core/*/events/。","detail":"排烟机；改完常需重启。"}]}
 \`\`\`
 
 ---
@@ -102,17 +102,6 @@ flowchart LR
 2. 启用 stdin：发一条能命中 **实践·最小插件** 规则的文本。  
 3. 打开 \`stdin.js\` 与任意 \`plugin/*.js\`，用笔标「谁造 \`e\` / 谁处理」。  
 4. 口述：为何改 \`#lab\` 回复不该去改 Tasker。
-
-## 导图2 · 聊天界面 / AI Agent / 后端 × Tasker
-
-> 导图2 聊天界面/Agent 口语；本课钉 **Tasker 统一事件 e，业务不进适配层**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **聊天界面** | 用户对话壳 | Tasker 造统一事件 \`e\`；出站 msgSegment |
-| **AI Agent** | 多步施工 | 通道只负责进出；业务在 plugin/workflow |
-| **后端** | 服务端适配 | 多端（QQ/OneBot/stdin）适配层，不是业务核心 |
-
 
 ## 跨章下一步
 

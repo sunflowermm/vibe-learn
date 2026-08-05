@@ -1,7 +1,7 @@
 export default `# 主服 MCP 运维
 
 > 第五章讲 MCP **是什么**；本课讲本仓 **挂在哪、怎么验、挂了连不上怎么拆**。  
-> 真源：\`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\` · \`docs/ai-workflow.md\`。
+> 真源：\`docs/mcp-guide.md\` · \`docs/mcp-config-guide.md\` · \`docs/ai-workflow.md\`。  
 > **学会之后**：能说明 MCP 工具挂载与 handleToolCall 门禁心智。
 
 ## 学会之后（验收）
@@ -13,6 +13,9 @@ export default `# 主服 MCP 运维
 | 扩展 | tools 扩展面有文档 |
 | 对照 | 第五章 Tool Calling 概念 |
 
+\`\`\`algo
+{"kind":"toolloop","title":"模型提议 → 门禁 → 回灌","autoplay":true,"speed":880}
+\`\`\`
 
 ## 设计巧思：USB 口在主机上
 
@@ -25,9 +28,13 @@ export default `# 主服 MCP 运维
 
 本仓对话 Agent 也可以**同时是**工具的使用者（吃同一张工具表）——对内对外共用插口，省一套私有协议。
 
-\`\`\`steps
-{"title":"挂载核对","steps":[{"title":"工作流 init","body":"registerMCPTool 写入工具表。"},{"title":"mcp-server","body":"汇总协议与会话；执行走 handleToolCall 门禁。"},{"title":"HTTP/WS 出口","body":"system-Core http/mcp。"},{"title":"日志绿灯","body":"看到挂载成功类文案。"},{"title":"白名单","body":"streams 只开本轮需要的；policies 可再卡 tool.call。"}]}
-\`\`\`
+| 核对 | 做什么 |
+|------|--------|
+| 工作流 init | \`registerMCPTool\` 写入工具表 |
+| mcp-server | 汇总协议；执行走 \`handleToolCall\` |
+| HTTP/WS 出口 | system-Core \`http/mcp\` |
+| 日志 | 看到挂载成功类文案 |
+| 白名单 | streams 只开本轮需要；policies 可再卡 \`tool.call\` |
 
 ---
 
@@ -104,18 +111,7 @@ flowchart LR
 4. 指认一个 \`registerMCPTool\` 名称出现在工具列表。  
 5. 回第五章 **ai-mcp**：用本仓路径说清 Server / 工具。
 
-## 导图2 · Skill / Agent / Harness × MCP 门禁
-
-> 导图2 Skill/Agent/Harness 口语；本课钉 **MCP 工具面与门禁**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **Skill** | 可复用长流程能力 | 办事/Cursor skills 是交底；**MCP 工具**是运行时可调函数——别混名 |
-| **AI Agent / Agent 循环** | 多步调工具 | \`registerMCPTool\` + handleToolCall；模型想调 ≠ 一定放行 |
-| **Harness Engineering** | 指令+工具+模型编排层 | Runtime 挂载 MCP；策略/审批在 ai-workflow.security |
-
-
 ## 下一步
 
-**Factory**（模型口 · finalize / variants）· **对话管线**（出站 / 斜杠）· **提示安全**（策略与 \`#批准\`）。
+**Factory**（模型口 · finalize / variants）· **对话管线**（出站 / 斜杠）· **提示安全**（策略与 \`#批准\`）· **HTTP Auth**（外部 Client 也要 Key）。
 `;

@@ -18,7 +18,7 @@
  * - diff | pairfix     对错对照
  * - fill | blank         命令填空
  * - pick | classify      点选归类
- * - algo | viz | animate 经典算法动画
+ * - algo | viz | animate 机制动画（排序、调度、PATH、Git 三区/clone/分支…）
  */
 
 import { createApp } from 'vue';

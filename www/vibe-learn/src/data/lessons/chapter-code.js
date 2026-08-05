@@ -1,79 +1,47 @@
 export default `# 第一章半 · 编程基础（以 JS 动手）
 
-> 环境装好了，还不会**写程序**——本章补这一刀。  
-> **必学轨**：第一程序 → 类型/控制流/函数/对象 → 模块/异步 → 读报错 → 数据文字（JSON/YAML/MD/env）→ 过关练习。  
-> 第二章语言版图是**观光对照**；本框才是零基础主修。
+> 环境装好了，还不会写程序——本框补这一刀。  
+> 第二章语言版图是观光；**这里才是零基础主修**。  
+> 语法口径跟 [MDN JavaScript 指南](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide)（值与类型、控制流、函数、对象）；跑法则连回第一章 **Node**。
 
 ## 学会之后（验收）
 
 | 能力 | 成功信号 |
 |------|----------|
-| 跑通闭环 | 自建 \`.js\`，\`node\` 打印预期输出 |
-| 语法底座 | 能口述 \`let/const\`、\`===\`、函数、闭包、引用 |
-| 工程接口 | 会 \`import\`/\`export\`；会 \`async/await\`；知道事件循环不是「多线程」 |
-| 读报错 | 堆栈落到**自己的**文件:行号；能一句话复述错因 |
+| 跑通 | 自建 \`.js\`，\`node\` 打印预期 |
+| 语法 | 能口述 \`const\`/\`let\`、\`===\`、\`Array.isArray\`、函数、引用 |
+| 工程 | 会 \`import\`/\`export\`、\`async/await\` |
+| 报错 | 堆栈落到自己的文件:行号 |
 | 数据文字 | 手改 JSON/YAML；\`.env\` 不进 Git |
-| 跟 Agent 协作 | 贴完整报错 + 约束「先提示再评审」，而不是只要最终答案 |
 
-## 阅读顺序
-\`\`\`steps
-{"title":"编程基础路径","steps":[{"title":"跑通第一行","body":"文件 + node 执行。"},{"title":"语法底座","body":"值、分支、函数、对象、闭包。"},{"title":"工程接口","body":"模块、异步/事件循环/竞态、报错。"},{"title":"数据文字","body":"JSON/YAML/Markdown/env。"},{"title":"过关","body":"小练习串关再进语言章。"}]}
-\`\`\`
+## 建议顺序（点课路径）
 
-1. **第一个程序** → **值与类型** → **控制流** → **函数** → **对象与数组**
-2. **模块** → **异步**（含事件循环、\`allSettled\`、竞态）→ **读懂报错**
-3. **JSON · YAML · Markdown · 环境变量**（本仓天天用）
-4. （可选）**正则** · **TypeScript 动手** — layout 有卡；过关后再点
-5. **过关练习** → 第二章「什么是语言」（此时再看版图才不懵）
-
-刷题入口（与课文对齐）：\`编程基础脊骨\` · \`JavaScript 与异步\` · \`并发与异步正确性\` · \`数据格式\` · \`语言与运行时\` 开口。
-
-## 本框地图
+1. **第一程序** → **值与类型** → **控制流** → **函数** → **对象与数组**  
+2. **模块** → **异步** → **读报错**  
+3. **JSON / YAML / Markdown / env**（数据文字）  
+4. （可选）正则 · TS 动手 → **过关练习** → 第二章语言观光  
 
 \`\`\`mermaid
 flowchart TB
-  F[第一个程序] --> V[值与类型]
+  F[第一程序] --> V[值与类型]
   V --> C[控制流]
   C --> FN[函数]
   FN --> OA[对象与数组]
   OA --> M[模块]
   M --> A[异步]
-  A --> E[读懂报错]
-  E --> DJ[JSON]
-  DJ --> DY[YAML]
-  DY --> DM[Markdown]
-  DM --> DE[环境变量]
-  DE --> CK[过关练习]
-  DE -.-> RX[正则]
-  DE -.-> TS[TS 动手]
-  CK --> L2[第二章语言版图]
+  A --> E[读报错]
+  E --> D[数据文字]
+  D --> CK[过关]
+  CK --> L2[第二章]
 \`\`\`
 
-## 学完应能
+| 本框课 | 官方锚点（深挖时） |
+|--------|-------------------|
+| 值与类型 | [数据类型](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures) · [相等比较](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness) |
+| 控制流 | [控制流与错误处理](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Control_flow_and_error_handling) · [for...of](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of) |
+| 函数 | [函数指南](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Functions) |
+| 对象与数组 | [使用对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Working_with_objects) |
 
-- 自写一个 \`.js\` 文件并用 \`node\` 跑通（编辑→保存→执行→看输出）
-- 说清变量、\`===\`、分支、函数/闭包、数组/对象引用、\`import\`/\`export\`、\`async/await\`
-- 口述事件循环：\`setTimeout(0)\` 不立刻跑；单线程也会有竞态
-- 看堆栈定位到自己的文件行号；识别 \`TypeError\` 取 undefined 属性
-- 手改一份 JSON / YAML，并知道密钥不进 Git
-
-## Coding Agent 怎么用
-
-过关练习可让 Agent **当教练**（先提示再评审，别直接要完整答案）。  
-先读番外 **Vibe Coding 心智**（五拍），提问模板见 **Vibe Coding 心智**；安全底线见 **Vibe 心智里的安全底线**。
-
-课文里的 **\`\`\`shell\`\`\`** 是模拟终端：可点芯片自动打字，也可手敲；**不上网、不改你电脑**。真项目仍要在本机终端再跑一遍。
-
-## 导图2 · JavaScript / 环境变量 / Git Diff × 动手底座
-
-> 词表里的 JS、JSON、环境变量、Diff 帮你对齐口语；  
-> **本框要求亲手 \`node\` 跑通与读堆栈**——词条不能替代过关。
-
-| 导图2 | Vibe 口语 | 本框专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 前后端都能见的语言 | 本框以 Node 跑 JS；浏览器 API ≠ 主服可用 |
-| **环境变量** | 配置进进程 | \`.env\` 不进 Git；读写与密钥卫生 |
-| **Git Diff** | 看改了什么 | Agent 改完你必须会读 diff 再 Accept |
-| **终端命令行** | 执行与看报错 | \`node file.js\`；堆栈落到自己的文件:行 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+刷题：\`编程基础脊骨\` · \`JavaScript 与异步\` · \`数据格式\` 等包与课文对齐。  
+卡关时打开 **过关练习** 的分流树，回对应课补，不要跳进第二章框架名观光。
 `;

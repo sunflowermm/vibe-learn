@@ -1,7 +1,7 @@
 export default `# events 监听
 
 > \`core/*/events\` = **横切钩子**：在通道就绪、系统副作用处挂 \`ListenerBase\`，**不**替代 Tasker，也**不**替代 plugin。  
-> 基类：\`src/infrastructure/listener/base.js\`。  
+> 基类：\`src/infrastructure/listener/base.js\` · 契约：\`docs/base-classes.md\`。  
 > **学会之后**：能说出事件监听在生命周期中的位置，并举例一个钩子用途。
 
 ## 学会之后（验收）
@@ -12,6 +12,10 @@ export default `# events 监听
 | 边界 | 与插件热更边界相关 |
 | 观测 | 可打点/审计 |
 | 勿滥用 | 别把主流程塞进 listener |
+
+\`\`\`algo
+{"kind":"taskerflow","title":"events 站在总线旁（横切）","autoplay":true,"speed":900}
+\`\`\`
 
 ## 设计巧思：三角厨房
 
@@ -25,9 +29,13 @@ export default `# events 监听
 
 排烟机不该决定菜单；菜单也不该自己拆快递箱。
 
-\`\`\`steps
-{"title":"事件三角","steps":[{"title":"Tasker","body":"协议 → 统一 e。"},{"title":"events","body":"init 里 on：就绪、桥接、标记已处理。"},{"title":"plugin","body":"reg 匹配 → 业务 reply。"},{"title":"改完重启","body":"Listener 常绑长生命周期；改完重启再验。"}]}
-\`\`\`
+| 该放哪 | 例子 |
+|--------|------|
+| **events** | 连接后常驻 \`on\`、系统副作用、标记已处理、打点 |
+| **plugin** | 用户指令、产品业务、要 \`reply\` |
+| **tasker** | 新协议、WS 路径、造 \`e\` |
+
+> 改 Listener → **重启主服**更稳（长生命周期绑定，易双绑/漏解绑）。
 
 ---
 
@@ -40,10 +48,6 @@ export default `# events 监听
 | **插件架构** | 热更：plugin 常可热更；**events 常需重启** |
 | **办事助手** | \`ai-workspace.js\` 一类监听是外围，不是人设文件本身 |
 | **第五章 · 子代理** | events ≠ subagent；一个是进程钩子，一个是对话委派 |
-
-\`\`\`flip
-{"title":"events 翻卡","cards":[{"front":"该放 events？","back":"连接后常驻 on、系统副作用、标记已处理"},{"front":"该放 plugin？","back":"用户指令、产品业务、要 reply"},{"front":"该放 tasker？","back":"新协议、WS 路径、造 e"},{"front":"热更？","back":"改 Listener → 重启主服更稳"}]}
-\`\`\`
 
 ---
 
@@ -99,14 +103,4 @@ flowchart TB
 
 **Tasker**（\`e\` 从哪来）· **插件架构** · **实践·最小插件**。  
 AI 对话 → **工作流 / Factory / MCP**，别把工具环写进 Listener。
-
-## 导图2 · 监控 / 后端 × events
-
-> 导图2 监控口语；本课钉 **Listener 横切**，不替代主业务插件。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **监控（Monitoring）** | 看见系统状态 | Listener 可打点/审计；不替代主业务插件 |
-| **后端** | 服务端横切 | events 挂生命周期，勿把主流程塞进 listener |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

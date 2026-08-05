@@ -213,20 +213,12 @@ subserver/<runtime>/apis/<group>/
 | \`docs/subserver-api.md\` | 子服契约与调用 |
 | [AGT-Cores-Tools-Index](https://github.com/sunflowermm/AGT-Cores-Tools-Index) | 生态仓库索引 |
 
-## 导图2 · 用户流程 / PRD / 组件 / 技术栈 × 扩展点地图
-
-> 导图2 用户流程/PRD/组件口语；本课钉 **扩展点地图格子**，勿写进 src/。
-
-| 导图2 | Vibe / 产品口语 | 本仓专业落点 |
-|-------|-----------------|--------------|
-| **用户流程（User Flow）** | 用户怎么走完一条路径 | 通道 Tasker → 插件/工作流 → 出站；画流时对扩展点 |
-| **PRD** | 需求说明书 | 落地时拆到 plugin/http/www/workflow… 格子，勿写进 src/ |
-| **组件** | 可拼装单元 | 每个扩展点目录 ≈ 可替换组件；边界见 Loader |
-| **技术栈** | 组合拳 | 地图告诉你「能力挂哪」；栈选型见语言章/鸟瞰 |
-
+\`\`\`algo
+{"kind":"xrklayers","title":"扩展点都挂在 Runtime 下","autoplay":true,"speed":850,"data":{"mode":"http"}}
+\`\`\`
 
 ## 下一步
 
 **AgentRuntime** → **Core 放码** → **插件架构** → 按需 **Tasker / events / Factory / 数据库 / Auth / MCP / 子服务端** → **实践课**。  
-鸟瞰入口仍是 **项目鸟瞰**；本课是业务层「地图页」（含仓库地址）。
+鸟瞰入口仍是 **项目鸟瞰**；本课是业务层「地图页」。
 `;

@@ -24,8 +24,8 @@ export default `# TypeScript（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"TypeScript · 身份翻卡","cards":[{"front":"TypeScript","back":"JS 的类型超集；编译/检查后再跑"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
+\`\`\`algo
+{"title":"TypeScript → 擦除 → JavaScript → 运行时","kind":"tserase","speed":520,"caption":"类型不进运行时；执行的仍是 JS","data":{"source":"function add(a: number, b: number): number","erased":"function add(a, b)","run":"node add.js → 3"}}
 \`\`\`
 
 ### 1.1 适合用 TypeScript 的场景
@@ -200,16 +200,6 @@ const q: Point = p; // OK：变量赋值时多 z 可兼容
 
 ## 6. 下一步
 
-**JavaScript**（运行时真相）· **Angular** / **React** / **Vue** · **HTTP 与 www** · **NestJS**（对照）· **语言栈**。  
-可选：扫一眼 Nest 的模块/DI 入口，再对照本仓 Loader 怎么注入能力。
-## 导图2 · TypeScript / JavaScript / 构建 × 类型层
-
-> TS 是 JS 的超集/类型层；导图2 可查 TS 词条。本仓主服以 JS 为主，TS 可选。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **TypeScript** | 带类型的 JS 族 | 编译/转译后仍是 JS 再跑 |
-| **JavaScript** | 运行时真相 | 浏览器与 Node 执行的是 JS |
-| **构建** | tsc/Vite 等 | 类型检查与产物分离；别当「另一门后端语言」 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**JavaScript**（运行时真相与事件循环）· **Node.js**（双宿主）· **Vue / React** · **接到本仓运行时**。  
+01.5 有 **TS 动手** 可选课；主服默认仍以 JS 为准。
 `;

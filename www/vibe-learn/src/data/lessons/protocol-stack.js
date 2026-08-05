@@ -5,12 +5,6 @@ export default `# 协议栈：OSI 与 TCP/IP
 
 ## 学会之后（验收）
 
-
-\`\`\`sort
-{"title":"自下而上排出协议栈","caption":"从上到下：靠近介质 → 靠近应用","items":[{"id":"phy","text":"物理 / 链路（网卡、帧）","order":0},{"id":"ip","text":"网络（IP 找主机）","order":1},{"id":"tr","text":"传输（TCP/UDP + 端口）","order":2},{"id":"app","text":"应用（HTTP、DNS…）","order":3}]}
-\`\`\`
-
-
 | 能力 | 成功信号 |
 |------|----------|
 | 分层 | 不把 L4 端口问题说成 L7 业务 bug |
@@ -18,6 +12,10 @@ export default `# 协议栈：OSI 与 TCP/IP
 | 五元组 | 协议 + 源/目的 IP + 源/目的端口 |
 | L4/L7 | 排障时知道先问传输层还是应用层 |
 | 跟 Agent | 描述故障要带「卡在哪一层」而不是只贴截图 |
+
+\`\`\`sort
+{"title":"自下而上排出协议栈","caption":"从上到下：靠近介质 → 靠近应用","items":[{"id":"phy","text":"物理 / 链路（网卡、帧）","order":0},{"id":"ip","text":"网络（IP 找主机）","order":1},{"id":"tr","text":"传输（TCP/UDP + 端口）","order":2},{"id":"app","text":"应用（HTTP、DNS…）","order":3}]}
+\`\`\`
 
 ## 知识串
 

@@ -63,6 +63,10 @@ export default `# Core 放码位置
 
 www **必须**子目录；根名勿用保留段：\`api\` \`core\` \`media\` \`uploads\` \`File\` \`shared\`。
 
+\`\`\`algo
+{"kind":"xrklayers","title":"业务落在 Core 这一层","autoplay":true,"speed":850,"data":{"mode":"http"}}
+\`\`\`
+
 \`\`\`mermaid
 flowchart TB
   Core["core/名-Core"] --> P[plugin]
@@ -114,17 +118,6 @@ flowchart TB
 - \`docs/base-classes.md\` · \`docs/runtime-surface.md\`  
 - \`docs/www-mount.md\` · \`docs/框架可扩展性指南.md\`  
 - \`AGENTS.md\` · 规则 \`xrk-project.mdc\`
-
-## 导图2 · 组件 / 前端 / 技术栈 × Core 目录
-
-> 导图2 组件/前端口语；本课钉 **Core 子目录即扩展点组件**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **组件** | 可拼装单元 | plugin/http/workflow/… 各是一类可加载组件 |
-| **前端** | 浏览器 UI | 只进 \`www/<应用>/\`；保留名勿占 |
-| **技术栈** | 组合 | Core 决定产品能力拼装；Runtime 提供插座 |
-
 
 ## 下一步
 

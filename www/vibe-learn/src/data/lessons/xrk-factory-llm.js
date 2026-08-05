@@ -2,6 +2,7 @@ export default `# Factory · LLM / ASR / TTS
 
 > 工厂 = **按配置创建模型客户端**（对话 LLM · 语音 ASR · 合成 TTS）。  
 > 业务（\`AiWorkflow\`）经工厂取客户端，**不要**在 Core 里散落 \`new\` 各厂商 SDK。  
+> 真源：\`docs/factory.md\` · \`docs/ai-workflow.md\` · skill \`xrk-llm\`。  
 > **学会之后**：能说明 LLM Factory 统一客户端与 finalize/aux 直觉。
 
 ## 学会之后（验收）
@@ -12,6 +13,10 @@ export default `# Factory · LLM / ASR / TTS
 | 配置 | 工厂模板在 default_config 体系 |
 | 代理 | 境外模型才挂代理 |
 | 下一步 | 工作流里真正调用 |
+
+\`\`\`algo
+{"kind":"toolloop","title":"工厂取客户端 → 工具环（老师演示）","autoplay":true,"speed":880}
+\`\`\`
 
 ## 设计巧思：插座 vs 菜谱
 
@@ -24,9 +29,13 @@ export default `# Factory · LLM / ASR / TTS
 
 换插座品牌（换模型厂商）不该重写整本菜谱。
 
-\`\`\`steps
-{"title":"一次调用","steps":[{"title":"配置就绪","body":"CommonConfig 已 load（见 Runtime 课）。"},{"title":"出站准备","body":"管线侧 toolPair / compaction / trim（工厂之前）。"},{"title":"工厂取客户端","body":"LLMFactory 按 Provider 选 *Client。"},{"title":"工具环","body":"tool_calls → MCP 门禁 → 回灌；轮尽可 finalize。"},{"title":"工具另线","body":"工具走 MCP；工厂不管工具目录。"}]}
-\`\`\`
+| 一步 | 人话 |
+|------|------|
+| 配置就绪 | CommonConfig 已 load（见 Runtime 课） |
+| 出站准备 | 管线侧 toolPair / compaction / trim（工厂之前） |
+| 工厂取客户端 | LLMFactory 按 Provider 选 \*Client |
+| 工具环 | tool_calls → MCP 门禁 → 回灌；轮尽可 finalize |
+| 工具另线 | 工具走 MCP；工厂不管工具目录 |
 
 ---
 
@@ -100,15 +109,4 @@ flowchart LR
 ## 下一步
 
 **MCP 运维** · **工作流** · **对话管线** · 第五章 **Tool Calling / 协议分层**。
-
-## 导图2 · AI Agent / 流式 / 上下文窗口 × Factory
-
-> 导图2 Agent/流式/窗口；本课钉 **统一插座**，业务勿散落 SDK。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **AI Agent** | 调模型办事 | 业务经 Factory 取客户端，勿 Core 里散落 SDK |
-| **流式响应** | 边生成边出 | 工厂客户端能力之一；由工作流决定是否流式 |
-| **上下文窗口** | 能塞多少 | Provider contextWindow + 管线裁剪；见对话管线 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

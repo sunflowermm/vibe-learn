@@ -1,0 +1,755 @@
+{
+  "generatedAt": "2026-08-05T10:25:35.044Z",
+  "totals": {
+    "lessons": 203,
+    "topics": 186,
+    "chapters": 17,
+    "medianChars": 3264,
+    "noAccept": 0,
+    "thinUnder1800": 21,
+    "noInteractive": 1,
+    "noQuizLink": 6,
+    "genericOnlyWidgets": 24
+  },
+  "widgetFenceCounts": {
+    "mermaid": 168,
+    "quiz": 115,
+    "flip": 101,
+    "steps": 62,
+    "match": 55,
+    "shell": 50,
+    "prompt": 34,
+    "check": 28,
+    "javascript": 28,
+    "term": 27,
+    "algo": 21,
+    "env": 20,
+    "decide": 17,
+    "bash": 11,
+    "reveal": 10,
+    "compare": 9,
+    "pick": 4,
+    "diff": 4,
+    "fill": 3,
+    "ports": 3,
+    "sql": 3,
+    "powershell": 3,
+    "text": 3,
+    "yaml": 2,
+    "json": 2,
+    "ts": 2,
+    "html5": 2,
+    "sort": 2,
+    "html": 1,
+    "typescript": 1,
+    "dotenv": 1,
+    "markdown": 1,
+    "js": 1,
+    "ini": 1
+  },
+  "thinnest25": [
+    {
+      "id": "dsa-bitwise",
+      "isChapter": false,
+      "chars": 956,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-recurse",
+      "isChapter": false,
+      "chars": 992,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 2,
+      "kinds": [
+        "steps",
+        "algo"
+      ]
+    },
+    {
+      "id": "dsa-string",
+      "isChapter": false,
+      "chars": 1032,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-union-find",
+      "isChapter": false,
+      "chars": 1043,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-two-pointers",
+      "isChapter": false,
+      "chars": 1060,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-tree",
+      "isChapter": false,
+      "chars": 1218,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "flip"
+      ]
+    },
+    {
+      "id": "ai-arch-beyond",
+      "isChapter": false,
+      "chars": 1345,
+      "hasAccept": true,
+      "iw": 0,
+      "algo": 0,
+      "kinds": []
+    },
+    {
+      "id": "esp-esp32",
+      "isChapter": false,
+      "chars": 1355,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-hash",
+      "isChapter": false,
+      "chars": 1439,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "match",
+        "flip"
+      ]
+    },
+    {
+      "id": "esp-toolchain",
+      "isChapter": false,
+      "chars": 1452,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "check"
+      ]
+    },
+    {
+      "id": "ai-llm-era",
+      "isChapter": false,
+      "chars": 1497,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "steps"
+      ]
+    },
+    {
+      "id": "dsa-dp",
+      "isChapter": false,
+      "chars": 1501,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 0,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-graph",
+      "isChapter": false,
+      "chars": 1535,
+      "hasAccept": true,
+      "iw": 4,
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "steps",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-complexity",
+      "isChapter": false,
+      "chars": 1561,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 0,
+      "kinds": [
+        "match",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "esp-mcu",
+      "isChapter": false,
+      "chars": 1573,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-ml",
+      "isChapter": false,
+      "chars": 1581,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "steps",
+        "match"
+      ]
+    },
+    {
+      "id": "ai-model-types",
+      "isChapter": false,
+      "chars": 1652,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-linear",
+      "isChapter": false,
+      "chars": 1701,
+      "hasAccept": true,
+      "iw": 3,
+      "algo": 1,
+      "kinds": [
+        "flip",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-sort",
+      "isChapter": false,
+      "chars": 1739,
+      "hasAccept": true,
+      "iw": 6,
+      "algo": 5,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "ai-agent-planning",
+      "isChapter": false,
+      "chars": 1785,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-rules",
+      "isChapter": false,
+      "chars": 1791,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-openai-protocol",
+      "isChapter": false,
+      "chars": 1817,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-what",
+      "isChapter": false,
+      "chars": 1821,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "match"
+      ]
+    },
+    {
+      "id": "ai-agent-memory",
+      "isChapter": false,
+      "chars": 1857,
+      "hasAccept": true,
+      "iw": 2,
+      "algo": 0,
+      "kinds": [
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-rerank",
+      "isChapter": false,
+      "chars": 1927,
+      "hasAccept": true,
+      "iw": 1,
+      "algo": 0,
+      "kinds": [
+        "quiz"
+      ]
+    }
+  ],
+  "noAcceptIds": [],
+  "noInteractiveIds": [
+    "ai-arch-beyond"
+  ],
+  "noQuizIds": [
+    "ai-arch-beyond",
+    "knowledge-hub",
+    "ai-pi-agent",
+    "lang-csharp",
+    "lang-php",
+    "adev-compare"
+  ],
+  "genericHeavyIds": [
+    {
+      "id": "dsa-dp",
+      "chars": 1501,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-complexity",
+      "chars": 1561,
+      "kinds": [
+        "match",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-testing",
+      "chars": 2314,
+      "kinds": [
+        "flip",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "craft-observability",
+      "chars": 2323,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "panel-run-node",
+      "chars": 2390,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-attention",
+      "chars": 2502,
+      "kinds": [
+        "match",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-subagent",
+      "chars": 2621,
+      "kinds": [
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-min-path",
+      "chars": 2778,
+      "kinds": [
+        "check",
+        "steps",
+        "flip"
+      ]
+    },
+    {
+      "id": "db-sql-hands-on",
+      "chars": 2978,
+      "kinds": [
+        "check",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-events",
+      "chars": 3158,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "lang-compiled-runtime",
+      "chars": 3193,
+      "kinds": [
+        "flip",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-tasker-channels",
+      "chars": 3753,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "db-essence",
+      "chars": 3784,
+      "kinds": [
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "ai-agent-birth",
+      "chars": 4101,
+      "kinds": [
+        "steps",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "hw-sw-link",
+      "chars": 4145,
+      "kinds": [
+        "steps",
+        "match",
+        "flip"
+      ]
+    },
+    {
+      "id": "xrk-lab-subserver",
+      "chars": 4161,
+      "kinds": [
+        "check",
+        "flip",
+        "match"
+      ]
+    },
+    {
+      "id": "xrk-lab-http",
+      "chars": 4173,
+      "kinds": [
+        "check",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-factory-llm",
+      "chars": 4229,
+      "kinds": [
+        "steps",
+        "match",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-lab-plugin",
+      "chars": 4457,
+      "kinds": [
+        "steps",
+        "check",
+        "match"
+      ]
+    },
+    {
+      "id": "lang-what-is-language",
+      "chars": 4479,
+      "kinds": [
+        "match",
+        "flip",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-plugin-arch",
+      "chars": 4483,
+      "kinds": [
+        "match",
+        "steps",
+        "quiz"
+      ]
+    },
+    {
+      "id": "xrk-stream",
+      "chars": 4549,
+      "kinds": [
+        "steps",
+        "quiz",
+        "match"
+      ]
+    },
+    {
+      "id": "xrk-runtime",
+      "chars": 4831,
+      "kinds": [
+        "quiz",
+        "match"
+      ]
+    },
+    {
+      "id": "xrk-chat-pipeline",
+      "chars": 5771,
+      "kinds": [
+        "steps",
+        "match",
+        "quiz"
+      ]
+    }
+  ],
+  "algoLessons": [
+    {
+      "id": "dsa-bitwise",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-recurse",
+      "algo": 2,
+      "kinds": [
+        "steps",
+        "algo"
+      ]
+    },
+    {
+      "id": "dsa-string",
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-union-find",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-two-pointers",
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-graph",
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "steps",
+        "flip"
+      ]
+    },
+    {
+      "id": "dsa-ml",
+      "algo": 1,
+      "kinds": [
+        "algo",
+        "steps",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-linear",
+      "algo": 1,
+      "kinds": [
+        "flip",
+        "algo",
+        "quiz"
+      ]
+    },
+    {
+      "id": "dsa-sort",
+      "algo": 5,
+      "kinds": [
+        "algo",
+        "match"
+      ]
+    },
+    {
+      "id": "dsa-hot",
+      "algo": 2,
+      "kinds": [
+        "algo",
+        "steps",
+        "flip"
+      ]
+    },
+    {
+      "id": "chip-units",
+      "algo": 1,
+      "kinds": [
+        "match",
+        "algo",
+        "reveal",
+        "quiz"
+      ]
+    },
+    {
+      "id": "os-essence",
+      "algo": 1,
+      "kinds": [
+        "compare",
+        "algo",
+        "quiz",
+        "reveal"
+      ]
+    }
+  ],
+  "architecture": {
+    "refs": [
+      "OSTEP (virtualization / concurrency / persistence)",
+      "Microsoft Learn: Discover the basics of computing; Network fundamentals",
+      "Tech Interview Handbook: sorting-searching (complexity & language default sort)",
+      "VisuAlgo: sorting visualizations"
+    ],
+    "keep": [
+      "序章四课：系统总入口 / OS 本质 / 软硬件联动 / 算存层次 — 与 MS Learn「部件如何协作」对齐，VPN/身份放到网络·Clash，不塞进序章",
+      "DSA 十四课保留分课：薄的是深度不够，不是该合并成一坨"
+    ],
+    "add": [
+      "algo viz：归并 / 堆排（dsa-sort；VisuAlgo 标配，现有仅冒泡/插入/选择/快排）",
+      "algo viz：调度时间片（os-essence；OSTEP CPU 虚拟化直觉）",
+      "题库挂鉤：ai-arch-beyond / ai-pi-agent / lang-csharp / lang-php / adev-compare"
+    ],
+    "mergeOrThinCarefully": [
+      "不建议合并序章四课",
+      "AI 薄课（ai-arch-beyond 等）优先加厚或并入相邻叙事，勿再拆更碎节点",
+      "通用 flip/match/quiz 过密的 24 课：删同构块，换成章专属 viz 或更深对照表"
+    ],
+    "widgetAudit": {
+      "overused": [
+        "quiz",
+        "flip",
+        "steps",
+        "match"
+      ],
+      "underusedChapterCraft": [
+        "algo",
+        "shell",
+        "term",
+        "ports",
+        "compare",
+        "decide"
+      ],
+      "algoLessonsOnly": [
+        "dsa-bitwise",
+        "dsa-recurse",
+        "dsa-string",
+        "dsa-union-find",
+        "dsa-two-pointers",
+        "dsa-graph",
+        "dsa-ml",
+        "dsa-linear",
+        "dsa-sort",
+        "dsa-hot",
+        "chip-units",
+        "os-essence"
+      ],
+      "genericHeavyIds": [
+        "dsa-dp",
+        "dsa-complexity",
+        "craft-testing",
+        "craft-observability",
+        "panel-run-node",
+        "ai-attention",
+        "ai-subagent",
+        "xrk-min-path",
+        "db-sql-hands-on",
+        "xrk-events",
+        "lang-compiled-runtime",
+        "xrk-tasker-channels",
+        "db-essence",
+        "ai-agent-birth",
+        "hw-sw-link",
+        "xrk-lab-subserver",
+        "xrk-lab-http",
+        "xrk-factory-llm",
+        "xrk-lab-plugin",
+        "lang-what-is-language",
+        "xrk-plugin-arch",
+        "xrk-stream",
+        "xrk-runtime",
+        "xrk-chat-pipeline"
+      ]
+    }
+  }
+}

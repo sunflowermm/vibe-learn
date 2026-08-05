@@ -97,6 +97,19 @@ flowchart LR
   F --> G[程序跑完 · 退出码回 Shell]
 \`\`\`
 
+对照 [Microsoft Learn · about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables) 与 Shell 基础教材：
+
+| 概念 | bash / Git Bash / Linux | PowerShell / Windows |
+|------|-------------------------|----------------------|
+| PATH 变量 | \`\$PATH\`，目录用 \`:\` 分隔 | \`\$env:PATH\`，目录用 \`;\` 分隔 |
+| 查找规则 | 从左到右，**第一个**同名可执行文件胜出 | 同上；另看 \`PATHEXT\`（\.exe / \.cmd …） |
+| 查「到底跑谁」 | \`which node\` / \`type -a node\` | \`Get-Command node\` |
+| 装完仍找不到 | 多半是新开的终端还没继承到新 PATH | 关窗重开，或检查用户 PATH vs 系统 PATH |
+
+\`\`\`algo
+{"title":"PATH 从左到右查找","kind":"pathfind","speed":420,"caption":"不是全盘搜索：只扫 PATH 里的目录，顺序即优先级。","data":{"cmd":"node","dirs":[{"path":"/usr/local/bin","hit":false},{"path":"/usr/bin","hit":true},{"path":"/bin","hit":false}]}}
+\`\`\`
+
 滚动进入下方终端，看一次「敲命令 → 出结果」的节奏（可点重播）：
 
 \`\`\`term

@@ -1,19 +1,22 @@
 export default `# 对象与数组
 
-> **数组**：有序列表（下标 0、1、2…）。**对象**：键 → 值的表。  
-> JSON、HTTP 载荷、配置片段——几乎都是二者嵌套。
+> **数组**：有序列表（下标 0、1、2…）。**对象**：名 → 值的属性袋。  
+> 口径对齐 [MDN · 使用对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Working_with_objects) 与 [数组](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)：点号 / 方括号访问；赋值共享引用；\`map\`/\`filter\` 派生新数组。
 
 ## 学会之后（验收）
 
 | 能力 | 成功信号 |
 |------|----------|
-| 引用 | 对象/数组赋值是引用直觉 |
-| 常用方法 | map/filter 等会读会用 |
-| 可变性 | 知道原地改与拷贝差别 |
-| 跟 Agent | 审是否误改共享对象 |
+| 读写 | 会 \`obj.key\` / \`obj['key']\`、\`arr[i]\`、解构与展开 |
+| 引用 | 亲手验证 \`const b = a\` 改一边两边变 |
+| 方法 | 会读 \`map\` / \`filter\` / \`find\`；分清 \`push\` 改原数组 |
+| 跟 Agent | 审补丁是否误改共享对象 / 浅拷贝当深拷贝 |
 
+上一课：**函数**（对象当参数会改外面）。下一课：**模块**（把函数与对象分文件）。
 
-## 最小动手
+---
+
+## 1. 最小动手
 
 \`\`\`javascript
 const xs = [10, 20, 30]
@@ -29,55 +32,51 @@ console.log(doubled, onlyBig, name, copy)
 \`\`\`
 
 \`\`\`term
-{"title":"数组 / 对象跑通形态","prompt":"$ ","env":"练习目录（演示）","steps":[{"type":"in","text":"node -e \\"const xs=[10,20]; console.log(xs.map(n=>n*2).join(','))\\""},{"type":"out","text":"20,40"}]}
+{"title":"数组 / 对象跑通","prompt":"$ ","steps":[{"type":"in","text":"node -e \\"const xs=[10,20]; console.log(xs.map(n=>n*2).join(','))\\""},{"type":"out","text":"20,40"}]}
 \`\`\`
 
-\`\`\`match
-{"title":"结构配对","pairs":[{"id":"a","left":"[]","right":"有序、下标访问"},{"id":"o","left":"{}","right":"键 → 值"},{"id":"m","left":"map/filter","right":"由数组派生新数组"},{"id":"s","left":"展开 ...","right":"浅拷贝/合并常用"}]}
-\`\`\`
+| 结构 | 访问 | 直觉 |
+|------|------|------|
+| \`[]\` 数组 | \`xs[0]\` | 有序、下标从 0 |
+| \`{}\` 对象 | \`user.name\` 或 \`user['name']\` | 键 → 值；未赋值属性为 \`undefined\`（MDN） |
+| 动态键 | 必须方括号 \`obj[keyVar]\` | 键名运行时才知道时 |
 
-## 必踩坑：引用
+---
+
+## 2. 必踩坑：引用
 
 | 写法 | 实际 |
 |------|------|
-| \`const b = a\`（a 是对象/数组） | **同一份**数据；改 b 也改 a |
-| \`{ ...obj }\` / \`[ ...arr ]\` | **浅拷贝**：第一层新容器，嵌套对象仍可能共享 |
+| \`const b = a\`（a 是对象/数组） | **同一份**；改 b 也改 a |
+| \`{ ...obj }\` / \`[ ...arr ]\` | **浅拷贝**：第一层新容器，嵌套仍可能共享 |
 | \`JSON.parse(JSON.stringify(x))\` | 简单深拷贝；丢函数、\`undefined\`、循环引用会挂 |
 
-\`\`\`flip
-{"title":"对象数组翻卡","cards":[{"front":"JSON 能表示？","back":"对象/数组/字符串/数字/布尔/null"},{"front":"JSON 不能？","back":"函数、undefined、Symbol、循环引用"},{"front":"可选链 ?.","back":"user?.profile?.name 避免中途 undefined 崩"},{"front":"空值合并 ??","back":"仅 null/undefined 时用右侧"}]}
+\`\`\`javascript
+const a = { n: 1 }
+const b = a
+b.n = 2
+console.log(a.n) // 2 —— 同一对象
 \`\`\`
 
-## 常用数组方法（认脸）
+这与函数课「改 \`obj\` 属性对外可见」是同一机制。
 
-| 方法 | 作用 |
-|------|------|
-| \`map\` | 每个元素 → 新元素，得到新数组 |
-| \`filter\` | 留下通过检验的元素 |
-| \`find\` | 第一个匹配 |
-| \`reduce\` | 收成单个值（求和等） |
-| \`push\` / \`pop\` | 尾部增删（**改原数组**） |
+---
 
-可变 vs 不可变：\`push\` 改原数组；\`map\` 一般返回新数组。团队风格不一，改共享状态前先想清楚。
+## 3. 常用数组方法
 
-## 和 AI 全栈的交界
+| 方法 | 作用 | 是否改原数组 |
+|------|------|----------------|
+| \`map\` | 每个元素 → 新元素 | 否（返回新数组） |
+| \`filter\` | 留下通过检验的 | 否 |
+| \`find\` | 第一个匹配 | 否 |
+| \`reduce\` | 收成单个值 | 否 |
+| \`push\` / \`pop\` | 尾部增删 | **是** |
 
-| 场景 | 为什么对象/数组功底重要 |
-|------|------------------------|
-| 工具调用参数 | 模型吐 JSON，运行时要校验、浅拷贝、防污染 |
-| RAG 元数据 | chunk payload 常是嵌套对象 |
-| HttpResponse | 拍平字段、解包成功体——全是对象心智 |
+可选链 \`?.\`、空值合并 \`??\` 已在**控制流**认脸；嵌套对象读字段时常用 \`user?.profile?.name\`。
 
-\`\`\`quiz
-{"title":"对象数组","questions":[{"q":"const b = a（a 为对象）后改 b.x，a.x？","choices":[{"t":"不变，已深拷贝","ok":false,"why":"赋值共享引用。"},{"t":"一起变","ok":true,"why":"同一对象。"},{"t":"必报错","ok":false,"why":"合法。"}]}]}
-\`\`\`
+---
 
-## 接到本仓
-
-- API / 配置：先 \`JSON\` 课看序列化  
-- 插件上下文 \`e\`、\`HttpResponse.success\` 拍平字段——都是对象心智  
-
-## 动手小练习
+## 4. 动手小练习
 
 \`\`\`javascript
 const users = [
@@ -88,20 +87,27 @@ const names = users.map((u) => u.name)
 const pass = users.filter((u) => u.score >= 80)
 const aya = users.find((u) => u.id === 1)
 console.log(names, pass, aya?.name)
+
+const shared = users
+shared.push({ id: 3, name: 'cara', score: 85 })
+console.log(users.length) // 会变 —— 引用坑
 \`\`\`
 
-本机保存后 \`node\` 跑通；再试：\`const b = users; b.push(...)\` 会不会改到原数组——亲手验证「引用」坑。
+本机保存后 \`node\` 跑通。
+
+\`\`\`quiz
+{"title":"对象数组 · 场景","questions":[{"q":"const b = a（a 为对象）后改 b.x，a.x？","choices":[{"t":"不变，已深拷贝","ok":false,"why":"赋值共享引用。"},{"t":"一起变","ok":true,"why":"同一对象。"},{"t":"必报错","ok":false,"why":"合法。"}]},{"q":"要从用户列表抽出所有 name，优先？","choices":[{"t":"users.map(u => u.name)","ok":true,"why":"派生新数组，不改原列表。"},{"t":"for...in users 取下标再拼","ok":false,"why":"数组元素遍历优先 for...of / map。"},{"t":"JSON.stringify 再正则抠","ok":false,"why":"过度且脆。"}]},{"q":"{ ...user } 对嵌套对象？","choices":[{"t":"整棵树深拷贝","ok":false,"why":"浅拷贝，嵌套仍共享。"},{"t":"只保证第一层是新对象","ok":true,"why":"展开是浅拷贝。"},{"t":"会丢所有属性","ok":false,"why":"第一层属性会复制。"}]}]}
+\`\`\`
+
+## 接到本仓
+
+| 场景 | 为什么重要 |
+|------|------------|
+| HTTP / 配置 | 载荷几乎都是对象嵌套 |
+| \`HttpResponse.success\` | 普通对象字段拍平到顶层——对象心智 |
+| 工具调用 / RAG 元数据 | JSON 形状；序列化边界见后续 **JSON** 课 |
 
 ## 下一步
 
-**模块** — 把函数和对象分到多个文件。
-## 导图2 · JavaScript / JSON × 对象与数组
-
-> 与 JSON 数据课衔接。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 结构化数据 | 对象/数组是日常 |
-| **JSON** | 交换格式 | 对象字面量相近但不等同 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**模块** — 把函数和对象分到多个文件（\`import\` / \`export\`）。
 `;

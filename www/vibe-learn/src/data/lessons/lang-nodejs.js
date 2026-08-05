@@ -24,17 +24,16 @@ export default `# Node.js（运行时 · 语言章分类）
 
 ## 1. 分类钉死
 
-\`\`\`flip
-{"title":"Node 身份翻卡","cards":[{"front":"Node.js","back":"服务器端 / 本机 JS 运行时（V8 + 系统 API）"},{"front":"npm","back":"官方默认包管理入口；本仓不用它装依赖"},{"front":"本仓约定","back":"只用 pnpm；见 packageManager 与锁文件"}]}
-\`\`\`
-
-
 | 说法 | 对不对 | 理由 |
 |------|--------|------|
 | 「我学 Node 语言」 | **不对** | 没有独立的 Node 语法；写的仍是 JS（或编译成 JS 的 TS） |
 | 「Node 是 JS 的服务端运行时」 | **对** | 提供文件、端口、进程等系统 API |
 | 「会浏览器 JS = 会运维本仓」 | **不对** | 同语言、不同运行时；无 DOM，入口是 \`node app\` |
 | 「主服语言是 Node」 | **口语可、严格不严谨** | 严格说：**语言 JS，运行时 Node** |
+
+\`\`\`algo
+{"title":"双宿主：同一门 JS，API 不同","kind":"dualhost","speed":520,"caption":"主服 = Node；www = 浏览器。改码前先钉在哪跑","data":{"apis":[{"name":"document.querySelector","browser":true,"node":false},{"name":"fs.readFile","browser":false,"node":true},{"name":"fetch","browser":true,"node":true},{"name":"process.env","browser":false,"node":true},{"name":"addEventListener","browser":true,"node":false}]}}
+\`\`\`
 
 \`\`\`mermaid
 flowchart LR
@@ -116,18 +115,8 @@ flowchart LR
 
 ## 下一步
 
-- **JavaScript** — 语言本体与场景  
+- **JavaScript** — 语言本体与事件循环动画  
 - **接到本仓运行时** — 版本与包管理契约  
-- **部署环境** — Git · Node · Redis · 浏览器引擎清单
-## 导图2 · JavaScript / 后端 / npm × Node 运行时
-
-> 导图2 常把 Node 与 JS 并列；本课钉 **Node=运行时**。本仓仅 pnpm。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 语言 | 语法与语义；可跑在浏览器或 Node |
-| **后端** | 服务端宿主 | 本仓主服=Node≥26；不是「Node 语言」 |
-| **npm** | 官方包入口 | 本仓装依赖只用 pnpm；勿混 |
-| **环境变量** | 进程配置 | Node 进程读 env；密钥不进 Git |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+- **部署环境** — Git · Node · Redis · 浏览器引擎清单  
+装机细节回 **第一章 · 运行时 Node.js**。
 `;

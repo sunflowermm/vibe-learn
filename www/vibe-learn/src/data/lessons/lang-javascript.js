@@ -23,10 +23,6 @@ export default `# JavaScript（语言）
 
 ## 1. 使用场景：何时用、何时不用
 
-\`\`\`flip
-{"title":"JavaScript · 身份翻卡","cards":[{"front":"JavaScript","back":"事件驱动、一等函数；浏览器 + Node 都能跑"},{"front":"语言 ≠","back":"某一个框架或某一个云产品"},{"front":"接到本仓","back":"主服 JS；其它语言多在子服"}]}
-\`\`\`
-
 ### 1.1 适合用 JavaScript 的场景
 
 | 场景 | 为什么选 JS |
@@ -111,20 +107,23 @@ flowchart TB
 
 ### 2.5 异步模型（面试核心）
 
+口径对齐 [MDN · 执行模型 / 事件循环](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Execution_model)：同步跑完 → 排空微任务 → 再取宏任务。
+
 | 点 | 说明 |
 |----|------|
-| **事件循环** | 调用栈清空后取任务队列 |
+| **事件循环** | 调用栈清空后取作业队列 |
 | **宏任务** | \`setTimeout\`、I/O、\`setImmediate\`（Node） |
-| **微任务** | \`Promise.then\`、\`queueMicrotask\`；同一轮宏任务后清空微任务 |
+| **微任务** | \`Promise.then\`、\`queueMicrotask\`；同一轮宏任务后先清空微任务 |
 | **\`async/await\`** | 基于 Promise；\`await\` 让出当前 async 函数 |
 | **Node 26 本仓** | 全局 \`fetch\` + \`AbortSignal.timeout\`；禁止 \`node-fetch\` 旧写法 |
 
-\`\`\`mermaid
-flowchart LR
-  Stack[调用栈] --> Micro[微任务队列]
-  Micro --> Macro[宏任务队列]
-  Macro --> Stack
+经典顺序（播放动画）：\`A\` → \`D\`（同步）→ \`B\`（微任务）→ \`C\`（宏任务）。
+
+\`\`\`algo
+{"title":"事件循环：同步 → 微任务 → 宏任务","kind":"eventloop","speed":480,"caption":"setTimeout(0) 不会插队打断正在跑的同步代码","data":{"steps":[{"kind":"sync","label":"console.log('A')"},{"kind":"macro","label":"setTimeout → C"},{"kind":"micro","label":"Promise.then → B"},{"kind":"sync","label":"console.log('D')"}],"output":["A","D","B","C"]}}
 \`\`\`
+
+动手细节回 **01.5 · 异步**。
 
 ### 2.6 模块
 
@@ -197,16 +196,8 @@ flowchart LR
 
 ## 6. 下一步
 
-**TypeScript** · **HTML/CSS** · **Vue / React** · **HTTP 与 www** · **AgentRuntime** · **语言栈** · **接到本仓运行时**。  
-可选：打开上表任一仓库的 README / 入口文件，对照本仓主服怎么组织请求。
-## 导图2 · JavaScript / 前端 / 后端 × 语言本体
-
-> 导图2 **JavaScript** 词条可查边界；本课钉语言特性与双宿主。动手回 01.5。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 语法与语义 | 本仓主服与多数 www 的宿主语言 |
-| **前端** | 浏览器执行 | 有 DOM/BOM；打包后仍是 JS |
-| **后端** | Node 执行 | 同语言不同 API；本仓主服在此 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**Node.js（运行时）** — 双宿主 API 边界；  
+**TypeScript** — 类型层；  
+**HTML/CSS** · **Vue / React** · **接到本仓运行时**。  
+动手过关仍回 **01.5**。
 `;

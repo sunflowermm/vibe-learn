@@ -57,6 +57,10 @@ sequenceDiagram
 对齐 \`docs/runtime-surface.md\` 挂载时间线：配置在 \`CommonConfigRegistry.load()\` **完成前不可用**。  
 启动顺序直觉：\`app.js\` → bootstrap-globals（\`PluginBase\` / \`msgSegment\`）→ \`start.js\` 挂 \`AgentRuntime\` → **先** CommonConfig → 再 Plugins / Http / Workflow / Tasker…
 
+\`\`\`algo
+{"kind":"xrklayers","title":"Runtime 在中间一层","autoplay":true,"speed":850,"data":{"mode":"plugin"}}
+\`\`\`
+
 \`\`\`quiz
 {"title":"挂载时机","questions":[{"q":"业务代码何时才能稳定读 runtimeConfig？","choices":[{"t":"CommonConfigRegistry.load() 完成并挂全局之后","ok":true,"why":"配置阶段完成前应用 ConfigBase/默认模板，勿假设已就绪。"},{"t":"一 import app.js 的瞬间，任何行都能读","ok":false,"why":"Loader 有先后；配置在后段才挂上。"},{"t":"只能在浏览器里读 runtimeConfig","ok":false,"why":"这是服务端单例。"},{"t":"永远不能读，只能硬编码","ok":false,"why":"就绪后正常 import runtimeConfig。"}]}]}
 \`\`\`
@@ -122,17 +126,6 @@ sequenceDiagram
 - \`docs/runtime-surface.md\`（本课真源）  
 - \`docs/startup.md\` · \`docs/base-classes.md\`  
 - \`docs/subserver-api.md\` · \`docs/AUTH.md\`
-
-## 导图2 · JavaScript / 后端 / Harness × Runtime
-
-> 导图2 JS/后端/Harness 口语；本课钉 **AgentRuntime 单例与 Loader 时间线**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 主语言 | Runtime 执行的就是 JS；\`engines\` ≥ 26 |
-| **后端** | 服务端宿主 | \`AgentRuntime\` 进程；裸名全局，勿 \`new\` 第二份 |
-| **Harness Engineering** | 编排层 | Loader 族 + 全局挂载时间线 = 本仓 harness 骨架 |
-
 
 ## 下一步
 

@@ -1,161 +1,72 @@
 export default `# Git 与工作区
 
-> **Git** 管理源码历史；**克隆（clone）** 把远程仓库变成你磁盘上的工作区目录。  
-> 开源协作的默认前提：你拿到的是「可检出的提交」，而不是邮件附件里的 zip（zip 发行版也存在，机制不同）。
+> **Git** 管历史；**clone** 把远程变成磁盘上的工作区。  
+> 托管平台细节见 **代码托管**；代理手顺见第四章 **部署环境 §0**。
 
 ## 学会之后（验收）
 
 | 能力 | 成功信号 |
 |------|----------|
-| 工作区 | 能说明工作区/暂存/提交的直觉 |
-| 远程 | clone 后知道 origin 是什么 |
-| 卫生 | status 后再改；密钥不进仓 |
+| 三区 | 能口述工作区 / 暂存 / 本地 / 远程 |
+| clone | 失败能判「网络」还是「Git 坏了」；成功能认仓库根 |
+| 卫生 | 改前 \`status\`；密钥不进仓 |
 | 跟 Agent | 改前 status；改后审 diff |
 
+---
 
-## 本课分块
+## 1. 三区模型
 
-| 块 | 内容 |
-|----|------|
-| **三区模型** | 工作区 · 暂存区 · 本地仓库 |
-| **远程与 clone** | 从托管平台落到磁盘（含国内失败演示） |
-| **根目录判定** | 哪里执行 \`pnpm install\` |
-| **和安装器的差别** | 源码树 vs 运行时安装包 |
+\`\`\`algo
+{"title":"模拟：脏文件如何变成远程提交","kind":"gitstage","speed":560,"caption":"git add 只带走选中文件；没 add 的 note.md 不会进 commit。","data":{"files":[{"name":"app.js","mark":"M"},{"name":"note.md","mark":"?"}],"commit":{"hash":"a1b2c3d","msg":"feat: wire first run"}}}
+\`\`\`
 
-托管平台（GitHub / Gitee）详见同章节点 **代码托管**。  
-代理 / **ghproxy.com** 手顺见第四章 **部署环境 §0**。
+| 区 | 直觉 | 命令 |
+|----|------|------|
+| **工作区** | 编辑器里正在改的 | \`git status\` |
+| **暂存区** | 下次提交的购物车 | \`git add\` |
+| **本地仓库** | \`.git\` 里的快照 | \`git commit\` |
+| **远程** | GitHub / Gitee | \`push\` / \`pull\` / \`fetch\` |
+
+入门先会 clone 与认根；add/commit 在真改代码时再练。
 
 ---
 
-## 1. 三区模型（本地）
+## 2. clone：失败 vs 落盘
 
-\`\`\`mermaid
-flowchart LR
-  W["工作区<br/>你改的文件"] -- "git add" --> S[暂存区]
-  S -- "git commit" --> L["本地仓库<br/>.git"]
-  L -- "git push" --> R[远程仓库]
-  R -- "git pull / fetch" --> L
-  L -- "git checkout / restore" --> W
+\`\`\`algo
+{"title":"模拟：国内直连失败","kind":"gitclone","speed":420,"caption":"卡在 443——不是 Git 坏了。","data":{"repo":"github.com/…/XRK-AGT.git","fail":true}}
 \`\`\`
 
-| 区 | 直觉 |
-|----|------|
-| **工作区** | 编辑器里正在改的文件 |
-| **暂存区** | 「下一次提交要带走哪些改动」的购物车 |
-| **本地仓库** | \`.git\` 里的提交历史 |
-| **远程** | GitHub / Gitee 上的那份（见 **代码托管**） |
-
-入门阶段：先会 \`clone\` 与认根目录；\`add\` / \`commit\` 可在真正改代码时再加深。
-
----
-
-## 2. 克隆：模拟失败 → 成功 → 认根目录
-
-\`\`\`reveal
-{"title":"国内直连失败会长这样","prompt":"先认报错形态，再点开对策","tone":"warn","face":"Cloning into 'XRK-AGT'...\\nfatal: unable to access 'https://github.com/...': Failed to connect to github.com port 443 after 21005 ms: Couldn't connect to server","body":"这是 TCP/TLS 连不上 GitHub，不是「Git 坏了」。对策写在课文里（不写进终端 stdout）：① 代理引擎 + 系统代理让浏览器通 → ② 当前壳设 HTTP(S)_PROXY → ③ 临时 ghproxy 前缀 → ④ 项目若提供 Gitee 镜像则换 URL。下方模拟窗只回真实形态的报错/进度行。"}
+\`\`\`algo
+{"title":"模拟：clone 成功落盘","kind":"gitclone","speed":380,"caption":"根上的 package.json = pnpm install 的正确位置。","data":{"repo":"XRK-AGT.git","fail":false,"entries":[".git/","package.json","pnpm-lock.yaml","src/","README.md"]}}
 \`\`\`
 
-
-> 下列窗**全程假数据**：自动打字、不上网、不改磁盘。真实操作请复制命令到**本机终端**。
-
-### 2.1 国内直连 GitHub 常失败（模拟）
-
-\`\`\`shell
-{"preset":"clone-fail"}
-\`\`\`
-
-真实终端里还可能看到：\`Connection timed out\`、\`SSL_ERROR\`、长时间停在 \`Cloning into...\` 无下文。
-
-### 2.2 设好会话代理后再 clone（模拟成功）
-
-\`\`\`shell
-{"preset":"clone-proxy-ok"}
-\`\`\`
-
-### 2.3 无本机代理时：ghproxy.com 前缀（模拟）
-
-把原 URL 套前缀（第三方，可用性会变；优先本机 \`HTTP(S)_PROXY\`）：
-
-\`\`\`text
-https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git
-\`\`\`
-
-\`\`\`shell
-{"preset":"clone-ghproxy"}
-\`\`\`
-
-### 2.4 克隆之后磁盘上有什么
-
-\`\`\`
-远程仓库（GitHub / Gitee / …）
-        │  git clone [--depth=1]
-        ▼
-本地目录/
-  ├── .git/          ← 历史与配置（通常很大）
-  ├── package.json   ← 项目契约（示例）
-  ├── README.md
-  └── …源码与文档
-\`\`\`
-
-- **浅克隆** \`--depth=1\`：只取最近历史，体积更小，适合「先跑起来」  
-- **工作区根目录**：能看到根 \`package.json\`（以及本仓的 \`pnpm-lock.yaml\`）的那一层，才是执行 \`pnpm install\` 的正确位置  
-- 误进子目录再 install，会装错树或报找不到清单
-
-<details>
-<summary>展开：clone 后建议立刻确认的三件事</summary>
-
-1. \`pwd\` / \`cd\` 是否在仓库根  
-2. \`git remote -v\` 远程 URL 是否是你以为的那个平台  
-3. \`node -v\` 与文档 \`engines\` 是否匹配（下一课首次跑通）
-</details>
-
----
-
-## 3. 本仓库示例（可复制到本机）
+| 对策（连不上 GitHub 时） | 说明 |
+|--------------------------|------|
+| 会话 \`HTTP(S)_PROXY\` | 优先；浏览器通 ≠ git 通 |
+| 文档镜像 URL（Gitee 等） | 只换 URL，Git 命令不变 |
+| ghproxy 前缀 | 第三方，可能失效；备选 |
 
 \`\`\`env
-{"title":"clone 本仓 · 按路径","caption":"优先已设 HTTP(S)_PROXY 的会话；ghproxy 为迫不得已备选。","default":"proxy","tabs":[{"id":"proxy","label":"已设代理 · GitHub","os":"任意","shell":"bash/pwsh","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git","cd XRK-AGT","pwd"]},{"id":"ghproxy","label":"备选 · ghproxy 前缀","os":"任意","shell":"bash/pwsh","warn":"第三方会失效；优先本机代理","lines":["git clone --depth=1 https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git","cd XRK-AGT","pwd"]},{"id":"mirror","label":"文档镜像 URL","os":"任意","shell":"bash/pwsh","note":"若提供 Gitee/GitCode，只换 URL","lines":["git clone --depth=1 https://gitee.com/<owner>/<repo>.git","cd <repo>","pwd"]}]}
+{"title":"clone 本仓 · 可复制","caption":"优先已设代理的会话。","default":"proxy","tabs":[{"id":"proxy","label":"已设代理","os":"任意","shell":"bash/pwsh","lines":["git clone --depth=1 https://github.com/sunflowermm/XRK-AGT.git","cd XRK-AGT","pwd"]},{"id":"ghproxy","label":"备选 ghproxy","os":"任意","shell":"bash/pwsh","warn":"第三方会失效","lines":["git clone --depth=1 https://ghproxy.com/https://github.com/sunflowermm/XRK-AGT.git","cd XRK-AGT","pwd"]},{"id":"mirror","label":"镜像 URL","os":"任意","shell":"bash/pwsh","lines":["git clone --depth=1 https://gitee.com/<owner>/<repo>.git","cd <repo>","pwd"]}]}
 \`\`\`
 
-\`\`\`mermaid
-flowchart TB
-  A["clone 完成"] --> B{在仓库根？}
-  B -->|否| C["cd 到含根 package.json 的目录"]
-  B -->|是| D["pnpm install"]
-  C --> D
-  D --> E["node app / 按 README"]
-\`\`\`
-
-模拟「已在仓库根」时的版本检查：
-
-\`\`\`shell
-{"preset":"first-run"}
-\`\`\`
+- **浅克隆** \`--depth=1\`：体积小，适合先跑起来  
+- clone 后立刻：\`pwd\` 在根、\`git remote -v\`、\`node -v\` 对齐 engines  
 
 ---
 
-## 4. 和「安装器」的差别
+## 3. clone ≠ 安装运行时
 
-| | Git clone | 安装 Node 的 MSI / pkg |
-|--|-----------|------------------------|
-| 产物 | 源码树 + 历史元数据 | 可执行运行时 |
-| 更新方式 | \`git pull\` / 重新 clone | 升级安装包或换版本管理器 |
-| 是否进 PATH | 一般否 | 通常是 |
+| | Git clone | Node 安装器 |
+|--|-----------|-------------|
+| 产物 | 源码树 + \`.git\` | 可执行 \`node\` |
+| 更新 | \`git pull\` | 换版本 / 安装包 |
+| PATH | 一般不改 | 通常写入 |
 
-两者都要：没有 Node，源码跑不动；没有工作区，\`pnpm install\` 没有对象。
+没有 Node，源码跑不动；没有工作区，\`pnpm install\` 没有对象。
 
 ## 下一步
 
-- 弄清远程平台差异 → **代码托管（GitHub / Gitee）**  
-- 工具链收束 → **首次跑通**
-## 导图2 · Git / 终端 × 工作区
-
-> 导图2 Git 区基础；本课钉工作区心智。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **Git** | 版本底盘 | 工作区≠远程；提交是快照 |
-| **终端命令行** | git 命令入口 | 也可用 GUI，概念相同 |
-| **环境变量** | 代理影响 clone | 境外托管常要代理约定 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**代码托管** · **首次跑通**
 `;

@@ -5,19 +5,16 @@ export default `# 过关练习 · 编程基础
 
 ## 学会之后（验收）
 
-
-\`\`\`decide
-{"title":"卡关了去哪补？","start":"start","steps":[{"id":"start","q":"缺哪块？","options":[{"label":"hello 都跑不过","next":"first"},{"label":"函数/模块搞不清","next":"fn"},{"label":"报错看不懂","next":"err"},{"label":"JSON/YAML 总炸","next":"data"}]},{"id":"first","result":"回「第一个程序」+ node-hello 沙箱。","detail":"先文件后框架。"},{"id":"fn","result":"函数 → 模块课。","detail":"过关清单里对应项。"},{"id":"err","result":"读懂报错。","detail":"贴完整堆栈。"},{"id":"data","result":"JSON / YAML 课。","detail":"先合法再谈业务字段。"}]}
-\`\`\`
-
-
 | 能力 | 成功信号 |
 |------|----------|
-| 过关 | 能独立完成检查点练习 |
-| 综合 | 模块+异步+读错串起来 |
-| 下一步 | 可进第二章版图或最小贡献路径 |
-| 跟 Agent | 教练模式过关，不要直接要答案 |
+| 过关 | 通关表 8 项能独立勾完 |
+| 综合 | 模块 + 异步 + 读错串起来 |
+| 下一步 | 能说明：进第二章看版图，或进第四章最小贡献 |
+| 跟 Agent | 教练模式；不要直接要答案 |
 
+\`\`\`decide
+{"title":"卡关了去哪补？","start":"start","steps":[{"id":"start","q":"缺哪块？","options":[{"label":"hello 都跑不过","next":"first"},{"label":"类型 / === / 分支搞不清","next":"basics"},{"label":"函数/模块搞不清","next":"fn"},{"label":"异步 / 报错看不懂","next":"err"},{"label":"JSON/YAML 总炸","next":"data"}]},{"id":"first","result":"回「第一个程序」+ node-hello 沙箱。","detail":"先文件后框架。"},{"id":"basics","result":"值与类型 → 控制流。","detail":"钉死 ===、Array.isArray、if / for...of。"},{"id":"fn","result":"函数 → 对象与数组 → 模块。","detail":"过关清单里对应项。"},{"id":"err","result":"异步 → 读懂报错。","detail":"贴完整堆栈。"},{"id":"data","result":"JSON / YAML 课。","detail":"先合法再谈业务字段。"}]}
+\`\`\`
 
 ## 通关表
 
@@ -75,19 +72,14 @@ console.log(sum(nums), max(nums))
 
 提问地图：番外 **Vibe Coding 心智**。
 
-## 出框
+## 出框（勾完再选路）
 
-- **第二章** — 语言/框架版图  
-- **第四章 · 最小贡献路径** — 只学写插件所需节点  
-- 若环境仍不稳 — 回第一章 **分层排障**
-## 导图2 · JavaScript / Vibe Coding × 过关
+| 去向 | 何时选 | 先点哪 |
+|------|--------|--------|
+| **第二章 · 什么是语言** | 想搞清「语言 / 运行时 / 框架」观光版图 | \`lang-what-is-language\`（边：**再看语言版图**） |
+| **第四章 · 最小贡献路径** | 急着往本仓写插件 | \`xrk-min-path\` |
+| **番外 · 复杂度** | 想走面试算法轨 | \`dsa-complexity\` |
+| 环境仍不稳 | hello / PATH 还抖 | 回第一章 **分层排障** |
 
-> 01.5 收束；词表不能替代过关。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **JavaScript** | 主修验收 | 亲手跑通 |
-| **Vibe Coding** | 可当教练 | Accept 前你要会 |
-| **Git** | 过关后小步提交 | 可回滚 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
+**别跳**：没勾完过关表就去背 Vue / Spring 名字——第二章是观光，01.5 才是主修动手。
 `;

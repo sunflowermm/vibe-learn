@@ -6,12 +6,6 @@ export default `# HTTPS 与 DNS
 
 ## 学会之后（验收）
 
-
-\`\`\`reveal
-{"title":"证书不对会炸成这样","prompt":"先认报错，再点开分层","tone":"warn","face":"curl: (60) SSL certificate problem: unable to get local issuer certificate","body":"这是 TLS/证书链问题，不是「HTTP 写错了」。先对时间、系统根证书、是否被中间人代理；开发临时跳过校验只能当实验室手段，不能当生产习惯。"}
-\`\`\`
-
-
 | 能力 | 成功信号 |
 |------|----------|
 | DNS | 名字 → IP；懂 TTL 与缓存「改了还不生效」 |
@@ -20,6 +14,9 @@ export default `# HTTPS 与 DNS
 | SNI | 一 IP 多站时靠名字选证书 |
 | 跟 Agent | 证书/解析问题贴域名、错误原文、是否 CDN 橙云 |
 
+\`\`\`reveal
+{"title":"证书不对会炸成这样","prompt":"先认报错，再点开分层","tone":"warn","face":"curl: (60) SSL certificate problem: unable to get local issuer certificate","body":"这是 TLS/证书链问题，不是「HTTP 写错了」。先对时间、系统根证书、是否被中间人代理；开发临时跳过校验只能当实验室手段，不能当生产习惯。"}
+\`\`\`
 
 ## 知识串（接在哪）
 
@@ -31,19 +28,28 @@ export default `# HTTPS 与 DNS
 
 记忆钩：**先问清门牌（DNS），再加密说话（HTTPS）。**
 
+\`\`\`algo
+{"title":"DNS 解析：名字 → IP","kind":"dnsresolve","speed":480,"caption":"有缓存会跳步；改解析不立刻生效先查 TTL","data":{"qname":"api.example.com","answer":"203.0.113.10"}}
+\`\`\`
+
+对照 [Cloudflare Learning · What is DNS](https://www.cloudflare.com/learning/dns/what-is-dns/)：stub → 递归解析器 → 根 → TLD → 权威。
+
 ---
 
 ## 1. HTTPS：加密的 HTTP
-
-\`\`\`match
-{"title":"DNS / HTTPS 配对","caption":"点左再点右","pairs":[{"id":"dns","left":"DNS","right":"域名 → IP（电话簿）"},{"id":"https","left":"HTTPS","right":"TLS 之上的 HTTP（加密信道）"},{"id":"cert","left":"证书","right":"帮浏览器确认「对面是谁」"},{"id":"sni","left":"SNI（常见考点）","right":"同 IP 多站点时告诉服务器要哪个主机名"}]}
-\`\`\`
 
 | | HTTP | HTTPS |
 |--|------|-------|
 | 传输 | 常为明文 | 经 **TLS**（旧称 SSL）加密 |
 | 风险 | 易被窃听、篡改 | 机密性、完整性更好 |
 | 地址 | \`http://\` | \`https://\`（常伴小锁） |
+
+| 词 | 白话 |
+|----|------|
+| **DNS** | 域名 → IP（电话簿） |
+| **HTTPS** | TLS 之上的 HTTP |
+| **证书** | 帮浏览器确认「对面是谁」 |
+| **SNI** | 同 IP 多站点时告诉服务器要哪个主机名 |
 
 入门记法：**HTTPS ≈ HTTP + TLS（加密通道）**。
 
@@ -173,15 +179,4 @@ sequenceDiagram
 ## 下一步
 
 **HTTP 与 Web** 看请求方法与状态码；**反向代理** 常在入口做 TLS 终止；**边缘实务** 把 DNS 污染症状、CF 橙云与出口对照起来；番外 **Clash** 也会插手 DNS/选路。
-## 导图2 · DNS / HTTPS / 域名 × 名字与加密
-
-> 导图2 后端区与本课高度同构——适合对照定义。  
-> **TTL、证书链、SNI 排障以本课为准**；不要用「开了 HTTPS」一句带过。
-
-| 导图2 | Vibe 口语 | 本课专业落点 |
-|-------|-----------|--------------|
-| **域名** | 站点身份 | 证书 CN/SAN 必须盖住你访问的名字 |
-| **DNS** | 名字找 IP | A/AAAA/CNAME；TTL 导致变更延迟 |
-| **HTTPS** | 小锁 | TLS 握手 + 证书校验；之上仍是 HTTP 语义 |
-短表只对齐口语；定义走面板「跨导图」或自动附录。验收与禁区仍以本课为准。
 `;

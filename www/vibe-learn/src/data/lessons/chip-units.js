@@ -58,8 +58,8 @@ flowchart LR
 
 越靠近 CPU：**越快、越小、越贵**；越靠外：**越慢、越大、越便宜**。
 
-\`\`\`steps
-{"title":"离 CPU 由近到远","steps":[{"title":"寄存器","body":"CPU 内临时槽位，最快。"},{"title":"Cache","body":"CPU 旁高速缓冲。"},{"title":"内存 RAM","body":"运行中主工作区；断电丢失。"},{"title":"磁盘 SSD/HDD","body":"持久化；慢但大。"}]}
+\`\`\`algo
+{"title":"存储层次由近到远","kind":"memhier","speed":480,"caption":"点亮每一层：延迟与容量此消彼长——这就是「存储墙」体感来源。"}
 \`\`\`
 
 | 层次 | 典型角色 | 速度量级（直觉） |

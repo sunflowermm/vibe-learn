@@ -3,8 +3,8 @@ export default `# HTTP 与 www
 > 第三章的 HTTP / 反代 / 前后端，在本仓库落成两件事：  
 > **接口**（\`core/*/http\`）与 **页面**（\`core/*/www/<应用>\`）。  
 > **Vue / React / Angular / Next** 等前端框架，都是走 **www** 进项目——不是另起一门「框架语言」，也不是写进主服 \`src/\`。  
-> 导图2：**HTTP · HTTPS · 前端 · 路由与端点**——本课给本仓挂载与响应形状。  
-> **学会之后**：能说明 http/ 与 www 规则，能用前端/路由/HTTP 名词对上目录，并按 HttpResponse 拍平解包。
+> 真源：\`docs/www-mount.md\` · \`docs/http-api.md\`；解包语义见 skill \`xrk-www-compat\`。  
+> **学会之后**：能说明 http/ 与 www 规则，并按 HttpResponse 拍平解包（勿默认 \`json.data\`）。
 
 ## 学会之后（验收）
 
@@ -16,11 +16,11 @@ export default `# HTTP 与 www
 | 解包 | success 对象拍平；勿默认 json.data |
 | 兼容 | www 内联 web-compat 语义 |
 
-## 本课你要带走什么
-\`\`\`flip
-{"title":"HTTP / www 翻卡","cards":[{"front":"HttpResponse.success","back":"对象字段拍平；数组进 data"},{"front":"www 挂载","back":"/<应用名>，根名有保留段"},{"front":"浏览器 ≠ Node 26","back":"www 用 web-compat / 内联兼容"}]}
+\`\`\`algo
+{"kind":"xrklayers","title":"HTTP/www 落在 Core 暴露面","autoplay":true,"speed":850,"data":{"mode":"http"}}
 \`\`\`
 
+## 本课你要带走什么
 
 1. **什么场景用纯静态、什么场景用 Vite SPA、什么场景必须反代 SSR**  
 2. \`sign.json\` 两种模式怎么选、\`base\` 为什么必须对齐  
@@ -164,7 +164,16 @@ core/<Core名>/www/<应用名>/
 | \`/api/*\` 鉴权 | 默认 \`systemAuth\`；公开设 \`systemAuth: false\` |
 | 前端解包 | 有 \`data\` 用 \`data\`；否则去掉 \`success\`/\`message\` 读剩余字段 |
 
-写死 \`json.data.xxx\` 会在对象成功响应上取空——这是 www 联调最常见坑。  
+写死 \`json.data.xxx\` 会在对象成功响应上取空——这是 www 联调最常见坑。
+
+\`\`\`algo
+{"kind":"httpresp","title":"对象成功 · 字段拍平","autoplay":true,"speed":900,"data":{"mode":"object"}}
+\`\`\`
+
+\`\`\`algo
+{"kind":"httpresp","title":"数组成功 · 进 data","autoplay":false,"speed":900,"data":{"mode":"array"}}
+\`\`\`
+
 动手：**实践 · 最小 HTTP**。
 
 ---
@@ -178,26 +187,10 @@ core/<Core名>/www/<应用名>/
 | 框架和语言关系 | 框架宿主是 JS；产物仍是 HTML/CSS/JS |
 | 后端 Spring 能挂 www 吗 | 不；www 是浏览器前端；Spring 走 jserver |
 
----
-
-## 导图2 · HTTP / 前端 / 路由 × 本仓挂载
-
-> 导图2 HTTP/前端/路由口语；本课钉 **HttpApi + www 挂载契约**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **HTTP / HTTPS** | 应用层说话 / 加密传输 | \`core/*/http\` 提供 API；上线常反代+TLS（第三章/主机 TLS） |
-| **路由与端点** | URL 路径对应能力 | HttpApi 注册路径；\`/api/\` 默认走 Auth 课门禁 |
-| **前端（Frontend）** | 浏览器里的 UI | \`core/*/www/<应用>/\` → 静态挂 \`/<应用>\`；宿主仍是 JS |
-
-\`\`\`flip
-{"title":"HTTP×www","cards":[{"front":"前端框架是语言？","back":"否；宿主 JS；产物 HTML/CSS/JS。"},{"front":"接口返回一定有 data？","back":"HttpResponse：对象拍平；数组才进 data。"},{"front":"www 能写进 src/？","back":"否；违反 Core 边界。"}]}
-\`\`\`
-
-## 7. 下一步
+## 下一步
 
 **Vue** / **React** / **Angular** / **Next.js**（框架场景与特性）  
 **JavaScript** / **HTML/CSS**（产物语言）  
-**AgentRuntime** · **配置归属** · **Stream** · **子服务端**  
-权威文档：\`docs/www-mount.md\`
+**AgentRuntime** · **配置归属** · **工作流** · **子服务端** · **Auth**  
+权威文档：\`docs/www-mount.md\` · \`docs/http-api.md\`
 `;

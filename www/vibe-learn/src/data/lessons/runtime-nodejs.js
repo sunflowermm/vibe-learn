@@ -50,11 +50,20 @@ flowchart LR
 
 本仓库 \`package.json\` 声明 \`engines.node >= 26\`。版本过低会导致语法与依赖不兼容。
 
+对照 [Node.js Release 日程](https://github.com/nodejs/Release#release-schedule)（2026-08 口径）：
+
+| 线 | 状态（约） | 对本仓含义 |
+|----|------------|------------|
+| **26.x** | **Current**（预计 2026-10 进 Active LTS） | 本仓目标线；可用最新语言特性 |
+| **24.x** | Active LTS（Krypton） | 生产常见；**低于 engines 时本仓不保证** |
+| **22.x** | Maintenance LTS | 仅维护；勿当本仓开发机 |
+
 | 概念 | 含义 |
 |------|------|
-| **LTS / Current** | 长期支持线与新特性线 |
-| **\`engines\`** | 项目声明的兼容版本契约 |
-| **PATH 上的 \`node\`** | Shell 实际调用的那一套安装 |
+| **Current** | 新特性线；每半年一条偶数大版本，约半年后进 LTS |
+| **Active / Maintenance LTS** | 生产推荐 / 仅修关键与安全 |
+| **\`engines\`** | 项目声明的兼容版本契约——**以仓库为准，不以「网上流行 LTS」为准** |
+| **PATH 上的 \`node\`** | Shell 实际调用的那一套安装（多版本时顺序决定胜负） |
 
 \`\`\`env
 {"title":"核对 Node 版本 · 按壳","caption":"本仓 engines：node ≥ 26。找不到命令 → 安装器与 PATH。","default":"gitbash","tabs":[{"id":"gitbash","label":"Git Bash","os":"Windows","shell":"bash","lines":["node -v","which node"]},{"id":"pwsh","label":"PowerShell","os":"Windows","shell":"pwsh","lines":["node -v","Get-Command node"]},{"id":"unix","label":"Linux / macOS","os":"Unix","shell":"bash/zsh","lines":["node -v","which node"]}]}

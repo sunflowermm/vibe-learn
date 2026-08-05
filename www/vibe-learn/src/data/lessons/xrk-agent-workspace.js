@@ -2,8 +2,7 @@ export default `# 办事助手 · Agent 工作区
 
 > 群聊 / 控制台里的**对话 Agent**靠工作区文件注入 system——不是靠改 \`src/agent-runtime.js\`。  
 > 真源：\`docs/agents.md\` · 种子 \`agents/\` · 运行时 \`data/ai-workspace/{id}/\` · 注入 \`agent-workspace.js\`。  
-> 导图2 的 **AI Agent · 上下文工程 · Skill · Vibe Coding** 描述「怎么跟模型协作」；本课钉**文件进 system 的路径**。  
-> **学会之后**：能说明种子与注入关系、两张工牌，并能把 Agent/Skill/上下文工程对上本仓目录。
+> **学会之后**：能说明种子与注入关系、两张工牌，并指出五段进 system 的路径。
 
 ## 学会之后（验收）
 
@@ -15,6 +14,9 @@ export default `# 办事助手 · Agent 工作区
 | 工牌 | 写代码 AGENTS ≠ 办事工作区 AGENTS |
 | 文档 | docs/agents.md |
 
+\`\`\`algo
+{"kind":"wsfive","title":"五段叠进 system（老师演示）","autoplay":true,"speed":820}
+\`\`\`
 
 ## 设计巧思：两张工牌
 
@@ -29,10 +31,6 @@ export default `# 办事助手 · Agent 工作区
 | **前台办事手册** | 群聊/stdin 办事模型 | \`data/ai-workspace/{id}/AGENTS.md\` · \`agents/skills/standard/**\` |
 
 戴错工牌：要么 Agent 改坏 Runtime，要么开发助手满嘴「帮你订外卖」却不懂放码。
-
-\`\`\`steps
-{"title":"注入五段（进 system）","steps":[{"title":"assistant","body":"AGENTS / SOUL / USER / memory…"},{"title":"contextFiles","body":"额外上下文文件"},{"title":"rules","body":"agents/rules ∪ 工作区 rules/（同路径覆盖）"},{"title":"Skills","body":"目录卡；细则 tools.read；装技能见 agent-skillhub"},{"title":"Agents","body":"subagents 清单（提示路由）"}]}
-\`\`\`
 
 另：**microagents**（\`agents/microagents\` 等，带 triggers）命中用户话时可整段注入。  
 顺序与契约见 \`docs/agent-context.md\` —— 与第五章「规则 / 技能 / AGENTS」概念同构，本课给**路径**。
@@ -49,10 +47,6 @@ export default `# 办事助手 · Agent 工作区
 | **第五章 ai-skills / ai-rules / ai-agents-md** | 概念；本课是本仓落点 |
 | **番外 · Vibe Coding** | 开发机提问模板 ≠ 办事助手人设 |
 | **配置归属** | \`agentWorkspace\` 属框架 ai-workflow，不是产品业务 yaml |
-
-\`\`\`flip
-{"title":"舞台翻卡","cards":[{"front":"改办事语气","back":"改工作区 AGENTS/SOUL，不是根 AGENTS"},{"front":"改放码约定","back":"根 AGENTS / xrk-* skill"},{"front":"技能太胖","back":"目录注入 + 按需 read，勿全文常驻"},{"front":"subagents.yaml","back":"提示路由清单；勿默认当成已启隔离进程池"},{"front":"/recipe","back":"配方种子 agents/recipes；须已触发助手"}]}
-\`\`\`
 
 ---
 
@@ -123,21 +117,6 @@ flowchart LR
 ## 文档
 
 \`docs/agents.md\` · \`docs/agent-context.md\` · \`agents/README.md\` · 技能 \`agent-tools\` · 第五章 **AGENTS.md / 技能 / 规则 / 提示安全**。
-
-## 导图2 · Agent / Skill / 上下文工程 × 两张工牌
-
-> 导图2 Agent/Skill/上下文口语；本课钉 **写代码 vs 办事助手两张工牌**。
-
-| 导图2 | Vibe 口语 | 本仓专业落点 |
-|-------|-----------|--------------|
-| **AI Agent** | 多步用工具完成目标的模型侧角色 | 群聊/stdin **办事助手**读工作区；Cursor **写代码**读根 AGENTS——不是同一个 Agent |
-| **上下文工程** | 精心挑选塞进窗口的内容 | 五段注入（AGENTS/SOUL/rules/Skills…）+ 对话管线出站压缩 |
-| **Skill** | 长流程、按需加载 | \`agents/skills/**\` 与 Cursor \`.cursor/skills\`；细则 tools.read |
-| **Vibe Coding** | 对话驱动试想法 | 改工作区文稿可用五拍；**勿**把施工队禁区写进办事手册或相反 |
-
-\`\`\`flip
-{"title":"工牌 × 词表","cards":[{"front":"Skill 写进 Always Rule？","back":"反模式；浪费窗口。Skill 按需，Rules 短约束。"},{"front":"一个 AGENTS.md 打天下？","back":"两张工牌：写代码 vs 办事注入，事实可对齐但读者不同。"},{"front":"上下文工程=越长越好？","back":"否；管线要压缩/裁窗，见对话管线课。"}]}
-\`\`\`
 
 ## 下一步
 
