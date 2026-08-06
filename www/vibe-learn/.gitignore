@@ -11,3 +11,4 @@ scripts/_tmp-*
 src/data/quiz/outlines/
 
 .pages-stage/
+.pages-dist/

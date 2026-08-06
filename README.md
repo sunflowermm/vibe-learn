@@ -4,7 +4,8 @@
 
 ## 访问
 
-主服路径：`/vibe-learn/`（`sign.json`：静态 `dist`；开发见包内脚本）。
+主服路径：`/vibe-learn/`（`sign.json`：静态 `dist`；开发见包内脚本）。  
+公开静态站：本仓 `gh-pages` → https://sunflowermm.github.io/vibe-learn-Core/（`www/vibe-learn` 内 `pnpm deploy:pages`）。
 
 ## 知识体系（怎么读）
 

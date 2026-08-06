@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy:pages": "vite build && node tools/deploy-github-pages.mjs",
+    "deploy:pages": "node tools/deploy-github-pages.mjs",
     "preview": "vite preview --port 5188 --strictPort --host 127.0.0.1",
     "static": "vite build",
     "quiz:dump": "node scripts/migrate-quiz-dump.mjs",
