@@ -134,7 +134,7 @@ flowchart TB
 | 契约 | \`docs/agent-context.md\` §5 |
 
 \`\`\`quiz
-{"title":"智能体与控制循环","questions":[{"q":"推理与行动交替相对固定工作流，关键差别是？","choices":[{"t":"模型在回路里动态选择下一步工具","ok":true,"why":"控制权在模型侧（在预算与权限内）。"},{"t":"一定不再使用工具调用协议","ok":false,"why":"现代实现正是用工具调用承载行动。"},{"t":"必须先画成有向无环图","ok":false,"why":"那是图编排；下一课。"}]},{"q":"本仓禁止的实现是？","choices":[{"t":"结构化 tool_calls + 运行时执行","ok":false,"why":"这是正道。"},{"t":"用正则解析正文里的 Thought/Action 假协议","ok":true,"why":"脆且难鉴权；见 ai-workflow。"},{"t":"设置 maxToolRounds","ok":false,"why":"这是预算，必须有。"}]}]}
+{"title":"智能体与控制循环","questions":[{"q":"推理与行动交替相对固定工作流，关键差别是？","choices":[{"t":"模型在回路里动态选择下一步工具","ok":true,"why":"控制权在模型侧（在预算与权限内）。"},{"t":"一定不再使用工具调用协议","ok":false,"why":"现代实现正是用工具调用承载行动。"},{"t":"必须先画成有向无环图","ok":false,"why":"那是图编排；下一课。"}]},{"q":"本仓对话路径里禁止的工具实现方式是什么？","choices":[{"t":"结构化 tool_calls + 运行时执行","ok":false,"why":"这是正道。"},{"t":"用正则解析正文里的 Thought/Action 假协议","ok":true,"why":"脆且难鉴权；见 ai-workflow。"},{"t":"设置 maxToolRounds","ok":false,"why":"这是预算，必须有。"}]}]}
 \`\`\`
 
 ## 下一课

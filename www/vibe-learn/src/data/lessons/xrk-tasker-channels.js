@@ -66,7 +66,7 @@ flowchart LR
 \`\`\`
 
 \`\`\`quiz
-{"title":"Tasker 快测","questions":[{"q":"tasker/ 主要解决什么？","choices":[{"t":"数据库 ORM","ok":false,"why":"数据层另线。"},{"t":"把各通道协议适配进统一运行时","ok":true,"why":"收发室，不是柜员。"},{"t":"只负责画前端图表","ok":false,"why":"www 的活。"},{"t":"替代 AiWorkflow 调模型","ok":false,"why":"模型在 Factory/workflow。"}]},{"q":"e.bot 与裸名 AgentRuntime？","choices":[{"t":"e.bot 回本通道消息；AgentRuntime 做编排/子服/HTTP","ok":true,"why":"runtime-surface 硬区分。"},{"t":"二者永远是同一个对象","ok":false,"why":"账号实例 ≠ 全局 Runtime。"},{"t":"业务必须 import AgentRuntime","ok":false,"why":"裸名；勿 new。"},{"t":"e.bot 只能用来调 MCP","ok":false,"why":"MCP 走工作流工具面。"}]}]}
+{"title":"Tasker 快测","questions":[{"q":"tasker/ 目录主要解决什么问题？","choices":[{"t":"数据库 ORM","ok":false,"why":"数据层另线。"},{"t":"把各通道协议适配进统一运行时","ok":true,"why":"收发室，不是柜员。"},{"t":"只负责画前端图表","ok":false,"why":"www 的活。"},{"t":"替代 AiWorkflow 调模型","ok":false,"why":"模型在 Factory/workflow。"}]},{"q":"e.bot 与裸名 AgentRuntime？","choices":[{"t":"e.bot 回本通道消息；AgentRuntime 做编排/子服/HTTP","ok":true,"why":"runtime-surface 硬区分。"},{"t":"二者永远是同一个对象，可以互相随意替换调用","ok":false,"why":"账号实例 ≠ 全局 Runtime。"},{"t":"业务必须 import AgentRuntime，禁止使用裸名全局","ok":false,"why":"裸名；勿 new。"},{"t":"e.bot 只能用来调 MCP，不能回本通道消息","ok":false,"why":"MCP 走工作流工具面。"}]}]}
 \`\`\`
 
 ---

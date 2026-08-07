@@ -42,22 +42,22 @@ export default defineQuizSet({
       q: '项目交底优先维护？',
       choices: [
         {
-          t: 'AGENTS.md',
+          t: "AGENTS.md / skills 等版本化文件，事实对齐",
           ok: true,
           why: '可移植、可 PR；不写密钥。',
         },
         {
-          t: '互相矛盾的两套说明书',
+          t: '互相矛盾的两套说明书，让模型自己挑着用',
           ok: false,
           why: '模型行为会不可预测。',
         },
         {
-          t: '生产密码写进 AGENTS.md',
+          t: '生产密码写进 AGENTS.md，方便助手直连线上',
           ok: false,
           why: '机密走环境/密文，不进交底文稿。',
         },
         {
-          t: '只放 IDE 本地，仓库不需要',
+          t: '只放 IDE 本地缓存，仓库与 CI 都不需要交底',
           ok: false,
           why: '应进仓共享，否则同事与 CI 无交底。',
         },

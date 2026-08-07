@@ -62,7 +62,7 @@ sequenceDiagram
 \`\`\`
 
 \`\`\`quiz
-{"title":"挂载时机","questions":[{"q":"业务代码何时才能稳定读 runtimeConfig？","choices":[{"t":"CommonConfigRegistry.load() 完成并挂全局之后","ok":true,"why":"配置阶段完成前应用 ConfigBase/默认模板，勿假设已就绪。"},{"t":"一 import app.js 的瞬间，任何行都能读","ok":false,"why":"Loader 有先后；配置在后段才挂上。"},{"t":"只能在浏览器里读 runtimeConfig","ok":false,"why":"这是服务端单例。"},{"t":"永远不能读，只能硬编码","ok":false,"why":"就绪后正常 import runtimeConfig。"}]}]}
+{"title":"挂载时机","questions":[{"q":"业务代码何时才能稳定读 runtimeConfig？","choices":[{"t":"CommonConfigRegistry.load() 完成并挂全局之后","ok":true,"why":"配置阶段完成前应用 ConfigBase/默认模板，勿假设已就绪。"},{"t":"一 import app.js 的瞬间，任意模块顶层行都能读到齐全配置","ok":false,"why":"Loader 有先后；配置在后段才挂上。"},{"t":"runtimeConfig 只能在浏览器 www 里读取，服务端禁止","ok":false,"why":"这是服务端单例。"},{"t":"业务侧永远禁止读配置，端口密钥只能硬编码进模块","ok":false,"why":"就绪后正常 import runtimeConfig。"}]}]}
 \`\`\`
 
 ---

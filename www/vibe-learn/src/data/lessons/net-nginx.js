@@ -137,7 +137,7 @@ server {
 \`\`\`
 
 \`\`\`quiz
-{"title":"Nginx","questions":[{"q":"本仓上线后，业务插件代码应写在哪？","choices":[{"t":"写进 nginx.conf 当脚本","ok":false,"why":"Nginx 是门面，不是业务运行时。"},{"t":"仍在 Node 主服 / Core；Nginx 只反代或挂静态","ok":true,"why":"分层：入口 vs 业务。"},{"t":"必须放进 Docker 镜像才算 Nginx","ok":false,"why":"Nginx 与容器可组合可分离。"}]},{"q":"浏览器 502，优先怀疑？","choices":[{"t":"换一个更大的 LLM 模型","ok":false,"why":"与网关上游无关。"},{"t":"上游业务进程没起来或端口配错","ok":true,"why":"502 常见于反代连不上后端。"},{"t":"一定是 DNS 没配","ok":false,"why":"DNS 错更常是连错主机或无法解析。"}]},{"q":"官方文档里多后端怎么分组？","choices":[{"t":"upstream 块 + proxy_pass 指向组名","ok":true,"why":"load balancing 指南的标准写法。"},{"t":"只能写进 HTML","ok":false,"why":"与 Nginx 配置无关。"},{"t":"必须改客户端 Hosts","ok":false,"why":"分流在门面完成。"}]}]}
+{"title":"Nginx","questions":[{"q":"本仓上线后，业务插件代码应写在哪个目录？","choices":[{"t":"写进 nginx.conf 当脚本","ok":false,"why":"Nginx 是门面，不是业务运行时。"},{"t":"仍在 Node 主服 / Core；Nginx 只反代或挂静态","ok":true,"why":"分层：入口 vs 业务。"},{"t":"必须放进 Docker 镜像才算 Nginx","ok":false,"why":"Nginx 与容器可组合可分离。"}]},{"q":"浏览器报 502 时，反代场景优先怀疑什么？","choices":[{"t":"换一个更大的 LLM 模型","ok":false,"why":"与网关上游无关。"},{"t":"上游业务进程没起来或端口配错","ok":true,"why":"502 常见于反代连不上后端。"},{"t":"一定是 DNS 没配","ok":false,"why":"DNS 错更常是连错主机或无法解析。"}]},{"q":"Nginx 官方文档里多后端通常怎么分组？","choices":[{"t":"upstream 块 + proxy_pass 指向组名","ok":true,"why":"load balancing 指南的标准写法。"},{"t":"只能写进 HTML","ok":false,"why":"与 Nginx 配置无关。"},{"t":"必须改客户端 Hosts","ok":false,"why":"分流在门面完成。"}]}]}
 \`\`\`
 
 ## Coding Agent

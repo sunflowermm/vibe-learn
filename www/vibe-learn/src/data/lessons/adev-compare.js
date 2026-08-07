@@ -59,7 +59,7 @@ Coding Agent ≈ 三件套（Cursor 官方表述同构）：
 | **开源 Harness** | 自选模型 + 可自托管 | OpenCode（MIT）、Qwen Code（Apache-2.0） | 多模型、本地/合规、嫌厂商锁 |
 
 \`\`\`quiz
-{"title":"形态","questions":[{"q":"只有 SSH、没有桌面 IDE 时？","choices":[{"t":"必须装 Trae 桌面","ok":false,"why":"纯 SSH 用 CLI。"},{"t":"Agent CLI（claude / codex / opencode / qwen…）","ok":true,"why":"终端即主场。"},{"t":"只要编辑器补全插件","ok":false,"why":"补全不是完整施工面。"}]}]}
+{"title":"形态","questions":[{"q":"只有 SSH、没有桌面 IDE 时更适合用什么？","choices":[{"t":"必须装 Trae 桌面","ok":false,"why":"纯 SSH 用 CLI。"},{"t":"Agent CLI（claude / codex / opencode / qwen…）","ok":true,"why":"终端即主场。"},{"t":"只要编辑器补全插件","ok":false,"why":"补全不是完整施工面。"}]}]}
 \`\`\`
 
 ---

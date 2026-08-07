@@ -42,7 +42,7 @@ export default defineQuizSet({
       q: 'Node 不满足 engines 时？',
       choices: [
         {
-          t: '新语法/API 不可用或告警',
+          t: "新语法/API 不可用或告警——升级到文档要求版本",
           ok: true,
           why: '本仓面向较新 Node（Current/LTS 要求见 package）。',
         },
@@ -96,22 +96,22 @@ export default defineQuizSet({
       q: '公网访问与反代的常见结构？',
       choices: [
         {
-          t: '公网 443 → Nginx',
+          t: "公网 443 → Nginx 等 → 本机 Node 端口；证书挂在入口",
           ok: true,
           why: '部署环境课与 nginx 课同一模式。',
         },
         {
-          t: '反代可以替代数据库',
+          t: "有反向代理就不必再谈 TLS：证书可以永远挂在浏览器本地",
           ok: false,
           why: '反代管入口；库管持久化，职责不同。',
         },
         {
-          t: '有反代就不必再谈 TLS',
+          t: "反向代理可以完全替代数据库与对象存储，业务只写 conf 即可",
           ok: false,
           why: 'TLS 常在反代终止，仍要正确配证书。',
         },
         {
-          t: '反代只用于静态博客',
+          t: "反向代理只适用于静态博客，动态 API 必须让公网直连 Node 端口",
           ok: false,
           why: 'API 与 www 挂载都常用反代。',
         },
@@ -123,22 +123,22 @@ export default defineQuizSet({
       q: '出网拉依赖或调模型 API 失败，环境层先查？',
       choices: [
         {
-          t: 'HTTP(S)_PROXY',
+          t: "HTTP(S)_PROXY / ALL_PROXY 与 NO_PROXY，再查业务 yaml 里的代理字段",
           ok: true,
           why: '境外源与模型 API 常卡在代理；先环境后业务。',
         },
         {
-          t: '先重写 src/infrastructure',
-          ok: false,
-          why: '越界且常不对症。',
-        },
-        {
-          t: '长期关闭 TLS 证书校验当解法',
+          t: '长期关闭 TLS 证书校验当解法，并把它提交进默认配置模板方便全员复用',
           ok: false,
           why: '掩盖中间人风险，不是正经排障。',
         },
         {
-          t: '删除 PATH 让系统重装网络栈',
+          t: '先重写 src/infrastructure 网络栈与 fetch 封装，再回头看代理环境变量',
+          ok: false,
+          why: '越界且常不对症。',
+        },
+        {
+          t: '删除 PATH 让系统重装网络栈，期望代理与 DNS 问题随之自动消失',
           ok: false,
           why: 'PATH 管命令搜索，删了只会更糟。',
         },

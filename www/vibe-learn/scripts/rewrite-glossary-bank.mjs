@@ -133,23 +133,52 @@ function definitionBody(brief, term) {
 
 /**
  * @param {string} brief
- * @param {number} max
+ * @param {number} max 按 Unicode 码点计
  */
 function clipBrief(brief, max = 140) {
   const s = String(brief || '')
     .replace(/\s+/g, ' ')
     .trim();
-  if (s.length <= max) return s;
-  const slice = s.slice(0, max);
-  const cut = Math.max(
+  const chars = [...s];
+  if (chars.length <= max) return s;
+
+  const slice = chars.slice(0, max).join('');
+  const minKeep = Math.floor(max * 0.35);
+
+  /** @param {number} idx @param {number} take */
+  const at = (idx, take = 1) => {
+    if (idx < minKeep) return null;
+    return `${slice.slice(0, idx + take).trim()}`;
+  };
+
+  // 强收束：句号/问叹/分号/英文句点+空格
+  const strongCands = [
     slice.lastIndexOf('。'),
+    slice.lastIndexOf('！'),
+    slice.lastIndexOf('？'),
     slice.lastIndexOf('；'),
-    slice.lastIndexOf('，')
-  );
-  if (cut > 40) {
-    const ch = slice[cut];
-    return `${slice.slice(0, cut + (ch === '。' || ch === '；' ? 1 : 0)).trim()}${ch === '，' ? '…' : ''}`;
+  ].filter((i) => i >= 0);
+  const dotSp = slice.lastIndexOf('. ');
+  if (dotSp >= 0) strongCands.push(dotSp);
+  const strong = strongCands.length ? Math.max(...strongCands) : -1;
+  if (strong >= minKeep) {
+    const take = slice.slice(strong, strong + 2) === '. ' ? 1 : 1;
+    const out = at(strong, take);
+    if (out) return out;
   }
+
+  // 勿把「学会之后」段砍半：整段丢掉更干净
+  const learn = slice.lastIndexOf('学会之后');
+  if (learn >= minKeep) return `${slice.slice(0, learn).trim()}…`;
+
+  // 空白分句（VibeHub 常用空格代替句号）
+  const sp = slice.lastIndexOf(' ');
+  if (sp >= Math.floor(max * 0.5)) return `${slice.slice(0, sp).trim()}…`;
+
+  // 逗号只作最后手段，且须靠近上限
+  const comma = Math.max(slice.lastIndexOf('，'), slice.lastIndexOf('、'));
+  if (comma >= Math.floor(max * 0.72)) return `${slice.slice(0, comma).trim()}…`;
+
   return `${slice.trim()}…`;
 }
 

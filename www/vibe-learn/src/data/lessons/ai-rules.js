@@ -70,7 +70,7 @@ export default `# 规则
 注入顺序与预算：\`docs/agent-context.md\` · 第四章 **办事助手**。
 
 \`\`\`quiz
-{"title":"规则","questions":[{"q":"超长部署步骤更适合？","choices":[{"t":"全部写进 always-on 规则","ok":false,"why":"会撑爆窗口并冲淡硬约束。"},{"t":"做成技能，用时再读","ok":true,"why":"渐进披露。"},{"t":"只改模型层数","ok":false,"why":"无关。"}]},{"q":"本仓办事助手默认读的规则目录是？","choices":[{"t":"agents/rules/（工作区 rules 为用户加法）","ok":true,"why":"共享护栏直接读 agents/rules。"},{"t":"只读仓库根 AGENTS.md，无独立 rules","ok":false,"why":"AGENTS 与 rules 分工。"},{"t":"必须把 .cursor/rules 全文拷进办事链","ok":false,"why":"Coding 舞台默认不进办事链。"}]}]}
+{"title":"规则","questions":[{"q":"超长部署步骤更适合放进 always-on 规则还是技能？","choices":[{"t":"全部写进 always-on 规则","ok":false,"why":"会撑爆窗口并冲淡硬约束。"},{"t":"做成技能，用时再读","ok":true,"why":"渐进披露。"},{"t":"只改模型层数","ok":false,"why":"无关。"}]},{"q":"本仓办事助手默认读取的规则目录是哪一个？","choices":[{"t":"agents/rules/（工作区 rules 为用户加法）","ok":true,"why":"共享护栏直接读 agents/rules。"},{"t":"只读仓库根 AGENTS.md，无独立 rules","ok":false,"why":"AGENTS 与 rules 分工。"},{"t":"必须把 .cursor/rules 全文拷进办事链","ok":false,"why":"Coding 舞台默认不进办事链。"}]}]}
 \`\`\`
 
 ## 下一课

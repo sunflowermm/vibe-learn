@@ -63,7 +63,7 @@ JOIN users ON notes.user_id = users.id;
 多表靠**外键/同值列**对齐；细节回 PostgreSQL / MySQL 产品课。
 
 \`\`\`quiz
-{"title":"SQL","questions":[{"q":"生产上执行 DELETE FROM users;（无 WHERE）？","choices":[{"t":"没事，只删一行","ok":false,"why":"无 WHERE 常删全表。"},{"t":"极危险，可能清空表","ok":true,"why":"过滤条件决定范围。"},{"t":"SQL 不允许无 WHERE 的 DELETE","ok":false,"why":"语法常允许。"}]},{"q":"防 SQL 注入首选？","choices":[{"t":"把输入里的引号替换掉就够","ok":false,"why":"黑名单脆弱。"},{"t":"参数化查询 / 绑定变量","ok":true,"why":"数据与语句结构分离。"},{"t":"只用前端校验","ok":false,"why":"可被绕过。"}]}]}
+{"title":"SQL","questions":[{"q":"生产上执行 DELETE FROM users;（无 WHERE）？","choices":[{"t":"没事，只删一行","ok":false,"why":"无 WHERE 常删全表。"},{"t":"极危险，可能清空表","ok":true,"why":"过滤条件决定范围。"},{"t":"SQL 不允许无 WHERE 的 DELETE","ok":false,"why":"语法常允许。"}]},{"q":"防止 SQL 注入时，首选做法是什么？","choices":[{"t":"把输入里的引号替换掉就够","ok":false,"why":"黑名单脆弱。"},{"t":"参数化查询 / 绑定变量","ok":true,"why":"数据与语句结构分离。"},{"t":"只用前端校验","ok":false,"why":"可被绕过。"}]}]}
 \`\`\`
 
 ## 接到本仓

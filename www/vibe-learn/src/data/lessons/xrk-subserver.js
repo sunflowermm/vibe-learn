@@ -54,7 +54,7 @@ sequenceDiagram
 
 ## Runtime 目录对照
 \`\`\`quiz
-{"title":"子服快测","questions":[{"q":"子服插件配置通常在哪编辑？","choices":[{"t":"只在子服终端里手改 yaml 当主源","ok":false,"why":"配置以主服编辑为准。"},{"t":"主服编辑；子服 load 只读","ok":true,"why":"见 subserver-commonconfig 约定。"},{"t":"写进浏览器 cookie","ok":false,"why":"无关。"}]}]}
+{"title":"子服快测","questions":[{"q":"子服插件的配置通常应在主服还是子服编辑？","choices":[{"t":"只在子服终端里手改 yaml 当主源","ok":false,"why":"配置以主服编辑为准。"},{"t":"主服编辑；子服 load 只读","ok":true,"why":"见 subserver-commonconfig 约定。"},{"t":"写进浏览器 cookie","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 

@@ -43,22 +43,22 @@ export default defineQuizSet({
       q: '路径 `/home/u/proj` 与 `./src` 的关键差别？',
       choices: [
         {
-          t: '前者常为绝对路径；后者相对当前工作目录',
+          t: "前者常为绝对路径；后者相对当前工作目录——cwd 一变，指向就变",
           ok: true,
           why: '文档/脚本写相对路径是「我这边能跑」的高频原因。',
         },
         {
-          t: '相对路径永远比绝对路径更安全且永不改变含义',
+          t: '相对路径永远比绝对路径更安全，换目录后含义也绝不改变',
           ok: false,
           why: '相对路径依赖 cwd，换目录就错。',
         },
         {
-          t: '绝对路径只能出现在 Windows',
+          t: '绝对路径只能出现在 Windows，Unix 系统没有绝对路径概念',
           ok: false,
           why: 'Unix 以 / 开头同样是绝对路径。',
         },
         {
-          t: '二者只是装饰，与文件系统无关',
+          t: '两种写法只是文案装饰，对文件系统定位没有任何影响',
           ok: false,
           why: '路径就是定位文件的方式。',
         },
@@ -71,22 +71,22 @@ export default defineQuizSet({
       q: '只对「这一条命令」临时注入变量、不改当前 shell 会话？',
       choices: [
         {
-          t: 'FOO=1 node app.js 或 env F',
+          t: 'FOO=1 node app.js 或 env FOO=1 node app.js',
           ok: true,
           why: '仅该子进程可见；关终端或开新会话不受影响。',
         },
         {
-          t: '必须先 unset -a 清空全部变量再启动',
+          t: '必须先 unset -a 清空全部变量再启动，否则无法注入单条',
           ok: false,
           why: '过猛，且不是「单条注入」的含义。',
         },
         {
-          t: '用 git -c 设置任意 OS 环境变量',
+          t: '用 git -c 设置任意 OS 环境变量，可替代 FOO=1 cmd',
           ok: false,
           why: 'git -c 只改 Git 配置，不是通用环境注入。',
         },
         {
-          t: 'docker unset 是标准写法',
+          t: 'docker unset 是标准写法，本机 shell 也应照此清空再跑',
           ok: false,
           why: '不是日常 shell 注入环境的方式。',
         },
@@ -127,24 +127,24 @@ export default defineQuizSet({
       q: 'CI 里放模型 API Key，较稳妥？',
       choices: [
         {
-          t: 'CI Secrets / 密文变量注入环境',
+          t: "CI Secrets / 密文变量注入环境，勿写进仓库 yaml 明文",
           ok: true,
           why: '与本地 .env 同一原则：密钥不进 Git。',
         },
         {
-          t: '写进 README 方便复制',
+          t: '用 commit message 明文传递密钥，打算合并后再轮换就算安全',
+          ok: false,
+          why: '进历史且难轮换。',
+        },
+        {
+          t: '写进 README 明文，方便各环境复制粘贴密钥',
           ok: false,
           why: '文档传播面大，必泄漏。',
         },
         {
-          t: '写进前端打包后的 JS',
+          t: '写进前端打包后的 JS，让浏览器也能读到同一密钥',
           ok: false,
           why: '浏览器可见。',
-        },
-        {
-          t: '用 commit message 传递',
-          ok: false,
-          why: '进历史且难轮换。',
         },
       ],
       relatedNodes: ['data-env', 'craft-ci', 'craft-security'],
@@ -183,22 +183,22 @@ export default defineQuizSet({
       q: 'NODE_ENV=production 的常见工程含义？',
       choices: [
         {
-          t: '框架/工具按生产模式优化或关掉开发中间件',
+          t: "框架/工具按生产模式优化或关掉开发中间件；密钥与日志级别仍要自己管",
           ok: true,
           why: '约定开关，不是魔法：不会自动给你无限 API 额度。',
         },
         {
-          t: '设置后自动获得无限云 API 额度',
+          t: '设置 NODE_ENV=production 后自动获得无限云 API 额度，与计费解耦',
           ok: false,
           why: '与计费无关。',
         },
         {
-          t: '等于关闭所有安全校验',
+          t: '等于关闭所有安全校验与鉴权，方便在生产环境直接压测',
           ok: false,
           why: '生产更应加强校验与鉴权。',
         },
         {
-          t: 'NODE_ENV 只能是整数',
+          t: 'NODE_ENV 只能是整数编码，写成 production 这类字符串一律非法',
           ok: false,
           why: '字符串约定，如 production / development。',
         },

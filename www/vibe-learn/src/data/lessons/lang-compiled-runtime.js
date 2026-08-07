@@ -99,7 +99,7 @@ flowchart TB
 | 浏览器 www | 另一套运行时（浏览器引擎）；与主服 Node **不要混 API** |
 
 \`\`\`quiz
-{"title":"编译与运行时","questions":[{"q":"本仓主服最贴近哪一类交付？","choices":[{"t":"纯 AOT：发布一个与 Node 无关的 exe","ok":false,"why":"主服默认依赖 Node 进程。"},{"t":"源码/构建产物 + 预装 Node 运行时","ok":true,"why":"pnpm install 后 node 执行。"},{"t":"只能在浏览器里跑","ok":false,"why":"主服是 Node；www 才是浏览器。"}]},{"q":"Go 子服与 Node 主服差异，更贴切的是？","choices":[{"t":"Go 一定更「高级」","ok":false,"why":"不是高级低级，是模型不同。"},{"t":"Go 常编译为二进制；Node 依赖已安装的运行时执行 JS","ok":true,"why":"翻译账单支付时机不同。"},{"t":"二者语法相同","ok":false,"why":"语言不同。"}]}]}
+{"title":"编译与运行时","questions":[{"q":"本仓主服最贴近哪一类语言/运行时交付形态？","choices":[{"t":"纯 AOT：发布一个与 Node 无关的 exe","ok":false,"why":"主服默认依赖 Node 进程。"},{"t":"源码/构建产物 + 预装 Node 运行时","ok":true,"why":"pnpm install 后 node 执行。"},{"t":"只能在浏览器里跑","ok":false,"why":"主服是 Node；www 才是浏览器。"}]},{"q":"Go 子服与 Node 主服差异，更贴切的是？","choices":[{"t":"Go 一定更「高级」","ok":false,"why":"不是高级低级，是模型不同。"},{"t":"Go 常编译为二进制；Node 依赖已安装的运行时执行 JS","ok":true,"why":"翻译账单支付时机不同。"},{"t":"二者语法相同","ok":false,"why":"语言不同。"}]}]}
 \`\`\`
 
 ## 下一步

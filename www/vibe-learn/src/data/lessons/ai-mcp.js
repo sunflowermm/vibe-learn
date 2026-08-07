@@ -72,7 +72,7 @@ flowchart LR
 | 运维与排错 | 第四章 **MCP 运维** · \`docs/mcp-guide.md\` · 技能 \`agent-tools\` |
 
 \`\`\`quiz
-{"title":"模型上下文协议","questions":[{"q":"协议主要想减少什么？","choices":[{"t":"每个客户端对接每个数据源的手写连接器","ok":true,"why":"N×M 问题。"},{"t":"上下文窗口的物理上限","ok":false,"why":"窗口是模型侧预算，不是协议能取消的。"},{"t":"令牌化算法","ok":false,"why":"无关。"}]},{"q":"本仓工具真正执行前统一经过？","choices":[{"t":"任意插件各自解析正文里的 Action:","ok":false,"why":"禁止文本假协议。"},{"t":"MCPServer.handleToolCall（策略/扫描/审批）","ok":true,"why":"一条门禁路径。"},{"t":"只改 system 提示即可放行一切","ok":false,"why":"提示不是 ACL。"}]}]}
+{"title":"模型上下文协议","questions":[{"q":"提出 MCP 协议，主要想减少什么对接成本？","choices":[{"t":"每个客户端对接每个数据源的手写连接器","ok":true,"why":"N×M 问题。"},{"t":"上下文窗口的物理上限","ok":false,"why":"窗口是模型侧预算，不是协议能取消的。"},{"t":"令牌化算法","ok":false,"why":"无关。"}]},{"q":"本仓工具真正执行前，统一要经过哪一层门禁？","choices":[{"t":"任意插件各自解析正文里的 Action:","ok":false,"why":"禁止文本假协议。"},{"t":"MCPServer.handleToolCall（策略/扫描/审批）","ok":true,"why":"一条门禁路径。"},{"t":"只改 system 提示即可放行一切","ok":false,"why":"提示不是 ACL。"}]}]}
 \`\`\`
 
 ## 下一课

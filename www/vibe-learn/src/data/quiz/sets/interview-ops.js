@@ -195,7 +195,7 @@ export default defineQuizSet({
           why: '可用反代听特权端口，业务用非特权端口。',
         },
         {
-          t: '只要开了 HTTPS，用不用 root 都无所谓',
+          t: '只要开了 HTTPS，业务进程用不用 root 都不再影响安全边界',
           ok: false,
           why: 'TLS 与进程权限是不同层；权限面仍要收。',
         },

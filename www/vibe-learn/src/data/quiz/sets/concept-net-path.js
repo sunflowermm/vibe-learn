@@ -51,7 +51,7 @@ export default defineQuizSet({
       q: '工程排障时，OSI 七层与 TCP/IP 四层更准确的用法是？',
       choices: [
         {
-          t: 'OSI 偏对照教学',
+          t: "OSI 偏对照教学；编程与排障心智多用 TCP/IP 四层",
           ok: true,
           why: '表示/会话等常被应用侧「吞掉」，不必逐层死记硬套。',
         },
@@ -78,22 +78,22 @@ export default defineQuizSet({
       q: '主机发送数据时，「封装」的直觉顺序是？',
       choices: [
         {
-          t: '应用数据 → 传输头 → IP 头 → 链路帧 →',
+          t: "应用数据 → 传输头 → IP 头 → 链路帧 → 比特发出；接收则反向剥头",
           ok: true,
           why: '下行加信封，上行拆信封；下层眼里上层常是一串字节。',
         },
         {
-          t: '先写物理层帧，最后才写 HTTP 正文',
+          t: '先写物理层帧头，最后才把 HTTP 正文塞进最内层',
           ok: false,
           why: '发送是自上而下封装，不是自下而上先写物理。',
         },
         {
-          t: '封装等于压缩，体积一定变小',
+          t: '封装等于压缩算法，加协议头之后体积一定变小',
           ok: false,
           why: '封装是加协议头，通常体积变大。',
         },
         {
-          t: '只有 UDP 需要封装，TCP 直接发应用字节',
+          t: '只有 UDP 需要封装；TCP 可以直接把应用字节裸发上物理链路',
           ok: false,
           why: 'TCP/UDP 都会加传输头再交给 IP。',
         },
@@ -105,22 +105,22 @@ export default defineQuizSet({
       q: 'IP 头里的 TTL（生存时间）主要防止什么？',
       choices: [
         {
-          t: '包在路由环路中无限转圈',
+          t: "包在路由环路中无限转圈：每跳减 1，到 0 丢弃",
           ok: true,
           why: 'traceroute 正是利用递增 TTL 看路径。',
         },
         {
-          t: '限制域名在解析器里缓存多久',
+          t: '限制域名解析结果在缓存里保留多久（那是 DNS TTL）',
           ok: false,
           why: '那是 DNS 记录的 TTL，名字碰巧相同、语义不同。',
         },
         {
-          t: '决定 HTTPS 是否加密',
+          t: '决定这条连接要不要启用 HTTPS/TLS 加密',
           ok: false,
           why: 'TTL 在 IP 头，与 TLS 无关。',
         },
         {
-          t: '标记链路带宽大小',
+          t: '在包头里标记链路可用带宽，供路由按速率选路',
           ok: false,
           why: 'TTL 是跳数预算，不是带宽。',
         },
@@ -186,22 +186,22 @@ export default defineQuizSet({
       q: '为何常说 TCP 四次挥手而不是三次？',
       choices: [
         {
-          t: '半关闭：一方 FIN 后对端发送方向可',
+          t: '半关闭：一方 FIN 后对端发送方向可能还有数据，需各自关闭',
           ok: true,
           why: 'FIN/ACK 与对端 FIN/ACK 分开；TIME_WAIT 在主动关闭方吸收迟到包。',
         },
         {
-          t: '路由器强制要求四次才能过 NAT',
+          t: '路由器强制要求四次握手/挥手才能让流量过 NAT',
           ok: false,
           why: '挥手是端到端 TCP 语义，不是 NAT 强制。',
         },
         {
-          t: '四次挥手专门用于 UDP',
+          t: '四次挥手专门用于 UDP，与 TCP 连接无关',
           ok: false,
           why: 'UDP 无连接，没有这套挥手。',
         },
         {
-          t: '第四次是向 DNS 注销域名',
+          t: '第四次是向 DNS 注销域名，与关闭连接无关',
           ok: false,
           why: '与 DNS 无关。',
         },
@@ -348,22 +348,22 @@ export default defineQuizSet({
       q: '浏览器能上网，但外网访问不到你家/云上的自建服务，优先怀疑什么？',
       choices: [
         {
-          t: '入站未做端口转发/DNAT',
+          t: "入站未做端口转发/DNAT，或安全组/防火墙入站被拒",
           ok: true,
           why: '出站通不代表入站开；还要分清 refused 与 timed out。',
         },
         {
-          t: '一定是前端 CSS 写错',
+          t: '优先怀疑前端 CSS/布局写错导致「看不见」，与入站无关',
           ok: false,
           why: '外网根本进不来时层次不对。',
         },
         {
-          t: '一定是数据库事务死锁',
+          t: '优先怀疑数据库事务死锁，网络入口一般不用先查',
           ok: false,
           why: '先查网络入口，再查应用与库。',
         },
         {
-          t: 'DNS 成功就证明入站已放行',
+          t: '只要 DNS 解析成功，就证明入站端口与安全组已放行',
           ok: false,
           why: '解析成功 ≠ 端口可达。',
         },
@@ -375,24 +375,24 @@ export default defineQuizSet({
       q: '端口转发与反向代理最关键的层次差别是？',
       choices: [
         {
-          t: '端口转发偏 L3/L4 映射 IP:端口',
+          t: "端口转发偏 L3/L4 映射 IP:端口；反代偏 L7，可按 Host/Path 分流",
           ok: true,
           why: '临时暴露开发机常用转发；生产 API 门面更常用 Nginx 类反代。',
         },
         {
-          t: '两者完全等价，只是 GUI 不同',
+          t: "有了端口转发就不再需要防火墙：映射成功等于全端口对公网开放",
           ok: false,
-          why: '懂不懂 URL/Host 是关键差别。',
+          why: '转发只映射指定端口；防火墙/安全组仍要按需放行，且不等于开放全部端口。',
         },
         {
-          t: '反代只能做 UDP，端口转发只能做 TCP',
+          t: "端口转发与反向代理完全等价，只是厂商 GUI 文案叫法不同",
           ok: false,
-          why: '协议能力不如此划分。',
+          why: '层次不同：转发偏 L3/L4，反代偏 L7 可按 Host/Path。',
         },
         {
-          t: '有了端口转发就不再需要防火墙',
+          t: "反向代理只能做 UDP，端口转发只能做 TCP，二者绝不可同机共存",
           ok: false,
-          why: '暴露面更大，更要 ACL 与认证。',
+          why: '协议能力不如此划分；常见反代跑 HTTP/TCP，转发也可配 UDP。',
         },
       ],
       relatedNodes: ['routing-nat', 'reverse-proxy'],
@@ -402,22 +402,22 @@ export default defineQuizSet({
       q: '正向代理与反向代理的位置直觉是？',
       choices: [
         {
-          t: '正向靠近客户端（常需配置出网）',
+          t: "正向靠近客户端（常需配置出网）；反向靠近服务器（客户端通常无感）",
           ok: true,
           why: 'Clash 等属正向；Nginx 门面属反向。',
         },
         {
-          t: '正向一定在机房，反向一定在手机里',
+          t: '正向一定部署在机房，反向一定只能跑在手机系统里',
           ok: false,
           why: '按谁感知、靠近谁划分，不是设备品牌。',
         },
         {
-          t: '反向代理会废除 DNS',
+          t: '有了反向代理就废除 DNS，客户端不再需要解析域名',
           ok: false,
           why: '用户仍要靠 DNS 找到入口 IP。',
         },
         {
-          t: '正向代理专门做 TLS 证书签发',
+          t: '正向代理的主要职责是签发 TLS 证书，而不是出网转发',
           ok: false,
           why: '证书常在反代/边缘终止；正向是出网路径。',
         },
@@ -429,22 +429,22 @@ export default defineQuizSet({
       q: 'L4 与 L7 负载均衡最关键的能力差别是？',
       choices: [
         {
-          t: 'L4 按 IP/端口/协议转发',
+          t: "L4 按 IP/端口/协议转发；L7 能按 Host、URL、Header 等应用语义路由",
           ok: true,
           why: 'NLB/LVS 偏 L4；Nginx 按路径分流偏 L7。',
         },
         {
-          t: 'L7 一定比 L4 慢一个数量级，禁止用于生产',
+          t: "L4 能直接看 Cookie 与 URL，L7 反而只能看 MAC 与 VLAN",
           ok: false,
           why: '差异在功能，不在绝对禁止。',
         },
         {
-          t: 'L4 能看 Cookie，L7 只能看 MAC',
+          t: "只有 UDP 能做 L7 路由，TCP 流量必须停在 L4 按端口转发",
           ok: false,
           why: '说反了：Cookie 是 L7。',
         },
         {
-          t: '只有 UDP 能做 L7',
+          t: "L7 一定比 L4 慢一个数量级，生产环境应禁止任何七层代理",
           ok: false,
           why: 'HTTP L7 常见跑在 TCP/QUIC 上。',
         },
@@ -456,7 +456,7 @@ export default defineQuizSet({
       q: '会话粘滞（sticky session）主要解决什么问题？',
       choices: [
         {
-          t: '让同一客户端尽量落到同一后端',
+          t: "让同一客户端尽量落到同一后端，以迁就本地 Session",
           ok: true,
           why: '粘滞是权宜；实例挂了仍要健康检查摘除。',
         },
@@ -483,22 +483,22 @@ export default defineQuizSet({
       q: '相对粘滞，多实例 Web 会话更稳妥的长期做法是？',
       choices: [
         {
-          t: '把 Session 放 Redis 等共享存储',
+          t: "把 Session 放 Redis 等共享存储，后端无状态可水平扩展",
           ok: true,
           why: '本地 Session + 粘滞脆弱；共享会话才是常见终局。',
         },
         {
-          t: '关掉负载均衡，永远单机',
+          t: '关掉负载均衡，永远单机跑会话，放弃水平扩展',
           ok: false,
           why: '牺牲可用性换简单，不是默认答案。',
         },
         {
-          t: '把会话明文写进 URL 永久公开',
+          t: '把会话明文写进 URL 并永久公开分享链接',
           ok: false,
           why: '易泄密与篡改。',
         },
         {
-          t: '用 DNS TTL=0 替代会话存储',
+          t: '用 DNS TTL=0 替代会话存储与共享 Session',
           ok: false,
           why: 'DNS 不管应用会话。',
         },
@@ -510,22 +510,22 @@ export default defineQuizSet({
       q: 'CDN 与源站反向代理的分工直觉是？',
       choices: [
         {
-          t: 'CDN 把可缓存副本放到近处',
+          t: "CDN 把可缓存副本放到近处；反代管应用入口、路由与防护——可叠加",
           ok: true,
           why: '静态命中卸源站；动态 API 仍常回源或经反代。',
         },
         {
-          t: 'CDN 替代 DNS，反代替代 IP',
+          t: 'CDN 替代 DNS，反代替代 IP，二者可完全取消寻址体系',
           ok: false,
           why: '二者都不取代寻址与解析体系。',
         },
         {
-          t: '有了 CDN 就必须关闭全部 HTTPS',
+          t: '有了 CDN 就必须关闭全部 HTTPS，边缘禁止终结 TLS',
           ok: false,
           why: '边缘常见 TLS 终止。',
         },
         {
-          t: 'CDN 命中率必须 100%，否则架构非法',
+          t: 'CDN 命中率必须 100%，否则整套架构一律判定非法',
           ok: false,
           why: '动态 API 低命中也正常。',
         },
@@ -537,22 +537,22 @@ export default defineQuizSet({
       q: 'Cloudflare「橙云」相对「仅 DNS（灰云）」的关键差别是？',
       choices: [
         {
-          t: '橙云：访客先到 CF 边缘再回源',
+          t: "橙云：访客先到 CF 边缘再回源，源站 IP 不易直暴；灰云：解析直接给出源站 IP",
           ok: true,
           why: '橙云 ≈ 托管全球反代+CDN+可选 WAF；灰云只做权威 DNS。',
         },
         {
-          t: '橙云关闭全部 DNS，灰云关闭全部 TLS',
+          t: "橙云关闭全部 DNS，灰云关闭全部 TLS，二者互为反义词配置",
           ok: false,
           why: '两者都仍涉及 DNS；差别在是否代理。',
         },
         {
-          t: '橙云只能用于 UDP 游戏端口',
+          t: "灰云会自动做 Anycast 并隐藏源站 IP，橙云则直接暴露源站",
           ok: false,
           why: '经典是 HTTP(S) 站点加速与防护。',
         },
         {
-          t: '灰云会自动做 Anycast 隐藏源站',
+          t: "橙云只能用于 UDP 游戏端口，HTTP/HTTPS 站点必须用灰云",
           ok: false,
           why: '仅 DNS 时源站 IP 对外可见。',
         },
@@ -564,24 +564,24 @@ export default defineQuizSet({
       q: '「源站隐藏」配合回源白名单，工程上在说什么？',
       choices: [
         {
-          t: '对外只暴露边缘 IP',
+          t: "对外只暴露边缘 IP；源站防火墙只放行 CDN/边缘回源地址段",
           ok: true,
           why: '防绕过直打；隐藏≠绝对安全，但显著减小公网攻击面。',
         },
         {
-          t: '删除全部 DNS 记录即可隐藏且仍可服务用户',
-          ok: false,
-          why: '没有解析用户也访问不到合法入口。',
-        },
-        {
-          t: '源站必须对全世界开放 0.0.0.0:443',
+          t: '源站必须对全世界开放 0.0.0.0:443，否则 CDN 无法回源',
           ok: false,
           why: '隐藏源站时更应收紧入站。',
         },
         {
-          t: '回源白名单等于浏览器 CORS',
+          t: '回源地址白名单与浏览器 CORS 是同一层机制，配一个即可',
           ok: false,
           why: '一个是网络层放行边缘；一个是浏览器同源策略。',
+        },
+        {
+          t: '删除全部 DNS 记录即可隐藏源站，同时用户仍能正常访问服务',
+          ok: false,
+          why: '没有解析用户也访问不到合法入口。',
         },
       ],
       relatedNodes: ['net-edge-practice', 'routing-nat'],
@@ -591,22 +591,22 @@ export default defineQuizSet({
       q: '第三方 API 要求「报备出口 IP」时，工程上通常怎么办？',
       choices: [
         {
-          t: '使用固定公网出口 / NAT 网关 EIP',
+          t: "使用固定公网出口 / NAT 网关 EIP，把出站地址纳入对方白名单",
           ok: true,
           why: '出口白名单是「你打出去对方认」；与入站安全组方向相反。',
         },
         {
-          t: '只改前端主题色即可通过白名单',
+          t: '只改前端主题色与配色，期望对方出口白名单因此自动通过',
           ok: false,
           why: '与出站源地址无关。',
         },
         {
-          t: '把私钥写进 URL 查询串代替白名单',
+          t: '把私钥写进 URL 查询串，用来代替网络层出口 IP 白名单',
           ok: false,
           why: '危险且不满足对方网络层约束。',
         },
         {
-          t: '关闭 DNS 即可获得固定出口',
+          t: '关闭 DNS 解析后，系统就会自动获得固定公网出口 IP',
           ok: false,
           why: 'DNS 不管出站源地址。',
         },

@@ -24,9 +24,9 @@ export const QUESTIONS = [
     q: "Transformer「注意力」主要在做什么？",
     choices: [
       { t: "按相关性加权聚合表示", ok: true, why: "相关加权，不保证事实正确。" },
-      { t: "保证输出永远正确", ok: false, why: "仍会幻觉。" },
-      { t: "证明只有它能做 NLP", ok: false, why: "还有其他路线。" },
-      { t: "自动删提示里密钥", ok: false, why: "无此安全能力。" },
+      { t: "按注意力加权后即可保证输出事实永远正确", ok: false, why: "仍会幻觉。" },
+      { t: "证明只有注意力路线才能做任何 NLP 任务", ok: false, why: "还有其他路线。" },
+      { t: "注意力层会自动识别并删除提示里的密钥", ok: false, why: "无此安全能力。" },
     ],
     kind: "concept",
     domain: "ai",

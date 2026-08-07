@@ -92,7 +92,7 @@ curl -sS "http://127.0.0.1:<端口>/api/lab/hello"
 | \`#utils\` 解析失败 | Core 有 \`package.json\` 却用了 \`#\` |
 
 \`\`\`quiz
-{"title":"最小 HTTP","questions":[{"q":"本仓日常新增 HTTP 接口，更推荐？","choices":[{"t":"core/*/http 对象导出 { name, routes }，handler 用 HttpResponse","ok":true,"why":"Loader 包装为 HttpApi；对齐 base-classes。"},{"t":"必须改 src/infrastructure/http 才能注册路由","ok":false,"why":"业务不进 Runtime。"},{"t":"只用 res.json 自定义外壳即可","ok":false,"why":"应统一 HttpResponse。"},{"t":"接口只能写在 www/ 静态目录","ok":false,"why":"API 在 http/；www 是前端。"}]},{"q":"HttpResponse.success(res, { hello: 'lab' }) 后，前端应？","choices":[{"t":"读顶层 hello（或 unwrapSuccess），勿默认假定 json.data.hello","ok":true,"why":"普通对象拍平到顶层。"},{"t":"永远只读 json.data.hello","ok":false,"why":"对象成功时常常没有 data 包一层。"},{"t":"忽略 success 字段","ok":false,"why":"约定含 success/message。"},{"t":"响应一定是纯字符串","ok":false,"why":"是 JSON 对象。"}]}]}
+{"title":"最小 HTTP","questions":[{"q":"本仓日常新增 HTTP 接口，更推荐？","choices":[{"t":"core/*/http 对象导出 { name, routes }，handler 用 HttpResponse","ok":true,"why":"Loader 包装为 HttpApi；对齐 base-classes。"},{"t":"必须改 src/infrastructure/http 才能注册任何业务路由，Core 目录无效","ok":false,"why":"业务不进 Runtime。"},{"t":"只用 res.json 自定义外壳即可，不必统一 HttpResponse 成功/错误形状","ok":false,"why":"应统一 HttpResponse。"},{"t":"接口只能写在 www/ 静态目录，由前端假造 API 响应并跳过 Loader","ok":false,"why":"API 在 http/；www 是前端。"}]},{"q":"HttpResponse.success(res, { hello: 'lab' }) 后，前端应？","choices":[{"t":"读顶层 hello（或 unwrapSuccess），勿默认假定 json.data.hello","ok":true,"why":"普通对象拍平到顶层。"},{"t":"永远只读 json.data.hello；顶层业务字段一律忽略且视为非法响应","ok":false,"why":"对象成功时常常没有 data 包一层。"},{"t":"忽略 success 字段；只要 body 非空就算业务成功，不必看约定外壳","ok":false,"why":"约定含 success/message。"},{"t":"响应一定是纯字符串正文，不能按 JSON 对象字段解包或读顶层 hello","ok":false,"why":"是 JSON 对象。"}]}]}
 \`\`\`
 
 ## Coding Agent 协作

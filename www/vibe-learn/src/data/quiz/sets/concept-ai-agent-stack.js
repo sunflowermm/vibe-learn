@@ -355,7 +355,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-ai-agent-stack:q13',
-      q: '本仓协议分层里，默认对话入口与工具面分别更贴近哪一层？',
+      q: '对照本仓协议分层，下列哪组对应更贴近默认对话入口与工具面？',
       choices: [
         {
           t: 'L1：Chat Completions 兼容形状；L2：MCP / registerMCPTool 工具面',

@@ -63,7 +63,7 @@ flowchart LR
 | 为委派而委派 | 一步小事也开子代理 | 短任务留在主对话 |
 
 \`\`\`quiz
-{"title":"Subagent","questions":[{"q":"Subagent 适合什么？","choices":[{"t":"把可隔离的子任务交给专项上下文","ok":true,"why":"降噪、分工。"},{"t":"替代操作系统进程调度器","ok":false,"why":"是产品/编排概念。"},{"t":"保证模型永不幻觉","ok":false,"why":"不能保证。"}]},{"q":"子代理相对主对话，最不该默认假设的是？","choices":[{"t":"自动拥有全部闲聊上下文","ok":true,"why":"上下文常隔离；靠 brief / rules / skills。"},{"t":"可以遵守项目 Rules","ok":false,"why":"通常应遵守。"},{"t":"适合可隔离子任务","ok":false,"why":"这正是适用场景。"}]}]}
+{"title":"Subagent","questions":[{"q":"Subagent 更适合承接哪类任务？","choices":[{"t":"把可隔离的子任务交给专项上下文","ok":true,"why":"降噪、分工。"},{"t":"替代操作系统进程调度器","ok":false,"why":"是产品/编排概念。"},{"t":"保证模型永不幻觉","ok":false,"why":"不能保证。"}]},{"q":"子代理相对主对话，最不该默认假设的是？","choices":[{"t":"自动拥有全部闲聊上下文","ok":true,"why":"上下文常隔离；靠 brief / rules / skills。"},{"t":"可以遵守项目 Rules","ok":false,"why":"通常应遵守。"},{"t":"适合可隔离子任务","ok":false,"why":"这正是适用场景。"}]}]}
 \`\`\`
 
 ---

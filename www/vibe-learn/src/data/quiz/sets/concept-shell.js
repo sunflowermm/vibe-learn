@@ -71,7 +71,7 @@ export default defineQuizSet({
       q: 'PowerShell 相对经典 sh/Bash 的显著点？',
       choices: [
         {
-          t: '管道里常传 .NET 对象而非纯文本',
+          t: "管道里常传 .NET 对象而非纯文本；Windows 系统管理面常见",
           ok: true,
           why: '对象管道便于按属性筛选；与 Bash 文本管道对照着学。',
         },

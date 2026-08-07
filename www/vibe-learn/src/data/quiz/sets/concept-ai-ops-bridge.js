@@ -24,22 +24,22 @@ export default defineQuizSet({
       q: '「对话产品化」（Chat 形态）相对「裸补全脚本」多了什么？',
       choices: [
         {
-          t: '多轮会话心智、系统角色、安全与产品封装',
+          t: "多轮会话心智、系统角色、安全与产品封装，把模型做成可天天打开的入口",
           ok: true,
           why: 'ChatGPT 时刻本质是产品形态变化，不只是模型更大。',
         },
         {
-          t: '换了一套完全不同的物理定律',
+          t: "换了一套完全不同的物理定律，旧网络知识全部作废",
           ok: false,
           why: '底层仍是神经网络推理。',
         },
         {
-          t: '从此不再需要 HTTP API',
+          t: "从此不再需要 HTTP API，所有能力都改走专有二进制总线",
           ok: false,
           why: '云端对话恰恰拉动了可编程会话 API。',
         },
         {
-          t: '等于完成了全部 RAG 工程',
+          t: "等于完成了全部 RAG 工程，检索与评测可以永久跳过",
           ok: false,
           why: '对话入口 ≠ 检索增强流水线。',
         },
@@ -52,22 +52,22 @@ export default defineQuizSet({
       q: '选型时把「聊天模型」和「嵌入模型」当成同一个会怎样？',
       choices: [
         {
-          t: '检索空间与生成能力错配',
+          t: "检索空间与生成能力错配：嵌入要向量近邻，聊天要生成；接口与计费也常分开",
           ok: true,
           why: '按任务切开：生成 vs embedding。',
         },
         {
-          t: '完全无影响，因为名字都叫模型',
+          t: "换嵌入与聊天模型完全无影响，因为产品文案都笼统叫「模型」",
           ok: false,
           why: '任务形态不同，混用会建错索引或答非所问。',
         },
         {
-          t: '只要维度数字相同就永远可互换',
+          t: "只要向量维度数字相同，不同嵌入模型的库就可以直接混查复用",
           ok: false,
           why: '维度相同 ≠ 同一嵌入空间，更不等于聊天模型。',
         },
         {
-          t: '嵌入模型专门负责工具调用',
+          t: "嵌入模型专门负责工具调用，聊天模型则只做向量近邻检索",
           ok: false,
           why: '工具调用是对话/指令模型 + 运行时的事。',
         },
@@ -108,7 +108,7 @@ export default defineQuizSet({
       q: '流式（streaming）返回相对一次性 JSON，对前端/运维的主要差别？',
       choices: [
         {
-          t: '按块推送 token，首字更快、要处理半包与取消',
+          t: "按块推送 token，首字更快、要处理半包与取消；失败也可能已吐出半截",
           ok: true,
           why: '要看 SSE/chunk 边界，不能只等最终 body。',
         },
@@ -136,24 +136,24 @@ export default defineQuizSet({
       q: '调云端 LLM API 时，HTTP 在协议栈上的位置直觉是？',
       choices: [
         {
-          t: '应用层协议，常跑在 TCP',
+          t: "应用层协议，常跑在 TCP（TLS）之上，承载 Chat/Completions 等 JSON 请求",
           ok: true,
           why: 'IP 寻址 → TCP → HTTPS 交换资源。',
         },
         {
-          t: 'HTTP 就是网线的物理规格',
-          ok: false,
-          why: '物理/链路在更下层。',
-        },
-        {
-          t: 'HTTP 只能传 HTML，不能传 JSON',
-          ok: false,
-          why: 'API 常用 JSON。',
-        },
-        {
-          t: '有了 HTTP 就不需要 DNS',
+          t: '有了 HTTP 就不需要 DNS：浏览器会直接用 URL 路径当主机名完成解析',
           ok: false,
           why: '域名仍常先经 DNS 变成 IP。',
+        },
+        {
+          t: 'HTTP 就是网线的物理规格，与 TCP/TLS 分层无关且永远不可叠加使用',
+          ok: false,
+          why: '物理/链路在更下层；HTTP 是应用层协议。',
+        },
+        {
+          t: 'HTTP 只能传 HTML 页面，JSON API 必须改用专用二进制协议而不能走 HTTP',
+          ok: false,
+          why: 'API 常用 JSON，HTTP 完全可承载。',
         },
       ],
       relatedNodes: ['http-web', 'dns-https', 'ai-openai-protocol'],
@@ -220,22 +220,22 @@ export default defineQuizSet({
       q: 'HTTPS 相对 HTTP，对调用云端 LLM 为什么几乎是默认？',
       choices: [
         {
-          t: 'TLS 加密与身份校验',
+          t: "TLS 加密与身份校验，降低窃听/篡改密钥与对话内容的风险",
           ok: true,
           why: 'API Key 场景更必须 HTTPS。',
         },
         {
-          t: 'HTTPS 能让模型更聪明',
+          t: '换成 HTTPS 后模型推理能力会明显变强、幻觉更少',
           ok: false,
           why: '只改传输安全。',
         },
         {
-          t: 'HTTPS 禁止使用 JSON',
+          t: 'HTTPS 传输层禁止 JSON，必须改成纯文本或 Protobuf',
           ok: false,
           why: 'TLS 不限制 body 格式。',
         },
         {
-          t: '内网调试也永远禁止任何明文 HTTP',
+          t: '即便本机内网调试，也永远禁止任何明文 HTTP 探活',
           ok: false,
           why: '本机/受控环境可有例外；公网云 API 默认 HTTPS。',
         },
@@ -248,22 +248,22 @@ export default defineQuizSet({
       q: '.env 与「可提交的配置模板」应如何分工？',
       choices: [
         {
-          t: '.env 放本机密钥与机器差且勿提交',
+          t: ".env 放本机密钥与机器差且勿提交；.env.example 只列键名与假值",
           ok: true,
           why: '密钥进仓库是事故；模板帮助同事知道要设哪些键。',
         },
         {
-          t: '把真实 API Key 写进 Git 方便协作',
+          t: '把真实 API Key 写进 Git 仓库明文，方便全员协作复用',
           ok: false,
           why: '泄露面极大。',
         },
         {
-          t: '所有业务逻辑都必须只靠 .env，禁止 yaml',
+          t: '所有业务逻辑都必须只靠 .env，禁止任何 yaml 与 schema',
           ok: false,
           why: '本仓还有配置归属与三同步。',
         },
         {
-          t: '环境变量不能被 Node 读取',
+          t: '环境变量不能被 Node 读取，只能写进源码常量',
           ok: false,
           why: 'process.env 正是读取入口。',
         },
@@ -276,22 +276,22 @@ export default defineQuizSet({
       q: '本仓「MCP 挂载」课相对「MCP 概念」课，侧重点差在哪？',
       choices: [
         {
-          t: '概念课讲协议与工具发现',
+          t: "概念课讲协议与工具发现；挂载课讲主服如何注册、鉴权、看日志确认已挂上",
           ok: true,
           why: '懂协议 ≠ 会在本仓运维出口。',
         },
         {
-          t: '挂载课会重写 Transformer 公式',
+          t: '挂载课会重写 Transformer 注意力公式，与运维无关',
           ok: false,
           why: '与注意力公式无关。',
         },
         {
-          t: '有概念课就不必再管鉴权',
+          t: '有概念课就不必再管鉴权、日志与挂载验收',
           ok: false,
           why: '运维挂载必须谈边界。',
         },
         {
-          t: 'MCP 挂载等于关闭所有 HTTP',
+          t: 'MCP 挂载等于关闭所有 HTTP，工具只能走本地 IPC',
           ok: false,
           why: '远程 MCP 常仍走网络出口。',
         },
@@ -304,22 +304,22 @@ export default defineQuizSet({
       q: '提示安全里，「间接注入」指什么？',
       choices: [
         {
-          t: '恶意指令藏在日后被检索到的文档/网页里',
+          t: "恶意指令藏在日后被检索到的文档/网页里，用户可能从未亲手输入",
           ok: true,
           why: '检索正文必须当不可信数据。',
         },
         {
-          t: '只会发生在 UDP 传输上',
+          t: '只会发生在 UDP 传输路径上，HTTPS/TCP 场景不必担心',
           ok: false,
           why: '是内容信任边界问题。',
         },
         {
-          t: '只要用了向量库就不会注入',
+          t: '只要接入了向量库做检索，间接注入就基本不会发生',
           ok: false,
           why: '向量库正是间接注入常见入口之一。',
         },
         {
-          t: '可用更大 temperature 消除',
+          t: '把采样 temperature 调高就能消除间接注入带来的风险',
           ok: false,
           why: '采样温度不是信任边界。',
         },
@@ -388,24 +388,24 @@ export default defineQuizSet({
       q: 'Coding Agent / CLI 调外网模型 API 失败，但浏览器能开网页。更靠谱的处理是？',
       choices: [
         {
-          t: '为进程显式设 HTTP_PROXY',
+          t: "为进程显式设 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY（及 NO_PROXY）",
           ok: true,
           why: '许多 CLI 不读系统代理。',
         },
         {
-          t: '只要开了系统代理，所有进程必然走代理',
-          ok: false,
-          why: 'CLI/Agent 常要环境变量。',
-        },
-        {
-          t: '把代理端口写进业务仓库当默认密钥',
-          ok: false,
-          why: '环境相关且易泄密。',
-        },
-        {
-          t: '关掉本机防火墙就等于配好了代理',
+          t: '关掉本机防火墙就等于配好了出网代理，不必再设任何代理环境变量或 NO_PROXY',
           ok: false,
           why: '防火墙≠出站代理策略。',
+        },
+        {
+          t: '只要开了系统级代理开关，所有 Node / CLI / Coding Agent 进程必然自动走代理',
+          ok: false,
+          why: '许多 CLI/Agent 不读系统代理，要显式环境变量。',
+        },
+        {
+          t: '把代理账号口令明文写进业务仓库当默认密钥，方便全员复用且免设环境变量',
+          ok: false,
+          why: '密钥禁止进仓；也解决不了「进程未设代理变量」。',
         },
       ],
       relatedNodes: ['clash', 'data-env', 'ai-cli'],

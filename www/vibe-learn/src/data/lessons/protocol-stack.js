@@ -57,7 +57,7 @@ export default `# 协议栈：OSI 与 TCP/IP
 \`\`\`
 
 \`\`\`quiz
-{"title":"协议栈自测","questions":[{"q":"OSI 七层与 TCP/IP 四层的关系？","choices":[{"t":"必须一一对应，名字相同","ok":false,"why":"OSI 偏教学地图；工程上网常用 TCP/IP 四层，表示/会话常被应用层「吞掉」。"},{"t":"OSI 偏教学参考，TCP/IP 更贴近互联网实作","ok":true,"why":"对照概念用 OSI，排障与编程心智多用 TCP/IP。"},{"t":"只有物理层是真实的","ok":false,"why":"各层都有协议与实现，只是抽象粒度不同。"},{"t":"TCP/IP 已废除 IP，只剩 HTTP","ok":false,"why":"网络层 IP 路由仍是互联网核心。"}]},{"q":"五元组通常包含？","choices":[{"t":"源/目的 IP、源/目的端口、传输层协议","ok":true,"why":"标识一条 L4 流；安全组与连接跟踪常按它匹配。"},{"t":"仅 URL 与 Cookie","ok":false,"why":"那是 L7。"},{"t":"仅 MAC 与 VLAN","ok":false,"why":"链路层信息，不是五元组。"},{"t":"仅证书序列号","ok":false,"why":"TLS 字段，不是五元组。"}]}]}
+{"title":"协议栈自测","questions":[{"q":"OSI 七层与 TCP/IP 四层的关系？","choices":[{"t":"必须一一对应，名字相同","ok":false,"why":"OSI 偏教学地图；工程上网常用 TCP/IP 四层，表示/会话常被应用层「吞掉」。"},{"t":"OSI 偏教学参考，TCP/IP 更贴近互联网实作","ok":true,"why":"对照概念用 OSI，排障与编程心智多用 TCP/IP。"},{"t":"只有物理层是真实的","ok":false,"why":"各层都有协议与实现，只是抽象粒度不同。"},{"t":"TCP/IP 已废除 IP，只剩 HTTP","ok":false,"why":"网络层 IP 路由仍是互联网核心。"}]},{"q":"网络通信里常说的五元组通常包含哪些字段？","choices":[{"t":"源/目的 IP、源/目的端口、传输层协议","ok":true,"why":"标识一条 L4 流；安全组与连接跟踪常按它匹配。"},{"t":"仅 URL 与 Cookie","ok":false,"why":"那是 L7。"},{"t":"仅 MAC 与 VLAN","ok":false,"why":"链路层信息，不是五元组。"},{"t":"仅证书序列号","ok":false,"why":"TLS 字段，不是五元组。"}]}]}
 \`\`\`
 
 

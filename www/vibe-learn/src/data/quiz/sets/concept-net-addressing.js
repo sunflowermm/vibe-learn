@@ -74,22 +74,22 @@ export default defineQuizSet({
       q: 'URL https://a.com:8443/v1/x?y=1 里，8443 是什么？',
       choices: [
         {
-          t: '显式端口；未写时 HTTPS 默认',
+          t: "显式端口；未写时 HTTPS 默认 443、HTTP 默认 80",
           ok: true,
           why: '写了端口就覆盖默认；排障时「默认以为 443」常踩坑。',
         },
         {
-          t: '整段一定是 IPv6 地址',
+          t: '整段一定是 IPv6 地址，与 TCP 端口号无关',
           ok: false,
           why: '8443 是端口；IPv6 在 URL 里通常用方括号。',
         },
         {
-          t: '查询串本身（? 后面那一段）',
+          t: '查询串本身（? 后面那一段），与主机后的端口无关',
           ok: false,
           why: '查询串是 ?y=1；端口在主机与路径之间。',
         },
         {
-          t: 'TLS 证书序列号',
+          t: 'TLS 证书序列号，写在 URL 里供浏览器校验',
           ok: false,
           why: '证书字段在 TLS 握手里，不会写成 URL 的 :8443。',
         },
@@ -158,22 +158,22 @@ export default defineQuizSet({
       q: 'DNS 解析失败时，用户侧更常见的现象是？',
       choices: [
         {
-          t: '报找不到服务器/DNS_PROBE 等',
+          t: "报找不到服务器/DNS_PROBE 等，往往还没建起到业务端口的 TCP",
           ok: true,
           why: '先分清：解析失败 vs 端口不通 vs 应用 4xx/5xx。',
         },
         {
-          t: '一定先返回业务 JSON 的 HTTP 200',
+          t: '一定先返回业务 JSON 的 HTTP 200，说明解析其实已成功',
           ok: false,
           why: '到不了主机就没有可靠的应用层响应。',
         },
         {
-          t: '一定是数据库事务死锁',
+          t: '一定是数据库事务死锁，与名字解析无关',
           ok: false,
           why: '名字都解析不出时还到不了数据库。',
         },
         {
-          t: '一定是 TLS 证书品牌不被信任',
+          t: '一定是 TLS 证书品牌不被信任，浏览器拦在握手阶段',
           ok: false,
           why: '证书问题通常发生在已解析并开始 TLS 之后。',
         },
@@ -186,22 +186,22 @@ export default defineQuizSet({
       q: 'CIDR 写法 10.0.0.0/24 的直觉是？',
       choices: [
         {
-          t: '前 24 位是网络前缀，其余为主机位',
+          t: "前 24 位是网络前缀，其余为主机位——表示一个网段范围",
           ok: true,
           why: '安全组、路由表、VPN 划分常用；约 256 个地址（含网络/广播等约定）。',
         },
         {
-          t: '/24 表示必须串联 24 台路由器',
+          t: '/24 表示这条路径上必须串联恰好 24 台路由器才能通',
           ok: false,
           why: '/24 是前缀长度，不是设备台数。',
         },
         {
-          t: '/24 永远表示单个主机且没有网段',
+          t: '/24 永远只表示单个主机地址，不描述任何网段范围',
           ok: false,
           why: '单主机常用 /32；/24 是一整段。',
         },
         {
-          t: 'CIDR 只允许用在电子邮件协议里',
+          t: 'CIDR 记法只允许用在电子邮件协议里，不能写进路由表',
           ok: false,
           why: 'CIDR 是通用地址块记法。',
         },
@@ -214,22 +214,22 @@ export default defineQuizSet({
       q: '家庭多设备共用一个公网 IP 上网，主要靠什么？',
       choices: [
         {
-          t: 'NAT（常配合路由器）',
+          t: "NAT（常配合路由器）：改写地址/端口，让多内网主机共享出口",
           ok: true,
           why: '出站靠 NAT/PAT；要从外网进内网服务，还要端口转发或反代。',
         },
         {
-          t: '把所有设备改成同一个 MAC 地址',
+          t: '把所有设备改成同一个 MAC 地址，就能共享公网出口',
           ok: false,
           why: '会冲突且不解决公网地址不足。',
         },
         {
-          t: '禁止使用任何私有 IP',
+          t: '禁止使用任何私有 IP，家庭设备必须各自申请公网地址',
           ok: false,
           why: '家庭正是私网地址 + NAT。',
         },
         {
-          t: 'DNS 会自动完成地址转换',
+          t: 'DNS 会自动完成地址转换，不必再谈 NAT 或路由器',
           ok: false,
           why: 'DNS 做名字解析，不做 NAT。',
         },
@@ -242,22 +242,22 @@ export default defineQuizSet({
       q: 'MAC 地址相对 IP 地址，职责差别是？',
       choices: [
         {
-          t: '链路层地址，主要用于同一局域网内帧投递',
+          t: "链路层地址，主要用于同一局域网内帧投递；跨网靠 IP 路由",
           ok: true,
           why: '同网段常用 ARP 把 IP 解析成 MAC；出网关后下一跳又换 MAC。',
         },
         {
-          t: 'MAC 可以替代全球公网路由',
+          t: 'MAC 可以替代全球公网路由，跨运营商也能端到端寻址',
           ok: false,
           why: '互联网按 IP 路由；MAC 不跨广域网端到端有效。',
         },
         {
-          t: 'MAC 等于域名',
+          t: 'MAC 等于域名，改 hosts 就会改网卡硬件地址',
           ok: false,
           why: '域名属名字系统；MAC 属链路层。',
         },
         {
-          t: '只有打印机才有 MAC',
+          t: '只有打印机才有 MAC，普通主机不需要链路层地址',
           ok: false,
           why: '有网卡的设备一般都有 MAC。',
         },
@@ -298,22 +298,22 @@ export default defineQuizSet({
       q: '主机名 laptop、域名 www.example.com、FQDN 的层次直觉是？',
       choices: [
         {
-          t: '主机名偏本机/内网短名',
+          t: "主机名偏本机/内网短名；域名/FQDN 在 DNS 树中可被解析",
           ok: true,
           why: '排障时别把短主机名当成公网可解析的 FQDN。',
         },
         {
-          t: '三者在任何系统里字节级必须完全相同',
+          t: '三者在任何系统里字节级必须完全相同，短名也要写成 FQDN',
           ok: false,
           why: '短名与带点的 FQDN 本来就可以不同。',
         },
         {
-          t: 'FQDN 按规定不能包含点号',
+          t: 'FQDN 按规定不能包含点号，点号只允许出现在 IP 里',
           ok: false,
           why: 'FQDN 正是用点分层，如 www.example.com。',
         },
         {
-          t: '主机名必须写成公网 IP 才能合法',
+          t: '主机名必须写成公网 IP 字面量才能合法注册',
           ok: false,
           why: '主机名是名字，不是 IP 字面量。',
         },
@@ -354,24 +354,24 @@ export default defineQuizSet({
       q: '安全组放行了 ICMP，同事仍打不开你的 HTTPS 站点。更合理的解释是？',
       choices: [
         {
-          t: 'ICMP 与 TCP/443 是不同规则',
+          t: "ICMP 与 TCP/443 是不同规则；还要单独放行业务端口",
           ok: true,
           why: 'ping 通只证明部分可达，不证明 443 与证书链路正常。',
         },
         {
-          t: '放行 ICMP 会自动放行全部 TCP 端口',
+          t: '只要站点走 HTTPS，公网入站就不再需要安全组或防火墙规则',
           ok: false,
-          why: '云安全组按协议与端口分别匹配。',
+          why: '公网暴露面仍靠 ACL 控制。',
         },
         {
-          t: '一定是 HTTP 方法必须改成 TRACE',
+          t: '连不上时优先把 HTTP 方法改成 TRACE，通常比查端口更有效',
           ok: false,
           why: '连不上时先查端口放行，不是先改方法。',
         },
         {
-          t: 'HTTPS 站点从不需要安全组',
+          t: '安全组放行 ICMP 后，会自动放行同一实例上的全部 TCP 端口',
           ok: false,
-          why: '公网暴露面仍靠 ACL 控制。',
+          why: '云安全组按协议与端口分别匹配。',
         },
       ],
       relatedNodes: ['network-basics', 'routing-nat', 'dns-https'],

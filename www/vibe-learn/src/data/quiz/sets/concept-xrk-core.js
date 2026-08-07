@@ -138,7 +138,7 @@ export default defineQuizSet({
           why: '该目录是服务端 YAML 模板。',
         },
         {
-          t: '两处随便写任意路径，Loader 会自动合并发现，无需约定归属',
+          t: '模板与运行时数据路径可任意互换，Loader 会自动合并发现',
           ok: false,
           why: '归属有明确约定，乱放读不到或污染框架。',
         },
@@ -147,10 +147,10 @@ export default defineQuizSet({
     },
     {
       id: 'concept-xrk-core:www',
-      q: 'Core 静态页（www）放哪？为何不能用 shared 当应用名？',
+      q: '产品 Core 的静态页应放在哪个目录约定下？',
       choices: [
         {
-          t: 'core/<core>/www/<应用名>/；shared 是框架保留根段',
+          t: 'core/<core>/www/<应用名>/；勿用 shared 等框架保留根段当应用名',
           ok: true,
           why: '挂载为 /<应用名>；保留名会被跳过或冲突。',
         },

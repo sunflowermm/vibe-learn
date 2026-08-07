@@ -86,7 +86,7 @@ API_KEY=sk-xxx
 详见 **Clash · 端口**。
 
 \`\`\`quiz
-{"title":"环境变量","questions":[{"q":"API 密钥最不该放哪？","choices":[{"t":"已 gitignore 的 .env","ok":false,"why":"这是常见正确做法（仍注意别误提交）。"},{"t":"将要 push 的源码字符串里","ok":true,"why":"一推就泄漏。"},{"t":".env.example 里的假值","ok":false,"why":"示例假值可以进仓。"}]},{"q":"CI 里放生产 Key？","choices":[{"t":"写进 workflow YAML 明文","ok":false,"why":"进 Git 即泄漏。"},{"t":"平台 Secrets，再注入环境变量","ok":true,"why":"见 CI 课。"},{"t":"写进 README","ok":false,"why":"更糟。"}]}]}
+{"title":"环境变量","questions":[{"q":"生产环境的 API 密钥最不该放在哪里？","choices":[{"t":"已 gitignore 的 .env","ok":false,"why":"这是常见正确做法（仍注意别误提交）。"},{"t":"将要 push 的源码字符串里","ok":true,"why":"一推就泄漏。"},{"t":".env.example 里的假值","ok":false,"why":"示例假值可以进仓。"}]},{"q":"CI 里放生产 Key 更稳妥的做法？","choices":[{"t":"写进 workflow YAML 明文","ok":false,"why":"进 Git 即泄漏。"},{"t":"平台 Secrets，再注入环境变量","ok":true,"why":"见 CI 课。"},{"t":"写进 README","ok":false,"why":"更糟。"}]}]}
 \`\`\`
 
 ## Coding Agent

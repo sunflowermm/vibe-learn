@@ -42,22 +42,22 @@ export default defineQuizSet({
       q: '让 Coding Agent 或 pnpm/npm 走本机代理时，最关键要对齐什么？',
       choices: [
         {
-          t: '系统或终端的 HTTP_PROXY',
+          t: "系统或终端的 HTTP_PROXY/HTTPS_PROXY 与 Clash 监听端口一致",
           ok: true,
           why: '工具读到正确代理变量，请求才会进 Clash。',
         },
         {
-          t: '只改桌面壁纸，网络就会自动走代理',
+          t: '只改桌面壁纸与主题色，网络栈就会自动把流量送进 Clash 代理端口',
           ok: false,
           why: '壁纸与网络栈无关；必须配代理地址或系统代理。',
         },
         {
-          t: '关闭所有域名系统（DNS）解析，代理才生效',
+          t: '关闭所有域名系统（DNS）解析后，代理才会开始生效并接管全部流量',
           ok: false,
           why: 'DNS 仍需解析；Clash 可接管 DNS，不是「关掉」。',
         },
         {
-          t: '把 NO_PROXY 设成 *，让所有地址都走代理',
+          t: '把 NO_PROXY 设成 *，让所有地址（含本机与环回）都强制走代理',
           ok: false,
           why: 'NO_PROXY 是「不走代理」名单；设 * 会误伤本地服务。',
         },
@@ -96,22 +96,22 @@ export default defineQuizSet({
       q: '本机调试「访问 GitHub/npm 外网失败」时，应该先检查什么？',
       choices: [
         {
-          t: '代理是否开启、NO_PROXY 是否误伤、端口与 DN',
+          t: '代理是否开启、NO_PROXY 是否误伤、端口与 DNS 是否正常',
           ok: true,
           why: '外网失败多半是出口或解析；先查代理再查业务代码。',
         },
         {
-          t: '先连续删除 node_modules 三次再重装',
+          t: '先连续删除 node_modules 三次再重装，把代理故障当依赖损坏处理',
           ok: false,
           why: '网络不通时重装只会重复失败。',
         },
         {
-          t: '先改前端页面文案，也许网络就会好',
+          t: '先改前端页面文案与按钮文案，期望出口网络问题随之消失',
           ok: false,
           why: 'UI 文案与 TCP 能否建立无关。',
         },
         {
-          t: '关掉 HTTPS，只用 HTTP 就不需要代理',
+          t: '关掉 HTTPS 改用明文 HTTP 后，就完全不需要再配代理',
           ok: false,
           why: '是否 HTTPS 不决定是否需代理；路由问题仍在。',
         },

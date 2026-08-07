@@ -114,7 +114,7 @@ Ubuntu 可以装 GNOME；同一发行版也可以几乎无桌面、只当服务�
 - **永远分清**：\`apt/brew\` 装的是系统命令；\`pnpm\` 装的是仓库依赖  
 
 \`\`\`quiz
-{"title":"发行版自测","questions":[{"q":"Ubuntu 与 Fedora「装软件」命令不同，首先因为？","choices":[{"t":"发行版家族不同，默认系统包管理器方言不同","ok":true,"why":"apt vs dnf 等；内核可同属 Linux。"},{"t":"TCP 端口数学定义不同","ok":false,"why":"端口是协议标准。"},{"t":"必须用 pnpm 装内核","ok":false,"why":"pnpm 管 JS 项目依赖。"},{"t":"HTTP 404 语义相反","ok":false,"why":"Web 标准一致。"}]},{"q":"brew / apt 相对 pnpm？","choices":[{"t":"系统级装 CLI/运行时；pnpm 管项目 node_modules","ok":true,"why":"角色分层，勿互换。"},{"t":"完全等价可互换","ok":false,"why":"系统包≠语言项目依赖。"},{"t":"pnpm 管理系统内核","ok":false,"why":"pnpm 是 JS 包管理器。"},{"t":"apt 只能装 npm 包","ok":false,"why":"apt 是发行版软件包。"}]},{"q":"WSL 选 Ubuntu 学服务器文档，主要收益？","choices":[{"t":"可以不用 PATH","ok":false,"why":"仍要 PATH。"},{"t":"apt 方言与多数云主机教程对齐","ok":true,"why":"Debian 系材料最多。"},{"t":"自动等于本仓已 pnpm install","ok":false,"why":"发行版与项目依赖无关。"}]}]}
+{"title":"发行版自测","questions":[{"q":"Ubuntu 与 Fedora「装软件」命令不同，首先因为？","choices":[{"t":"发行版家族不同，默认系统包管理器方言不同","ok":true,"why":"apt vs dnf 等；内核可同属 Linux。"},{"t":"TCP 端口数学定义不同","ok":false,"why":"端口是协议标准。"},{"t":"必须用 pnpm 装内核","ok":false,"why":"pnpm 管 JS 项目依赖。"},{"t":"HTTP 404 语义相反","ok":false,"why":"Web 标准一致。"}]},{"q":"brew / apt 相对 pnpm？","choices":[{"t":"系统级装 CLI/运行时；pnpm 管项目 node_modules","ok":true,"why":"角色分层，勿互换。"},{"t":"系统包与项目依赖完全等价可互换，无层级差别","ok":false,"why":"系统包≠语言项目依赖。"},{"t":"pnpm 负责管理系统内核升级与发行版安全补丁","ok":false,"why":"pnpm 是 JS 包管理器。"},{"t":"apt 只能装 npm 包，不能装 git/curl 这类系统 CLI","ok":false,"why":"apt 是发行版软件包。"}]},{"q":"WSL 选 Ubuntu 学服务器文档，主要收益？","choices":[{"t":"可以不用 PATH","ok":false,"why":"仍要 PATH。"},{"t":"apt 方言与多数云主机教程对齐","ok":true,"why":"Debian 系材料最多。"},{"t":"自动等于本仓已 pnpm install","ok":false,"why":"发行版与项目依赖无关。"}]}]}
 \`\`\`
 
 ## 下一步

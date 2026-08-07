@@ -96,7 +96,7 @@ console.log(users.length) // 会变 —— 引用坑
 本机保存后 \`node\` 跑通。
 
 \`\`\`quiz
-{"title":"对象数组 · 场景","questions":[{"q":"const b = a（a 为对象）后改 b.x，a.x？","choices":[{"t":"不变，已深拷贝","ok":false,"why":"赋值共享引用。"},{"t":"一起变","ok":true,"why":"同一对象。"},{"t":"必报错","ok":false,"why":"合法。"}]},{"q":"要从用户列表抽出所有 name，优先？","choices":[{"t":"users.map(u => u.name)","ok":true,"why":"派生新数组，不改原列表。"},{"t":"for...in users 取下标再拼","ok":false,"why":"数组元素遍历优先 for...of / map。"},{"t":"JSON.stringify 再正则抠","ok":false,"why":"过度且脆。"}]},{"q":"{ ...user } 对嵌套对象？","choices":[{"t":"整棵树深拷贝","ok":false,"why":"浅拷贝，嵌套仍共享。"},{"t":"只保证第一层是新对象","ok":true,"why":"展开是浅拷贝。"},{"t":"会丢所有属性","ok":false,"why":"第一层属性会复制。"}]}]}
+{"title":"对象数组 · 场景","questions":[{"q":"const b = a（a 为对象）后改 b.x，a.x？","choices":[{"t":"不变，已深拷贝","ok":false,"why":"赋值共享引用。"},{"t":"一起变","ok":true,"why":"同一对象。"},{"t":"必报错","ok":false,"why":"合法。"}]},{"q":"要从用户列表抽出所有 name，优先？","choices":[{"t":"users.map(u => u.name)","ok":true,"why":"派生新数组，不改原列表。"},{"t":"for...in users 取下标再拼","ok":false,"why":"数组元素遍历优先 for...of / map。"},{"t":"JSON.stringify 再正则抠","ok":false,"why":"过度且脆。"}]},{"q":"对象展开 { ...user } 对嵌套对象会怎样？","choices":[{"t":"整棵树深拷贝","ok":false,"why":"浅拷贝，嵌套仍共享。"},{"t":"只保证第一层是新对象","ok":true,"why":"展开是浅拷贝。"},{"t":"会丢所有属性","ok":false,"why":"第一层属性会复制。"}]}]}
 \`\`\`
 
 ## 接到本仓

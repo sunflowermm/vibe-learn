@@ -69,7 +69,7 @@ CPU 只认指令与数据。
 ## 3. 三个极易混淆的词
 
 \`\`\`quiz
-{"title":"语言定义 · 场景","questions":[{"q":"「一门编程语言」最稳的说法是？","choices":[{"t":"等于某一个 IDE","ok":false,"why":"IDE 是工具。"},{"t":"语法 + 语义 + 可实现的执行模型","ok":true,"why":"语言是规范；实现可以有多个。"},{"t":"等于某一个框架品牌","ok":false,"why":"框架在语言之上。"}]},{"q":"本仓「主服用 Node」更准确的展开是？","choices":[{"t":"Node 是一门语言","ok":false,"why":"语言是 JavaScript。"},{"t":"语言 JavaScript，运行时 Node.js","ok":true,"why":"四层口令。"},{"t":"Node 等于 Vue","ok":false,"why":"Vue 是 UI 框架。"}]}]}
+{"title":"语言定义 · 场景","questions":[{"q":"谈到「一门编程语言」，最稳妥的说法是什么？","choices":[{"t":"等于某一个 IDE","ok":false,"why":"IDE 是工具。"},{"t":"语法 + 语义 + 可实现的执行模型","ok":true,"why":"语言是规范；实现可以有多个。"},{"t":"等于某一个框架品牌","ok":false,"why":"框架在语言之上。"}]},{"q":"本仓「主服用 Node」更准确的展开是？","choices":[{"t":"Node 是一门语言","ok":false,"why":"语言是 JavaScript。"},{"t":"语言 JavaScript，运行时 Node.js","ok":true,"why":"四层口令。"},{"t":"Node 等于 Vue","ok":false,"why":"Vue 是 UI 框架。"}]}]}
 \`\`\`
 
 | 词 | 是什么 | 不是什么 |

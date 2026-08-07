@@ -91,7 +91,7 @@ while (k < 2) {
 | 遍历配置列表 | \`for...of\` 或 \`map\` |
 
 \`\`\`quiz
-{"title":"控制流 · 场景","questions":[{"q":"遍历数组元素且不需要下标，优先？","choices":[{"t":"for...of","ok":true,"why":"按可迭代值逐个取出元素（MDN）。"},{"t":"永远 while(true) 再手动 break","ok":false,"why":"易死循环，且啰嗦。"},{"t":"for...in","ok":false,"why":"那是枚举键；数组上易踩继承属性。"}]},{"q":"条件里写 if (x = y) 赋值，MDN 态度更接近？","choices":[{"t":"推荐，更短","ok":false,"why":"易与比较写混；文档劝阻。"},{"t":"一般应避免，极少数才故意这么写","ok":true,"why":"赋值当条件可读性差。"},{"t":"语法非法","ok":false,"why":"合法，但不推荐。"}]},{"q":"0 ?? 5 与 0 || 5 的结果？","choices":[{"t":"都是 5","ok":false,"why":"|| 会把 0 当假。"},{"t":"?? 得 0，|| 得 5","ok":true,"why":"?? 只替换 null/undefined。"},{"t":"都是 0","ok":false,"why":"|| 会走到右侧。"}]}]}
+{"title":"控制流 · 场景","questions":[{"q":"遍历数组元素且不需要下标时，优先用什么？","choices":[{"t":"for...of","ok":true,"why":"按可迭代值逐个取出元素（MDN）。"},{"t":"永远 while(true) 再手动 break","ok":false,"why":"易死循环，且啰嗦。"},{"t":"for...in","ok":false,"why":"那是枚举键；数组上易踩继承属性。"}]},{"q":"条件里写 if (x = y) 赋值，MDN 态度更接近？","choices":[{"t":"推荐，更短","ok":false,"why":"易与比较写混；文档劝阻。"},{"t":"一般应避免，极少数才故意这么写","ok":true,"why":"赋值当条件可读性差。"},{"t":"语法非法","ok":false,"why":"合法，但不推荐。"}]},{"q":"0 ?? 5 与 0 || 5 的结果？","choices":[{"t":"都是 5","ok":false,"why":"|| 会把 0 当假。"},{"t":"?? 得 0，|| 得 5","ok":true,"why":"?? 只替换 null/undefined。"},{"t":"都是 0","ok":false,"why":"|| 会走到右侧。"}]}]}
 \`\`\`
 
 ## 下一步

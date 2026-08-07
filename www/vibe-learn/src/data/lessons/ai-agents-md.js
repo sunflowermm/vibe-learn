@@ -77,7 +77,7 @@ export default `# AGENTS.md · 项目说明书
 > 学科 → 大模型 → 对话产品 → 统一 API → 工具调用 → MCP → Rules → Skills → 子代理 → CLI → AGENTS.md。
 
 \`\`\`quiz
-{"title":"AGENTS.md","questions":[{"q":"仓库根 AGENTS.md 主要给谁读？","choices":[{"t":"办事助手群聊模型（与工作区 AGENTS 完全同一份）","ok":false,"why":"根文件给 Coding/维护者；办事读工作区副本。"},{"t":"Cursor / Core 开发：放码与 skill 路由","ok":true,"why":"两张工牌，读者不同。"},{"t":"只给搜索引擎爬虫","ok":false,"why":"给人与 Agent 的契约文件。"}]},{"q":"密钥应写进 AGENTS.md 吗？","choices":[{"t":"应，方便模型直接调用云 API","ok":false,"why":"密钥不进仓。"},{"t":"不应；放环境变量/密钥库","ok":true,"why":"安全红线。"},{"t":"应加密后写进 Rules 全文","ok":false,"why":"仍可能进提示与日志。"}]}]}
+{"title":"AGENTS.md","questions":[{"q":"仓库根 AGENTS.md 主要给谁读？","choices":[{"t":"办事助手群聊模型（与工作区 AGENTS 完全同一份）","ok":false,"why":"根文件给 Coding/维护者；办事读工作区副本。"},{"t":"Cursor / Core 开发：放码与 skill 路由","ok":true,"why":"两张工牌，读者不同。"},{"t":"只给搜索引擎爬虫","ok":false,"why":"给人与 Agent 的契约文件。"}]},{"q":"生产密钥应不应该写进 AGENTS.md 交底？","choices":[{"t":"应，方便模型直接调用云 API","ok":false,"why":"密钥不进仓。"},{"t":"不应；放环境变量/密钥库","ok":true,"why":"安全红线。"},{"t":"应加密后写进 Rules 全文","ok":false,"why":"仍可能进提示与日志。"}]}]}
 \`\`\`
 
 ## 回到本仓实践

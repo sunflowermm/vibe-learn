@@ -85,7 +85,7 @@ flowchart LR
 \`toolPair → compaction → contextWindow 裁剪 → LLM\`。压缩只动**即将送模**的消息，不等于删磁盘笔录。
 
 \`\`\`quiz
-{"title":"令牌与窗口","questions":[{"q":"上下文窗口主要限制什么？","choices":[{"t":"模型一共有多少参数","ok":false,"why":"参数量是规模，不是单次可见文本量。"},{"t":"单次请求里能同时处理多少令牌","ok":true,"why":"窗口 = 一次可见预算。"},{"t":"磁盘上有多少个技能文件夹","ok":false,"why":"文件多少不等于进窗多少。"}]},{"q":"本仓 toolPair 压缩的是？","choices":[{"t":"永久聊天记录文件","ok":false,"why":"不改持久历史。"},{"t":"即将送给模型的过旧 tool 结果投影","ok":true,"why":"省窗；笔录仍在。"},{"t":"Provider 的 API Key","ok":false,"why":"无关。"}]}]}
+{"title":"令牌与窗口","questions":[{"q":"大模型上下文窗口主要限制的是哪一类资源？","choices":[{"t":"模型一共有多少参数","ok":false,"why":"参数量是规模，不是单次可见文本量。"},{"t":"单次请求里能同时处理多少令牌","ok":true,"why":"窗口 = 一次可见预算。"},{"t":"磁盘上有多少个技能文件夹","ok":false,"why":"文件多少不等于进窗多少。"}]},{"q":"本仓出站 toolPair 主要压缩的是什么？","choices":[{"t":"永久聊天记录文件","ok":false,"why":"不改持久历史。"},{"t":"即将送给模型的过旧 tool 结果投影","ok":true,"why":"省窗；笔录仍在。"},{"t":"Provider 的 API Key","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 ## 下一课

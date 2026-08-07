@@ -92,7 +92,7 @@ Verge 侧边栏订阅 = 客户端替你拉这份文件。
 - 改了端口，记得同步改 Agent / 环境变量  
 
 \`\`\`quiz
-{"title":"Verge 上手","questions":[{"q":"入门最小验证通路顺序？","choices":[{"t":"订阅更新 → 选节点 → 开系统代理","ok":true,"why":"先让 GUI 通，再管终端变量。"},{"t":"先开 TUN 再装客户端","ok":false,"why":"TUN 是进阶。"},{"t":"把业务端口裸奔到公网","ok":false,"why":"与代理引擎无关且危险。"}]},{"q":"浏览器通了但 Coding Agent 仍超时，优先？","choices":[{"t":"给 Agent/终端设 HTTP(S)_PROXY 指向 Mixed Port","ok":true,"why":"多数 CLI 不吃系统代理。"},{"t":"删除全部节点","ok":false,"why":"通路已经证明节点可用。"},{"t":"改成只开灰云 Cloudflare","ok":false,"why":"那是源站侧边缘，不是本机正向代理。"}]}]}
+{"title":"Verge 上手","questions":[{"q":"Clash 入门最小验证通路的推荐顺序是？","choices":[{"t":"订阅更新 → 选节点 → 开系统代理","ok":true,"why":"先让 GUI 通，再管终端变量。"},{"t":"先开 TUN 再装客户端","ok":false,"why":"TUN 是进阶。"},{"t":"把业务端口裸奔到公网","ok":false,"why":"与代理引擎无关且危险。"}]},{"q":"浏览器通了但 Coding Agent 仍超时，优先？","choices":[{"t":"给 Agent/终端设 HTTP(S)_PROXY 指向 Mixed Port","ok":true,"why":"多数 CLI 不吃系统代理。"},{"t":"删除全部节点","ok":false,"why":"通路已经证明节点可用。"},{"t":"改成只开灰云 Cloudflare","ok":false,"why":"那是源站侧边缘，不是本机正向代理。"}]}]}
 \`\`\`
 
 ---

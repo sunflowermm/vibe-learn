@@ -76,7 +76,7 @@ flowchart LR
 \`\`\`
 
 \`\`\`quiz
-{"title":"办事助手","questions":[{"q":"日常定制助手语气应改？","choices":[{"t":"仓库根 AGENTS.md","ok":false,"why":"那是写框架用的交底。"},{"t":"data/ai-workspace/{id}/ 里的 AGENTS.md 等","ok":true,"why":"运行时以工作区为准。"},{"t":"src/agent-runtime.js","ok":false,"why":"Runtime 不写业务人设。"},{"t":"package.json name 字段","ok":false,"why":"无关。"}]},{"q":"Skills 默认优先进窗的是？","choices":[{"t":"每个 SKILL.md 全文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露；对齐第五章技能课。"},{"t":"只有 .cursor/skills/xrk-*","ok":false,"why":"那是开发舞台。"},{"t":"随机一半技能","ok":false,"why":"按配置预算与匹配。"}]},{"q":"陌生工作区改代码前优先？","choices":[{"t":"盲目 list_files 整仓","ok":false,"why":"贵且噪声大。"},{"t":"tools.repo_map（可带 query）再 grep/read","ok":true,"why":"轻量代码地图；见 agent-tools。"},{"t":"直接 rm -rf","ok":false,"why":"禁止。"},{"t":"只改根 AGENTS.md","ok":false,"why":"与改仓无关。"}]}]}
+{"title":"办事助手","questions":[{"q":"日常定制助手语气时，应改工作区的哪里？","choices":[{"t":"仓库根 AGENTS.md","ok":false,"why":"那是写框架用的交底。"},{"t":"data/ai-workspace/{id}/ 里的 AGENTS.md 等","ok":true,"why":"运行时以工作区为准。"},{"t":"src/agent-runtime.js（改 Runtime 源码写人设）","ok":false,"why":"Runtime 不写业务人设。"},{"t":"package.json name 字段决定助手语气","ok":false,"why":"无关。"}]},{"q":"注入 Skills 时，默认优先进窗的是什么？","choices":[{"t":"每个 SKILL.md 全文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露；对齐第五章技能课。"},{"t":"只有 .cursor/skills/xrk-*","ok":false,"why":"那是开发舞台。"},{"t":"随机一半技能","ok":false,"why":"按配置预算与匹配。"}]},{"q":"陌生工作区动手改代码前，应优先做什么？","choices":[{"t":"盲目 list_files 整仓，先把完整目录树全部扫进上下文窗口","ok":false,"why":"贵且噪声大。"},{"t":"tools.repo_map（可带 query）再 grep/read","ok":true,"why":"轻量代码地图；见 agent-tools。"},{"t":"直接 rm -rf 清场仓库后再动手改，当作探索陌生工作区的标准步骤","ok":false,"why":"禁止。"},{"t":"只改根 AGENTS.md 即可开工，业务代码与技能可以先不看","ok":false,"why":"与改仓无关。"}]}]}
 \`\`\`
 
 ---

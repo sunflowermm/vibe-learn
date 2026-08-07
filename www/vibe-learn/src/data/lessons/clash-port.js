@@ -132,7 +132,7 @@ flowchart TB
 \`\`\`
 
 \`\`\`quiz
-{"title":"端口与环境变量 · 自测","questions":[{"q":"Clash 开了系统代理，Coding Agent / Git 仍直连失败。优先查？","choices":[{"t":"Agent / 终端是否读取 HTTP(S)_PROXY","ok":true,"why":"多数 CLI 与 Agent 不自动吃系统代理。"},{"t":"是不是没装 pnpm","ok":false,"why":"包管理器与出网代理是两件事。"},{"t":"把端口改成 80","ok":false,"why":"端口以客户端显示的 Mixed Port 为准。"}]},{"q":"mixed-port 的作用？","choices":[{"t":"单端口同时收 HTTP 与 SOCKS","ok":true,"why":"Clash Inbound：减少记两套端口。"},{"t":"机场节点的公网端口","ok":false,"why":"那是出口侧，不是本机入口。"},{"t":"替换 DNS","ok":false,"why":"DNS 另有配置。"}]}]}
+{"title":"端口与环境变量 · 自测","questions":[{"q":"Clash 开了系统代理，Coding Agent / Git 仍直连失败。优先查？","choices":[{"t":"Agent / 终端是否读取 HTTP(S)_PROXY","ok":true,"why":"多数 CLI 与 Agent 不自动吃系统代理。"},{"t":"是不是没装 pnpm","ok":false,"why":"包管理器与出网代理是两件事。"},{"t":"把端口改成 80","ok":false,"why":"端口以客户端显示的 Mixed Port 为准。"}]},{"q":"Clash 的 mixed-port 主要作用是什么？","choices":[{"t":"单端口同时收 HTTP 与 SOCKS","ok":true,"why":"Clash Inbound：减少记两套端口。"},{"t":"机场节点的公网端口","ok":false,"why":"那是出口侧，不是本机入口。"},{"t":"替换 DNS","ok":false,"why":"DNS 另有配置。"}]}]}
 \`\`\`
 
 \`\`\`env

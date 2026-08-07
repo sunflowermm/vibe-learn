@@ -128,7 +128,7 @@ export default `# TCP 与 UDP
 记忆：**端口数字对了不够，协议也必须对。** 网页开 \`443/TCP\`；基岩开服开 \`19132/UDP\`。
 
 \`\`\`quiz
-{"title":"TCP / UDP 自测","questions":[{"q":"基岩版默认 19132，安全组只开 TCP 19132？","choices":[{"t":"通常仍进不去；基岩要 UDP，协议字段必须对","ok":true,"why":"Java 版才是常见 TCP 25565。"},{"t":"TCP/UDP 在安全组完全等价","ok":false,"why":"开错协议等于没开。"},{"t":"只要 DNS 通就能进","ok":false,"why":"解析≠传输放行。"},{"t":"基岩只走 ICMP","ok":false,"why":"走 UDP 端口。"}]},{"q":"TCP 粘包更准确的说法？","choices":[{"t":"字节流无消息边界，应用要自己定帧","ok":true,"why":"不是内核随机把包粘坏。"},{"t":"只有 UDP 会粘包","ok":false,"why":"说反了。"},{"t":"开 HTTPS 后自动消失","ok":false,"why":"TLS 不改字节流本质。"},{"t":"等于网线短路","ok":false,"why":"协议语义，不是硬件故障。"}]}]}
+{"title":"TCP / UDP 自测","questions":[{"q":"基岩版默认 19132，安全组只开 TCP 19132？","choices":[{"t":"通常仍进不去；基岩要 UDP，协议字段必须对","ok":true,"why":"Java 版才是常见 TCP 25565。"},{"t":"TCP/UDP 在安全组完全等价","ok":false,"why":"开错协议等于没开。"},{"t":"只要 DNS 通就能进","ok":false,"why":"解析≠传输放行。"},{"t":"基岩只走 ICMP","ok":false,"why":"走 UDP 端口。"}]},{"q":"所谓 TCP 粘包，更准确的说法是什么？","choices":[{"t":"字节流无消息边界，应用要自己定帧","ok":true,"why":"不是内核随机把包粘坏。"},{"t":"只有 UDP 会粘包","ok":false,"why":"说反了。"},{"t":"开 HTTPS 后自动消失","ok":false,"why":"TLS 不改字节流本质。"},{"t":"等于网线短路","ok":false,"why":"协议语义，不是硬件故障。"}]}]}
 \`\`\`
 
 ## TCP vs UDP 对照

@@ -46,22 +46,22 @@ export default defineQuizSet({
       q: '浏览器报 502 Bad Gateway，反代场景下优先怀疑什么？',
       choices: [
         {
-          t: '上游没起来、端口错、连不上或返回非法应答',
+          t: "上游没起来、端口错、连不上或返回非法应答——先看上游与 error.log",
           ok: true,
           why: '502：网关活着，但与上游交互失败。',
         },
         {
-          t: '502 表示资源创建成功，与上游连通无关',
+          t: '502 表示资源创建成功，与上游连通无关，可当 201 使用',
           ok: false,
           why: '创建成功更常是 201/200。',
         },
         {
-          t: '一定是静态资源 304 缓存命中，可忽略',
+          t: '一定是静态资源 304 缓存命中，可忽略，不必看上游',
           ok: false,
           why: '304 是协商缓存，不是网关错误。',
         },
         {
-          t: '一定是前端 CSS 写错，与上游进程无关',
+          t: '一定是前端 CSS 写错导致，与上游进程和 error.log 无关',
           ok: false,
           why: '已到 Nginx 回 502 时优先查上游。',
         },
@@ -158,22 +158,22 @@ export default defineQuizSet({
       q: '面板（宝塔/1Panel）一点「反代」背后，你仍应理解什么？',
       choices: [
         {
-          t: '生成的仍是 Nginx（或同类）配置',
+          t: "生成的仍是 Nginx（或同类）配置：端口、证书、上游——排障要会读",
           ok: true,
           why: 'GUI 是捷径；502/证书问题最终回到 conf 与日志。',
         },
         {
-          t: '有面板就不必再学端口与 DNS',
+          t: '有面板就不必再学端口与 DNS，填表出错也会自动修好',
           ok: false,
           why: '面板填错端口/域名照样挂。',
         },
         {
-          t: '面板会消灭所有 502',
+          t: '面板会消灭所有 502，上游挂掉也会被 GUI 自动救活',
           ok: false,
           why: '上游挂了，面板也救不了。',
         },
         {
-          t: '面板等于自动训练大模型',
+          t: '面板等于自动训练大模型，点一下就会生成业务 Agent',
           ok: false,
           why: '运维面板与模型训练无关。',
         },
@@ -214,22 +214,22 @@ export default defineQuizSet({
       q: '反代 WebSocket 时，比普通 HTTP 多要注意什么？',
       choices: [
         {
-          t: 'Upgrade/Connection 头与超时',
+          t: "Upgrade/Connection 头与超时：长连接不能按短 HTTP 超时砍断",
           ok: true,
           why: '缺升级头或超时过短会导致「能 HTTP 不能 WS」。',
         },
         {
-          t: 'WebSocket 禁止走 443',
+          t: 'WebSocket 禁止走 443，只能用明文 80 或自定义 UDP',
           ok: false,
           why: 'wss:// 常经 443。',
         },
         {
-          t: '有了反代就不需要 Upgrade',
+          t: '有了反代就不需要再传 Upgrade/Connection 头',
           ok: false,
           why: '升级头仍要正确传递。',
         },
         {
-          t: 'WebSocket 只能用 UDP listen',
+          t: 'WebSocket 只能用 UDP listen，TCP 升级一律无效',
           ok: false,
           why: '常见仍是 TCP 上的升级。',
         },
@@ -242,22 +242,22 @@ export default defineQuizSet({
       q: '上传大文件经 Nginx 反代到 Node 时，413 更常先查什么？',
       choices: [
         {
-          t: 'client_max_body_size',
+          t: "client_max_body_size（以及上游自身的 body 限制）",
           ok: true,
           why: '默认 body 限制偏小是经典坑。',
         },
         {
-          t: '把 listen 改成 UDP',
+          t: "把 listen 改成 UDP 即可自动放大上传体积，无需 body 限制",
           ok: false,
           why: '与 body 大小无关。',
         },
         {
-          t: '删除全部 TLS 证书',
+          t: "删除全部 TLS 证书后，大文件上传就会绕过体积校验",
           ok: false,
           why: '不解决 413。',
         },
         {
-          t: '把状态码 413 改写成 200',
+          t: "把上游返回的 413 改写成 200，客户端就会认为上传已成功",
           ok: false,
           why: '掩盖问题且破坏契约。',
         },
@@ -270,22 +270,22 @@ export default defineQuizSet({
       q: 'IP 直连源站 HTTPS 正常，域名经 Nginx 却证书报错。优先查？',
       choices: [
         {
-          t: '证书 SAN/CN 是否覆盖该域名',
+          t: "证书 SAN/CN 是否覆盖该域名，以及 server_name 是否匹配",
           ok: true,
           why: 'HTTPS 校验名字；IP 通不代表域名证书对。',
         },
         {
-          t: '把 proxy_pass 改成 UDP',
+          t: '把 proxy_pass 上游改成 UDP，证书名错误就会随之消失',
           ok: false,
           why: '与证书名无关。',
         },
         {
-          t: '一定是 upstream 进程没启动（只会 502）',
+          t: '一定是 upstream 进程没启动；证书告警等价于只会出 502',
           ok: false,
           why: '证书错误发生在 TLS 阶段，未必到上游。',
         },
         {
-          t: '关掉 DNS 即可修好证书',
+          t: '关掉域名的 DNS 解析即可修好证书校验失败',
           ok: false,
           why: '用户还要靠域名访问。',
         },

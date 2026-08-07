@@ -65,7 +65,7 @@ export default `# 技能
 开发者用的 \`.cursor/skills/xrk-*\` 是**另一舞台**，不进办事助手注入链。
 
 \`\`\`quiz
-{"title":"技能","questions":[{"q":"本仓默认注入技能时，优先进窗口的是？","choices":[{"t":"每个技能的全部 SKILL.md 正文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露。"},{"t":"只有 Cursor 的 xrk 技能","ok":false,"why":"那是开发舞台。"}]},{"q":"技能相对规则，更适合承载？","choices":[{"t":"三千字部署与排障流程","ok":true,"why":"长流程按需加载。"},{"t":"「禁止提交密钥」一类一句话红线","ok":false,"why":"红线宜放规则常驻。"},{"t":"替代 maxToolRounds","ok":false,"why":"步数预算是运行时配置。"}]}]}
+{"title":"技能","questions":[{"q":"本仓默认注入技能时，优先进窗口的是什么？","choices":[{"t":"每个技能的全部 SKILL.md 正文","ok":false,"why":"会撑爆窗口。"},{"t":"名称与路径等目录信息，全文按需再读","ok":true,"why":"渐进披露。"},{"t":"只有 Cursor 的 xrk 技能","ok":false,"why":"那是开发舞台。"}]},{"q":"技能相对 always-on 规则，更适合承载什么？","choices":[{"t":"三千字部署与排障流程","ok":true,"why":"长流程按需加载。"},{"t":"「禁止提交密钥」一类一句话红线","ok":false,"why":"红线宜放规则常驻。"},{"t":"替代 maxToolRounds","ok":false,"why":"步数预算是运行时配置。"}]}]}
 \`\`\`
 
 ## 下一课

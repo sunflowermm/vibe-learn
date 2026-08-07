@@ -84,7 +84,7 @@ flowchart TB
 \`\`\`
 
 \`\`\`quiz
-{"title":"容器生态分层","questions":[{"q":"要把本机 Redis + 以后可能的第二中间件一文件起停，首选？","choices":[{"t":"先上完整 Kubernetes","ok":false,"why":"单机开发用 Compose 更合适。"},{"t":"Docker Compose（或兼容实现）","ok":true,"why":"单机多容器配方。"},{"t":"只用 systemd 写镜像层","ok":false,"why":"systemd 不管镜像构建与容器网络那一套。"}]},{"q":"containerd 更贴近哪一层？","choices":[{"t":"反向代理","ok":false,"why":"网关在第三章。"},{"t":"底层容器运行时","ok":true,"why":"K8s 等会用到。"},{"t":"关系型 DBMS","ok":false,"why":"那是数据库番外。"}]}]}
+{"title":"容器生态分层","questions":[{"q":"要把本机 Redis + 以后可能的第二中间件一文件起停，首选？","choices":[{"t":"先上完整 Kubernetes","ok":false,"why":"单机开发用 Compose 更合适。"},{"t":"Docker Compose（或兼容实现）","ok":true,"why":"单机多容器配方。"},{"t":"只用 systemd 写镜像层","ok":false,"why":"systemd 不管镜像构建与容器网络那一套。"}]},{"q":"containerd 在容器栈里更贴近哪一层？","choices":[{"t":"反向代理","ok":false,"why":"网关在第三章。"},{"t":"底层容器运行时","ok":true,"why":"K8s 等会用到。"},{"t":"关系型 DBMS","ok":false,"why":"那是数据库番外。"}]}]}
 \`\`\`
 
 ## 八股 × 业务串联

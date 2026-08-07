@@ -45,22 +45,22 @@ export default defineQuizSet({
       q: 'HTTP 201 Created 更适合哪类结果？',
       choices: [
         {
-          t: '成功创建了新资源',
+          t: "成功创建了新资源（响应常带 Location）",
           ok: true,
           why: 'POST/PUT 创建场景的约定；勿与 200 混用掩盖「已创建」。',
         },
         {
-          t: '删除资源成功',
+          t: "删除目标资源成功且常无正文（更常 200/204）",
           ok: false,
           why: '删除成功常见 200/202/204。',
         },
         {
-          t: '永久重定向到新 URI',
+          t: "永久重定向到新 URI，后续应更新链接（更常 301/308）",
           ok: false,
           why: '那是 301/308。',
         },
         {
-          t: '客户端未认证',
+          t: "缺少有效凭证，需要先完成身份认证（应用层 401）",
           ok: false,
           why: '那是 401。',
         },
@@ -78,17 +78,17 @@ export default defineQuizSet({
           why: '常见于 DELETE/更新成功且无需回传实体。',
         },
         {
-          t: '资源不存在',
+          t: '目标资源路径不存在或已被永久删除（应用层 404 语义）',
           ok: false,
           why: '那是 404。',
         },
         {
-          t: '必须携带新建资源的完整 JSON',
+          t: '必须携带新建资源的完整 JSON 正文才算成功',
           ok: false,
           why: '204 明确无正文。',
         },
         {
-          t: '网关等上游超时',
+          t: '网关等上游在等待后端时超时（常见对应 504）',
           ok: false,
           why: '那是 504。',
         },
@@ -101,22 +101,22 @@ export default defineQuizSet({
       q: 'HTTP 301 Moved Permanently 表示？',
       choices: [
         {
-          t: '资源永久换到新 URI',
+          t: "资源永久换到新 URI，后续应更新书签/链接",
           ok: true,
           why: 'SEO/迁移常用；方法是否保留要看客户端与后续规范实践。',
         },
         {
-          t: '临时跳转，下次仍应打旧地址',
+          t: '临时跳转到新 URI，下次客户端仍应优先打旧地址',
           ok: false,
           why: '临时更常 302/307。',
         },
         {
-          t: '内容未变，用本地缓存即可',
+          t: '内容未变，客户端继续用本地缓存即可（无需重取）',
           ok: false,
           why: '那是 304。',
         },
         {
-          t: '请求体太大被拒',
+          t: '请求体太大被服务器拒绝，应缩小 payload 再试',
           ok: false,
           why: '那是 413。',
         },
@@ -129,22 +129,22 @@ export default defineQuizSet({
       q: 'HTTP 302 Found 的常见含义与联调坑是？',
       choices: [
         {
-          t: '临时重定向；部分客户端会把 POST 改',
+          t: '临时重定向；部分客户端会把 POST 改成 GET——要用 307 保方法',
           ok: true,
           why: '历史兼容坑；需要严格保留方法时用 307/308。',
         },
         {
-          t: '永久迁移且永远不应再访问旧 URI',
+          t: '永久迁移且永远不应再访问旧 URI（更常 301/308）',
           ok: false,
           why: '永久更常 301/308。',
         },
         {
-          t: '表示未修改，应走协商缓存',
+          t: '表示未修改，应走协商缓存（应用层 304 语义）',
           ok: false,
           why: '那是 304。',
         },
         {
-          t: '表示限流',
+          t: '客户端触发了网关或应用层限流配额（常见对应 429）',
           ok: false,
           why: '那是 429。',
         },
@@ -157,22 +157,22 @@ export default defineQuizSet({
       q: 'HTTP 304 Not Modified 表示？',
       choices: [
         {
-          t: '协商缓存命中：资',
+          t: '协商缓存命中：资源未变，客户端用本地副本',
           ok: true,
           why: '配合 ETag/If-None-Match 或 Last-Modified。',
         },
         {
-          t: '永久重定向',
+          t: '资源永久换到新 URI，后续应更新书签（更常 301/308）',
           ok: false,
           why: '那是 301/308。',
         },
         {
-          t: '创建成功',
+          t: '成功创建了新资源且常带 Location（应用层 201）',
           ok: false,
           why: '那是 201。',
         },
         {
-          t: '网关坏了',
+          t: '网关拿到无效上游应答或上游超时（常见 502/504）',
           ok: false,
           why: '那是 502/504。',
         },
@@ -185,22 +185,22 @@ export default defineQuizSet({
       q: '相对 302，HTTP 307 Temporary Redirect 更强调什么？',
       choices: [
         {
-          t: '临时重定向，且不',
+          t: '临时重定向，且不应把原方法改成 GET',
           ok: true,
           why: '需要保留 POST 等方法时用 307。',
         },
         {
-          t: '永久迁移',
+          t: '资源永久迁移到新 URI，后续应更新链接（更常 301/308）',
           ok: false,
           why: '永久用 301/308。',
         },
         {
-          t: '内容未修改',
+          t: '协商缓存命中：资源未变，客户端用本地副本（304）',
           ok: false,
           why: '那是 304。',
         },
         {
-          t: '未授权',
+          t: '缺少有效凭证，需要先完成身份认证（应用层 401）',
           ok: false,
           why: '那是 401。',
         },
@@ -213,22 +213,22 @@ export default defineQuizSet({
       q: '相对 301，HTTP 308 Permanent Redirect 更强调什么？',
       choices: [
         {
-          t: '永久重定向，且不应',
+          t: '永久重定向，且不应把原方法改成 GET',
           ok: true,
           why: '与 301 的「方法可能被改写」历史坑相对。',
         },
         {
-          t: '临时跳转',
+          t: '临时跳转，下次仍可继续打旧地址（更常 302/307）',
           ok: false,
           why: '临时用 302/307。',
         },
         {
-          t: '协商缓存命中',
+          t: '协商缓存命中：资源未变，客户端用本地副本（304）',
           ok: false,
           why: '那是 304。',
         },
         {
-          t: '负载过大',
+          t: '请求体超过服务器允许的最大体积限制（常见对应 413）',
           ok: false,
           why: '那是 413。',
         },
@@ -241,22 +241,22 @@ export default defineQuizSet({
       q: 'HTTP 400 Bad Request 的典型场景是？',
       choices: [
         {
-          t: '请求语法/参数不合法',
+          t: "请求语法/参数不合法，服务器无法理解或处理",
           ok: true,
           why: '缺字段、JSON 坏掉、类型不对等；先修客户端请求。',
         },
         {
-          t: '身份正确但无权限',
+          t: "身份已认证但对该资源无权限（应用层 403 语义）",
           ok: false,
           why: '那是 403。',
         },
         {
-          t: '资源不存在',
+          t: "目标资源路径不存在或已被永久删除（应用层 404）",
           ok: false,
           why: '那是 404。',
         },
         {
-          t: '服务器内部未捕获异常',
+          t: "服务器内部未捕获异常导致未能完成请求（常见 500）",
           ok: false,
           why: '那是 500。',
         },
@@ -297,7 +297,7 @@ export default defineQuizSet({
       q: 'HTTP 403 Forbidden 表示？',
       choices: [
         {
-          t: '服务器理解请求，但拒绝执行',
+          t: "服务器理解请求，但拒绝执行（常因权限）",
           ok: true,
           why: '身份可能已识别；不要与「未登录」的 401 混说。',
         },
@@ -325,22 +325,22 @@ export default defineQuizSet({
       q: 'HTTP 404 Not Found 表示？',
       choices: [
         {
-          t: '目标资源当前找不到',
+          t: "目标资源当前找不到（或不对外暴露其存在）",
           ok: true,
           why: '路径错、已删除、或故意用 404 隐藏存在性。',
         },
         {
-          t: '未认证',
+          t: "缺少有效凭证，需要先完成身份认证（应用层 401）",
           ok: false,
           why: '那是 401。',
         },
         {
-          t: '上游网关坏了',
+          t: "网关拿到无效上游应答（常见对应 502 Bad Gateway）",
           ok: false,
           why: '那是 502。',
         },
         {
-          t: '请求冲突',
+          t: "与资源当前状态冲突，例如版本冲突（应用层 409）",
           ok: false,
           why: '那是 409。',
         },
@@ -353,22 +353,22 @@ export default defineQuizSet({
       q: 'HTTP 405 Method Not Allowed 表示？',
       choices: [
         {
-          t: '该资源存在，但不支持',
+          t: '该资源存在，但不支持当前 HTTP 方法',
           ok: true,
           why: '响应可带 Allow；例如只许 GET 却发了 DELETE。',
         },
         {
-          t: '资源不存在',
+          t: '目标资源路径不存在或已被永久删除（应用层 404 语义）',
           ok: false,
           why: '那是 404。',
         },
         {
-          t: '媒体类型不支持',
+          t: '服务器不支持请求的 Content-Type / 媒体格式（应用层 415）',
           ok: false,
           why: '那是 415。',
         },
         {
-          t: '限流',
+          t: '客户端触发了网关或应用层限流配额（常见对应 429）',
           ok: false,
           why: '那是 429。',
         },
@@ -381,22 +381,22 @@ export default defineQuizSet({
       q: 'HTTP 408 Request Timeout 更接近？',
       choices: [
         {
-          t: '服务器等客户端发送请',
+          t: '服务器等客户端发送请求过久而超时',
           ok: true,
           why: '与网关等上游的 504 方向不同。',
         },
         {
-          t: '网关等上游超时',
+          t: '网关等上游在等待后端时超时（常见对应 504）',
           ok: false,
           why: '那是 504。',
         },
         {
-          t: '创建成功',
+          t: '成功创建了新资源且常带 Location（应用层 201）',
           ok: false,
           why: '那是 201。',
         },
         {
-          t: '协商缓存命中',
+          t: '协商缓存命中：资源未变，客户端用本地副本（304）',
           ok: false,
           why: '那是 304。',
         },
@@ -409,22 +409,22 @@ export default defineQuizSet({
       q: 'HTTP 409 Conflict 的典型场景是？',
       choices: [
         {
-          t: '与资源当前状态冲突',
+          t: "与资源当前状态冲突，例如版本冲突或重复创建",
           ok: true,
           why: '乐观锁失败、唯一键冲突等常映射到 409。',
         },
         {
-          t: '未登录',
+          t: "缺少有效凭证，需要先完成身份认证（应用层 401）",
           ok: false,
           why: '那是 401。',
         },
         {
-          t: '请求体太大',
+          t: "请求体超过服务器允许的最大体积限制（常见对应 413）",
           ok: false,
           why: '那是 413。',
         },
         {
-          t: '上游无效应答',
+          t: "网关拿到无效上游应答（常见对应 502 Bad Gateway）",
           ok: false,
           why: '那是 502。',
         },
@@ -465,22 +465,22 @@ export default defineQuizSet({
       q: 'HTTP 415 Unsupported Media Type 表示？',
       choices: [
         {
-          t: '服务器不支持请求',
+          t: '服务器不支持请求的 Content-Type / 媒体格式',
           ok: true,
           why: '例如只收 JSON 却发了 form-urlencoded。',
         },
         {
-          t: '请求体太大',
+          t: '请求体超过服务器允许的最大体积限制（常见对应 413）',
           ok: false,
           why: '那是 413。',
         },
         {
-          t: '资源不存在',
+          t: '目标资源路径不存在或已被永久删除（应用层 404 语义）',
           ok: false,
           why: '那是 404。',
         },
         {
-          t: '限流',
+          t: '客户端触发了网关或应用层限流配额（常见对应 429）',
           ok: false,
           why: '那是 429。',
         },
@@ -493,22 +493,22 @@ export default defineQuizSet({
       q: 'HTTP 429 Too Many Requests 表示？',
       choices: [
         {
-          t: '请求过于频繁，触',
+          t: '请求过于频繁，触发限流/配额',
           ok: true,
           why: '调用方应退避；可看 Retry-After。',
         },
         {
-          t: '创建成功',
+          t: '成功创建了新资源且常带 Location（应用层 201）',
           ok: false,
           why: '那是 201。',
         },
         {
-          t: '未授权',
+          t: '缺少有效凭证，需要先完成身份认证（应用层 401）',
           ok: false,
           why: '那是 401。',
         },
         {
-          t: '上游超时',
+          t: '网关等上游在等待后端时超时（常见对应 504）',
           ok: false,
           why: '那是 504。',
         },
@@ -521,22 +521,22 @@ export default defineQuizSet({
       q: 'HTTP 500 Internal Server Error 表示？',
       choices: [
         {
-          t: '服务器内部出错，未能',
+          t: '服务器内部出错，未能完成看似合法的请求',
           ok: true,
           why: '查服务端日志与未捕获异常；勿把 502 当 500。',
         },
         {
-          t: '客户端参数写错',
+          t: '客户端参数/语法不合法，应先修请求（更常 400）',
           ok: false,
           why: '参数问题更常 400。',
         },
         {
-          t: '网关等上游超时',
+          t: '网关等上游在等待后端时超时（常见对应 504）',
           ok: false,
           why: '那是 504。',
         },
         {
-          t: '资源不存在',
+          t: '目标资源路径不存在或已被永久删除（应用层 404）',
           ok: false,
           why: '那是 404。',
         },

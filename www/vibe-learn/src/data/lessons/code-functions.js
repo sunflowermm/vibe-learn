@@ -100,7 +100,7 @@ console.log(next(), next()) // 1 2 —— n 被闭包保住
 代价：无意闭包住大对象 → 难回收；别把整个请求上下文塞进长期回调。
 
 \`\`\`quiz
-{"title":"函数 · 场景","questions":[{"q":"function f() {} 没有 return，调用 f() 得到？","choices":[{"t":"0","ok":false,"why":"不是默认数字。"},{"t":"undefined","ok":true,"why":"未交回值即为 undefined。"},{"t":"必报错","ok":false,"why":"合法。"}]},{"q":"function bump(obj) { obj.n += 1 } 传入 { n: 0 } 后外面的 n？","choices":[{"t":"仍是 0，按值拷贝了整对象","ok":false,"why":"对象按引用共享。"},{"t":"变成 1","ok":true,"why":"MDN：改对象属性对外可见。"},{"t":"语法非法","ok":false,"why":"合法且常见坑。"}]},{"q":"闭包更贴切？","choices":[{"t":"把代码压成一行","ok":false,"why":"那是压缩。"},{"t":"内层函数能访问定义时外层变量","ok":true,"why":"标准定义。"},{"t":"只存在于 TypeScript","ok":false,"why":"JS 本身就有。"}]}]}
+{"title":"函数 · 场景","questions":[{"q":"function f() {} 没有 return，调用 f() 得到？","choices":[{"t":"0","ok":false,"why":"不是默认数字。"},{"t":"undefined","ok":true,"why":"未交回值即为 undefined。"},{"t":"必报错","ok":false,"why":"合法。"}]},{"q":"function bump(obj) { obj.n += 1 } 传入 { n: 0 } 后外面的 n？","choices":[{"t":"仍是 0，按值拷贝了整对象","ok":false,"why":"对象按引用共享。"},{"t":"变成 1","ok":true,"why":"MDN：改对象属性对外可见。"},{"t":"语法非法","ok":false,"why":"合法且常见坑。"}]},{"q":"关于 JS 闭包，更贴切的理解是什么？","choices":[{"t":"把代码压成一行","ok":false,"why":"那是压缩。"},{"t":"内层函数能访问定义时外层变量","ok":true,"why":"标准定义。"},{"t":"只存在于 TypeScript","ok":false,"why":"JS 本身就有。"}]}]}
 \`\`\`
 
 ## 接到本仓

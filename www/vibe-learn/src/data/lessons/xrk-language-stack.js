@@ -46,7 +46,7 @@ flowchart TB
 
 ## 架构原则
 \`\`\`quiz
-{"title":"本仓语言栈","questions":[{"q":"主服默认语言/运行时是？","choices":[{"t":"Python + CPython 主服","ok":false,"why":"Python 多在子服场景。"},{"t":"JavaScript + Node（≥26）","ok":true,"why":"主服契约。"},{"t":"只用浏览器、无服务端","ok":false,"why":"AGT 是后端 Runtime。"}]}]}
+{"title":"本仓语言栈","questions":[{"q":"本仓主服默认使用的语言与运行时是什么？","choices":[{"t":"Python + CPython 主服","ok":false,"why":"Python 多在子服场景。"},{"t":"JavaScript + Node（≥26）","ok":true,"why":"主服契约。"},{"t":"只用浏览器、无服务端","ok":false,"why":"AGT 是后端 Runtime。"}]}]}
 \`\`\`
 
 

@@ -68,7 +68,7 @@ try {
 前端：有 \`json.data\` 用它，否则读顶层字段（见 \`unwrapSuccess\` 语义）。
 
 \`\`\`quiz
-{"title":"JSON","questions":[{"q":"严格 JSON 里键名应？","choices":[{"t":"可以不写引号","ok":false,"why":"那是 JS 对象字面量宽松写法。"},{"t":"使用双引号","ok":true,"why":"JSON 标准要求。"},{"t":"只能用单引号","ok":false,"why":"JSON 字符串也是双引号。"}]},{"q":"HttpResponse.success(res, { assessments: [] }) 前端？","choices":[{"t":"只能 json.data.assessments","ok":false,"why":"对象会拍平。"},{"t":"常在顶层读 assessments","ok":true,"why":"拍平约定。"},{"t":"一定没有 assessments","ok":false,"why":"有。"}]}]}
+{"title":"JSON","questions":[{"q":"严格 JSON 标准里，键名应怎样书写？","choices":[{"t":"可以不写引号","ok":false,"why":"那是 JS 对象字面量宽松写法。"},{"t":"使用双引号","ok":true,"why":"JSON 标准要求。"},{"t":"只能用单引号","ok":false,"why":"JSON 字符串也是双引号。"}]},{"q":"HttpResponse.success(res, { assessments: [] }) 前端？","choices":[{"t":"只能 json.data.assessments","ok":false,"why":"对象会拍平。"},{"t":"常在顶层读 assessments","ok":true,"why":"拍平约定。"},{"t":"一定没有 assessments","ok":false,"why":"有。"}]}]}
 \`\`\`
 
 ## 下一步

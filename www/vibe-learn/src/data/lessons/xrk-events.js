@@ -75,7 +75,7 @@ flowchart TB
 \`\`\`
 
 \`\`\`quiz
-{"title":"events 快测","questions":[{"q":"「用户发 #签到 领积分」应优先放？","choices":[{"t":"events Listener","ok":false,"why":"这是指令业务，放 plugin。"},{"t":"plugin 规则匹配","ok":true,"why":"reg + run + reply。"},{"t":"src/factory","ok":false,"why":"工厂不管签到。"},{"t":"www 静态 HTML 注释","ok":false,"why":"不进运行时。"}]},{"q":"改完 events 后更稳妥的验收？","choices":[{"t":"存盘即默认热更成功，不必看日志","ok":false,"why":"易双绑/漏解绑。"},{"t":"重启主服，确认 ListenerLoader 重新 init","ok":true,"why":"长生命周期绑定。"},{"t":"只刷新浏览器","ok":false,"why":"服务端钩子。"},{"t":"删除 Redis 再试","ok":false,"why":"不对症。"}]}]}
+{"title":"events 快测","questions":[{"q":"「用户发 #签到 领积分」这类能力应优先放哪？","choices":[{"t":"events Listener","ok":false,"why":"这是指令业务，放 plugin。"},{"t":"plugin 规则匹配","ok":true,"why":"reg + run + reply。"},{"t":"src/factory","ok":false,"why":"工厂不管签到。"},{"t":"www 静态 HTML 注释","ok":false,"why":"不进运行时。"}]},{"q":"改完 events 监听后，更稳妥的验收方式是？","choices":[{"t":"存盘即默认热更成功，不必看 Listener 日志","ok":false,"why":"易双绑/漏解绑。"},{"t":"重启主服，确认 ListenerLoader 重新 init","ok":true,"why":"长生命周期绑定。"},{"t":"只刷新浏览器标签页即可验证服务端钩子","ok":false,"why":"服务端钩子。"},{"t":"删除 Redis 再试，期望事件监听随之恢复","ok":false,"why":"不对症。"}]}]}
 \`\`\`
 
 ---

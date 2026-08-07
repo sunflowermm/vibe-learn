@@ -75,7 +75,7 @@ flowchart TB
 | \`mergeWorkflows\` 工具白名单 | 厂商训练用的层配置 |
 
 \`\`\`quiz
-{"title":"变换器","questions":[{"q":"多数对话大语言模型生成时常用哪种掩码？","choices":[{"t":"无掩码，任意看未来令牌","ok":false,"why":"那样等于偷看还没写的答案。"},{"t":"因果掩码：只能看过去与自身","ok":true,"why":"自回归生成的条件。"},{"t":"只看系统说明、忽略用户","ok":false,"why":"窗口内角色消息都参与。"}]},{"q":"2017 原论文主要展示的架构是？","choices":[{"t":"仅 Decoder 的聊天机器人","ok":false,"why":"聊天产品是后来的放大形态。"},{"t":"Encoder–Decoder 机器翻译","ok":true,"why":"Attention Is All You Need 的实验设定。"},{"t":"纯卷积视觉骨干","ok":false,"why":"论文明确去掉卷积与循环。"}]}]}
+{"title":"变换器","questions":[{"q":"多数对话大语言模型生成时常用哪种掩码？","choices":[{"t":"无掩码，任意看未来令牌","ok":false,"why":"那样等于偷看还没写的答案。"},{"t":"因果掩码：只能看过去与自身","ok":true,"why":"自回归生成的条件。"},{"t":"只看系统说明、忽略用户","ok":false,"why":"窗口内角色消息都参与。"}]},{"q":"2017 Transformer 原论文主要展示的架构是？","choices":[{"t":"仅 Decoder 的聊天机器人","ok":false,"why":"聊天产品是后来的放大形态。"},{"t":"Encoder–Decoder 机器翻译","ok":true,"why":"Attention Is All You Need 的实验设定。"},{"t":"纯卷积视觉骨干","ok":false,"why":"论文明确去掉卷积与循环。"}]}]}
 \`\`\`
 
 ## 下一课

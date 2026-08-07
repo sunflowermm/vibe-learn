@@ -63,7 +63,7 @@ flowchart LR
 | 生产 | 少 \`debug\`；密钥字段黑名单 |
 
 \`\`\`quiz
-{"title":"观测","questions":[{"q":"生产排障最该优先保证？","choices":[{"t":"每行代码都 console.log","ok":false,"why":"噪声淹没信号。"},{"t":"错误可检索 + 脱敏 + 关联 ID","ok":true,"why":"能定位且不泄密。"},{"t":"关掉所有日志提性能","ok":false,"why":"出事两眼一抹黑。"}]}]}
+{"title":"观测","questions":[{"q":"生产排障时，最该优先保证的可观测性是什么？","choices":[{"t":"每行代码都 console.log","ok":false,"why":"噪声淹没信号。"},{"t":"错误可检索 + 脱敏 + 关联 ID","ok":true,"why":"能定位且不泄密。"},{"t":"关掉所有日志提性能","ok":false,"why":"出事两眼一抹黑。"}]}]}
 \`\`\`
 
 ## Coding Agent

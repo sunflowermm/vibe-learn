@@ -115,7 +115,7 @@ for (const r of results) {
 5. 改共享对象前先问：会不会两个请求交错？  
 
 \`\`\`quiz
-{"title":"异步 · 场景","questions":[{"q":"调用 async 函数却忘了 await，变量通常是？","choices":[{"t":"已经解析完毕的最终值","ok":false,"why":"还没等。"},{"t":"Promise","ok":true,"why":"收据还在。"},{"t":"必定语法错误","ok":false,"why":"能跑，只是拿错层。"}]},{"q":"JS 单线程是否等于没有竞态？","choices":[{"t":"是，绝对无竞态","ok":false,"why":"await 间隙可插入其它任务。"},{"t":"否，异步交错仍可能踩共享状态","ok":true,"why":"单线程≠无竞态。"},{"t":"只有多核才有 bug","ok":false,"why":"与核数无关。"}]},{"q":"Promise.all 里一个失败？","choices":[{"t":"自动忽略失败项","ok":false,"why":"那是 allSettled 一类语义。"},{"t":"整体以该原因 reject","ok":true,"why":"短路策略。"},{"t":"变成语法错误","ok":false,"why":"运行时行为。"}]}]}
+{"title":"异步 · 场景","questions":[{"q":"调用 async 函数却忘了 await，变量通常是？","choices":[{"t":"已经解析完毕的最终值","ok":false,"why":"还没等。"},{"t":"Promise","ok":true,"why":"收据还在。"},{"t":"必定语法错误","ok":false,"why":"能跑，只是拿错层。"}]},{"q":"「JS 是单线程」是否就等于不会有竞态？","choices":[{"t":"是，绝对无竞态","ok":false,"why":"await 间隙可插入其它任务。"},{"t":"否，异步交错仍可能踩共享状态","ok":true,"why":"单线程≠无竞态。"},{"t":"只有多核才有 bug","ok":false,"why":"与核数无关。"}]},{"q":"Promise.all 里若有一个失败会怎样？","choices":[{"t":"自动忽略失败项","ok":false,"why":"那是 allSettled 一类语义。"},{"t":"整体以该原因 reject","ok":true,"why":"短路策略。"},{"t":"变成语法错误","ok":false,"why":"运行时行为。"}]}]}
 \`\`\`
 
 ## 接到本仓

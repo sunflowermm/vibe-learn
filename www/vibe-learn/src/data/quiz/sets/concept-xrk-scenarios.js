@@ -204,7 +204,7 @@ export default defineQuizSet({
     },
     {
       id: 'concept-xrk-scenarios:www-where',
-      q: '产品控制台/落地页应放哪？应用名要注意什么？',
+      q: '产品控制台或落地页应落在哪一类目录约定？',
       choices: [
         {
           t: 'core/<core>/www/<应用名>/；勿用 api、core、media、uploads、File、shared 等保留根名',

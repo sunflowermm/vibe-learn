@@ -69,22 +69,22 @@ export default defineQuizSet({
       q: 'Docker Compose 适合解决哪类日常问题？',
       choices: [
         {
-          t: '用一份 YAML 声明并启动多容器应用',
+          t: "用一份 YAML 声明并启动多容器应用（如 Web + Redis + DB）",
           ok: true,
           why: '编排本地或小规模多服务，比手写多条 docker run 省心。',
         },
         {
-          t: '替代 Git 做版本管理与代码合并',
+          t: '替代 Git 做版本管理与代码合并，仓库历史可全部交给 Compose',
           ok: false,
           why: 'Compose 管容器生命周期，不追踪源码历史。',
         },
         {
-          t: '编译 CPU 微码或刷新主板 BIOS',
+          t: '编译 CPU 微码或刷新主板 BIOS，属于固件运维工具',
           ok: false,
           why: '与硬件固件无关。',
         },
         {
-          t: '自动把管理端口暴露到公网且无需鉴权',
+          t: '自动把管理端口暴露到公网且无需鉴权，方便远程运维',
           ok: false,
           why: '暴露端口要显式配置；公网无鉴权管理口是事故。',
         },

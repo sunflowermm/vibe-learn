@@ -71,22 +71,22 @@ export default defineQuizSet({
       q: '调需鉴权的 HTTPS API 时，Authorization 常见正确做法是？',
       choices: [
         {
-          t: 'Bearer + Token/API Key',
+          t: "Bearer + Token/API Key，且密钥勿暴露到浏览器打包产物",
           ok: true,
           why: '密钥放服务端环境变量；前端硬编码必泄。',
         },
         {
-          t: '把密钥写进 URL 查询串永久公开',
+          t: '把密钥写进 URL 查询串永久公开，方便分享与收藏',
           ok: false,
           why: '日志与分享都会泄密。',
         },
         {
-          t: '有 Authorization 就不需要 TLS',
+          t: '有 Authorization 头就不需要 TLS，明文传凭证也安全',
           ok: false,
           why: '凭证更应走加密通道。',
         },
         {
-          t: '用 Host 头代替凭证',
+          t: '用 Host 头代替凭证，写上主机名就算完成鉴权',
           ok: false,
           why: 'Host 不携带密钥。',
         },
@@ -99,7 +99,7 @@ export default defineQuizSet({
       q: 'Accept 头表达什么？',
       choices: [
         {
-          t: '客户端希望接受哪些响应媒体类型',
+          t: "客户端希望接受哪些响应媒体类型（内容协商）",
           ok: true,
           why: '服务器可据此选型；与请求体 Content-Type 不同。',
         },
@@ -127,22 +127,22 @@ export default defineQuizSet({
       q: 'User-Agent 的正确定位是？',
       choices: [
         {
-          t: '客户端自报身份，可伪造，不',
+          t: '客户端自报身份，可伪造，不能当唯一鉴权',
           ok: true,
           why: '统计与兼容用；勿当安全边界。',
         },
         {
-          t: '不可伪造的硬件根密钥',
+          t: '不可伪造的硬件根密钥，可当作唯一鉴权凭据',
           ok: false,
           why: '字符串可改。',
         },
         {
-          t: '替代 HTTPS',
+          t: '可替代 HTTPS，有了 User-Agent 就不必再加密传输',
           ok: false,
           why: '与加密无关。',
         },
         {
-          t: '服务器返回的状态码',
+          t: '服务器返回的状态码字段，写在响应状态行里',
           ok: false,
           why: '状态码在状态行。',
         },
@@ -211,22 +211,22 @@ export default defineQuizSet({
       q: 'Origin 头在跨源场景下的作用是？',
       choices: [
         {
-          t: '标明发起页面的协议+主机+端口',
+          t: "标明发起页面的协议+主机+端口，供服务器做 CORS 等判定",
           ok: true,
           why: '与 Cookie 策略、CSRF 讨论常对照。',
         },
         {
-          t: '存放 JWT 私钥',
+          t: '存放 JWT 私钥，方便浏览器跨源直接签名',
           ok: false,
           why: '绝不能把私钥放头里给浏览器。',
         },
         {
-          t: '替换 Host 且仅用于 FTP',
+          t: '替换 Host 且仅用于 FTP，与 Web 跨源无关',
           ok: false,
           why: 'Host 仍在；Origin 用于 Web 跨源。',
         },
         {
-          t: '表示服务器磁盘路径',
+          t: '表示服务器磁盘上的绝对路径，供反代读写文件',
           ok: false,
           why: '无关。',
         },
@@ -239,22 +239,22 @@ export default defineQuizSet({
       q: '联调时 Content-Type 与 Accept 最容易混的一点是？',
       choices: [
         {
-          t: 'Content-Type 描述「我发的正文是什么」',
+          t: "Content-Type 描述「我发的正文是什么」；Accept 描述「我希望收到什么」",
           ok: true,
           why: '一边管请求体，一边管响应协商。',
         },
         {
-          t: '两者完全同义，填一个即可',
+          t: '两者完全同义，请求里只填其中一个即可协商正文格式',
           ok: false,
           why: '方向不同。',
         },
         {
-          t: 'Accept 只能出现在响应里',
+          t: 'Accept 只能写在响应头里，请求侧不能声明希望的媒体类型',
           ok: false,
           why: 'Accept 是请求头。',
         },
         {
-          t: 'Content-Type 只能出现在 GET 无 body 请求里',
+          t: 'Content-Type 只能出现在 GET 且无 body 的请求里，有正文时不必标',
           ok: false,
           why: '有正文的请求更需要 Content-Type。',
         },

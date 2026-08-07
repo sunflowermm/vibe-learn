@@ -96,7 +96,7 @@ count = count + 1    // 可以换绑
 | HTTP / 配置 | 字段常是 string/number/object 嵌套——下一课用 boolean 做分支 |
 
 \`\`\`quiz
-{"title":"值与类型 · 场景","questions":[{"q":"要判断变量 x 是不是数组，应优先？","choices":[{"t":"typeof x === 'array'","ok":false,"why":"typeof 对数组返回 'object'，没有 'array'。"},{"t":"Array.isArray(x)","ok":true,"why":"MDN / 工程默认做法。"},{"t":"x instanceof String","ok":false,"why":"对不上数组。"}]},{"q":"日常比较两个值是否相等，默认应？","choices":[{"t":"用 ==，让引擎帮转换","ok":false,"why":"隐式转换易出隐蔽 bug。"},{"t":"用 ===；仅用 == null 同时判断空","ok":true,"why":"严格相等为默认；== null 是常见例外。"},{"t":"永远 Object.is","ok":false,"why":"边角场景才需要。"}]},{"q":"const user = { name: 'aya' } 之后，下列哪句合法？","choices":[{"t":"user = { name: 'bob' }","ok":false,"why":"换绑被 const 禁止。"},{"t":"user.name = 'bob'","ok":true,"why":"改的是对象内容，不是换绑。"},{"t":"二者都非法","ok":false,"why":"改属性合法。"}]}]}
+{"title":"值与类型 · 场景","questions":[{"q":"要判断变量 x 是不是数组，应优先用什么？","choices":[{"t":"typeof x === 'array'","ok":false,"why":"typeof 对数组返回 'object'，没有 'array'。"},{"t":"Array.isArray(x)","ok":true,"why":"MDN / 工程默认做法。"},{"t":"x instanceof String","ok":false,"why":"对不上数组。"}]},{"q":"日常比较两个值是否相等，默认应怎么写？","choices":[{"t":"用 ==，让引擎帮转换","ok":false,"why":"隐式转换易出隐蔽 bug。"},{"t":"用 ===；仅用 == null 同时判断空","ok":true,"why":"严格相等为默认；== null 是常见例外。"},{"t":"永远 Object.is","ok":false,"why":"边角场景才需要。"}]},{"q":"const user = { name: 'aya' } 之后，下列哪句合法？","choices":[{"t":"user = { name: 'bob' }","ok":false,"why":"换绑被 const 禁止。"},{"t":"user.name = 'bob'","ok":true,"why":"改的是对象内容，不是换绑。"},{"t":"二者都非法","ok":false,"why":"改属性合法。"}]}]}
 \`\`\`
 
 ## 下一步

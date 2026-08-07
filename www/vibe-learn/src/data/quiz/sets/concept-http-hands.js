@@ -15,7 +15,7 @@ export default defineQuizSet({
       q: '前后端分离里说的「API」，通常指什么？',
       choices: [
         {
-          t: '前后端约定好的 HTTP 接口',
+          t: "前后端约定好的 HTTP 接口：路径、方法、请求体与响应格式",
           ok: true,
           why: '契约清晰才能联调；改字段要同步两端与文档。',
         },
@@ -155,22 +155,22 @@ export default defineQuizSet({
       q: '静态 JS 被强缓存成旧版，但 API JSON 已是新契约。联调时优先抓什么？',
       choices: [
         {
-          t: '静态资源与 API 的缓存策略要分开',
+          t: "静态资源与 API 的缓存策略要分开：版本化静态文件或缩短其缓存",
           ok: true,
           why: 'API 与静态 CDN 策略混用会导致「前端旧、后端新」。',
         },
         {
-          t: '先把 TCP 改成 UDP',
+          t: '先把传输从 TCP 改成 UDP，缓存版本问题就会消失',
           ok: false,
           why: '与传输选型无关。',
         },
         {
-          t: 'CORS 一开，缓存问题自动消失',
+          t: 'CORS 一开，静态资源与 API 的缓存问题就会自动消失',
           ok: false,
           why: 'CORS 与缓存正交。',
         },
         {
-          t: '一定是拆包丢了半个 JSON',
+          t: '一定是拆包丢了半个 JSON，与缓存策略无关',
           ok: false,
           why: '先对版本与缓存，再怀疑传输。',
         },

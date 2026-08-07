@@ -57,7 +57,7 @@ Vibe Coding：给 Agent 的说明优先 **短句 + 清单 + 表格 + 围栏代�
 写交底时：**禁区、命令、验收** 用清单和表格。详见 **项目记忆文件**。
 
 \`\`\`quiz
-{"title":"Markdown · 场景","questions":[{"q":"给 Agent 写仓库说明书，优先？","choices":[{"t":"长篇散文无结构","ok":false,"why":"难检索、易忽略。"},{"t":"短句 + 清单 + 表格钉禁区与命令","ok":true,"why":"可执行交底。"},{"t":"只放一张截图","ok":false,"why":"Agent 与 Git diff 不友好。"}]}]}
+{"title":"Markdown · 场景","questions":[{"q":"给 Agent 写仓库说明书时，优先用什么格式？","choices":[{"t":"长篇散文无结构","ok":false,"why":"难检索、易忽略。"},{"t":"短句 + 清单 + 表格钉禁区与命令","ok":true,"why":"可执行交底。"},{"t":"只放一张截图","ok":false,"why":"Agent 与 Git diff 不友好。"}]}]}
 \`\`\`
 
 ## 建议练习

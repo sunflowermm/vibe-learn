@@ -125,7 +125,7 @@ Get-Process | Where-Object { $_.CPU -gt 100 } | Select-Object Name, Id
 
 ## 3. 工具链
 \`\`\`quiz
-{"title":"powershell 快测","questions":[{"q":"学一门语言时，最先要分清的是？","choices":[{"t":"只背语法关键字","ok":false,"why":"语法重要，但交付模型更影响工程。"},{"t":"语言 vs 运行时 vs 常用框架","ok":true,"why":"三层混谈会面试翻车、选型也翻车。"},{"t":"必须先会操作系统内核","ok":false,"why":"有帮助，但不是本课第一刀。"}]}]}
+{"title":"powershell 快测","questions":[{"q":"学一门语言时，最先要分清的两件基础事是？","choices":[{"t":"只背语法关键字","ok":false,"why":"语法重要，但交付模型更影响工程。"},{"t":"语言 vs 运行时 vs 常用框架","ok":true,"why":"三层混谈会面试翻车、选型也翻车。"},{"t":"必须先会操作系统内核","ok":false,"why":"有帮助，但不是本课第一刀。"}]}]}
 \`\`\`
 
 

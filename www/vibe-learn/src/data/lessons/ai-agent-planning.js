@@ -74,7 +74,7 @@ flowchart TD
 | 真源 | \`docs/agent-context.md\` · \`docs/ai-workflow.md\` |
 
 \`\`\`quiz
-{"title":"规划","questions":[{"q":"ReAct 相对「单次补全」多了什么？","choices":[{"t":"更大的嵌入维度","ok":false,"why":"与维度无关。"},{"t":"多轮：依据观察再决定下一步行动","ok":true,"why":"控制循环核心。"},{"t":"必须上微调","ok":false,"why":"模式与是否微调正交。"},{"t":"必须改用 UDP 替代 HTTPS","ok":false,"why":"与传输协议选型无关。"}]},{"q":"本仓限制「想太久、调太多次」更贴近？","choices":[{"t":"maxToolRounds 等工具轮预算 + 超时","ok":true,"why":"步数与墙钟都要封顶。"},{"t":"删掉 package.json","ok":false,"why":"无关。"},{"t":"禁止使用任何模型","ok":false,"why":"过激。"},{"t":"把密钥写进 README","ok":false,"why":"安全反例，不是规划约束。"}]}]}
+{"title":"规划","questions":[{"q":"ReAct 相对「单次补全」多了什么？","choices":[{"t":"更大的嵌入维度","ok":false,"why":"与维度无关。"},{"t":"多轮：依据观察再决定下一步行动","ok":true,"why":"控制循环核心。"},{"t":"必须上微调","ok":false,"why":"模式与是否微调正交。"},{"t":"必须改用 UDP 替代 HTTPS","ok":false,"why":"与传输协议选型无关。"}]},{"q":"本仓限制「想太久、调太多次」更贴近哪类配置？","choices":[{"t":"maxToolRounds 等工具轮预算 + 超时","ok":true,"why":"步数与墙钟都要封顶。"},{"t":"删掉 package.json 来阻止模型继续调用工具","ok":false,"why":"无关。"},{"t":"运维上直接禁止使用任何模型，彻底关掉智能体","ok":false,"why":"过激。"},{"t":"把 API 密钥写进 README 当作「规划预算」配置项","ok":false,"why":"安全反例，不是规划约束。"}]}]}
 \`\`\`
 
 ## 下一步

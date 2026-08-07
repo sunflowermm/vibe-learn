@@ -75,7 +75,7 @@ flowchart LR
 | 滑动窗口最大值 | 单调双端队列 |
 
 \`\`\`quiz
-{"title":"线性结构","questions":[{"q":"括号匹配最贴哪结构？","choices":[{"t":"栈","ok":true,"why":"后开先闭。"},{"t":"只靠队列","ok":false,"why":"FIFO 对不上嵌套。"},{"t":"必须哈希","ok":false,"why":"不是主结构。"}]}]}
+{"title":"线性结构","questions":[{"q":"括号匹配这类问题，最贴近哪一类数据结构？","choices":[{"t":"栈","ok":true,"why":"后开先闭。"},{"t":"只靠队列","ok":false,"why":"FIFO 对不上嵌套。"},{"t":"必须哈希","ok":false,"why":"不是主结构。"}]}]}
 \`\`\`
 
 ## 本仓怎么做

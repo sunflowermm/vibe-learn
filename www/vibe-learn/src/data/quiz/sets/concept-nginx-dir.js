@@ -17,22 +17,22 @@ export default defineQuizSet({
       q: 'Nginx 的 server 块大致表示什么？',
       choices: [
         {
-          t: '一个虚拟主机/站点的配置单元',
+          t: "一个虚拟主机/站点的配置单元（监听、域名、location 等）",
           ok: true,
           why: '一台 Nginx 可有多个 server，靠 server_name/listen 区分。',
         },
         {
-          t: '一组后端机器列表，专供负载均衡引用',
+          t: '一组后端机器列表，专供负载均衡引用（那是 upstream）',
           ok: false,
           why: '那是 upstream。',
         },
         {
-          t: '按 URI 路径匹配的一条规则',
+          t: '按 URI 路径匹配的一条规则（那是 location）',
           ok: false,
           why: '那是 location。',
         },
         {
-          t: '把请求转发到上游的指令名',
+          t: '把请求转发到上游的指令名（那是 proxy_pass）',
           ok: false,
           why: '那是 proxy_pass。',
         },
@@ -129,22 +129,22 @@ export default defineQuizSet({
       q: 'Nginx upstream 的用途是？',
       choices: [
         {
-          t: '声明一组后端，供 proxy_pass 引用',
+          t: '声明一组后端，供 proxy_pass 引用并可做简单负载',
           ok: true,
           why: '不是容器专有词；健康检查与策略可再配。',
         },
         {
-          t: '定义虚拟主机的 server_name',
+          t: '定义虚拟主机对外匹配的 server_name 域名列表',
           ok: false,
           why: 'server_name 在 server 块。',
         },
         {
-          t: '测试 conf 语法',
+          t: '用 nginx -t 同类语义测试 conf 语法是否合法',
           ok: false,
           why: '那是 nginx -t。',
         },
         {
-          t: '替代 DNS 根服务器',
+          t: '替代全球 DNS 根服务器，负责解析所有公网域名',
           ok: false,
           why: 'upstream 不管全球 DNS。',
         },

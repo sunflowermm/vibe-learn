@@ -128,7 +128,7 @@ Cloudflare 官方把自家 CDN 描述为：访客先连边缘 PoP，边缘可缓
 落地：Nginx \`limit_req\`、Redis 计数、网关中间件、边缘 WAF 速率限制等。
 
 \`\`\`quiz
-{"title":"反代 / CDN 自测","questions":[{"q":"正向代理 vs 反向代理？","choices":[{"t":"正向靠近客户端常需配置；反向靠近服务器客户端通常无感","ok":true,"why":"Clash 偏正向；Nginx 门面偏反向。"},{"t":"二者完全等价","ok":false,"why":"位置与谁感知不同。"},{"t":"反向代理废除 DNS","ok":false,"why":"仍要解析到入口。"},{"t":"正向专门签发证书","ok":false,"why":"证书常在反代/边缘终止。"}]},{"q":"L7 相对 L4 负载均衡多了什么？","choices":[{"t":"能按 Host/URL/Header 等应用语义路由","ok":true,"why":"L4 只看 IP/端口/协议。"},{"t":"禁止用于生产","ok":false,"why":"差异在功能不是禁令。"},{"t":"只能看 MAC","ok":false,"why":"MAC 是链路层。"},{"t":"只能跑 UDP","ok":false,"why":"HTTP L7 常见于 TCP/QUIC。"}]},{"q":"CDN 未命中时通常？","choices":[{"t":"回源到源站取内容","ok":true,"why":"边缘没有副本才打源。"},{"t":"立刻改客户端 DNS","ok":false,"why":"与缓存未命中无关。"},{"t":"废除 TLS","ok":false,"why":"边缘仍常终止 TLS。"}]}]}
+{"title":"反代 / CDN 自测","questions":[{"q":"正向代理与反向代理在位置上的差别是什么？","choices":[{"t":"正向靠近客户端常需配置；反向靠近服务器客户端通常无感","ok":true,"why":"Clash 偏正向；Nginx 门面偏反向。"},{"t":"二者只是厂商文案不同，客户端感知与部署位置完全一样","ok":false,"why":"位置与谁感知不同。"},{"t":"上了反向代理后就不再需要 DNS，域名解析可以省略","ok":false,"why":"仍要解析到入口。"},{"t":"正向代理的主要职责是对外签发站点证书，取代 CA","ok":false,"why":"证书常在反代/边缘终止。"}]},{"q":"L7 相对 L4 负载均衡多了哪些路由能力？","choices":[{"t":"能按 Host/URL/Header 等应用语义路由","ok":true,"why":"L4 只看 IP/端口/协议。"},{"t":"L7 只能用于实验环境，生产流量必须全程 L4","ok":false,"why":"差异在功能不是禁令。"},{"t":"L7 主要按链路层 MAC 地址分流，不看应用头","ok":false,"why":"MAC 是链路层。"},{"t":"L7 负载均衡只能转发 UDP，不能处理 HTTP/TCP","ok":false,"why":"HTTP L7 常见于 TCP/QUIC。"}]},{"q":"CDN 缓存未命中时，请求通常怎么走？","choices":[{"t":"回源到源站取内容","ok":true,"why":"边缘没有副本才打源。"},{"t":"立刻改写客户端本机 DNS，指向另一条线路","ok":false,"why":"与缓存未命中无关。"},{"t":"边缘直接废除 TLS，改用明文 HTTP 回源","ok":false,"why":"边缘仍常终止 TLS。"},{"t":"把未命中当成永久失败，客户端只能刷新本地缓存","ok":false,"why":"标准路径是 miss 后回源再填充边缘。"}]}]}
 \`\`\`
 
 ---

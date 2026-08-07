@@ -40,7 +40,7 @@ export default `# 实践课 · 配置三同步
 **禁止**：把独立产品业务 yaml 塞进 \`config/default_config/\`。
 
 \`\`\`quiz
-{"title":"配置归属","questions":[{"q":"给独立产品 Core 加业务配置，应？","choices":[{"t":"只改 config/default_config/","ok":false,"why":"产品配置不进运行时默认仓。"},{"t":"Core 的 default/ + commonconfig/ + 消费代码三同步","ok":true,"why":"模板、schema、read 键名对齐。"},{"t":"只写在插件顶部注释","ok":false,"why":"娱乐插件例外；正经产品要 schema。"},{"t":"只改 data/ 运行时文件、永不写模板","ok":false,"why":"新环境缺模板无法引导复制。"}]}]}
+{"title":"配置归属","questions":[{"q":"给独立产品 Core 加业务配置，应？","choices":[{"t":"只改 config/default_config/，与运行时模板混放即可","ok":false,"why":"产品配置不进运行时默认仓。"},{"t":"Core 的 default/ + commonconfig/ + 消费代码三同步","ok":true,"why":"模板、schema、read 键名对齐。"},{"t":"只写在插件顶部注释，不必 schema 与模板","ok":false,"why":"娱乐插件例外；正经产品要 schema。"},{"t":"只改 data/ 运行时文件、永不写 default 模板","ok":false,"why":"新环境缺模板无法引导复制。"}]}]}
 \`\`\`
 
 ---

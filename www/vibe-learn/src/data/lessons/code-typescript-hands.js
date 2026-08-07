@@ -80,7 +80,7 @@ function label(u: User): string {
 4.（可选）本地 \`pnpm dlx typescript --init\` 后 \`tsc\` 编译一个小文件  
 
 \`\`\`quiz
-{"title":"TS","questions":[{"q":"浏览器直接执行 .ts 源文件？","choices":[{"t":"永远可以，浏览器内置 TS","ok":false,"why":"需编译/转译或特殊加载。"},{"t":"一般要先变成 JS（或走支持 TS 的运行时/捆绑）","ok":true,"why":"类型擦除后是 JS。"},{"t":"只有用 any 才能跑","ok":false,"why":"与是否能跑无关。"}]}]}
+{"title":"TS","questions":[{"q":"浏览器能否直接执行未编译的 .ts 源文件？","choices":[{"t":"永远可以，浏览器内置 TS","ok":false,"why":"需编译/转译或特殊加载。"},{"t":"一般要先变成 JS（或走支持 TS 的运行时/捆绑）","ok":true,"why":"类型擦除后是 JS。"},{"t":"只有用 any 才能跑","ok":false,"why":"与是否能跑无关。"}]}]}
 \`\`\`
 
 ## Coding Agent

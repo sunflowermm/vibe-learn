@@ -83,7 +83,7 @@ sequenceDiagram
 | 参数解析一次 | \`parse-tool-arguments.js\`（适配器只预览，勿双解析） |
 
 \`\`\`quiz
-{"title":"工具调用","questions":[{"q":"工具调用的关键是？","choices":[{"t":"模型输出结构化意图，由运行时执行并回填","ok":true,"why":"执行权在运行时。"},{"t":"模型直接改任意文件且无需协议","ok":false,"why":"必须经你允许的工具层。"},{"t":"只能调用浏览器","ok":false,"why":"工具可以是任意接口。"}]},{"q":"工具轮数用尽后本仓还可？","choices":[{"t":"静默丢弃，永远不再请求模型","ok":false,"why":"可 finalize 收口。"},{"t":"再发一轮无工具 finalize，让模型用已有结果写正文","ok":true,"why":"tool-loop-finalize。"},{"t":"自动微调基座权重","ok":false,"why":"无关。"}]}]}
+{"title":"工具调用","questions":[{"q":"工具调用里，模型与运行时的关键分工是什么？","choices":[{"t":"模型输出结构化意图，由运行时执行并回填","ok":true,"why":"执行权在运行时。"},{"t":"模型直接改任意文件且无需协议","ok":false,"why":"必须经你允许的工具层。"},{"t":"只能调用浏览器","ok":false,"why":"工具可以是任意接口。"}]},{"q":"工具轮数用尽后，本仓 finalize 还可以怎样？","choices":[{"t":"静默丢弃，永远不再请求模型","ok":false,"why":"可 finalize 收口。"},{"t":"再发一轮无工具 finalize，让模型用已有结果写正文","ok":true,"why":"tool-loop-finalize。"},{"t":"自动微调基座权重","ok":false,"why":"无关。"}]}]}
 \`\`\`
 
 ## 下一课

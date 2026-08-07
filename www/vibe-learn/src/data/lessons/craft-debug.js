@@ -65,7 +65,7 @@ TypeError: Cannot read properties of undefined (reading 'x')
 密钥与隐私字段**不要**打进日志。上线后怎么看系统：见 **日志与观测**。
 
 \`\`\`quiz
-{"title":"调试","questions":[{"q":"最有效的 Agent 排障输入？","choices":[{"t":"「坏了，你看着办」","ok":false,"why":"无现场。"},{"t":"复现步骤 + 堆栈/日志原文 + 约束","ok":true,"why":"可对症。"},{"t":"只发一张表情包","ok":false,"why":"无效。"}]}]}
+{"title":"调试","questions":[{"q":"给 Agent 排障时，最有效的输入是什么？","choices":[{"t":"「坏了，你看着办」","ok":false,"why":"无现场。"},{"t":"复现步骤 + 堆栈/日志原文 + 约束","ok":true,"why":"可对症。"},{"t":"只发一张表情包","ok":false,"why":"无效。"}]}]}
 \`\`\`
 
 ## Vibe Coding

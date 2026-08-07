@@ -15,22 +15,22 @@ export default defineQuizSet({
       q: 'AiWorkflow 代码与配置通常？',
       choices: [
         {
-          t: '代码在 core/*/workflow/',
+          t: "代码在 core/*/workflow/；配置常对应 ai-workflow",
           ok: true,
           why: 'Loader 按约定扫描 workflow；配置名别和目录搞反。',
         },
         {
-          t: '必须安装 LangChain 才能跑',
+          t: '必须安装 LangChain 才能跑，否则 AiWorkflowLoader 无法扫描',
           ok: false,
           why: '本仓自有工作流约定，不强制 LangChain。',
         },
         {
-          t: '只能写在浏览器',
+          t: '只能写在浏览器前端，服务端禁止出现 workflow 文件',
           ok: false,
           why: '工作流是服务端扩展点。',
         },
         {
-          t: '与 http 必须同一文件',
+          t: '与 http 路由必须写在同一文件，禁止分目录加载',
           ok: false,
           why: 'http/ 与 workflow/ 分目录，职责不同。',
         },
@@ -96,7 +96,7 @@ export default defineQuizSet({
       q: 'Factory、MCP、工作流分工？',
       choices: [
         {
-          t: '工厂选模型客户端',
+          t: "工厂选模型客户端；MCP 挂工具；工作流编排步骤",
           ok: true,
           why: '三者正交：模型面 / 工具面 / 编排面。',
         },

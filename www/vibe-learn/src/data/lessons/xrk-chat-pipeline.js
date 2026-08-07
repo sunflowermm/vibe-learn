@@ -139,7 +139,7 @@ flowchart TB
 | 提示安全 | policies · toolScan · approval |
 
 \`\`\`quiz
-{"title":"管线自测","questions":[{"q":"易变的「当前时间」应放哪？","choices":[{"t":"拼进可缓存的 system 最前面","ok":false,"why":"会搅乱前缀缓存。"},{"t":"独立 user（buildEnhancedContext）","ok":true,"why":"代码刻意拆层。"},{"t":"只写进 Redis 不给模型","ok":false,"why":"模型需要看见会话元数据。"},{"t":"写进 package.json engines","ok":false,"why":"无关。"}]},{"q":"出站 toolPair 改的是？","choices":[{"t":"磁盘上永久聊天记录","ok":false,"why":"不改持久历史。"},{"t":"即将送给模型的过旧 tool 结果投影","ok":true,"why":"省窗；笔录仍在。"},{"t":"Provider 的 API Key","ok":false,"why":"无关。"},{"t":"Nginx 反代证书","ok":false,"why":"无关。"}]},{"q":"security.approval 默认？","choices":[{"t":"开启，所有工具都要群里投票","ok":false,"why":"默认关。"},{"t":"关闭；危险 ask 未开审批则拒绝（主人可旁路）","ok":true,"why":"日常不打扰；需要时再开。"},{"t":"不存在该配置","ok":false,"why":"ai-workflow.security.approval。"},{"t":"只对 web_search 生效","ok":false,"why":"针对工具执行 ask。"}]}]}
+{"title":"管线自测","questions":[{"q":"易变的「当前时间」提示更应放在哪一层消息？","choices":[{"t":"拼进可缓存的 system 最前面","ok":false,"why":"会搅乱前缀缓存。"},{"t":"独立 user（buildEnhancedContext）","ok":true,"why":"代码刻意拆层。"},{"t":"只写进 Redis 不给模型","ok":false,"why":"模型需要看见会话元数据。"},{"t":"写进 package.json engines","ok":false,"why":"无关。"}]},{"q":"出站 toolPair 主要改写的是哪一类内容？","choices":[{"t":"磁盘上永久聊天记录","ok":false,"why":"不改持久历史。"},{"t":"即将送给模型的过旧 tool 结果投影","ok":true,"why":"省窗；笔录仍在。"},{"t":"Provider 的 API Key","ok":false,"why":"无关。"},{"t":"Nginx 反代证书","ok":false,"why":"无关。"}]},{"q":"security.approval 默认？","choices":[{"t":"开启，所有工具都要群里投票","ok":false,"why":"默认关。"},{"t":"关闭；危险 ask 未开审批则拒绝（主人可旁路）","ok":true,"why":"日常不打扰；需要时再开。"},{"t":"不存在该配置","ok":false,"why":"ai-workflow.security.approval。"},{"t":"只对 web_search 生效","ok":false,"why":"针对工具执行 ask。"}]}]}
 \`\`\`
 
 ## 文档链接

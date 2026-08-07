@@ -59,7 +59,7 @@ TypeError: Cannot read properties of undefined (reading 'name')
 异步里：\`await\` 失败常进 \`catch\`；未处理的拒绝可能只打 \`UnhandledRejection\`——仍要找**自己的**帧。
 
 \`\`\`quiz
-{"title":"读报错 · 场景","questions":[{"q":"堆栈里一长串 node_modules，你该？","choices":[{"t":"从最底下 node 内部帧开始改","ok":false,"why":"那不是你的代码。"},{"t":"找第一帧属于自己项目的文件:行号","ok":true,"why":"定位器。"},{"t":"整段删掉重写项目","ok":false,"why":"过大。"}]},{"q":"给 Agent 排错时最有效的材料？","choices":[{"t":"只说「报错了」","ok":false,"why":"无法定位。"},{"t":"完整堆栈原文 + 已试过的命令","ok":true,"why":"可复现、可落到文件行。"},{"t":"只贴截图半截红字","ok":false,"why":"丢关键帧。"}]}]}
+{"title":"读报错 · 场景","questions":[{"q":"堆栈里一长串 node_modules，你该？","choices":[{"t":"从最底下 node 内部帧开始改","ok":false,"why":"那不是你的代码。"},{"t":"找第一帧属于自己项目的文件:行号","ok":true,"why":"定位器。"},{"t":"整段删掉重写项目","ok":false,"why":"过大。"}]},{"q":"给 Agent 排错时，最有效的输入材料是？","choices":[{"t":"只说「报错了」","ok":false,"why":"无法定位。"},{"t":"完整堆栈原文 + 已试过的命令","ok":true,"why":"可复现、可落到文件行。"},{"t":"只贴截图半截红字","ok":false,"why":"丢关键帧。"}]}]}
 \`\`\`
 
 ## Vibe Coding

@@ -40,6 +40,32 @@ async function main() {
       if (/```/.test(blob) || /\|[-:]+\|/.test(blob) || /[┌┐└┘├┤┬┴┼│─]/.test(blob)) {
         issues.push('fail:选项含Markdown/框线dump');
       }
+      const ct = String(c.t || '').trim();
+      // 硬前缀切片残片（勿再 slice 正解凑「等长」）
+      if (
+        /[，、]\s*[不未无没只还更已正]$/.test(ct) ||
+        /「[^」]*$/.test(ct) ||
+        /（[^）]*$/.test(ct) ||
+        /\([^)]*$/.test(ct) ||
+        /[，、：:]$/.test(ct) ||
+        /https?:$/i.test(ct) ||
+        /env F$/.test(ct) ||
+        /与 DN$/.test(ct) ||
+        /与中$/.test(ct) ||
+        /：资$/.test(ct) ||
+        /发送请$/.test(ct) ||
+        /频繁，触$/.test(ct) ||
+        /所有客户$/.test(ct) ||
+        /→ 定$/.test(ct) ||
+        /时尽$/.test(ct) ||
+        /且不$/.test(ct)
+      ) {
+        issues.push('fail:选项半句/截断残片');
+      }
+    }
+    const stem = String(q.q || '').trim();
+    if (/(应改|勿混指)[？?]$/.test(stem)) {
+      issues.push('fail:题干口语半句');
     }
     // 名词→释义（:def）：正确项若只剩 URL 碎片，说明 definitionBody 剥过头
     if (

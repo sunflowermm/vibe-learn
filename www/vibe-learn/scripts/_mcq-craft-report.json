@@ -1,0 +1,411 @@
+{
+  "productN": 1095,
+  "truncN": 0,
+  "absurdN": 0,
+  "laundryN": 0,
+  "fillerN": 0,
+  "allOfN": 0,
+  "oralHalfN": 0,
+  "iwfSevere": 0,
+  "iwfSoft": 28,
+  "trunc": [],
+  "absurd": [],
+  "laundry": [],
+  "filler": [],
+  "allOf": [],
+  "oralHalf": [],
+  "iwfTop": [
+    {
+      "id": "concept-net-path:q14",
+      "setId": "concept-net-path",
+      "tier": "soft",
+      "okLen": 43,
+      "maxW": 33,
+      "diff": 10,
+      "ok": "端口转发偏 L3/L4 映射 IP:端口；反代偏 L7，可按 Host/Path 分流",
+      "wrongs": [
+        "有了端口转发就不再需要防火墙：映射成功等于全端口对公网开放",
+        "端口转发与反向代理完全等价，只是厂商 GUI 文案叫法不同",
+        "反向代理只能做 UDP，端口转发只能做 TCP，二者绝不可同机共存"
+      ]
+    },
+    {
+      "id": "l:xrk-lab-http:b1:q2",
+      "setId": "pool-lesson-xrk",
+      "tier": "soft",
+      "okLen": 48,
+      "maxW": 38,
+      "diff": 10,
+      "ok": "读顶层 hello（或 unwrapSuccess），勿默认假定 json.data.hello",
+      "wrongs": [
+        "响应一定是纯字符串正文，不能按 JSON 对象字段解包或读顶层 hello",
+        "忽略 success 字段；只要 body 非空就算业务成功，不必看约定外壳",
+        "永远只读 json.data.hello；顶层业务字段一律忽略且视为非法响应"
+      ]
+    },
+    {
+      "id": "concept-clash:env",
+      "setId": "concept-clash",
+      "tier": "soft",
+      "okLen": 44,
+      "maxW": 35,
+      "diff": 9,
+      "ok": "系统或终端的 HTTP_PROXY/HTTPS_PROXY 与 Clash 监听端口一致",
+      "wrongs": [
+        "把 NO_PROXY 设成 *，让所有地址（含本机与环回）都强制走代理",
+        "关闭所有域名系统（DNS）解析后，代理才会开始生效并接管全部流量",
+        "只改桌面壁纸与主题色，网络栈就会自动把流量送进 Clash 代理端口"
+      ]
+    },
+    {
+      "id": "concept-esp:cloud",
+      "setId": "concept-esp",
+      "tier": "soft",
+      "okLen": 41,
+      "maxW": 32,
+      "diff": 9,
+      "ok": "设备走受鉴权的 API/MQTT；密钥与证书在设备侧安全配置，服务端校验身份与配额",
+      "wrongs": [
+        "明文 HTTP 且无鉴权先跑通后，就永久上线并且永不做加固",
+        "把云端私钥烧进每块开发板，并公开原理图附件方便量产维修",
+        "设备直连生产库 root 账号写表，完全跳过应用层鉴权与配额校验"
+      ]
+    },
+    {
+      "id": "concept-zero-basics:q12",
+      "setId": "concept-zero-basics",
+      "tier": "soft",
+      "okLen": 37,
+      "maxW": 29,
+      "diff": 8,
+      "ok": "小闭环：会跑→会改→会读报错→再叠 Git/HTTP/库——忌一上来造平台",
+      "wrongs": [
+        "跳过终端与报错阅读，只反复看视频、不动手改代码",
+        "先同时背完所有框架文档，再动手写项目里的第一行代码",
+        "先把所有密钥提交到公开 GitHub，方便换机器时复制练习"
+      ]
+    },
+    {
+      "id": "concept-data-formats:yaml-indent",
+      "setId": "concept-data-formats",
+      "tier": "soft",
+      "okLen": 35,
+      "maxW": 27,
+      "diff": 8,
+      "ok": "层级结构被解析错误，可能导致服务启动失败或配置 silently 错位",
+      "wrongs": [
+        "YAML 不使用缩进表达嵌套，只依靠花括号区分层级结构",
+        "解析器会自动修正缩进错误，不影响任何配置含义与启动结果",
+        "缩进错误只影响编辑器字体颜色，运行时对层级完全无感"
+      ]
+    },
+    {
+      "id": "concept-net-path:q2",
+      "setId": "concept-net-path",
+      "tier": "soft",
+      "okLen": 29,
+      "maxW": 21,
+      "diff": 8,
+      "ok": "OSI 偏对照教学；编程与排障心智多用 TCP/IP 四层",
+      "wrongs": [
+        "必须一一对应且层名完全相同才合法",
+        "TCP/IP 已废除网络层，只剩 HTTP",
+        "只有物理层真实存在，其余是虚构"
+      ]
+    },
+    {
+      "id": "concept-net-path:q17",
+      "setId": "concept-net-path",
+      "tier": "soft",
+      "okLen": 28,
+      "maxW": 20,
+      "diff": 8,
+      "ok": "让同一客户端尽量落到同一后端，以迁就本地 Session",
+      "wrongs": [
+        "有了粘滞就不必健康检查",
+        "粘滞等于负载均衡坏了，应立刻删除全部后端",
+        "粘滞只能用于 ICMP"
+      ]
+    },
+    {
+      "id": "concept-net-path:q20",
+      "setId": "concept-net-path",
+      "tier": "soft",
+      "okLen": 42,
+      "maxW": 34,
+      "diff": 8,
+      "ok": "橙云：访客先到 CF 边缘再回源，源站 IP 不易直暴；灰云：解析直接给出源站 IP",
+      "wrongs": [
+        "橙云关闭全部 DNS，灰云关闭全部 TLS，二者互为反义词配置",
+        "灰云会自动做 Anycast 并隐藏源站 IP，橙云则直接暴露源站",
+        "橙云只能用于 UDP 游戏端口，HTTP/HTTPS 站点必须用灰云"
+      ]
+    },
+    {
+      "id": "concept-http-hands:q4",
+      "setId": "concept-http-hands",
+      "tier": "soft",
+      "okLen": 30,
+      "maxW": 22,
+      "diff": 8,
+      "ok": "前后端约定好的 HTTP 接口：路径、方法、请求体与响应格式",
+      "wrongs": [
+        "前端 CSS 类名的命名规范",
+        "仅指数据库里的一张表结构",
+        "仅指操作系统内核的系统调用，与 Web 无关"
+      ]
+    },
+    {
+      "id": "concept-http-status:302",
+      "setId": "concept-http-status",
+      "tier": "soft",
+      "okLen": 37,
+      "maxW": 29,
+      "diff": 8,
+      "ok": "临时重定向；部分客户端会把 POST 改成 GET——要用 307 保方法",
+      "wrongs": [
+        "客户端触发了网关或应用层限流配额（常见对应 429）",
+        "表示未修改，应走协商缓存（应用层 304 语义）",
+        "永久迁移且永远不应再访问旧 URI（更常 301/308）"
+      ]
+    },
+    {
+      "id": "concept-eng-api-contracts:q10",
+      "setId": "concept-eng-api-contracts",
+      "tier": "soft",
+      "okLen": 22,
+      "maxW": 14,
+      "diff": 8,
+      "ok": "可生成文档/客户端/校验，减少口口相传的漂移",
+      "wrongs": [
+        "有文档就可以不写实现",
+        "只对前端有用，后端可无视",
+        "Schema 应包含生产密钥"
+      ]
+    },
+    {
+      "id": "concept-xrk-first-run:node",
+      "setId": "concept-xrk-first-run",
+      "tier": "soft",
+      "okLen": 25,
+      "maxW": 17,
+      "diff": 8,
+      "ok": "新语法/API 不可用或告警——升级到文档要求版本",
+      "wrongs": [
+        "版本越旧越符合本仓",
+        "卸载 pnpm 来兼容旧 Node",
+        "Node 版本与运行无关"
+      ]
+    },
+    {
+      "id": "concept-xrk-agent-pipe:ortho",
+      "setId": "concept-xrk-agent-pipe",
+      "tier": "soft",
+      "okLen": 24,
+      "maxW": 16,
+      "diff": 8,
+      "ok": "工厂选模型客户端；MCP 挂工具；工作流编排步骤",
+      "wrongs": [
+        "MCP 替代全部 YAML 配置",
+        "有工厂就不必 MCP",
+        "三者都必须写在 www/"
+      ]
+    },
+    {
+      "id": "concept-eng-security-model:q7",
+      "setId": "concept-eng-security-model",
+      "tier": "soft",
+      "okLen": 27,
+      "maxW": 19,
+      "diff": 8,
+      "ok": "SSRF：限制协议与目标网段，防止打内网元数据/管理口",
+      "wrongs": [
+        "SSRF 只影响打印机",
+        "URL 越随意越好",
+        "有 Docker 就自动免疫 SSRF"
+      ]
+    },
+    {
+      "id": "concept-eng-security-model:q10",
+      "setId": "concept-eng-security-model",
+      "tier": "soft",
+      "okLen": 25,
+      "maxW": 17,
+      "diff": 8,
+      "ok": "列出资产、入口、信任边界与可能滥用，再决定控制措施",
+      "wrongs": [
+        "只靠每年一次渗透报告，开发期不用想",
+        "威胁模型等于购买防火墙型号",
+        "开源项目不需要威胁模型"
+      ]
+    },
+    {
+      "id": "concept-eng-testing-strategy:q2",
+      "setId": "concept-eng-testing-strategy",
+      "tier": "soft",
+      "okLen": 24,
+      "maxW": 16,
+      "diff": 8,
+      "ok": "曾线上炸过的、钱/权限/数据损坏相关、核心不变量",
+      "wrongs": [
+        "只有 getter/setter",
+        "随机 UI 像素到 1px",
+        "第三方网络每次真实扣费"
+      ]
+    },
+    {
+      "id": "concept-eng-testing-strategy:q5",
+      "setId": "concept-eng-testing-strategy",
+      "tier": "soft",
+      "okLen": 24,
+      "maxW": 16,
+      "diff": 8,
+      "ok": "隔离、修根因或删；禁止让团队学会「再点一次重跑」",
+      "wrongs": [
+        "永久忽略红灯",
+        "flaky 证明并发完美",
+        "把重试次数调到 100 就算质量"
+      ]
+    },
+    {
+      "id": "concept-eng-testing-strategy:q6",
+      "setId": "concept-eng-testing-strategy",
+      "tier": "soft",
+      "okLen": 25,
+      "maxW": 17,
+      "diff": 8,
+      "ok": "需求理解正确、无性能塌陷、无安全漏洞、无未覆盖路径",
+      "wrongs": [
+        "CI 脚本能跑完",
+        "至少覆盖到的断言此刻成立",
+        "语法基本可解析（在有类型/单测时）"
+      ]
+    },
+    {
+      "id": "concept-ai-ops-bridge:q4",
+      "setId": "concept-ai-ops-bridge",
+      "tier": "soft",
+      "okLen": 35,
+      "maxW": 27,
+      "diff": 8,
+      "ok": "按块推送 token，首字更快、要处理半包与取消；失败也可能已吐出半截",
+      "wrongs": [
+        "流式会自动加密 API Key，明文 HTTP 也安全",
+        "流式等于微调已完成",
+        "流式禁止使用 system 角色"
+      ]
+    },
+    {
+      "id": "concept-eng-data-consistency:q3",
+      "setId": "concept-eng-data-consistency",
+      "tier": "soft",
+      "okLen": 29,
+      "maxW": 21,
+      "diff": 8,
+      "ok": "用户刚写入却读到旧值会感觉「丢失」——路由/主从延迟要处理",
+      "wrongs": [
+        "用户不应读到自己的写入",
+        "SQLite 单文件无此问题所以分布式也无",
+        "只与 CSS 有关"
+      ]
+    },
+    {
+      "id": "concept-eng-data-consistency:q8",
+      "setId": "concept-eng-data-consistency",
+      "tier": "soft",
+      "okLen": 31,
+      "maxW": 23,
+      "diff": 8,
+      "ok": "按寿命与权威性：瞬时用内存、可恢复用库/对象存储，密钥仍走密管",
+      "wrongs": [
+        "状态可以不备份因为模型会记得",
+        "全部塞进前端 localStorage 当权威",
+        "全部硬编码进镜像"
+      ]
+    },
+    {
+      "id": "l:package-managers:b1:q1",
+      "setId": "pool-lesson-ops",
+      "tier": "soft",
+      "okLen": 30,
+      "maxW": 22,
+      "diff": 8,
+      "ok": "仓库内用 pnpm；勿用全局乱装替代 lockfile 约定",
+      "wrongs": [
+        "Node 会自动下载全部依赖",
+        "只能用应用商店",
+        "必须 npm install -g 全部模块"
+      ]
+    },
+    {
+      "id": "l:xrk-factory-llm:b1:q1",
+      "setId": "pool-lesson-xrk",
+      "tier": "soft",
+      "okLen": 39,
+      "maxW": 31,
+      "diff": 8,
+      "ok": "经 AiWorkflow / 工厂 API 取客户端，配置选 Provider",
+      "wrongs": [
+        "每个插件 new 一份厂商 SDK 并硬编码 Key 进源码",
+        "有了 Factory 就不必再走 HTTPS，明文出网即可",
+        "模型只能跑在子服 Python，主服 Node 禁止调 LLM"
+      ]
+    },
+    {
+      "id": "l:xrk-chat-pipeline:b1:q3",
+      "setId": "pool-lesson-xrk",
+      "tier": "soft",
+      "okLen": 24,
+      "maxW": 16,
+      "diff": 8,
+      "ok": "关闭；危险 ask 未开审批则拒绝（主人可旁路）",
+      "wrongs": [
+        "开启，所有工具都要群里投票",
+        "只对 web_search 生效",
+        "不存在该配置"
+      ]
+    },
+    {
+      "id": "l:ai-agent-memory:b1:q2",
+      "setId": "pool-lesson-ai",
+      "tier": "soft",
+      "okLen": 32,
+      "maxW": 24,
+      "diff": 8,
+      "ok": "消息组装与历史预算（三层消息 / agentWorkspace）",
+      "wrongs": [
+        "每次对话都强制全量微调基座权重以「记住」上文",
+        "只改 DNS 解析配置即可让模型跨会话记住上下文",
+        "关闭所有工具调用，只靠单次补全硬记全部上下文"
+      ]
+    },
+    {
+      "id": "l:ai-agentic-rag:b1:q2",
+      "setId": "pool-lesson-ai",
+      "tier": "soft",
+      "okLen": 38,
+      "maxW": 30,
+      "diff": 8,
+      "ok": "工具注册 + tool_calls 多轮回灌；小语料常 tools.read",
+      "wrongs": [
+        "必须先微调基座权重才能出现 tool_calls 与多轮回灌",
+        "关闭多轮，只允许一次检索就强制生成最终答案",
+        "把向量库密码写进 system 提示方便模型直连检索服务"
+      ]
+    },
+    {
+      "id": "l:xrk-lab-http:b1:q1",
+      "setId": "pool-lesson-xrk",
+      "tier": "soft",
+      "okLen": 56,
+      "maxW": 48,
+      "diff": 8,
+      "ok": "core/*/http 对象导出 { name, routes }，handler 用 HttpResponse",
+      "wrongs": [
+        "接口只能写在 www/ 静态目录，由前端假造 API 响应并跳过 Loader",
+        "必须改 src/infrastructure/http 才能注册任何业务路由，Core 目录无效",
+        "只用 res.json 自定义外壳即可，不必统一 HttpResponse 成功/错误形状"
+      ]
+    }
+  ]
+}

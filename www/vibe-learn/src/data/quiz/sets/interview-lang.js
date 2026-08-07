@@ -71,22 +71,22 @@ export default defineQuizSet({
       q: 'Promise 和 async/await 是什么关系？',
       choices: [
         {
-          t: 'async/await 是基于 Promise 的语法糖',
+          t: "async/await 是基于 Promise 的语法糖，让异步代码读起来像同步",
           ok: true,
           why: 'await 通常跟 Promise；本质仍是微任务调度。',
         },
         {
-          t: '有了 async/await 就不再需要事件循环',
+          t: '有了 async/await 就不再需要事件循环与微任务调度机制',
           ok: false,
           why: '异步仍靠事件循环；语法糖不取消运行时模型。',
         },
         {
-          t: 'async 函数的返回值一定是普通字符串',
+          t: 'async 函数的返回值一定是普通字符串，绝不会被包装成 Promise',
           ok: false,
           why: 'async 函数返回 Promise，返回值会被包装。',
         },
         {
-          t: 'Promise 只能用在浏览器，Node 并不支持',
+          t: 'Promise 只能用在浏览器端，Node 运行时本身并不支持',
           ok: false,
           why: 'Node 长期支持 Promise 与 async/await。',
         },
@@ -103,7 +103,7 @@ export default defineQuizSet({
           why: '模块解决组织与边界，是工程化基础。',
         },
         {
-          t: '模块能让 JavaScript 自动变成多线程并行',
+          t: '模块能让 JavaScript 自动变成多线程并行执行',
           ok: false,
           why: '模块不改变单线程模型；并行要靠 Worker 等。',
         },

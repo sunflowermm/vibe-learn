@@ -78,7 +78,7 @@ flowchart TB
 | 真源 | pi.dev / 上游仓库 | \`docs/agent-context.md\` · \`docs/ai-workflow.md\` |
 
 \`\`\`quiz
-{"title":"Pi 脚手架","questions":[{"q":"Pi 在本课径中的正确位置是？","choices":[{"t":"学完图编排后的必经主干，否则无法学 RAG","ok":false,"why":"假依赖；Pi 是旁支。"},{"t":"旁支 harness 案例，用来对照循环与扩展哲学","ok":true,"why":"案例不是原语。"},{"t":"替代模型上下文协议的标准","ok":false,"why":"Pi 默认甚至不内置 MCP。"}]},{"q":"相对本仓，Pi 默认叙事更强调？","choices":[{"t":"MCP 必须焊进内核","ok":false,"why":"正相反。"},{"t":"最小循环核心 + 可扩展外壳","ok":true,"why":"harness 哲学。"},{"t":"取消工具调用，只做纯聊天","ok":false,"why":"核心仍是工具环。"}]}]}
+{"title":"Pi 脚手架","questions":[{"q":"Pi 脚手架在本课学习路径中的正确位置是？","choices":[{"t":"学完图编排后的必经主干，否则无法学 RAG","ok":false,"why":"假依赖；Pi 是旁支。"},{"t":"旁支 harness 案例，用来对照循环与扩展哲学","ok":true,"why":"案例不是原语。"},{"t":"替代模型上下文协议的标准","ok":false,"why":"Pi 默认甚至不内置 MCP。"}]},{"q":"相对本仓主服路径，Pi 默认叙事更强调什么？","choices":[{"t":"MCP 必须焊进内核","ok":false,"why":"正相反。"},{"t":"最小循环核心 + 可扩展外壳","ok":true,"why":"harness 哲学。"},{"t":"取消工具调用，只做纯聊天","ok":false,"why":"核心仍是工具环。"}]}]}
 \`\`\`
 
 ## 回到主干

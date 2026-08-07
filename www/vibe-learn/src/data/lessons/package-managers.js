@@ -158,7 +158,7 @@ flowchart TB
 顺序：Node（版本 + PATH）→ 启用 pnpm → 仓库根 \`pnpm install\`。
 
 \`\`\`quiz
-{"title":"包管理自测","questions":[{"q":"本仓项目依赖应如何安装？","choices":[{"t":"仓库内用 pnpm；勿用全局乱装替代 lockfile 约定","ok":true,"why":"包管理仅支持 pnpm。"},{"t":"必须 npm install -g 全部模块","ok":false,"why":"全局易冲突。"},{"t":"只能用应用商店","ok":false,"why":"标准是终端包管理。"},{"t":"Node 会自动下载全部依赖","ok":false,"why":"须显式 install。"}]},{"q":"三种「装东西」勿混指？","choices":[{"t":"系统包 / 运行时安装器 / 语言项目依赖，角色不同","ok":true,"why":"brew≠pnpm；有 node≠本仓已 install。"},{"t":"三者必须同一命令","ok":false,"why":"工具与仓库都不同。"},{"t":"Docker 等于 apt","ok":false,"why":"容器镜像与系统包不同层。"},{"t":"有 Node 就不必 pnpm","ok":false,"why":"还要装项目依赖树。"}]}]}
+{"title":"包管理自测","questions":[{"q":"本仓 Node 项目依赖正确应如何安装？","choices":[{"t":"仓库内用 pnpm；勿用全局乱装替代 lockfile 约定","ok":true,"why":"包管理仅支持 pnpm。"},{"t":"必须 npm install -g 全部模块","ok":false,"why":"全局易冲突。"},{"t":"只能用应用商店","ok":false,"why":"标准是终端包管理。"},{"t":"Node 会自动下载全部依赖","ok":false,"why":"须显式 install。"}]},{"q":"系统包、运行时安装器与语言项目依赖，为何不能当成同一层工具混用？","choices":[{"t":"系统包 / 运行时安装器 / 语言项目依赖，角色不同","ok":true,"why":"brew≠pnpm；有 node≠本仓已 install。"},{"t":"三者必须用同一条命令安装，否则环境就不合法","ok":false,"why":"工具与仓库都不同。"},{"t":"Docker 镜像管理与 apt 系统包装的是同一层能力，可互换","ok":false,"why":"容器镜像与系统包不同层。"},{"t":"本机装好 Node 运行时后，就不必再用 pnpm 装项目依赖","ok":false,"why":"还要装项目依赖树。"}]}]}
 \`\`\`
 
 ## 下一步
