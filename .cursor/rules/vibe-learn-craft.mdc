@@ -5,7 +5,7 @@ alwaysApply: true
 
 # vibe-learn · 大型内容任务工作方式
 
-本仓为独立 git 产品 Core（可挂在 XRK-AGT 的 `core/vibe-learn-Core/` 下本地运行）。适用于 `www/vibe-learn/` 的课核、思维导图、题库与相关脚本；同类「内容精工」任务同遵。
+本仓为独立 git 产品 Core（可挂在 XRK-AGT 的 `core/vibe-learn/` 下本地运行）。适用于 `www/vibe-learn/` 的课核、思维导图、题库与相关脚本；同类「内容精工」任务同遵。
 
 ## 硬约定
 

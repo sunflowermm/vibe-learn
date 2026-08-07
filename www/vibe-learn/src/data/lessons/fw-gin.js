@@ -158,7 +158,7 @@ flowchart LR
   Http --> GinApp
 \`\`\`
 
-**sign.json** 仅用于 **www 前端工程**（如 \`core/vibe-learn-Core/www/vibe-learn/\` 的 Vue3+Vite）。Gin **不**通过 \`mountCoreWwwStatic\` 挂 API 进程。
+**sign.json** 仅用于 **www 前端工程**（如 \`core/vibe-learn/www/vibe-learn/\` 的 Vue3+Vite）。Gin **不**通过 \`mountCoreWwwStatic\` 挂 API 进程。
 
 ---
 

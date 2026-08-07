@@ -168,7 +168,7 @@ subserver/<runtime>/apis/<group>/
 |------|------|----------|
 | [lsy-Core](https://github.com/sunflowermm/lsy-Core) | 「墨」Web Agent | \`/lsy/\` \`/lsy-admin/\` |
 | [psyche-Core](https://github.com/sunflowermm/psyche-Core) | 心理测评 | \`/psyche/\` |
-| [vibe-learn-Core](https://github.com/sunflowermm/vibe-learn-Core) | 本学习图谱 | \`/vibe-learn/\` |
+| [vibe-learn](https://github.com/sunflowermm/vibe-learn) | 本学习图谱 | \`/vibe-learn/\` |
 | [IM-SYAU-Core](https://github.com/sunflowermm/IM-SYAU-Core) | 沈农昆虫馆导览 | \`/kb/\` |
 | [kaguya-Core](https://gitcode.com/kaguya3033/kaguya-Core) | A 股行情大屏 | \`/Astock/\` |
 

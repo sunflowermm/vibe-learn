@@ -107,7 +107,7 @@ flowchart TB
 ## 4. 实践清单
 
 1. 打开 \`core/system-Core/\`，核对上表每个子目录是否存在、各举一个文件。  
-2. 打开本学习站所在：\`core/vibe-learn-Core/www/vibe-learn/\`，确认它是 www 子应用而非 \`src/\`。  
+2. 打开本学习站所在：\`core/vibe-learn/www/vibe-learn/\`，确认它是 www 子应用而非 \`src/\`。  
 3. 口述：要把「新 HTTP 接口」和「新页面」分别放哪。  
 4. 进入 **实践·最小插件** 按清单做一通。
 

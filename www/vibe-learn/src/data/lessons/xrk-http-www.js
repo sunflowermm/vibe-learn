@@ -90,7 +90,7 @@ flowchart TB
 
 图谱主桥：第三章 **HTTP** / **Nginx** → 本课；第四章内由 **Runtime / Core 布局 / 插件** 汇入。前端框架挂载细节见下文与各框架课「下一步」。
 
-访问 \`/vibe-learn/\`：主服把 \`core/vibe-learn-Core/www/vibe-learn/\`（或其 \`dist\`）当站点挂出。
+访问 \`/vibe-learn/\`：主服把 \`core/vibe-learn/www/vibe-learn/\`（或其 \`dist\`）当站点挂出。
 
 ---
 
@@ -121,7 +121,7 @@ core/<Core名>/www/<应用名>/
 
 | 项 | 值 |
 |----|-----|
-| 路径 | \`core/vibe-learn-Core/www/vibe-learn/\` |
+| 路径 | \`core/vibe-learn/www/vibe-learn/\` |
 | 框架 | Vue 3 + Vite |
 | mount | \`/vibe-learn/\` |
 | 模式 | \`enabled: false\` → 挂 \`dist\` |

@@ -2,7 +2,7 @@ export default `# Vue（框架）
 
 > **分类：渐进式前端 UI 框架。不是语言。**  
 > 宿主语言：**JavaScript / TypeScript**；运行环境：**浏览器**（源码经 Vite/Webpack 等打包）。  
-> 本仓 **vibe-learn** 即 **Vue 3 + Vite** 实例，路径 \`core/vibe-learn-Core/www/vibe-learn/\`，经 \`sign.json\` 构建后挂到主服 \`/vibe-learn/\`。  
+> 本仓 **vibe-learn** 即 **Vue 3 + Vite** 实例，路径 \`core/vibe-learn/www/vibe-learn/\`，经 \`sign.json\` 构建后挂到主服 \`/vibe-learn/\`。  
 > **学会之后**：能说「语言 JS，框架 Vue，跑在浏览器」；并指出本仓 www 挂载路径，不把 Vue 写进主服 \`src/\`。
 
 ## 学会之后（验收）
@@ -145,7 +145,7 @@ XRK **不**把 Vue 运行时嵌进主服 \`src/\`；而是 Vue 工程**构建成
 ### 3.1 目录约定
 
 \`\`\`
-core/vibe-learn-Core/www/vibe-learn/
+core/vibe-learn/www/vibe-learn/
   ├── package.json      # vue + vite 依赖
   ├── vite.config.js    # base 必须等于对外 mount 路径
   ├── sign.json         # 声明：构建 / 静态挂载 / 可选 HMR 反代
@@ -205,7 +205,7 @@ flowchart TB
 **框架（Framework）。** 它定组件生命周期、路由约定、编译流程，**在适当时机回调你的代码**（控制反转 IoC）。  
 宿主语言：**JavaScript / TypeScript**；运行环境：**浏览器**（经 Vite/Webpack 打包）。  
 与 **React**（官方偏 UI 库，组合更自由）对照：Vue 开箱更完整（SFC、指令、官方 Router/Pinia）。  
-**本仓**：vibe-learn 即 **Vue 3 + Vite**，挂 \`core/vibe-learn-Core/www/vibe-learn/\`，**不是**写进主服 \`src/\`。
+**本仓**：vibe-learn 即 **Vue 3 + Vite**，挂 \`core/vibe-learn/www/vibe-learn/\`，**不是**写进主服 \`src/\`。
 
 ### 「Vue 3 响应式原理？」
 

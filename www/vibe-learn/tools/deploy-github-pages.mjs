@@ -1,5 +1,5 @@
 /**
- * 把静态产物推到本仓（vibe-learn-Core）的 gh-pages，供 GitHub Pages。
+ * 把静态产物推到本仓（vibe-learn）的 gh-pages，供 GitHub Pages。
  * 用法：pnpm deploy:pages
  * 需：本机 git remote 指向 GitHub；gh 已登录；境外网络必要时设代理。
  *
@@ -15,7 +15,7 @@ const CORE = resolve(ROOT, '../..');
 const OUT = join(ROOT, '.pages-dist');
 const STAGE = join(ROOT, '.pages-stage');
 const BRANCH = 'gh-pages';
-const PAGES_BASE = '/vibe-learn-Core/';
+const PAGES_BASE = '/vibe-learn/';
 
 function sh(cmd, args, opts = {}) {
   execFileSync(cmd, args, { stdio: 'inherit', ...opts });

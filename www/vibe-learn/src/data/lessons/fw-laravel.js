@@ -162,7 +162,7 @@ flowchart LR
   Http --> Laravel
 \`\`\`
 
-**vibe-learn 实例**：\`core/vibe-learn-Core/www/vibe-learn/\` 是 **Vue3+Vite**，\`sign.json\` \`enabled:false\` 挂 \`dist\`，mount \`/vibe-learn/\`。Laravel **不**走这条 www 静态挂载线（除非纯静态资源导出，非典型）。
+**vibe-learn 实例**：\`core/vibe-learn/www/vibe-learn/\` 是 **Vue3+Vite**，\`sign.json\` \`enabled:false\` 挂 \`dist\`，mount \`/vibe-learn/\`。Laravel **不**走这条 www 静态挂载线（除非纯静态资源导出，非典型）。
 
 ---
 

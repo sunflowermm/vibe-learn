@@ -1,4 +1,4 @@
-# vibe-learn-Core 独立仓：勿提交依赖与构建产物
+# vibe-learn 独立仓：勿提交依赖与构建产物
 www/*/node_modules/
 www/*/dist/
 www/*/.vite/
