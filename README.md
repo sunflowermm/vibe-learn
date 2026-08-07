@@ -1,11 +1,35 @@
 # vibe-learn
 
-纯 `www` 学习 Core：知识节点图谱（Vue Flow）。
+挂在 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 下的 `www` 学习站：知识节点图谱（Vue Flow）+ 题库。  
+仓库名即产品名 **`vibe-learn`**（由 `vibe-learn-Core` 更名；旧 Pages 路径已失效）。
 
-## 访问
+## 连接
 
-主服路径：`/vibe-learn/`（`sign.json`：静态 `dist`；开发见包内脚本）。  
-公开静态站：本仓 `gh-pages` → https://sunflowermm.github.io/vibe-learn/（`www/vibe-learn` 内 `pnpm deploy:pages`）。
+| 用途 | 地址 |
+|------|------|
+| **公开站（GitHub Pages）** | https://sunflowermm.github.io/vibe-learn/ |
+| **本仓** | https://github.com/sunflowermm/vibe-learn |
+| **主服挂载（本地跑 AGT）** | `http://<主服主机>:<端口>/vibe-learn/` |
+| **源码目录（本仓）** | `www/vibe-learn/` |
+| **挂到主仓时的路径** | `XRK-AGT/core/vibe-learn/`（clone 本仓到此） |
+
+**注意**
+
+- Pages 的 URL base 是 **`/vibe-learn/`**（与应用名一致）。旧址 `…/vibe-learn-Core/` 已 **404**，请改收藏夹。
+- 主服挂载靠 `www/vibe-learn/sign.json`（静态优先挂 `dist`；开发模式见包内脚本）。
+- 发布公开站：在 `www/vibe-learn` 执行 `pnpm deploy:pages`（推到本仓 `gh-pages`）。
+
+**本地开发（摘录）**
+
+```bash
+# 挂到 XRK-AGT monorepo
+git clone git@github.com:sunflowermm/vibe-learn.git core/vibe-learn
+
+# 只跑前端
+cd core/vibe-learn/www/vibe-learn
+pnpm install
+pnpm dev
+```
 
 ## 知识体系（怎么读）
 
@@ -79,5 +103,10 @@ AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专�
 | 番外 | **AI 编程工具** | **Vibe 心智 · 形态黄页 · 项目记忆**（3 卡） |
 
 数据入口：`www/vibe-learn/src/data/nodes.js`。  
-Cursor 精工约定：本仓 `.cursor/rules/vibe-learn-craft.mdc`（独立 git；挂主仓时主仓仅 globs 路由）。  
-XRK Agent 真源：主仓 [`docs/agent-context.md`](../../docs/agent-context.md) · [`docs/agents.md`](../../docs/agents.md) · [`docs/ai-workflow.md`](../../docs/ai-workflow.md) · 根 `AGENTS.md`。
+Cursor 精工约定：本仓 [`.cursor/rules/vibe-learn-craft.mdc`](.cursor/rules/vibe-learn-craft.mdc)（独立 git；挂主仓时主仓仅 globs 路由）。  
+XRK Agent 真源（在 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 仓，勿用相对 `../../docs`——GitHub 上会断链）：
+
+- [docs/agent-context.md](https://github.com/sunflowermm/XRK-AGT/blob/main/docs/agent-context.md)
+- [docs/agents.md](https://github.com/sunflowermm/XRK-AGT/blob/main/docs/agents.md)
+- [docs/ai-workflow.md](https://github.com/sunflowermm/XRK-AGT/blob/main/docs/ai-workflow.md)
+- 根 [AGENTS.md](https://github.com/sunflowermm/XRK-AGT/blob/main/AGENTS.md)
