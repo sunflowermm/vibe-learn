@@ -1,35 +1,52 @@
 # vibe-learn
 
-挂在 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 下的 `www` 学习站：知识节点图谱（Vue Flow）+ 题库。  
-仓库名即产品名 **`vibe-learn`**（由 `vibe-learn-Core` 更名；旧 Pages 路径已失效）。
+> 基于 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 的 `www` 学习站：知识节点图谱（Vue Flow）+ 题库。
+
+**先看站：** [https://sunflowermm.github.io/vibe-learn/](https://sunflowermm.github.io/vibe-learn/)
 
 ## 连接
 
-| 用途 | 地址 |
+| 用途 | 链接 |
 |------|------|
-| **公开站（GitHub Pages）** | https://sunflowermm.github.io/vibe-learn/ |
-| **本仓** | https://github.com/sunflowermm/vibe-learn |
-| **主服挂载（本地跑 AGT）** | `http://<主服主机>:<端口>/vibe-learn/` |
-| **源码目录（本仓）** | `www/vibe-learn/` |
-| **挂到主仓时的路径** | `XRK-AGT/core/vibe-learn/`（clone 本仓到此） |
+| 在线访问 | [GitHub Pages](https://sunflowermm.github.io/vibe-learn/) |
+| 本仓库 | [github.com/sunflowermm/vibe-learn](https://github.com/sunflowermm/vibe-learn) |
+| 挂到主服后 | `http://<主机>:<端口>/vibe-learn/`（应用目录 `www/vibe-learn/`） |
 
-**注意**
+旧站路径 `…/vibe-learn-Core/` 已失效，请改用上表。
 
-- Pages 的 URL base 是 **`/vibe-learn/`**（与应用名一致）。旧址 `…/vibe-learn-Core/` 已 **404**，请改收藏夹。
-- 主服挂载靠 `www/vibe-learn/sign.json`（静态优先挂 `dist`；开发模式见包内脚本）。
-- 发布公开站：在 `www/vibe-learn` 执行 `pnpm deploy:pages`（推到本仓 `gh-pages`）。
+## 安装
 
-**本地开发（摘录）**
+需要 [Node.js](https://nodejs.org/)（建议 ≥ 22）与 [pnpm](https://pnpm.io/)。
+
+### 只跑前端（最快）
 
 ```bash
-# 挂到 XRK-AGT monorepo
-git clone git@github.com:sunflowermm/vibe-learn.git core/vibe-learn
-
-# 只跑前端
-cd core/vibe-learn/www/vibe-learn
+git clone https://github.com/sunflowermm/vibe-learn.git
+cd vibe-learn/www/vibe-learn
 pnpm install
 pnpm dev
 ```
+
+也可在仓库页点 **Code → Download ZIP**，解压后进入 `www/vibe-learn` 再执行上面的 `pnpm` 命令。
+
+### 挂到 XRK-AGT 主仓
+
+在已有 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 工作区根目录：
+
+```bash
+git clone https://github.com/sunflowermm/vibe-learn.git core/vibe-learn
+```
+
+主服启动后访问 `/vibe-learn/`（由 `www/vibe-learn/sign.json` 挂载；静态优先 `dist`）。
+
+### 发布公开站（维护者）
+
+```bash
+cd www/vibe-learn
+pnpm deploy:pages
+```
+
+推送到本仓 `gh-pages`。已配置 SSH 的维护者可按需把上面的 `https://` clone 换成 SSH；**文档默认只给 HTTPS**，避免未配密钥的用户直接复制失败。
 
 ## 知识体系（怎么读）
 
