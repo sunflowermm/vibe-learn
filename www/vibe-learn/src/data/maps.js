@@ -40,15 +40,7 @@ export function getLearningMap(id) {
 
 /** @param {string | null | undefined} raw */
 export function normalizeMapId(raw) {
-  if (raw === 'quiz' || raw === 'mode-quiz') return 'quiz';
-  if (
-    raw === 'knowledge2' ||
-    raw === 'vibe' ||
-    raw === 'terms' ||
-    raw === 'vibehub' ||
-    raw === 'map2'
-  ) {
-    return 'knowledge2';
-  }
+  if (raw === 'quiz') return 'quiz';
+  if (raw === 'knowledge2') return 'knowledge2';
   return 'knowledge';
 }

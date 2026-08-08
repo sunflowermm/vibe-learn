@@ -29,6 +29,9 @@ alwaysApply: true
 5. **闸门先于宣称完成**  
    每批后跑可复现扫描（截断、荒唐项、IWF-08、洗衣单题干、薄课、无验收段等）。产品包默认排除 `adapted/*`、`vibehub-*`（用户点名再做）。
 
+6. **README 访客安装**  
+   对外「连接 / 安装」只写 **HTTPS** `git clone` 或 **Download ZIP**；禁止把 `git@…` SSH 当作默认访客步骤（维护者可选另起一小段）。
+
 ## 导图放码（现行）
 
 路径均相对 `www/vibe-learn/`：

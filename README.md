@@ -77,7 +77,7 @@ AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专�
 | 项 | 说明 |
 |----|------|
 | 来源 | [VibeHub](https://vibe-hub.org/)（署名 oil） |
-| 入口 | `?map=knowledge2`（兼容旧 `?map=vibe`） |
+| 入口 | `?map=knowledge2` |
 | 串联 | 第五章 / Vibe 心智面板「跨导图」→ 对应词条；导图2 可回知识导图 |
 | 导图 | 七大区 × **245 词条卡** |
 | 题组 | `quiz/sets/vibehub-practice.js`（`domain: vibe`，原站判断 **223/245**） |
