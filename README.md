@@ -1,15 +1,15 @@
 # vibe-learn
 
-> 基于 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 的 `www` 学习站：知识节点图谱（Vue Flow）+ 题库。
+> 基于 [XRK-AGT](https://github.com/xrkseek/XRK-AGT) 的 `www` 学习站：知识节点图谱（Vue Flow）+ 题库。
 
-**先看站：** [https://sunflowermm.github.io/vibe-learn/](https://sunflowermm.github.io/vibe-learn/)
+**先看站：** [https://xrkseek.github.io/vibe-learn/](https://sunflowermm.github.io/vibe-learn/)
 
 ## 连接
 
 | 用途 | 链接 |
 |------|------|
-| 在线访问 | [GitHub Pages](https://sunflowermm.github.io/vibe-learn/) |
-| 本仓库 | [github.com/sunflowermm/vibe-learn](https://github.com/sunflowermm/vibe-learn) |
+| 在线访问 | [GitHub Pages](https://xrkseek.github.io/vibe-learn/) |
+| 本仓库 | [github.com/sunflowermm/vibe-learn](https://github.com/xrkseek/vibe-learn) |
 | 挂到主服后 | `http://<主机>:<端口>/vibe-learn/`（应用目录 `www/vibe-learn/`） |
 
 旧站路径 `…/vibe-learn-Core/` 已失效，请改用上表。
@@ -34,7 +34,7 @@ pnpm dev
 在已有 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 工作区根目录：
 
 ```bash
-git clone https://github.com/sunflowermm/vibe-learn.git core/vibe-learn
+git clone https://github.com/xrkseek/vibe-learn.git core/vibe-learn
 ```
 
 主服启动后访问 `/vibe-learn/`（由 `www/vibe-learn/sign.json` 挂载；静态优先 `dist`）。
@@ -121,7 +121,7 @@ AI 工具框只保留：**心智 · 形态黄页 · 项目记忆**（产品专�
 
 数据入口：`www/vibe-learn/src/data/nodes.js`。  
 Cursor 精工约定：本仓 [`.cursor/rules/vibe-learn-craft.mdc`](.cursor/rules/vibe-learn-craft.mdc)（独立 git；挂主仓时主仓仅 globs 路由）。  
-XRK Agent 真源（在 [XRK-AGT](https://github.com/sunflowermm/XRK-AGT) 仓，勿用相对 `../../docs`——GitHub 上会断链）：
+XRK Agent 真源（在 [XRK-AGT](https://github.com/xrkseek/XRK-AGT) 仓，勿用相对 `../../docs`——GitHub 上会断链）：
 
 - [docs/agent-context.md](https://github.com/sunflowermm/XRK-AGT/blob/main/docs/agent-context.md)
 - [docs/agents.md](https://github.com/sunflowermm/XRK-AGT/blob/main/docs/agents.md)
